@@ -4,11 +4,11 @@ const RARITY_COLOR: Record<string, string> = {
   common: "text-muted-foreground",
   uncommon: "text-positive",
   rare: "text-primary",
-  mythic: "text-[#f5a623]",
+  mythic: "text-watchlist",
   "rare holo": "text-primary",
-  "secret rare": "text-[#b3446c]",
-  "ultra rare": "text-[#b3446c]",
-  special: "text-[#b3446c]",
+  "secret rare": "text-[#a9688a]",
+  "ultra rare": "text-[#a9688a]",
+  special: "text-[#a9688a]",
 };
 
 export function RarityBadge({ rarity, className }: { rarity: string | null; className?: string }) {

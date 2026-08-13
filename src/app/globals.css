@@ -54,53 +54,54 @@
 }
 
 /*
- * CardStory design tokens — warm dark palette.
- * v1 ships dark-only. Originally matched app.getcollectr.com's cool
- * near-black/mint look; swapped to a warm terracotta-on-espresso palette
- * per request ("more warm and inviting"). `:root` intentionally holds the
+ * CardStory design tokens — beige & brown palette.
+ * v1 ships dark-only. Went cool near-black/mint (matching the real app) →
+ * warm terracotta-on-espresso → this: a muted coffee-and-latte palette
+ * (dark brown surfaces, soft beige text, tan/camel accent instead of bright
+ * orange) per request ("beige and brown"). `:root` intentionally holds the
  * SAME dark values as `.dark` for now — see ThemeToggle, which is visible
  * for header parity but flagged "coming soon" until a real light palette
  * exists.
  */
 :root,
 .dark {
-  --background: #17120e;
-  --foreground: #f7ede2;
-  --card: #221a14;
-  --card-foreground: #f7ede2;
-  --surface: #221a14;
-  --surface-elevated: #2d2219;
-  --popover: #2d2219;
-  --popover-foreground: #f7ede2;
-  --primary: #e8763d;
-  --primary-foreground: #1c0f06;
-  --secondary: #2d2219;
-  --secondary-foreground: #f7ede2;
-  --muted: #1e1712;
-  --muted-foreground: #b8a596;
-  --accent: #e8763d;
-  --accent-foreground: #1c0f06;
-  --destructive: #e5584d;
-  --border: rgba(247, 237, 226, 0.09);
-  --input: rgba(247, 237, 226, 0.11);
-  --ring: #e8763d;
-  --positive: #8bc34a;
-  --negative: #e5584d;
-  --watchlist: #f5a623;
-  --chart-1: #e8763d;
-  --chart-2: #f5a623;
-  --chart-3: #c2410c;
-  --chart-4: #8bc34a;
-  --chart-5: #e5584d;
+  --background: #1c150f;
+  --foreground: #ecdfc8;
+  --card: #241c14;
+  --card-foreground: #ecdfc8;
+  --surface: #241c14;
+  --surface-elevated: #2e2419;
+  --popover: #2e2419;
+  --popover-foreground: #ecdfc8;
+  --primary: #c9a66b;
+  --primary-foreground: #241c0f;
+  --secondary: #2e2419;
+  --secondary-foreground: #ecdfc8;
+  --muted: #201911;
+  --muted-foreground: #ab9678;
+  --accent: #c9a66b;
+  --accent-foreground: #241c0f;
+  --destructive: #c1654a;
+  --border: rgba(236, 223, 200, 0.09);
+  --input: rgba(236, 223, 200, 0.11);
+  --ring: #c9a66b;
+  --positive: #9caf6b;
+  --negative: #c1654a;
+  --watchlist: #d4af67;
+  --chart-1: #c9a66b;
+  --chart-2: #d4af67;
+  --chart-3: #8b6f47;
+  --chart-4: #9caf6b;
+  --chart-5: #c1654a;
   --radius: 0.75rem;
-  --sidebar: #140f0b;
-  --sidebar-foreground: #f7ede2;
-  --sidebar-primary: #e8763d;
-  --sidebar-primary-foreground: #1c0f06;
-  --sidebar-accent: #2d2219;
-  --sidebar-accent-foreground: #f7ede2;
-  --sidebar-border: rgba(247, 237, 226, 0.09);
-  --sidebar-ring: #e8763d;
+  --sidebar: #17110c;
+  --sidebar-foreground: #ecdfc8;
+  --sidebar-primary: #c9a66b;
+  --sidebar-primary-foreground: #241c0f;
+  --sidebar-accent: #2e2419;
+  --sidebar-accent-foreground: #ecdfc8;
+  --sidebar-border: rgba(236, 223, 200, 0.09);
+  --sidebar-ring: #c9a66b;
 }
 
 @layer base {
