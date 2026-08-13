@@ -1,0 +1,123 @@
+// CardStory data model.
+//
+// This database holds app infrastructure ONLY — the shared card catalog and
+// its real price history. It does NOT hold user accounts or portfolios:
+// per the product decision, portfolios are local-only (see
+// src/lib/portfolio/store.ts, persisted to the browser's localStorage).
+// ShowcaseSnapshot is the one exception: a deliberate, explicit "publish"
+// action copies a point-in-time snapshot of local holdings into this DB so
+// it can be shared via a public link.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum GameStatus {
+  WIRED
+  COMING_SOON
+}
+
+enum ProductType {
+  CARD
+  SEALED
+}
+
+model Game {
+  id           String        @id
+  name         String
+  logoUrl      String
+  status       GameStatus    @default(COMING_SOON)
+  sortOrder    Int           @default(0)
+  sets         Set[]
+  catalogItems CatalogItem[]
+
+  @@map("games")
+}
+
+model Set {
+  id          String        @id
+  gameId      String
+  game        Game          @relation(fields: [gameId], references: [id])
+  name        String
+  code        String
+  releaseDate DateTime?
+  symbolUrl   String?
+  cardCount   Int?
+  items       CatalogItem[]
+
+  @@index([gameId])
+  @@map("sets")
+}
+
+model CatalogItem {
+  id             String           @id
+  gameId         String
+  game           Game             @relation(fields: [gameId], references: [id])
+  setId          String
+  set            Set              @relation(fields: [setId], references: [id])
+  externalId     String
+  name           String
+  number         String?
+  rarity         String?
+  imageSmallUrl  String?
+  imageLargeUrl  String?
+  productType    ProductType      @default(CARD)
+  language       String           @default("EN")
+  lastSyncedAt   DateTime         @updatedAt
+  priceSnapshots PriceSnapshot[]
+
+  /// Denormalized cache of the latest PriceSnapshot, kept in sync by
+  /// upsertPriceSnapshot() whenever a new snapshot is written. Exists so
+  /// Explore/Movers/sort-by-price can be plain indexed Prisma queries
+  /// instead of a per-request "latest snapshot per item" join.
+  latestPriceRaw   Decimal? @db.Decimal(10, 2)
+  latestPriceFoil  Decimal? @db.Decimal(10, 2)
+  latestPriceDate  String?
+  prevPriceRaw     Decimal? @db.Decimal(10, 2)
+  priceChangePct   Float?
+
+  @@unique([gameId, externalId])
+  @@index([setId])
+  @@index([name])
+  @@index([latestPriceRaw])
+  @@index([priceChangePct])
+  @@map("catalog_items")
+}
+
+model PriceSnapshot {
+  id            String      @id @default(cuid())
+  catalogItemId String
+  catalogItem   CatalogItem @relation(fields: [catalogItemId], references: [id])
+  capturedAt    DateTime    @default(now())
+  /// "YYYY-MM-DD" — the idempotency key for the daily job (one row/item/day).
+  capturedDate  String
+  currency      String      @default("USD")
+  priceRaw      Decimal?    @db.Decimal(10, 2)
+  priceFoil     Decimal?    @db.Decimal(10, 2)
+  /// "pokemontcg.io" | "scryfall"
+  source        String
+
+  @@unique([catalogItemId, capturedDate])
+  @@index([catalogItemId, capturedAt])
+  @@map("price_snapshots")
+}
+
+model ShowcaseSnapshot {
+  id         String   @id @default(cuid())
+  /// Kept only in the publishing browser's localStorage; the sole
+  /// credential allowed to update/delete this snapshot (no accounts).
+  ownerToken String
+  title      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  /// Serialized holdings + computed totals at publish time.
+  payload    Json
+
+  @@map("showcase_snapshots")
+}
