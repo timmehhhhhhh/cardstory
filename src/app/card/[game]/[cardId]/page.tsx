@@ -7,6 +7,7 @@ import { CardBreadcrumb } from "@/app/card/[game]/[cardId]/_components/breadcrum
 import { PriceHistoryPanel } from "@/app/card/[game]/[cardId]/_components/price-history-panel";
 import { CollectionPanel } from "@/app/card/[game]/[cardId]/_components/collection-panel";
 import { ShopPanel } from "@/app/card/[game]/[cardId]/_components/shop-panel";
+import { GradedPricesPanel } from "@/app/card/[game]/[cardId]/_components/graded-prices-panel";
 import { RarityBadge } from "@/components/cards/rarity-badge";
 
 async function getCard(game: string, cardId: string) {
@@ -90,6 +91,7 @@ export default async function CardDetailPage({
 
         <div className="flex flex-col gap-4">
           <CollectionPanel catalogItemId={item.id} cardName={item.name} suggestedPrice={priceRaw} />
+          <GradedPricesPanel gameId={game} cardExternalId={item.externalId} />
           <ShopPanel cardName={item.name} gameId={game} />
         </div>
       </div>

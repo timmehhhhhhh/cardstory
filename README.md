@@ -11,6 +11,7 @@ Built with Next.js (App Router) + TypeScript + Tailwind + Prisma/Postgres. See [
 - **Only Pokémon + MTG are fully wired.** The Sets page shows all ~19 major TCGs for visual parity with the real app, but the other 17 are marked "Coming soon" — no free, ToS-safe pricing API exists for them yet.
 - **No accounts.** Portfolios live in the browser's `localStorage`. Clearing site data loses them (Showcase links, published separately, survive that).
 - **Scan** uses Google Gemini's vision API to read a photographed card, then fuzzy-matches it against the catalog above. If no `GEMINI_API_KEY` is set (or the call fails), it falls back to manual search — never a dead end.
+- **Graded prices** (PSA/CGC/SGC/BGS tiers) come from [PriceCharting's official API](https://www.pricecharting.com/api-documentation) — real, documented, not scraping, but a paid product with no free tier. Fetched on-demand from the card detail page (not a bulk job — PriceCharting rate-limits to 1 request/sec, so syncing the whole catalog isn't practical) and cached for the day. Without `PRICECHARTING_API_KEY`, the panel just says so.
 
 ## Setup
 
@@ -43,7 +44,11 @@ Safe to re-run — everything is an upsert.
 
 Get a free key at [aistudio.google.com/apikey](https://aistudio.google.com/apikey) and set `GEMINI_API_KEY` in `.env.local`. Without it, the Scan page still works — it just skips straight to manual search.
 
-### 4. Run it
+### 4. (Optional, paid) PriceCharting API key for graded prices
+
+Subscribe at [pricecharting.com](https://www.pricecharting.com/subscriptions) (no free tier), grab your API token from the Subscriptions page, and set `PRICECHARTING_API_KEY` in `.env.local`. Without it, the card detail page's "Graded Prices" panel just explains it's not configured.
+
+### 5. Run it
 
 ```bash
 npm run dev
@@ -65,7 +70,7 @@ In production, `vercel.json` schedules this daily via Vercel Cron against `POST 
 
 - `src/app/` — routes (`explore`, `sets`, `card/[game]/[cardId]`, `portfolio`, `trade-analyzer`, `showcase/[shareId]`, `scan`) and API routes under `api/`.
 - `src/lib/games/` — one adapter per TCG (`pokemon/`, `mtg/`), unified behind `registry.ts` so adding another game later means implementing `GameProvider` and flipping its status.
-- `src/lib/pricing/` — the daily snapshot job and price-history reads.
+- `src/lib/pricing/` — the daily snapshot job, price-history reads, and `pricecharting/` (the optional graded-price adapter).
 - `src/lib/portfolio/` — the local-only (`localStorage`) portfolio store and its selectors.
 - `src/lib/scan/` — Gemini vision call + Fuse.js catalog matching.
 - `prisma/schema.prisma` — the catalog + price-history + showcase-snapshot data model.

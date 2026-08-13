@@ -71,6 +71,7 @@ model CatalogItem {
   language       String           @default("EN")
   lastSyncedAt   DateTime         @updatedAt
   priceSnapshots PriceSnapshot[]
+  gradedPriceSnapshots GradedPriceSnapshot[]
 
   /// Denormalized cache of the latest PriceSnapshot, kept in sync by
   /// upsertPriceSnapshot() whenever a new snapshot is written. Exists so
@@ -81,6 +82,12 @@ model CatalogItem {
   latestPriceDate  String?
   prevPriceRaw     Decimal? @db.Decimal(10, 2)
   priceChangePct   Float?
+
+  /// PriceCharting's own product id for this card, cached the first time we
+  /// resolve it via a `q=` search so later lookups can go straight to
+  /// `/api/product?id=` — matters because PriceCharting rate-limits to 1
+  /// request/second, so avoiding repeat searches is not optional.
+  priceChartingId String?
 
   @@unique([gameId, externalId])
   @@index([setId])
@@ -106,6 +113,42 @@ model PriceSnapshot {
   @@unique([catalogItemId, capturedDate])
   @@index([catalogItemId, capturedAt])
   @@map("price_snapshots")
+}
+
+/// Real graded-condition prices from PriceCharting's Prices API — an
+/// optional, paid, official API (not scraping). PriceCharting itself only
+/// exposes CURRENT values ("Historic prices and historic sales are not
+/// supported" per their docs), so — same as PriceSnapshot — we snapshot
+/// once per day per card to build real history ourselves rather than
+/// fabricate a backfill. Fetched on-demand (from the card detail page),
+/// not via a bulk job, because PriceCharting rate-limits to 1 request/sec
+/// which makes bulk-syncing the whole catalog impractical.
+model GradedPriceSnapshot {
+  id            String      @id @default(cuid())
+  catalogItemId String
+  catalogItem   CatalogItem @relation(fields: [catalogItemId], references: [id])
+  capturedAt    DateTime    @default(now())
+  /// "YYYY-MM-DD" — idempotency key, same pattern as PriceSnapshot.
+  capturedDate  String
+  currency      String      @default("USD")
+
+  /// PriceCharting's own ungraded reference price — kept separately from
+  /// CatalogItem.latestPriceRaw (our primary raw-price source) rather than
+  /// overwriting it; shown as a cross-reference, not a replacement.
+  loosePrice  Decimal? @db.Decimal(10, 2)
+  grade7Price  Decimal? @db.Decimal(10, 2) // PriceCharting "cib-price": graded 7-7.5
+  grade8Price  Decimal? @db.Decimal(10, 2) // "new-price": graded 8-8.5
+  grade9Price  Decimal? @db.Decimal(10, 2) // "graded-price": graded 9
+  grade95Price Decimal? @db.Decimal(10, 2) // "box-only-price": graded 9.5
+  psa10Price   Decimal? @db.Decimal(10, 2) // "manual-only-price": PSA 10 specifically
+  cgc10Price   Decimal? @db.Decimal(10, 2) // "condition-17-price"
+  sgc10Price   Decimal? @db.Decimal(10, 2) // "condition-18-price"
+  bgs10Price   Decimal? @db.Decimal(10, 2) // "bgs-10-price"
+  source       String   @default("pricecharting")
+
+  @@unique([catalogItemId, capturedDate])
+  @@index([catalogItemId, capturedAt])
+  @@map("graded_price_snapshots")
 }
 
 model ShowcaseSnapshot {
