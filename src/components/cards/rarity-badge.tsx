@@ -2,13 +2,13 @@ import { cn } from "@/lib/utils";
 
 const RARITY_COLOR: Record<string, string> = {
   common: "text-muted-foreground",
-  uncommon: "text-[#8fd3c8]",
+  uncommon: "text-positive",
   rare: "text-primary",
-  mythic: "text-[#fbbf24]",
+  mythic: "text-[#f5a623]",
   "rare holo": "text-primary",
-  "secret rare": "text-[#818cf8]",
-  "ultra rare": "text-[#818cf8]",
-  special: "text-[#818cf8]",
+  "secret rare": "text-[#b3446c]",
+  "ultra rare": "text-[#b3446c]",
+  special: "text-[#b3446c]",
 };
 
 export function RarityBadge({ rarity, className }: { rarity: string | null; className?: string }) {
