@@ -61,6 +61,7 @@ export function AddHoldingDialog({
 
   function handleAdd() {
     addHolding(portfolioId, {
+      kind: "tcg",
       catalogItemId,
       quantity: Math.max(1, quantity),
       condition,

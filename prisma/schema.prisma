@@ -28,6 +28,13 @@ enum ProductType {
   SEALED
 }
 
+enum Sport {
+  NBA
+  F1
+  UFC
+  TENNIS
+}
+
 model Game {
   id           String        @id
   name         String
@@ -149,6 +156,85 @@ model GradedPriceSnapshot {
   @@unique([catalogItemId, capturedDate])
   @@index([catalogItemId, capturedAt])
   @@map("graded_price_snapshots")
+}
+
+/// A sports card *type* (sport + set + player + parallel) — analogous to
+/// CatalogItem for TCGs. Unlike CatalogItem, there's no free browsable
+/// catalog for sports cards, so rows here are created on demand: either
+/// matched against SportsCardsPro's real product catalog (which already
+/// distinguishes parallels, e.g. "Base" vs "Prizm Silver" vs "Optic Holo"
+/// as separate products) or entered fully manually.
+///
+/// Deliberately does NOT carry a serial number — that's which specific
+/// numbered copy of a parallel a collector owns (e.g. "23" of a "/99"),
+/// which is ownership information and lives on the local-only Holding
+/// (src/lib/portfolio/types.ts), the same way gradeCompany/gradeValue do.
+model SportsCardItem {
+  id           String   @id @default(cuid())
+  sport        Sport
+  year         Int?
+  setName      String // e.g. "2023 Panini Prizm Basketball"
+  playerName   String
+  teamName     String?
+  cardNumber   String?
+  /// null/"" = base card. e.g. "Prizm Silver", "Optic Holo", "Ruby Wave".
+  parallelName String?
+  isAutograph  Boolean  @default(false)
+  isRelic      Boolean  @default(false)
+  /// The print run this parallel is numbered to, e.g. "99", or "1" for a
+  /// 1-of-1 — a property of the parallel itself (SportsCardsPro's catalog
+  /// encodes it in the product name). NOT the specific copy owned; see
+  /// Holding.serialNumber for that.
+  serialLimit  String?
+  imageUrl     String?
+  createdAt    DateTime @default(now())
+
+  /// SportsCardsPro's product id, cached once resolved via search so later
+  /// refreshes go straight to id lookup — same rate-limit reasoning as
+  /// CatalogItem.priceChartingId. Null for cards entered fully manually
+  /// with no confident catalog match (no live pricing until one is found).
+  priceChartingId String? @unique
+
+  /// Denormalized cache of the latest snapshot's ungraded price, same
+  /// pattern as CatalogItem, so Portfolio totals are plain indexed reads.
+  latestPriceRaw  Decimal? @db.Decimal(10, 2)
+  latestPriceDate String?
+  prevPriceRaw    Decimal? @db.Decimal(10, 2)
+  priceChangePct  Float?
+
+  priceSnapshots SportsCardPriceSnapshot[]
+
+  @@index([sport])
+  @@index([playerName])
+  @@map("sports_card_items")
+}
+
+/// Same "current value only, snapshot once/day ourselves" pattern as
+/// GradedPriceSnapshot — SportsCardsPro (PriceCharting's sister site for
+/// sports cards, same API/account family) also only exposes current
+/// values, not history.
+model SportsCardPriceSnapshot {
+  id               String         @id @default(cuid())
+  sportsCardItemId String
+  sportsCardItem   SportsCardItem @relation(fields: [sportsCardItemId], references: [id])
+  capturedAt       DateTime       @default(now())
+  capturedDate     String
+  currency         String         @default("USD")
+
+  loosePrice   Decimal? @db.Decimal(10, 2)
+  grade7Price  Decimal? @db.Decimal(10, 2)
+  grade8Price  Decimal? @db.Decimal(10, 2)
+  grade9Price  Decimal? @db.Decimal(10, 2)
+  grade95Price Decimal? @db.Decimal(10, 2)
+  psa10Price   Decimal? @db.Decimal(10, 2)
+  cgc10Price   Decimal? @db.Decimal(10, 2)
+  sgc10Price   Decimal? @db.Decimal(10, 2)
+  bgs10Price   Decimal? @db.Decimal(10, 2)
+  source       String   @default("sportscardspro")
+
+  @@unique([sportsCardItemId, capturedDate])
+  @@index([sportsCardItemId, capturedAt])
+  @@map("sports_card_price_snapshots")
 }
 
 model ShowcaseSnapshot {

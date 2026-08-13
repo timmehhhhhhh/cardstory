@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { groupByGame } from "@/lib/portfolio/selectors";
-import { getGameMeta } from "@/lib/games/registry";
 import { usePortfolioStore } from "@/lib/portfolio/store";
 import { formatMoney } from "@/lib/utils/format";
 import type { EnrichedHolding } from "@/lib/portfolio/selectors";
@@ -18,20 +17,31 @@ export function CollectionsByGame({ rows }: { rows: EnrichedHolding[] }) {
         <p className="text-sm text-muted-foreground">No items yet.</p>
       ) : (
         <ul className="flex flex-col gap-2">
-          {groups.map((g) => (
-            <li key={g.gameId}>
-              <Link
-                href={g.gameId !== "unknown" ? `/explore?game=${g.gameId}` : "#"}
-                className="flex items-center justify-between rounded-lg px-1.5 py-1 text-sm hover:bg-surface-elevated"
-              >
+          {groups.map((g) => {
+            const isTcgGame = !g.groupKey.startsWith("sports:") && g.groupKey !== "unknown";
+            const row = (
+              <>
                 <span>
-                  {getGameMeta(g.gameId)?.name ?? "Unknown"}{" "}
-                  <span className="text-muted-foreground">· {g.itemCount}</span>
+                  {g.groupLabel} <span className="text-muted-foreground">· {g.itemCount}</span>
                 </span>
                 <span className="num-tabular font-medium">{formatMoney(g.value, currency)}</span>
-              </Link>
-            </li>
-          ))}
+              </>
+            );
+            return (
+              <li key={g.groupKey}>
+                {isTcgGame ? (
+                  <Link
+                    href={`/explore?game=${g.groupKey}`}
+                    className="flex items-center justify-between rounded-lg px-1.5 py-1 text-sm hover:bg-surface-elevated"
+                  >
+                    {row}
+                  </Link>
+                ) : (
+                  <div className="flex items-center justify-between rounded-lg px-1.5 py-1 text-sm">{row}</div>
+                )}
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>

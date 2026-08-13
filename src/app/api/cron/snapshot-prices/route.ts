@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { runDailySnapshot } from "@/lib/pricing/run-daily-snapshot";
+import { runSportsCardSnapshot } from "@/lib/pricing/run-sports-card-snapshot";
 
 // Real per-set card fetches (esp. MTG's bulk pagination) can run long;
 // give the route more headroom than the 10s Hobby default where supported.
@@ -18,7 +19,8 @@ export async function POST(req: NextRequest) {
   }
 
   const results = await runDailySnapshot();
-  return NextResponse.json({ ranAt: new Date().toISOString(), results });
+  const sportsCards = await runSportsCardSnapshot();
+  return NextResponse.json({ ranAt: new Date().toISOString(), results, sportsCards });
 }
 
 // Vercel Cron sends GET requests by default; accept either.

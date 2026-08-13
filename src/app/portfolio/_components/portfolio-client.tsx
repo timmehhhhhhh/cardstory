@@ -13,6 +13,7 @@ import { ItemGrid } from "@/app/portfolio/_components/item-grid";
 import { BulkActionsBar } from "@/app/portfolio/_components/bulk-actions-bar";
 import { DEFAULT_HOLDING_FILTERS, type HoldingFilters } from "@/app/portfolio/_components/types";
 import { PublishShowcaseDialog } from "@/components/portfolio/publish-showcase-dialog";
+import { AddSportsCardDialog } from "@/components/sportscards/add-sports-card-dialog";
 import type { ShowcasePayload } from "@/lib/showcase/types";
 
 export function PortfolioClient() {
@@ -33,7 +34,7 @@ export function PortfolioClient() {
 
   const filteredRows = React.useMemo(() => {
     return rows.filter((r) => {
-      if (filters.watchlistOnly && !watchlist.includes(r.catalogItemId)) return false;
+      if (filters.watchlistOnly && !(r.catalogItemId && watchlist.includes(r.catalogItemId))) return false;
       if (filters.gameId !== "all" && r.catalogItem?.gameId !== filters.gameId) return false;
       if (filters.productType !== "all" && r.catalogItem?.productType !== filters.productType) return false;
       if (filters.condition !== "all" && r.condition !== filters.condition) return false;
@@ -56,14 +57,17 @@ export function PortfolioClient() {
       <ValueHeader rows={rows} totals={totals} />
 
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <QuickActions
-          rows={filteredRows}
-          bulkMode={bulkMode}
-          onToggleBulkMode={() => {
-            setBulkMode((v) => !v);
-            setSelected(new Set());
-          }}
-        />
+        <div className="flex flex-wrap items-center gap-2">
+          <QuickActions
+            rows={filteredRows}
+            bulkMode={bulkMode}
+            onToggleBulkMode={() => {
+              setBulkMode((v) => !v);
+              setSelected(new Set());
+            }}
+          />
+          <AddSportsCardDialog />
+        </div>
         <PublishShowcaseDialog
           portfolioId={activePortfolioId}
           portfolioName={activePortfolio?.name ?? "My Portfolio"}
@@ -74,15 +78,19 @@ export function PortfolioClient() {
             totalGainLoss: totals.totalGainLoss,
             totalGainLossPct: totals.totalGainLossPct,
             itemCount: rows.length,
-            items: rows.map((r) => ({
-              catalogItemId: r.catalogItemId,
-              gameId: r.catalogItem?.gameId ?? "",
-              externalId: r.catalogItem?.externalId ?? "",
-              name: r.catalogItem?.name ?? r.catalogItemId,
-              imageSmallUrl: r.catalogItem?.imageSmallUrl ?? null,
-              quantity: r.quantity,
-              marketValue: r.marketValue,
-            })),
+            // Showcase only covers TCG cards for now — sports cards aren't
+            // part of the shared catalog ShowcasePayload's items reference.
+            items: rows
+              .filter((r): r is typeof r & { catalogItem: NonNullable<typeof r.catalogItem> } => !!r.catalogItem)
+              .map((r) => ({
+                catalogItemId: r.catalogItemId!,
+                gameId: r.catalogItem.gameId,
+                externalId: r.catalogItem.externalId,
+                name: r.catalogItem.name,
+                imageSmallUrl: r.catalogItem.imageSmallUrl,
+                quantity: r.quantity,
+                marketValue: r.marketValue,
+              })),
           })}
         />
       </div>

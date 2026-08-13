@@ -18,22 +18,30 @@ export function MostValuable({ rows }: { rows: EnrichedHolding[] }) {
         <p className="text-sm text-muted-foreground">No items yet.</p>
       ) : (
         <ul className="flex flex-col gap-2">
-          {top.map((r) => (
-            <li key={r.id}>
-              <Link
-                href={r.catalogItem ? `/card/${r.catalogItem.gameId}/${r.catalogItem.externalId}` : "#"}
-                className="flex items-center gap-2 rounded-lg px-1.5 py-1 hover:bg-surface-elevated"
-              >
+          {top.map((r) => {
+            const row = (
+              <>
                 <div className="relative size-8 flex-none overflow-hidden rounded bg-muted">
-                  {r.catalogItem?.imageSmallUrl && (
-                    <Image src={r.catalogItem.imageSmallUrl} alt="" fill unoptimized className="object-contain" />
+                  {r.display.imageUrl && (
+                    <Image src={r.display.imageUrl} alt="" fill unoptimized className="object-contain" />
                   )}
                 </div>
-                <span className="min-w-0 flex-1 truncate text-sm">{r.catalogItem?.name ?? r.catalogItemId}</span>
+                <span className="min-w-0 flex-1 truncate text-sm">{r.display.name}</span>
                 <span className="num-tabular text-sm font-medium">{formatMoney(r.marketValue, currency)}</span>
-              </Link>
-            </li>
-          ))}
+              </>
+            );
+            return (
+              <li key={r.id}>
+                {r.display.href ? (
+                  <Link href={r.display.href} className="flex items-center gap-2 rounded-lg px-1.5 py-1 hover:bg-surface-elevated">
+                    {row}
+                  </Link>
+                ) : (
+                  <div className="flex items-center gap-2 rounded-lg px-1.5 py-1">{row}</div>
+                )}
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>

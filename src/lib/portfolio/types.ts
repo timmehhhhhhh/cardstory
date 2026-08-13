@@ -3,20 +3,32 @@ import type { SupportedCurrency } from "@/lib/constants";
 export type CardCondition = "raw" | "graded";
 export type ItemLanguage = "EN" | "JP" | "CN";
 export type ViewMode = "grid" | "list";
+export type HoldingKind = "tcg" | "sports";
 
 /**
- * A single owned line-item in a local portfolio. `catalogItemId` joins
- * against the server-side catalog (`"<gameId>:<externalId>"`, e.g.
- * `"pokemon:sv3pt5-136"`) to resolve name/image/live price at render time —
- * nothing about the card itself is duplicated here.
+ * A single owned line-item in a local portfolio.
+ *
+ * - `kind: "tcg"` — `catalogItemId` joins against the server-side TCG
+ *   catalog (`"<gameId>:<externalId>"`, e.g. `"pokemon:sv3pt5-136"`).
+ * - `kind: "sports"` — `sportsCardItemId` joins against a SportsCardItem
+ *   (the shared sport+set+player+parallel record; see prisma/schema.prisma).
+ *
+ * Older holdings created before sports cards existed have no `kind` field
+ * at all — treat a missing `kind` as `"tcg"` (they all had catalogItemId).
+ * `serialNumber` is the specific numbered copy owned (e.g. "23" of a
+ * card numbered to `SportsCardItem.serialLimit`) — ownership info, so it
+ * lives here rather than on the shared card-type record.
  */
 export interface Holding {
   id: string;
-  catalogItemId: string;
+  kind?: HoldingKind;
+  catalogItemId?: string;
+  sportsCardItemId?: string;
   quantity: number;
   condition: CardCondition;
   gradeCompany?: string;
   gradeValue?: string;
+  serialNumber?: string;
   language: ItemLanguage;
   costBasisTotal: number;
   costBasisCurrency: SupportedCurrency;
@@ -24,6 +36,10 @@ export interface Holding {
   notes?: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export function holdingKind(h: Pick<Holding, "kind" | "sportsCardItemId">): HoldingKind {
+  return h.kind ?? (h.sportsCardItemId ? "sports" : "tcg");
 }
 
 export interface Portfolio {

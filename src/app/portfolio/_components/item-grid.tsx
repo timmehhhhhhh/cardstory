@@ -31,7 +31,7 @@ export function ItemGrid({
         <p className="font-medium">Nothing here yet</p>
         <p className="text-sm text-muted-foreground">
           Head to <Link href="/explore" className="text-primary hover:underline">Explore</Link> and add a
-          card to your portfolio.
+          card, or use &quot;Add Sports Card&quot; above.
         </p>
       </div>
     );
@@ -41,7 +41,23 @@ export function ItemGrid({
     <div className="flex flex-col gap-2">
       {rows.map((r) => {
         const positive = r.gainLoss >= 0;
-        const href = r.catalogItem ? `/card/${r.catalogItem.gameId}/${r.catalogItem.externalId}` : "#";
+        const content = (
+          <>
+            <div className="relative h-14 w-10 flex-none overflow-hidden rounded bg-muted">
+              {r.display.imageUrl && (
+                <Image src={r.display.imageUrl} alt="" fill unoptimized className="object-contain" />
+              )}
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-medium">{r.display.name}</p>
+              <p className="truncate text-xs text-muted-foreground">
+                {r.display.subtitle} · Qty {r.quantity}
+                {r.condition === "graded" && ` · ${r.gradeCompany ?? ""} ${r.gradeValue ?? ""}`}
+              </p>
+            </div>
+          </>
+        );
+
         return (
           <div
             key={r.id}
@@ -54,20 +70,13 @@ export function ItemGrid({
                 aria-label="Select item"
               />
             )}
-            <Link href={href} className="flex min-w-0 flex-1 items-center gap-3">
-              <div className="relative h-14 w-10 flex-none overflow-hidden rounded bg-muted">
-                {r.catalogItem?.imageSmallUrl && (
-                  <Image src={r.catalogItem.imageSmallUrl} alt="" fill unoptimized className="object-contain" />
-                )}
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium">{r.catalogItem?.name ?? r.catalogItemId}</p>
-                <p className="truncate text-xs text-muted-foreground">
-                  {r.catalogItem?.setName} · Qty {r.quantity}
-                  {r.condition === "graded" && ` · ${r.gradeCompany ?? ""} ${r.gradeValue ?? ""}`}
-                </p>
-              </div>
-            </Link>
+            {r.display.href ? (
+              <Link href={r.display.href} className="flex min-w-0 flex-1 items-center gap-3">
+                {content}
+              </Link>
+            ) : (
+              <div className="flex min-w-0 flex-1 items-center gap-3">{content}</div>
+            )}
             <div className="w-24 flex-none text-right">
               <p className="num-tabular text-sm font-semibold">{formatMoney(r.marketValue, currency)}</p>
               {r.gainLossPct != null && (

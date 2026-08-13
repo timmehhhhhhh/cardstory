@@ -8,7 +8,9 @@ import type { EnrichedHolding } from "@/lib/portfolio/selectors";
 function exportCsv(rows: EnrichedHolding[]) {
   const header = [
     "Name",
-    "Game",
+    "Details",
+    "Game/Sport",
+    "Serial",
     "Quantity",
     "Condition",
     "Grade",
@@ -20,8 +22,10 @@ function exportCsv(rows: EnrichedHolding[]) {
   ];
   const lines = rows.map((r) =>
     [
-      r.catalogItem?.name ?? r.catalogItemId,
-      r.catalogItem?.gameId ?? "",
+      r.display.name,
+      r.display.subtitle,
+      r.display.groupLabel,
+      r.serialNumber ?? "",
       r.quantity,
       r.condition,
       r.condition === "graded" ? `${r.gradeCompany ?? ""} ${r.gradeValue ?? ""}`.trim() : "",
