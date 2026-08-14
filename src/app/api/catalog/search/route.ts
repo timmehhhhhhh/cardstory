@@ -24,6 +24,8 @@ export async function GET(req: NextRequest) {
     gameId: sp.get("game") ?? undefined,
     setId: sp.get("set") ?? undefined,
     productType,
+    cardType: sp.get("cardType") ?? undefined,
+    rarity: sp.get("rarity") ?? undefined,
     onlyIds: parseIds(sp.get("onlyIds")),
     excludeIds: parseIds(sp.get("excludeIds")),
     sort,

@@ -17,6 +17,8 @@ export interface UnifiedCard {
   name: string;
   number?: string;
   rarity?: string;
+  /** Game-specific card type, e.g. Riftbound's "Champion Unit" / "Legend" / "Gear". */
+  cardType?: string;
   imageSmallUrl?: string;
   imageLargeUrl?: string;
   productType: ProductType;

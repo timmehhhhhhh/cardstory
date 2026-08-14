@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Camera, Menu } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
@@ -11,6 +12,7 @@ import { APP_NAME, NAV_LINKS } from "@/lib/constants";
 import { ThemeToggle } from "@/components/nav/theme-toggle";
 import { CurrencySelector } from "@/components/nav/currency-selector";
 import { SearchBox } from "@/components/nav/search-box";
+import { AccountMenu } from "@/components/nav/account-menu";
 
 function Logo() {
   return (
@@ -51,8 +53,28 @@ function NavLinks({ className, onNavigate }: { className?: string; onNavigate?: 
   );
 }
 
+function MobileAccountSection({ onNavigate }: { onNavigate: () => void }) {
+  const { data: session } = useSession();
+  return (
+    <div className="flex items-center justify-between px-3">
+      <span className="truncate text-sm text-muted-foreground">{session?.user?.email}</span>
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => {
+          onNavigate();
+          signOut({ callbackUrl: "/" });
+        }}
+      >
+        Log out
+      </Button>
+    </div>
+  );
+}
+
 export function TopNav() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const { status } = useSession();
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur supports-backdrop-blur:bg-background/60">
@@ -79,6 +101,24 @@ export function TopNav() {
           </div>
           <ThemeToggle />
 
+          {status === "authenticated" ? (
+            <AccountMenu />
+          ) : status !== "loading" ? (
+            <div className="hidden items-center gap-1 sm:flex">
+              <Button asChild variant="ghost" size="sm">
+                <Link href="/login">Log in</Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="border-primary/40 text-primary hover:bg-primary/10 hover:text-primary"
+              >
+                <Link href="/signup">Sign up</Link>
+              </Button>
+            </div>
+          ) : null}
+
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden" aria-label="Open menu">
@@ -100,6 +140,26 @@ export function TopNav() {
                 <div className="mt-4 flex items-center justify-between px-3">
                   <span className="text-sm text-muted-foreground">Currency</span>
                   <CurrencySelector />
+                </div>
+
+                <div className="mt-4 border-t border-border pt-4 sm:hidden">
+                  {status === "authenticated" ? (
+                    <MobileAccountSection onNavigate={() => setMobileOpen(false)} />
+                  ) : status !== "loading" ? (
+                    <div className="flex flex-col gap-2 px-3">
+                      <Button asChild variant="outline" size="sm" onClick={() => setMobileOpen(false)}>
+                        <Link href="/login">Log in</Link>
+                      </Button>
+                      <Button
+                        asChild
+                        size="sm"
+                        className="bg-primary text-primary-foreground"
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        <Link href="/signup">Sign up</Link>
+                      </Button>
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </SheetContent>

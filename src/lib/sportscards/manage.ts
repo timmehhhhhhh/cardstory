@@ -137,3 +137,165 @@ export async function updateSportsCardImage(id: string, imageUrl: string): Promi
   const updated = await db.sportsCardItem.update({ where: { id }, data: { imageUrl } }).catch(() => null);
   return updated ? toDetail(updated) : null;
 }
+
+// ---------------------------------------------------------------------------
+// Player checklists (e.g. "every LaMelo Ball card") — a bulk, hand-curated
+// alternative to the ad hoc create-on-demand flow above. Every parallel of a
+// checklist card gets its own real SportsCardItem row up front (same "one
+// row per parallel" model the rest of this table already uses — see the
+// schema comment on SportsCardItem), tagged with `cardType` so it's
+// identifiable as checklist data rather than something a user typed in.
+// Ownership is, as always, a separate client-side Holding — a row existing
+// here never implies anyone owns it.
+// ---------------------------------------------------------------------------
+
+export type ChecklistCardType = "base" | "insert" | "short_print";
+
+export interface ChecklistRowInput extends SportsCardItemInput {
+  cardType: ChecklistCardType;
+  imageBackUrl?: string;
+  sourceUrl?: string;
+}
+
+/**
+ * Deterministic natural key for a checklist row, so re-running a seed
+ * script upserts instead of duplicating. Two rows are "the same card" iff
+ * every identity field matches, including parallelName (so each parallel
+ * gets its own key) AND cardType — a base card and a same-numbered
+ * short-printed photo variation (e.g. 2020-21 Prizm #278 base vs. its
+ * "Blue Uniform Photo Variation" SP) are genuinely different rows despite
+ * sharing every other field. cardNumber/parallelName/cardType default to
+ * "" rather than being left out so a later addition of any of them still
+ * changes the key.
+ */
+export function computeExternalKey(input: {
+  sport: Sport;
+  year?: number;
+  distributor?: string;
+  setName: string;
+  playerName: string;
+  cardNumber?: string;
+  parallelName?: string;
+  cardType?: string;
+}): string {
+  return [
+    input.sport,
+    input.year ?? "",
+    input.distributor ?? "",
+    input.setName,
+    input.playerName,
+    input.cardNumber ?? "",
+    input.parallelName ?? "",
+    input.cardType ?? "",
+  ]
+    .join("|")
+    .toLowerCase();
+}
+
+/**
+ * Upserts one checklist row (a base card, an insert, an SP, or one specific
+ * parallel of any of those) by its externalKey. Used by scripts/seed-*.ts —
+ * never called from user-facing request handlers.
+ *
+ * Every optional field is normalized `undefined -> null` before hitting
+ * Prisma: on an `update`, Prisma treats `undefined` as "leave this field
+ * alone" rather than "clear it" — so if a re-seed removes a value that was
+ * previously set (e.g. an imageUrl that turned out to be unreliable), an
+ * un-normalized upsert would silently leave the stale value in place.
+ */
+export async function upsertChecklistSportsCardItem(input: ChecklistRowInput): Promise<string> {
+  const externalKey = computeExternalKey(input);
+  const data = {
+    sport: input.sport,
+    year: input.year ?? null,
+    distributor: input.distributor ?? null,
+    setName: input.setName,
+    playerName: input.playerName,
+    teamName: input.teamName ?? null,
+    cardNumber: input.cardNumber ?? null,
+    parallelName: input.parallelName ?? null,
+    isAutograph: input.isAutograph ?? false,
+    isRelic: input.isRelic ?? false,
+    serialLimit: input.serialLimit ?? null,
+    imageUrl: input.imageUrl ?? null,
+    imageBackUrl: input.imageBackUrl ?? null,
+    sourceUrl: input.sourceUrl ?? null,
+    cardType: input.cardType,
+    externalKey,
+  };
+  const row = await db.sportsCardItem.upsert({ where: { externalKey }, create: data, update: data });
+  return row.id;
+}
+
+export interface ChecklistVariant {
+  sportsCardItemId: string;
+  /** "Base" when this row is the unparalleled version. */
+  parallelName: string;
+  serialLimit: string | null;
+}
+
+export interface ChecklistCard {
+  /** Stable client-side grouping key: year|distributor|setName|cardNumber|cardType. */
+  groupKey: string;
+  year: number | null;
+  distributor: string | null;
+  setName: string;
+  cardNumber: string | null;
+  cardType: ChecklistCardType;
+  imageUrl: string | null;
+  imageBackUrl: string | null;
+  sourceUrl: string | null;
+  variants: ChecklistVariant[];
+}
+
+/**
+ * Every checklist row for a player, grouped back into one card per
+ * (year, distributor, setName, cardNumber, cardType) with its parallels
+ * (including "Base" itself) as a flat list of ownable variants. The
+ * front/back image and source live on the group, taken from whichever row
+ * in the group has them set (normally the base row — see manage.ts's
+ * upsertChecklistSportsCardItem callers in scripts/seed-lamelo-ball.ts).
+ */
+export async function getPlayerChecklist(sport: Sport, playerName: string): Promise<ChecklistCard[]> {
+  const rows = await db.sportsCardItem.findMany({
+    where: { sport, playerName, cardType: { not: null } },
+    orderBy: [{ year: "asc" }, { distributor: "asc" }, { setName: "asc" }, { cardNumber: "asc" }],
+  });
+
+  const groups = new Map<string, ChecklistCard>();
+  for (const r of rows) {
+    const cardType = (r.cardType ?? "base") as ChecklistCardType;
+    const groupKey = [r.year ?? "", r.distributor ?? "", r.setName, r.cardNumber ?? "", cardType].join("|");
+    let group = groups.get(groupKey);
+    if (!group) {
+      group = {
+        groupKey,
+        year: r.year,
+        distributor: r.distributor,
+        setName: r.setName,
+        cardNumber: r.cardNumber,
+        cardType,
+        imageUrl: null,
+        imageBackUrl: null,
+        sourceUrl: null,
+        variants: [],
+      };
+      groups.set(groupKey, group);
+    }
+    if (r.imageUrl && !group.imageUrl) group.imageUrl = r.imageUrl;
+    if (r.imageBackUrl && !group.imageBackUrl) group.imageBackUrl = r.imageBackUrl;
+    if (r.sourceUrl && !group.sourceUrl) group.sourceUrl = r.sourceUrl;
+    group.variants.push({
+      sportsCardItemId: r.id,
+      parallelName: r.parallelName && r.parallelName.length > 0 ? r.parallelName : "Base",
+      serialLimit: r.serialLimit,
+    });
+  }
+
+  // "Base" first within each card, then everything else in seeded order.
+  for (const g of groups.values()) {
+    g.variants.sort((a, b) => (a.parallelName === "Base" ? -1 : b.parallelName === "Base" ? 1 : 0));
+  }
+
+  return [...groups.values()];
+}

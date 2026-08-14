@@ -5,6 +5,8 @@ export interface ExploreFilters {
   game: string; // "all" | gameId
   set: string; // "" | setId, comes from a /sets/[game] deep link
   type: "all" | "CARD" | "SEALED";
+  cardType: string; // "all" | CatalogItem.cardType label, e.g. Riftbound's "Champion Unit"
+  rarity: string; // "all" | CatalogItem.rarity value, e.g. "Ultra Rare" or "Epic"
   status: "all" | "owned" | "not_owned";
   watchlistOnly: boolean;
   sort: CatalogSort;
@@ -17,6 +19,8 @@ export const DEFAULT_FILTERS: ExploreFilters = {
   game: "all",
   set: "",
   type: "all",
+  cardType: "all",
+  rarity: "all",
   status: "all",
   watchlistOnly: false,
   sort: "best_match",
@@ -30,6 +34,8 @@ export function filtersToSearchParams(f: ExploreFilters): URLSearchParams {
   if (f.game !== "all") sp.set("game", f.game);
   if (f.set) sp.set("set", f.set);
   if (f.type !== "all") sp.set("type", f.type);
+  if (f.cardType !== "all") sp.set("cardType", f.cardType);
+  if (f.rarity !== "all") sp.set("rarity", f.rarity);
   if (f.status !== "all") sp.set("status", f.status);
   if (f.watchlistOnly) sp.set("watchlist", "1");
   if (f.sort !== "best_match") sp.set("sort", f.sort);
@@ -49,6 +55,8 @@ export function filtersFromSearchParams(
     game: get("game") ?? DEFAULT_FILTERS.game,
     set: get("set") ?? DEFAULT_FILTERS.set,
     type: (get("type") as ExploreFilters["type"]) ?? DEFAULT_FILTERS.type,
+    cardType: get("cardType") ?? DEFAULT_FILTERS.cardType,
+    rarity: get("rarity") ?? DEFAULT_FILTERS.rarity,
     status: (get("status") as ExploreFilters["status"]) ?? DEFAULT_FILTERS.status,
     watchlistOnly: get("watchlist") === "1",
     sort: (get("sort") as ExploreFilters["sort"]) ?? DEFAULT_FILTERS.sort,

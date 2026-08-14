@@ -9,7 +9,7 @@ Built with Next.js (App Router) + TypeScript + Tailwind + Prisma/Postgres. See [
 - **Card data & prices are real** — pulled from [pokemontcg.io](https://pokemontcg.io) (Pokémon), free and ToS-safe. No scraping, no fabricated numbers.
 - **Price history grows from launch day** — a daily snapshot job records one real price per card per day. There is no backfilled history; charts start short and get longer the longer the app runs.
 - **Only Pokémon is fully wired.** The Sets page shows all ~19 major TCGs for visual parity with the real app, but the other 18 are marked "Coming soon" — no free, ToS-safe pricing API exists for them yet.
-- **No accounts.** Portfolios live in the browser's `localStorage`. Clearing site data loses them (Showcase links, published separately, survive that).
+- **Accounts are optional.** Logged out, portfolios live entirely in the browser's `localStorage` — clearing site data loses them (Showcase links, published separately, survive that). Signing up (email + password) moves your portfolio to the server instead, so it follows you across browsers/devices; the first time you log in with local holdings still on that browser, you're offered a one-time import into the account.
 - **Scan** uses Google Gemini's vision API to read a photographed card, then fuzzy-matches it against the catalog above. If no `GEMINI_API_KEY` is set (or the call fails), it falls back to manual search — never a dead end.
 - **Graded prices** (PSA/CGC/SGC/BGS tiers) come from [PriceCharting's official API](https://www.pricecharting.com/api-documentation) — real, documented, not scraping, but a paid product with no free tier. Fetched on-demand from the card detail page (not a bulk job — PriceCharting rate-limits to 1 request/sec, so syncing the whole catalog isn't practical) and cached for the day. Without `PRICECHARTING_API_KEY`, the panel just says so.
 - **Sports cards** (NBA, F1, UFC, Tennis) are added straight into the Portfolio — there's no Explore/Sets browsing for them (no free browsable sports-card catalog exists). Adding one searches [SportsCardsPro](https://www.sportscardspro.com/api-documentation) (PriceCharting's sister site, same API/rate-limit family) to match the exact parallel and pull a real price, with full manual entry always available as a fallback/override. The serial number of the *specific copy you own* (e.g. "23" of a "/99") is always a manual field — no catalog can know that. **Not built**: 130point.com itself can't be cloned — it sits behind Cloudflare bot-protection and its own docs describe scanning multiple marketplaces (eBay, PWCC, Goldin, etc.), so replicating it would mean scraping, which this project avoids throughout.
@@ -61,6 +61,16 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+## Testing on your iPhone (free, from anywhere)
+
+To try the dev server from your phone — including over cellular, away from your home network — use a free [Cloudflare quick tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/do-more-with-tunnels/trycloudflare/). No account or signup needed.
+
+1. One-time: `brew install cloudflared`
+2. Terminal 1: `npm run dev`
+3. Terminal 2: `npm run tunnel`
+
+`cloudflared` prints a `https://<random-words>.trycloudflare.com` URL — open that in Safari on your iPhone. `next.config.ts` already allowlists `*.trycloudflare.com` via `allowedDevOrigins`, so no further config is needed, but the URL changes every time you restart `npm run tunnel`, and the tunnel only stays up while both terminals and your Mac are running.
+
 ## Keeping prices fresh
 
 `scripts/run-snapshot.ts` runs the same job the production cron job runs — fetches current prices for every set already in your catalog (plus every sports card any portfolio has added, if `SPORTSCARDSPRO_API_KEY`/`PRICECHARTING_API_KEY` is set) and records today's snapshot:
@@ -77,7 +87,8 @@ In production, `vercel.json` schedules this daily via Vercel Cron against `POST 
 - `src/lib/games/` — one adapter per TCG (currently just `pokemon/`), unified behind `registry.ts` so adding another game later means implementing `GameProvider` and flipping its status.
 - `src/lib/pricing/` — the daily snapshot job, price-history reads, `pricecharting/` + `sportscardspro/` (the optional graded/sports-card adapters), and `pricecharting-family/` (their shared rate-limited client).
 - `src/lib/sportscards/` — sports card creation/lookup logic and best-effort product-name parsing.
-- `src/lib/portfolio/` — the local-only (`localStorage`) portfolio store and its selectors (handles both TCG and sports card holdings).
+- `src/lib/portfolio/` — the portfolio store: `local-store.ts` (localStorage, used when logged out), `remote-store.ts` (server-backed, used when logged in), and `store.ts` (the switcher every component actually imports). Handles both TCG and sports card holdings.
+- `src/auth.ts`, `src/app/api/auth/` — NextAuth (email/password, JWT sessions).
 - `src/lib/scan/` — Gemini vision call + Fuse.js catalog matching.
 - `prisma/schema.prisma` — the catalog, price-history, sports-card, and showcase-snapshot data model.
 

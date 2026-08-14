@@ -130,6 +130,7 @@ export function CardTile({
           {item.setName}
           {item.number ? ` · ${item.number}` : ""}
         </p>
+        {item.cardType && <p className="truncate text-[11px] text-muted-foreground/80">{item.cardType}</p>}
       </div>
     </Link>
   );

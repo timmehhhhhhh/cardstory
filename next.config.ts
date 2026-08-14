@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Lets the dev server accept requests from a Cloudflare quick tunnel
+  // (used for testing on a phone away from the local network — see README).
+  allowedDevOrigins: ["*.trycloudflare.com"],
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "images.pokemontcg.io" },

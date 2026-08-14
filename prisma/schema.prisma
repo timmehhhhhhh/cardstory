@@ -1,12 +1,15 @@
 // CardStory data model.
 //
-// This database holds app infrastructure ONLY — the shared card catalog and
-// its real price history. It does NOT hold user accounts or portfolios:
-// per the product decision, portfolios are local-only (see
-// src/lib/portfolio/store.ts, persisted to the browser's localStorage).
-// ShowcaseSnapshot is the one exception: a deliberate, explicit "publish"
-// action copies a point-in-time snapshot of local holdings into this DB so
-// it can be shared via a public link.
+// This database holds the shared card catalog, its real price history, and
+// — for signed-in users — accounts and portfolios. Accounts are optional:
+// a logged-out visitor's portfolio still lives entirely in the browser's
+// localStorage (see src/lib/portfolio/local-store.ts). Signing in switches
+// portfolio reads/writes to the Portfolio/Holding tables below (see
+// src/lib/portfolio/store.ts, the switcher). ShowcaseSnapshot predates
+// accounts and keeps working the same way for anonymous publishers: a
+// deliberate, explicit "publish" action copies a point-in-time snapshot of
+// holdings into this DB so it can be shared via a public link, authorized
+// by a client-held ownerToken rather than a session.
 
 generator client {
   provider = "prisma-client-js"
@@ -72,6 +75,11 @@ model CatalogItem {
   name           String
   number         String?
   rarity         String?
+  /// Game-specific card type, e.g. Riftbound's "Champion Unit" / "Legend" /
+  /// "Gear" / "Signature Spell" (a printed type + supertype combo — see
+  /// lib/games/riftbound/card-types.ts). Null for games that don't have a
+  /// distinct card-type taxonomy wired up yet.
+  cardType       String?
   imageSmallUrl  String?
   imageLargeUrl  String?
   productType    ProductType      @default(CARD)
@@ -99,6 +107,8 @@ model CatalogItem {
   @@unique([gameId, externalId])
   @@index([setId])
   @@index([name])
+  @@index([cardType])
+  @@index([rarity])
   @@index([latestPriceRaw])
   @@index([priceChangePct])
   @@map("catalog_items")
@@ -195,6 +205,27 @@ model SportsCardItem {
   /// Holding.serialNumber for that.
   serialLimit  String?
   imageUrl     String?
+  /// Back-of-card image, same "external reference link" convention as
+  /// imageUrl — only ever a URL, never a re-hosted/uploaded copy for
+  /// checklist-seeded rows (see cardType below). Rare in practice: card
+  /// backs are seldom photographed except for graded high-end cards.
+  imageBackUrl String?
+  /// Where imageUrl/imageBackUrl/the card's existence was verified, for
+  /// attribution and so a user can double-check a checklist-seeded row.
+  sourceUrl    String?
+  /// "base" | "insert" | "short_print" — set only on rows created by a
+  /// checklist seed script (e.g. scripts/seed-lamelo-ball.ts), on EVERY
+  /// row belonging to that checklist including each parallel (parallels
+  /// are siblings sharing year/distributor/setName/cardNumber/cardType,
+  /// distinguished by parallelName — same "one row per parallel" model
+  /// the rest of this table already uses; see note above). Null for
+  /// every card a user adds ad hoc via AddSportsCardDialog.
+  cardType     String?
+  /// Deterministic natural key computed at seed time (sport|year|
+  /// distributor|setName|playerName|cardNumber|parallelName, lowercased),
+  /// so re-running a checklist seed script upserts instead of duplicating.
+  /// Null for ad hoc user-added cards, which have no such key.
+  externalKey  String?  @unique
   createdAt    DateTime @default(now())
 
   /// SportsCardsPro's product id, cached once resolved via search so later
@@ -214,6 +245,7 @@ model SportsCardItem {
 
   @@index([sport])
   @@index([playerName])
+  @@index([cardType])
   @@map("sports_card_items")
 }
 
@@ -247,14 +279,90 @@ model SportsCardPriceSnapshot {
 
 model ShowcaseSnapshot {
   id         String   @id @default(cuid())
-  /// Kept only in the publishing browser's localStorage; the sole
-  /// credential allowed to update/delete this snapshot (no accounts).
+  /// Kept only in the publishing browser's localStorage; the credential
+  /// that authorizes updating/deleting this snapshot for anonymous
+  /// publishers. Still written (and still authoritative) even when userId
+  /// is also set, so a snapshot published while logged in remains editable
+  /// from the same browser without requiring a session.
   ownerToken String
+  /// Set when the publisher was signed in at publish time. Optional and
+  /// SetNull on user deletion — this snapshot is a point-in-time copy, not
+  /// a live view of the user's portfolio, so it should outlive the account.
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   title      String?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   /// Serialized holdings + computed totals at publish time.
   payload    Json
 
+  @@index([userId])
   @@map("showcase_snapshots")
+}
+
+/// An account. Only Credentials (email + password) auth exists today, so
+/// there's no Account/Session/VerificationToken adapter tables — NextAuth
+/// is configured with JWT sessions, which need no DB-backed session state.
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  portfolios        Portfolio[]
+  showcaseSnapshots ShowcaseSnapshot[]
+
+  @@map("users")
+}
+
+/// Server-backed portfolio for a signed-in user — the accounts equivalent
+/// of the local-only Portfolio shape in src/lib/portfolio/types.ts. Holding
+/// ids are still generated client-side (see src/lib/portfolio/remote-store.ts)
+/// so `id` has a server default but accepts a client-supplied value on create.
+model Portfolio {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  holdings  Holding[]
+
+  @@index([userId])
+  @@map("portfolios")
+}
+
+/// Server-backed equivalent of the local Holding type. kind/condition/
+/// language are plain strings (not Prisma enums) because the existing
+/// lowercase TS unions ("tcg", "raw", "EN") are already used by every
+/// portfolio-consuming component and by holdings already persisted in
+/// users' localStorage — zod validates these at the API boundary instead.
+/// catalogItemId/sportsCardItemId are plain scalars, not @relations: a
+/// Holding populates exactly one depending on kind (not a single relation
+/// Prisma can express), and holdings are already enriched via batch
+/// lookups (/api/catalog/by-ids, /api/sportscards/by-ids), not joins —
+/// same zero-referential-integrity behavior the local store has today.
+model Holding {
+  id                String    @id @default(cuid())
+  portfolioId       String
+  portfolio         Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  kind              String    @default("tcg")
+  catalogItemId     String?
+  sportsCardItemId  String?
+  quantity          Int
+  condition         String
+  gradeCompany      String?
+  gradeValue        String?
+  serialNumber      String?
+  language          String    @default("EN")
+  costBasisTotal    Decimal   @db.Decimal(10, 2)
+  costBasisCurrency String
+  acquiredAt        DateTime
+  notes             String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([portfolioId])
+  @@map("holdings")
 }

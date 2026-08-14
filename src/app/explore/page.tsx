@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { searchCatalog } from "@/lib/catalog/search";
+import { getDistinctCardTypes, getDistinctRarities, searchCatalog } from "@/lib/catalog/search";
 import { filtersFromSearchParams } from "@/app/explore/_components/types";
 import { ExploreClient } from "@/app/explore/_components/explore-client";
 
@@ -13,14 +13,27 @@ export default async function ExplorePage({
   const sp = await searchParams;
   const filters = filtersFromSearchParams(sp);
 
-  const initialData = await searchCatalog({
-    q: filters.q || undefined,
-    gameId: filters.game !== "all" ? filters.game : undefined,
-    setId: filters.set || undefined,
-    productType: filters.type !== "all" ? filters.type : undefined,
-    sort: filters.sort,
-    page: filters.page,
-  });
+  const [initialData, cardTypeOptions, rarityOptions] = await Promise.all([
+    searchCatalog({
+      q: filters.q || undefined,
+      gameId: filters.game !== "all" ? filters.game : undefined,
+      setId: filters.set || undefined,
+      productType: filters.type !== "all" ? filters.type : undefined,
+      cardType: filters.cardType !== "all" ? filters.cardType : undefined,
+      rarity: filters.rarity !== "all" ? filters.rarity : undefined,
+      sort: filters.sort,
+      page: filters.page,
+    }),
+    getDistinctCardTypes(),
+    getDistinctRarities(filters.game !== "all" ? filters.game : undefined),
+  ]);
 
-  return <ExploreClient initialFilters={filters} initialData={initialData} />;
+  return (
+    <ExploreClient
+      initialFilters={filters}
+      initialData={initialData}
+      cardTypeOptions={cardTypeOptions}
+      rarityOptions={rarityOptions}
+    />
+  );
 }

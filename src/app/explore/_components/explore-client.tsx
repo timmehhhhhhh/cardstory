@@ -27,12 +27,31 @@ interface SearchResponse {
 export function ExploreClient({
   initialFilters,
   initialData,
+  cardTypeOptions,
+  rarityOptions,
 }: {
   initialFilters: ExploreFilters;
   initialData: SearchResponse;
+  cardTypeOptions: string[];
+  rarityOptions: string[];
 }) {
   const router = useRouter();
   const [filters, setFilters] = React.useState(initialFilters);
+
+  const rarityQuery = useQuery<string[]>({
+    queryKey: ["catalog-rarities", filters.game],
+    queryFn: async () => {
+      const sp = new URLSearchParams();
+      if (filters.game !== "all") sp.set("game", filters.game);
+      const res = await fetch(`/api/catalog/rarities?${sp.toString()}`);
+      if (!res.ok) throw new Error("Failed to load rarities");
+      const json = await res.json();
+      return json.rarities as string[];
+    },
+    initialData: filters.game === initialFilters.game ? rarityOptions : undefined,
+    placeholderData: (prev) => prev,
+  });
+  const resolvedRarityOptions = rarityQuery.data ?? rarityOptions;
 
   const holdings = usePortfolioStore(
     (s) => s.portfolios.find((p) => p.id === s.activePortfolioId)?.holdings ?? EMPTY_HOLDINGS
@@ -55,6 +74,8 @@ export function ExploreClient({
     filters.q === initialFilters.q &&
     filters.game === initialFilters.game &&
     filters.type === initialFilters.type &&
+    filters.cardType === initialFilters.cardType &&
+    filters.rarity === initialFilters.rarity &&
     filters.status === initialFilters.status &&
     filters.watchlistOnly === initialFilters.watchlistOnly &&
     filters.sort === initialFilters.sort &&
@@ -84,7 +105,12 @@ export function ExploreClient({
   return (
     <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-6 sm:px-6 lg:flex-row">
       <div className="hidden lg:block">
-        <SidebarFilters filters={filters} onChange={updateFilters} />
+        <SidebarFilters
+          filters={filters}
+          onChange={updateFilters}
+          cardTypeOptions={cardTypeOptions}
+          rarityOptions={resolvedRarityOptions}
+        />
       </div>
 
       <div className="min-w-0 flex-1">
@@ -100,7 +126,12 @@ export function ExploreClient({
               <SheetContent side="left" className="w-80 overflow-y-auto bg-background border-border">
                 <SheetTitle className="px-4 pt-4">Filters</SheetTitle>
                 <div className="px-4 pb-6">
-                  <SidebarFilters filters={filters} onChange={updateFilters} />
+                  <SidebarFilters
+                    filters={filters}
+                    onChange={updateFilters}
+                    cardTypeOptions={cardTypeOptions}
+                    rarityOptions={resolvedRarityOptions}
+                  />
                 </div>
               </SheetContent>
             </Sheet>

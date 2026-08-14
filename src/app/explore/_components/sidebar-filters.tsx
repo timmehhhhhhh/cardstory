@@ -15,9 +15,13 @@ const WIRED_GAMES = GAMES.filter((g) => g.status === "WIRED");
 export function SidebarFilters({
   filters,
   onChange,
+  cardTypeOptions = [],
+  rarityOptions = [],
 }: {
   filters: ExploreFilters;
   onChange: (patch: Partial<ExploreFilters>) => void;
+  cardTypeOptions?: string[];
+  rarityOptions?: string[];
 }) {
   const [qDraft, setQDraft] = React.useState(filters.q);
   // Reset the draft when filters.q changes from outside this component
@@ -84,7 +88,7 @@ export function SidebarFilters({
         <h3 className="mb-2 text-sm font-semibold">Game</h3>
         <RadioGroup
           value={filters.game}
-          onValueChange={(v) => onChange({ game: v, page: 1 })}
+          onValueChange={(v) => onChange({ game: v, page: 1, rarity: "all" })}
           className="gap-2"
         >
           <label className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground">
@@ -122,6 +126,63 @@ export function SidebarFilters({
           </label>
         </RadioGroup>
       </div>
+
+      {cardTypeOptions.length > 0 && (
+        <>
+          <Separator />
+
+          <div>
+            <h3 className="mb-2 text-sm font-semibold">Card Type</h3>
+            <p className="mb-2 text-xs text-muted-foreground">
+              Currently only populated for Riftbound.
+            </p>
+            <RadioGroup
+              value={filters.cardType}
+              onValueChange={(v) => onChange({ cardType: v, page: 1 })}
+              className="gap-2"
+            >
+              <label className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground">
+                <RadioGroupItem value="all" /> All types
+              </label>
+              {cardTypeOptions.map((ct) => (
+                <label
+                  key={ct}
+                  className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground"
+                >
+                  <RadioGroupItem value={ct} /> {ct}
+                </label>
+              ))}
+            </RadioGroup>
+          </div>
+        </>
+      )}
+
+      {rarityOptions.length > 0 && (
+        <>
+          <Separator />
+
+          <div>
+            <h3 className="mb-2 text-sm font-semibold">Rarity</h3>
+            <RadioGroup
+              value={filters.rarity}
+              onValueChange={(v) => onChange({ rarity: v, page: 1 })}
+              className="gap-2 max-h-64 overflow-y-auto pr-1"
+            >
+              <label className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground">
+                <RadioGroupItem value="all" /> All rarities
+              </label>
+              {rarityOptions.map((r) => (
+                <label
+                  key={r}
+                  className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground"
+                >
+                  <RadioGroupItem value={r} /> {r}
+                </label>
+              ))}
+            </RadioGroup>
+          </div>
+        </>
+      )}
 
       <Separator />
 

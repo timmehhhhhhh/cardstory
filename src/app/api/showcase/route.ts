@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { auth } from "@/auth";
 import { db } from "@/lib/db";
 
 const itemSchema = z.object({
@@ -34,10 +35,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid showcase payload" }, { status: 400 });
   }
 
+  // ownerToken is still generated and returned even for a logged-in
+  // publisher — it stays the credential this browser uses to edit/delete
+  // the snapshot, so publishing doesn't require staying signed in from the
+  // same device. userId is recorded alongside it, additively.
+  const session = await auth();
   const ownerToken = randomUUID();
   const snapshot = await db.showcaseSnapshot.create({
     data: {
       ownerToken,
+      userId: session?.user?.id,
       title: parsed.data.title ?? parsed.data.payload.portfolioName,
       payload: parsed.data.payload,
     },

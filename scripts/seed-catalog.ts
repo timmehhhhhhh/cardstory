@@ -2,12 +2,17 @@
  * Curated catalog seed: upserts all 19 Game rows (per lib/games/registry),
  * then for each WIRED game pulls its sets and every card in them from the
  * real free APIs, storing both the catalog metadata AND today's real price
- * as the first PriceSnapshot row. Pokémon seeds its ENTIRE set history (no
- * cap, per SETS_CAP_OVERRIDE below); any other game defaults to just its 6
- * most recent sets.
+ * as the first PriceSnapshot row (when the provider has pricing — Riftbound
+ * currently doesn't, see lib/games/riftbound/mapper.ts). Pokémon and
+ * Riftbound both seed their ENTIRE set history (no cap, per
+ * SETS_CAP_OVERRIDE below); any other game defaults to just its 6 most
+ * recent sets.
  *
- * Run with: npx tsx scripts/seed-catalog.ts
- * Re-run any time — everything here is an upsert, so it's safe to repeat.
+ * Run with: npx tsx scripts/seed-catalog.ts [gameId]
+ * An optional gameId arg scopes the run to one game (e.g. `riftbound`) —
+ * handy for iterating without re-pulling Pokémon's entire multi-hundred-set
+ * history every time. Re-run any time — everything here is an upsert, so
+ * it's safe to repeat.
  */
 import { PrismaClient } from "@prisma/client";
 import { GAMES, GAME_PROVIDERS } from "@/lib/games/registry";
@@ -15,10 +20,11 @@ import { upsertPriceSnapshot } from "@/lib/pricing/snapshot";
 
 const DEFAULT_SETS_CAP = 6;
 // Per-game override: null = no cap (seed every set ever released).
-// Pokémon is special-cased here; any newly-wired game safely falls back to
-// DEFAULT_SETS_CAP instead of silently inheriting "no cap".
+// Pokémon and Riftbound are special-cased here; any newly-wired game safely
+// falls back to DEFAULT_SETS_CAP instead of silently inheriting "no cap".
 const SETS_CAP_OVERRIDE: Record<string, number | null> = {
   pokemon: null,
+  riftbound: null,
 };
 function setsCapFor(gameId: string): number | null {
   return gameId in SETS_CAP_OVERRIDE ? SETS_CAP_OVERRIDE[gameId] : DEFAULT_SETS_CAP;
@@ -95,6 +101,7 @@ async function seedGame(gameId: string) {
           name: card.name,
           number: card.number,
           rarity: card.rarity,
+          cardType: card.cardType,
           imageSmallUrl: card.imageSmallUrl,
           imageLargeUrl: card.imageLargeUrl,
           productType: card.productType,
@@ -104,6 +111,7 @@ async function seedGame(gameId: string) {
           name: card.name,
           number: card.number,
           rarity: card.rarity,
+          cardType: card.cardType,
           imageSmallUrl: card.imageSmallUrl,
           imageLargeUrl: card.imageLargeUrl,
         },
@@ -126,7 +134,12 @@ async function seedGame(gameId: string) {
 
 async function main() {
   await upsertGames();
-  for (const gameId of Object.keys(GAME_PROVIDERS)) {
+  const onlyGameId = process.argv[2];
+  if (onlyGameId && !GAME_PROVIDERS[onlyGameId]) {
+    throw new Error(`Unknown or unwired gameId "${onlyGameId}". Wired games: ${Object.keys(GAME_PROVIDERS).join(", ")}`);
+  }
+  const gameIds = onlyGameId ? [onlyGameId] : Object.keys(GAME_PROVIDERS);
+  for (const gameId of gameIds) {
     await seedGame(gameId);
   }
   console.log("\nCatalog seed complete.");

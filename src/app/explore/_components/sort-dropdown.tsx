@@ -16,6 +16,7 @@ const SORT_LABELS: Record<CatalogSort, string> = {
   price_asc: "Price: Low to High",
   trending_up: "Trending Up",
   trending_down: "Trending Down",
+  type_asc: "Card Type (A–Z)",
 };
 
 export function SortDropdown({

@@ -1,14 +1,17 @@
 import type { GameStatus } from "@prisma/client";
 import type { GameProvider } from "@/lib/games/types";
 import { pokemonProvider } from "@/lib/games/pokemon/client";
+import { riftboundProvider } from "@/lib/games/riftbound/client";
 
 /**
- * Every TCG shown on the /sets page. Only `pokemon` is WIRED — it has a
- * free, no-key API with real, ToS-safe pricing (pokemontcg.io). The rest
- * render as visible "Coming soon" tiles for visual parity with the real
- * app's Sets grid; adding a real provider for one later just means
- * implementing `GameProvider` and flipping its status here + in the seed
- * script.
+ * Every TCG shown on the /sets page. `pokemon` and `riftbound` are WIRED:
+ * pokemon has a free, no-key API with real, ToS-safe pricing (pokemontcg.io);
+ * riftbound has a free, no-key catalog API (riftcodex.com) but no pricing
+ * source yet, so its cards seed with no raw market price (see
+ * lib/games/riftbound/mapper.ts). The rest render as visible "Coming soon"
+ * tiles for visual parity with the real app's Sets grid; adding a real
+ * provider for one later just means implementing `GameProvider` and flipping
+ * its status here + in the seed script.
  *
  * `shortLabel` stands in for an official logo image: pokemontcg.io/Scryfall
  * give card art, not each publisher's trademarked logo, so the Sets grid
@@ -30,7 +33,7 @@ export const GAMES: GameMeta[] = [
   { id: "onepiece", name: "One Piece Card Game", shortLabel: "OP", status: "COMING_SOON", sortOrder: 3 },
   { id: "lorcana", name: "Disney Lorcana", shortLabel: "LOR", status: "COMING_SOON", sortOrder: 4 },
   { id: "fab", name: "Flesh and Blood", shortLabel: "FAB", status: "COMING_SOON", sortOrder: 5 },
-  { id: "riftbound", name: "Riftbound", shortLabel: "RB", status: "COMING_SOON", sortOrder: 6 },
+  { id: "riftbound", name: "Riftbound", shortLabel: "RB", status: "WIRED", sortOrder: 6 },
   { id: "dragonball-fw", name: "Dragon Ball Card Game", shortLabel: "DBCG", status: "COMING_SOON", sortOrder: 7 },
   { id: "digimon", name: "Digimon Card Game", shortLabel: "DIGI", status: "COMING_SOON", sortOrder: 8 },
   { id: "weiss-schwarz", name: "Weiss Schwarz", shortLabel: "W/S", status: "COMING_SOON", sortOrder: 9 },
@@ -47,6 +50,7 @@ export const GAMES: GameMeta[] = [
 
 export const GAME_PROVIDERS: Record<string, GameProvider> = {
   pokemon: pokemonProvider,
+  riftbound: riftboundProvider,
 };
 
 export function isWiredGame(gameId: string): boolean {
