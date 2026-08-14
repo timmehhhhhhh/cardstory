@@ -11,10 +11,14 @@ function headers(): HeadersInit {
 async function fetchJson<T>(url: string, attempt = 1): Promise<T> {
   const res = await fetch(url, { headers: headers() });
   if (!res.ok) {
-    // pokemontcg.io occasionally 500s transiently on specific set queries;
-    // a couple of retries with backoff clears most of them.
-    if (res.status >= 500 && attempt < 3) {
-      await new Promise((r) => setTimeout(r, attempt * 500));
+    // pokemontcg.io occasionally 500s transiently on specific set queries,
+    // and a full-catalog pull (~300 sequential requests) can also trip its
+    // rate limit (429) — retry both, honoring Retry-After when given.
+    const retryable = res.status === 429 || res.status >= 500;
+    if (retryable && attempt < 5) {
+      const retryAfterMs = Number(res.headers.get("retry-after")) * 1000;
+      const delay = Number.isFinite(retryAfterMs) && retryAfterMs > 0 ? retryAfterMs : attempt * 500;
+      await new Promise((r) => setTimeout(r, delay));
       return fetchJson<T>(url, attempt + 1);
     }
     throw new Error(`pokemontcg.io request failed (${res.status}): ${url}`);

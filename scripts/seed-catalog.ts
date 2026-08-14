@@ -1,8 +1,10 @@
 /**
  * Curated catalog seed: upserts all 19 Game rows (per lib/games/registry),
- * then for each WIRED game (Pokémon) pulls its N most recent sets and
- * every card in them from the real free APIs, storing both the catalog
- * metadata AND today's real price as the first PriceSnapshot row.
+ * then for each WIRED game pulls its sets and every card in them from the
+ * real free APIs, storing both the catalog metadata AND today's real price
+ * as the first PriceSnapshot row. Pokémon seeds its ENTIRE set history (no
+ * cap, per SETS_CAP_OVERRIDE below); any other game defaults to just its 6
+ * most recent sets.
  *
  * Run with: npx tsx scripts/seed-catalog.ts
  * Re-run any time — everything here is an upsert, so it's safe to repeat.
@@ -11,7 +13,17 @@ import { PrismaClient } from "@prisma/client";
 import { GAMES, GAME_PROVIDERS } from "@/lib/games/registry";
 import { upsertPriceSnapshot } from "@/lib/pricing/snapshot";
 
-const SETS_PER_GAME = 6;
+const DEFAULT_SETS_CAP = 6;
+// Per-game override: null = no cap (seed every set ever released).
+// Pokémon is special-cased here; any newly-wired game safely falls back to
+// DEFAULT_SETS_CAP instead of silently inheriting "no cap".
+const SETS_CAP_OVERRIDE: Record<string, number | null> = {
+  pokemon: null,
+};
+function setsCapFor(gameId: string): number | null {
+  return gameId in SETS_CAP_OVERRIDE ? SETS_CAP_OVERRIDE[gameId] : DEFAULT_SETS_CAP;
+}
+
 const db = new PrismaClient();
 
 async function upsertGames() {
@@ -30,13 +42,20 @@ async function seedGame(gameId: string) {
   if (!provider) return;
 
   console.log(`\n[${gameId}] fetching sets…`);
-  const sets = (await provider.fetchSets()).slice(0, SETS_PER_GAME);
-  console.log(`[${gameId}] seeding ${sets.length} most recent sets:`, sets.map((s) => s.code).join(", "));
+  const allSets = await provider.fetchSets();
+  const cap = setsCapFor(gameId);
+  const sets = cap != null ? allSets.slice(0, cap) : allSets;
+  console.log(
+    cap != null
+      ? `[${gameId}] seeding ${sets.length} most recent sets: ${sets.map((s) => s.code).join(", ")}`
+      : `[${gameId}] seeding all ${sets.length} sets (no cap)`
+  );
 
   let totalCards = 0;
   let totalPriced = 0;
+  const startTime = Date.now();
 
-  for (const set of sets) {
+  for (const [i, set] of sets.entries()) {
     const setId = `${gameId}:${set.code}`;
     await db.set.upsert({
       where: { id: setId },
@@ -96,7 +115,10 @@ async function seedGame(gameId: string) {
         totalPriced += 1;
       }
     }
-    console.log(`[${gameId}] ${set.code}: ${cards.length} cards`);
+    const elapsedMin = ((Date.now() - startTime) / 60000).toFixed(1);
+    console.log(
+      `[${gameId}] (${i + 1}/${sets.length}) ${set.code}: ${cards.length} cards (elapsed ${elapsedMin}m, ${totalCards} total so far)`
+    );
   }
 
   console.log(`[${gameId}] done — ${totalCards} cards, ${totalPriced} with a real price snapshot.`);
