@@ -1,15 +1,14 @@
 import type { GameStatus } from "@prisma/client";
 import type { GameProvider } from "@/lib/games/types";
 import { pokemonProvider } from "@/lib/games/pokemon/client";
-import { mtgProvider } from "@/lib/games/mtg/client";
 
 /**
- * Every TCG shown on the /sets page. Only `pokemon` and `mtg` are WIRED —
- * both have free, no-key APIs with real, ToS-safe pricing (pokemontcg.io,
- * Scryfall). The rest render as visible "Coming soon" tiles for visual
- * parity with the real app's Sets grid; adding a real provider for one
- * later just means implementing `GameProvider` and flipping its status
- * here + in the seed script.
+ * Every TCG shown on the /sets page. Only `pokemon` is WIRED — it has a
+ * free, no-key API with real, ToS-safe pricing (pokemontcg.io). The rest
+ * render as visible "Coming soon" tiles for visual parity with the real
+ * app's Sets grid; adding a real provider for one later just means
+ * implementing `GameProvider` and flipping its status here + in the seed
+ * script.
  *
  * `shortLabel` stands in for an official logo image: pokemontcg.io/Scryfall
  * give card art, not each publisher's trademarked logo, so the Sets grid
@@ -26,7 +25,7 @@ export interface GameMeta {
 
 export const GAMES: GameMeta[] = [
   { id: "pokemon", name: "Pokémon", shortLabel: "PKMN", status: "WIRED", sortOrder: 0 },
-  { id: "mtg", name: "Magic: The Gathering", shortLabel: "MTG", status: "WIRED", sortOrder: 1 },
+  { id: "mtg", name: "Magic: The Gathering", shortLabel: "MTG", status: "COMING_SOON", sortOrder: 1 },
   { id: "yugioh", name: "Yu-Gi-Oh!", shortLabel: "YGO", status: "COMING_SOON", sortOrder: 2 },
   { id: "onepiece", name: "One Piece Card Game", shortLabel: "OP", status: "COMING_SOON", sortOrder: 3 },
   { id: "lorcana", name: "Disney Lorcana", shortLabel: "LOR", status: "COMING_SOON", sortOrder: 4 },
@@ -48,7 +47,6 @@ export const GAMES: GameMeta[] = [
 
 export const GAME_PROVIDERS: Record<string, GameProvider> = {
   pokemon: pokemonProvider,
-  mtg: mtgProvider,
 };
 
 export function isWiredGame(gameId: string): boolean {
