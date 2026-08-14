@@ -1,7 +1,7 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
 export interface ScanIdentification {
-  gameGuess: "pokemon" | "mtg" | "other" | null;
+  gameGuess: "pokemon" | "other" | null;
   cardName: string | null;
   setNameOrSymbol: string | null;
   cardNumber: string | null;
@@ -13,7 +13,7 @@ const responseSchema = {
   properties: {
     game_guess: {
       type: Type.STRING,
-      enum: ["pokemon", "mtg", "other"],
+      enum: ["pokemon", "other"],
       description: "Which trading card game this card is from, best guess.",
     },
     card_name: { type: Type.STRING, description: "The card's printed name." },
@@ -33,7 +33,7 @@ const responseSchema = {
   required: ["game_guess", "card_name", "confidence"],
 };
 
-const PROMPT = `You are identifying a single physical trading card (Pokémon or Magic: The Gathering) from a photo for a collector's cataloging app. Read the exact printed card name, the set name or set symbol, and the collector number if visible. If the photo doesn't clearly show a single trading card, set card_name to null and confidence to 0.`;
+const PROMPT = `You are identifying a single physical Pokémon trading card from a photo for a collector's cataloging app. Read the exact printed card name, the set name or set symbol, and the collector number if visible. If the photo doesn't clearly show a single trading card, set card_name to null and confidence to 0.`;
 
 /** Returns null if no API key is configured — callers must fall back to manual search. */
 export async function identifyCardFromImage(
@@ -73,8 +73,7 @@ export async function identifyCardFromImage(
   };
 
   return {
-    gameGuess:
-      parsed.game_guess === "pokemon" || parsed.game_guess === "mtg" ? parsed.game_guess : "other",
+    gameGuess: parsed.game_guess === "pokemon" ? parsed.game_guess : "other",
     cardName: parsed.card_name ?? null,
     setNameOrSymbol: parsed.set_name_or_symbol ?? null,
     cardNumber: parsed.card_number ?? null,

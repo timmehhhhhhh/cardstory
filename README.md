@@ -6,9 +6,9 @@ Built with Next.js (App Router) + TypeScript + Tailwind + Prisma/Postgres. See [
 
 ## What's real vs. what's a deliberate limitation
 
-- **Card data & prices are real** — pulled from [pokemontcg.io](https://pokemontcg.io) (Pokémon) and [Scryfall](https://scryfall.com) (Magic: The Gathering), both free and ToS-safe. No scraping, no fabricated numbers.
+- **Card data & prices are real** — pulled from [pokemontcg.io](https://pokemontcg.io) (Pokémon), free and ToS-safe. No scraping, no fabricated numbers.
 - **Price history grows from launch day** — a daily snapshot job records one real price per card per day. There is no backfilled history; charts start short and get longer the longer the app runs.
-- **Only Pokémon + MTG are fully wired.** The Sets page shows all ~19 major TCGs for visual parity with the real app, but the other 17 are marked "Coming soon" — no free, ToS-safe pricing API exists for them yet.
+- **Only Pokémon is fully wired.** The Sets page shows all ~19 major TCGs for visual parity with the real app, but the other 18 are marked "Coming soon" — no free, ToS-safe pricing API exists for them yet.
 - **No accounts.** Portfolios live in the browser's `localStorage`. Clearing site data loses them (Showcase links, published separately, survive that).
 - **Scan** uses Google Gemini's vision API to read a photographed card, then fuzzy-matches it against the catalog above. If no `GEMINI_API_KEY` is set (or the call fails), it falls back to manual search — never a dead end.
 - **Graded prices** (PSA/CGC/SGC/BGS tiers) come from [PriceCharting's official API](https://www.pricecharting.com/api-documentation) — real, documented, not scraping, but a paid product with no free tier. Fetched on-demand from the card detail page (not a bulk job — PriceCharting rate-limits to 1 request/sec, so syncing the whole catalog isn't practical) and cached for the day. Without `PRICECHARTING_API_KEY`, the panel just says so.
@@ -33,7 +33,7 @@ npx prisma migrate dev
 
 ### 2. Seed the catalog
 
-Pulls real Pokémon + MTG card data (and today's real prices) from the free APIs above into your database:
+Pulls real Pokémon card data (and today's real prices) from the free API above into your database:
 
 ```bash
 npm run seed:catalog
@@ -74,7 +74,7 @@ In production, `vercel.json` schedules this daily via Vercel Cron against `POST 
 ## Project structure
 
 - `src/app/` — routes (`explore`, `sets`, `card/[game]/[cardId]`, `portfolio`, `trade-analyzer`, `showcase/[shareId]`, `scan`) and API routes under `api/`.
-- `src/lib/games/` — one adapter per TCG (`pokemon/`, `mtg/`), unified behind `registry.ts` so adding another game later means implementing `GameProvider` and flipping its status.
+- `src/lib/games/` — one adapter per TCG (currently just `pokemon/`), unified behind `registry.ts` so adding another game later means implementing `GameProvider` and flipping its status.
 - `src/lib/pricing/` — the daily snapshot job, price-history reads, `pricecharting/` + `sportscardspro/` (the optional graded/sports-card adapters), and `pricecharting-family/` (their shared rate-limited client).
 - `src/lib/sportscards/` — sports card creation/lookup logic and best-effort product-name parsing.
 - `src/lib/portfolio/` — the local-only (`localStorage`) portfolio store and its selectors (handles both TCG and sports card holdings).

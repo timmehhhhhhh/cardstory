@@ -1,6 +1,6 @@
 /**
  * Curated catalog seed: upserts all 19 Game rows (per lib/games/registry),
- * then for each WIRED game (Pokémon, MTG) pulls its N most recent sets and
+ * then for each WIRED game (Pokémon) pulls its N most recent sets and
  * every card in them from the real free APIs, storing both the catalog
  * metadata AND today's real price as the first PriceSnapshot row.
  *

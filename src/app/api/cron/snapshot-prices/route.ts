@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { runDailySnapshot } from "@/lib/pricing/run-daily-snapshot";
 import { runSportsCardSnapshot } from "@/lib/pricing/run-sports-card-snapshot";
 
-// Real per-set card fetches (esp. MTG's bulk pagination) can run long;
-// give the route more headroom than the 10s Hobby default where supported.
+// Real per-set card fetches can run long; give the route more headroom
+// than the 10s Hobby default where supported.
 export const maxDuration = 120;
 
 function isAuthorized(req: NextRequest): boolean {
