@@ -33,9 +33,12 @@ export function PortfolioClient() {
   }
 
   const filteredRows = React.useMemo(() => {
+    const playerQuery = filters.player.trim().toLowerCase();
     return rows.filter((r) => {
       if (filters.watchlistOnly && !(r.catalogItemId && watchlist.includes(r.catalogItemId))) return false;
       if (filters.gameId !== "all" && r.catalogItem?.gameId !== filters.gameId) return false;
+      if (filters.sport !== "all" && r.sportsCardItem?.sport !== filters.sport) return false;
+      if (playerQuery && !r.sportsCardItem?.playerName?.toLowerCase().includes(playerQuery)) return false;
       if (filters.productType !== "all" && r.catalogItem?.productType !== filters.productType) return false;
       if (filters.condition !== "all" && r.condition !== filters.condition) return false;
       if (filters.language !== "all" && r.language !== filters.language) return false;

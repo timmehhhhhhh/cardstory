@@ -6,6 +6,7 @@ const bodySchema = z.object({
   priceChartingId: z.string().optional(),
   sport: z.enum(["NBA", "F1", "UFC", "TENNIS"]),
   year: z.number().int().optional(),
+  distributor: z.string().optional(),
   setName: z.string().min(1),
   playerName: z.string().min(1),
   teamName: z.string().optional(),

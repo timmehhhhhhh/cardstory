@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/select";
 import { usePortfolioStore } from "@/lib/portfolio/store";
 import { SPORTS } from "@/lib/sports/registry";
+import { COMMON_DISTRIBUTORS } from "@/lib/sportscards/distributors";
 import { formatMoney } from "@/lib/utils/format";
 import type { CardCondition, ItemLanguage } from "@/lib/portfolio/types";
 
@@ -49,8 +50,12 @@ export function AddSportsCardDialog() {
   const [matchedPriceChartingId, setMatchedPriceChartingId] = React.useState<string | null>(null);
   const [matchedPrice, setMatchedPrice] = React.useState<number | null>(null);
 
-  // Form state (prefillable from a search match, always editable)
+  // Form state (prefillable from a search match, always editable). Year,
+  // distributor, and set name are kept as separate fields — not one
+  // free-text box — specifically so the display order "[year]
+  // [distributor] [setName]" is structural, not dependent on typing order.
   const [year, setYear] = React.useState("");
+  const [distributor, setDistributor] = React.useState("");
   const [setName, setSetName] = React.useState("");
   const [playerName, setPlayerName] = React.useState("");
   const [teamName, setTeamName] = React.useState("");
@@ -60,6 +65,7 @@ export function AddSportsCardDialog() {
   const [isRelic, setIsRelic] = React.useState(false);
   const [serialNumber, setSerialNumber] = React.useState("");
   const [serialLimit, setSerialLimit] = React.useState("");
+  const [imageUrl, setImageUrl] = React.useState("");
 
   const [quantity, setQuantity] = React.useState(1);
   const [condition, setCondition] = React.useState<CardCondition>("raw");
@@ -105,6 +111,7 @@ export function AddSportsCardDialog() {
       if (data.suggested.cardNumber) setCardNumber(data.suggested.cardNumber);
       if (data.suggested.parallelName) setParallelName(data.suggested.parallelName);
       if (data.suggested.year) setYear(String(data.suggested.year));
+      if (data.suggested.distributor) setDistributor(data.suggested.distributor);
       if (data.suggested.setName) setSetName(data.suggested.setName);
       if (data.values?.loosePrice != null) setCostBasis(data.values.loosePrice.toFixed(2));
       setCandidates([]);
@@ -119,6 +126,7 @@ export function AddSportsCardDialog() {
     setMatchedPriceChartingId(null);
     setMatchedPrice(null);
     setYear("");
+    setDistributor("");
     setSetName("");
     setPlayerName("");
     setTeamName("");
@@ -128,6 +136,7 @@ export function AddSportsCardDialog() {
     setIsRelic(false);
     setSerialNumber("");
     setSerialLimit("");
+    setImageUrl("");
     setQuantity(1);
     setCondition("raw");
     setCostBasis("");
@@ -144,6 +153,7 @@ export function AddSportsCardDialog() {
           priceChartingId: matchedPriceChartingId ?? undefined,
           sport,
           year: year ? Number(year) : undefined,
+          distributor: distributor.trim() || undefined,
           setName: setName.trim(),
           playerName: playerName.trim(),
           teamName: teamName.trim() || undefined,
@@ -152,6 +162,7 @@ export function AddSportsCardDialog() {
           isAutograph,
           isRelic,
           serialLimit: serialLimit.trim() || undefined,
+          imageUrl: imageUrl.trim() || undefined,
         }),
       });
       if (!res.ok) return;
@@ -276,37 +287,71 @@ export function AddSportsCardDialog() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="grid gap-1.5">
-              <Label htmlFor="sc-year">Year</Label>
-              <Input id="sc-year" type="number" value={year} onChange={(e) => setYear(e.target.value)} className="bg-background" />
+          <div>
+            <p className="mb-1.5 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Set — shown as [Year] [Distributor] [Set Name]
+            </p>
+            <div className="grid grid-cols-[1fr_1.4fr_1.4fr] gap-2">
+              <div className="grid gap-1.5">
+                <Label htmlFor="sc-year">Year</Label>
+                <Input
+                  id="sc-year"
+                  type="number"
+                  value={year}
+                  onChange={(e) => setYear(e.target.value)}
+                  placeholder="2020"
+                  className="bg-background"
+                />
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="sc-distributor">Distributor</Label>
+                <Input
+                  id="sc-distributor"
+                  list="sc-distributor-list"
+                  value={distributor}
+                  onChange={(e) => setDistributor(e.target.value)}
+                  placeholder="Panini"
+                  className="bg-background"
+                />
+                <datalist id="sc-distributor-list">
+                  {COMMON_DISTRIBUTORS.map((d) => (
+                    <option key={d} value={d} />
+                  ))}
+                </datalist>
+              </div>
+              <div className="grid gap-1.5">
+                <Label htmlFor="sc-set">Set name *</Label>
+                <Input
+                  id="sc-set"
+                  value={setName}
+                  onChange={(e) => setSetName(e.target.value)}
+                  placeholder="Mosaic"
+                  className="bg-background"
+                />
+              </div>
             </div>
+            {(year || distributor || setName) && (
+              <p className="mt-1.5 text-xs text-muted-foreground">
+                Shown as &quot;{[year, distributor, setName].filter(Boolean).join(" ") || "…"}&quot;
+              </p>
+            )}
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-1.5">
               <Label htmlFor="sc-number">Card #</Label>
               <Input id="sc-number" value={cardNumber} onChange={(e) => setCardNumber(e.target.value)} className="bg-background" />
             </div>
-          </div>
-
-          <div className="grid gap-1.5">
-            <Label htmlFor="sc-set">Set / product *</Label>
-            <Input
-              id="sc-set"
-              value={setName}
-              onChange={(e) => setSetName(e.target.value)}
-              placeholder="e.g. 2023 Panini Prizm Basketball"
-              className="bg-background"
-            />
-          </div>
-
-          <div className="grid gap-1.5">
-            <Label htmlFor="sc-parallel">Parallel</Label>
-            <Input
-              id="sc-parallel"
-              value={parallelName}
-              onChange={(e) => setParallelName(e.target.value)}
-              placeholder="Leave blank for Base"
-              className="bg-background"
-            />
+            <div className="grid gap-1.5">
+              <Label htmlFor="sc-parallel">Parallel</Label>
+              <Input
+                id="sc-parallel"
+                value={parallelName}
+                onChange={(e) => setParallelName(e.target.value)}
+                placeholder="Leave blank for Base"
+                className="bg-background"
+              />
+            </div>
           </div>
 
           <div className="flex gap-6">
@@ -316,6 +361,17 @@ export function AddSportsCardDialog() {
             <label className="flex items-center gap-2 text-sm">
               <Checkbox checked={isRelic} onCheckedChange={(v) => setIsRelic(!!v)} /> Relic / memorabilia
             </label>
+          </div>
+
+          <div className="grid gap-1.5">
+            <Label htmlFor="sc-image">Image URL</Label>
+            <Input
+              id="sc-image"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+              placeholder="https://… (optional — you can add one later too)"
+              className="bg-background"
+            />
           </div>
 
           <div className="grid grid-cols-2 gap-4">

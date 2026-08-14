@@ -14,12 +14,12 @@ export async function GET(
   }
 
   const { playerName, cardNumber, parallelName } = parseProductName(product["product-name"] ?? "");
-  const { year, setName } = parseConsoleName(product["console-name"] ?? "");
+  const { year, distributor, setName } = parseConsoleName(product["console-name"] ?? "");
 
   return NextResponse.json({
     found: true,
     priceChartingId: product.id,
-    suggested: { playerName, cardNumber, parallelName, year, setName },
+    suggested: { playerName, cardNumber, parallelName, year, distributor, setName },
     values: mapPriceChartingProduct(product),
   });
 }

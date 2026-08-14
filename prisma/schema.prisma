@@ -172,8 +172,16 @@ model GradedPriceSnapshot {
 model SportsCardItem {
   id           String   @id @default(cuid())
   sport        Sport
+  /// Always displayed/stored together as "[year] [distributor] [setName]",
+  /// e.g. "2020 Panini Mosaic" — kept as three separate fields (rather than
+  /// one free-text set name) specifically so that order is structural, not
+  /// dependent on how a user happens to type it.
   year         Int?
-  setName      String // e.g. "2023 Panini Prizm Basketball"
+  /// The manufacturer, e.g. "Panini", "Topps", "Upper Deck".
+  distributor  String?
+  /// Just the product line name, e.g. "Mosaic", "Prizm", "Chrome" — NOT
+  /// prefixed with year/distributor; see the note above.
+  setName      String
   playerName   String
   teamName     String?
   cardNumber   String?

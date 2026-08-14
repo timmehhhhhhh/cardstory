@@ -9,6 +9,9 @@ export interface SportsCardItemInput {
   priceChartingId?: string;
   sport: Sport;
   year?: number;
+  /** Manufacturer, e.g. "Panini", "Topps", "Upper Deck". */
+  distributor?: string;
+  /** Just the product line, e.g. "Mosaic" — displayed as "[year] [distributor] [setName]". */
   setName: string;
   playerName: string;
   teamName?: string;
@@ -38,6 +41,7 @@ export async function createOrReuseSportsCardItem(input: SportsCardItemInput): P
     data: {
       sport: input.sport,
       year: input.year,
+      distributor: input.distributor,
       setName: input.setName,
       playerName: input.playerName,
       teamName: input.teamName,
@@ -72,6 +76,7 @@ export interface SportsCardItemDetail {
   id: string;
   sport: Sport;
   year: number | null;
+  distributor: string | null;
   setName: string;
   playerName: string;
   teamName: string | null;
@@ -85,13 +90,28 @@ export interface SportsCardItemDetail {
   priceChangePct: number | null;
 }
 
-export async function getSportsCardItemsByIds(ids: string[]): Promise<SportsCardItemDetail[]> {
-  if (ids.length === 0) return [];
-  const rows = await db.sportsCardItem.findMany({ where: { id: { in: ids } } });
-  return rows.map((r) => ({
+function toDetail(r: {
+  id: string;
+  sport: Sport;
+  year: number | null;
+  distributor: string | null;
+  setName: string;
+  playerName: string;
+  teamName: string | null;
+  cardNumber: string | null;
+  parallelName: string | null;
+  isAutograph: boolean;
+  isRelic: boolean;
+  serialLimit: string | null;
+  imageUrl: string | null;
+  latestPriceRaw: unknown;
+  priceChangePct: number | null;
+}): SportsCardItemDetail {
+  return {
     id: r.id,
     sport: r.sport,
     year: r.year,
+    distributor: r.distributor,
     setName: r.setName,
     playerName: r.playerName,
     teamName: r.teamName,
@@ -103,5 +123,17 @@ export async function getSportsCardItemsByIds(ids: string[]): Promise<SportsCard
     imageUrl: r.imageUrl,
     priceRaw: r.latestPriceRaw != null ? Number(r.latestPriceRaw) : null,
     priceChangePct: r.priceChangePct,
-  }));
+  };
+}
+
+export async function getSportsCardItemsByIds(ids: string[]): Promise<SportsCardItemDetail[]> {
+  if (ids.length === 0) return [];
+  const rows = await db.sportsCardItem.findMany({ where: { id: { in: ids } } });
+  return rows.map(toDetail);
+}
+
+/** Currently only supports attaching/replacing an image — see /api/sportscards/[id]. */
+export async function updateSportsCardImage(id: string, imageUrl: string): Promise<SportsCardItemDetail | null> {
+  const updated = await db.sportsCardItem.update({ where: { id }, data: { imageUrl } }).catch(() => null);
+  return updated ? toDetail(updated) : null;
 }

@@ -44,13 +44,13 @@ function buildDisplay(
   if (holdingKind(holding) === "sports" && sportsCardItem) {
     const sport = getSportMeta(sportsCardItem.sport);
     const parallelBit = sportsCardItem.parallelName ? ` · ${sportsCardItem.parallelName}` : " · Base";
-    // setName is free text and commonly already starts with the year
-    // (the form's own placeholder is "2023 Panini Prizm Basketball"), so
-    // only prepend `year` separately when it isn't already in there.
-    const setBit =
-      sportsCardItem.year && !sportsCardItem.setName.includes(String(sportsCardItem.year))
-        ? `${sportsCardItem.year} ${sportsCardItem.setName}`
-        : sportsCardItem.setName;
+    // Always rendered in the structural order [year] [distributor]
+    // [setName], e.g. "2020 Panini Mosaic" — year/distributor/setName are
+    // stored as separate fields specifically so this order never depends
+    // on how a user happened to type a single free-text set field.
+    const setBit = [sportsCardItem.year, sportsCardItem.distributor, sportsCardItem.setName]
+      .filter(Boolean)
+      .join(" ");
     return {
       name: sportsCardItem.playerName,
       subtitle: `${setBit}${parallelBit}${serialSuffix(holding, sportsCardItem)}`,

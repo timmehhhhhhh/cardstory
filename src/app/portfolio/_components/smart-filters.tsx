@@ -1,7 +1,9 @@
 "use client";
 
-import { Star } from "lucide-react";
+import * as React from "react";
+import { Search, Star, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -10,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { GAMES } from "@/lib/games/registry";
+import { SPORTS } from "@/lib/sports/registry";
 import type { HoldingFilters } from "@/app/portfolio/_components/types";
 
 const WIRED_GAMES = GAMES.filter((g) => g.status === "WIRED");
@@ -21,6 +24,24 @@ export function SmartFilters({
   filters: HoldingFilters;
   onChange: (patch: Partial<HoldingFilters>) => void;
 }) {
+  const [playerDraft, setPlayerDraft] = React.useState(filters.player);
+  // Reset the draft when filters.player changes from outside this component
+  // — adjusted during render (not in an effect) per
+  // https://react.dev/learn/you-might-not-need-an-effect.
+  const [prevPlayer, setPrevPlayer] = React.useState(filters.player);
+  if (filters.player !== prevPlayer) {
+    setPrevPlayer(filters.player);
+    setPlayerDraft(filters.player);
+  }
+
+  React.useEffect(() => {
+    const t = setTimeout(() => {
+      if (playerDraft !== filters.player) onChange({ player: playerDraft });
+    }, 300);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [playerDraft]);
+
   return (
     <div className="flex flex-wrap items-center gap-2">
       <button
@@ -49,6 +70,43 @@ export function SmartFilters({
           ))}
         </SelectContent>
       </Select>
+
+      <Select value={filters.sport} onValueChange={(v) => onChange({ sport: v })}>
+        <SelectTrigger size="sm" className="w-32 bg-surface border-border">
+          <SelectValue placeholder="Sport" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">All sports</SelectItem>
+          {SPORTS.map((s) => (
+            <SelectItem key={s.id} value={s.id}>
+              {s.name}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+
+      <div className="relative">
+        <Search className="pointer-events-none absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
+        <Input
+          value={playerDraft}
+          onChange={(e) => setPlayerDraft(e.target.value)}
+          placeholder="Player"
+          className="h-8 w-36 bg-surface border-border pl-7 pr-7 text-sm"
+        />
+        {playerDraft && (
+          <button
+            type="button"
+            aria-label="Clear player filter"
+            onClick={() => {
+              setPlayerDraft("");
+              onChange({ player: "" });
+            }}
+            className="absolute right-1.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+          >
+            <X className="size-3.5" />
+          </button>
+        )}
+      </div>
 
       <Select
         value={filters.productType}

@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 import { usePortfolioStore } from "@/lib/portfolio/store";
 import { formatMoney, formatPct } from "@/lib/utils/format";
+import { SportsCardImageDialog } from "@/components/sportscards/sports-card-image-dialog";
 import type { EnrichedHolding } from "@/lib/portfolio/selectors";
 
 export function ItemGrid({
@@ -41,21 +42,26 @@ export function ItemGrid({
     <div className="flex flex-col gap-2">
       {rows.map((r) => {
         const positive = r.gainLoss >= 0;
-        const content = (
-          <>
-            <div className="relative h-14 w-10 flex-none overflow-hidden rounded bg-muted">
-              {r.display.imageUrl && (
-                <Image src={r.display.imageUrl} alt="" fill unoptimized className="object-contain" />
-              )}
-            </div>
-            <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-medium">{r.display.name}</p>
-              <p className="truncate text-xs text-muted-foreground">
-                {r.display.subtitle} · Qty {r.quantity}
-                {r.condition === "graded" && ` · ${r.gradeCompany ?? ""} ${r.gradeValue ?? ""}`}
-              </p>
-            </div>
-          </>
+        const needsImage = !r.display.imageUrl && r.sportsCardItem;
+
+        const image = (
+          <div className="relative h-14 w-10 flex-none overflow-hidden rounded bg-muted">
+            {r.display.imageUrl ? (
+              <Image src={r.display.imageUrl} alt="" fill unoptimized className="object-contain" />
+            ) : needsImage ? (
+              <SportsCardImageDialog sportsCardItemId={r.sportsCardItem!.id} />
+            ) : null}
+          </div>
+        );
+
+        const details = (
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-sm font-medium">{r.display.name}</p>
+            <p className="truncate text-xs text-muted-foreground">
+              {r.display.subtitle} · Qty {r.quantity}
+              {r.condition === "graded" && ` · ${r.gradeCompany ?? ""} ${r.gradeValue ?? ""}`}
+            </p>
+          </div>
         );
 
         return (
@@ -70,12 +76,13 @@ export function ItemGrid({
                 aria-label="Select item"
               />
             )}
+            {image}
             {r.display.href ? (
               <Link href={r.display.href} className="flex min-w-0 flex-1 items-center gap-3">
-                {content}
+                {details}
               </Link>
             ) : (
-              <div className="flex min-w-0 flex-1 items-center gap-3">{content}</div>
+              <div className="flex min-w-0 flex-1 items-center gap-3">{details}</div>
             )}
             <div className="w-24 flex-none text-right">
               <p className="num-tabular text-sm font-semibold">{formatMoney(r.marketValue, currency)}</p>
