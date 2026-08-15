@@ -22,16 +22,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { CardPhotoField } from "@/components/portfolio/card-photo-field";
 import { usePortfolioStore } from "@/lib/portfolio/store";
 import type { CardCondition, ItemLanguage } from "@/lib/portfolio/types";
 
 export function AddHoldingDialog({
   catalogItemId,
+  sportsCardItemId,
   cardName,
   suggestedPrice,
   trigger,
 }: {
-  catalogItemId: string;
+  catalogItemId?: string;
+  sportsCardItemId?: string;
   cardName: string;
   suggestedPrice: number | null;
   trigger?: React.ReactNode;
@@ -44,6 +47,7 @@ export function AddHoldingDialog({
   const [language, setLanguage] = React.useState<ItemLanguage>("EN");
   const [costBasis, setCostBasis] = React.useState(suggestedPrice?.toFixed(2) ?? "");
   const [acquiredAt, setAcquiredAt] = React.useState(() => new Date().toISOString().slice(0, 10));
+  const [imageUrl, setImageUrl] = React.useState("");
 
   const portfolios = usePortfolioStore((s) => s.portfolios);
   const activePortfolioId = usePortfolioStore((s) => s.activePortfolioId);
@@ -61,8 +65,9 @@ export function AddHoldingDialog({
 
   function handleAdd() {
     addHolding(portfolioId, {
-      kind: "tcg",
+      kind: sportsCardItemId ? "sports" : "tcg",
       catalogItemId,
+      sportsCardItemId,
       quantity: Math.max(1, quantity),
       condition,
       gradeCompany: condition === "graded" ? gradeCompany : undefined,
@@ -71,6 +76,7 @@ export function AddHoldingDialog({
       costBasisTotal: Number(costBasis) || 0,
       costBasisCurrency: "USD",
       acquiredAt: new Date(acquiredAt).toISOString(),
+      imageUrl: imageUrl.trim() || undefined,
     });
     setOpen(false);
   }
@@ -174,6 +180,14 @@ export function AddHoldingDialog({
               </div>
             </div>
           )}
+
+          <CardPhotoField
+            id="holding-image"
+            label="Photo of your card (optional)"
+            helperText="Shown instead of the catalog image throughout your portfolio."
+            value={imageUrl}
+            onChange={setImageUrl}
+          />
 
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-1.5">

@@ -5,17 +5,23 @@ import { usePortfolioStore } from "@/lib/portfolio/store";
 
 export function CollectionPanel({
   catalogItemId,
+  sportsCardItemId,
   cardName,
   suggestedPrice,
 }: {
-  catalogItemId: string;
+  catalogItemId?: string;
+  sportsCardItemId?: string;
   cardName: string;
   suggestedPrice: number | null;
 }) {
   const ownedQuantity = usePortfolioStore((s) => {
     const active = s.portfolios.find((p) => p.id === s.activePortfolioId);
     return active?.holdings
-      .filter((h) => h.catalogItemId === catalogItemId)
+      .filter(
+        (h) =>
+          (catalogItemId && h.catalogItemId === catalogItemId) ||
+          (sportsCardItemId && h.sportsCardItemId === sportsCardItemId)
+      )
       .reduce((sum, h) => sum + h.quantity, 0);
   });
 
@@ -27,6 +33,7 @@ export function CollectionPanel({
       </p>
       <AddHoldingDialog
         catalogItemId={catalogItemId}
+        sportsCardItemId={sportsCardItemId}
         cardName={cardName}
         suggestedPrice={suggestedPrice}
       />

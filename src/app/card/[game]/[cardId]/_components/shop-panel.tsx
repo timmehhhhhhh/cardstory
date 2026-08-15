@@ -1,17 +1,28 @@
 import { ExternalLink } from "lucide-react";
+import { getGameMeta } from "@/lib/games/registry";
 
 /**
  * Deliberately does NOT show fabricated marketplace listings/prices — the
- * price above is a real snapshot from pokemontcg.io/Scryfall, but this app
- * has no live listings feed. These are real outbound search links to the
- * actual marketplaces, not invented data.
+ * price above is a real snapshot from pokemontcg.io/Scryfall/SportsCardsPro,
+ * but this app has no live listings feed. These are real outbound search
+ * links to the actual marketplaces, not invented data.
  */
-export function ShopPanel({ cardName }: { cardName: string; gameId: string }) {
+export function ShopPanel({ cardName, gameId }: { cardName: string; gameId: string }) {
   const q = encodeURIComponent(cardName);
-  const links = [
-    { label: "Search on TCGplayer", href: `https://www.tcgplayer.com/search/pokemon/product?q=${q}` },
-    { label: "Search on Cardmarket", href: `https://www.cardmarket.com/en/Pokemon/Products/Search?searchString=${q}` },
-  ];
+  const isSports = getGameMeta(gameId)?.kind === "sports";
+
+  const links = isSports
+    ? [
+        { label: "Search on eBay", href: `https://www.ebay.com/sch/i.html?_nkw=${q}` },
+        { label: "Search on COMC", href: `https://www.comc.com/Cards,,,,,${q}` },
+      ]
+    : [
+        { label: "Search on TCGplayer", href: `https://www.tcgplayer.com/search/pokemon/product?q=${q}` },
+        {
+          label: "Search on Cardmarket",
+          href: `https://www.cardmarket.com/en/Pokemon/Products/Search?searchString=${q}`,
+        },
+      ];
 
   return (
     <div className="rounded-xl border border-border bg-surface p-4">

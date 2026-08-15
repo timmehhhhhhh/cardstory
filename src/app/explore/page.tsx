@@ -21,6 +21,7 @@ export default async function ExplorePage({
       productType: filters.type !== "all" ? filters.type : undefined,
       cardType: filters.cardType !== "all" ? filters.cardType : undefined,
       rarity: filters.rarity !== "all" ? filters.rarity : undefined,
+      baseOnly: filters.baseOnly,
       sort: filters.sort,
       page: filters.page,
     }),

@@ -23,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CardPhotoField } from "@/components/portfolio/card-photo-field";
 import { usePortfolioStore } from "@/lib/portfolio/store";
 import { SPORTS } from "@/lib/sports/registry";
 import { COMMON_DISTRIBUTORS } from "@/lib/sportscards/distributors";
@@ -66,6 +67,7 @@ export function AddSportsCardDialog() {
   const [serialNumber, setSerialNumber] = React.useState("");
   const [serialLimit, setSerialLimit] = React.useState("");
   const [imageUrl, setImageUrl] = React.useState("");
+  const [holdingImageUrl, setHoldingImageUrl] = React.useState("");
 
   const [quantity, setQuantity] = React.useState(1);
   const [condition, setCondition] = React.useState<CardCondition>("raw");
@@ -137,6 +139,7 @@ export function AddSportsCardDialog() {
     setSerialNumber("");
     setSerialLimit("");
     setImageUrl("");
+    setHoldingImageUrl("");
     setQuantity(1);
     setCondition("raw");
     setCostBasis("");
@@ -180,6 +183,7 @@ export function AddSportsCardDialog() {
         costBasisTotal: Number(costBasis) || 0,
         costBasisCurrency: "USD",
         acquiredAt: new Date(acquiredAt).toISOString(),
+        imageUrl: holdingImageUrl.trim() || undefined,
       });
 
       resetForm();
@@ -363,16 +367,13 @@ export function AddSportsCardDialog() {
             </label>
           </div>
 
-          <div className="grid gap-1.5">
-            <Label htmlFor="sc-image">Image URL</Label>
-            <Input
-              id="sc-image"
-              value={imageUrl}
-              onChange={(e) => setImageUrl(e.target.value)}
-              placeholder="https://… (optional — you can add one later too)"
-              className="bg-background"
-            />
-          </div>
+          <CardPhotoField
+            id="sc-image"
+            label="Card image (optional)"
+            helperText="Shown for this card everywhere it appears — you can also add one later."
+            value={imageUrl}
+            onChange={setImageUrl}
+          />
 
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-1.5">
@@ -401,6 +402,14 @@ export function AddSportsCardDialog() {
               Shown as {serialNumber || "?"}/{serialLimit || "?"}
             </p>
           )}
+
+          <CardPhotoField
+            id="sc-holding-image"
+            label="Photo of your copy (optional)"
+            helperText="Your own photo — takes priority over the card image above in your portfolio."
+            value={holdingImageUrl}
+            onChange={setHoldingImageUrl}
+          />
 
           {portfolios.length > 1 && (
             <div className="grid gap-1.5">

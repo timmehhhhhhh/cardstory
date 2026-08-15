@@ -20,6 +20,7 @@ import type { LameloCardEntry } from "./data/lamelo-ball/types";
 import { SEASON_2020_21 } from "./data/lamelo-ball/2020-21";
 import { SEASON_2021_22 } from "./data/lamelo-ball/2021-22";
 import { SEASON_2022_23 } from "./data/lamelo-ball/2022-23";
+import { lookupReleaseDate } from "./data/lamelo-ball/release-dates";
 
 const PLAYER_NAME = "LaMelo Ball";
 const TEAM_NAME = "Charlotte Hornets";
@@ -32,6 +33,13 @@ const SEASON_FILES: { season: string; entries: LameloCardEntry[] }[] = [
 ];
 
 async function seedEntry(db: PrismaClient, entry: LameloCardEntry) {
+  const releaseDate = lookupReleaseDate(entry.year, entry.distributor, entry.setName);
+  if (!releaseDate) {
+    throw new Error(
+      `Missing release date for ${entry.year} ${entry.distributor} ${entry.setName} — add it to scripts/data/lamelo-ball/release-dates.ts`
+    );
+  }
+
   const base = {
     sport: "NBA" as const,
     year: entry.year,
@@ -43,6 +51,7 @@ async function seedEntry(db: PrismaClient, entry: LameloCardEntry) {
     isAutograph: entry.isAutograph,
     isRelic: entry.isRelic,
     cardType: entry.cardType,
+    releaseDate,
   };
 
   let count = 0;

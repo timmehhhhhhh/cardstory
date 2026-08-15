@@ -34,6 +34,8 @@ export interface Holding {
   costBasisCurrency: SupportedCurrency;
   acquiredAt: string;
   notes?: string;
+  /** Photo of this specific physical card — the owner's own copy, not the shared catalog image. */
+  imageUrl?: string;
   createdAt: string;
   updatedAt: string;
 }

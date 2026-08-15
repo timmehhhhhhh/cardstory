@@ -192,6 +192,12 @@ model SportsCardItem {
   /// Just the product line name, e.g. "Mosaic", "Prizm", "Chrome" — NOT
   /// prefixed with year/distributor; see the note above.
   setName      String
+  /// The product line's actual street date (e.g. "2021-02-02" for 2020-21
+  /// Panini Prizm Basketball), shared by every card/parallel in that
+  /// product — same "one date per product, not per card" shape as
+  /// Set.releaseDate for TCGs. Null when no confidently-sourced date was
+  /// found (see scripts/data/lamelo-ball/release-dates.ts).
+  releaseDate  DateTime?
   playerName   String
   teamName     String?
   cardNumber   String?
@@ -360,6 +366,11 @@ model Holding {
   costBasisCurrency String
   acquiredAt        DateTime
   notes             String?
+  /// A photo of the specific physical card this holding represents — the
+  /// owner's own copy, distinct from CatalogItem/SportsCardItem's shared
+  /// reference image. Either an https:// URL or a client-resized JPEG data
+  /// URL (see resizeImageToDataUrl), so plain text is enough.
+  imageUrl          String?
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 

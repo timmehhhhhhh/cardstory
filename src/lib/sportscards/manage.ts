@@ -155,6 +155,8 @@ export interface ChecklistRowInput extends SportsCardItemInput {
   cardType: ChecklistCardType;
   imageBackUrl?: string;
   sourceUrl?: string;
+  /** The product line's real street date — shared by every row in the same (year, distributor, setName), see scripts/data/lamelo-ball/release-dates.ts. */
+  releaseDate?: Date;
 }
 
 /**
@@ -221,6 +223,7 @@ export async function upsertChecklistSportsCardItem(input: ChecklistRowInput): P
     imageBackUrl: input.imageBackUrl ?? null,
     sourceUrl: input.sourceUrl ?? null,
     cardType: input.cardType,
+    releaseDate: input.releaseDate ?? null,
     externalKey,
   };
   const row = await db.sportsCardItem.upsert({ where: { externalKey }, create: data, update: data });

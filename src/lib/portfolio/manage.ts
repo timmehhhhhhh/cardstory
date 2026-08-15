@@ -25,6 +25,7 @@ function toHolding(row: {
   costBasisCurrency: string;
   acquiredAt: Date;
   notes: string | null;
+  imageUrl: string | null;
   createdAt: Date;
   updatedAt: Date;
 }): Holding {
@@ -43,6 +44,7 @@ function toHolding(row: {
     costBasisCurrency: row.costBasisCurrency as Holding["costBasisCurrency"],
     acquiredAt: row.acquiredAt.toISOString(),
     notes: row.notes ?? undefined,
+    imageUrl: row.imageUrl ?? undefined,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
   };
@@ -115,6 +117,7 @@ export async function addHolding(
       costBasisCurrency: input.costBasisCurrency,
       acquiredAt: new Date(input.acquiredAt),
       notes: input.notes,
+      imageUrl: input.imageUrl,
     },
   });
 }
@@ -180,6 +183,7 @@ export async function transferHoldings(
           costBasisCurrency: h.costBasisCurrency,
           acquiredAt: h.acquiredAt,
           notes: h.notes,
+          imageUrl: h.imageUrl,
         },
       });
     }
@@ -230,6 +234,7 @@ export async function importLocalPortfolio(
             costBasisCurrency: h.costBasisCurrency,
             acquiredAt: new Date(h.acquiredAt),
             notes: h.notes,
+            imageUrl: h.imageUrl,
           },
           update: {},
         });

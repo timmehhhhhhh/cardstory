@@ -54,7 +54,8 @@ function buildDisplay(
     return {
       name: sportsCardItem.playerName,
       subtitle: `${setBit}${parallelBit}${serialSuffix(holding, sportsCardItem)}`,
-      imageUrl: sportsCardItem.imageUrl,
+      // The owner's own photo of this copy wins over the shared catalog image.
+      imageUrl: holding.imageUrl ?? sportsCardItem.imageUrl,
       href: null,
       groupKey: `sports:${sportsCardItem.sport}`,
       groupLabel: sport?.name ?? sportsCardItem.sport,
@@ -67,7 +68,7 @@ function buildDisplay(
     subtitle: catalogItem
       ? `${catalogItem.setName}${catalogItem.number ? ` · ${catalogItem.number}` : ""}`
       : "",
-    imageUrl: catalogItem?.imageSmallUrl ?? null,
+    imageUrl: holding.imageUrl ?? catalogItem?.imageSmallUrl ?? null,
     href: catalogItem ? `/card/${catalogItem.gameId}/${catalogItem.externalId}` : null,
     groupKey: catalogItem?.gameId ?? "unknown",
     groupLabel: catalogItem ? (getGameMeta(catalogItem.gameId)?.name ?? catalogItem.gameId) : "Unknown",

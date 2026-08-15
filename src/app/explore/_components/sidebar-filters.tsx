@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
-import { GAMES } from "@/lib/games/registry";
+import { GAMES, getGameMeta } from "@/lib/games/registry";
 import type { ExploreFilters } from "@/app/explore/_components/types";
 
 const WIRED_GAMES = GAMES.filter((g) => g.status === "WIRED");
@@ -126,6 +126,28 @@ export function SidebarFilters({
           </label>
         </RadioGroup>
       </div>
+
+      {(filters.game === "all" || getGameMeta(filters.game)?.kind === "sports") && (
+        <>
+          <Separator />
+
+          <div className="flex items-center justify-between">
+            <div>
+              <Label htmlFor="base-only-toggle" className="text-sm font-medium">
+                Hide parallels
+              </Label>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                Sports cards only — show just each card&apos;s base version.
+              </p>
+            </div>
+            <Switch
+              id="base-only-toggle"
+              checked={filters.baseOnly}
+              onCheckedChange={(v) => onChange({ baseOnly: v, page: 1 })}
+            />
+          </div>
+        </>
+      )}
 
       {cardTypeOptions.length > 0 && (
         <>

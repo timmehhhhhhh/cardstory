@@ -1,6 +1,8 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
+import { BookOpen } from "lucide-react";
 import { usePortfolioData } from "@/hooks/use-portfolio-data";
 import { usePortfolioStore } from "@/lib/portfolio/store";
 import { ValueHeader } from "@/app/portfolio/_components/value-header";
@@ -14,6 +16,7 @@ import { BulkActionsBar } from "@/app/portfolio/_components/bulk-actions-bar";
 import { DEFAULT_HOLDING_FILTERS, type HoldingFilters } from "@/app/portfolio/_components/types";
 import { PublishShowcaseDialog } from "@/components/portfolio/publish-showcase-dialog";
 import { AddSportsCardDialog } from "@/components/sportscards/add-sports-card-dialog";
+import { Button } from "@/components/ui/button";
 import type { ShowcasePayload } from "@/lib/showcase/types";
 
 export function PortfolioClient() {
@@ -70,6 +73,12 @@ export function PortfolioClient() {
             }}
           />
           <AddSportsCardDialog />
+          <Button asChild variant="outline" size="sm">
+            <Link href="/portfolio/binder">
+              <BookOpen className="size-4" />
+              Binder
+            </Link>
+          </Button>
         </div>
         <PublishShowcaseDialog
           portfolioId={activePortfolioId}

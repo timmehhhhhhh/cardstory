@@ -37,6 +37,19 @@ export function ExploreClient({
 }) {
   const router = useRouter();
   const [filters, setFilters] = React.useState(initialFilters);
+  // Resync when initialFilters changes from outside our own updateFilters
+  // calls — e.g. the top-nav SearchBox or a /sets deep link doing a real
+  // navigation to a new /explore URL, or browser back/forward. Next.js
+  // reruns page.tsx and hands us a fresh initialFilters prop, but this
+  // component instance isn't remounted, so useState above only seeds once.
+  // Adjusted during render per https://react.dev/learn/you-might-not-need-an-effect,
+  // same pattern as sidebar-filters.tsx's qDraft sync.
+  const initialFiltersKey = filtersToSearchParams(initialFilters).toString();
+  const [prevInitialFiltersKey, setPrevInitialFiltersKey] = React.useState(initialFiltersKey);
+  if (initialFiltersKey !== prevInitialFiltersKey) {
+    setPrevInitialFiltersKey(initialFiltersKey);
+    setFilters(initialFilters);
+  }
 
   const rarityQuery = useQuery<string[]>({
     queryKey: ["catalog-rarities", filters.game],
@@ -58,7 +71,14 @@ export function ExploreClient({
   );
   const watchlist = usePortfolioStore((s) => s.watchlist);
   const ownedIds = React.useMemo(
-    () => Array.from(new Set(holdings.map((h) => h.catalogItemId))),
+    () =>
+      Array.from(
+        new Set(
+          holdings
+            .map((h) => h.catalogItemId ?? h.sportsCardItemId)
+            .filter((id): id is string => Boolean(id))
+        )
+      ),
     [holdings]
   );
 
@@ -76,6 +96,7 @@ export function ExploreClient({
     filters.type === initialFilters.type &&
     filters.cardType === initialFilters.cardType &&
     filters.rarity === initialFilters.rarity &&
+    filters.baseOnly === initialFilters.baseOnly &&
     filters.status === initialFilters.status &&
     filters.watchlistOnly === initialFilters.watchlistOnly &&
     filters.sort === initialFilters.sort &&

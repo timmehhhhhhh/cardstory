@@ -1,4 +1,4 @@
-import type { GameStatus } from "@prisma/client";
+import type { GameStatus, Sport } from "@prisma/client";
 import type { GameProvider } from "@/lib/games/types";
 import { pokemonProvider } from "@/lib/games/pokemon/client";
 import { riftboundProvider } from "@/lib/games/riftbound/client";
@@ -24,6 +24,15 @@ export interface GameMeta {
   shortLabel: string;
   status: GameStatus;
   sortOrder: number;
+  /**
+   * "tcg" (default when absent) means this id is backed by CatalogItem/Set,
+   * seeded via a GameProvider. "sports" means it's backed by SportsCardItem
+   * instead — no Set table, no GameProvider; see `sport` below and
+   * lib/catalog/search.ts's sports branch.
+   */
+  kind?: "tcg" | "sports";
+  /** Only set when kind === "sports" — links this registry id to the Sport enum. */
+  sport?: Sport;
 }
 
 export const GAMES: GameMeta[] = [
@@ -46,12 +55,58 @@ export const GAMES: GameMeta[] = [
   { id: "gundam", name: "Gundam Card Game", shortLabel: "GUN", status: "COMING_SOON", sortOrder: 16 },
   { id: "hololive", name: "hololive Official Card Game", shortLabel: "HOLO", status: "COMING_SOON", sortOrder: 17 },
   { id: "metazoo", name: "MetaZoo", shortLabel: "MZ", status: "COMING_SOON", sortOrder: 18 },
+  // Sports cards — backed by SportsCardItem, not CatalogItem/Set (see the
+  // `kind`/`sport` doc on GameMeta above). Only basketball-nba is WIRED
+  // today (LaMelo Ball's checklist, seeded by scripts/seed-lamelo-ball.ts);
+  // the rest render as "Coming soon" tiles for visual parity with the TCG
+  // list above, same convention as e.g. `mtg`/`yugioh` here.
+  {
+    id: "basketball-nba",
+    name: "Basketball (NBA)",
+    shortLabel: "NBA",
+    status: "WIRED",
+    sortOrder: 19,
+    kind: "sports",
+    sport: "NBA",
+  },
+  {
+    id: "motorsport-f1",
+    name: "Formula 1",
+    shortLabel: "F1",
+    status: "COMING_SOON",
+    sortOrder: 20,
+    kind: "sports",
+    sport: "F1",
+  },
+  {
+    id: "combat-ufc",
+    name: "UFC / MMA",
+    shortLabel: "UFC",
+    status: "COMING_SOON",
+    sortOrder: 21,
+    kind: "sports",
+    sport: "UFC",
+  },
+  {
+    id: "tennis",
+    name: "Tennis",
+    shortLabel: "Tennis",
+    status: "COMING_SOON",
+    sortOrder: 22,
+    kind: "sports",
+    sport: "TENNIS",
+  },
 ];
 
 export const GAME_PROVIDERS: Record<string, GameProvider> = {
   pokemon: pokemonProvider,
   riftbound: riftboundProvider,
 };
+
+/** WIRED games backed by SportsCardItem — see lib/catalog/search.ts. */
+export const WIRED_SPORTS_GAMES: GameMeta[] = GAMES.filter(
+  (g) => g.kind === "sports" && g.status === "WIRED"
+);
 
 export function isWiredGame(gameId: string): boolean {
   return GAMES.find((g) => g.id === gameId)?.status === "WIRED";

@@ -17,6 +17,7 @@ export const holdingInputSchema = z.object({
   costBasisCurrency: z.enum(SUPPORTED_CURRENCIES),
   acquiredAt: z.string(),
   notes: z.string().optional(),
+  imageUrl: z.string().optional(),
 });
 
 export const holdingPatchSchema = holdingInputSchema.omit({ id: true }).partial();

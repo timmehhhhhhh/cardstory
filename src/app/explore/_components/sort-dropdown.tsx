@@ -17,6 +17,8 @@ const SORT_LABELS: Record<CatalogSort, string> = {
   trending_up: "Trending Up",
   trending_down: "Trending Down",
   type_asc: "Card Type (A–Z)",
+  release_desc: "Release Date (Newest)",
+  release_asc: "Release Date (Oldest)",
 };
 
 export function SortDropdown({

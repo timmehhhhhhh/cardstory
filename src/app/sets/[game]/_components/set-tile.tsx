@@ -14,7 +14,7 @@ export function SetTile({
   gameId: string;
   setId: string;
   name: string;
-  code: string;
+  code: string | null;
   cardCount: number;
   symbolUrl: string | null;
   releaseDate: string | null;
@@ -34,7 +34,8 @@ export function SetTile({
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium">{name}</p>
         <p className="truncate text-xs text-muted-foreground">
-          {code.toUpperCase()} · {cardCount} cards{releaseDate ? ` · ${releaseDate}` : ""}
+          {code ? `${code.toUpperCase()} · ` : ""}
+          {cardCount} cards{releaseDate ? ` · ${releaseDate}` : ""}
         </p>
       </div>
     </Link>
