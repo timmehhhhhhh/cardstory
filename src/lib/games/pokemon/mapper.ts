@@ -15,6 +15,7 @@ export interface PokemonApiCard {
   name: string;
   number?: string;
   rarity?: string;
+  artist?: string;
   images?: { small?: string; large?: string };
   tcgplayer?: {
     prices?: Record<
@@ -68,6 +69,7 @@ export function mapPokemonCard(raw: PokemonApiCard, setExternalId: string): Unif
     name: raw.name,
     number: raw.number,
     rarity: raw.rarity,
+    artist: raw.artist,
     imageSmallUrl: raw.images?.small,
     imageLargeUrl: raw.images?.large,
     productType: "CARD",

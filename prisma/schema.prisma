@@ -75,6 +75,9 @@ model CatalogItem {
   name           String
   number         String?
   rarity         String?
+  /// Illustrator credit, e.g. Pokémon's "Mitsuhiro Arita". Only populated for
+  /// games whose API credits an artist per card — currently Pokémon and FAB.
+  artist         String?
   /// Game-specific card type, e.g. Riftbound's "Champion Unit" / "Legend" /
   /// "Gear" / "Signature Spell" (a printed type + supertype combo — see
   /// lib/games/riftbound/card-types.ts). Null for games that don't have a

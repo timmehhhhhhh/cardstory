@@ -32,14 +32,30 @@ export function AddHoldingDialog({
   cardName,
   suggestedPrice,
   trigger,
+  open: openProp,
+  onOpenChange,
 }: {
   catalogItemId?: string;
   sportsCardItemId?: string;
   cardName: string;
   suggestedPrice: number | null;
   trigger?: React.ReactNode;
+  /**
+   * Controlled open state — pass both when the caller owns its own trigger
+   * element (e.g. a button that needs to call `preventDefault` to stop a
+   * surrounding <Link> from navigating, which would otherwise race Radix's
+   * DialogTrigger: it composes the trigger's onClick with its own
+   * open-toggle handler and skips that handler once `defaultPrevented` is
+   * set, so a preventDefault'ing trigger would never open the dialog).
+   * When omitted, the dialog manages its own open state via DialogTrigger.
+   */
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }) {
-  const [open, setOpen] = React.useState(false);
+  const isControlled = openProp !== undefined;
+  const [internalOpen, setInternalOpen] = React.useState(false);
+  const open = isControlled ? openProp : internalOpen;
+  const setOpen = isControlled ? onOpenChange! : setInternalOpen;
   const [quantity, setQuantity] = React.useState(1);
   const [condition, setCondition] = React.useState<CardCondition>("raw");
   const [gradeCompany, setGradeCompany] = React.useState("PSA");
@@ -83,13 +99,15 @@ export function AddHoldingDialog({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        {trigger ?? (
-          <Button className="w-full">
-            <PackagePlus className="size-4" /> Add to Portfolio
-          </Button>
-        )}
-      </DialogTrigger>
+      {!isControlled && (
+        <DialogTrigger asChild>
+          {trigger ?? (
+            <Button className="w-full">
+              <PackagePlus className="size-4" /> Add to Portfolio
+            </Button>
+          )}
+        </DialogTrigger>
+      )}
       <DialogContent className="bg-surface border-border sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Add to Portfolio</DialogTitle>

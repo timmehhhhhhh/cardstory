@@ -152,6 +152,7 @@ export default async function CardDetailPage({
             {item.number && <span>· {item.number}</span>}
             {item.cardType && <span>· {item.cardType}</span>}
             {releaseDateLabel && <span>· {releaseDateLabel}</span>}
+            {item.artist && <span>· Illustrated by {item.artist}</span>}
             <RarityBadge rarity={item.rarity} />
           </div>
         </div>

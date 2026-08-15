@@ -53,6 +53,8 @@ export interface CatalogSearchItem {
   name: string;
   number: string | null;
   rarity: string | null;
+  /** Illustrator credit, e.g. Pokémon's "Mitsuhiro Arita". Null for games/rows with no artist credit. */
+  artist: string | null;
   cardType: string | null;
   imageSmallUrl: string | null;
   setName: string;
@@ -168,6 +170,7 @@ function sportsItemToSearchItem(r: SportsRow, gameId: string): CatalogSearchItem
     name: r.parallelName ? `${r.playerName} — ${r.parallelName}` : r.playerName,
     number: r.cardNumber,
     rarity: null,
+    artist: null,
     cardType: titleCase(r.parallelName ?? r.cardType),
     imageSmallUrl: r.imageUrl,
     setName,
@@ -246,7 +249,12 @@ function tcgWhereFor(
     productType: params.productType,
     cardType: params.cardType,
     rarity: params.rarity,
-    name: params.q ? { contains: params.q, mode: "insensitive" } : undefined,
+    OR: params.q
+      ? [
+          { name: { contains: params.q, mode: "insensitive" } },
+          { artist: { contains: params.q, mode: "insensitive" } },
+        ]
+      : undefined,
     id: params.onlyIds
       ? { in: params.onlyIds }
       : params.excludeIds
@@ -276,6 +284,7 @@ async function runTcgQuery(
         name: true,
         number: true,
         rarity: true,
+        artist: true,
         cardType: true,
         imageSmallUrl: true,
         productType: true,
@@ -295,6 +304,7 @@ async function runTcgQuery(
     name: r.name,
     number: r.number,
     rarity: r.rarity,
+    artist: r.artist,
     cardType: r.cardType,
     imageSmallUrl: r.imageSmallUrl,
     setName: r.set.name,
@@ -408,6 +418,7 @@ async function searchMerged(
         name: true,
         number: true,
         rarity: true,
+        artist: true,
         cardType: true,
         imageSmallUrl: true,
         productType: true,
@@ -436,6 +447,7 @@ async function searchMerged(
     name: r.name,
     number: r.number,
     rarity: r.rarity,
+    artist: r.artist,
     cardType: r.cardType,
     imageSmallUrl: r.imageSmallUrl,
     setName: r.set.name,

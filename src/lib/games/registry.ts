@@ -2,16 +2,20 @@ import type { GameStatus, Sport } from "@prisma/client";
 import type { GameProvider } from "@/lib/games/types";
 import { pokemonProvider } from "@/lib/games/pokemon/client";
 import { riftboundProvider } from "@/lib/games/riftbound/client";
+import { fabProvider } from "@/lib/games/fab/client";
 
 /**
- * Every TCG shown on the /sets page. `pokemon` and `riftbound` are WIRED:
- * pokemon has a free, no-key API with real, ToS-safe pricing (pokemontcg.io);
- * riftbound has a free, no-key catalog API (riftcodex.com) but no pricing
- * source yet, so its cards seed with no raw market price (see
- * lib/games/riftbound/mapper.ts). The rest render as visible "Coming soon"
- * tiles for visual parity with the real app's Sets grid; adding a real
- * provider for one later just means implementing `GameProvider` and flipping
- * its status here + in the seed script.
+ * Every TCG shown on the /sets page. `pokemon`, `riftbound`, and `fab` are
+ * WIRED: pokemon has a free, no-key API with real, ToS-safe pricing
+ * (pokemontcg.io); riftbound has a free, no-key catalog API (riftcodex.com)
+ * but no pricing source yet, so its cards seed with no raw market price (see
+ * lib/games/riftbound/mapper.ts); fab uses the free, no-key api.goagain.dev
+ * catalog, scoped to just its promo sets rather than its whole retail
+ * history (see lib/games/fab/client.ts) — also with no pricing source yet.
+ * The rest render as visible "Coming soon" tiles for visual parity with the
+ * real app's Sets grid; adding a real provider for one later just means
+ * implementing `GameProvider` and flipping its status here + in the seed
+ * script.
  *
  * `shortLabel` stands in for an official logo image: pokemontcg.io/Scryfall
  * give card art, not each publisher's trademarked logo, so the Sets grid
@@ -41,7 +45,7 @@ export const GAMES: GameMeta[] = [
   { id: "yugioh", name: "Yu-Gi-Oh!", shortLabel: "YGO", status: "COMING_SOON", sortOrder: 2 },
   { id: "onepiece", name: "One Piece Card Game", shortLabel: "OP", status: "COMING_SOON", sortOrder: 3 },
   { id: "lorcana", name: "Disney Lorcana", shortLabel: "LOR", status: "COMING_SOON", sortOrder: 4 },
-  { id: "fab", name: "Flesh and Blood", shortLabel: "FAB", status: "COMING_SOON", sortOrder: 5 },
+  { id: "fab", name: "Flesh and Blood", shortLabel: "FAB", status: "WIRED", sortOrder: 5 },
   { id: "riftbound", name: "Riftbound", shortLabel: "RB", status: "WIRED", sortOrder: 6 },
   { id: "dragonball-fw", name: "Dragon Ball Card Game", shortLabel: "DBCG", status: "COMING_SOON", sortOrder: 7 },
   { id: "digimon", name: "Digimon Card Game", shortLabel: "DIGI", status: "COMING_SOON", sortOrder: 8 },
@@ -101,6 +105,7 @@ export const GAMES: GameMeta[] = [
 export const GAME_PROVIDERS: Record<string, GameProvider> = {
   pokemon: pokemonProvider,
   riftbound: riftboundProvider,
+  fab: fabProvider,
 };
 
 /** WIRED games backed by SportsCardItem — see lib/catalog/search.ts. */

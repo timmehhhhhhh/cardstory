@@ -5,7 +5,6 @@ export const NAV_LINKS = [
   { href: "/sets", label: "Sets" },
   { href: "/portfolio", label: "Portfolio" },
   { href: "/trade-analyzer", label: "Trade Analyzer" },
-  { href: "/players/lamelo-ball", label: "LaMelo Ball" },
 ] as const;
 
 export const SUPPORTED_CURRENCIES = ["USD", "CAD", "EUR", "GBP", "JPY", "AUD", "NZD"] as const;

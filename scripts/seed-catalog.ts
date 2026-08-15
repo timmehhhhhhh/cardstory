@@ -19,12 +19,16 @@ import { GAMES, GAME_PROVIDERS } from "@/lib/games/registry";
 import { upsertPriceSnapshot } from "@/lib/pricing/snapshot";
 
 const DEFAULT_SETS_CAP = 6;
-// Per-game override: null = no cap (seed every set ever released).
-// Pokémon and Riftbound are special-cased here; any newly-wired game safely
-// falls back to DEFAULT_SETS_CAP instead of silently inheriting "no cap".
+// Per-game override: null = no cap (seed every set the provider returns).
+// Pokémon and Riftbound are special-cased here to seed their whole set
+// history; fab's provider already scopes fetchSets() down to just the promo
+// sets (see lib/games/fab/client.ts), so "no cap" there means every promo,
+// not every FAB set ever printed. Any newly-wired game safely falls back to
+// DEFAULT_SETS_CAP instead of silently inheriting "no cap".
 const SETS_CAP_OVERRIDE: Record<string, number | null> = {
   pokemon: null,
   riftbound: null,
+  fab: null,
 };
 function setsCapFor(gameId: string): number | null {
   return gameId in SETS_CAP_OVERRIDE ? SETS_CAP_OVERRIDE[gameId] : DEFAULT_SETS_CAP;
@@ -101,6 +105,7 @@ async function seedGame(gameId: string) {
           name: card.name,
           number: card.number,
           rarity: card.rarity,
+          artist: card.artist,
           cardType: card.cardType,
           imageSmallUrl: card.imageSmallUrl,
           imageLargeUrl: card.imageLargeUrl,
@@ -111,6 +116,7 @@ async function seedGame(gameId: string) {
           name: card.name,
           number: card.number,
           rarity: card.rarity,
+          artist: card.artist,
           cardType: card.cardType,
           imageSmallUrl: card.imageSmallUrl,
           imageLargeUrl: card.imageLargeUrl,
