@@ -507,18 +507,20 @@ export async function searchCatalog(params: CatalogSearchParams) {
 }
 
 /**
- * Every distinct non-null CatalogItem.cardType in the catalog, for
+ * Every distinct non-empty CatalogItem.cardType in the catalog, for
  * populating Explore's "Card Type" filter — read from real data rather than
  * a hardcoded list so it stays accurate as new sets/supertypes get seeded.
  * Optionally scoped to a single game, since card-type taxonomies don't
  * overlap between games (Riftbound's "Champion Unit" vs Flesh & Blood's
  * "Hero"). Not every game populates this column (e.g. Pokémon doesn't).
- * Deliberately CatalogItem-only — see sportsFilterableFor() above for why
- * sports cards don't participate here.
+ * Some FAB rows have cardType = "" (not null), so both null and "" are
+ * excluded, mirroring getDistinctRarities below. Deliberately
+ * CatalogItem-only — see sportsFilterableFor() above for why sports cards
+ * don't participate here.
  */
 export async function getDistinctCardTypes(gameId?: string): Promise<string[]> {
   const rows = await db.catalogItem.findMany({
-    where: { gameId, cardType: { not: null } },
+    where: { gameId, NOT: [{ cardType: null }, { cardType: "" }] },
     distinct: ["cardType"],
     select: { cardType: true },
     orderBy: { cardType: "asc" },
