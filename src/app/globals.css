@@ -55,15 +55,53 @@
 
 /*
  * CardStory design tokens — beige & brown palette.
- * v1 ships dark-only. Went cool near-black/mint (matching the real app) →
- * warm terracotta-on-espresso → this: a muted coffee-and-latte palette
- * (dark brown surfaces, soft beige text, tan/camel accent instead of bright
- * orange) per request ("beige and brown"). `:root` intentionally holds the
- * SAME dark values as `.dark` for now — see ThemeToggle, which is visible
- * for header parity but flagged "coming soon" until a real light palette
- * exists.
+ * Light is now the default theme: off-white background, off-black text,
+ * with the warm tan/camel accent family deepened for contrast on light
+ * surfaces. `.dark` restores the original dark coffee-and-latte palette
+ * (dark brown surfaces, soft beige text) as the alternate theme — see
+ * ThemeToggle, which switches between them via next-themes.
  */
-:root,
+:root {
+  --background: #f7f2e9;
+  --foreground: #1e1811;
+  --card: #fdfbf6;
+  --card-foreground: #1e1811;
+  --surface: #fdfbf6;
+  --surface-elevated: #ffffff;
+  --popover: #ffffff;
+  --popover-foreground: #1e1811;
+  --primary: #b1854e;
+  --primary-foreground: #fffaf2;
+  --secondary: #efe6d5;
+  --secondary-foreground: #2c2417;
+  --muted: #f1ead9;
+  --muted-foreground: #7a6a54;
+  --accent: #b1854e;
+  --accent-foreground: #fffaf2;
+  --destructive: #ac4c34;
+  --border: rgba(30, 24, 17, 0.1);
+  --input: rgba(30, 24, 17, 0.13);
+  --ring: #b1854e;
+  --positive: #6c7f45;
+  --negative: #ac4c34;
+  --watchlist: #b3833a;
+  --chart-1: #b1854e;
+  --chart-2: #b3833a;
+  --chart-3: #8b6f47;
+  --chart-4: #6c7f45;
+  --chart-5: #ac4c34;
+  --radius: 0.75rem;
+  --sidebar: #f1ead9;
+  --sidebar-foreground: #1e1811;
+  --sidebar-primary: #b1854e;
+  --sidebar-primary-foreground: #fffaf2;
+  --sidebar-accent: #e8ddc6;
+  --sidebar-accent-foreground: #1e1811;
+  --sidebar-border: rgba(30, 24, 17, 0.1);
+  --sidebar-ring: #b1854e;
+  color-scheme: light;
+}
+
 .dark {
   --background: #1c150f;
   --foreground: #ecdfc8;
@@ -102,6 +140,7 @@
   --sidebar-accent-foreground: #ecdfc8;
   --sidebar-border: rgba(236, 223, 200, 0.09);
   --sidebar-ring: #c9a66b;
+  color-scheme: dark;
 }
 
 @layer base {
@@ -117,7 +156,6 @@
   }
   html {
     @apply font-sans;
-    color-scheme: dark;
   }
   ::selection {
     background: color-mix(in oklab, var(--primary) 35%, transparent);

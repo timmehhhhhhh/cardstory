@@ -1,7 +1,7 @@
 import type { SupportedCurrency } from "@/lib/constants";
 
 export type CardCondition = "raw" | "graded";
-export type ItemLanguage = "EN" | "JP" | "CN";
+export type ItemLanguage = "EN" | "JP" | "CN" | "TW" | "KR";
 export type ViewMode = "grid" | "list";
 export type HoldingKind = "tcg" | "sports";
 

@@ -5,7 +5,7 @@ export interface HoldingFilters {
   player: string; // free-text, matches sports card playerName
   productType: "all" | "CARD" | "SEALED";
   condition: "all" | "raw" | "graded";
-  language: "all" | "EN" | "JP" | "CN";
+  language: "all" | "EN" | "JP" | "CN" | "TW" | "KR";
 }
 
 export const DEFAULT_HOLDING_FILTERS: HoldingFilters = {

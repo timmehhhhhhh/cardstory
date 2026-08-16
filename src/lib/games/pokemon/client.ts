@@ -1,5 +1,10 @@
 import type { GameProvider, UnifiedCard, UnifiedSet } from "@/lib/games/types";
 import { mapPokemonCard, mapPokemonSet, type PokemonApiCard, type PokemonApiSet } from "@/lib/games/pokemon/mapper";
+import {
+  fetchTcgdexCardsForSet,
+  fetchTcgdexSets,
+  isTcgdexSetExternalId,
+} from "@/lib/games/pokemon/tcgdex-client";
 
 const BASE_URL = "https://api.pokemontcg.io/v2";
 
@@ -26,14 +31,43 @@ async function fetchJson<T>(url: string, attempt = 1): Promise<T> {
   return res.json() as Promise<T>;
 }
 
+/**
+ * English sets from pokemontcg.io plus Japanese/Chinese(Simplified)/
+ * Chinese(Traditional)/Korean sets from tcgdex.net (pokemontcg.io has no
+ * non-English data) — see tcgdex-client.ts for that side.
+ *
+ * Fetched independently via allSettled rather than Promise.all: pokemontcg.io
+ * is the one known to "occasionally 500 transiently" (see fetchJson above),
+ * and a Promise.all would let that flakiness take the unrelated tcgdex sets
+ * down with it. Only throws if BOTH sources fail.
+ */
 async function fetchSets(): Promise<UnifiedSet[]> {
-  const json = await fetchJson<{ data: PokemonApiSet[] }>(
-    `${BASE_URL}/sets?orderBy=-releaseDate`
-  );
-  return json.data.map(mapPokemonSet);
+  const [enResult, tcgdexResult] = await Promise.allSettled([
+    fetchJson<{ data: PokemonApiSet[] }>(`${BASE_URL}/sets?orderBy=-releaseDate`).then((json) =>
+      json.data.map(mapPokemonSet)
+    ),
+    fetchTcgdexSets(),
+  ]);
+
+  if (enResult.status === "rejected") console.warn("[pokemon] English sets failed:", enResult.reason);
+  if (tcgdexResult.status === "rejected") console.warn("[pokemon] tcgdex sets failed:", tcgdexResult.reason);
+  if (enResult.status === "rejected" && tcgdexResult.status === "rejected") {
+    throw new Error("[pokemon] both pokemontcg.io and tcgdex set fetches failed");
+  }
+
+  return [
+    ...(enResult.status === "fulfilled" ? enResult.value : []),
+    ...(tcgdexResult.status === "fulfilled" ? tcgdexResult.value : []),
+  ];
 }
 
 async function fetchCardsForSet(setExternalId: string): Promise<UnifiedCard[]> {
+  // tcgdex-backed sets are tagged "<lang>:<id>" (see tcgdex-client.ts);
+  // pokemontcg.io's own ids never contain ':', so this dispatch is unambiguous.
+  if (isTcgdexSetExternalId(setExternalId)) {
+    return fetchTcgdexCardsForSet(setExternalId);
+  }
+
   const cards: UnifiedCard[] = [];
   let page = 1;
   const pageSize = 250;

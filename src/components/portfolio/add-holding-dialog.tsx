@@ -31,6 +31,7 @@ export function AddHoldingDialog({
   sportsCardItemId,
   cardName,
   suggestedPrice,
+  defaultLanguage = "EN",
   trigger,
   open: openProp,
   onOpenChange,
@@ -39,6 +40,8 @@ export function AddHoldingDialog({
   sportsCardItemId?: string;
   cardName: string;
   suggestedPrice: number | null;
+  /** Pre-selects Language from the catalog item's own print language (e.g. a Japanese card tile opens this pre-set to Japanese) instead of always defaulting to English. */
+  defaultLanguage?: ItemLanguage;
   trigger?: React.ReactNode;
   /**
    * Controlled open state — pass both when the caller owns its own trigger
@@ -60,7 +63,7 @@ export function AddHoldingDialog({
   const [condition, setCondition] = React.useState<CardCondition>("raw");
   const [gradeCompany, setGradeCompany] = React.useState("PSA");
   const [gradeValue, setGradeValue] = React.useState("10");
-  const [language, setLanguage] = React.useState<ItemLanguage>("EN");
+  const [language, setLanguage] = React.useState<ItemLanguage>(defaultLanguage);
   const [costBasis, setCostBasis] = React.useState(suggestedPrice?.toFixed(2) ?? "");
   const [acquiredAt, setAcquiredAt] = React.useState(() => new Date().toISOString().slice(0, 10));
   const [imageUrl, setImageUrl] = React.useState("");
@@ -70,13 +73,16 @@ export function AddHoldingDialog({
   const [portfolioId, setPortfolioId] = React.useState(activePortfolioId);
   const addHolding = usePortfolioStore((s) => s.addHolding);
 
-  // Re-default the target portfolio each time the dialog opens — adjusted
-  // during render (not in an effect) per
-  // https://react.dev/learn/you-might-not-need-an-effect.
+  // Re-default the target portfolio (and Language, from the catalog item's
+  // own print language) each time the dialog opens — adjusted during render
+  // (not in an effect) per https://react.dev/learn/you-might-not-need-an-effect.
   const [prevOpen, setPrevOpen] = React.useState(open);
   if (open !== prevOpen) {
     setPrevOpen(open);
-    if (open) setPortfolioId(activePortfolioId);
+    if (open) {
+      setPortfolioId(activePortfolioId);
+      setLanguage(defaultLanguage);
+    }
   }
 
   function handleAdd() {
@@ -154,7 +160,9 @@ export function AddHoldingDialog({
                 <SelectContent>
                   <SelectItem value="EN">English</SelectItem>
                   <SelectItem value="JP">Japanese</SelectItem>
-                  <SelectItem value="CN">Chinese</SelectItem>
+                  <SelectItem value="CN">Chinese (Simplified)</SelectItem>
+                  <SelectItem value="TW">Chinese (Traditional)</SelectItem>
+                  <SelectItem value="KR">Korean</SelectItem>
                 </SelectContent>
               </Select>
             </div>

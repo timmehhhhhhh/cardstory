@@ -26,6 +26,7 @@ export async function GET(req: NextRequest) {
     productType,
     cardType: sp.get("cardType") ?? undefined,
     rarity: sp.get("rarity") ?? undefined,
+    language: sp.get("language") ?? undefined,
     baseOnly: sp.get("baseOnly") === "1",
     onlyIds: parseIds(sp.get("onlyIds")),
     excludeIds: parseIds(sp.get("excludeIds")),

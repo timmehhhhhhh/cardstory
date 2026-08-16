@@ -8,6 +8,7 @@ import { PriceHistoryPanel } from "@/app/card/[game]/[cardId]/_components/price-
 import { CollectionPanel } from "@/app/card/[game]/[cardId]/_components/collection-panel";
 import { ShopPanel } from "@/app/card/[game]/[cardId]/_components/shop-panel";
 import { GradedPricesPanel } from "@/app/card/[game]/[cardId]/_components/graded-prices-panel";
+import { EbaySoldCompsPanel } from "@/app/card/[game]/[cardId]/_components/ebay-sold-comps-panel";
 import { RarityBadge } from "@/components/cards/rarity-badge";
 import { Badge } from "@/components/ui/badge";
 import { formatReleaseDate } from "@/lib/format/date";
@@ -123,6 +124,7 @@ export default async function CardDetailPage({
           <div className="flex flex-col gap-4">
             <CollectionPanel sportsCardItemId={item.id} cardName={cardName} suggestedPrice={priceRaw} />
             <GradedPricesPanel gameId={game} cardExternalId={item.id} />
+            <EbaySoldCompsPanel gameId={game} cardExternalId={item.id} cardName={cardName} />
             <ShopPanel cardName={cardName} gameId={game} />
           </div>
         </div>
@@ -153,6 +155,7 @@ export default async function CardDetailPage({
             {item.cardType && <span>· {item.cardType}</span>}
             {releaseDateLabel && <span>· {releaseDateLabel}</span>}
             {item.artist && <span>· Illustrated by {item.artist}</span>}
+            {item.language !== "EN" && <span>· {item.language}</span>}
             <RarityBadge rarity={item.rarity} />
           </div>
         </div>
@@ -186,8 +189,14 @@ export default async function CardDetailPage({
         />
 
         <div className="flex flex-col gap-4">
-          <CollectionPanel catalogItemId={item.id} cardName={item.name} suggestedPrice={priceRaw} />
+          <CollectionPanel
+            catalogItemId={item.id}
+            cardName={item.name}
+            suggestedPrice={priceRaw}
+            language={item.language}
+          />
           <GradedPricesPanel gameId={game} cardExternalId={item.externalId} />
+          <EbaySoldCompsPanel gameId={game} cardExternalId={item.externalId} cardName={item.name} />
           <ShopPanel cardName={item.name} gameId={game} />
         </div>
       </div>

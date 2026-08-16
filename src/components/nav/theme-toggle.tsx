@@ -1,15 +1,25 @@
 "use client";
 
-import { Moon } from "lucide-react";
+import * as React from "react";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 /**
- * v1 ships dark-only (see globals.css). The toggle stays visible for header
- * parity with the real app, but is a no-op with a "coming soon" tooltip
- * until a real light palette is built.
+ * Switches between the light theme (default: off-white background, off-black
+ * text) and the original dark coffee-and-latte palette (see globals.css
+ * `.dark`), via next-themes.
  */
 export function ThemeToggle() {
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => setMounted(true), []);
+
+  const isDark = mounted && resolvedTheme === "dark";
+  const label = isDark ? "Switch to light mode" : "Switch to dark mode";
+
   return (
     <Tooltip>
       <TooltipTrigger asChild>
@@ -17,12 +27,13 @@ export function ThemeToggle() {
           variant="ghost"
           size="icon"
           className="text-muted-foreground hover:text-foreground"
-          aria-label="Light mode (coming soon)"
+          aria-label={label}
+          onClick={() => setTheme(isDark ? "light" : "dark")}
         >
-          <Moon className="size-4" />
+          {isDark ? <Moon className="size-4" /> : <Sun className="size-4" />}
         </Button>
       </TooltipTrigger>
-      <TooltipContent>Light mode — coming soon</TooltipContent>
+      <TooltipContent>{label}</TooltipContent>
     </Tooltip>
   );
 }

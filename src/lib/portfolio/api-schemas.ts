@@ -12,7 +12,7 @@ export const holdingInputSchema = z.object({
   gradeCompany: z.string().optional(),
   gradeValue: z.string().optional(),
   serialNumber: z.string().optional(),
-  language: z.enum(["EN", "JP", "CN"]),
+  language: z.enum(["EN", "JP", "CN", "TW", "KR"]),
   costBasisTotal: z.number().nonnegative(),
   costBasisCurrency: z.enum(SUPPORTED_CURRENCIES),
   acquiredAt: z.string(),

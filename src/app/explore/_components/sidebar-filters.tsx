@@ -209,6 +209,37 @@ export function SidebarFilters({
       <Separator />
 
       <div>
+        <h3 className="mb-2 text-sm font-semibold">Language</h3>
+        <p className="mb-2 text-xs text-muted-foreground">Pokémon only — other games are English-only.</p>
+        <RadioGroup
+          value={filters.language}
+          onValueChange={(v) => onChange({ language: v as ExploreFilters["language"], page: 1 })}
+          className="gap-2"
+        >
+          <label className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground">
+            <RadioGroupItem value="all" /> All languages
+          </label>
+          <label className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground">
+            <RadioGroupItem value="EN" /> English
+          </label>
+          <label className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground">
+            <RadioGroupItem value="JP" /> Japanese
+          </label>
+          <label className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground">
+            <RadioGroupItem value="CN" /> Chinese (Simplified)
+          </label>
+          <label className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground">
+            <RadioGroupItem value="TW" /> Chinese (Traditional)
+          </label>
+          <label className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground">
+            <RadioGroupItem value="KR" /> Korean
+          </label>
+        </RadioGroup>
+      </div>
+
+      <Separator />
+
+      <div>
         <h3 className="mb-2 text-sm font-semibold">Product Status within Portfolio</h3>
         <p className="mb-2 text-xs text-muted-foreground">
           Filter by inventory status within your currently selected portfolio.

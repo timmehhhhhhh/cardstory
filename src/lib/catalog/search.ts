@@ -31,6 +31,8 @@ export interface CatalogSearchParams {
   cardType?: string;
   /** CatalogItem.rarity, e.g. Pokémon's "Ultra Rare" or Riftbound's "Epic". */
   rarity?: string;
+  /** CatalogItem.language, e.g. "EN"/"JP"/"CN"/"TW"/"KR". No-op for sports rows (no language concept). */
+  language?: string;
   /**
    * Sports cards only — restrict to rows with no parallelName (the
    * unparalleled base version of each card). No-op for TCG rows, which
@@ -56,6 +58,8 @@ export interface CatalogSearchItem {
   /** Illustrator credit, e.g. Pokémon's "Mitsuhiro Arita". Null for games/rows with no artist credit. */
   artist: string | null;
   cardType: string | null;
+  /** CatalogItem.language, e.g. "EN"/"JP"/"CN"/"TW"/"KR". Null for sports rows (no language concept). */
+  language: string | null;
   imageSmallUrl: string | null;
   setName: string;
   releaseDate: string | null;
@@ -171,6 +175,7 @@ function sportsItemToSearchItem(r: SportsRow, gameId: string): CatalogSearchItem
     number: r.cardNumber,
     rarity: null,
     artist: null,
+    language: null,
     cardType: titleCase(r.parallelName ?? r.cardType),
     imageSmallUrl: r.imageUrl,
     setName,
@@ -228,15 +233,17 @@ function sportsWhereFor(
 }
 
 /**
- * SportsCardItem has no rarity column and its own `cardType` taxonomy
- * ("base"/"insert"/"short_print") means something entirely different from
- * CatalogItem's game-specific cardType (e.g. Riftbound's "Champion Unit")
- * shown in the same shared filter dropdown — so sports rows deliberately
- * don't participate in the cardType/rarity facets, and sealed products
- * don't exist for sports cards at all.
+ * SportsCardItem has no rarity or language column and its own `cardType`
+ * taxonomy ("base"/"insert"/"short_print") means something entirely
+ * different from CatalogItem's game-specific cardType (e.g. Riftbound's
+ * "Champion Unit") shown in the same shared filter dropdown — so sports
+ * rows deliberately don't participate in the cardType/rarity/language
+ * facets, and sealed products don't exist for sports cards at all.
  */
 function sportsFilterableFor(params: CatalogSearchParams): boolean {
-  return !params.cardType && !params.rarity && params.productType !== "SEALED";
+  return (
+    !params.cardType && !params.rarity && !params.language && params.productType !== "SEALED"
+  );
 }
 
 function tcgWhereFor(
@@ -249,6 +256,7 @@ function tcgWhereFor(
     productType: params.productType,
     cardType: params.cardType,
     rarity: params.rarity,
+    language: params.language,
     OR: params.q
       ? [
           { name: { contains: params.q, mode: "insensitive" } },
@@ -286,6 +294,7 @@ async function runTcgQuery(
         rarity: true,
         artist: true,
         cardType: true,
+        language: true,
         imageSmallUrl: true,
         productType: true,
         latestPriceRaw: true,
@@ -306,6 +315,7 @@ async function runTcgQuery(
     rarity: r.rarity,
     artist: r.artist,
     cardType: r.cardType,
+    language: r.language,
     imageSmallUrl: r.imageSmallUrl,
     setName: r.set.name,
     releaseDate: r.set.releaseDate ? r.set.releaseDate.toISOString().slice(0, 10) : null,
@@ -420,6 +430,7 @@ async function searchMerged(
         rarity: true,
         artist: true,
         cardType: true,
+        language: true,
         imageSmallUrl: true,
         productType: true,
         latestPriceRaw: true,
@@ -449,6 +460,7 @@ async function searchMerged(
     rarity: r.rarity,
     artist: r.artist,
     cardType: r.cardType,
+    language: r.language,
     imageSmallUrl: r.imageSmallUrl,
     setName: r.set.name,
     releaseDate: r.set.releaseDate ? r.set.releaseDate.toISOString().slice(0, 10) : null,

@@ -6,7 +6,10 @@
  * currently doesn't, see lib/games/riftbound/mapper.ts). Pokémon and
  * Riftbound both seed their ENTIRE set history (no cap, per
  * SETS_CAP_OVERRIDE below); any other game defaults to just its 6 most
- * recent sets.
+ * recent sets. Pokémon's own fetchSets()/fetchCardsForSet() pull from two
+ * providers: pokemontcg.io for English, and tcgdex.net for Japanese/
+ * Chinese(Simplified)/Chinese(Traditional)/Korean (pokemontcg.io has no
+ * non-English data) — see lib/games/pokemon/tcgdex-client.ts.
  *
  * Run with: npx tsx scripts/seed-catalog.ts [gameId]
  * An optional gameId arg scopes the run to one game (e.g. `riftbound`) —

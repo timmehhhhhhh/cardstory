@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Camera, Menu } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
@@ -16,13 +17,23 @@ import { AccountMenu } from "@/components/nav/account-menu";
 
 function Logo() {
   return (
-    <Link href="/explore" className="flex items-center gap-2 shrink-0">
-      <span className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground text-xs font-extrabold">
-        CS
-      </span>
-      <span className="font-extrabold tracking-tight text-[15px] sm:text-base">
-        {APP_NAME.toUpperCase()}
-      </span>
+    <Link href="/explore" className="flex items-center shrink-0">
+      <Image
+        src="/brand/cardstory-wordmark.png"
+        alt={APP_NAME}
+        width={900}
+        height={325}
+        priority
+        className="h-8 w-auto sm:h-9 dark:hidden"
+      />
+      <Image
+        src="/brand/cardstory-wordmark-dark.png"
+        alt={APP_NAME}
+        width={900}
+        height={325}
+        priority
+        className="hidden h-8 w-auto sm:h-9 dark:block"
+      />
     </Link>
   );
 }

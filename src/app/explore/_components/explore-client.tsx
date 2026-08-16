@@ -96,6 +96,7 @@ export function ExploreClient({
     filters.type === initialFilters.type &&
     filters.cardType === initialFilters.cardType &&
     filters.rarity === initialFilters.rarity &&
+    filters.language === initialFilters.language &&
     filters.baseOnly === initialFilters.baseOnly &&
     filters.status === initialFilters.status &&
     filters.watchlistOnly === initialFilters.watchlistOnly &&

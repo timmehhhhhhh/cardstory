@@ -2,17 +2,21 @@
 
 import { AddHoldingDialog } from "@/components/portfolio/add-holding-dialog";
 import { usePortfolioStore } from "@/lib/portfolio/store";
+import { isItemLanguage } from "@/lib/portfolio/language";
 
 export function CollectionPanel({
   catalogItemId,
   sportsCardItemId,
   cardName,
   suggestedPrice,
+  language,
 }: {
   catalogItemId?: string;
   sportsCardItemId?: string;
   cardName: string;
   suggestedPrice: number | null;
+  /** CatalogItem.language, e.g. "JP" — pre-selects Add to Portfolio's Language field. */
+  language?: string;
 }) {
   const ownedQuantity = usePortfolioStore((s) => {
     const active = s.portfolios.find((p) => p.id === s.activePortfolioId);
@@ -36,6 +40,7 @@ export function CollectionPanel({
         sportsCardItemId={sportsCardItemId}
         cardName={cardName}
         suggestedPrice={suggestedPrice}
+        defaultLanguage={isItemLanguage(language) ? language : undefined}
       />
     </div>
   );

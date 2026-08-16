@@ -147,7 +147,9 @@ export function SmartFilters({
           <SelectItem value="all">Language</SelectItem>
           <SelectItem value="EN">English</SelectItem>
           <SelectItem value="JP">Japanese</SelectItem>
-          <SelectItem value="CN">Chinese</SelectItem>
+          <SelectItem value="CN">Chinese (Simplified)</SelectItem>
+          <SelectItem value="TW">Chinese (Traditional)</SelectItem>
+          <SelectItem value="KR">Korean</SelectItem>
         </SelectContent>
       </Select>
     </div>

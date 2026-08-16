@@ -90,6 +90,7 @@ model CatalogItem {
   lastSyncedAt   DateTime         @updatedAt
   priceSnapshots PriceSnapshot[]
   gradedPriceSnapshots GradedPriceSnapshot[]
+  ebaySoldPriceSnapshots EbaySoldPriceSnapshot[]
 
   /// Denormalized cache of the latest PriceSnapshot, kept in sync by
   /// upsertPriceSnapshot() whenever a new snapshot is written. Exists so
@@ -169,6 +170,42 @@ model GradedPriceSnapshot {
   @@unique([catalogItemId, capturedDate])
   @@index([catalogItemId, capturedAt])
   @@map("graded_price_snapshots")
+}
+
+/// Real sold-comp prices scraped from eBay's public "sold & completed
+/// listings" search results — NOT an official eBay API (eBay doesn't expose
+/// this data outside restricted partner programs). Kept as a separate
+/// cross-reference table rather than folded into GradedPriceSnapshot: that
+/// table's `source` column carries a single official-API provenance
+/// ("pricecharting"), and scraped data shouldn't blur into that. Same
+/// "current value only, snapshot once/day ourselves" reasoning as
+/// GradedPriceSnapshot — one row per item per day, fetched on-demand from
+/// the card detail page (see src/lib/pricing/ebay/), never a bulk job:
+/// scraping the whole catalog daily would be a very large volume of
+/// requests against a site with no scraping allowance.
+model EbaySoldPriceSnapshot {
+  id            String      @id @default(cuid())
+  catalogItemId String
+  catalogItem   CatalogItem @relation(fields: [catalogItemId], references: [id])
+  capturedAt    DateTime    @default(now())
+  /// "YYYY-MM-DD" — idempotency key, same pattern as PriceSnapshot.
+  capturedDate  String
+  currency      String      @default("USD")
+  /// The search query actually sent to eBay — kept for audit/debugging,
+  /// since scraped results are only as good as the query that produced them.
+  query         String
+  /// Number of sold listings the aggregate below is computed from, after
+  /// outlier filtering. Zero means the query matched no confident comps.
+  count         Int
+  medianPrice   Decimal?    @db.Decimal(10, 2)
+  avgPrice      Decimal?    @db.Decimal(10, 2)
+  minPrice      Decimal?    @db.Decimal(10, 2)
+  maxPrice      Decimal?    @db.Decimal(10, 2)
+  source        String      @default("ebay-sold")
+
+  @@unique([catalogItemId, capturedDate])
+  @@index([catalogItemId, capturedAt])
+  @@map("ebay_sold_price_snapshots")
 }
 
 /// A sports card *type* (sport + set + player + parallel) — analogous to
@@ -251,6 +288,7 @@ model SportsCardItem {
   priceChangePct  Float?
 
   priceSnapshots SportsCardPriceSnapshot[]
+  ebaySoldPriceSnapshots SportsCardEbaySoldPriceSnapshot[]
 
   @@index([sport])
   @@index([playerName])
@@ -284,6 +322,28 @@ model SportsCardPriceSnapshot {
   @@unique([sportsCardItemId, capturedDate])
   @@index([sportsCardItemId, capturedAt])
   @@map("sports_card_price_snapshots")
+}
+
+/// Sports-card analogue of EbaySoldPriceSnapshot — see that model's comment
+/// for why this is a separate table from SportsCardPriceSnapshot.
+model SportsCardEbaySoldPriceSnapshot {
+  id               String         @id @default(cuid())
+  sportsCardItemId String
+  sportsCardItem   SportsCardItem @relation(fields: [sportsCardItemId], references: [id])
+  capturedAt       DateTime       @default(now())
+  capturedDate     String
+  currency         String         @default("USD")
+  query            String
+  count            Int
+  medianPrice      Decimal?       @db.Decimal(10, 2)
+  avgPrice         Decimal?       @db.Decimal(10, 2)
+  minPrice         Decimal?       @db.Decimal(10, 2)
+  maxPrice         Decimal?       @db.Decimal(10, 2)
+  source           String         @default("ebay-sold")
+
+  @@unique([sportsCardItemId, capturedDate])
+  @@index([sportsCardItemId, capturedAt])
+  @@map("sports_card_ebay_sold_price_snapshots")
 }
 
 model ShowcaseSnapshot {

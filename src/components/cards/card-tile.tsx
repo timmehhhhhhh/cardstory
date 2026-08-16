@@ -10,6 +10,7 @@ import { AddHoldingDialog } from "@/components/portfolio/add-holding-dialog";
 import { usePortfolioStore } from "@/lib/portfolio/store";
 import { formatMoney, formatPct } from "@/lib/utils/format";
 import { getGameMeta } from "@/lib/games/registry";
+import { isItemLanguage } from "@/lib/portfolio/language";
 import type { CatalogSearchItem } from "@/lib/catalog/search";
 
 export function CardTile({
@@ -27,6 +28,16 @@ export function CardTile({
   const positive = (item.priceChangePct ?? 0) >= 0;
   const isSports = getGameMeta(item.gameId)?.kind === "sports";
   const [addDialogOpen, setAddDialogOpen] = React.useState(false);
+  // Only surfaced for non-English prints (currently Pokémon JP/CN/TW/KR) —
+  // otherwise identical-looking reprints in different languages are
+  // indistinguishable in a flat grid.
+  const nonEnglishLanguage =
+    isItemLanguage(item.language) && item.language !== "EN" ? item.language : undefined;
+  const languageBadge = nonEnglishLanguage && (
+    <span className="inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-bold tracking-wide text-muted-foreground bg-surface-elevated border border-border">
+      {nonEnglishLanguage}
+    </span>
+  );
 
   // The whole tile is a "stretched link" (a full-bleed <Link> layered
   // beneath everything, see below) rather than the action buttons living
@@ -65,6 +76,7 @@ export function CardTile({
       sportsCardItemId={isSports ? item.id : undefined}
       cardName={item.name}
       suggestedPrice={item.priceRaw}
+      defaultLanguage={nonEnglishLanguage}
       open={addDialogOpen}
       onOpenChange={setAddDialogOpen}
     />
@@ -94,7 +106,10 @@ export function CardTile({
             {item.artist ? ` · ${item.artist}` : ""}
           </p>
         </div>
-        <GameBadge gameId={item.gameId} className="pointer-events-none hidden sm:inline-flex" />
+        <div className="pointer-events-none hidden items-center gap-1 sm:flex">
+          <GameBadge gameId={item.gameId} />
+          {languageBadge}
+        </div>
         <div className="pointer-events-none w-24 flex-none text-right">
           <p className="num-tabular text-sm font-semibold">{formatMoney(item.priceRaw, currency)}</p>
           {item.priceChangePct != null && (
@@ -160,7 +175,10 @@ export function CardTile({
         )}
       </div>
       <div className="pointer-events-none flex flex-col gap-0.5 p-2.5">
-        <p className="truncate text-sm font-medium leading-tight">{item.name}</p>
+        <div className="flex items-center gap-1.5">
+          <p className="min-w-0 truncate text-sm font-medium leading-tight">{item.name}</p>
+          {languageBadge}
+        </div>
         <p className="truncate text-xs text-muted-foreground">
           {item.setName}
           {item.number ? ` · ${item.number}` : ""}
