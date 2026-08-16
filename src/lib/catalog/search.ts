@@ -222,6 +222,7 @@ function sportsWhereFor(
           { playerName: { contains: params.q, mode: "insensitive" } },
           { setName: { contains: params.q, mode: "insensitive" } },
           { parallelName: { contains: params.q, mode: "insensitive" } },
+          { cardNumber: { contains: params.q, mode: "insensitive" } },
         ]
       : undefined,
     id: params.onlyIds
@@ -261,6 +262,7 @@ function tcgWhereFor(
       ? [
           { name: { contains: params.q, mode: "insensitive" } },
           { artist: { contains: params.q, mode: "insensitive" } },
+          { number: { contains: params.q, mode: "insensitive" } },
         ]
       : undefined,
     id: params.onlyIds
@@ -507,14 +509,16 @@ export async function searchCatalog(params: CatalogSearchParams) {
 /**
  * Every distinct non-null CatalogItem.cardType in the catalog, for
  * populating Explore's "Card Type" filter — read from real data rather than
- * a hardcoded list so it stays accurate as new sets/supertypes get seeded
- * (currently only Riftbound populates this column; see
- * lib/games/riftbound/card-types.ts). Deliberately CatalogItem-only — see
- * sportsFilterableFor() above for why sports cards don't participate here.
+ * a hardcoded list so it stays accurate as new sets/supertypes get seeded.
+ * Optionally scoped to a single game, since card-type taxonomies don't
+ * overlap between games (Riftbound's "Champion Unit" vs Flesh & Blood's
+ * "Hero"). Not every game populates this column (e.g. Pokémon doesn't).
+ * Deliberately CatalogItem-only — see sportsFilterableFor() above for why
+ * sports cards don't participate here.
  */
-export async function getDistinctCardTypes(): Promise<string[]> {
+export async function getDistinctCardTypes(gameId?: string): Promise<string[]> {
   const rows = await db.catalogItem.findMany({
-    where: { cardType: { not: null } },
+    where: { gameId, cardType: { not: null } },
     distinct: ["cardType"],
     select: { cardType: true },
     orderBy: { cardType: "asc" },

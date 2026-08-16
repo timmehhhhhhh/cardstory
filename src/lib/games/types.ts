@@ -19,7 +19,7 @@ export interface UnifiedCard {
   rarity?: string;
   /** Illustrator credit, e.g. Pokémon's "Mitsuhiro Arita". */
   artist?: string;
-  /** Game-specific card type, e.g. Riftbound's "Champion Unit" / "Legend" / "Gear". */
+  /** Game-specific card type, e.g. Riftbound's "Champion Unit" / "Legend" / "Gear", or Flesh & Blood's "Hero" / "Action" / "Equipment". */
   cardType?: string;
   imageSmallUrl?: string;
   imageLargeUrl?: string;

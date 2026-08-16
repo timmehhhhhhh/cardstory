@@ -88,7 +88,7 @@ export function SidebarFilters({
         <h3 className="mb-2 text-sm font-semibold">Game</h3>
         <RadioGroup
           value={filters.game}
-          onValueChange={(v) => onChange({ game: v, page: 1, rarity: "all" })}
+          onValueChange={(v) => onChange({ game: v, page: 1, rarity: "all", cardType: "all" })}
           className="gap-2"
         >
           <label className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground">
@@ -155,9 +155,7 @@ export function SidebarFilters({
 
           <div>
             <h3 className="mb-2 text-sm font-semibold">Card Type</h3>
-            <p className="mb-2 text-xs text-muted-foreground">
-              Currently only populated for Riftbound.
-            </p>
+            <p className="mb-2 text-xs text-muted-foreground">Not available for every game.</p>
             <RadioGroup
               value={filters.cardType}
               onValueChange={(v) => onChange({ cardType: v, page: 1 })}
@@ -240,9 +238,9 @@ export function SidebarFilters({
       <Separator />
 
       <div>
-        <h3 className="mb-2 text-sm font-semibold">Product Status within Portfolio</h3>
+        <h3 className="mb-2 text-sm font-semibold">Product Status in Your PC</h3>
         <p className="mb-2 text-xs text-muted-foreground">
-          Filter by inventory status within your currently selected portfolio.
+          Filter by inventory status within your currently selected PC.
         </p>
         <RadioGroup
           value={filters.status}

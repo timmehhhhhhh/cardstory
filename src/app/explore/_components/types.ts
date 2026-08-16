@@ -5,7 +5,7 @@ export interface ExploreFilters {
   game: string; // "all" | gameId
   set: string; // "" | setId, comes from a /sets/[game] deep link
   type: "all" | "CARD" | "SEALED";
-  cardType: string; // "all" | CatalogItem.cardType label, e.g. Riftbound's "Champion Unit"
+  cardType: string; // "all" | CatalogItem.cardType label, per-game (e.g. Riftbound's "Champion Unit" or Flesh & Blood's "Hero")
   rarity: string; // "all" | CatalogItem.rarity value, e.g. "Ultra Rare" or "Epic"
   language: "all" | "EN" | "JP" | "CN" | "TW" | "KR"; // CatalogItem.language — no-op for sports cards
   /** Sports cards only — hide every parallel, showing just each card's base version. */

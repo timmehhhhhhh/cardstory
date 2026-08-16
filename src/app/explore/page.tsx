@@ -26,7 +26,7 @@ export default async function ExplorePage({
       sort: filters.sort,
       page: filters.page,
     }),
-    getDistinctCardTypes(),
+    getDistinctCardTypes(filters.game !== "all" ? filters.game : undefined),
     getDistinctRarities(filters.game !== "all" ? filters.game : undefined),
   ]);
 
