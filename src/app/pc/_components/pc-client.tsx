@@ -35,10 +35,15 @@ export function PCClient() {
     setSelected(new Set());
   }
 
+  // Set of watched item ids — checked against catalogItemId OR
+  // sportsCardItemId, since watchlist entries can now be either kind (a
+  // catalogItemId-only check previously excluded sports holdings entirely).
+  const watchedIds = React.useMemo(() => new Set(watchlist.map((w) => w.itemId)), [watchlist]);
+
   const filteredRows = React.useMemo(() => {
     const playerQuery = filters.player.trim().toLowerCase();
     return rows.filter((r) => {
-      if (filters.watchlistOnly && !(r.catalogItemId && watchlist.includes(r.catalogItemId))) return false;
+      if (filters.watchlistOnly && !watchedIds.has(r.catalogItemId ?? r.sportsCardItemId ?? "")) return false;
       if (filters.gameId !== "all" && r.catalogItem?.gameId !== filters.gameId) return false;
       if (filters.sport !== "all" && r.sportsCardItem?.sport !== filters.sport) return false;
       if (playerQuery && !r.sportsCardItem?.playerName?.toLowerCase().includes(playerQuery)) return false;
@@ -47,7 +52,7 @@ export function PCClient() {
       if (filters.language !== "all" && r.language !== filters.language) return false;
       return true;
     });
-  }, [rows, filters, watchlist]);
+  }, [rows, filters, watchedIds]);
 
   function toggleSelect(holdingId: string) {
     setSelected((prev) => {

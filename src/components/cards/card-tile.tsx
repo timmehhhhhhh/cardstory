@@ -22,7 +22,8 @@ export function CardTile({
   view?: "grid" | "list";
 }) {
   const currency = usePCStore((s) => s.preferences.currency);
-  const watchlisted = usePCStore((s) => s.watchlist.includes(item.id));
+  const watchlistEntry = usePCStore((s) => s.watchlist.find((w) => w.itemId === item.id));
+  const watchlisted = !!watchlistEntry;
   const toggleWatchlist = usePCStore((s) => s.toggleWatchlist);
 
   const href = `/card/${item.gameId}/${encodeURIComponent(item.externalId)}`;
@@ -86,12 +87,19 @@ export function CardTile({
     </span>
   );
 
+  const watchlistTitle = watchlisted
+    ? `Watching since ${new Date(watchlistEntry!.addedAt).toLocaleDateString()}${
+        watchlistEntry!.priceAtAdd != null ? ` · ${formatMoney(watchlistEntry!.priceAtAdd, currency)} at add` : ""
+      }`
+    : undefined;
+
   const watchlistTrigger = (className: string) => (
     <button
       type="button"
       aria-label={watchlisted ? "Remove from watchlist" : "Add to watchlist"}
       aria-pressed={watchlisted}
-      onClick={() => toggleWatchlist(item.id)}
+      title={watchlistTitle}
+      onClick={() => toggleWatchlist(item.id, isSports ? "sports" : "tcg", item.priceRaw)}
       className={className}
     >
       <Star className={cn("size-4", watchlisted && "fill-watchlist text-watchlist")} />

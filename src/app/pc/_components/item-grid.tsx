@@ -80,6 +80,13 @@ export function ItemGrid({
             <p className="mt-0.5 text-xs leading-snug text-muted-foreground sm:text-sm">
               {r.display.subtitle}
             </p>
+            {(r.costBasisTotal > 0 || r.priceAtAcquisitionTotal != null) && (
+              <p className="mt-0.5 text-[11px] leading-snug text-muted-foreground/80">
+                Paid {formatMoney(r.costBasisTotal, currency)}
+                {r.priceAtAcquisitionTotal != null &&
+                  ` · Market at add ${formatMoney(r.priceAtAcquisitionTotal, currency)}`}
+              </p>
+            )}
             <div className="mt-2 flex flex-wrap items-center gap-1.5">
               <Badge variant="outline" className="font-normal text-muted-foreground">
                 Qty {r.quantity}

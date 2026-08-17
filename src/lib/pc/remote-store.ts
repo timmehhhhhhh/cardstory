@@ -61,8 +61,14 @@ export function useRemotePCStore<T>(
     staleTime: 30_000,
   });
 
+  const { data: watchlist = [] } = useQuery({
+    queryKey: WATCHLIST_QUERY_KEY,
+    queryFn: fetchWatchlist,
+    enabled: opts.enabled,
+    staleTime: 30_000,
+  });
+
   const preferences = useLocalPCStore((s) => s.preferences);
-  const watchlist = useLocalPCStore((s) => s.watchlist);
   const localActiveId = useLocalPCStore((s) => s.activePCId);
   const setLocalActivePC = useLocalPCStore((s) => s.setActivePC);
   const setCurrency = useLocalPCStore((s) => s.setCurrency);
@@ -71,8 +77,6 @@ export function useRemotePCStore<T>(
     (s) => s.setLastUsedCostBasisCurrency
   );
   const setBusinessMode = useLocalPCStore((s) => s.setBusinessMode);
-  const toggleWatchlist = useLocalPCStore((s) => s.toggleWatchlist);
-  const isWatchlisted = useLocalPCStore((s) => s.isWatchlisted);
 
   // The locally-remembered "active PC" may not exist in the server
   // list yet (first login, or it was deleted from another device) — fall
@@ -102,6 +106,17 @@ export function useRemotePCStore<T>(
     queryClient.invalidateQueries({ queryKey: QUERY_KEY });
   }, [queryClient]);
 
+  const watchlistPatch = React.useCallback(
+    (updater: (w: WatchlistItem[]) => WatchlistItem[]) => {
+      queryClient.setQueryData<WatchlistItem[]>(WATCHLIST_QUERY_KEY, (old) => updater(old ?? []));
+    },
+    [queryClient]
+  );
+
+  const reconcileWatchlist = React.useCallback(() => {
+    queryClient.invalidateQueries({ queryKey: WATCHLIST_QUERY_KEY });
+  }, [queryClient]);
+
   const state: PCState = React.useMemo(
     () => ({
       schemaVersion: 1,
@@ -115,8 +130,32 @@ export function useRemotePCStore<T>(
       setLastUsedCostBasisCurrency,
       setBusinessMode,
       setActivePC: setLocalActivePC,
-      toggleWatchlist,
-      isWatchlisted,
+
+      toggleWatchlist: (itemId: string, kind: HoldingKind, priceAtAdd: number | null) => {
+        const exists = watchlist.some((w) => w.itemId === itemId);
+        watchlistPatch((w) =>
+          exists
+            ? w.filter((x) => x.itemId !== itemId)
+            : [...w, { itemId, kind, addedAt: nowIso(), priceAtAdd }]
+        );
+        (exists
+          ? fetch("/api/watchlist", {
+              method: "DELETE",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ itemId }),
+            })
+          : fetch("/api/watchlist", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ itemId, kind, priceAtAdd }),
+            })
+        )
+          .then((res) => {
+            if (!res.ok) reconcileWatchlist();
+          })
+          .catch(reconcileWatchlist);
+      },
+      isWatchlisted: (itemId: string) => watchlist.some((w) => w.itemId === itemId),
 
       createPC: (name: string) => {
         const newId = id();
@@ -295,10 +334,10 @@ export function useRemotePCStore<T>(
       setLastUsedCostBasisCurrency,
       setBusinessMode,
       setLocalActivePC,
-      toggleWatchlist,
-      isWatchlisted,
       patch,
       reconcile,
+      watchlistPatch,
+      reconcileWatchlist,
     ]
   );
 

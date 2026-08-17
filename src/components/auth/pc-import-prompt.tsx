@@ -13,12 +13,29 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import type { PCStoreDataV1 } from "@/lib/pc/types";
+import type { PCStoreDataV1, WatchlistItem } from "@/lib/pc/types";
 
 // Kept as "portfolio" (not "pc") to match src/lib/pc/local-store.ts's
 // unchanged storage key, so existing local data is still found.
 const STORAGE_KEY = "cardstory:portfolio:v1";
 const IMPORT_STATUS_KEY = "cardstory:portfolio:import-status";
+
+/**
+ * This component reads raw localStorage JSON directly (below), bypassing
+ * useLocalPCStore's zustand `persist` migration — so a browser that still
+ * has the pre-upgrade watchlist shape (a bare catalogItemId[]) sitting in
+ * storage could reach this point unmigrated. Defensively normalize the same
+ * way local-store.ts's migrate() does, rather than sending malformed
+ * entries to /api/pc/import.
+ */
+function normalizeWatchlist(watchlist: unknown): WatchlistItem[] {
+  if (!Array.isArray(watchlist)) return [];
+  return watchlist.map((entry): WatchlistItem =>
+    typeof entry === "string"
+      ? { itemId: entry, kind: entry.includes(":") ? "tcg" : "sports", addedAt: new Date().toISOString(), priceAtAdd: null }
+      : (entry as WatchlistItem)
+  );
+}
 
 /**
  * Shown once per browser, the first time it's authenticated with local
@@ -70,11 +87,12 @@ export function PCImportPrompt() {
       const res = await fetch("/api/pc/import", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pcs: localData.pcs }),
+        body: JSON.stringify({ pcs: localData.pcs, watchlist: normalizeWatchlist(localData.watchlist) }),
       });
       if (res.ok) {
         localStorage.setItem(IMPORT_STATUS_KEY, "imported");
         queryClient.invalidateQueries({ queryKey: ["pc"] });
+        queryClient.invalidateQueries({ queryKey: ["watchlist"] });
 
         // The active PC may currently point at an empty one that
         // GET /api/pc auto-created before this import ran (see the

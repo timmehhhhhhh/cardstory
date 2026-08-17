@@ -27,6 +27,8 @@ export interface EnrichedHolding extends Holding {
   marketValue: number;
   gainLoss: number;
   gainLossPct: number | null;
+  /** priceAtAcquisition * quantity — pairs with marketValue/costBasisTotal, which are also totals. Null when priceAtAcquisition isn't known. */
+  priceAtAcquisitionTotal: number | null;
 }
 
 function serialSuffix(holding: Holding, sportsCardItem: SportsCardItemDetail | undefined): string {
@@ -99,9 +101,20 @@ export function enrichHoldings(
     const marketValue = unitPrice * h.quantity;
     const gainLoss = marketValue - h.costBasisTotal;
     const gainLossPct = h.costBasisTotal > 0 ? (gainLoss / h.costBasisTotal) * 100 : null;
+    const priceAtAcquisitionTotal = h.priceAtAcquisition != null ? h.priceAtAcquisition * h.quantity : null;
     const display = buildDisplay(h, catalogItem, sportsCardItem);
 
-    return { ...h, catalogItem, sportsCardItem, display, unitPrice, marketValue, gainLoss, gainLossPct };
+    return {
+      ...h,
+      catalogItem,
+      sportsCardItem,
+      display,
+      unitPrice,
+      marketValue,
+      gainLoss,
+      gainLossPct,
+      priceAtAcquisitionTotal,
+    };
   });
 }
 

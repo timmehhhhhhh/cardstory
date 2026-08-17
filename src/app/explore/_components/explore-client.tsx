@@ -86,6 +86,7 @@ export function ExploreClient({
     (s) => s.pcs.find((p) => p.id === s.activePCId)?.holdings ?? EMPTY_HOLDINGS
   );
   const watchlist = usePCStore((s) => s.watchlist);
+  const watchlistIds = React.useMemo(() => watchlist.map((w) => w.itemId), [watchlist]);
   const ownedIds = React.useMemo(
     () =>
       Array.from(
@@ -122,13 +123,13 @@ export function ExploreClient({
     !filters.watchlistOnly;
 
   const query = useQuery<SearchResponse>({
-    queryKey: ["catalog-search", filters, ownedIds, watchlist],
+    queryKey: ["catalog-search", filters, ownedIds, watchlistIds],
     queryFn: async () => {
       const sp = filtersToSearchParams(filters);
       sp.set("page", String(filters.page));
       if (filters.status === "owned") sp.set("onlyIds", ownedIds.join(","));
       if (filters.status === "not_owned") sp.set("excludeIds", ownedIds.join(","));
-      if (filters.watchlistOnly) sp.set("onlyIds", watchlist.join(","));
+      if (filters.watchlistOnly) sp.set("onlyIds", watchlistIds.join(","));
       const res = await fetch(`/api/catalog/search?${sp.toString()}`);
       if (!res.ok) throw new Error("Failed to load catalog");
       return res.json();
