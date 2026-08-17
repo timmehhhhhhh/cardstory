@@ -13,7 +13,7 @@ export default async function ExplorePage({
   const sp = await searchParams;
   const filters = filtersFromSearchParams(sp);
 
-  const [initialData, cardTypeOptions, rarityOptions] = await Promise.all([
+  const [initialData, cardTypeGroups, rarityOptions] = await Promise.all([
     searchCatalog({
       q: filters.q || undefined,
       gameId: filters.game !== "all" ? filters.game : undefined,
@@ -34,7 +34,7 @@ export default async function ExplorePage({
     <ExploreClient
       initialFilters={filters}
       initialData={initialData}
-      cardTypeOptions={cardTypeOptions}
+      cardTypeGroups={cardTypeGroups}
       rarityOptions={rarityOptions}
     />
   );

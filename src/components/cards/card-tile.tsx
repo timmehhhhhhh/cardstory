@@ -6,11 +6,12 @@ import Link from "next/link";
 import { PackagePlus, Star, TrendingDown, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { GameBadge } from "@/components/cards/game-badge";
-import { AddHoldingDialog } from "@/components/portfolio/add-holding-dialog";
-import { usePortfolioStore } from "@/lib/portfolio/store";
+import { CardNumberBadge } from "@/components/cards/card-number-badge";
+import { AddHoldingDialog } from "@/components/pc/add-holding-dialog";
+import { usePCStore } from "@/lib/pc/store";
 import { formatMoney, formatPct } from "@/lib/utils/format";
 import { getGameMeta } from "@/lib/games/registry";
-import { isItemLanguage } from "@/lib/portfolio/language";
+import { isItemLanguage } from "@/lib/pc/language";
 import type { CatalogSearchItem } from "@/lib/catalog/search";
 
 export function CardTile({
@@ -20,13 +21,26 @@ export function CardTile({
   item: CatalogSearchItem;
   view?: "grid" | "list";
 }) {
-  const currency = usePortfolioStore((s) => s.preferences.currency);
-  const watchlisted = usePortfolioStore((s) => s.watchlist.includes(item.id));
-  const toggleWatchlist = usePortfolioStore((s) => s.toggleWatchlist);
+  const currency = usePCStore((s) => s.preferences.currency);
+  const watchlisted = usePCStore((s) => s.watchlist.includes(item.id));
+  const toggleWatchlist = usePCStore((s) => s.toggleWatchlist);
 
   const href = `/card/${item.gameId}/${encodeURIComponent(item.externalId)}`;
   const positive = (item.priceChangePct ?? 0) >= 0;
   const isSports = getGameMeta(item.gameId)?.kind === "sports";
+  // Summed across every PC (not just the active one) — a card already
+  // owned in another collection should still read as "owned" here.
+  const ownedQuantity = usePCStore((s) =>
+    s.pcs.reduce(
+      (total, pc) =>
+        total +
+        pc.holdings.reduce((sum, h) => {
+          const matches = isSports ? h.sportsCardItemId === item.id : h.catalogItemId === item.id;
+          return matches ? sum + h.quantity : sum;
+        }, 0),
+      0
+    )
+  );
   const [addDialogOpen, setAddDialogOpen] = React.useState(false);
   // Only surfaced for non-English prints (currently Pokémon JP/CN/TW/KR) —
   // otherwise identical-looking reprints in different languages are
@@ -48,14 +62,28 @@ export function CardTile({
   // (e.g. when the dialog closes and hands focus back to the trigger).
   // Structuring these as siblings avoids that class of bug entirely.
   const addToCollectionTrigger = (className: string) => (
-    <button
-      type="button"
-      aria-label="Add to collection"
-      onClick={() => setAddDialogOpen(true)}
-      className={className}
-    >
-      <PackagePlus className="size-3.5" />
-    </button>
+    // `relative z-10 flex-none` lives on this wrapper (not just the button
+    // below) so it still stacks above the full-bleed Link and holds its
+    // size in the list view's flex row now that the button isn't the
+    // direct flex child anymore.
+    <span className="relative z-10 inline-flex flex-none">
+      <button
+        type="button"
+        aria-label="Add to collection"
+        onClick={() => setAddDialogOpen(true)}
+        className={className}
+      >
+        <PackagePlus className="size-3.5" />
+      </button>
+      {ownedQuantity > 0 && (
+        <span
+          aria-label={`${ownedQuantity} in your collection`}
+          className="pointer-events-none absolute -right-1 -top-1 z-10 flex h-4 min-w-4 items-center justify-center rounded-full border border-border bg-primary px-1 text-[10px] font-bold leading-none text-primary-foreground"
+        >
+          {ownedQuantity > 99 ? "99+" : ownedQuantity}
+        </span>
+      )}
+    </span>
   );
 
   const watchlistTrigger = (className: string) => (
@@ -99,10 +127,12 @@ export function CardTile({
           )}
         </div>
         <div className="pointer-events-none min-w-0 flex-1">
-          <p className="truncate text-sm font-medium">{item.name}</p>
+          <div className="flex items-center gap-1.5">
+            <p className="min-w-0 truncate text-sm font-medium">{item.name}</p>
+            <CardNumberBadge number={item.number} className="flex-none" />
+          </div>
           <p className="truncate text-xs text-muted-foreground">
             {item.setName}
-            {item.number ? ` · ${item.number}` : ""}
             {item.artist ? ` · ${item.artist}` : ""}
           </p>
         </div>
@@ -147,6 +177,7 @@ export function CardTile({
             No image
           </div>
         )}
+        <CardNumberBadge number={item.number} variant="overlay" />
         <div className="pointer-events-auto absolute right-1.5 top-1.5 z-10 flex flex-col gap-1">
           {addToCollectionTrigger(
             "rounded-full bg-background/70 p-1.5 text-muted-foreground backdrop-blur transition-colors hover:text-primary"
@@ -179,10 +210,7 @@ export function CardTile({
           <p className="min-w-0 truncate text-sm font-medium leading-tight">{item.name}</p>
           {languageBadge}
         </div>
-        <p className="truncate text-xs text-muted-foreground">
-          {item.setName}
-          {item.number ? ` · ${item.number}` : ""}
-        </p>
+        <p className="truncate text-xs text-muted-foreground">{item.setName}</p>
         {item.cardType && <p className="truncate text-[11px] text-muted-foreground/80">{item.cardType}</p>}
         {item.artist && <p className="truncate text-[11px] text-muted-foreground/80">{item.artist}</p>}
       </div>

@@ -13,7 +13,7 @@ import { filtersToSearchParams, type ExploreFilters } from "@/app/explore/_compo
 import { usePCStore } from "@/lib/pc/store";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import type { CatalogSearchItem } from "@/lib/catalog/search";
+import type { CardTypeGroup, CatalogSearchItem } from "@/lib/catalog/search";
 import type { Holding } from "@/lib/pc/types";
 
 const EMPTY_HOLDINGS: Holding[] = [];
@@ -28,12 +28,12 @@ interface SearchResponse {
 export function ExploreClient({
   initialFilters,
   initialData,
-  cardTypeOptions,
+  cardTypeGroups,
   rarityOptions,
 }: {
   initialFilters: ExploreFilters;
   initialData: SearchResponse;
-  cardTypeOptions: string[];
+  cardTypeGroups: CardTypeGroup[];
   rarityOptions: string[];
 }) {
   const router = useRouter();
@@ -67,7 +67,7 @@ export function ExploreClient({
   });
   const resolvedRarityOptions = rarityQuery.data ?? rarityOptions;
 
-  const cardTypeQuery = useQuery<string[]>({
+  const cardTypeQuery = useQuery<CardTypeGroup[]>({
     queryKey: ["catalog-card-types", filters.game],
     queryFn: async () => {
       const sp = new URLSearchParams();
@@ -75,12 +75,12 @@ export function ExploreClient({
       const res = await fetch(`/api/catalog/card-types?${sp.toString()}`);
       if (!res.ok) throw new Error("Failed to load card types");
       const json = await res.json();
-      return json.cardTypes as string[];
+      return json.cardTypeGroups as CardTypeGroup[];
     },
-    initialData: filters.game === initialFilters.game ? cardTypeOptions : undefined,
+    initialData: filters.game === initialFilters.game ? cardTypeGroups : undefined,
     placeholderData: (prev) => prev,
   });
-  const resolvedCardTypeOptions = cardTypeQuery.data ?? cardTypeOptions;
+  const resolvedCardTypeGroups = cardTypeQuery.data ?? cardTypeGroups;
 
   const holdings = usePCStore(
     (s) => s.pcs.find((p) => p.id === s.activePCId)?.holdings ?? EMPTY_HOLDINGS
@@ -146,7 +146,7 @@ export function ExploreClient({
         <SidebarFilters
           filters={filters}
           onChange={updateFilters}
-          cardTypeOptions={resolvedCardTypeOptions}
+          cardTypeGroups={resolvedCardTypeGroups}
           rarityOptions={resolvedRarityOptions}
         />
       </div>
@@ -167,7 +167,7 @@ export function ExploreClient({
                   <SidebarFilters
                     filters={filters}
                     onChange={updateFilters}
-                    cardTypeOptions={resolvedCardTypeOptions}
+                    cardTypeGroups={resolvedCardTypeGroups}
                     rarityOptions={resolvedRarityOptions}
                   />
                 </div>

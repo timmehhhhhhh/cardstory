@@ -5,9 +5,9 @@ import Image from "next/image";
 import { ExternalLink, ImageOff } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { usePortfolioStore } from "@/lib/portfolio/store";
-import type { ChecklistCard, ChecklistCardType } from "@/lib/sportscards/manage";
-import type { ItemLanguage } from "@/lib/portfolio/types";
+import { usePCStore } from "@/lib/pc/store";
+import type { ChecklistCard, ChecklistCardType, ChecklistVariant } from "@/lib/sportscards/manage";
+import type { ItemLanguage } from "@/lib/pc/types";
 
 const CARD_TYPE_LABEL: Record<ChecklistCardType, string> = {
   base: "Base",
@@ -49,30 +49,34 @@ function CardImage({ url, label }: { url: string | null; label: "Front" | "Back"
 }
 
 function ChecklistCardRow({ card }: { card: ChecklistCard }) {
-  const activePortfolioId = usePortfolioStore((s) => s.activePortfolioId);
-  const portfolios = usePortfolioStore((s) => s.portfolios);
-  const addHolding = usePortfolioStore((s) => s.addHolding);
-  const removeHoldings = usePortfolioStore((s) => s.removeHoldings);
+  const activePCId = usePCStore((s) => s.activePCId);
+  const pcs = usePCStore((s) => s.pcs);
+  const addHolding = usePCStore((s) => s.addHolding);
+  const removeHoldings = usePCStore((s) => s.removeHoldings);
 
-  const activePortfolio = portfolios.find((p) => p.id === activePortfolioId);
-  const holdings = activePortfolio?.holdings ?? [];
+  const activePC = pcs.find((p) => p.id === activePCId);
+  const holdings = activePC?.holdings ?? [];
 
   function holdingIdsFor(sportsCardItemId: string) {
     return holdings.filter((h) => h.sportsCardItemId === sportsCardItemId).map((h) => h.id);
   }
 
-  function toggleOwned(sportsCardItemId: string, owned: boolean) {
+  function toggleOwned(variant: ChecklistVariant, owned: boolean) {
     if (owned) {
-      removeHoldings(activePortfolioId, holdingIdsFor(sportsCardItemId));
+      removeHoldings(activePCId, holdingIdsFor(variant.sportsCardItemId));
     } else {
-      addHolding(activePortfolioId, {
+      addHolding(activePCId, {
         kind: "sports",
-        sportsCardItemId,
+        sportsCardItemId: variant.sportsCardItemId,
         quantity: 1,
         condition: "raw",
         language: "EN" as ItemLanguage,
         costBasisTotal: 0,
         costBasisCurrency: "USD",
+        // acquiredAt is always "now" here (a checklist checkbox, not a
+        // backdatable form), so the live price is also the price at
+        // acquisition — no historical lookup needed.
+        priceAtAcquisition: variant.priceRaw,
         acquiredAt: new Date().toISOString(),
       });
     }
@@ -116,7 +120,7 @@ function ChecklistCardRow({ card }: { card: ChecklistCard }) {
               >
                 <Checkbox
                   checked={owned}
-                  onCheckedChange={() => toggleOwned(v.sportsCardItemId, owned)}
+                  onCheckedChange={() => toggleOwned(v, owned)}
                 />
                 <span>{v.parallelName}</span>
                 {v.serialLimit && (

@@ -32,18 +32,29 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const valid = await compare(password, user.passwordHash);
         if (!valid) return null;
 
-        return { id: user.id, email: user.email };
+        return { id: user.id, email: user.email, isVendor: user.isVendor };
       },
     }),
   ],
   callbacks: {
-    jwt({ token, user }) {
-      if (user) token.uid = user.id;
+    jwt({ token, user, trigger, session }) {
+      if (user) {
+        token.uid = user.id;
+        token.isVendor = (user as { isVendor?: boolean }).isVendor ?? false;
+      }
+      // Lets the client refresh isVendor into the JWT right after toggling
+      // it (see account-menu.tsx's `update({ isVendor })` call) without
+      // requiring a full sign-out/sign-in — session() only ever reads what
+      // jwt() already put on the token, so it has to land here.
+      if (trigger === "update" && session && typeof session.isVendor === "boolean") {
+        token.isVendor = session.isVendor;
+      }
       return token;
     },
     session({ session, token }) {
       if (session.user && typeof token.uid === "string") {
         session.user.id = token.uid;
+        session.user.isVendor = token.isVendor === true;
       }
       return session;
     },

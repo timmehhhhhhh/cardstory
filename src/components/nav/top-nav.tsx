@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Camera, Menu } from "lucide-react";
+import { Camera, History, Menu } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -67,18 +67,26 @@ function NavLinks({ className, onNavigate }: { className?: string; onNavigate?: 
 function MobileAccountSection({ onNavigate }: { onNavigate: () => void }) {
   const { data: session } = useSession();
   return (
-    <div className="flex items-center justify-between px-3">
+    <div className="flex flex-col gap-2 px-3">
       <span className="truncate text-sm text-muted-foreground">{session?.user?.email}</span>
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={() => {
-          onNavigate();
-          signOut({ callbackUrl: "/" });
-        }}
-      >
-        Log out
-      </Button>
+      <div className="flex items-center justify-between">
+        <Button asChild variant="ghost" size="sm">
+          <Link href="/history" onClick={onNavigate}>
+            <History className="size-4" />
+            History
+          </Link>
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => {
+            onNavigate();
+            signOut({ callbackUrl: "/" });
+          }}
+        >
+          Log out
+        </Button>
+      </div>
     </div>
   );
 }

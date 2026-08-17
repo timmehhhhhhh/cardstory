@@ -5,7 +5,8 @@ import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { Minus, Plus, Search, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { usePortfolioStore } from "@/lib/portfolio/store";
+import { CardNumberBadge } from "@/components/cards/card-number-badge";
+import { usePCStore } from "@/lib/pc/store";
 import { formatMoney } from "@/lib/utils/format";
 import type { CatalogSearchItem } from "@/lib/catalog/search";
 import type { TradeItem } from "@/app/trade-analyzer/_components/types";
@@ -23,7 +24,7 @@ export function SideSelector({
   onSetQuantity: (catalogItemId: string, quantity: number) => void;
   onRemove: (catalogItemId: string) => void;
 }) {
-  const currency = usePortfolioStore((s) => s.preferences.currency);
+  const currency = usePCStore((s) => s.preferences.currency);
   const [q, setQ] = React.useState("");
   const [debounced, setDebounced] = React.useState("");
 
@@ -80,6 +81,7 @@ export function SideSelector({
                 )}
               </div>
               <span className="min-w-0 flex-1 truncate">{item.name}</span>
+              <CardNumberBadge number={item.number} className="flex-none" />
               <span className="num-tabular text-xs text-muted-foreground">
                 {formatMoney(item.priceRaw, currency)}
               </span>
@@ -100,6 +102,7 @@ export function SideSelector({
                 )}
               </div>
               <span className="min-w-0 flex-1 truncate text-sm">{item.name}</span>
+              <CardNumberBadge number={item.number} className="flex-none" />
               <div className="flex items-center gap-1">
                 <button
                   type="button"

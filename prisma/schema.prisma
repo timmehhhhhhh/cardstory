@@ -66,41 +66,41 @@ model Set {
 }
 
 model CatalogItem {
-  id             String           @id
-  gameId         String
-  game           Game             @relation(fields: [gameId], references: [id])
-  setId          String
-  set            Set              @relation(fields: [setId], references: [id])
-  externalId     String
-  name           String
-  number         String?
-  rarity         String?
+  id                     String                  @id
+  gameId                 String
+  game                   Game                    @relation(fields: [gameId], references: [id])
+  setId                  String
+  set                    Set                     @relation(fields: [setId], references: [id])
+  externalId             String
+  name                   String
+  number                 String?
+  rarity                 String?
   /// Illustrator credit, e.g. Pokémon's "Mitsuhiro Arita". Only populated for
   /// games whose API credits an artist per card — currently Pokémon and FAB.
-  artist         String?
+  artist                 String?
   /// Game-specific card type, e.g. Riftbound's "Champion Unit" / "Legend" /
   /// "Gear" / "Signature Spell" (a printed type + supertype combo — see
   /// lib/games/riftbound/card-types.ts). Null for games that don't have a
   /// distinct card-type taxonomy wired up yet.
-  cardType       String?
-  imageSmallUrl  String?
-  imageLargeUrl  String?
-  productType    ProductType      @default(CARD)
-  language       String           @default("EN")
-  lastSyncedAt   DateTime         @updatedAt
-  priceSnapshots PriceSnapshot[]
-  gradedPriceSnapshots GradedPriceSnapshot[]
+  cardType               String?
+  imageSmallUrl          String?
+  imageLargeUrl          String?
+  productType            ProductType             @default(CARD)
+  language               String                  @default("EN")
+  lastSyncedAt           DateTime                @updatedAt
+  priceSnapshots         PriceSnapshot[]
+  gradedPriceSnapshots   GradedPriceSnapshot[]
   ebaySoldPriceSnapshots EbaySoldPriceSnapshot[]
 
   /// Denormalized cache of the latest PriceSnapshot, kept in sync by
   /// upsertPriceSnapshot() whenever a new snapshot is written. Exists so
   /// Explore/Movers/sort-by-price can be plain indexed Prisma queries
   /// instead of a per-request "latest snapshot per item" join.
-  latestPriceRaw   Decimal? @db.Decimal(10, 2)
-  latestPriceFoil  Decimal? @db.Decimal(10, 2)
-  latestPriceDate  String?
-  prevPriceRaw     Decimal? @db.Decimal(10, 2)
-  priceChangePct   Float?
+  latestPriceRaw  Decimal? @db.Decimal(10, 2)
+  latestPriceFoil Decimal? @db.Decimal(10, 2)
+  latestPriceDate String?
+  prevPriceRaw    Decimal? @db.Decimal(10, 2)
+  priceChangePct  Float?
 
   /// PriceCharting's own product id for this card, cached the first time we
   /// resolve it via a `q=` search so later lookups can go straight to
@@ -156,7 +156,7 @@ model GradedPriceSnapshot {
   /// PriceCharting's own ungraded reference price — kept separately from
   /// CatalogItem.latestPriceRaw (our primary raw-price source) rather than
   /// overwriting it; shown as a cross-reference, not a replacement.
-  loosePrice  Decimal? @db.Decimal(10, 2)
+  loosePrice   Decimal? @db.Decimal(10, 2)
   grade7Price  Decimal? @db.Decimal(10, 2) // PriceCharting "cib-price": graded 7-7.5
   grade8Price  Decimal? @db.Decimal(10, 2) // "new-price": graded 8-8.5
   grade9Price  Decimal? @db.Decimal(10, 2) // "graded-price": graded 9
@@ -220,7 +220,7 @@ model EbaySoldPriceSnapshot {
 /// which is ownership information and lives on the local-only Holding
 /// (src/lib/portfolio/types.ts), the same way gradeCompany/gradeValue do.
 model SportsCardItem {
-  id           String   @id @default(cuid())
+  id           String    @id @default(cuid())
   sport        Sport
   /// Always displayed/stored together as "[year] [distributor] [setName]",
   /// e.g. "2020 Panini Mosaic" — kept as three separate fields (rather than
@@ -243,8 +243,8 @@ model SportsCardItem {
   cardNumber   String?
   /// null/"" = base card. e.g. "Prizm Silver", "Optic Holo", "Ruby Wave".
   parallelName String?
-  isAutograph  Boolean  @default(false)
-  isRelic      Boolean  @default(false)
+  isAutograph  Boolean   @default(false)
+  isRelic      Boolean   @default(false)
   /// The print run this parallel is numbered to, e.g. "99", or "1" for a
   /// 1-of-1 — a property of the parallel itself (SportsCardsPro's catalog
   /// encodes it in the product name). NOT the specific copy owned; see
@@ -271,8 +271,8 @@ model SportsCardItem {
   /// distributor|setName|playerName|cardNumber|parallelName, lowercased),
   /// so re-running a checklist seed script upserts instead of duplicating.
   /// Null for ad hoc user-added cards, which have no such key.
-  externalKey  String?  @unique
-  createdAt    DateTime @default(now())
+  externalKey  String?   @unique
+  createdAt    DateTime  @default(now())
 
   /// SportsCardsPro's product id, cached once resolved via search so later
   /// refreshes go straight to id lookup — same rate-limit reasoning as
@@ -287,7 +287,7 @@ model SportsCardItem {
   prevPriceRaw    Decimal? @db.Decimal(10, 2)
   priceChangePct  Float?
 
-  priceSnapshots SportsCardPriceSnapshot[]
+  priceSnapshots         SportsCardPriceSnapshot[]
   ebaySoldPriceSnapshots SportsCardEbaySoldPriceSnapshot[]
 
   @@index([sport])
@@ -376,24 +376,73 @@ model User {
   id           String   @id @default(cuid())
   email        String   @unique
   passwordHash String
+  /// Self-designated seller status, toggled from the account menu (see
+  /// src/app/api/account/vendor/route.ts) — no admin approval flow exists
+  /// today. Gates the Explore-area "Business mode" toggle
+  /// (src/app/explore/_components/business-mode-toggle.tsx), which is the
+  /// only thing this flag controls.
+  isVendor     Boolean  @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
   portfolios        Portfolio[]
   showcaseSnapshots ShowcaseSnapshot[]
+  activityLogs      ActivityLog[]
+  watchlistEntries  WatchlistEntry[]
 
   @@map("users")
 }
 
-/// Server-backed portfolio for a signed-in user — the accounts equivalent
-/// of the local-only Portfolio shape in src/lib/portfolio/types.ts. Holding
-/// ids are still generated client-side (see src/lib/portfolio/remote-store.ts)
+/// A user-facing "History" feed — one row per meaningful action a signed-in
+/// user takes (search, add/remove/edit a holding, create/delete a PC,
+/// toggle vendor status, publish/delete a showcase). Deliberately NOT a
+/// full audit trail (no before/after diffing, no IP/UA capture) — it exists
+/// so a user can scroll their own account menu > History page and recall
+/// what they did, not for compliance/security review. Written by
+/// src/lib/activity/log.ts, which swallows its own errors so a logging
+/// failure never fails the action it's describing.
+model ActivityLog {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// Dot-namespaced action key, e.g. "holding.added", "holding.deleted",
+  /// "pc.created", "vendor.enabled", "search.performed" — see
+  /// src/lib/activity/log.ts for the full set.
+  action     String
+  /// Coarse grouping used by the History page's filter tabs:
+  /// "holding" | "pc" | "showcase" | "vendor" | "search".
+  entityType String?
+  entityId   String?
+  /// Pre-rendered human-readable line, e.g. "Added 2x Charizard VMAX (NM) to Main".
+  summary    String
+  /// Extra structured detail (query params, quantity, from/to PC, etc.) —
+  /// not needed for the list view, kept for a possible future detail view.
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@map("activity_logs")
+}
+
+/// Server-backed portfolio ("PC" in app-facing code — see the naming-seam
+/// comment atop src/lib/pc/manage.ts) for a signed-in user — the accounts
+/// equivalent of the local-only PC shape in src/lib/pc/types.ts. Holding
+/// ids are still generated client-side (see src/lib/pc/remote-store.ts)
 /// so `id` has a server default but accepts a client-supplied value on create.
 model Portfolio {
   id        String    @id @default(cuid())
   userId    String
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   name      String
+  /// "personal" | "business" — plain string, same "lowercase TS union,
+  /// validated at the API boundary" convention as Holding.kind below.
+  /// "business" marks the single auto-created "Business Inventory" PC a
+  /// vendor's Explore-area "Business mode" toggle adds to — see
+  /// ensureBusinessPC in src/lib/pc/local-store.ts / remote-store.ts.
+  /// Every portfolio created before this field existed is "personal" by
+  /// the column default, same backfill-by-default approach as
+  /// productType/language on CatalogItem above.
+  kind      String    @default("personal")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   holdings  Holding[]
@@ -413,30 +462,75 @@ model Portfolio {
 /// lookups (/api/catalog/by-ids, /api/sportscards/by-ids), not joins —
 /// same zero-referential-integrity behavior the local store has today.
 model Holding {
-  id                String    @id @default(cuid())
-  portfolioId       String
-  portfolio         Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
-  kind              String    @default("tcg")
-  catalogItemId     String?
-  sportsCardItemId  String?
-  quantity          Int
-  condition         String
-  gradeCompany      String?
-  gradeValue        String?
-  serialNumber      String?
-  language          String    @default("EN")
-  costBasisTotal    Decimal   @db.Decimal(10, 2)
-  costBasisCurrency String
-  acquiredAt        DateTime
-  notes             String?
+  id                 String    @id @default(cuid())
+  portfolioId        String
+  portfolio          Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  kind               String    @default("tcg")
+  catalogItemId      String?
+  sportsCardItemId   String?
+  quantity           Int
+  condition          String
+  gradeCompany       String?
+  gradeValue         String?
+  serialNumber       String?
+  language           String    @default("EN")
+  costBasisTotal     Decimal   @db.Decimal(10, 2)
+  costBasisCurrency  String
+  /// The item's live unit market price (USD, per-unit — same convention as
+  /// CatalogItem.latestPriceRaw, not quantity-scaled) at `acquiredAt`,
+  /// resolved via getPriceAtDate()/getSportsCardPriceAtDate() against that
+  /// date (which may be backdated, not necessarily "today"). Null when
+  /// acquiredAt predates the item's oldest price snapshot, the item has no
+  /// tracked price history at all, or the holding predates this field —
+  /// same "nullable denormalized cache" convention as latestPriceRaw.
+  priceAtAcquisition Decimal?  @db.Decimal(10, 2)
+  acquiredAt         DateTime
+  notes              String?
   /// A photo of the specific physical card this holding represents — the
   /// owner's own copy, distinct from CatalogItem/SportsCardItem's shared
   /// reference image. Either an https:// URL or a client-resized JPEG data
   /// URL (see resizeImageToDataUrl), so plain text is enough.
-  imageUrl          String?
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  imageUrl           String?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
 
   @@index([portfolioId])
   @@map("holdings")
+}
+
+/// A signed-in user's watchlist entry — an item they're tracking without
+/// (yet) owning, independent of any Holding. Server-backed so it follows
+/// the account across devices; anonymous users keep an equivalent shape in
+/// localStorage only (see src/lib/pc/local-store.ts) since there's no
+/// account to sync to.
+model WatchlistEntry {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// "tcg" | "sports" — same lowercase-string-validated-at-the-API-boundary
+  /// convention as Holding.kind. Stored explicitly (not re-derived from
+  /// itemId's shape) purely for readability/debugging.
+  kind   String @default("tcg")
+  /// The watched item's id: a CatalogItem.id ("<gameId>:<externalId>") when
+  /// kind is "tcg", or a raw SportsCardItem.id (cuid) when kind is
+  /// "sports" — never a @relation, same "batch lookup, not a join"
+  /// reasoning as Holding.catalogItemId/sportsCardItemId. A single
+  /// always-populated column (not a nullable catalogItemId/sportsCardItemId
+  /// pair like Holding) specifically so @@unique([userId, itemId]) actually
+  /// enforces one-entry-per-item: Postgres treats two NULLs as distinct, so
+  /// a Holding-style nullable pair couldn't prevent duplicate sports-card
+  /// entries here.
+  itemId String
+
+  addedAt    DateTime @default(now())
+  /// Live USD unit price at the moment this item was starred — always "now"
+  /// (watchlisting is a single click, no backdating, unlike
+  /// Holding.acquiredAt), so this is just the already-known client-side
+  /// price captured at toggle time, never a historical lookup. Null when
+  /// the item had no price yet.
+  priceAtAdd Decimal? @db.Decimal(10, 2)
+
+  @@unique([userId, itemId])
+  @@index([userId])
+  @@map("watchlist_entries")
 }

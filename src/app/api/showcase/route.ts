@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
+import { logActivity } from "@/lib/activity/log";
 
 const itemSchema = z.object({
   catalogItemId: z.string(),
@@ -15,7 +16,7 @@ const itemSchema = z.object({
 });
 
 const payloadSchema = z.object({
-  portfolioName: z.string(),
+  pcName: z.string(),
   currency: z.string(),
   totalValue: z.number(),
   totalGainLoss: z.number(),
@@ -45,10 +46,19 @@ export async function POST(req: NextRequest) {
     data: {
       ownerToken,
       userId: session?.user?.id,
-      title: parsed.data.title ?? parsed.data.payload.portfolioName,
+      title: parsed.data.title ?? parsed.data.payload.pcName,
       payload: parsed.data.payload,
     },
   });
+
+  if (session?.user) {
+    await logActivity(session.user.id, {
+      action: "showcase.published",
+      entityType: "showcase",
+      entityId: snapshot.id,
+      summary: `Published showcase "${snapshot.title ?? parsed.data.payload.pcName}"`,
+    });
+  }
 
   return NextResponse.json({ shareId: snapshot.id, ownerToken });
 }

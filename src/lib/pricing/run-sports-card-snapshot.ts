@@ -13,7 +13,7 @@ export interface SportsCardSnapshotResult {
 /**
  * Refreshes today's price for every SportsCardItem that's already matched
  * to a SportsCardsPro product (has a cached priceChartingId) — i.e. every
- * sports card any local portfolio has ever added via the search flow.
+ * sports card any local pc has ever added via the search flow.
  * Skipped entirely when unconfigured. Bound by real usage rather than a
  * fixed catalog size (there's no bulk sports-card catalog to sync, unlike
  * the TCG job), so this stays reasonable at 1 req/sec even without an

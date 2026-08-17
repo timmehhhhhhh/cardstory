@@ -12,6 +12,13 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "svgs.scryfall.io" },
     ],
   },
+  // /portfolio was renamed to /pc; keep old bookmarks/links working.
+  redirects() {
+    return [
+      { source: "/portfolio", destination: "/pc", permanent: true },
+      { source: "/portfolio/:path*", destination: "/pc/:path*", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

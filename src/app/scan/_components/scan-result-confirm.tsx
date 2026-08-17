@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { RotateCcw, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { usePortfolioStore } from "@/lib/portfolio/store";
+import { CardNumberBadge } from "@/components/cards/card-number-badge";
+import { usePCStore } from "@/lib/pc/store";
 import { formatMoney } from "@/lib/utils/format";
 import type { ScanCandidate } from "@/lib/scan/match";
 import type { ScanIdentification } from "@/lib/scan/gemini";
@@ -24,7 +25,7 @@ export function ScanResultConfirm({
   onRetry: () => void;
 }) {
   const router = useRouter();
-  const currency = usePortfolioStore((s) => s.preferences.currency);
+  const currency = usePCStore((s) => s.preferences.currency);
 
   const manualSearchHref = `/explore${identification?.cardName ? `?q=${encodeURIComponent(identification.cardName)}` : ""}`;
 
@@ -69,11 +70,11 @@ export function ScanResultConfirm({
                   )}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium">{c.name}</p>
-                  <p className="truncate text-xs text-muted-foreground">
-                    {c.setName}
-                    {c.number ? ` · ${c.number}` : ""}
-                  </p>
+                  <div className="flex items-center gap-1.5">
+                    <p className="min-w-0 truncate text-sm font-medium">{c.name}</p>
+                    <CardNumberBadge number={c.number} className="flex-none" />
+                  </div>
+                  <p className="truncate text-xs text-muted-foreground">{c.setName}</p>
                 </div>
                 <span className="num-tabular text-sm font-medium">{formatMoney(c.priceRaw, currency)}</span>
               </button>

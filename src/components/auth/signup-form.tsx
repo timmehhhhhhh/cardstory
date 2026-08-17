@@ -34,7 +34,7 @@ export function SignupForm() {
       }
 
       // Signup only creates the account — establish the session itself via
-      // NextAuth's own client helper, then land on the portfolio.
+      // NextAuth's own client helper, then land on the pc.
       const signInResult = await signIn("credentials", {
         email,
         password,
@@ -46,7 +46,7 @@ export function SignupForm() {
         router.push("/login");
         return;
       }
-      router.push("/portfolio");
+      router.push("/pc");
       router.refresh();
     } catch {
       setError("Something went wrong. Please try again.");

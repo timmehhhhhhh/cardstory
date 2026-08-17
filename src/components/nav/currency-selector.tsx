@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SUPPORTED_CURRENCIES } from "@/lib/constants";
-import { usePreferencesStore } from "@/lib/portfolio/store";
+import { usePreferencesStore } from "@/lib/pc/store";
 
 export function CurrencySelector() {
   const currency = usePreferencesStore((s) => s.preferences.currency);

@@ -15,7 +15,7 @@ export type EbaySoldCompsResult =
  * EbaySoldPriceSnapshot instead of GradedPriceSnapshot. Deliberately does
  * NOT touch CatalogItem.latestPriceRaw — see EbaySoldPriceSnapshot's schema
  * comment for why scraped comps stay a cross-reference, not the number
- * that drives portfolio valuation.
+ * that drives pc valuation.
  */
 export async function getOrFetchEbaySoldComps(catalogItemId: string): Promise<EbaySoldCompsResult> {
   const today = todayDateString();

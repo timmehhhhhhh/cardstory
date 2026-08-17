@@ -16,7 +16,7 @@ export interface CatalogItemDetail {
   priceChangePct: number | null;
 }
 
-/** Batch lookup used to enrich local-only portfolio holdings (which only store catalogItemId). */
+/** Batch lookup used to enrich local-only pc holdings (which only store catalogItemId). */
 export async function getCatalogItemsByIds(ids: string[]): Promise<CatalogItemDetail[]> {
   if (ids.length === 0) return [];
   const rows = await db.catalogItem.findMany({

@@ -74,7 +74,7 @@ export interface BinderActions {
   removePage: (binderId: string, pageId: string) => void;
 
   placeCard: (binderId: string, pageId: string, slotIndex: number, holdingId: string | null) => void;
-  /** Removes every placement referencing a holding — call when a holding is deleted from the portfolio. */
+  /** Removes every placement referencing a holding — call when a holding is deleted from the pc. */
   removeHoldingEverywhere: (holdingId: string) => void;
 }
 

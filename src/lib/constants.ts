@@ -3,7 +3,7 @@ export const APP_NAME = "CardStory";
 export const NAV_LINKS = [
   { href: "/explore", label: "Explore" },
   { href: "/sets", label: "Sets" },
-  { href: "/portfolio", label: "Portfolio" },
+  { href: "/pc", label: "PC" },
   { href: "/trade-analyzer", label: "Trade Analyzer" },
 ] as const;
 
@@ -24,5 +24,5 @@ export const FX_RATES_TO_USD: Record<SupportedCurrency, number> = {
 export const PRICE_HISTORY_RANGES = ["1M", "3M", "6M", "1Y"] as const;
 export type PriceHistoryRange = (typeof PRICE_HISTORY_RANGES)[number];
 
-export const PORTFOLIO_CHART_RANGES = ["1D", "7D", "1M", "3M", "6M", "MAX"] as const;
-export type PortfolioChartRange = (typeof PORTFOLIO_CHART_RANGES)[number];
+export const PC_CHART_RANGES = ["1D", "7D", "1M", "3M", "6M", "MAX"] as const;
+export type PCChartRange = (typeof PC_CHART_RANGES)[number];

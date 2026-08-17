@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { TrendingDown, TrendingUp } from "lucide-react";
 import { db } from "@/lib/db";
+import { CardNumberBadge } from "@/components/cards/card-number-badge";
 import type { ShowcasePayload } from "@/lib/showcase/types";
 import { formatMoney, formatPct } from "@/lib/utils/format";
 import type { SupportedCurrency } from "@/lib/constants";
@@ -69,7 +70,10 @@ export default async function ShowcasePage({ params }: { params: Promise<{ share
               )}
             </div>
             <div className="p-2.5">
-              <p className="truncate text-sm font-medium">{item.name}</p>
+              <div className="flex items-center gap-1.5">
+                <p className="min-w-0 truncate text-sm font-medium">{item.name}</p>
+                <CardNumberBadge number={item.number} className="flex-none" />
+              </div>
               <p className="num-tabular text-xs text-muted-foreground">
                 Qty {item.quantity} · {formatMoney(item.marketValue, currency)}
               </p>

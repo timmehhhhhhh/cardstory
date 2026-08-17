@@ -18,7 +18,7 @@ export default async function LameloBallPage() {
           Base cards, inserts, and short prints, season by season. Photos are linked from external
           sources where a confident match was found — card backs in particular are rarely
           photographed, so most cards will only show a front. Check off any parallel you own to add
-          it straight to your Portfolio.
+          it straight to your PC.
         </p>
       </div>
       <ChecklistClient cards={cards} />

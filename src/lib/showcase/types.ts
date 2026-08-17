@@ -5,14 +5,15 @@ export interface ShowcaseItem {
   gameId: string;
   externalId: string;
   name: string;
+  number: string | null;
   imageSmallUrl: string | null;
   quantity: number;
   marketValue: number;
 }
 
-/** A point-in-time snapshot published from a local-only portfolio. */
+/** A point-in-time snapshot published from a local-only pc. */
 export interface ShowcasePayload {
-  portfolioName: string;
+  pcName: string;
   currency: SupportedCurrency;
   totalValue: number;
   totalGainLoss: number;

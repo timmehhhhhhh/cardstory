@@ -9,18 +9,19 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { GAMES, getGameMeta } from "@/lib/games/registry";
 import type { ExploreFilters } from "@/app/explore/_components/types";
+import type { CardTypeGroup } from "@/lib/catalog/search";
 
 const WIRED_GAMES = GAMES.filter((g) => g.status === "WIRED");
 
 export function SidebarFilters({
   filters,
   onChange,
-  cardTypeOptions = [],
+  cardTypeGroups = [],
   rarityOptions = [],
 }: {
   filters: ExploreFilters;
   onChange: (patch: Partial<ExploreFilters>) => void;
-  cardTypeOptions?: string[];
+  cardTypeGroups?: CardTypeGroup[];
   rarityOptions?: string[];
 }) {
   const [qDraft, setQDraft] = React.useState(filters.q);
@@ -149,7 +150,7 @@ export function SidebarFilters({
         </>
       )}
 
-      {cardTypeOptions.length > 0 && (
+      {cardTypeGroups.length > 0 && (
         <>
           <Separator />
 
@@ -164,14 +165,48 @@ export function SidebarFilters({
               <label className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground">
                 <RadioGroupItem value="all" /> All types
               </label>
-              {cardTypeOptions.map((ct) => (
-                <label
-                  key={ct}
-                  className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground"
-                >
-                  <RadioGroupItem value={ct} /> {ct}
-                </label>
-              ))}
+              {filters.game === "all" ? (
+                // Multiple games in play — group by game as collapsed-by-default
+                // <details> subsections so the list doesn't turn into one long,
+                // undifferentiated mix of every game's taxonomy. A group that
+                // contains the current selection starts open so the active
+                // filter is never hidden.
+                cardTypeGroups.map((group) => (
+                  <details
+                    key={group.gameId}
+                    open={group.cardTypes.includes(filters.cardType)}
+                    className="group"
+                  >
+                    <summary className="cursor-pointer select-none text-sm font-medium text-foreground [&::-webkit-details-marker]:hidden">
+                      <span className="inline-block w-3 text-muted-foreground transition-transform group-open:rotate-90">
+                        ▸
+                      </span>{" "}
+                      {group.gameName}
+                    </summary>
+                    <div className="mt-2 ml-4 flex flex-col gap-2 border-l border-border pl-3">
+                      {group.cardTypes.map((ct) => (
+                        <label
+                          key={ct}
+                          className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground"
+                        >
+                          <RadioGroupItem value={ct} /> {ct}
+                        </label>
+                      ))}
+                    </div>
+                  </details>
+                ))
+              ) : (
+                // A single game is selected — its group (if any) is all there
+                // is to show, so render it flat with no redundant heading.
+                cardTypeGroups[0]?.cardTypes.map((ct) => (
+                  <label
+                    key={ct}
+                    className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground"
+                  >
+                    <RadioGroupItem value={ct} /> {ct}
+                  </label>
+                ))
+              )}
             </RadioGroup>
           </div>
         </>

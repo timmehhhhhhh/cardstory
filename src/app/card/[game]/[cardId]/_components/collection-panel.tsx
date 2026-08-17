@@ -1,8 +1,8 @@
 "use client";
 
-import { AddHoldingDialog } from "@/components/portfolio/add-holding-dialog";
-import { usePortfolioStore } from "@/lib/portfolio/store";
-import { isItemLanguage } from "@/lib/portfolio/language";
+import { AddHoldingDialog } from "@/components/pc/add-holding-dialog";
+import { usePCStore } from "@/lib/pc/store";
+import { isItemLanguage } from "@/lib/pc/language";
 
 export function CollectionPanel({
   catalogItemId,
@@ -15,11 +15,11 @@ export function CollectionPanel({
   sportsCardItemId?: string;
   cardName: string;
   suggestedPrice: number | null;
-  /** CatalogItem.language, e.g. "JP" — pre-selects Add to Portfolio's Language field. */
+  /** CatalogItem.language, e.g. "JP" — pre-selects Add to PC's Language field. */
   language?: string;
 }) {
-  const ownedQuantity = usePortfolioStore((s) => {
-    const active = s.portfolios.find((p) => p.id === s.activePortfolioId);
+  const ownedQuantity = usePCStore((s) => {
+    const active = s.pcs.find((p) => p.id === s.activePCId);
     return active?.holdings
       .filter(
         (h) =>
@@ -33,7 +33,7 @@ export function CollectionPanel({
     <div className="rounded-xl border border-border bg-surface p-4">
       <h2 className="text-sm font-semibold">Collection</h2>
       <p className="mb-3 text-xs text-muted-foreground">
-        {ownedQuantity ? `You own ${ownedQuantity} in your active portfolio.` : "Track this card in your collection."}
+        {ownedQuantity ? `You own ${ownedQuantity} in your active pc.` : "Track this card in your collection."}
       </p>
       <AddHoldingDialog
         catalogItemId={catalogItemId}

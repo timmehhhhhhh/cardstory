@@ -12,6 +12,7 @@ const WIRED_SPORT_ENUMS = WIRED_SPORTS_GAMES.map((g) => g.sport).filter(
 export const CATALOG_SORTS = [
   "best_match",
   "name_asc",
+  "number_asc",
   "price_desc",
   "price_asc",
   "trending_up",
@@ -87,6 +88,11 @@ function orderBy(sort: CatalogSort): Prisma.CatalogItemOrderByWithRelationInput[
       return [{ set: { releaseDate: "desc" } }, { name: "asc" }];
     case "release_asc":
       return [{ set: { releaseDate: "asc" } }, { name: "asc" }];
+    case "number_asc":
+      // Card numbers ("025/198", "BOL024", plain "1"/"10") need natural,
+      // numeric-aware comparison that the DB can't express directly — see
+      // compareCardNumbers, applied in-memory after a full fetch below.
+      return [{ name: "asc" }];
     case "best_match":
     default:
       return [{ name: "asc" }];
@@ -109,6 +115,9 @@ function sportsOrderBy(sort: CatalogSort): Prisma.SportsCardItemOrderByWithRelat
       return [{ releaseDate: { sort: "desc", nulls: "last" } }, { playerName: "asc" }];
     case "release_asc":
       return [{ releaseDate: { sort: "asc", nulls: "last" } }, { playerName: "asc" }];
+    case "number_asc":
+      // Same rationale as orderBy() above — natural sort happens in memory.
+      return [{ playerName: "asc" }];
     case "name_asc":
     case "best_match":
     default:
@@ -273,42 +282,28 @@ function tcgWhereFor(
   };
 }
 
-async function runTcgQuery(
-  params: CatalogSearchParams,
-  gameIdFilter: string | { in: string[] },
-  page: number,
-  pageSize: number,
-  sort: CatalogSort
-) {
-  const where = tcgWhereFor(params, gameIdFilter);
-  const [rows, total] = await Promise.all([
-    db.catalogItem.findMany({
-      where,
-      orderBy: orderBy(sort),
-      skip: (page - 1) * pageSize,
-      take: pageSize,
-      select: {
-        id: true,
-        gameId: true,
-        externalId: true,
-        name: true,
-        number: true,
-        rarity: true,
-        artist: true,
-        cardType: true,
-        language: true,
-        imageSmallUrl: true,
-        productType: true,
-        latestPriceRaw: true,
-        priceChangePct: true,
-        latestPriceDate: true,
-        set: { select: { name: true, releaseDate: true } },
-      },
-    }),
-    db.catalogItem.count({ where }),
-  ]);
+const TCG_SELECT = {
+  id: true,
+  gameId: true,
+  externalId: true,
+  name: true,
+  number: true,
+  rarity: true,
+  artist: true,
+  cardType: true,
+  language: true,
+  imageSmallUrl: true,
+  productType: true,
+  latestPriceRaw: true,
+  priceChangePct: true,
+  latestPriceDate: true,
+  set: { select: { name: true, releaseDate: true } },
+} satisfies Prisma.CatalogItemSelect;
 
-  const items: CatalogSearchItem[] = rows.map((r) => ({
+type TcgRow = Prisma.CatalogItemGetPayload<{ select: typeof TCG_SELECT }>;
+
+function tcgItemToSearchItem(r: TcgRow): CatalogSearchItem {
+  return {
     id: r.id,
     gameId: r.gameId,
     externalId: r.externalId,
@@ -325,9 +320,47 @@ async function runTcgQuery(
     priceRaw: r.latestPriceRaw != null ? Number(r.latestPriceRaw) : null,
     priceChangePct: r.priceChangePct,
     hasPrice: r.latestPriceDate != null,
-  }));
+  };
+}
 
-  return { items, total };
+// Cap for the in-memory natural sort paths below (number_asc can't be
+// expressed as a DB orderBy — see compareCardNumbers) — bounds cost at deep
+// pagination the same way MERGE_FETCH_CAP does for the merged search.
+const NUMBER_SORT_FETCH_CAP = 1000;
+
+async function runTcgQuery(
+  params: CatalogSearchParams,
+  gameIdFilter: string | { in: string[] },
+  page: number,
+  pageSize: number,
+  sort: CatalogSort
+) {
+  const where = tcgWhereFor(params, gameIdFilter);
+
+  if (sort === "number_asc") {
+    const [rows, total] = await Promise.all([
+      db.catalogItem.findMany({ where, take: NUMBER_SORT_FETCH_CAP, select: TCG_SELECT }),
+      db.catalogItem.count({ where }),
+    ]);
+    const items = rows
+      .map(tcgItemToSearchItem)
+      .sort((a, b) => compareCardNumbers(a.number, b.number) || a.name.localeCompare(b.name))
+      .slice((page - 1) * pageSize, page * pageSize);
+    return { items, total };
+  }
+
+  const [rows, total] = await Promise.all([
+    db.catalogItem.findMany({
+      where,
+      orderBy: orderBy(sort),
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      select: TCG_SELECT,
+    }),
+    db.catalogItem.count({ where }),
+  ]);
+
+  return { items: rows.map(tcgItemToSearchItem), total };
 }
 
 async function runSportsQuery(
@@ -339,6 +372,19 @@ async function runSportsQuery(
   sort: CatalogSort
 ) {
   const where = sportsWhereFor(params, sportFilter);
+
+  if (sort === "number_asc") {
+    const [rows, total] = await Promise.all([
+      db.sportsCardItem.findMany({ where, take: NUMBER_SORT_FETCH_CAP, select: SPORTS_SELECT }),
+      db.sportsCardItem.count({ where }),
+    ]);
+    const items = rows
+      .map((r) => sportsItemToSearchItem(r, gameId))
+      .sort((a, b) => compareCardNumbers(a.number, b.number) || a.name.localeCompare(b.name))
+      .slice((page - 1) * pageSize, page * pageSize);
+    return { items, total };
+  }
+
   const [rows, total] = await Promise.all([
     db.sportsCardItem.findMany({
       where,
@@ -369,6 +415,22 @@ function compareNullsLastStr(x: string | null, y: string | null, ascending: bool
 }
 
 /**
+ * Natural, numeric-aware comparison for card numbers, nulls last. Plain
+ * lexicographic order breaks on the un-padded numbers several games use
+ * (Riftbound's "10" sorts before "2"; a sports "cardNumber" like "1-GG" vs
+ * "10"), so this leans on Intl's numeric collation instead — it treats
+ * embedded digit runs as numbers while still comparing letters normally,
+ * which handles zero-padded Pokémon numbers ("025/198"), plain digits
+ * (Riftbound), and alpha-prefixed ones (FAB's "BOL024") correctly.
+ */
+function compareCardNumbers(a: string | null, b: string | null): number {
+  if (a == null && b == null) return 0;
+  if (a == null) return 1;
+  if (b == null) return -1;
+  return a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" });
+}
+
+/**
  * Final ordering applied to the in-memory merge of TCG + sports results
  * (see searchMerged below). Each source table's own DB-side orderBy only
  * needs to produce a correctly-sorted top-N locally — this is what actually
@@ -388,6 +450,8 @@ function compareSearchItems(a: CatalogSearchItem, b: CatalogSearchItem, sort: Ca
       const ct = (a.cardType ?? "").localeCompare(b.cardType ?? "");
       return ct !== 0 ? ct : a.name.localeCompare(b.name);
     }
+    case "number_asc":
+      return compareCardNumbers(a.number, b.number) || a.name.localeCompare(b.name);
     case "release_desc":
       return (
         compareNullsLastStr(a.releaseDate, b.releaseDate, false) || a.name.localeCompare(b.name)
@@ -412,7 +476,11 @@ async function searchMerged(
   sort: CatalogSort
 ) {
   const includeSports = sportsFilterableFor(params) && WIRED_SPORT_ENUMS.length > 0;
-  const fetchN = Math.min(page * pageSize, MERGE_FETCH_CAP);
+  // number_asc has no matching DB orderBy (see compareCardNumbers), so the
+  // DB-side "take N" can't be trusted to contain the true top-N by number —
+  // fetch up to the full cap regardless of page so the in-memory sort below
+  // sees everything it needs to.
+  const fetchN = sort === "number_asc" ? MERGE_FETCH_CAP : Math.min(page * pageSize, MERGE_FETCH_CAP);
 
   const tcgWhere = tcgWhereFor(params, { in: WIRED_TCG_GAME_IDS });
   const sportsGameId = WIRED_SPORTS_GAMES[0]?.id ?? "basketball-nba";
@@ -423,23 +491,7 @@ async function searchMerged(
       where: tcgWhere,
       orderBy: orderBy(sort),
       take: fetchN,
-      select: {
-        id: true,
-        gameId: true,
-        externalId: true,
-        name: true,
-        number: true,
-        rarity: true,
-        artist: true,
-        cardType: true,
-        language: true,
-        imageSmallUrl: true,
-        productType: true,
-        latestPriceRaw: true,
-        priceChangePct: true,
-        latestPriceDate: true,
-        set: { select: { name: true, releaseDate: true } },
-      },
+      select: TCG_SELECT,
     }),
     sportsWhere
       ? db.sportsCardItem.findMany({
@@ -453,24 +505,7 @@ async function searchMerged(
     sportsWhere ? db.sportsCardItem.count({ where: sportsWhere }) : Promise.resolve(0),
   ]);
 
-  const tcgItems: CatalogSearchItem[] = tcgRows.map((r) => ({
-    id: r.id,
-    gameId: r.gameId,
-    externalId: r.externalId,
-    name: r.name,
-    number: r.number,
-    rarity: r.rarity,
-    artist: r.artist,
-    cardType: r.cardType,
-    language: r.language,
-    imageSmallUrl: r.imageSmallUrl,
-    setName: r.set.name,
-    releaseDate: r.set.releaseDate ? r.set.releaseDate.toISOString().slice(0, 10) : null,
-    productType: r.productType,
-    priceRaw: r.latestPriceRaw != null ? Number(r.latestPriceRaw) : null,
-    priceChangePct: r.priceChangePct,
-    hasPrice: r.latestPriceDate != null,
-  }));
+  const tcgItems = tcgRows.map(tcgItemToSearchItem);
   const sportsItems = sportsRows.map((r) => sportsItemToSearchItem(r, sportsGameId));
 
   const merged = [...tcgItems, ...sportsItems].sort((a, b) => compareSearchItems(a, b, sort));
@@ -506,26 +541,45 @@ export async function searchCatalog(params: CatalogSearchParams) {
   return { items: result.items, total: result.total, page, pageSize };
 }
 
+export interface CardTypeGroup {
+  gameId: string;
+  gameName: string;
+  cardTypes: string[];
+}
+
 /**
  * Every distinct non-empty CatalogItem.cardType in the catalog, for
  * populating Explore's "Card Type" filter — read from real data rather than
  * a hardcoded list so it stays accurate as new sets/supertypes get seeded.
- * Optionally scoped to a single game, since card-type taxonomies don't
- * overlap between games (Riftbound's "Champion Unit" vs Flesh & Blood's
- * "Hero"). Not every game populates this column (e.g. Pokémon doesn't).
- * Some FAB rows have cardType = "" (not null), so both null and "" are
- * excluded, mirroring getDistinctRarities below. Deliberately
- * CatalogItem-only — see sportsFilterableFor() above for why sports cards
- * don't participate here.
+ * Grouped by game, since card-type taxonomies don't overlap between games
+ * (Riftbound's "Champion Unit" vs Flesh & Blood's "Hero") — the sidebar uses
+ * the groups to render one collapsed-by-default subsection per game when
+ * "All games" is selected. Optionally scoped to a single game, in which
+ * case the result is a single-element (or empty) array. Not every game
+ * populates this column (e.g. Pokémon doesn't), so games with no card types
+ * are omitted entirely rather than returned as an empty group. Some FAB
+ * rows have cardType = "" (not null), so both null and "" are excluded,
+ * mirroring getDistinctRarities below. Deliberately CatalogItem-only — see
+ * sportsFilterableFor() above for why sports cards don't participate here.
  */
-export async function getDistinctCardTypes(gameId?: string): Promise<string[]> {
+export async function getDistinctCardTypes(gameId?: string): Promise<CardTypeGroup[]> {
   const rows = await db.catalogItem.findMany({
     where: { gameId, NOT: [{ cardType: null }, { cardType: "" }] },
-    distinct: ["cardType"],
-    select: { cardType: true },
+    distinct: ["gameId", "cardType"],
+    select: { gameId: true, cardType: true },
     orderBy: { cardType: "asc" },
   });
-  return rows.map((r) => r.cardType as string);
+  const byGame = new Map<string, string[]>();
+  for (const row of rows) {
+    const list = byGame.get(row.gameId);
+    if (list) list.push(row.cardType as string);
+    else byGame.set(row.gameId, [row.cardType as string]);
+  }
+  return GAMES.filter((g) => byGame.has(g.id)).map((g) => ({
+    gameId: g.id,
+    gameName: g.name,
+    cardTypes: byGame.get(g.id)!,
+  }));
 }
 
 /**

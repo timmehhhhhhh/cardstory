@@ -26,7 +26,7 @@ export function LoginForm() {
       setSubmitting(false);
       return;
     }
-    router.push("/portfolio");
+    router.push("/pc");
     router.refresh();
   }
 

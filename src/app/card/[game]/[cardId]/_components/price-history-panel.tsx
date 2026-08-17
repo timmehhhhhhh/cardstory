@@ -6,7 +6,7 @@ import { TrendingDown, TrendingUp, Clock } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { StockLineChart } from "@/components/charts/stock-line-chart";
-import { usePortfolioStore } from "@/lib/portfolio/store";
+import { usePCStore } from "@/lib/pc/store";
 import { formatMoney, formatPct } from "@/lib/utils/format";
 import { PRICE_HISTORY_RANGES, type PriceHistoryRange } from "@/lib/constants";
 
@@ -27,7 +27,7 @@ export function PriceHistoryPanel({
   currentChangePct: number | null;
 }) {
   const [range, setRange] = React.useState<PriceHistoryRange>("3M");
-  const currency = usePortfolioStore((s) => s.preferences.currency);
+  const currency = usePCStore((s) => s.preferences.currency);
 
   const query = useQuery<HistoryResponse>({
     queryKey: ["price-history", gameId, cardExternalId, range],

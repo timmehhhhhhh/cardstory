@@ -1,4 +1,5 @@
 import type { UnifiedCard, UnifiedSet } from "@/lib/games/types";
+import { FX_RATES_TO_USD } from "@/lib/constants";
 
 export interface PokemonApiSet {
   id: string;
@@ -144,19 +145,32 @@ export function mapTcgdexSet(raw: TcgdexSetDetail, lang: TcgdexLang): UnifiedSet
   };
 }
 
-/** Prefer Cardmarket's algorithmic trend price, falling back to its rolling average. */
+/**
+ * Prefer Cardmarket's algorithmic trend price, falling back to its rolling
+ * average. Cardmarket quotes in EUR, but every price everywhere else in
+ * this app (formatMoney, pc market value, sort-by-price) assumes
+ * UnifiedCard.price.raw/foil is already USD — see the `amountUsd` param in
+ * lib/utils/format.ts, and upsertPriceSnapshot, which stores `price.raw`
+ * as-is with no currency conversion of its own. So convert here via the
+ * app's static FX table rather than silently mis-pricing every non-English
+ * card by storing EUR figures as if they were USD.
+ */
 function extractTcgdexPrice(raw: TcgdexCardDetail): UnifiedCard["price"] {
   const cm = raw.pricing?.cardmarket;
   if (!cm) return undefined;
+  const unit = cm.unit ?? "EUR";
+  const rateToUsd = FX_RATES_TO_USD[unit as keyof typeof FX_RATES_TO_USD];
+  if (!rateToUsd) return undefined; // unrecognized currency — skip rather than mis-price
+
   const market = cm.trend ?? cm.avg ?? undefined;
   if (market == null) return undefined;
   // tcgdex fills non-holo cards' "*-holo" fields with 0 rather than null, so
   // treat 0 the same as "no holo variant" rather than a real $0 price.
   const foil = cm["trend-holo"] || cm["avg-holo"] || undefined;
   return {
-    raw: market,
-    foil: foil ?? undefined,
-    currency: cm.unit ?? "EUR",
+    raw: market / rateToUsd,
+    foil: foil != null ? foil / rateToUsd : undefined,
+    currency: "USD",
     source: "tcgdex:cardmarket",
   };
 }

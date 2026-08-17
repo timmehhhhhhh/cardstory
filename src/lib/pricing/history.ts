@@ -33,3 +33,20 @@ export async function getPriceHistory(
     priceRaw: r.priceRaw != null ? Number(r.priceRaw) : null,
   }));
 }
+
+/**
+ * The market price on (or nearest before) a specific date — used to record
+ * what a card was worth the moment a holding says it was acquired, since
+ * that date may be backdated rather than "today". Returns null rather than
+ * falling back to the oldest available snapshot when `date` predates all
+ * history for this item, same "honestly unknown" convention as
+ * CatalogItem.latestPriceRaw being nullable.
+ */
+export async function getPriceAtDate(catalogItemId: string, date: string): Promise<number | null> {
+  const row = await db.priceSnapshot.findFirst({
+    where: { catalogItemId, capturedDate: { lte: date } },
+    orderBy: { capturedDate: "desc" },
+    select: { priceRaw: true },
+  });
+  return row?.priceRaw != null ? Number(row.priceRaw) : null;
+}

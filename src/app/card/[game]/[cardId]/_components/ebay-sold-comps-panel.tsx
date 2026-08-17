@@ -3,7 +3,7 @@
 import * as React from "react";
 import { ExternalLink, Loader2, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { usePortfolioStore } from "@/lib/portfolio/store";
+import { usePCStore } from "@/lib/pc/store";
 import { formatMoney } from "@/lib/utils/format";
 import type { EbaySoldCompsAggregate } from "@/lib/pricing/ebay/mapper";
 
@@ -23,7 +23,7 @@ const ROWS: { label: string; key: keyof Pick<EbaySoldCompsAggregate, "medianPric
 
 export function EbaySoldCompsPanel({ gameId, cardExternalId, cardName }: { gameId: string; cardExternalId: string; cardName: string }) {
   const [state, setState] = React.useState<State>({ step: "idle" });
-  const currency = usePortfolioStore((s) => s.preferences.currency);
+  const currency = usePCStore((s) => s.preferences.currency);
   const liveSearchUrl = `https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(cardName)}&LH_Sold=1&LH_Complete=1`;
 
   async function load() {

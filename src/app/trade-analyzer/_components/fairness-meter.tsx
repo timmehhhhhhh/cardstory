@@ -1,11 +1,11 @@
 "use client";
 
 import { Scale } from "lucide-react";
-import { usePortfolioStore } from "@/lib/portfolio/store";
+import { usePCStore } from "@/lib/pc/store";
 import { formatMoney } from "@/lib/utils/format";
 
 export function FairnessMeter({ totalA, totalB }: { totalA: number; totalB: number }) {
-  const currency = usePortfolioStore((s) => s.preferences.currency);
+  const currency = usePCStore((s) => s.preferences.currency);
 
   if (totalA === 0 && totalB === 0) {
     return (

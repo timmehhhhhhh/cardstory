@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { auth } from "@/auth";
 import { db } from "@/lib/db";
+import { logActivity } from "@/lib/activity/log";
 
 const itemSchema = z.object({
   catalogItemId: z.string(),
@@ -13,7 +15,7 @@ const itemSchema = z.object({
 });
 
 const payloadSchema = z.object({
-  portfolioName: z.string(),
+  pcName: z.string(),
   currency: z.string(),
   totalValue: z.number(),
   totalGainLoss: z.number(),
@@ -53,7 +55,7 @@ export async function PATCH(
   const updated = await db.showcaseSnapshot.update({
     where: { id: shareId },
     data: {
-      title: parsed.data.title ?? parsed.data.payload.portfolioName,
+      title: parsed.data.title ?? parsed.data.payload.pcName,
       payload: parsed.data.payload,
     },
   });
@@ -71,6 +73,21 @@ export async function DELETE(
   if (!owner.ok) {
     return NextResponse.json({ error: "Not found or not authorized" }, { status: owner.status });
   }
-  await db.showcaseSnapshot.delete({ where: { id: shareId } });
+  const deleted = await db.showcaseSnapshot.delete({ where: { id: shareId } });
+
+  // Deletion here is authorized by ownerToken, not a session — log it
+  // against whoever's currently signed in, if anyone, purely so it shows
+  // up in their own History feed (not a strict "who actually did this"
+  // audit claim).
+  const session = await auth();
+  if (session?.user) {
+    await logActivity(session.user.id, {
+      action: "showcase.deleted",
+      entityType: "showcase",
+      entityId: shareId,
+      summary: `Deleted showcase "${deleted.title ?? "Untitled"}"`,
+    });
+  }
+
   return NextResponse.json({ ok: true });
 }

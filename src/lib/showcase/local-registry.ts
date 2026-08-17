@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Maps a local portfolioId -> its published showcase (shareId + ownerToken).
+ * Maps a local pcId -> its published showcase (shareId + ownerToken).
  * ownerToken is the ONLY credential that can update/delete that snapshot —
  * there are no accounts, so losing this localStorage entry means losing
  * the ability to manage that showcase (a fresh "Publish" just creates a
@@ -15,7 +15,7 @@ export interface ShowcaseRegistryEntry {
   publishedAt: string;
 }
 
-type Registry = Record<string, ShowcaseRegistryEntry>; // portfolioId -> entry
+type Registry = Record<string, ShowcaseRegistryEntry>; // pcId -> entry
 
 function load(): Registry {
   if (typeof window === "undefined") return {};
@@ -31,18 +31,18 @@ function save(registry: Registry) {
   window.localStorage.setItem(KEY, JSON.stringify(registry));
 }
 
-export function getShowcaseEntry(portfolioId: string): ShowcaseRegistryEntry | undefined {
-  return load()[portfolioId];
+export function getShowcaseEntry(pcId: string): ShowcaseRegistryEntry | undefined {
+  return load()[pcId];
 }
 
-export function setShowcaseEntry(portfolioId: string, entry: ShowcaseRegistryEntry) {
+export function setShowcaseEntry(pcId: string, entry: ShowcaseRegistryEntry) {
   const registry = load();
-  registry[portfolioId] = entry;
+  registry[pcId] = entry;
   save(registry);
 }
 
-export function clearShowcaseEntry(portfolioId: string) {
+export function clearShowcaseEntry(pcId: string) {
   const registry = load();
-  delete registry[portfolioId];
+  delete registry[pcId];
   save(registry);
 }

@@ -3,7 +3,7 @@
 import * as React from "react";
 import { ExternalLink, Loader2, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { usePortfolioStore } from "@/lib/portfolio/store";
+import { usePCStore } from "@/lib/pc/store";
 import { formatMoney } from "@/lib/utils/format";
 import type { GradedPriceValues } from "@/lib/pricing/pricecharting/mapper";
 
@@ -28,7 +28,7 @@ const ROWS: { label: string; key: keyof GradedPriceValues }[] = [
 
 export function GradedPricesPanel({ gameId, cardExternalId }: { gameId: string; cardExternalId: string }) {
   const [state, setState] = React.useState<State>({ step: "idle" });
-  const currency = usePortfolioStore((s) => s.preferences.currency);
+  const currency = usePCStore((s) => s.preferences.currency);
 
   async function load() {
     setState({ step: "loading" });

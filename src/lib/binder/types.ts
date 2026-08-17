@@ -1,8 +1,8 @@
 /**
- * Virtual binder — a per-page grid of "pockets" the user assigns portfolio
+ * Virtual binder — a per-page grid of "pockets" the user assigns pc
  * holdings to, purely to preview how a physical binder page would look.
  * Lives entirely in localStorage (see store.ts); it references holdings by
- * id but never mutates the portfolio itself.
+ * id but never mutates the pc itself.
  */
 
 export const BINDER_LAYOUTS = {

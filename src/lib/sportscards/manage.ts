@@ -63,7 +63,7 @@ export async function createOrReuseSportsCardItem(input: SportsCardItemInput): P
         await upsertSportsCardPriceSnapshot(db, created.id, values);
       }
     } catch (err) {
-      // Don't fail the whole "add to portfolio" action over a pricing hiccup —
+      // Don't fail the whole "add to PC" action over a pricing hiccup —
       // the item still gets created, just without a price yet.
       console.error("SportsCardsPro price fetch failed during create:", err);
     }
@@ -235,6 +235,8 @@ export interface ChecklistVariant {
   /** "Base" when this row is the unparalleled version. */
   parallelName: string;
   serialLimit: string | null;
+  /** Live unit market price, for stamping Holding.priceAtAcquisition when toggled owned. */
+  priceRaw: number | null;
 }
 
 export interface ChecklistCard {
@@ -292,6 +294,7 @@ export async function getPlayerChecklist(sport: Sport, playerName: string): Prom
       sportsCardItemId: r.id,
       parallelName: r.parallelName && r.parallelName.length > 0 ? r.parallelName : "Base",
       serialLimit: r.serialLimit,
+      priceRaw: r.latestPriceRaw != null ? Number(r.latestPriceRaw) : null,
     });
   }
 

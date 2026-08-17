@@ -23,12 +23,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CardPhotoField } from "@/components/portfolio/card-photo-field";
-import { usePortfolioStore } from "@/lib/portfolio/store";
+import { CardPhotoField } from "@/components/pc/card-photo-field";
+import { usePCStore } from "@/lib/pc/store";
 import { SPORTS } from "@/lib/sports/registry";
 import { COMMON_DISTRIBUTORS } from "@/lib/sportscards/distributors";
 import { formatMoney } from "@/lib/utils/format";
-import type { CardCondition, ItemLanguage } from "@/lib/portfolio/types";
+import { SUPPORTED_CURRENCIES, type SupportedCurrency } from "@/lib/constants";
+import { pcKind, type CardCondition, type ItemLanguage } from "@/lib/pc/types";
+import { resolvePriceAtDate } from "@/lib/pc/resolve-price-at-date";
 
 type Sport = "NBA" | "F1" | "UFC" | "TENNIS";
 
@@ -76,15 +78,31 @@ export function AddSportsCardDialog() {
   const [costBasis, setCostBasis] = React.useState("");
   const [acquiredAt, setAcquiredAt] = React.useState(() => new Date().toISOString().slice(0, 10));
 
-  const portfolios = usePortfolioStore((s) => s.portfolios);
-  const activePortfolioId = usePortfolioStore((s) => s.activePortfolioId);
-  const [portfolioId, setPortfolioId] = React.useState(activePortfolioId);
-  const addHolding = usePortfolioStore((s) => s.addHolding);
+  const pcs = usePCStore((s) => s.pcs);
+  const activePCId = usePCStore((s) => s.activePCId);
+  const businessMode = usePCStore((s) => s.preferences.businessMode);
+  const businessPC = pcs.find((p) => pcKind(p) === "business");
+  // Same "default into Business Inventory while Business mode is on" logic
+  // as add-holding-dialog.tsx.
+  const defaultPCId =
+    businessMode && businessPC ? businessPC.id : activePCId;
+  const [pcId, setPCId] = React.useState(defaultPCId);
+  const addHolding = usePCStore((s) => s.addHolding);
+  const lastUsedCostBasisCurrency = usePCStore(
+    (s) => s.preferences.lastUsedCostBasisCurrency
+  );
+  const setLastUsedCostBasisCurrency = usePCStore((s) => s.setLastUsedCostBasisCurrency);
+  const [costBasisCurrency, setCostBasisCurrency] = React.useState<SupportedCurrency>(
+    lastUsedCostBasisCurrency ?? "USD"
+  );
 
   const [prevOpen, setPrevOpen] = React.useState(open);
   if (open !== prevOpen) {
     setPrevOpen(open);
-    if (open) setPortfolioId(activePortfolioId);
+    if (open) {
+      setPCId(defaultPCId);
+      setCostBasisCurrency(lastUsedCostBasisCurrency ?? "USD");
+    }
   }
 
   async function handleSearch() {
@@ -143,6 +161,7 @@ export function AddSportsCardDialog() {
     setQuantity(1);
     setCondition("raw");
     setCostBasis("");
+    setCostBasisCurrency(lastUsedCostBasisCurrency ?? "USD");
   }
 
   async function handleAdd() {
@@ -171,7 +190,13 @@ export function AddSportsCardDialog() {
       if (!res.ok) return;
       const { id: sportsCardItemId } = await res.json();
 
-      addHolding(portfolioId, {
+      const priceAtAcquisition = await resolvePriceAtDate({
+        date: acquiredAt,
+        liveSuggestedPrice: matchedPrice,
+        sportsCardItemId,
+      });
+
+      addHolding(pcId, {
         kind: "sports",
         sportsCardItemId,
         quantity: Math.max(1, quantity),
@@ -181,10 +206,12 @@ export function AddSportsCardDialog() {
         serialNumber: serialNumber.trim() || undefined,
         language: "EN" as ItemLanguage,
         costBasisTotal: Number(costBasis) || 0,
-        costBasisCurrency: "USD",
+        costBasisCurrency,
+        priceAtAcquisition,
         acquiredAt: new Date(acquiredAt).toISOString(),
         imageUrl: holdingImageUrl.trim() || undefined,
       });
+      setLastUsedCostBasisCurrency(costBasisCurrency);
 
       resetForm();
       setOpen(false);
@@ -406,20 +433,20 @@ export function AddSportsCardDialog() {
           <CardPhotoField
             id="sc-holding-image"
             label="Photo of your copy (optional)"
-            helperText="Your own photo — takes priority over the card image above in your portfolio."
+            helperText="Your own photo — takes priority over the card image above in your PC."
             value={holdingImageUrl}
             onChange={setHoldingImageUrl}
           />
 
-          {portfolios.length > 1 && (
+          {pcs.length > 1 && (
             <div className="grid gap-1.5">
-              <Label>Portfolio</Label>
-              <Select value={portfolioId} onValueChange={setPortfolioId}>
+              <Label>PC</Label>
+              <Select value={pcId} onValueChange={setPCId}>
                 <SelectTrigger className="bg-background">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {portfolios.map((p) => (
+                  {pcs.map((p) => (
                     <SelectItem key={p.id} value={p.id}>
                       {p.name}
                     </SelectItem>
@@ -469,16 +496,33 @@ export function AddSportsCardDialog() {
 
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-1.5">
-              <Label htmlFor="sc-cost">Cost basis (USD)</Label>
-              <Input
-                id="sc-cost"
-                type="number"
-                step="0.01"
-                min={0}
-                value={costBasis}
-                onChange={(e) => setCostBasis(e.target.value)}
-                className="bg-background"
-              />
+              <Label htmlFor="sc-cost">Cost basis</Label>
+              <div className="flex gap-2">
+                <Select
+                  value={costBasisCurrency}
+                  onValueChange={(v) => setCostBasisCurrency(v as SupportedCurrency)}
+                >
+                  <SelectTrigger className="w-[84px] shrink-0 bg-background" aria-label="Currency">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {SUPPORTED_CURRENCIES.map((code) => (
+                      <SelectItem key={code} value={code}>
+                        {code}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Input
+                  id="sc-cost"
+                  type="number"
+                  step="0.01"
+                  min={0}
+                  value={costBasis}
+                  onChange={(e) => setCostBasis(e.target.value)}
+                  className="bg-background"
+                />
+              </div>
             </div>
             <div className="grid gap-1.5">
               <Label htmlFor="sc-acquired">Acquired on</Label>
@@ -498,7 +542,7 @@ export function AddSportsCardDialog() {
             Cancel
           </Button>
           <Button onClick={handleAdd} disabled={submitting || !setName.trim() || !playerName.trim()}>
-            {submitting ? <Loader2 className="size-4 animate-spin" /> : "Add to Portfolio"}
+            {submitting ? <Loader2 className="size-4 animate-spin" /> : "Add to PC"}
           </Button>
         </DialogFooter>
       </DialogContent>

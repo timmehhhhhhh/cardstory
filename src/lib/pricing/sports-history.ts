@@ -35,3 +35,16 @@ export async function getSportsCardPriceHistory(
     priceRaw: r.loosePrice != null ? Number(r.loosePrice) : null,
   }));
 }
+
+/** SportsCardItem analogue of getPriceAtDate() (lib/pricing/history.ts). */
+export async function getSportsCardPriceAtDate(
+  sportsCardItemId: string,
+  date: string
+): Promise<number | null> {
+  const row = await db.sportsCardPriceSnapshot.findFirst({
+    where: { sportsCardItemId, capturedDate: { lte: date } },
+    orderBy: { capturedDate: "desc" },
+    select: { loosePrice: true },
+  });
+  return row?.loosePrice != null ? Number(row.loosePrice) : null;
+}
