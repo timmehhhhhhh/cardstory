@@ -42,7 +42,9 @@ function defaultState(): PCStoreDataV1 {
     preferences: {
       currency: "USD",
       theme: "dark",
-      viewMode: "grid",
+      // The detail-dense list is the default read of a collection; gallery
+      // is opt-in via ViewModeToggle (src/app/pc/_components).
+      viewMode: "list",
       lastUsedCostBasisCurrency: "USD",
       businessMode: false,
     },
@@ -204,7 +206,7 @@ export const useLocalPCStore = create<PCState>()(
     }),
     {
       name: STORAGE_KEY,
-      version: 2,
+      version: 3,
       // schemaVersion bumps go here as `migrate: (persisted, fromVersion) => ...`
       migrate: (persisted, fromVersion) => {
         if (!persisted || typeof persisted !== "object") return defaultState();
@@ -228,6 +230,14 @@ export const useLocalPCStore = create<PCState>()(
                 }
               : (entry as WatchlistItem)
           );
+        }
+        // v2 -> v3: preferences.viewMode became a real, user-facing setting
+        // (ViewModeToggle). Until now nothing read it, so every persisted
+        // value is the old "grid" default rather than anybody's choice —
+        // honouring it would silently move existing users into the gallery.
+        // Reset once to "list", which is what they've actually been seeing.
+        if (fromVersion < 3 && state.preferences) {
+          state.preferences = { ...state.preferences, viewMode: "list" };
         }
         return state as PCState;
       },

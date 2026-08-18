@@ -13,6 +13,8 @@ import { TrendingToday } from "@/app/pc/_components/trending-today";
 import { CollectionsByGame } from "@/app/pc/_components/collections-by-game";
 import { SmartFilters } from "@/app/pc/_components/smart-filters";
 import { ItemGrid } from "@/app/pc/_components/item-grid";
+import { ItemGallery } from "@/app/pc/_components/item-gallery";
+import { ViewModeToggle } from "@/app/pc/_components/view-mode-toggle";
 import { BulkActionsBar } from "@/app/pc/_components/bulk-actions-bar";
 import { DEFAULT_HOLDING_FILTERS, type HoldingFilters } from "@/app/pc/_components/types";
 import { PublishShowcaseDialog } from "@/components/pc/publish-showcase-dialog";
@@ -24,6 +26,7 @@ export function PCClient() {
   const { pcs, activePCId, activePC, rows, totals, isLoading } = usePCData();
   const watchlist = usePCStore((s) => s.watchlist);
   const currency = usePCStore((s) => s.preferences.currency);
+  const viewMode = usePCStore((s) => s.preferences.viewMode);
   const setActivePC = usePCStore((s) => s.setActivePC);
 
   // Business Inventory now lives on its own /business tab and is filtered
@@ -134,9 +137,20 @@ export function PCClient() {
       </div>
 
       <div className="flex flex-col gap-3">
-        <SmartFilters filters={filters} onChange={(patch) => setFilters((f) => ({ ...f, ...patch }))} />
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <SmartFilters filters={filters} onChange={(patch) => setFilters((f) => ({ ...f, ...patch }))} />
+          <ViewModeToggle />
+        </div>
         {isLoading ? (
           <p className="text-sm text-muted-foreground">Loading your collection…</p>
+        ) : viewMode === "grid" ? (
+          <ItemGallery
+            rows={filteredRows}
+            bulkMode={bulkMode}
+            selected={selected}
+            onToggleSelect={toggleSelect}
+            activePCId={activePCId}
+          />
         ) : (
           <ItemGrid
             rows={filteredRows}

@@ -12,7 +12,13 @@ import { SportsCardImageDialog } from "@/components/sportscards/sports-card-imag
 import type { EnrichedHolding } from "@/lib/pc/selectors";
 import { CardImage } from "@/components/cards/card-image";
 import { ParallelBadge } from "@/components/sportscards/parallel-badge";
+import { EmptyHoldings } from "@/app/pc/_components/empty-holdings";
 
+/**
+ * The detail-dense way of reading a pc: one row per holding, with cost
+ * basis, market-at-add and the full subtitle alongside a modest scan.
+ * ItemGallery is the image-first alternative — see ViewModeToggle.
+ */
 export function ItemGrid({
   rows,
   bulkMode,
@@ -29,17 +35,7 @@ export function ItemGrid({
   const currency = usePCStore((s) => s.preferences.currency);
   const removeHoldings = usePCStore((s) => s.removeHoldings);
 
-  if (rows.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-border py-16 text-center">
-        <p className="font-medium">Nothing here yet</p>
-        <p className="text-sm text-muted-foreground">
-          Head to <Link href="/explore" className="text-primary hover:underline">Explore</Link> and add a
-          card, or use &quot;Add Sports Card&quot; above.
-        </p>
-      </div>
-    );
-  }
+  if (rows.length === 0) return <EmptyHoldings />;
 
   return (
     <div className="flex flex-col gap-2.5">
