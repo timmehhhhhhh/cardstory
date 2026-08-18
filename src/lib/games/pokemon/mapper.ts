@@ -41,29 +41,58 @@ export function mapPokemonSet(raw: PokemonApiSet): UnifiedSet {
   };
 }
 
-/** Prefer TCGPlayer market price across common finishes, fall back to Cardmarket. */
-function extractPrice(raw: PokemonApiCard): UnifiedCard["price"] {
-  const tp = raw.tcgplayer?.prices;
-  const market =
-    tp?.holofoil?.market ??
-    tp?.normal?.market ??
-    tp?.reverseHolofoil?.market ??
-    tp?.["1stEditionHolofoil"]?.market ??
-    raw.cardmarket?.prices?.averageSellPrice ??
-    undefined;
-  const foil = tp?.holofoil?.market ?? tp?.reverseHolofoil?.market ?? undefined;
+// --- Finish/variant labeling -----------------------------------------------
+//
+// pokemontcg.io prices each card under one or more "finish" keys inside
+// tcgplayer.prices (e.g. "holofoil", "reverseHolofoil", "1stEditionHolofoil").
+// Every card used to collapse to a single UnifiedCard by picking one of
+// these via priority fallback; mapPokemonCardVariants below instead expands
+// into one UnifiedCard per priced finish actually present, so each becomes
+// its own addable CatalogItem row (see scripts/seed-catalog.ts).
 
-  if (market == null) return undefined;
-  return {
-    raw: market,
-    foil: foil ?? undefined,
-    currency: "USD",
-    source: tp ? "pokemontcg.io" : "pokemontcg.io:cardmarket",
-  };
+/** Default, generic display label per known provider finish key. */
+const FINISH_LABELS: Record<string, string> = {
+  normal: "Normal",
+  holofoil: "Holofoil",
+  reverseHolofoil: "Reverse Holo",
+  "1stEdition": "1st Edition",
+  "1stEditionNormal": "1st Edition Normal",
+  "1stEditionHolofoil": "1st Edition Holofoil",
+  "1stEditionUnlimited": "1st Edition Unlimited",
+  unlimited: "Unlimited",
+  unlimitedHolofoil: "Unlimited Holofoil",
+};
+
+/** "someNewFinish" -> "Some New Finish" — a readable fallback for a finish key this app doesn't recognize yet, so an unseen provider key still renders something legible instead of being silently dropped. */
+function titleCaseFallback(key: string): string {
+  return key.replace(/([a-z0-9])([A-Z])/g, "$1 $2").replace(/^./, (c) => c.toUpperCase());
 }
 
-export function mapPokemonCard(raw: PokemonApiCard, setExternalId: string): UnifiedCard {
-  return {
+/** Generic display label for a finish key — NOT the curated collector-pattern override, see lib/games/pokemon/finish-patterns.ts for that. */
+export function defaultFinishLabel(variantKey: string): string {
+  return FINISH_LABELS[variantKey] ?? titleCaseFallback(variantKey);
+}
+
+/**
+ * Same priority order today's (pre-variant) extractPrice() used to pick a
+ * single price — reused here only to decide which present finish is
+ * "primary" (keeps the pre-existing, unsuffixed CatalogItem id — see
+ * scripts/seed-catalog.ts) so existing Holding/WatchlistEntry references
+ * keep resolving after this card gains additional variant rows.
+ */
+const PRICE_KEY_PRIORITY = ["holofoil", "normal", "reverseHolofoil", "1stEditionHolofoil"] as const;
+
+/**
+ * One UnifiedCard per priced finish actually present on `raw` — iterates
+ * whatever keys tcgplayer.prices actually has (no hardcoded allowlist) so
+ * an unseen finish still produces a card instead of being silently dropped.
+ * Ordered primary-first (see PRICE_KEY_PRIORITY). Cards with no tcgplayer
+ * pricing fall back to a single Cardmarket-priced row, and cards with no
+ * price data at all still produce a single unpriced row — both preserve
+ * today's exact behavior, just without the old price-folding.
+ */
+export function mapPokemonCardVariants(raw: PokemonApiCard, setExternalId: string): UnifiedCard[] {
+  const base = {
     gameId: "pokemon",
     setExternalId,
     externalId: raw.id,
@@ -73,10 +102,38 @@ export function mapPokemonCard(raw: PokemonApiCard, setExternalId: string): Unif
     artist: raw.artist,
     imageSmallUrl: raw.images?.small,
     imageLargeUrl: raw.images?.large,
-    productType: "CARD",
+    productType: "CARD" as const,
     language: "EN",
-    price: extractPrice(raw),
   };
+
+  const tp = raw.tcgplayer?.prices;
+  const presentKeys = tp ? Object.keys(tp).filter((k) => tp[k]?.market != null) : [];
+
+  if (presentKeys.length === 0) {
+    const cmPrice = raw.cardmarket?.prices?.averageSellPrice;
+    if (cmPrice != null) {
+      return [{ ...base, price: { raw: cmPrice, currency: "USD", source: "pokemontcg.io:cardmarket" } }];
+    }
+    return [{ ...base }]; // no price data anywhere — unpriced cards must not silently disappear
+  }
+
+  const primaryKey = PRICE_KEY_PRIORITY.find((k) => presentKeys.includes(k)) ?? presentKeys[0];
+  const orderedKeys = [primaryKey, ...presentKeys.filter((k) => k !== primaryKey)];
+
+  return orderedKeys.map((key) => ({
+    ...base,
+    variantKey: key,
+    variantLabel: defaultFinishLabel(key),
+    price: {
+      raw: tp![key]!.market as number,
+      // Kept for any code still reading .foil (e.g. CatalogItem.latestPriceFoil) —
+      // only meaningful for a holo-family finish, mirroring the old
+      // `foil = holofoil ?? reverseHolofoil` behavior.
+      foil: /holofoil/i.test(key) ? (tp![key]!.market as number) : undefined,
+      currency: "USD",
+      source: "pokemontcg.io",
+    },
+  }));
 }
 
 // --- tcgdex.net (non-English Pokémon sets) -------------------------------
@@ -146,41 +203,22 @@ export function mapTcgdexSet(raw: TcgdexSetDetail, lang: TcgdexLang): UnifiedSet
 }
 
 /**
- * Prefer Cardmarket's algorithmic trend price, falling back to its rolling
- * average. Cardmarket quotes in EUR, but every price everywhere else in
- * this app (formatMoney, pc market value, sort-by-price) assumes
- * UnifiedCard.price.raw/foil is already USD — see the `amountUsd` param in
- * lib/utils/format.ts, and upsertPriceSnapshot, which stores `price.raw`
- * as-is with no currency conversion of its own. So convert here via the
- * app's static FX table rather than silently mis-pricing every non-English
- * card by storing EUR figures as if they were USD.
+ * tcgdex only exposes two price tiers per card (base + holo), unlike
+ * pokemontcg.io's full finish list — so at most 2 UnifiedCards come out of
+ * this per raw card. "Normal" (base) is ordered first when present, since
+ * that's what a plain (pre-variant) mapTcgdexCard used to put on the single
+ * row's `price.raw`, so it keeps the pre-existing unsuffixed CatalogItem id
+ * (see scripts/seed-catalog.ts). Cardmarket quotes in EUR — every price
+ * elsewhere in this app assumes USD (see upsertPriceSnapshot / formatMoney),
+ * so both tiers are converted via the app's static FX table rather than
+ * silently mis-pricing non-English cards by storing EUR as if it were USD.
  */
-function extractTcgdexPrice(raw: TcgdexCardDetail): UnifiedCard["price"] {
-  const cm = raw.pricing?.cardmarket;
-  if (!cm) return undefined;
-  const unit = cm.unit ?? "EUR";
-  const rateToUsd = FX_RATES_TO_USD[unit as keyof typeof FX_RATES_TO_USD];
-  if (!rateToUsd) return undefined; // unrecognized currency — skip rather than mis-price
-
-  const market = cm.trend ?? cm.avg ?? undefined;
-  if (market == null) return undefined;
-  // tcgdex fills non-holo cards' "*-holo" fields with 0 rather than null, so
-  // treat 0 the same as "no holo variant" rather than a real $0 price.
-  const foil = cm["trend-holo"] || cm["avg-holo"] || undefined;
-  return {
-    raw: market / rateToUsd,
-    foil: foil != null ? foil / rateToUsd : undefined,
-    currency: "USD",
-    source: "tcgdex:cardmarket",
-  };
-}
-
-export function mapTcgdexCard(
+export function mapTcgdexCardVariants(
   raw: TcgdexCardDetail,
   lang: TcgdexLang,
   setExternalId: string
-): UnifiedCard {
-  return {
+): UnifiedCard[] {
+  const base = {
     gameId: "pokemon",
     setExternalId,
     externalId: `${lang}:${raw.id}`,
@@ -190,8 +228,40 @@ export function mapTcgdexCard(
     artist: raw.illustrator,
     imageSmallUrl: raw.image ? `${raw.image}/low.webp` : undefined,
     imageLargeUrl: raw.image ? `${raw.image}/high.webp` : undefined,
-    productType: "CARD",
+    productType: "CARD" as const,
     language: TCGDEX_LANGUAGE_CODE[lang],
-    price: extractTcgdexPrice(raw),
   };
+
+  const cm = raw.pricing?.cardmarket;
+  if (!cm) return [{ ...base }];
+
+  const unit = cm.unit ?? "EUR";
+  const rateToUsd = FX_RATES_TO_USD[unit as keyof typeof FX_RATES_TO_USD];
+  if (!rateToUsd) return [{ ...base }]; // unrecognized currency — skip rather than mis-price
+
+  const normalMarket = cm.trend ?? cm.avg ?? undefined;
+  // tcgdex fills non-holo cards' "*-holo" fields with 0 rather than null, so
+  // treat 0 the same as "no holo variant" rather than a real $0 price.
+  const holoMarket = cm["trend-holo"] || cm["avg-holo"] || undefined;
+
+  const variants: UnifiedCard[] = [];
+  if (normalMarket != null) {
+    variants.push({
+      ...base,
+      variantKey: "normal",
+      variantLabel: defaultFinishLabel("normal"),
+      price: { raw: normalMarket / rateToUsd, currency: "USD", source: "tcgdex:cardmarket" },
+    });
+  }
+  if (holoMarket != null) {
+    const holoUsd = holoMarket / rateToUsd;
+    variants.push({
+      ...base,
+      variantKey: "holofoil",
+      variantLabel: defaultFinishLabel("holofoil"),
+      price: { raw: holoUsd, foil: holoUsd, currency: "USD", source: "tcgdex:cardmarket" },
+    });
+  }
+
+  return variants.length > 0 ? variants : [{ ...base }];
 }

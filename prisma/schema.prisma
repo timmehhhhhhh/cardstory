@@ -72,6 +72,15 @@ model CatalogItem {
   setId                  String
   set                    Set                     @relation(fields: [setId], references: [id])
   externalId             String
+  /// Which priced finish/printing of `externalId` this row is, e.g.
+  /// pokemontcg.io's "holofoil" / "reverseHolofoil" / "1stEditionHolofoil"
+  /// (see lib/games/pokemon/mapper.ts). Defaults to "" for every non-Pokémon
+  /// row (FAB/MTG/Riftbound all still collapse to one row per card), which
+  /// keeps their uniqueness behavior byte-identical to before this column
+  /// existed. Never null — Postgres treats NULL as distinct-from-everything
+  /// in a unique index, which would silently stop enforcing "one row per
+  /// externalId" for every game that doesn't use this field.
+  variantKey             String                  @default("")
   name                   String
   number                 String?
   rarity                 String?
@@ -108,7 +117,8 @@ model CatalogItem {
   /// request/second, so avoiding repeat searches is not optional.
   priceChartingId String?
 
-  @@unique([gameId, externalId])
+  @@unique([gameId, externalId, variantKey])
+  @@index([gameId, externalId])
   @@index([setId])
   @@index([name])
   @@index([cardType])
@@ -389,6 +399,7 @@ model User {
   showcaseSnapshots ShowcaseSnapshot[]
   activityLogs      ActivityLog[]
   watchlistEntries  WatchlistEntry[]
+  savedViews        SavedView[]
 
   @@map("users")
 }
@@ -533,4 +544,26 @@ model WatchlistEntry {
   @@unique([userId, itemId])
   @@index([userId])
   @@map("watchlist_entries")
+}
+
+/// A user's saved, reusable filter/search definition over the card catalog
+/// (the "Views" feature — src/app/views). Distinct from Explore's own
+/// filter-bar state: ExploreFilters (src/app/explore/_components/types.ts)
+/// is single-select, page-scoped, and lives only in the URL, while
+/// ViewFilters (src/lib/views/types.ts) is multi-select (OR within each
+/// field) and persists here. `filters` is stored as opaque Json, validated
+/// against viewFiltersSchema (src/lib/views/api-schemas.ts) at the API
+/// boundary before every write, so reads can trust its shape without a
+/// runtime re-check.
+model SavedView {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  filters   Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@map("saved_views")
 }

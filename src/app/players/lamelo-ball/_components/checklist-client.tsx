@@ -78,7 +78,12 @@ function ChecklistCardRow({ card }: { card: ChecklistCard }) {
         // acquisition — no historical lookup needed.
         priceAtAcquisition: variant.priceRaw,
         acquiredAt: new Date().toISOString(),
-      });
+        // Fire-and-forget, like removeHoldings above — a failure already
+        // rolls the optimistic add back out via reconcile() inside the
+        // store (see useRemotePCStore.addHolding); this checkbox has no
+        // form to keep open or error text to show, so just avoid an
+        // unhandled-rejection warning.
+      }).catch(() => {});
     }
   }
 

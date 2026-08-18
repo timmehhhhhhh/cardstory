@@ -96,8 +96,23 @@ async function seedGame(gameId: string) {
       console.warn(`[${gameId}] skipping ${set.code} after repeated fetch failures:`, (err as Error).message);
       continue;
     }
+    // A provider can now return more than one UnifiedCard per externalId —
+    // one per priced finish/variant (currently only Pokémon; see
+    // mapPokemonCardVariants/mapTcgdexCardVariants). They arrive as
+    // consecutive, primary-first entries for the same externalId, so a
+    // simple "seen before" check is enough to know which one gets the
+    // pre-existing, unsuffixed id: that's what every current Holding/
+    // WatchlistEntry already points at, so it must keep resolving. Every
+    // other provider still returns exactly one UnifiedCard per externalId
+    // with no variantKey, so it's always "primary" here with an id
+    // byte-identical to before this feature existed.
+    const seenExternalIds = new Set<string>();
     for (const card of cards) {
-      const catalogItemId = `${gameId}:${card.externalId}`;
+      const isPrimary = !seenExternalIds.has(card.externalId);
+      seenExternalIds.add(card.externalId);
+      const catalogItemId = isPrimary
+        ? `${gameId}:${card.externalId}`
+        : `${gameId}:${card.externalId}:${card.variantKey}`;
       await db.catalogItem.upsert({
         where: { id: catalogItemId },
         create: {
@@ -105,6 +120,7 @@ async function seedGame(gameId: string) {
           gameId,
           setId,
           externalId: card.externalId,
+          variantKey: card.variantKey ?? "",
           name: card.name,
           number: card.number,
           rarity: card.rarity,

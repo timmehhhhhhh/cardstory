@@ -70,6 +70,7 @@ export function AddHoldingDialog({
   const [acquiredAt, setAcquiredAt] = React.useState(() => new Date().toISOString().slice(0, 10));
   const [imageUrl, setImageUrl] = React.useState("");
   const [submitting, setSubmitting] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
 
   const pcs = usePCStore((s) => s.pcs);
   const activePCId = usePCStore((s) => s.activePCId);
@@ -101,11 +102,13 @@ export function AddHoldingDialog({
       setPCId(defaultPCId);
       setLanguage(defaultLanguage);
       setCostBasisCurrency(lastUsedCostBasisCurrency ?? "USD");
+      setError(null);
     }
   }
 
   async function handleAdd() {
     setSubmitting(true);
+    setError(null);
     try {
       const priceAtAcquisition = await resolvePriceAtDate({
         date: acquiredAt,
@@ -113,7 +116,7 @@ export function AddHoldingDialog({
         catalogItemId,
         sportsCardItemId,
       });
-      addHolding(pcId, {
+      await addHolding(pcId, {
         kind: sportsCardItemId ? "sports" : "tcg",
         catalogItemId,
         sportsCardItemId,
@@ -130,6 +133,12 @@ export function AddHoldingDialog({
       });
       setLastUsedCostBasisCurrency(costBasisCurrency);
       setOpen(false);
+    } catch {
+      // addHolding already rolls the optimistic add back out of the
+      // cache on failure (see useRemotePCStore) — this just makes sure
+      // the user actually finds out, instead of the dialog quietly
+      // closing on a card that never really landed in their PC.
+      setError("Couldn't add this card. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -289,6 +298,8 @@ export function AddHoldingDialog({
             </div>
           </div>
         </div>
+
+        {error && <p className="text-sm text-negative">{error}</p>}
 
         <DialogFooter>
           <Button variant="outline" onClick={() => setOpen(false)} disabled={submitting}>

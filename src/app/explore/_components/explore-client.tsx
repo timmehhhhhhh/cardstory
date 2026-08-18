@@ -2,12 +2,14 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { SlidersHorizontal } from "lucide-react";
 import { SidebarFilters } from "@/app/explore/_components/sidebar-filters";
 import { SortDropdown } from "@/app/explore/_components/sort-dropdown";
 import { ViewToggle } from "@/app/explore/_components/view-toggle";
 import { BusinessModeToggle } from "@/app/explore/_components/business-mode-toggle";
+import { SaveAsViewButton } from "@/app/explore/_components/save-as-view-button";
 import { ExploreGrid } from "@/app/explore/_components/explore-grid";
 import { filtersToSearchParams, type ExploreFilters } from "@/app/explore/_components/types";
 import { usePCStore } from "@/lib/pc/store";
@@ -37,6 +39,7 @@ export function ExploreClient({
   rarityOptions: string[];
 }) {
   const router = useRouter();
+  const { data: session } = useSession();
   const [filters, setFilters] = React.useState(initialFilters);
   // Resync when initialFilters changes from outside our own updateFilters
   // calls — e.g. the top-nav SearchBox or a /sets deep link doing a real
@@ -189,6 +192,7 @@ export function ExploreClient({
             <span className="hidden text-sm text-muted-foreground sm:inline">
               {data.total.toLocaleString()} results
             </span>
+            {session?.user && <SaveAsViewButton filters={filters} />}
             <SortDropdown value={filters.sort} onChange={(sort) => updateFilters({ sort, page: 1 })} />
             <ViewToggle value={filters.view} onChange={(view) => updateFilters({ view })} />
           </div>

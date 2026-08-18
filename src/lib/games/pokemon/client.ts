@@ -1,5 +1,10 @@
 import type { GameProvider, UnifiedCard, UnifiedSet } from "@/lib/games/types";
-import { mapPokemonCard, mapPokemonSet, type PokemonApiCard, type PokemonApiSet } from "@/lib/games/pokemon/mapper";
+import {
+  mapPokemonCardVariants,
+  mapPokemonSet,
+  type PokemonApiCard,
+  type PokemonApiSet,
+} from "@/lib/games/pokemon/mapper";
 import {
   fetchTcgdexCardsForSet,
   fetchTcgdexSets,
@@ -76,7 +81,7 @@ async function fetchCardsForSet(setExternalId: string): Promise<UnifiedCard[]> {
     const json = await fetchJson<{ data: PokemonApiCard[]; count: number; totalCount: number }>(
       `${BASE_URL}/cards?q=set.id:${encodeURIComponent(setExternalId)}&page=${page}&pageSize=${pageSize}`
     );
-    cards.push(...json.data.map((c) => mapPokemonCard(c, setExternalId)));
+    cards.push(...json.data.flatMap((c) => mapPokemonCardVariants(c, setExternalId)));
     if (page * pageSize >= json.totalCount || json.data.length === 0) break;
     page += 1;
   }

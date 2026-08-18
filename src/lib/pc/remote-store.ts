@@ -225,16 +225,26 @@ export function useRemotePCStore<T>(
         patch((ps) =>
           ps.map((p) => (p.id === pcId ? { ...p, holdings: [...p.holdings, holding] } : p))
         );
-        fetch(`/api/pc/${pcId}/holdings`, {
+        // Unlike the other mutations here, the caller needs to know
+        // whether this actually landed — see AddHoldingDialog, which
+        // keeps its dialog open and shows an error instead of quietly
+        // closing on a card that was only ever added optimistically.
+        // A failed request still reconciles (rolls the optimistic add
+        // back out of the cache) exactly as before; it now also rejects
+        // so that rollback isn't the only trace of the failure.
+        return fetch(`/api/pc/${pcId}/holdings`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ ...input, id: newId }),
         })
           .then((res) => {
-            if (!res.ok) reconcile();
+            if (!res.ok) throw new Error("Failed to add card to PC");
+            return newId;
           })
-          .catch(reconcile);
-        return newId;
+          .catch((err) => {
+            reconcile();
+            throw err instanceof Error ? err : new Error("Failed to add card to PC");
+          });
       },
 
       updateHolding: (pcId: string, holdingId: string, holdingPatch: Partial<Omit<Holding, "id">>) => {

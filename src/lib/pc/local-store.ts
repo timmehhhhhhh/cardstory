@@ -62,7 +62,14 @@ export interface PCActions {
   /** Returns the id of the "Business Inventory" PC, creating it first if this is the first time it's needed. */
   ensureBusinessPC: () => string;
 
-  addHolding: (pcId: string, input: NewHoldingInput) => string;
+  /**
+   * Promise-returning (even here, where it's always synchronous under the
+   * hood) so callers share one shape with useRemotePCStore's addHolding,
+   * which genuinely can fail server-side — see that file for why a caller
+   * needs to be able to await/catch this instead of assuming it always
+   * lands.
+   */
+  addHolding: (pcId: string, input: NewHoldingInput) => Promise<string>;
   updateHolding: (
     pcId: string,
     holdingId: string,
@@ -143,7 +150,7 @@ export const useLocalPCStore = create<PCState>()(
             p.id === pcId ? { ...p, holdings: [...p.holdings, holding] } : p
           ),
         }));
-        return holding.id;
+        return Promise.resolve(holding.id);
       },
       updateHolding: (pcId, holdingId, patch) =>
         set((s) => ({

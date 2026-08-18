@@ -27,16 +27,27 @@ export async function runDailySnapshot(): Promise<GameSnapshotResult[]> {
 
     for (const set of sets) {
       try {
+        // One externalId can now back more than one CatalogItem row — one
+        // per priced finish/variant (currently only Pokémon; see
+        // mapPokemonCardVariants). Keying this lookup by externalId alone
+        // would resolve every finish's fresh price onto the SAME (whichever
+        // catalogItemId that externalId used to map to) row, silently
+        // corrupting price history for every multi-finish card — so the
+        // lookup must be keyed by (externalId, variantKey) instead, matching
+        // exactly how scripts/seed-catalog.ts derives each row's id.
         const existing = await db.catalogItem.findMany({
           where: { setId: set.id },
-          select: { externalId: true },
+          select: { id: true, externalId: true, variantKey: true },
         });
-        const knownExternalIds = new Set(existing.map((c) => c.externalId));
+        const idByExternalAndVariant = new Map(
+          existing.map((c) => [`${c.externalId}::${c.variantKey}`, c.id])
+        );
 
         const cards = await provider.fetchCardsForSet(set.code);
         for (const card of cards) {
-          if (!card.price || !knownExternalIds.has(card.externalId)) continue;
-          const catalogItemId = `${gameId}:${card.externalId}`;
+          if (!card.price) continue;
+          const catalogItemId = idByExternalAndVariant.get(`${card.externalId}::${card.variantKey ?? ""}`);
+          if (!catalogItemId) continue; // don't add new catalog items here — that's seed-catalog.ts's job
           await upsertPriceSnapshot(db, catalogItemId, card.price, capturedDate);
           itemsPriced += 1;
         }

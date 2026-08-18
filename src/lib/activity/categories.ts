@@ -17,9 +17,16 @@ export const ACTIVITY_CATEGORY_LABELS: Record<ActivityCategory, string> = {
 
 const CATEGORY_ACTIONS: Record<Exclude<ActivityCategory, "all">, string[]> = {
   search: ["search.performed"],
-  added: ["holding.added", "holding.imported", "holding.transferred", "pc.created", "showcase.published"],
-  deleted: ["holding.deleted", "pc.deleted", "showcase.deleted"],
-  updated: ["holding.updated", "pc.renamed"],
+  added: [
+    "holding.added",
+    "holding.imported",
+    "holding.transferred",
+    "pc.created",
+    "showcase.published",
+    "view.created",
+  ],
+  deleted: ["holding.deleted", "pc.deleted", "showcase.deleted", "view.deleted"],
+  updated: ["holding.updated", "pc.renamed", "view.renamed", "view.updated"],
   vendor: ["vendor.enabled", "vendor.disabled"],
 };
 

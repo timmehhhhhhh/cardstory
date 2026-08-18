@@ -43,6 +43,7 @@ interface SearchCandidate {
 export function AddSportsCardDialog() {
   const [open, setOpen] = React.useState(false);
   const [submitting, setSubmitting] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
 
   // Search state
   const [sport, setSport] = React.useState<Sport>("NBA");
@@ -102,6 +103,7 @@ export function AddSportsCardDialog() {
     if (open) {
       setPCId(defaultPCId);
       setCostBasisCurrency(lastUsedCostBasisCurrency ?? "USD");
+      setError(null);
     }
   }
 
@@ -167,6 +169,7 @@ export function AddSportsCardDialog() {
   async function handleAdd() {
     if (!setName.trim() || !playerName.trim()) return;
     setSubmitting(true);
+    setError(null);
     try {
       const res = await fetch("/api/sportscards", {
         method: "POST",
@@ -187,7 +190,10 @@ export function AddSportsCardDialog() {
           imageUrl: imageUrl.trim() || undefined,
         }),
       });
-      if (!res.ok) return;
+      if (!res.ok) {
+        setError("Couldn't save this card. Please try again.");
+        return;
+      }
       const { id: sportsCardItemId } = await res.json();
 
       const priceAtAcquisition = await resolvePriceAtDate({
@@ -196,7 +202,11 @@ export function AddSportsCardDialog() {
         sportsCardItemId,
       });
 
-      addHolding(pcId, {
+      // addHolding already rolls the optimistic add back out of the
+      // cache on failure (see useRemotePCStore) — awaiting it here means
+      // the dialog only closes once the card actually landed, instead of
+      // quietly closing on one that never really made it into the PC.
+      await addHolding(pcId, {
         kind: "sports",
         sportsCardItemId,
         quantity: Math.max(1, quantity),
@@ -215,6 +225,8 @@ export function AddSportsCardDialog() {
 
       resetForm();
       setOpen(false);
+    } catch {
+      setError("Couldn't add this card. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -536,6 +548,8 @@ export function AddSportsCardDialog() {
             </div>
           </div>
         </div>
+
+        {error && <p className="text-sm text-negative">{error}</p>}
 
         <DialogFooter>
           <Button variant="outline" onClick={() => setOpen(false)}>

@@ -11,6 +11,7 @@
     "lint": "eslint",
     "seed:catalog": "tsx scripts/seed-catalog.ts",
     "seed:lamelo-ball": "tsx scripts/seed-lamelo-ball.ts",
+    "seed:pokemon-manual": "tsx scripts/seed-pokemon-manual.ts",
     "snapshot:manual": "tsx scripts/run-snapshot.ts"
   },
   "dependencies": {

@@ -6,10 +6,19 @@ import { CATALOG_SORTS, searchCatalog, type CatalogSort } from "@/lib/catalog/se
 
 const SEARCH_LOG_DEDUPE_MS = 2 * 60 * 1000;
 
-function parseIds(value: string | null): string[] | undefined {
+/**
+ * Comma-splits a query param into a string array, e.g. "EN,JP" -> ["EN",
+ * "JP"]. Used both for the id-list params (onlyIds/excludeIds) and, since
+ * searchCatalog's cardType/rarity/language/artist params now accept
+ * scalar-or-array (see src/lib/catalog/search.ts), for multi-value filter
+ * params too — Explore's own single-select sidebar keeps sending
+ * comma-free single values, which round-trip through here unchanged as a
+ * one-element array, so this is purely additive/backward-compatible.
+ */
+function parseMulti(value: string | null): string[] | undefined {
   if (!value) return undefined;
-  const ids = value.split(",").map((s) => s.trim()).filter(Boolean);
-  return ids.length > 0 ? ids : undefined;
+  const parts = value.split(",").map((s) => s.trim()).filter(Boolean);
+  return parts.length > 0 ? parts : undefined;
 }
 
 export async function GET(req: NextRequest) {
@@ -31,12 +40,13 @@ export async function GET(req: NextRequest) {
     gameId: sp.get("game") ?? undefined,
     setId: sp.get("set") ?? undefined,
     productType,
-    cardType: sp.get("cardType") ?? undefined,
-    rarity: sp.get("rarity") ?? undefined,
-    language: sp.get("language") ?? undefined,
+    cardType: parseMulti(sp.get("cardType")),
+    rarity: parseMulti(sp.get("rarity")),
+    language: parseMulti(sp.get("language")),
+    artist: parseMulti(sp.get("artist")),
     baseOnly: sp.get("baseOnly") === "1",
-    onlyIds: parseIds(sp.get("onlyIds")),
-    excludeIds: parseIds(sp.get("excludeIds")),
+    onlyIds: parseMulti(sp.get("onlyIds")),
+    excludeIds: parseMulti(sp.get("excludeIds")),
     sort,
     page: sp.get("page") ? Number(sp.get("page")) : undefined,
     pageSize: sp.get("pageSize") ? Number(sp.get("pageSize")) : undefined,

@@ -1,6 +1,6 @@
 import type { UnifiedCard, UnifiedSet } from "@/lib/games/types";
 import {
-  mapTcgdexCard,
+  mapTcgdexCardVariants,
   mapTcgdexSet,
   type TcgdexCardBrief,
   type TcgdexCardDetail,
@@ -112,5 +112,5 @@ export async function fetchTcgdexCardsForSet(setExternalId: string): Promise<Uni
 
   return fullCards
     .filter((c): c is TcgdexCardDetail => c != null)
-    .map((c) => mapTcgdexCard(c, lang, setExternalId));
+    .flatMap((c) => mapTcgdexCardVariants(c, lang, setExternalId));
 }

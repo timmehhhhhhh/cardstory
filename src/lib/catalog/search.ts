@@ -1,6 +1,8 @@
 import { Prisma, type Sport } from "@prisma/client";
 import { db } from "@/lib/db";
 import { GAMES, WIRED_SPORTS_GAMES, getGameMeta } from "@/lib/games/registry";
+import { defaultFinishLabel } from "@/lib/games/pokemon/mapper";
+import { getFinishDisplayLabel } from "@/lib/games/pokemon/finish-patterns";
 
 const WIRED_TCG_GAME_IDS = GAMES.filter((g) => g.status === "WIRED" && g.kind !== "sports").map(
   (g) => g.id
@@ -28,12 +30,38 @@ export interface CatalogSearchParams {
   gameId?: string;
   setId?: string;
   productType?: "CARD" | "SEALED";
-  /** Game-specific card type, e.g. Riftbound's "Champion Unit" — see CatalogItem.cardType. */
-  cardType?: string;
-  /** CatalogItem.rarity, e.g. Pokémon's "Ultra Rare" or Riftbound's "Epic". */
-  rarity?: string;
-  /** CatalogItem.language, e.g. "EN"/"JP"/"CN"/"TW"/"KR". No-op for sports rows (no language concept). */
-  language?: string;
+  /**
+   * Game-specific card type, e.g. Riftbound's "Champion Unit" — see
+   * CatalogItem.cardType. A single value matches that value exactly (the
+   * original behavior, still used by Explore's single-select sidebar); an
+   * array OR's across the given values (used by Views — see
+   * src/lib/views/types.ts — for e.g. "Champion Unit or Legend").
+   */
+  cardType?: string | string[];
+  /** CatalogItem.rarity, e.g. Pokémon's "Ultra Rare" or Riftbound's "Epic". Scalar-or-array, see cardType above. */
+  rarity?: string | string[];
+  /** CatalogItem.language, e.g. "EN"/"JP"/"CN"/"TW"/"KR". No-op for sports rows (no language concept). Scalar-or-array, see cardType above. */
+  language?: string | string[];
+  /**
+   * CatalogItem.variantKey — a card's priced finish, e.g. Pokémon's
+   * "reverseHolofoil"/"holofoil" (see lib/games/pokemon/mapper.ts). Filters
+   * on the raw provider key (the small, generic finish taxonomy), not any
+   * curated collector-pattern label — so filtering "Reverse Holo" still
+   * matches a set-specific name like "Cracked Ice Holo", which is only a
+   * per-tile display overlay (see getFinishDisplayLabel). No-op for sports
+   * rows (no finish concept — that's parallelName) and every non-Pokémon
+   * game (variantKey is always "" there). Scalar-or-array, see cardType above.
+   */
+  variant?: string | string[];
+  /**
+   * Illustrator credit — see CatalogItem.artist. Unlike cardType/rarity/
+   * language, this never matches by exact equality: each value is matched
+   * via a case-insensitive "contains", OR'd across every value given (so a
+   * Views artist chip list like ["Yuka Morii", "Sashiko Ito"] matches
+   * either). No-op/excludes sports rows (no artist column) — see
+   * sportsFilterableFor below.
+   */
+  artist?: string | string[];
   /**
    * Sports cards only — restrict to rows with no parallelName (the
    * unparalleled base version of each card). No-op for TCG rows, which
@@ -123,6 +151,31 @@ function sportsOrderBy(sort: CatalogSort): Prisma.SportsCardItemOrderByWithRelat
     default:
       return [{ playerName: "asc" }];
   }
+}
+
+function toArray<T>(value: T | T[] | undefined): T[] {
+  if (value === undefined) return [];
+  return Array.isArray(value) ? value : [value];
+}
+
+/**
+ * Builds a Prisma equality-or-membership clause from a scalar-or-array
+ * filter param. A bare scalar passes through unchanged, so every existing
+ * single-string caller (Explore's sidebar) is byte-for-byte unaffected;
+ * an array becomes `{ in: [...] }` (OR across values, used by Views — see
+ * src/lib/views/types.ts), and an empty array collapses to `undefined`
+ * (no filter — mirrors "all" collapsing to [] in ViewFilters).
+ */
+function equalsOrIn<T>(value: T | T[] | undefined): T | { in: T[] } | undefined {
+  if (value === undefined) return undefined;
+  if (!Array.isArray(value)) return value;
+  return value.length > 0 ? { in: value } : undefined;
+}
+
+/** True if a scalar-or-array filter param is actually constraining anything. */
+function isFilterSet(value: unknown): boolean {
+  if (value === undefined) return false;
+  return Array.isArray(value) ? value.length > 0 : true;
 }
 
 /** "short_print" -> "Short Print", "Silver Prizm" -> "Silver Prizm" (idempotent). */
@@ -243,16 +296,21 @@ function sportsWhereFor(
 }
 
 /**
- * SportsCardItem has no rarity or language column and its own `cardType`
- * taxonomy ("base"/"insert"/"short_print") means something entirely
- * different from CatalogItem's game-specific cardType (e.g. Riftbound's
- * "Champion Unit") shown in the same shared filter dropdown — so sports
- * rows deliberately don't participate in the cardType/rarity/language
- * facets, and sealed products don't exist for sports cards at all.
+ * SportsCardItem has no rarity, language, or artist column, and its own
+ * `cardType` taxonomy ("base"/"insert"/"short_print") means something
+ * entirely different from CatalogItem's game-specific cardType (e.g.
+ * Riftbound's "Champion Unit") shown in the same shared filter dropdown —
+ * so sports rows deliberately don't participate in the cardType/rarity/
+ * language/artist facets, and sealed products don't exist for sports cards
+ * at all.
  */
 function sportsFilterableFor(params: CatalogSearchParams): boolean {
   return (
-    !params.cardType && !params.rarity && !params.language && params.productType !== "SEALED"
+    !isFilterSet(params.cardType) &&
+    !isFilterSet(params.rarity) &&
+    !isFilterSet(params.language) &&
+    !isFilterSet(params.artist) &&
+    params.productType !== "SEALED"
   );
 }
 
@@ -260,25 +318,46 @@ function tcgWhereFor(
   params: CatalogSearchParams,
   gameIdFilter: string | { in: string[] }
 ): Prisma.CatalogItemWhereInput {
+  // Two independent OR-groups can be in play here — the free-text q search
+  // and the artist-chip list — and Prisma only allows one `OR` key per
+  // where object. Each group is wrapped in its own `{ OR: [...] }` and
+  // combined via a top-level `AND: [...]` array instead (Prisma implicitly
+  // ANDs every top-level where key together regardless, so `AND: [{ OR:
+  // qGroup }]` alone is behaviorally identical to the old bare `OR: qGroup`
+  // when only q is set — this refactor is non-breaking for existing callers).
+  const qGroup: Prisma.CatalogItemWhereInput[] | undefined = params.q
+    ? [
+        { name: { contains: params.q, mode: "insensitive" } },
+        { artist: { contains: params.q, mode: "insensitive" } },
+        { number: { contains: params.q, mode: "insensitive" } },
+      ]
+    : undefined;
+
+  const artistTerms = toArray(params.artist);
+  const artistGroup: Prisma.CatalogItemWhereInput[] | undefined =
+    artistTerms.length > 0
+      ? artistTerms.map((name) => ({
+          artist: { contains: name, mode: "insensitive" as const },
+        }))
+      : undefined;
+
+  const andClauses: Prisma.CatalogItemWhereInput[] = [];
+  if (qGroup) andClauses.push({ OR: qGroup });
+  if (artistGroup) andClauses.push({ OR: artistGroup });
+
   return {
     gameId: gameIdFilter,
     setId: params.setId,
     productType: params.productType,
-    cardType: params.cardType,
-    rarity: params.rarity,
-    language: params.language,
-    OR: params.q
-      ? [
-          { name: { contains: params.q, mode: "insensitive" } },
-          { artist: { contains: params.q, mode: "insensitive" } },
-          { number: { contains: params.q, mode: "insensitive" } },
-        ]
-      : undefined,
+    cardType: equalsOrIn(params.cardType),
+    rarity: equalsOrIn(params.rarity),
+    language: equalsOrIn(params.language),
     id: params.onlyIds
       ? { in: params.onlyIds }
       : params.excludeIds
         ? { notIn: params.excludeIds }
         : undefined,
+    AND: andClauses.length > 0 ? andClauses : undefined,
   };
 }
 
