@@ -4,7 +4,7 @@ import * as React from "react";
 import { useSession } from "next-auth/react";
 import { usePCStore } from "@/lib/pc/store";
 import { pcKind } from "@/lib/pc/types";
-import { BinderClient } from "@/app/pc/binder/_components/binder-client";
+import { BinderClient } from "@/app/binder/_components/binder-client";
 
 /**
  * Thin wrapper that resolves the singleton Business Inventory pc and hands
@@ -47,6 +47,7 @@ export function BusinessBinderClient() {
       showPcSelector={false}
       backHref="/business"
       backLabel="Back to Business"
+      heading="Business Binder Planner"
     />
   );
 }

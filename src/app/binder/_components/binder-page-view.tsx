@@ -2,7 +2,7 @@
 
 import { Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { BinderPocket } from "@/app/pc/binder/_components/binder-pocket";
+import { BinderPocket } from "@/app/binder/_components/binder-pocket";
 import type { BinderPage, PocketRef } from "@/lib/binder/types";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
 

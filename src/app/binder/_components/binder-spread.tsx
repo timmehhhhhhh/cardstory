@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { BinderPageView } from "@/app/pc/binder/_components/binder-page-view";
+import { BinderPageView } from "@/app/binder/_components/binder-page-view";
 import type { BinderPage, PocketRef } from "@/lib/binder/types";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
 

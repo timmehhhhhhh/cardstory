@@ -9,11 +9,11 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { useBinderStore } from "@/lib/binder/store";
 import { BINDER_COVER_COLORS, BINDER_LAYOUTS, coverColorValue, type PocketRef } from "@/lib/binder/types";
 import { PCSelector } from "@/app/pc/_components/pc-selector";
-import { BinderSelector } from "@/app/pc/binder/_components/binder-selector";
-import { LayoutPicker } from "@/app/pc/binder/_components/layout-picker";
-import { BinderSpread, type VisiblePage } from "@/app/pc/binder/_components/binder-spread";
-import { BinderPageNav } from "@/app/pc/binder/_components/binder-page-nav";
-import { CardPickerSheet } from "@/app/pc/binder/_components/card-picker-sheet";
+import { BinderSelector } from "@/app/binder/_components/binder-selector";
+import { LayoutPicker } from "@/app/binder/_components/layout-picker";
+import { BinderSpread, type VisiblePage } from "@/app/binder/_components/binder-spread";
+import { BinderPageNav } from "@/app/binder/_components/binder-page-nav";
+import { CardPickerSheet } from "@/app/binder/_components/card-picker-sheet";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,6 +26,7 @@ export function BinderClient({
   showPcSelector = true,
   backHref = "/pc",
   backLabel = "Back to PC",
+  heading = "Binder Planner",
 }: {
   /** Scope this binder's card source to a specific pc (e.g. the Business Inventory pc) instead of the globally active one. */
   pcIdOverride?: string;
@@ -33,6 +34,8 @@ export function BinderClient({
   showPcSelector?: boolean;
   backHref?: string;
   backLabel?: string;
+  /** Page heading — overridden by callers (e.g. Business Inventory) that need distinct copy. */
+  heading?: string;
 }) {
   const { rows } = usePCData(pcIdOverride);
 
@@ -204,7 +207,7 @@ export function BinderClient({
 
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="font-heading text-xl font-semibold">Binder</h1>
+            <h1 className="font-heading text-xl font-semibold">{heading}</h1>
             <p className="text-sm text-muted-foreground">
               Mock up how your cards would look in a physical binder page.
             </p>

@@ -93,7 +93,7 @@ export function PCClient() {
           />
           <AddSportsCardDialog />
           <Button asChild variant="outline" size="sm">
-            <Link href="/pc/binder">
+            <Link href="/binder">
               <BookOpen className="size-4" />
               Binder
             </Link>

@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { useBinderStore } from "@/lib/binder/store";
-import { LayoutPicker } from "@/app/pc/binder/_components/layout-picker";
+import { LayoutPicker } from "@/app/binder/_components/layout-picker";
 import type { BinderLayoutId } from "@/lib/binder/types";
 
 export function BinderSelector() {
