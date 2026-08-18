@@ -30,6 +30,15 @@ export interface Holding {
   gradeValue?: string;
   serialNumber?: string;
   language: ItemLanguage;
+  /**
+   * Free-text name for a hand-keyed card that matches nothing in either
+   * catalog — set only when both catalogItemId and sportsCardItemId are
+   * absent. The one self-describing card reference in the app: everything
+   * else resolves its name from a shared CatalogItem/SportsCardItem row.
+   * Created by checking out a "custom" In-Store Shortlist item (see
+   * src/lib/shortlist/types.ts).
+   */
+  customName?: string;
   costBasisTotal: number;
   costBasisCurrency: SupportedCurrency;
   /**
@@ -50,6 +59,18 @@ export interface Holding {
 
 export function holdingKind(h: Pick<Holding, "kind" | "sportsCardItemId">): HoldingKind {
   return h.kind ?? (h.sportsCardItemId ? "sports" : "tcg");
+}
+
+/**
+ * A hand-keyed holding, carrying its own name instead of a catalog
+ * reference. It has no market price, so callers that compute value or
+ * gain/loss must exclude it rather than treat it as a $0 card (see
+ * enrichHoldings/computeTotals in src/lib/pc/selectors.ts).
+ */
+export function holdingIsCustom(
+  h: Pick<Holding, "catalogItemId" | "sportsCardItemId" | "customName">
+): boolean {
+  return !h.catalogItemId && !h.sportsCardItemId && !!h.customName;
 }
 
 export type PCKind = "personal" | "business";

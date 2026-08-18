@@ -4,6 +4,7 @@ export const NAV_LINKS = [
   { href: "/explore", label: "Explore" },
   { href: "/sets", label: "Sets" },
   { href: "/pc", label: "PC" },
+  { href: "/shortlist", label: "Shortlist" },
   { href: "/binder", label: "Binder Planner" },
   { href: "/business", label: "Business", vendorOnly: true },
   { href: "/views", label: "Views" },

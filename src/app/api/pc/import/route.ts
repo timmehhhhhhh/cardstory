@@ -5,10 +5,13 @@ import { importLocalPC } from "@/lib/pc/manage";
 import { pcSchema } from "@/lib/pc/api-schemas";
 import { addWatchlistEntry } from "@/lib/pc/watchlist-manage";
 import { watchlistAddSchema } from "@/lib/pc/watchlist-schemas";
+import { upsertShortlistItem } from "@/lib/shortlist/manage";
+import { shortlistItemSchema } from "@/lib/shortlist/api-schemas";
 
 const bodySchema = z.object({
   pcs: z.array(pcSchema).max(50),
   watchlist: z.array(watchlistAddSchema).max(500).optional(),
+  shortlist: z.array(shortlistItemSchema).max(200).optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -24,6 +27,11 @@ export async function POST(req: NextRequest) {
   // safe — same idempotency story importLocalPC's holdings upsert has.
   for (const entry of parsed.data.watchlist ?? []) {
     await addWatchlistEntry(session.user.id, entry.itemId, entry.kind, entry.priceAtAdd ?? null);
+  }
+
+  // Id-keyed upsert, same idempotency story as the watchlist loop above.
+  for (const item of parsed.data.shortlist ?? []) {
+    await upsertShortlistItem(session.user.id, item);
   }
 
   return NextResponse.json({ ok: true });

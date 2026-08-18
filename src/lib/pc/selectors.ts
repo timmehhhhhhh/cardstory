@@ -1,4 +1,4 @@
-import { holdingKind, type Holding } from "@/lib/pc/types";
+import { holdingIsCustom, holdingKind, type Holding, type HoldingKind } from "@/lib/pc/types";
 import type { CatalogItemDetail } from "@/lib/catalog/by-ids";
 import type { SportsCardItemDetail } from "@/lib/sportscards/manage";
 import { getGameMeta } from "@/lib/games/registry";
@@ -38,21 +38,38 @@ export interface EnrichedHolding extends Holding {
   priceAtAcquisitionTotal: number | null;
 }
 
-function serialSuffix(holding: Holding, sportsCardItem: SportsCardItemDetail | undefined): string {
-  if (holding.serialNumber && sportsCardItem?.serialLimit) {
-    return ` · ${holding.serialNumber}/${sportsCardItem.serialLimit}`;
+function serialSuffix(
+  ref: Pick<CardRef, "serialNumber">,
+  sportsCardItem: SportsCardItemDetail | undefined
+): string {
+  if (ref.serialNumber && sportsCardItem?.serialLimit) {
+    return ` · ${ref.serialNumber}/${sportsCardItem.serialLimit}`;
   }
-  if (holding.serialNumber) return ` · #${holding.serialNumber}`;
+  if (ref.serialNumber) return ` · #${ref.serialNumber}`;
   if (sportsCardItem?.serialLimit) return ` · /${sportsCardItem.serialLimit}`;
   return "";
 }
 
-function buildDisplay(
-  holding: Holding,
+/**
+ * The subset of a Holding that buildDisplay actually reads. Kept structural
+ * rather than `Holding` so other card references can borrow the same
+ * rendering rules without faking ownership fields they don't have — the
+ * In-Store Shortlist (src/lib/shortlist/selectors.ts) passes one of these.
+ */
+export interface CardRef {
+  kind?: HoldingKind;
+  sportsCardItemId?: string;
+  imageUrl?: string;
+  serialNumber?: string;
+  customName?: string;
+}
+
+export function buildDisplay(
+  ref: CardRef,
   catalogItem: CatalogItemDetail | undefined,
   sportsCardItem: SportsCardItemDetail | undefined
 ): DisplayInfo {
-  if (holdingKind(holding) === "sports" && sportsCardItem) {
+  if (holdingKind(ref) === "sports" && sportsCardItem) {
     const sport = getSportMeta(sportsCardItem.sport);
     const parallelBit = sportsCardItem.parallelName ? ` · ${sportsCardItem.parallelName}` : " · Base";
     // Always rendered in the structural order [year] [distributor]
@@ -65,17 +82,17 @@ function buildDisplay(
     const numberBit = sportsCardItem.cardNumber ? ` · #${sportsCardItem.cardNumber}` : "";
     return {
       name: sportsCardItem.playerName,
-      subtitle: `${setBit}${numberBit}${parallelBit}${serialSuffix(holding, sportsCardItem)}`,
+      subtitle: `${setBit}${numberBit}${parallelBit}${serialSuffix(ref, sportsCardItem)}`,
       number: sportsCardItem.cardNumber,
       // The owner's own photo of this copy wins over the shared catalog image.
-      imageUrl: holding.imageUrl ?? sportsCardItem.imageUrl,
+      imageUrl: ref.imageUrl ?? sportsCardItem.imageUrl,
       imageWatermark: sportsCardItem.parallelName
         ? {
             parallelName: sportsCardItem.parallelName,
             serialLimit: sportsCardItem.serialLimit,
             // Their own photo is of their actual copy, so it isn't inherited
             // even when the shared row's image is.
-            inherited: !holding.imageUrl && sportsCardItem.imageIsInherited,
+            inherited: !ref.imageUrl && sportsCardItem.imageIsInherited,
           }
         : null,
       href: null,
@@ -86,16 +103,20 @@ function buildDisplay(
   }
 
   return {
-    name: catalogItem?.name ?? "Unknown card",
+    name: catalogItem?.name ?? ref.customName ?? "Unknown card",
     subtitle: catalogItem
       ? `${catalogItem.setName}${catalogItem.number ? ` · ${catalogItem.number}` : ""}`
       : "",
     number: catalogItem?.number ?? null,
-    imageUrl: holding.imageUrl ?? catalogItem?.imageSmallUrl ?? null,
+    imageUrl: ref.imageUrl ?? catalogItem?.imageSmallUrl ?? null,
     imageWatermark: null,
     href: catalogItem ? cardDetailHref(catalogItem.gameId, catalogItem.id, false) : null,
-    groupKey: catalogItem?.gameId ?? "unknown",
-    groupLabel: catalogItem ? (getGameMeta(catalogItem.gameId)?.name ?? catalogItem.gameId) : "Unknown",
+    groupKey: catalogItem?.gameId ?? (ref.customName ? "custom" : "unknown"),
+    groupLabel: catalogItem
+      ? (getGameMeta(catalogItem.gameId)?.name ?? catalogItem.gameId)
+      : ref.customName
+        ? "Custom"
+        : "Unknown",
     priceChangePct: catalogItem?.priceChangePct ?? null,
   };
 }
@@ -116,8 +137,14 @@ export function enrichHoldings(
 
     const unitPrice = (kind === "sports" ? sportsCardItem?.priceRaw : catalogItem?.priceRaw) ?? 0;
     const marketValue = unitPrice * h.quantity;
-    const gainLoss = marketValue - h.costBasisTotal;
-    const gainLossPct = h.costBasisTotal > 0 ? (gainLoss / h.costBasisTotal) * 100 : null;
+    // A hand-keyed holding has no catalog row and therefore no market price
+    // at all. Treating that absence as $0 would report the full cost basis
+    // as a 100% loss, so gain/loss is reported as unknown instead — and
+    // computeTotals leaves its cost basis out of the portfolio-level
+    // percentage for the same reason.
+    const custom = holdingIsCustom(h);
+    const gainLoss = custom ? 0 : marketValue - h.costBasisTotal;
+    const gainLossPct = !custom && h.costBasisTotal > 0 ? (gainLoss / h.costBasisTotal) * 100 : null;
     const priceAtAcquisitionTotal = h.priceAtAcquisition != null ? h.priceAtAcquisition * h.quantity : null;
     const display = buildDisplay(h, catalogItem, sportsCardItem);
 
@@ -144,7 +171,12 @@ export interface PCTotals {
 
 export function computeTotals(rows: EnrichedHolding[]): PCTotals {
   const totalValue = rows.reduce((sum, r) => sum + r.marketValue, 0);
-  const totalCostBasis = rows.reduce((sum, r) => sum + r.costBasisTotal, 0);
+  // Custom rows contribute no market value (they have no catalog row), so
+  // counting their cost basis here would show every one of them as a total
+  // loss against the portfolio — see the matching exclusion in enrichHoldings.
+  const totalCostBasis = rows
+    .filter((r) => !holdingIsCustom(r))
+    .reduce((sum, r) => sum + r.costBasisTotal, 0);
   const totalGainLoss = totalValue - totalCostBasis;
   const totalGainLossPct = totalCostBasis > 0 ? (totalGainLoss / totalCostBasis) * 100 : null;
   return { totalValue, totalCostBasis, totalGainLoss, totalGainLossPct };

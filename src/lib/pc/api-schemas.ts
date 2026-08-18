@@ -7,6 +7,8 @@ export const holdingInputSchema = z.object({
   kind: z.enum(["tcg", "sports"]).optional(),
   catalogItemId: z.string().optional(),
   sportsCardItemId: z.string().optional(),
+  /** Only set when neither id above is — a card the user keyed in by hand. */
+  customName: z.string().max(200).optional(),
   quantity: z.number().int().positive(),
   condition: z.enum(["raw", "graded"]),
   gradeCompany: z.string().optional(),

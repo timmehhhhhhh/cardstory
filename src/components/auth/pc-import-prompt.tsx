@@ -14,10 +14,12 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import type { PCStoreDataV1, WatchlistItem } from "@/lib/pc/types";
+import type { ShortlistStoreDataV1 } from "@/lib/shortlist/types";
 
 // Kept as "portfolio" (not "pc") to match src/lib/pc/local-store.ts's
 // unchanged storage key, so existing local data is still found.
 const STORAGE_KEY = "cardstory:portfolio:v1";
+const SHORTLIST_STORAGE_KEY = "cardstory:shortlist:v1";
 const IMPORT_STATUS_KEY = "cardstory:portfolio:import-status";
 
 /**
@@ -38,6 +40,24 @@ function normalizeWatchlist(watchlist: unknown): WatchlistItem[] {
 }
 
 /**
+ * Reads the shortlist's own localStorage key directly — same "bypasses
+ * zustand's persist migration" caveat as normalizeWatchlist above. Safe to
+ * skip defensive normalization today: shortlist storage is at version 1
+ * with no migrations yet, so whatever's there already matches ShortlistItem.
+ * The next shortlist schema bump must add one here, same as watchlist's.
+ */
+function readLocalShortlist(): ShortlistStoreDataV1["items"] {
+  try {
+    const raw = localStorage.getItem(SHORTLIST_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as { state?: ShortlistStoreDataV1 };
+    return parsed.state?.items ?? [];
+  } catch {
+    return [];
+  }
+}
+
+/**
  * Shown once per browser, the first time it's authenticated with local
  * holdings still sitting in localStorage from prior anonymous use. Offers
  * to copy them into the account's server-backed PC. Local data is
@@ -51,6 +71,7 @@ export function PCImportPrompt() {
   const [open, setOpen] = React.useState(false);
   const [holdingCount, setHoldingCount] = React.useState(0);
   const [localData, setLocalData] = React.useState<PCStoreDataV1 | null>(null);
+  const [localShortlist, setLocalShortlist] = React.useState<ShortlistStoreDataV1["items"]>([]);
   const [importing, setImporting] = React.useState(false);
 
   React.useEffect(() => {
@@ -64,13 +85,19 @@ export function PCImportPrompt() {
     // not a synchronous setState-in-effect (matches the debounce pattern in
     // src/app/trade-analyzer/_components/side-selector.tsx).
     const t = setTimeout(() => {
+      const shortlist = readLocalShortlist();
       try {
         const parsed = JSON.parse(raw) as { state?: PCStoreDataV1 };
         const data = parsed.state;
         const count = data?.pcs?.reduce((sum, p) => sum + p.holdings.length, 0) ?? 0;
-        if (data && count > 0) {
+        // Widened from `count > 0` so a shopper who built a shortlist but
+        // owns no holdings yet still gets offered the import — otherwise it
+        // would vanish silently on login, right when it's about to be
+        // needed for checkout.
+        if (data && (count > 0 || shortlist.length > 0)) {
           setLocalData(data);
           setHoldingCount(count);
+          setLocalShortlist(shortlist);
           setOpen(true);
         }
       } catch {
@@ -87,12 +114,17 @@ export function PCImportPrompt() {
       const res = await fetch("/api/pc/import", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pcs: localData.pcs, watchlist: normalizeWatchlist(localData.watchlist) }),
+        body: JSON.stringify({
+          pcs: localData.pcs,
+          watchlist: normalizeWatchlist(localData.watchlist),
+          shortlist: localShortlist,
+        }),
       });
       if (res.ok) {
         localStorage.setItem(IMPORT_STATUS_KEY, "imported");
         queryClient.invalidateQueries({ queryKey: ["pc"] });
         queryClient.invalidateQueries({ queryKey: ["watchlist"] });
+        queryClient.invalidateQueries({ queryKey: ["shortlist"] });
 
         // The active PC may currently point at an empty one that
         // GET /api/pc auto-created before this import ran (see the
@@ -122,9 +154,14 @@ export function PCImportPrompt() {
         <DialogHeader>
           <DialogTitle>Import your collection?</DialogTitle>
           <DialogDescription>
-            This browser has {holdingCount} card{holdingCount === 1 ? "" : "s"} saved locally, from
-            before you signed in. Import them into your account so they&apos;re available anywhere
-            you log in.
+            This browser has {holdingCount} card{holdingCount === 1 ? "" : "s"} saved locally
+            {localShortlist.length > 0 && (
+              <>
+                {" "}
+                and {localShortlist.length} shortlist item{localShortlist.length === 1 ? "" : "s"}
+              </>
+            )}, from before you signed in. Import them into your account so they&apos;re available
+            anywhere you log in.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

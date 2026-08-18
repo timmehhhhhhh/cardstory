@@ -119,7 +119,9 @@ export function ItemGallery({
 
         const tileClass = cn(
           "group relative flex flex-col overflow-hidden rounded-xl border bg-surface transition-colors",
-          isSelected ? "border-primary" : "border-border hover:border-primary/40"
+          // A ring on top of the border — at gallery density the checkbox
+          // alone is too small to scan a selection by.
+          isSelected ? "border-primary ring-1 ring-primary" : "border-border hover:border-primary/40"
         );
 
         // In bulk mode the whole tile is the checkbox target rather than a

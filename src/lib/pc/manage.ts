@@ -36,6 +36,7 @@ function toHolding(row: {
   gradeValue: string | null;
   serialNumber: string | null;
   language: string;
+  customName: string | null;
   costBasisTotal: unknown;
   costBasisCurrency: string;
   priceAtAcquisition: unknown;
@@ -56,6 +57,7 @@ function toHolding(row: {
     gradeValue: row.gradeValue ?? undefined,
     serialNumber: row.serialNumber ?? undefined,
     language: row.language as Holding["language"],
+    customName: row.customName ?? undefined,
     costBasisTotal: Number(row.costBasisTotal),
     costBasisCurrency: row.costBasisCurrency as Holding["costBasisCurrency"],
     priceAtAcquisition: row.priceAtAcquisition != null ? Number(row.priceAtAcquisition) : undefined,
@@ -82,8 +84,12 @@ function formatQuantityLabel(quantity: number, name: string): string {
 async function resolveItemName(
   kind: string,
   catalogItemId: string | null | undefined,
-  sportsCardItemId: string | null | undefined
+  sportsCardItemId: string | null | undefined,
+  customName?: string | null
 ): Promise<string> {
+  // A hand-keyed holding has no catalog row to look up — its own name is
+  // all there is, and it's what the user typed, so it reads best anyway.
+  if (customName && !catalogItemId && !sportsCardItemId) return customName;
   if (kind === "sports" && sportsCardItemId) {
     const item = await db.sportsCardItem.findUnique({
       where: { id: sportsCardItemId },
@@ -208,6 +214,7 @@ export async function addHolding(
       gradeValue: input.gradeValue,
       serialNumber: input.serialNumber,
       language: input.language,
+      customName: input.customName,
       costBasisTotal: input.costBasisTotal,
       costBasisCurrency: input.costBasisCurrency,
       priceAtAcquisition: input.priceAtAcquisition,
@@ -217,7 +224,7 @@ export async function addHolding(
     },
   });
 
-  const itemName = await resolveItemName(input.kind ?? "tcg", input.catalogItemId, input.sportsCardItemId);
+  const itemName = await resolveItemName(input.kind ?? "tcg", input.catalogItemId, input.sportsCardItemId, input.customName);
   await logActivity(userId, {
     action: "holding.added",
     entityType: "holding",
@@ -234,6 +241,7 @@ async function assertOwnsHolding(userId: string, holdingId: string) {
       kind: true,
       catalogItemId: true,
       sportsCardItemId: true,
+      customName: true,
       portfolio: { select: { userId: true, name: true } },
     },
   });
@@ -258,7 +266,7 @@ export async function updateHolding(
     },
   });
 
-  const itemName = await resolveItemName(holding.kind, holding.catalogItemId, holding.sportsCardItemId);
+  const itemName = await resolveItemName(holding.kind, holding.catalogItemId, holding.sportsCardItemId, holding.customName);
   await logActivity(userId, {
     action: "holding.updated",
     entityType: "holding",
@@ -272,7 +280,7 @@ export async function removeHoldings(userId: string, pcId: string, holdingIds: s
   const pc = await assertOwnsPC(userId, pcId);
   const holdings = await db.holding.findMany({
     where: { portfolioId: pcId, id: { in: holdingIds } },
-    select: { kind: true, catalogItemId: true, sportsCardItemId: true, quantity: true },
+    select: { kind: true, catalogItemId: true, sportsCardItemId: true, customName: true, quantity: true },
   });
   if (holdings.length === 0) return;
 
@@ -281,7 +289,7 @@ export async function removeHoldings(userId: string, pcId: string, holdingIds: s
   let summary: string;
   if (holdings.length <= 5) {
     const names = await Promise.all(
-      holdings.map((h) => resolveItemName(h.kind, h.catalogItemId, h.sportsCardItemId))
+      holdings.map((h) => resolveItemName(h.kind, h.catalogItemId, h.sportsCardItemId, h.customName))
     );
     const list = holdings.map((h, i) => formatQuantityLabel(h.quantity, names[i])).join(", ");
     summary = `Removed ${list} from ${pc.name}`;
@@ -322,6 +330,7 @@ export async function transferHoldings(
           gradeValue: h.gradeValue,
           serialNumber: h.serialNumber,
           language: h.language,
+          customName: h.customName,
           costBasisTotal: h.costBasisTotal,
           costBasisCurrency: h.costBasisCurrency,
           priceAtAcquisition: h.priceAtAcquisition,
@@ -383,6 +392,7 @@ export async function importLocalPC(
             gradeValue: h.gradeValue,
             serialNumber: h.serialNumber,
             language: h.language,
+            customName: h.customName,
             costBasisTotal: h.costBasisTotal,
             costBasisCurrency: h.costBasisCurrency,
             priceAtAcquisition: h.priceAtAcquisition,

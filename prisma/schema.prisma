@@ -413,6 +413,7 @@ model User {
   showcaseSnapshots ShowcaseSnapshot[]
   activityLogs      ActivityLog[]
   watchlistEntries  WatchlistEntry[]
+  shortlistItems    ShortlistItem[]
   savedViews        SavedView[]
 
   @@map("users")
@@ -499,6 +500,16 @@ model Holding {
   gradeValue         String?
   serialNumber       String?
   language           String    @default("EN")
+  /// Free-text card name for a hand-keyed holding — set only when both
+  /// catalogItemId and sportsCardItemId are null, which is otherwise an
+  /// unnameable row. The only self-describing card reference in this
+  /// schema: everything else resolves its name from a shared
+  /// CatalogItem/SportsCardItem. Written when a user checks out a "custom"
+  /// ShortlistItem (below) they keyed in at a shop counter, for a card
+  /// neither catalog has. Such a holding has no market price, so
+  /// enrichHoldings/computeTotals (src/lib/pc/selectors.ts) exclude it from
+  /// gain/loss rather than scoring it as a total loss against $0.
+  customName         String?
   costBasisTotal     Decimal   @db.Decimal(10, 2)
   costBasisCurrency  String
   /// The item's live unit market price (USD, per-unit — same convention as
@@ -558,6 +569,70 @@ model WatchlistEntry {
   @@unique([userId, itemId])
   @@index([userId])
   @@map("watchlist_entries")
+}
+
+/// A card spotted while physically shopping — the In-Store Shortlist
+/// (src/app/shortlist). A maybe-purchase, not ownership and not a
+/// long-term watch: it exists for the length of a trip to a shop, and ends
+/// either deleted (passed on it) or checked out, which turns it into a real
+/// Holding in a PC of the user's choosing. Server-backed so it survives a
+/// phone dying at the counter; anonymous users keep an equivalent shape in
+/// localStorage only (see src/lib/shortlist/local-store.ts), the same
+/// dual-store split as WatchlistEntry above.
+///
+/// Which items the user is about to buy is NOT stored here — that's a
+/// decision made once, at the till, and immediately consumed by checkout,
+/// so it lives as ephemeral React state (see shortlist-client.tsx) rather
+/// than costing a write per checkbox tap on shop wifi.
+model ShortlistItem {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  /// "tcg" | "sports" | "custom" — plain lowercase string validated by zod
+  /// at the API boundary, same convention as Holding.kind. Deliberately not
+  /// the same union as Holding.kind/WatchlistEntry.kind: "custom" is a row
+  /// the user keyed in by hand for a card neither catalog has, and there is
+  /// no such thing as a custom watchlist entry.
+  kind             String  @default("tcg")
+  /// Populated for kind "tcg" / "sports" respectively — plain scalars, never
+  /// @relations, same "batch lookup via /api/catalog/by-ids, not a join"
+  /// reasoning as Holding.catalogItemId/sportsCardItemId. BOTH are null for
+  /// kind "custom", which is also why this model can't borrow
+  /// WatchlistEntry's single-always-populated-itemId trick.
+  catalogItemId    String?
+  sportsCardItemId String?
+  /// kind "custom" only — the name the user typed. See Holding.customName,
+  /// which this becomes at checkout.
+  customName       String?
+  /// kind "custom" only — optional free-text second line (set, number, etc.).
+  customSubtitle   String?
+
+  quantity Int @default(1)
+
+  /// The shop's asking price PER UNIT, in `askingCurrency` — NOT converted
+  /// to USD, unlike every market price in this schema (latestPriceRaw,
+  /// priceAtAdd, priceAtAcquisition), and not quantity-scaled, unlike
+  /// Holding.costBasisTotal. Same reasoning as
+  /// Holding.costBasisTotal/costBasisCurrency, which this becomes verbatim
+  /// at checkout: it is what a shop is charging, not a valuation, and
+  /// FX_RATES_TO_USD (src/lib/constants.ts) is a static, manually refreshed
+  /// table — normalising here would let a later rate edit retroactively
+  /// change a price the user already paid.
+  askingPrice    Decimal @db.Decimal(10, 2)
+  /// ISO 4217 code from SUPPORTED_CURRENCIES, validated by zod at the API boundary.
+  askingCurrency String  @default("USD")
+
+  notes     String?
+  addedAt   DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  /// Deliberately no @@unique([userId, catalogItemId]) counterpart to
+  /// WatchlistEntry's: the same card at two shops at two asking prices is
+  /// two legitimate rows, and comparing them is half the point of the
+  /// feature.
+  @@index([userId, addedAt])
+  @@map("shortlist_items")
 }
 
 /// A user's saved, reusable filter/search definition over the card catalog
