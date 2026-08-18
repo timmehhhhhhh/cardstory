@@ -86,6 +86,8 @@ export interface SportsCardItemDetail {
   isRelic: boolean;
   serialLimit: string | null;
   imageUrl: string | null;
+  /** True when imageUrl is the checklist group's base-card photo, not a scan of this exact parallel. */
+  imageIsInherited: boolean;
   priceRaw: number | null;
   priceChangePct: number | null;
 }
@@ -104,6 +106,7 @@ function toDetail(r: {
   isRelic: boolean;
   serialLimit: string | null;
   imageUrl: string | null;
+  imageIsInherited: boolean;
   latestPriceRaw: unknown;
   priceChangePct: number | null;
 }): SportsCardItemDetail {
@@ -121,6 +124,7 @@ function toDetail(r: {
     isRelic: r.isRelic,
     serialLimit: r.serialLimit,
     imageUrl: r.imageUrl,
+    imageIsInherited: r.imageIsInherited,
     priceRaw: r.latestPriceRaw != null ? Number(r.latestPriceRaw) : null,
     priceChangePct: r.priceChangePct,
   };
@@ -134,7 +138,11 @@ export async function getSportsCardItemsByIds(ids: string[]): Promise<SportsCard
 
 /** Currently only supports attaching/replacing an image — see /api/sportscards/[id]. */
 export async function updateSportsCardImage(id: string, imageUrl: string): Promise<SportsCardItemDetail | null> {
-  const updated = await db.sportsCardItem.update({ where: { id }, data: { imageUrl } }).catch(() => null);
+  // A photo the owner attached themselves is of their actual copy, so it
+  // sheds the "this is really the base card" watermark.
+  const updated = await db.sportsCardItem
+    .update({ where: { id }, data: { imageUrl, imageIsInherited: false } })
+    .catch(() => null);
   return updated ? toDetail(updated) : null;
 }
 

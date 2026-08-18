@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { topByValue } from "@/lib/pc/selectors";
 import { usePCStore } from "@/lib/pc/store";
 import { formatMoney } from "@/lib/utils/format";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
+import { CardImage } from "@/components/cards/card-image";
 
 export function MostValuable({ rows }: { rows: EnrichedHolding[] }) {
   const currency = usePCStore((s) => s.preferences.currency);
@@ -22,9 +22,7 @@ export function MostValuable({ rows }: { rows: EnrichedHolding[] }) {
             const row = (
               <>
                 <div className="relative size-8 flex-none overflow-hidden rounded bg-muted">
-                  {r.display.imageUrl && (
-                    <Image src={r.display.imageUrl} alt="" fill unoptimized className="object-contain" />
-                  )}
+                  <CardImage src={r.display.imageUrl} alt="" className="object-contain" />
                 </div>
                 <span className="min-w-0 flex-1 truncate text-sm">{r.display.name}</span>
                 <span className="num-tabular text-sm font-medium">{formatMoney(r.marketValue, currency)}</span>

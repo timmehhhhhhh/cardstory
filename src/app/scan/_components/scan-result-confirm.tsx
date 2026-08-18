@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { RotateCcw, Search } from "lucide-react";
@@ -11,6 +10,7 @@ import { formatMoney } from "@/lib/utils/format";
 import { cardDetailHref } from "@/lib/catalog/card-href";
 import type { ScanCandidate } from "@/lib/scan/match";
 import type { ScanIdentification } from "@/lib/scan/gemini";
+import { CardImage } from "@/components/cards/card-image";
 
 export function ScanResultConfirm({
   previewUrl,
@@ -66,9 +66,7 @@ export function ScanResultConfirm({
                 className="flex items-center gap-3 rounded-lg border border-border bg-surface px-3 py-2 text-left hover:border-primary/40 hover:bg-surface-elevated"
               >
                 <div className="relative h-14 w-10 flex-none overflow-hidden rounded bg-muted">
-                  {c.imageSmallUrl && (
-                    <Image src={c.imageSmallUrl} alt="" fill unoptimized className="object-contain" />
-                  )}
+                  <CardImage src={c.imageSmallUrl} alt="" className="object-contain" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-1.5">

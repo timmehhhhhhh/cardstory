@@ -21,11 +21,12 @@ import type { LameloCardEntry } from "./types";
  * research pass hit a session limit partway through and will be finished
  * in a follow-up.
  *
- * No front/back image links are included yet: TCDB's per-card pages for
- * this set show placeholder art rather than real scans, so nothing met
- * the "confidently the right card" bar. Follow-up research can attach
- * verified images later — this file is safe to re-run through the seed
- * script (scripts/seed-lamelo-ball.ts) any time it's updated.
+ * Image links live in the ./images.ts sidecar rather than inline here, keyed
+ * by checklist group (year|distributor|setName|cardNumber|cardType) — one
+ * photo per group, since no per-parallel scan exists and every parallel in a
+ * group shows the same base art. LameloCardEntry.imageUrl below stays as the
+ * per-entry override for the rare card that needs its own. This file is safe
+ * to re-run through scripts/seed-lamelo-ball.ts any time it's updated.
  */
 export const SEASON_2020_21: LameloCardEntry[] = [
   // ---------------------------------------------------------------------

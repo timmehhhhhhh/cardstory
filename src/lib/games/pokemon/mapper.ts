@@ -226,6 +226,11 @@ export function mapTcgdexCardVariants(
     number: raw.localId,
     rarity: raw.rarity,
     artist: raw.illustrator,
+    // `undefined`, NOT `null`, is load-bearing: seed-catalog.ts passes these
+    // straight into a Prisma `update`, where undefined means "leave alone".
+    // Changing it to `?? null` would wipe every image backfilled from the
+    // official publisher sites (scripts/seed-card-images.ts) on the next
+    // `npm run seed:catalog`.
     imageSmallUrl: raw.image ? `${raw.image}/low.webp` : undefined,
     imageLargeUrl: raw.image ? `${raw.image}/high.webp` : undefined,
     productType: "CARD" as const,

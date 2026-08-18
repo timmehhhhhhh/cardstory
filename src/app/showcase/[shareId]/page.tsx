@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -9,6 +8,7 @@ import { cardDetailHref } from "@/lib/catalog/card-href";
 import type { ShowcasePayload } from "@/lib/showcase/types";
 import { formatMoney, formatPct } from "@/lib/utils/format";
 import type { SupportedCurrency } from "@/lib/constants";
+import { CardImage } from "@/components/cards/card-image";
 
 async function getSnapshot(shareId: string) {
   return db.showcaseSnapshot.findUnique({ where: { id: shareId } });
@@ -66,9 +66,7 @@ export default async function ShowcasePage({ params }: { params: Promise<{ share
             className="flex flex-col overflow-hidden rounded-xl border border-border bg-surface hover:border-primary/40"
           >
             <div className="relative aspect-[5/7] w-full bg-muted">
-              {item.imageSmallUrl && (
-                <Image src={item.imageSmallUrl} alt={item.name} fill unoptimized className="object-contain p-2" />
-              )}
+              <CardImage src={item.imageSmallUrl} alt={item.name} className="object-contain p-2" />
             </div>
             <div className="p-2.5">
               <div className="flex items-center gap-1.5">

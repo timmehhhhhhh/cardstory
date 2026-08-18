@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { TrendingDown, TrendingUp } from "lucide-react";
 import { topByChange } from "@/lib/pc/selectors";
 import { formatPct } from "@/lib/utils/format";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
+import { CardImage } from "@/components/cards/card-image";
 
 export function TrendingToday({ rows }: { rows: EnrichedHolding[] }) {
   const top = topByChange(rows, 5, "up");
@@ -25,9 +25,7 @@ export function TrendingToday({ rows }: { rows: EnrichedHolding[] }) {
             const row = (
               <>
                 <div className="relative size-8 flex-none overflow-hidden rounded bg-muted">
-                  {r.display.imageUrl && (
-                    <Image src={r.display.imageUrl} alt="" fill unoptimized className="object-contain" />
-                  )}
+                  <CardImage src={r.display.imageUrl} alt="" className="object-contain" />
                 </div>
                 <span className="min-w-0 flex-1 truncate text-sm">{r.display.name}</span>
                 <span

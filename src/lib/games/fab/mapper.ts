@@ -105,6 +105,11 @@ export function mapFabCardsForSet(cards: GoagainApiCard[], setExternalId: string
         rarity: best.rarity ? (RARITY_LABELS[best.rarity] ?? best.rarity) : undefined,
         artist: best.artists && best.artists.length > 0 ? best.artists.join(", ") : undefined,
         cardType: card.type_text,
+        // `undefined`, NOT `null`, is load-bearing: seed-catalog.ts passes these
+        // straight into a Prisma `update`, where undefined means "leave alone".
+        // Changing it to `?? null` would wipe every image backfilled from the
+        // official publisher sites (scripts/seed-card-images.ts) on the next
+        // `npm run seed:catalog`.
         imageSmallUrl: best.image_url ?? undefined,
         imageLargeUrl: best.image_url ?? undefined,
         productType: "CARD",

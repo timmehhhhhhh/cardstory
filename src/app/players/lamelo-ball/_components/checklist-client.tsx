@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
-import { ExternalLink, ImageOff } from "lucide-react";
+import { ExternalLink } from "lucide-react";
+import { CardImage } from "@/components/cards/card-image";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { usePCStore } from "@/lib/pc/store";
@@ -21,25 +21,18 @@ const CARD_TYPE_VARIANT: Record<ChecklistCardType, "outline" | "secondary" | "de
   short_print: "default",
 };
 
-function CardImage({ url, label }: { url: string | null; label: "Front" | "Back" }) {
+/** Owns the Front/Back label and the fixed checklist thumbnail size; the
+ *  image itself (and its missing/rotted handling) is the shared CardImage. */
+function ChecklistCardImage({ url, label }: { url: string | null; label: "Front" | "Back" }) {
   return (
     <div className="flex flex-col items-center gap-1">
       <div className="relative aspect-[5/7] w-28 overflow-hidden rounded-md border border-border bg-surface-elevated sm:w-32">
-        {url ? (
-          <Image
-            src={url}
-            alt={`${label} of card`}
-            fill
-            unoptimized
-            referrerPolicy="no-referrer"
-            className="object-cover"
-          />
-        ) : (
-          <div className="flex h-full flex-col items-center justify-center gap-1 text-muted-foreground">
-            <ImageOff className="size-5" />
-            <span className="text-[10px]">No image</span>
-          </div>
-        )}
+        <CardImage
+          src={url}
+          alt={`${label} of card`}
+          className="object-cover"
+          fallbackVariant="icon-label"
+        />
       </div>
       <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
         {label}
@@ -92,8 +85,8 @@ function ChecklistCardRow({ card }: { card: ChecklistCard }) {
   return (
     <div className="flex flex-col gap-4 rounded-xl border border-border bg-surface p-4 sm:flex-row">
       <div className="flex shrink-0 gap-3">
-        <CardImage url={card.imageUrl} label="Front" />
-        <CardImage url={card.imageBackUrl} label="Back" />
+        <ChecklistCardImage url={card.imageUrl} label="Front" />
+        <ChecklistCardImage url={card.imageBackUrl} label="Back" />
       </div>
 
       <div className="flex-1">

@@ -1,8 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { ImageOff, Trash2, TrendingDown, TrendingUp } from "lucide-react";
+import { Trash2, TrendingDown, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -11,6 +10,8 @@ import { usePCStore } from "@/lib/pc/store";
 import { formatMoney, formatPct } from "@/lib/utils/format";
 import { SportsCardImageDialog } from "@/components/sportscards/sports-card-image-dialog";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
+import { CardImage } from "@/components/cards/card-image";
+import { ParallelBadge } from "@/components/sportscards/parallel-badge";
 
 export function ItemGrid({
   rows,
@@ -44,7 +45,6 @@ export function ItemGrid({
     <div className="flex flex-col gap-2.5">
       {rows.map((r) => {
         const positive = r.gainLoss >= 0;
-        const needsImage = !r.display.imageUrl && r.sportsCardItem;
 
         // Card art gets real estate here (up to 96px wide, proper 5:7 card
         // aspect) since this is the primary visual identifier in the list —
@@ -52,22 +52,29 @@ export function ItemGrid({
         // ever hidden to make room for the bigger image.
         const image = (
           <div className="relative aspect-[5/7] w-20 flex-none overflow-hidden rounded-lg bg-muted ring-1 ring-border/60 sm:w-24">
-            {r.display.imageUrl ? (
-              <Image
-                src={r.display.imageUrl}
-                alt=""
-                fill
-                sizes="(min-width: 640px) 96px, 80px"
-                unoptimized
-                className="object-contain"
-              />
-            ) : needsImage ? (
-              <SportsCardImageDialog sportsCardItemId={r.sportsCardItem!.id} />
-            ) : (
-              <div className="flex h-full items-center justify-center text-muted-foreground/50">
-                <ImageOff className="size-5" />
-              </div>
-            )}
+            <CardImage
+              src={r.display.imageUrl}
+              alt=""
+              sizes="(min-width: 640px) 96px, 80px"
+              className="object-contain"
+              // Routing the sports affordance through `fallback` (rather than a
+              // separate `!imageUrl` branch) means a *rotted* image URL now also
+              // lands on "attach a photo" instead of a broken image.
+              fallback={
+                r.sportsCardItem ? (
+                  <SportsCardImageDialog sportsCardItemId={r.sportsCardItem.id} />
+                ) : undefined
+              }
+              overlay={
+                r.display.imageWatermark ? (
+                  <ParallelBadge
+                    parallelName={r.display.imageWatermark.parallelName}
+                    serialLimit={r.display.imageWatermark.serialLimit}
+                    inherited={r.display.imageWatermark.inherited}
+                  />
+                ) : undefined
+              }
+            />
           </div>
         );
 

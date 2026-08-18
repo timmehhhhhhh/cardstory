@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { db } from "@/lib/db";
@@ -16,6 +15,8 @@ import { Badge } from "@/components/ui/badge";
 import { formatReleaseDate } from "@/lib/format/date";
 import { defaultFinishLabel } from "@/lib/games/pokemon/mapper";
 import { getFinishDisplayLabel } from "@/lib/games/pokemon/finish-patterns";
+import { CardImage } from "@/components/cards/card-image";
+import { ParallelBadge } from "@/components/sportscards/parallel-badge";
 
 type CardData =
   | { kind: "tcg"; item: NonNullable<Awaited<ReturnType<typeof getTcgCard>>> }
@@ -121,23 +122,22 @@ export default async function CardDetailPage({
 
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-[260px_1fr_300px]">
           <div className="overflow-hidden rounded-xl border border-border bg-surface">
-            {item.imageUrl ? (
-              <div className="relative aspect-[5/7] w-full">
-                <Image
-                  src={item.imageUrl}
-                  alt={cardName}
-                  fill
-                  unoptimized
-                  referrerPolicy="no-referrer"
-                  sizes="260px"
-                  className="object-contain p-3"
-                />
-              </div>
-            ) : (
-              <div className="flex aspect-[5/7] items-center justify-center text-sm text-muted-foreground">
-                No image
-              </div>
-            )}
+            <div className="relative aspect-[5/7] w-full">
+              <CardImage
+                src={item.imageUrl}
+                alt={cardName}
+                sizes="260px"
+                className="object-contain p-3"
+                fallbackVariant="icon-label"
+                overlay={
+                  <ParallelBadge
+                    parallelName={item.parallelName}
+                    serialLimit={item.serialLimit}
+                    inherited={item.imageIsInherited}
+                  />
+                }
+              />
+            </div>
           </div>
 
           <PriceHistoryPanel
@@ -208,22 +208,15 @@ export default async function CardDetailPage({
 
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-[260px_1fr_300px]">
         <div className="overflow-hidden rounded-xl border border-border bg-surface">
-          {item.imageLargeUrl || item.imageSmallUrl ? (
-            <div className="relative aspect-[5/7] w-full">
-              <Image
-                src={item.imageLargeUrl ?? item.imageSmallUrl ?? ""}
-                alt={item.name}
-                fill
-                unoptimized
-                sizes="260px"
-                className="object-contain p-3"
-              />
-            </div>
-          ) : (
-            <div className="flex aspect-[5/7] items-center justify-center text-sm text-muted-foreground">
-              No image
-            </div>
-          )}
+          <div className="relative aspect-[5/7] w-full">
+            <CardImage
+              src={item.imageLargeUrl ?? item.imageSmallUrl}
+              alt={item.name}
+              sizes="260px"
+              className="object-contain p-3"
+              fallbackVariant="icon-label"
+            />
+          </div>
         </div>
 
         <PriceHistoryPanel

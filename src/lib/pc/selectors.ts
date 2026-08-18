@@ -12,6 +12,12 @@ export interface DisplayInfo {
   /** The card's number within its set (e.g. "88", "025/198"), when known. */
   number: string | null;
   imageUrl: string | null;
+  /**
+   * Parallel label watermarked over the image, for sports cards only.
+   * `inherited` means imageUrl is the checklist group's base-card photo
+   * rather than a scan of this parallel — see ParallelBadge.
+   */
+  imageWatermark: { parallelName: string; serialLimit: string | null; inherited: boolean } | null;
   /** Link target, or null when there's no detail page for this item kind (sports cards, in v1). */
   href: string | null;
   /** Grouping key for "Collections by game" — a TCG gameId or `sports:<SPORT>`. */
@@ -63,6 +69,15 @@ function buildDisplay(
       number: sportsCardItem.cardNumber,
       // The owner's own photo of this copy wins over the shared catalog image.
       imageUrl: holding.imageUrl ?? sportsCardItem.imageUrl,
+      imageWatermark: sportsCardItem.parallelName
+        ? {
+            parallelName: sportsCardItem.parallelName,
+            serialLimit: sportsCardItem.serialLimit,
+            // Their own photo is of their actual copy, so it isn't inherited
+            // even when the shared row's image is.
+            inherited: !holding.imageUrl && sportsCardItem.imageIsInherited,
+          }
+        : null,
       href: null,
       groupKey: `sports:${sportsCardItem.sport}`,
       groupLabel: sport?.name ?? sportsCardItem.sport,
@@ -77,6 +92,7 @@ function buildDisplay(
       : "",
     number: catalogItem?.number ?? null,
     imageUrl: holding.imageUrl ?? catalogItem?.imageSmallUrl ?? null,
+    imageWatermark: null,
     href: catalogItem ? cardDetailHref(catalogItem.gameId, catalogItem.id, false) : null,
     groupKey: catalogItem?.gameId ?? "unknown",
     groupLabel: catalogItem ? (getGameMeta(catalogItem.gameId)?.name ?? catalogItem.gameId) : "Unknown",

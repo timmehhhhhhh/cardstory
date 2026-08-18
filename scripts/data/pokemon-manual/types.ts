@@ -24,7 +24,16 @@ export interface ManualCatalogItemEntry {
   rarity?: string;
   artist?: string;
   cardType?: string;
-  /** Left undefined when no legitimate image source exists — never scrape one in. */
+  /**
+   * Left undefined for hand-curated rows whose image isn't available.
+   *
+   * Bulk image sourcing does NOT happen here — non-English Pokémon scans are
+   * backfilled separately from the official publisher sites into
+   * scripts/data/card-images/ (see scripts/crawl-pokemon-ja-images.ts). Those
+   * are stored as hotlinks to the publisher's own CDN and never re-hosted.
+   * Retail/marketplace listing photos remain off-limits as a source: they're
+   * a seller's photo of one copy, not a reference scan of the printing.
+   */
   imageSmallUrl?: string;
   imageLargeUrl?: string;
   productType?: "CARD" | "SEALED";

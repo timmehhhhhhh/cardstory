@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
 import { Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
@@ -9,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { CardNumberBadge } from "@/components/cards/card-number-badge";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
+import { CardImage } from "@/components/cards/card-image";
 
 export function CardPickerSheet({
   open,
@@ -77,9 +77,7 @@ export function CardPickerSheet({
                     )}
                   >
                     <div className="relative h-14 w-10 flex-none overflow-hidden rounded bg-muted">
-                      {r.display.imageUrl && (
-                        <Image src={r.display.imageUrl} alt="" fill unoptimized className="object-contain" />
-                      )}
+                      <CardImage src={r.display.imageUrl} alt="" className="object-contain" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-1.5">

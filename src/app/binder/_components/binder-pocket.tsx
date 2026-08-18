@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { GripVertical, Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CardNumberBadge } from "@/components/cards/card-number-badge";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
+import { CardImage } from "@/components/cards/card-image";
 
 export function BinderPocket({
   card,
@@ -52,19 +52,16 @@ export function BinderPocket({
           aria-label={`${card.display.name} — click to swap`}
           className="absolute inset-0 flex size-full cursor-grab flex-col items-stretch justify-center active:cursor-grabbing"
         >
-          {card.display.imageUrl ? (
-            <Image
-              src={card.display.imageUrl}
-              alt=""
-              fill
-              unoptimized
-              className="object-contain p-0.5"
-            />
-          ) : (
-            <span className="flex size-full items-center justify-center px-1.5 text-center text-[10px] leading-tight text-muted-foreground">
-              {card.display.name}
-            </span>
-          )}
+          <CardImage
+            src={card.display.imageUrl}
+            alt=""
+            className="object-contain p-0.5"
+            fallback={
+              <span className="flex size-full items-center justify-center px-1.5 text-center text-[10px] leading-tight text-muted-foreground">
+                {card.display.name}
+              </span>
+            }
+          />
           <span className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-center gap-1 bg-gradient-to-t from-black/70 to-transparent py-1 opacity-0 transition-opacity group-hover/pocket:opacity-100">
             <GripVertical className="size-3 text-white/80" />
           </span>

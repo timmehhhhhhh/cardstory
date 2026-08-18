@@ -22,9 +22,12 @@ import type { ManualCatalogItemEntry } from "./types";
  * hareruya2, physiodemy, furu1, mercari) plus Bulbapedia's disambiguation
  * page and tcgdex's English mirror data — not a single unverified source.
  * Illustrator (Milky Isobe) and rarity ("Rare Secret") are confirmed for
- * the family via the English mirrors; no legitimate image source was
- * found for the JP printings, so imageSmallUrl/imageLargeUrl are left
- * unset rather than scraped from a retail listing.
+ * the family via the English mirrors. imageSmallUrl/imageLargeUrl are left
+ * unset: these LEGEND-era JP printings predate the id space of the official
+ * pokemon-card.com card search, so the image backfill in
+ * scripts/crawl-pokemon-ja-images.ts cannot reach them either, and a retail
+ * listing photo isn't an acceptable substitute for a reference scan. They
+ * render via the CardImage fallback (components/cards/card-image.tsx).
  */
 export const POKEMON_MANUAL_ENTRIES: ManualCatalogItemEntry[] = [
   {

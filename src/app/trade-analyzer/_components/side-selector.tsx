@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { Minus, Plus, Search, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -10,6 +9,7 @@ import { usePCStore } from "@/lib/pc/store";
 import { formatMoney } from "@/lib/utils/format";
 import type { CatalogSearchItem } from "@/lib/catalog/search";
 import type { TradeItem } from "@/app/trade-analyzer/_components/types";
+import { CardImage } from "@/components/cards/card-image";
 
 export function SideSelector({
   label,
@@ -76,9 +76,7 @@ export function SideSelector({
               className="flex items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm hover:bg-surface-elevated"
             >
               <div className="relative h-8 w-6 flex-none overflow-hidden rounded bg-muted">
-                {item.imageSmallUrl && (
-                  <Image src={item.imageSmallUrl} alt="" fill unoptimized className="object-contain" />
-                )}
+                <CardImage src={item.imageSmallUrl} alt="" className="object-contain" />
               </div>
               <span className="min-w-0 flex-1 truncate">{item.name}</span>
               <CardNumberBadge number={item.number} className="flex-none" />
@@ -97,9 +95,7 @@ export function SideSelector({
           items.map((item) => (
             <div key={item.catalogItemId} className="flex items-center gap-2 rounded-lg border border-border px-2 py-2">
               <div className="relative h-10 w-7 flex-none overflow-hidden rounded bg-muted">
-                {item.imageSmallUrl && (
-                  <Image src={item.imageSmallUrl} alt="" fill unoptimized className="object-contain" />
-                )}
+                <CardImage src={item.imageSmallUrl} alt="" className="object-contain" />
               </div>
               <span className="min-w-0 flex-1 truncate text-sm">{item.name}</span>
               <CardNumberBadge number={item.number} className="flex-none" />
