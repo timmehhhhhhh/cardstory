@@ -5,6 +5,7 @@ import Link from "next/link";
 import { BookOpen } from "lucide-react";
 import { usePCData } from "@/hooks/use-pc-data";
 import { usePCStore } from "@/lib/pc/store";
+import { pcKind } from "@/lib/pc/types";
 import { ValueHeader } from "@/app/pc/_components/value-header";
 import { QuickActions } from "@/app/pc/_components/quick-actions";
 import { MostValuable } from "@/app/pc/_components/most-valuable";
@@ -20,9 +21,22 @@ import { Button } from "@/components/ui/button";
 import type { ShowcasePayload } from "@/lib/showcase/types";
 
 export function PCClient() {
-  const { activePCId, activePC, rows, totals, isLoading } = usePCData();
+  const { pcs, activePCId, activePC, rows, totals, isLoading } = usePCData();
   const watchlist = usePCStore((s) => s.watchlist);
   const currency = usePCStore((s) => s.preferences.currency);
+  const setActivePC = usePCStore((s) => s.setActivePC);
+
+  // Business Inventory now lives on its own /business tab and is filtered
+  // out of PCSelector — if a vendor's activePCId is still pointed at it
+  // (left over from before that tab existed), redirect once to their
+  // first personal pc rather than showing a pc that PCSelector can no
+  // longer represent.
+  React.useEffect(() => {
+    if (activePC && pcKind(activePC) === "business") {
+      const firstPersonal = pcs.find((p) => pcKind(p) !== "business");
+      if (firstPersonal) setActivePC(firstPersonal.id);
+    }
+  }, [activePC, pcs, setActivePC]);
 
   const [filters, setFilters] = React.useState<HoldingFilters>(DEFAULT_HOLDING_FILTERS);
   const [bulkMode, setBulkMode] = React.useState(false);

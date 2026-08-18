@@ -82,6 +82,12 @@ model CatalogItem {
   /// externalId" for every game that doesn't use this field.
   variantKey             String                  @default("")
   name                   String
+  /// English name for a non-English row, so e.g. a JP Pokémon card's
+  /// "アルフの石版" is also searchable as "Alph Lithograph" — see
+  /// lib/catalog/search.ts's `q` clause. Null for English rows (their own
+  /// `name` already is the English name) and for any non-English row whose
+  /// English counterpart hasn't been identified yet.
+  nameEn                 String?
   number                 String?
   rarity                 String?
   /// Illustrator credit, e.g. Pokémon's "Mitsuhiro Arita". Only populated for
@@ -121,6 +127,7 @@ model CatalogItem {
   @@index([gameId, externalId])
   @@index([setId])
   @@index([name])
+  @@index([nameEn])
   @@index([cardType])
   @@index([rarity])
   @@index([latestPriceRaw])

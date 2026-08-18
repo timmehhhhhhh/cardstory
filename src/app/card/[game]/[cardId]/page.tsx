@@ -10,8 +10,12 @@ import { ShopPanel } from "@/app/card/[game]/[cardId]/_components/shop-panel";
 import { GradedPricesPanel } from "@/app/card/[game]/[cardId]/_components/graded-prices-panel";
 import { EbaySoldCompsPanel } from "@/app/card/[game]/[cardId]/_components/ebay-sold-comps-panel";
 import { RarityBadge } from "@/components/cards/rarity-badge";
+import { FinishBadge } from "@/components/cards/finish-badge";
+import { OtherVersionsPanel } from "@/app/card/[game]/[cardId]/_components/other-versions-panel";
 import { Badge } from "@/components/ui/badge";
 import { formatReleaseDate } from "@/lib/format/date";
+import { defaultFinishLabel } from "@/lib/games/pokemon/mapper";
+import { getFinishDisplayLabel } from "@/lib/games/pokemon/finish-patterns";
 
 type CardData =
   | { kind: "tcg"; item: NonNullable<Awaited<ReturnType<typeof getTcgCard>>> }
@@ -34,6 +38,28 @@ async function getCard(game: string, cardId: string): Promise<CardData | null> {
   }
   const item = await getTcgCard(game, cardId);
   return item ? { kind: "tcg", item } : null;
+}
+
+/**
+ * Every other priced finish/variation of this same physical card — same
+ * (gameId, externalId), a different row (see CatalogItem.variantKey). Only
+ * Pokémon rows ever have siblings today; every other game's cards are still
+ * one row per externalId, so this naturally resolves to an empty array for
+ * them (and for a Pokémon card with only one priced finish) with no extra
+ * check needed.
+ */
+async function getSiblingVariants(item: { id: string; gameId: string; externalId: string }) {
+  const rows = await db.catalogItem.findMany({
+    where: { gameId: item.gameId, externalId: item.externalId, id: { not: item.id } },
+    select: { id: true, variantKey: true, latestPriceRaw: true, set: { select: { code: true } } },
+  });
+  return rows
+    .map((r) => ({
+      id: r.id,
+      priceRaw: r.latestPriceRaw != null ? Number(r.latestPriceRaw) : null,
+      label: getFinishDisplayLabel(r.set.code, r.variantKey, defaultFinishLabel(r.variantKey)),
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label));
 }
 
 export async function generateMetadata({
@@ -135,6 +161,18 @@ export default async function CardDetailPage({
   const item = card.item;
   const priceRaw = item.latestPriceRaw != null ? Number(item.latestPriceRaw) : null;
   const releaseDateLabel = formatReleaseDate(item.set.releaseDate);
+  const variantKey = item.variantKey || null;
+  const variantLabel = variantKey
+    ? getFinishDisplayLabel(item.set.code, variantKey, defaultFinishLabel(variantKey))
+    : null;
+  const displayName = variantLabel ? `${item.name} — ${variantLabel}` : item.name;
+  const siblingVariants = await getSiblingVariants(item);
+  // Every price/graded-price/eBay-comps lookup below is keyed by the full
+  // CatalogItem.id, not the bare externalId — see cardDetailHref for why:
+  // one externalId can now back several rows (Pokémon finish variants), so
+  // the id-minus-"<gameId>:"-prefix slug is what round-trips back to THIS
+  // row specifically, rather than always resolving to the primary variant.
+  const detailSlug = item.id.slice(game.length + 1);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
@@ -143,7 +181,7 @@ export default async function CardDetailPage({
         gameName={gameMeta?.name ?? item.game.name}
         setId={item.setId}
         setName={item.set.name}
-        cardName={item.name}
+        cardName={displayName}
       />
 
       <div className="mb-6 flex flex-wrap items-start justify-between gap-2">
@@ -157,9 +195,16 @@ export default async function CardDetailPage({
             {item.artist && <span>· Illustrated by {item.artist}</span>}
             {item.language !== "EN" && <span>· {item.language}</span>}
             <RarityBadge rarity={item.rarity} />
+            <FinishBadge variantKey={variantKey} label={variantLabel} />
           </div>
         </div>
       </div>
+
+      <OtherVersionsPanel
+        gameId={game}
+        current={{ id: item.id, priceRaw, label: variantLabel ?? "This finish" }}
+        siblings={siblingVariants}
+      />
 
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-[260px_1fr_300px]">
         <div className="overflow-hidden rounded-xl border border-border bg-surface">
@@ -183,7 +228,7 @@ export default async function CardDetailPage({
 
         <PriceHistoryPanel
           gameId={game}
-          cardExternalId={item.externalId}
+          cardExternalId={detailSlug}
           currentPriceRaw={priceRaw}
           currentChangePct={item.priceChangePct}
         />
@@ -191,12 +236,12 @@ export default async function CardDetailPage({
         <div className="flex flex-col gap-4">
           <CollectionPanel
             catalogItemId={item.id}
-            cardName={item.name}
+            cardName={displayName}
             suggestedPrice={priceRaw}
             language={item.language}
           />
-          <GradedPricesPanel gameId={game} cardExternalId={item.externalId} />
-          <EbaySoldCompsPanel gameId={game} cardExternalId={item.externalId} cardName={item.name} />
+          <GradedPricesPanel gameId={game} cardExternalId={detailSlug} />
+          <EbaySoldCompsPanel gameId={game} cardExternalId={detailSlug} cardName={displayName} />
           <ShopPanel cardName={item.name} gameId={game} />
         </div>
       </div>

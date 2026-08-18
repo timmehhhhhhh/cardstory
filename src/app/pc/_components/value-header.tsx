@@ -7,7 +7,16 @@ import { usePCStore } from "@/lib/pc/store";
 import { formatMoney, formatPct } from "@/lib/utils/format";
 import type { EnrichedHolding, PCTotals } from "@/lib/pc/selectors";
 
-export function ValueHeader({ rows, totals }: { rows: EnrichedHolding[]; totals: PCTotals }) {
+export function ValueHeader({
+  rows,
+  totals,
+  showSelector = true,
+}: {
+  rows: EnrichedHolding[];
+  totals: PCTotals;
+  /** Set false when there's only ever one pc to show (e.g. Business Inventory) — swaps the pc-switcher dropdown for a static label. */
+  showSelector?: boolean;
+}) {
   const currency = usePCStore((s) => s.preferences.currency);
   const positive = totals.totalGainLoss >= 0;
 
@@ -16,7 +25,11 @@ export function ValueHeader({ rows, totals }: { rows: EnrichedHolding[]; totals:
       <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
         <div>
           <div className="mb-1">
-            <PCSelector />
+            {showSelector ? (
+              <PCSelector />
+            ) : (
+              <p className="text-sm font-medium text-muted-foreground">Business Inventory</p>
+            )}
           </div>
           <p className="num-tabular text-3xl font-bold">{formatMoney(totals.totalValue, currency)}</p>
           {totals.totalCostBasis > 0 && (

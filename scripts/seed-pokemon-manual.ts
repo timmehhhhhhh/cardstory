@@ -51,6 +51,7 @@ async function main() {
         setId: entry.set.setId,
         externalId: entry.externalId,
         name: entry.name,
+        nameEn: entry.nameEn,
         number: entry.number,
         rarity: entry.rarity,
         artist: entry.artist,

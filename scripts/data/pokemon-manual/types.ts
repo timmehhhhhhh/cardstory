@@ -18,6 +18,8 @@ export interface ManualCatalogItemEntry {
    *  card itself, the row converges onto the same id instead of duplicating. */
   externalId: string;
   name: string;
+  /** English name of this printing, when known — see CatalogItem.nameEn. */
+  nameEn?: string;
   number?: string;
   rarity?: string;
   artist?: string;

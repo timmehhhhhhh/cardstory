@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { CardNumberBadge } from "@/components/cards/card-number-badge";
 import { usePCStore } from "@/lib/pc/store";
 import { formatMoney } from "@/lib/utils/format";
+import { cardDetailHref } from "@/lib/catalog/card-href";
 import type { ScanCandidate } from "@/lib/scan/match";
 import type { ScanIdentification } from "@/lib/scan/gemini";
 
@@ -61,7 +62,7 @@ export function ScanResultConfirm({
               <button
                 key={c.catalogItemId}
                 type="button"
-                onClick={() => router.push(`/card/${c.gameId}/${encodeURIComponent(c.externalId)}`)}
+                onClick={() => router.push(cardDetailHref(c.gameId, c.catalogItemId, false))}
                 className="flex items-center gap-3 rounded-lg border border-border bg-surface px-3 py-2 text-left hover:border-primary/40 hover:bg-surface-elevated"
               >
                 <div className="relative h-14 w-10 flex-none overflow-hidden rounded bg-muted">

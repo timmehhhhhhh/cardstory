@@ -89,6 +89,10 @@ export interface CatalogSearchItem {
   cardType: string | null;
   /** CatalogItem.language, e.g. "EN"/"JP"/"CN"/"TW"/"KR". Null for sports rows (no language concept). */
   language: string | null;
+  /** CatalogItem.variantKey (the raw provider finish key, e.g. "reverseHolofoil"). Null for rows with no finish concept — every sports row, and every TCG row where variantKey is "". */
+  variantKey: string | null;
+  /** Fully resolved display label for variantKey — the curated collector-pattern name if one exists for this set/finish (see getFinishDisplayLabel), else the generic finish name (e.g. "Reverse Holo"). Null whenever variantKey is null. */
+  variantLabel: string | null;
   imageSmallUrl: string | null;
   setName: string;
   releaseDate: string | null;
@@ -238,6 +242,8 @@ function sportsItemToSearchItem(r: SportsRow, gameId: string): CatalogSearchItem
     rarity: null,
     artist: null,
     language: null,
+    variantKey: null,
+    variantLabel: null,
     cardType: titleCase(r.parallelName ?? r.cardType),
     imageSmallUrl: r.imageUrl,
     setName,
@@ -296,13 +302,14 @@ function sportsWhereFor(
 }
 
 /**
- * SportsCardItem has no rarity, language, or artist column, and its own
- * `cardType` taxonomy ("base"/"insert"/"short_print") means something
- * entirely different from CatalogItem's game-specific cardType (e.g.
- * Riftbound's "Champion Unit") shown in the same shared filter dropdown —
- * so sports rows deliberately don't participate in the cardType/rarity/
- * language/artist facets, and sealed products don't exist for sports cards
- * at all.
+ * SportsCardItem has no rarity, language, artist, or finish/variant column,
+ * and its own `cardType` taxonomy ("base"/"insert"/"short_print") means
+ * something entirely different from CatalogItem's game-specific cardType
+ * (e.g. Riftbound's "Champion Unit") shown in the same shared filter
+ * dropdown — so sports rows deliberately don't participate in the
+ * cardType/rarity/language/artist/variant facets (their nearest equivalent,
+ * parallelName, has its own separate "Hide parallels" toggle), and sealed
+ * products don't exist for sports cards at all.
  */
 function sportsFilterableFor(params: CatalogSearchParams): boolean {
   return (
@@ -310,6 +317,7 @@ function sportsFilterableFor(params: CatalogSearchParams): boolean {
     !isFilterSet(params.rarity) &&
     !isFilterSet(params.language) &&
     !isFilterSet(params.artist) &&
+    !isFilterSet(params.variant) &&
     params.productType !== "SEALED"
   );
 }
@@ -328,6 +336,12 @@ function tcgWhereFor(
   const qGroup: Prisma.CatalogItemWhereInput[] | undefined = params.q
     ? [
         { name: { contains: params.q, mode: "insensitive" } },
+        // Lets a non-English row (e.g. a JP Pokémon card whose `name` is
+        // "アルフの石版") also match its English name ("Alph Lithograph")
+        // when populated — see CatalogItem.nameEn. Orthogonal to the
+        // `language` filter below, so this matches under "All languages"
+        // and under an explicit non-English language filter alike.
+        { nameEn: { contains: params.q, mode: "insensitive" } },
         { artist: { contains: params.q, mode: "insensitive" } },
         { number: { contains: params.q, mode: "insensitive" } },
       ]
@@ -352,6 +366,7 @@ function tcgWhereFor(
     cardType: equalsOrIn(params.cardType),
     rarity: equalsOrIn(params.rarity),
     language: equalsOrIn(params.language),
+    variantKey: equalsOrIn(params.variant),
     id: params.onlyIds
       ? { in: params.onlyIds }
       : params.excludeIds
@@ -365,6 +380,7 @@ const TCG_SELECT = {
   id: true,
   gameId: true,
   externalId: true,
+  variantKey: true,
   name: true,
   number: true,
   rarity: true,
@@ -376,12 +392,23 @@ const TCG_SELECT = {
   latestPriceRaw: true,
   priceChangePct: true,
   latestPriceDate: true,
-  set: { select: { name: true, releaseDate: true } },
+  // `code` (the provider's own set id, e.g. pokemontcg.io's "base6") is
+  // what the curated finish-pattern overlay keys off of — see
+  // getFinishDisplayLabel — not Set.id (which is prefixed "<gameId>:").
+  set: { select: { name: true, releaseDate: true, code: true } },
 } satisfies Prisma.CatalogItemSelect;
 
 type TcgRow = Prisma.CatalogItemGetPayload<{ select: typeof TCG_SELECT }>;
 
 function tcgItemToSearchItem(r: TcgRow): CatalogSearchItem {
+  // "" (the default for every non-Pokémon row) means "no finish concept" —
+  // normalize it to null here so CatalogSearchItem.variantKey/variantLabel
+  // read the same way sports rows' do, rather than leaking the storage
+  // sentinel out to callers.
+  const variantKey = r.variantKey || null;
+  const variantLabel = variantKey
+    ? getFinishDisplayLabel(r.set.code, variantKey, defaultFinishLabel(variantKey))
+    : null;
   return {
     id: r.id,
     gameId: r.gameId,
@@ -392,6 +419,8 @@ function tcgItemToSearchItem(r: TcgRow): CatalogSearchItem {
     artist: r.artist,
     cardType: r.cardType,
     language: r.language,
+    variantKey,
+    variantLabel,
     imageSmallUrl: r.imageSmallUrl,
     setName: r.set.name,
     releaseDate: r.set.releaseDate ? r.set.releaseDate.toISOString().slice(0, 10) : null,
@@ -677,4 +706,47 @@ export async function getDistinctRarities(gameId?: string): Promise<string[]> {
     orderBy: { rarity: "asc" },
   });
   return rows.map((r) => r.rarity as string);
+}
+
+export interface VariantGroup {
+  gameId: string;
+  gameName: string;
+  variants: { key: string; label: string }[];
+}
+
+/**
+ * Every distinct priced finish in the catalog, for populating Explore's
+ * "Variation" filter — mirrors getDistinctCardTypes above (grouped by game,
+ * collapsed to a single-element array when scoped to one game, omitted
+ * entirely for games with no finish data). Deliberately dedupes/groups by
+ * the GENERIC finish label (defaultFinishLabel), not any curated per-set
+ * collector-pattern override (getFinishDisplayLabel) — the filter itself
+ * has to stay a small, stable taxonomy (at most one entry per provider
+ * finish key) so picking "Reverse Holo" still matches every set's reverse
+ * holos, including ones with a curated override like Legendary Collection's
+ * "Cracked Ice Holo" (that name is purely a per-tile display overlay, see
+ * tcgItemToSearchItem). Deliberately CatalogItem-only — see
+ * sportsFilterableFor() above for why sports rows don't participate here.
+ */
+export async function getDistinctVariants(gameId?: string): Promise<VariantGroup[]> {
+  const rows = await db.catalogItem.findMany({
+    where: { gameId, NOT: [{ variantKey: "" }] },
+    distinct: ["gameId", "variantKey"],
+    select: { gameId: true, variantKey: true },
+  });
+  const byGame = new Map<string, Map<string, string>>(); // gameId -> (finish key -> generic label)
+  for (const row of rows) {
+    const key = row.variantKey;
+    const label = defaultFinishLabel(key);
+    const existing = byGame.get(row.gameId);
+    if (existing) existing.set(key, label);
+    else byGame.set(row.gameId, new Map([[key, label]]));
+  }
+  return GAMES.filter((g) => byGame.has(g.id)).map((g) => ({
+    gameId: g.id,
+    gameName: g.name,
+    variants: Array.from(byGame.get(g.id)!, ([key, label]) => ({ key, label })).sort((a, b) =>
+      a.label.localeCompare(b.label)
+    ),
+  }));
 }

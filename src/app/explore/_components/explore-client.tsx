@@ -15,7 +15,7 @@ import { filtersToSearchParams, type ExploreFilters } from "@/app/explore/_compo
 import { usePCStore } from "@/lib/pc/store";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import type { CardTypeGroup, CatalogSearchItem } from "@/lib/catalog/search";
+import type { CardTypeGroup, CatalogSearchItem, VariantGroup } from "@/lib/catalog/search";
 import type { Holding } from "@/lib/pc/types";
 
 const EMPTY_HOLDINGS: Holding[] = [];
@@ -32,11 +32,13 @@ export function ExploreClient({
   initialData,
   cardTypeGroups,
   rarityOptions,
+  variantGroups,
 }: {
   initialFilters: ExploreFilters;
   initialData: SearchResponse;
   cardTypeGroups: CardTypeGroup[];
   rarityOptions: string[];
+  variantGroups: VariantGroup[];
 }) {
   const router = useRouter();
   const { data: session } = useSession();
@@ -85,6 +87,21 @@ export function ExploreClient({
   });
   const resolvedCardTypeGroups = cardTypeQuery.data ?? cardTypeGroups;
 
+  const variantQuery = useQuery<VariantGroup[]>({
+    queryKey: ["catalog-variants", filters.game],
+    queryFn: async () => {
+      const sp = new URLSearchParams();
+      if (filters.game !== "all") sp.set("game", filters.game);
+      const res = await fetch(`/api/catalog/variants?${sp.toString()}`);
+      if (!res.ok) throw new Error("Failed to load variants");
+      const json = await res.json();
+      return json.variantGroups as VariantGroup[];
+    },
+    initialData: filters.game === initialFilters.game ? variantGroups : undefined,
+    placeholderData: (prev) => prev,
+  });
+  const resolvedVariantGroups = variantQuery.data ?? variantGroups;
+
   const holdings = usePCStore(
     (s) => s.pcs.find((p) => p.id === s.activePCId)?.holdings ?? EMPTY_HOLDINGS
   );
@@ -116,6 +133,7 @@ export function ExploreClient({
     filters.type === initialFilters.type &&
     filters.cardType === initialFilters.cardType &&
     filters.rarity === initialFilters.rarity &&
+    filters.variant === initialFilters.variant &&
     filters.language === initialFilters.language &&
     filters.baseOnly === initialFilters.baseOnly &&
     filters.status === initialFilters.status &&
@@ -152,6 +170,7 @@ export function ExploreClient({
           onChange={updateFilters}
           cardTypeGroups={resolvedCardTypeGroups}
           rarityOptions={resolvedRarityOptions}
+          variantGroups={resolvedVariantGroups}
         />
       </div>
 
@@ -173,6 +192,7 @@ export function ExploreClient({
                     onChange={updateFilters}
                     cardTypeGroups={resolvedCardTypeGroups}
                     rarityOptions={resolvedRarityOptions}
+                    variantGroups={resolvedVariantGroups}
                   />
                 </div>
               </SheetContent>

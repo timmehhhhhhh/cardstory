@@ -3,6 +3,7 @@ import type { CatalogItemDetail } from "@/lib/catalog/by-ids";
 import type { SportsCardItemDetail } from "@/lib/sportscards/manage";
 import { getGameMeta } from "@/lib/games/registry";
 import { getSportMeta } from "@/lib/sports/registry";
+import { cardDetailHref } from "@/lib/catalog/card-href";
 
 /** Fields the UI needs that differ in shape between a TCG card and a sports card. */
 export interface DisplayInfo {
@@ -76,7 +77,7 @@ function buildDisplay(
       : "",
     number: catalogItem?.number ?? null,
     imageUrl: holding.imageUrl ?? catalogItem?.imageSmallUrl ?? null,
-    href: catalogItem ? `/card/${catalogItem.gameId}/${catalogItem.externalId}` : null,
+    href: catalogItem ? cardDetailHref(catalogItem.gameId, catalogItem.id, false) : null,
     groupKey: catalogItem?.gameId ?? "unknown",
     groupLabel: catalogItem ? (getGameMeta(catalogItem.gameId)?.name ?? catalogItem.gameId) : "Unknown",
     priceChangePct: catalogItem?.priceChangePct ?? null,

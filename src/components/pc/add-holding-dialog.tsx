@@ -37,6 +37,8 @@ export function AddHoldingDialog({
   trigger,
   open: openProp,
   onOpenChange,
+  forcedPCId,
+  title = "Add to PC",
 }: {
   catalogItemId?: string;
   sportsCardItemId?: string;
@@ -56,6 +58,15 @@ export function AddHoldingDialog({
    */
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  /**
+   * Locks the target PC to this id and hides the PC picker — used by
+   * triggers that have a fixed destination in mind (e.g. CardTile's
+   * Business Inventory quick-add), overriding the businessMode-based
+   * default below so the add can't land anywhere else by accident.
+   */
+  forcedPCId?: string;
+  /** Dialog heading — callers with a fixed target can relabel it (e.g. "Add to Business Inventory"). */
+  title?: string;
 }) {
   const isControlled = openProp !== undefined;
   const [internalOpen, setInternalOpen] = React.useState(false);
@@ -81,7 +92,7 @@ export function AddHoldingDialog({
   // pc — see business-mode-toggle.tsx, which is what actually
   // creates that pc (before flipping businessMode on).
   const defaultPCId =
-    businessMode && businessPC ? businessPC.id : activePCId;
+    forcedPCId ?? (businessMode && businessPC ? businessPC.id : activePCId);
   const [pcId, setPCId] = React.useState(defaultPCId);
   const addHolding = usePCStore((s) => s.addHolding);
   const lastUsedCostBasisCurrency = usePCStore(
@@ -157,12 +168,12 @@ export function AddHoldingDialog({
       )}
       <DialogContent className="bg-surface border-border sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Add to PC</DialogTitle>
+          <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{cardName}</DialogDescription>
         </DialogHeader>
 
         <div className="grid gap-4">
-          {pcs.length > 1 && (
+          {pcs.length > 1 && !forcedPCId && (
             <div className="grid gap-1.5">
               <Label>PC</Label>
               <Select value={pcId} onValueChange={setPCId}>

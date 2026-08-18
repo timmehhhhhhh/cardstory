@@ -13,9 +13,17 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { usePCStore } from "@/lib/pc/store";
+import { pcKind } from "@/lib/pc/types";
 
+/**
+ * Personal pcs only — Business Inventory has its own top-level /business
+ * tab now, so it's deliberately left out of this switcher (see
+ * PCClient's business-pc redirect for the one-time migration off a
+ * business pc that was left active from before that tab existed).
+ */
 export function PCSelector() {
-  const pcs = usePCStore((s) => s.pcs);
+  const allPcs = usePCStore((s) => s.pcs);
+  const pcs = React.useMemo(() => allPcs.filter((p) => pcKind(p) !== "business"), [allPcs]);
   const activePCId = usePCStore((s) => s.activePCId);
   const setActivePC = usePCStore((s) => s.setActivePC);
   const createPC = usePCStore((s) => s.createPC);

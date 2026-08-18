@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { TrendingDown, TrendingUp } from "lucide-react";
 import { db } from "@/lib/db";
 import { CardNumberBadge } from "@/components/cards/card-number-badge";
+import { cardDetailHref } from "@/lib/catalog/card-href";
 import type { ShowcasePayload } from "@/lib/showcase/types";
 import { formatMoney, formatPct } from "@/lib/utils/format";
 import type { SupportedCurrency } from "@/lib/constants";
@@ -61,7 +62,7 @@ export default async function ShowcasePage({ params }: { params: Promise<{ share
         {payload.items.map((item) => (
           <Link
             key={item.catalogItemId}
-            href={`/card/${item.gameId}/${item.externalId}`}
+            href={cardDetailHref(item.gameId, item.catalogItemId, false)}
             className="flex flex-col overflow-hidden rounded-xl border border-border bg-surface hover:border-primary/40"
           >
             <div className="relative aspect-[5/7] w-full bg-muted">

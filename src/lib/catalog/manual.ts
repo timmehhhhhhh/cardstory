@@ -49,6 +49,8 @@ export interface ManualCatalogItemInput {
   setId: string;
   externalId: string;
   name: string;
+  /** English name of this printing, when known — see CatalogItem.nameEn. */
+  nameEn?: string;
   number?: string;
   rarity?: string;
   artist?: string;
@@ -74,6 +76,7 @@ export async function upsertManualCatalogItem(input: ManualCatalogItemInput): Pr
     setId: input.setId,
     externalId: input.externalId,
     name: input.name,
+    nameEn: input.nameEn ?? null,
     number: input.number ?? null,
     rarity: input.rarity ?? null,
     artist: input.artist ?? null,

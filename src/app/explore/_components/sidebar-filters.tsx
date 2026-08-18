@@ -9,7 +9,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { GAMES, getGameMeta } from "@/lib/games/registry";
 import type { ExploreFilters } from "@/app/explore/_components/types";
-import type { CardTypeGroup } from "@/lib/catalog/search";
+import type { CardTypeGroup, VariantGroup } from "@/lib/catalog/search";
 
 const WIRED_GAMES = GAMES.filter((g) => g.status === "WIRED");
 
@@ -18,11 +18,13 @@ export function SidebarFilters({
   onChange,
   cardTypeGroups = [],
   rarityOptions = [],
+  variantGroups = [],
 }: {
   filters: ExploreFilters;
   onChange: (patch: Partial<ExploreFilters>) => void;
   cardTypeGroups?: CardTypeGroup[];
   rarityOptions?: string[];
+  variantGroups?: VariantGroup[];
 }) {
   const [qDraft, setQDraft] = React.useState(filters.q);
   // Reset the draft when filters.q changes from outside this component
@@ -89,7 +91,9 @@ export function SidebarFilters({
         <h3 className="mb-2 text-sm font-semibold">Game</h3>
         <RadioGroup
           value={filters.game}
-          onValueChange={(v) => onChange({ game: v, page: 1, rarity: "all", cardType: "all" })}
+          onValueChange={(v) =>
+            onChange({ game: v, page: 1, rarity: "all", cardType: "all", variant: "all" })
+          }
           className="gap-2"
         >
           <label className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground">
@@ -204,6 +208,67 @@ export function SidebarFilters({
                     className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground"
                   >
                     <RadioGroupItem value={ct} /> {ct}
+                  </label>
+                ))
+              )}
+            </RadioGroup>
+          </div>
+        </>
+      )}
+
+      {variantGroups.length > 0 && (
+        <>
+          <Separator />
+
+          <div>
+            <h3 className="mb-2 text-sm font-semibold">Variation</h3>
+            <p className="mb-2 text-xs text-muted-foreground">
+              A card&apos;s priced finish — Holofoil, Reverse Holo, 1st Edition, and so on.
+            </p>
+            <RadioGroup
+              value={filters.variant}
+              onValueChange={(v) => onChange({ variant: v, page: 1 })}
+              className="gap-2"
+            >
+              <label className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground">
+                <RadioGroupItem value="all" /> All variations
+              </label>
+              {filters.game === "all" ? (
+                // Same collapsed-by-default per-game grouping as Card Type
+                // above — a group containing the current selection starts open.
+                variantGroups.map((group) => (
+                  <details
+                    key={group.gameId}
+                    open={group.variants.some((v) => v.key === filters.variant)}
+                    className="group"
+                  >
+                    <summary className="cursor-pointer select-none text-sm font-medium text-foreground [&::-webkit-details-marker]:hidden">
+                      <span className="inline-block w-3 text-muted-foreground transition-transform group-open:rotate-90">
+                        ▸
+                      </span>{" "}
+                      {group.gameName}
+                    </summary>
+                    <div className="mt-2 ml-4 flex flex-col gap-2 border-l border-border pl-3">
+                      {group.variants.map((v) => (
+                        <label
+                          key={v.key}
+                          className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground"
+                        >
+                          <RadioGroupItem value={v.key} /> {v.label}
+                        </label>
+                      ))}
+                    </div>
+                  </details>
+                ))
+              ) : (
+                // A single game is selected — its group (if any) is all there
+                // is to show, so render it flat with no redundant heading.
+                variantGroups[0]?.variants.map((v) => (
+                  <label
+                    key={v.key}
+                    className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground"
+                  >
+                    <RadioGroupItem value={v.key} /> {v.label}
                   </label>
                 ))
               )}

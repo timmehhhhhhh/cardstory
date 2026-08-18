@@ -40,9 +40,11 @@ function Logo() {
 
 function NavLinks({ className, onNavigate }: { className?: string; onNavigate?: () => void }) {
   const pathname = usePathname();
+  const { data: session } = useSession();
+  const links = NAV_LINKS.filter((link) => !("vendorOnly" in link && link.vendorOnly) || session?.user?.isVendor);
   return (
     <nav className={cn("flex items-center gap-1", className)}>
-      {NAV_LINKS.map((link) => {
+      {links.map((link) => {
         const active = pathname === link.href || pathname?.startsWith(link.href + "/");
         return (
           <Link

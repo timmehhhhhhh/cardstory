@@ -3,15 +3,17 @@
 import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { PackagePlus, Star, TrendingDown, TrendingUp } from "lucide-react";
+import { PackagePlus, Star, Store, TrendingDown, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { GameBadge } from "@/components/cards/game-badge";
 import { CardNumberBadge } from "@/components/cards/card-number-badge";
+import { FinishBadge } from "@/components/cards/finish-badge";
 import { AddHoldingDialog } from "@/components/pc/add-holding-dialog";
 import { usePCStore } from "@/lib/pc/store";
 import { formatMoney, formatPct } from "@/lib/utils/format";
 import { getGameMeta } from "@/lib/games/registry";
 import { isItemLanguage } from "@/lib/pc/language";
+import { cardDetailHref } from "@/lib/catalog/card-href";
 import type { CatalogSearchItem } from "@/lib/catalog/search";
 
 export function CardTile({
@@ -25,10 +27,12 @@ export function CardTile({
   const watchlistEntry = usePCStore((s) => s.watchlist.find((w) => w.itemId === item.id));
   const watchlisted = !!watchlistEntry;
   const toggleWatchlist = usePCStore((s) => s.toggleWatchlist);
+  const businessMode = usePCStore((s) => s.preferences.businessMode);
+  const ensureBusinessPC = usePCStore((s) => s.ensureBusinessPC);
 
-  const href = `/card/${item.gameId}/${encodeURIComponent(item.externalId)}`;
   const positive = (item.priceChangePct ?? 0) >= 0;
   const isSports = getGameMeta(item.gameId)?.kind === "sports";
+  const href = cardDetailHref(item.gameId, item.id, isSports);
   // Summed across every PC (not just the active one) — a card already
   // owned in another collection should still read as "owned" here.
   const ownedQuantity = usePCStore((s) =>
@@ -43,6 +47,8 @@ export function CardTile({
     )
   );
   const [addDialogOpen, setAddDialogOpen] = React.useState(false);
+  const [businessDialogOpen, setBusinessDialogOpen] = React.useState(false);
+  const [businessPCId, setBusinessPCId] = React.useState<string | undefined>(undefined);
   // Only surfaced for non-English prints (currently Pokémon JP/CN/TW/KR) —
   // otherwise identical-looking reprints in different languages are
   // indistinguishable in a flat grid.
@@ -53,6 +59,11 @@ export function CardTile({
       {nonEnglishLanguage}
     </span>
   );
+  // Qualifies the Add-to-Collection dialog's card name with the variation
+  // (e.g. "Charizard — Reverse Holo") so the confirmation is unambiguous —
+  // the whole point of splitting finishes into separate tiles is defeated
+  // if the dialog you add one from doesn't say which finish you're adding.
+  const displayName = item.variantLabel ? `${item.name} — ${item.variantLabel}` : item.name;
 
   // The whole tile is a "stretched link" (a full-bleed <Link> layered
   // beneath everything, see below) rather than the action buttons living
@@ -87,6 +98,27 @@ export function CardTile({
     </span>
   );
 
+  // Vendor-only quick-add, shown alongside the general Add trigger while
+  // Business mode is on (see business-mode-toggle.tsx) — guarantees the
+  // card lands in the Business Inventory pc with no PC picker to get
+  // wrong, unlike the general Add dialog which only *defaults* there.
+  const addToBusinessInventoryTrigger = (className: string) => (
+    <button
+      type="button"
+      aria-label="Add to Business Inventory"
+      title="Add to Business Inventory"
+      onClick={() => {
+        // Re-ensured here (idempotent) in case the Business Inventory pc
+        // was deleted after Business mode was switched on.
+        setBusinessPCId(ensureBusinessPC());
+        setBusinessDialogOpen(true);
+      }}
+      className={className}
+    >
+      <Store className="size-3.5" />
+    </button>
+  );
+
   const watchlistTitle = watchlisted
     ? `Watching since ${new Date(watchlistEntry!.addedAt).toLocaleDateString()}${
         watchlistEntry!.priceAtAdd != null ? ` · ${formatMoney(watchlistEntry!.priceAtAdd, currency)} at add` : ""
@@ -110,11 +142,25 @@ export function CardTile({
     <AddHoldingDialog
       catalogItemId={isSports ? undefined : item.id}
       sportsCardItemId={isSports ? item.id : undefined}
-      cardName={item.name}
+      cardName={displayName}
       suggestedPrice={item.priceRaw}
       defaultLanguage={nonEnglishLanguage}
       open={addDialogOpen}
       onOpenChange={setAddDialogOpen}
+    />
+  );
+
+  const businessDialog = (
+    <AddHoldingDialog
+      catalogItemId={isSports ? undefined : item.id}
+      sportsCardItemId={isSports ? item.id : undefined}
+      cardName={displayName}
+      suggestedPrice={item.priceRaw}
+      defaultLanguage={nonEnglishLanguage}
+      open={businessDialogOpen}
+      onOpenChange={setBusinessDialogOpen}
+      forcedPCId={businessPCId}
+      title="Add to Business Inventory"
     />
   );
 
@@ -137,6 +183,7 @@ export function CardTile({
         <div className="pointer-events-none min-w-0 flex-1">
           <div className="flex items-center gap-1.5">
             <p className="min-w-0 truncate text-sm font-medium">{item.name}</p>
+            <FinishBadge variantKey={item.variantKey} label={item.variantLabel} className="flex-none" />
             <CardNumberBadge number={item.number} className="flex-none" />
           </div>
           <p className="truncate text-xs text-muted-foreground">
@@ -186,6 +233,12 @@ export function CardTile({
           </div>
         )}
         <CardNumberBadge number={item.number} variant="overlay" />
+        <FinishBadge
+          variantKey={item.variantKey}
+          label={item.variantLabel}
+          variant="overlay"
+          className="left-1.5 top-[26px]"
+        />
         <div className="pointer-events-auto absolute right-1.5 top-1.5 z-10 flex flex-col gap-1">
           {addToCollectionTrigger(
             "rounded-full bg-background/70 p-1.5 text-muted-foreground backdrop-blur transition-colors hover:text-primary"

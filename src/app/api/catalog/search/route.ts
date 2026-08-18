@@ -43,6 +43,7 @@ export async function GET(req: NextRequest) {
     cardType: parseMulti(sp.get("cardType")),
     rarity: parseMulti(sp.get("rarity")),
     language: parseMulti(sp.get("language")),
+    variant: parseMulti(sp.get("variant")),
     artist: parseMulti(sp.get("artist")),
     baseOnly: sp.get("baseOnly") === "1",
     onlyIds: parseMulti(sp.get("onlyIds")),

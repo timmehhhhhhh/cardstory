@@ -10,10 +10,17 @@ import type { SportsCardItemDetail } from "@/lib/sportscards/manage";
 
 const EMPTY_HOLDINGS: Holding[] = [];
 
-/** Active pc's holdings, enriched with live catalog data + totals. */
-export function usePCData() {
+/**
+ * Active pc's holdings, enriched with live catalog data + totals.
+ *
+ * Pass `pcIdOverride` to scope this to a specific pc regardless of which
+ * one is globally "active" — e.g. the Business Inventory page, which reads
+ * the business pc's data without disturbing whatever's active on /pc.
+ */
+export function usePCData(pcIdOverride?: string) {
   const pcs = usePCStore((s) => s.pcs);
-  const activePCId = usePCStore((s) => s.activePCId);
+  const globalActivePCId = usePCStore((s) => s.activePCId);
+  const activePCId = pcIdOverride ?? globalActivePCId;
   const active: PC | undefined = pcs.find((p) => p.id === activePCId);
   const holdings = active?.holdings ?? EMPTY_HOLDINGS;
 
