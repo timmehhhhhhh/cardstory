@@ -21,8 +21,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 
-export function BinderClient() {
-  const { rows } = usePCData();
+export function BinderClient({
+  pcIdOverride,
+  showPcSelector = true,
+  backHref = "/pc",
+  backLabel = "Back to PC",
+}: {
+  /** Scope this binder's card source to a specific pc (e.g. the Business Inventory pc) instead of the globally active one. */
+  pcIdOverride?: string;
+  /** Hide the "Cards from" pc switcher — set false when pcIdOverride makes it a single fixed source. */
+  showPcSelector?: boolean;
+  backHref?: string;
+  backLabel?: string;
+}) {
+  const { rows } = usePCData(pcIdOverride);
 
   const binders = useBinderStore((s) => s.binders);
   const activeBinderId = useBinderStore((s) => s.activeBinderId);
@@ -183,11 +195,11 @@ export function BinderClient() {
     <div className="mx-auto flex max-w-5xl flex-col gap-5 px-4 py-6 sm:px-6">
       <div className="flex flex-col gap-3">
         <Link
-          href="/pc"
+          href={backHref}
           className="inline-flex w-fit items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="size-3.5" />
-          Back to PC
+          {backLabel}
         </Link>
 
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -201,12 +213,16 @@ export function BinderClient() {
         </div>
 
         <div className="flex flex-wrap items-center gap-3 rounded-xl border border-border bg-surface px-3 py-2.5">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-medium text-muted-foreground">Cards from</span>
-            <PCSelector />
-          </div>
+          {showPcSelector && (
+            <>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-medium text-muted-foreground">Cards from</span>
+                <PCSelector />
+              </div>
 
-          <div className="h-4 w-px bg-border" />
+              <div className="h-4 w-px bg-border" />
+            </>
+          )}
 
           <DropdownMenu open={layoutMenuOpen} onOpenChange={setLayoutMenuOpen}>
             <DropdownMenuTrigger asChild>

@@ -206,7 +206,12 @@ export function CardTile({
         {addToCollectionTrigger(
           "relative z-10 flex-none rounded-md p-1.5 text-muted-foreground hover:bg-surface-elevated hover:text-primary"
         )}
+        {businessMode &&
+          addToBusinessInventoryTrigger(
+            "relative z-10 flex-none rounded-md p-1.5 text-muted-foreground hover:bg-surface-elevated hover:text-primary"
+          )}
         {dialog}
+        {businessDialog}
         {watchlistTrigger(
           "relative z-10 flex-none rounded-md p-1.5 text-muted-foreground hover:bg-surface-elevated hover:text-watchlist"
         )}
@@ -243,6 +248,10 @@ export function CardTile({
           {addToCollectionTrigger(
             "rounded-full bg-background/70 p-1.5 text-muted-foreground backdrop-blur transition-colors hover:text-primary"
           )}
+          {businessMode &&
+            addToBusinessInventoryTrigger(
+              "rounded-full bg-background/70 p-1.5 text-muted-foreground backdrop-blur transition-colors hover:text-primary"
+            )}
           {watchlistTrigger(
             "rounded-full bg-background/70 p-1.5 text-muted-foreground backdrop-blur transition-colors hover:text-watchlist"
           )}
@@ -276,6 +285,7 @@ export function CardTile({
         {item.artist && <p className="truncate text-[11px] text-muted-foreground/80">{item.artist}</p>}
       </div>
       {dialog}
+      {businessDialog}
     </div>
   );
 }
