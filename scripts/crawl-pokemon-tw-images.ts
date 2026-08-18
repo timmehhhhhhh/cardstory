@@ -150,9 +150,12 @@ function normalizeName(s: string): string {
 
 async function derive() {
   const cache = openCrawlCache<TwRecord>(CACHE_NAME);
-  const records = cache.all().filter((r) => r.status === 200 && r.setCode && r.collector);
+  const found = cache.all().filter((r) => r.status === 200);
+  // See crawl-pokemon-ja-images.ts — unparseable pages go to review, not the bin.
+  const records = found.filter((r) => r.setCode && r.collector);
+  const unparseable = found.filter((r) => !(r.setCode && r.collector));
   cache.close();
-  console.log(`Usable cached records: ${records.length}`);
+  console.log(`Cards found: ${found.length} (${records.length} parseable, ${unparseable.length} not)`);
 
   const catalog = await db.catalogItem.findMany({
     where: { gameId: "pokemon", externalId: { startsWith: `${LANG}:` } },
@@ -160,8 +163,16 @@ async function derive() {
   });
   const byExternalId = new Map(catalog.map((c) => [c.externalId, c]));
 
+  let alreadyHadImage = 0;
   const entries: CardImageEntry[] = [];
-  const review: CardImageReviewEntry[] = [];
+  const review: CardImageReviewEntry[] = unparseable.map((r) => ({
+    reason: "missing-page-fields" as const,
+    sourceId: r.id,
+    sourceUrl: detailUrlForId(r.id),
+    sourceName: r.name ?? "",
+    sourceSetLabel: r.setCode ?? "",
+    sourceNumber: r.collector ?? "",
+  }));
 
   for (const rec of records) {
     const sourceUrl = detailUrlForId(rec.id);
@@ -206,7 +217,10 @@ async function derive() {
       continue;
     }
 
-    if (row.imageSmallUrl) continue; // already has art; leave it alone
+    if (row.imageSmallUrl) {
+      alreadyHadImage += 1; // provider already supplied art; leave it alone
+      continue;
+    }
 
     const url = imageUrlForId(rec.id);
     entries.push({
@@ -245,6 +259,7 @@ async function derive() {
     return acc;
   }, {});
   console.log(`\nMapped:   ${entries.length}`);
+  console.log(`Had art:  ${alreadyHadImage} (already sourced from the provider — untouched)`);
   console.log(`Review:   ${review.length}`, byReason);
   console.log(`\nWrote pokemon-tw.json (verified: false — review, then flip it).`);
 }

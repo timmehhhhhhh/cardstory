@@ -1,0 +1,1063 @@
+{
+  "gameId": "pokemon",
+  "note": "Crawled ja cards that did NOT pass the mapping guards. Never seeded.",
+  "generatedAt": "2026-08-18T12:48:37.863Z",
+  "entries": [
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1/regu/all",
+      "sourceName": "基本草エネルギー",
+      "sourceSetLabel": "",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 2,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/2/regu/all",
+      "sourceName": "基本炎エネルギー",
+      "sourceSetLabel": "",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 3,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/3/regu/all",
+      "sourceName": "基本水エネルギー",
+      "sourceSetLabel": "",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 4,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/4/regu/all",
+      "sourceName": "基本雷エネルギー",
+      "sourceSetLabel": "",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 5,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/5/regu/all",
+      "sourceName": "基本超エネルギー",
+      "sourceSetLabel": "",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 6,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/6/regu/all",
+      "sourceName": "基本闘エネルギー",
+      "sourceSetLabel": "",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 7,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/7/regu/all",
+      "sourceName": "基本悪エネルギー",
+      "sourceSetLabel": "",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 8,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/8/regu/all",
+      "sourceName": "基本鋼エネルギー",
+      "sourceSetLabel": "",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1000,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1000/regu/all",
+      "sourceName": "ヘラクロス",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1001,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1001/regu/all",
+      "sourceName": "ケムッソ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1002,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1002/regu/all",
+      "sourceName": "カラサリス",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1003,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1003/regu/all",
+      "sourceName": "アゲハント",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1004,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1004/regu/all",
+      "sourceName": "マユルド",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1005,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1005/regu/all",
+      "sourceName": "ドクケイル",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1006,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1006/regu/all",
+      "sourceName": "タネボー",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1007,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1007/regu/all",
+      "sourceName": "スボミー",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1008,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1008/regu/all",
+      "sourceName": "ロゼリア",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1009,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1009/regu/all",
+      "sourceName": "ロズレイド",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1010,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1010/regu/all",
+      "sourceName": "ナエトル",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1011,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1011/regu/all",
+      "sourceName": "ハヤシガメ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1012,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1012/regu/all",
+      "sourceName": "ドダイトス",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1013,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1013/regu/all",
+      "sourceName": "ドダイトス",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1014,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1014/regu/all",
+      "sourceName": "ミツハニー",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1015,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1015/regu/all",
+      "sourceName": "ビークイン",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1016,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1016/regu/all",
+      "sourceName": "チェリンボ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1017,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1017/regu/all",
+      "sourceName": "チェリム",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1018,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1018/regu/all",
+      "sourceName": "マスキッパ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1019,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1019/regu/all",
+      "sourceName": "ポニータ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1020,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1020/regu/all",
+      "sourceName": "ギャロップ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1021,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1021/regu/all",
+      "sourceName": "ヒコザル",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1022,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1022/regu/all",
+      "sourceName": "モウカザル",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1023,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1023/regu/all",
+      "sourceName": "ゴウカザル",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1024,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1024/regu/all",
+      "sourceName": "ゴウカザル",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1025,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1025/regu/all",
+      "sourceName": "トサキント",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1026,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1026/regu/all",
+      "sourceName": "アズマオウ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1027,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1027/regu/all",
+      "sourceName": "マリル",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1028,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1028/regu/all",
+      "sourceName": "マリルリ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1029,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1029/regu/all",
+      "sourceName": "タマンタ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1030,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1030/regu/all",
+      "sourceName": "ポッチャマ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1031,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1031/regu/all",
+      "sourceName": "ポッタイシ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1032,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1032/regu/all",
+      "sourceName": "エンペルト",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1033,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1033/regu/all",
+      "sourceName": "エンペルト",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1034,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1034/regu/all",
+      "sourceName": "ブイゼル",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1035,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1035/regu/all",
+      "sourceName": "フローゼル",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1036,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1036/regu/all",
+      "sourceName": "パルキア",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1037,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1037/regu/all",
+      "sourceName": "マナフィ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1038,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1038/regu/all",
+      "sourceName": "コリンク",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1039,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1039/regu/all",
+      "sourceName": "ルクシオ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1040,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1040/regu/all",
+      "sourceName": "レントラー",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1041,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1041/regu/all",
+      "sourceName": "エレキッド",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1042,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1042/regu/all",
+      "sourceName": "エレブー",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1043,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1043/regu/all",
+      "sourceName": "エレキブル",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1044,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1044/regu/all",
+      "sourceName": "パチリス",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1045,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1045/regu/all",
+      "sourceName": "ゴース",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1046,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1046/regu/all",
+      "sourceName": "ゴースト",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1047,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1047/regu/all",
+      "sourceName": "ゲンガー",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1048,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1048/regu/all",
+      "sourceName": "マネネ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1049,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1049/regu/all",
+      "sourceName": "ムウマ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1050,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1050/regu/all",
+      "sourceName": "ムウマージ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1051,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1051/regu/all",
+      "sourceName": "アンノーン[A]",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1052,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1052/regu/all",
+      "sourceName": "アンノーン[B]",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1053,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1053/regu/all",
+      "sourceName": "アンノーン[C]",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1054,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1054/regu/all",
+      "sourceName": "アンノーン[D]",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1055,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1055/regu/all",
+      "sourceName": "ソーナノ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1056,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1056/regu/all",
+      "sourceName": "ソーナンス",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1057,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1057/regu/all",
+      "sourceName": "ヨマワル",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1058,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1058/regu/all",
+      "sourceName": "サマヨール",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1059,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1059/regu/all",
+      "sourceName": "ヨノワール",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1060,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1060/regu/all",
+      "sourceName": "フワンテ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1061,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1061/regu/all",
+      "sourceName": "フワライド",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1062,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1062/regu/all",
+      "sourceName": "スコルピ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1063,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1063/regu/all",
+      "sourceName": "ドラピオン",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1064,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1064/regu/all",
+      "sourceName": "ワンリキー",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1065,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1065/regu/all",
+      "sourceName": "ゴーリキー",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1066,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1066/regu/all",
+      "sourceName": "カイリキー",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1067,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1067/regu/all",
+      "sourceName": "イワーク",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1068,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1068/regu/all",
+      "sourceName": "サイホーン",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1069,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1069/regu/all",
+      "sourceName": "サイドン",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1070,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1070/regu/all",
+      "sourceName": "ドサイドン",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1071,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1071/regu/all",
+      "sourceName": "ウソハチ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1072,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1072/regu/all",
+      "sourceName": "アサナン",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1073,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1073/regu/all",
+      "sourceName": "チャーレム",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1074,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1074/regu/all",
+      "sourceName": "リオル",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1075,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1075/regu/all",
+      "sourceName": "ルカリオ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1076,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1076/regu/all",
+      "sourceName": "ヒポポタス",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1077,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1077/regu/all",
+      "sourceName": "カバルドン",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1078,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1078/regu/all",
+      "sourceName": "ピィ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1079,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1079/regu/all",
+      "sourceName": "ピッピ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1080,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1080/regu/all",
+      "sourceName": "ピクシー",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1081,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1081/regu/all",
+      "sourceName": "ゴンベ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1082,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1082/regu/all",
+      "sourceName": "カビゴン",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1083,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1083/regu/all",
+      "sourceName": "ホーホー",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1084,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1084/regu/all",
+      "sourceName": "ヨルノズク",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1085,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1085/regu/all",
+      "sourceName": "ルリリ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1086,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1086/regu/all",
+      "sourceName": "ムックル",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1087,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1087/regu/all",
+      "sourceName": "ムクバード",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1088,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1088/regu/all",
+      "sourceName": "ムクホーク",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1089,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1089/regu/all",
+      "sourceName": "ビッパ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1090,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1090/regu/all",
+      "sourceName": "ビーダル",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1091,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1091/regu/all",
+      "sourceName": "ミミロル",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1092,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1092/regu/all",
+      "sourceName": "ミミロップ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1093,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1093/regu/all",
+      "sourceName": "ニャルマー",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1094,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1094/regu/all",
+      "sourceName": "ブニャット",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1095,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1095/regu/all",
+      "sourceName": "ペラップ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1096,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1096/regu/all",
+      "sourceName": "ニューラ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1097,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1097/regu/all",
+      "sourceName": "マニューラ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1098,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1098/regu/all",
+      "sourceName": "コノハナ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1099,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1099/regu/all",
+      "sourceName": "ダーテング",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1100,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1100/regu/all",
+      "sourceName": "スカンプー",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1101,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1101/regu/all",
+      "sourceName": "スカタンク",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1102,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1102/regu/all",
+      "sourceName": "コイル",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1103,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1103/regu/all",
+      "sourceName": "レアコイル",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1104,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1104/regu/all",
+      "sourceName": "ジバコイル",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1105,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1105/regu/all",
+      "sourceName": "ハガネール",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1106,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1106/regu/all",
+      "sourceName": "ディアルガ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1107,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1107/regu/all",
+      "sourceName": "エネルギー再生",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1108,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1108/regu/all",
+      "sourceName": "エネルギーつけかえ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1109,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1109/regu/all",
+      "sourceName": "エネルギー転送",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1110,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1110/regu/all",
+      "sourceName": "きずぐすり",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1111,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1111/regu/all",
+      "sourceName": "スーパーポケモン回収",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1112,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1112/regu/all",
+      "sourceName": "なんでもなおしW",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1113,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1113/regu/all",
+      "sourceName": "プラスパワー",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1114,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1114/regu/all",
+      "sourceName": "ポケモンいれかえ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1115,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1115/regu/all",
+      "sourceName": "ポケモン図鑑HANDY910is",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1116,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1116/regu/all",
+      "sourceName": "モンスターボール",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1117,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1117/regu/all",
+      "sourceName": "夜のポケモンセンター",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1118,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1118/regu/all",
+      "sourceName": "ワープポイント",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1119,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1119/regu/all",
+      "sourceName": "ナナカマドはかせ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1120,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1120/regu/all",
+      "sourceName": "ライバル",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1121,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1121/regu/all",
+      "sourceName": "スピードスタジアム",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1122,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1122/regu/all",
+      "sourceName": "マナフィ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 1123,
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/1123/regu/all",
+      "sourceName": "ルカリオ",
+      "sourceSetLabel": "DP1",
+      "sourceNumber": ""
+    }
+  ]
+}

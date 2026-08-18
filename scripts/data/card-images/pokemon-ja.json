@@ -1,0 +1,225 @@
+{
+  "gameId": "pokemon",
+  "sourceNote": "Japanese card images from the official pokemon-card.com card database, crawled offline by scripts/crawl-pokemon-ja-images.ts. Image URLs are hotlinked from the publisher's CDN, never re-hosted. Every entry passed a set-code, catalog-row and card-name match against our catalog.",
+  "verified": false,
+  "generatedAt": "2026-08-18T12:48:37.861Z",
+  "entries": [
+    {
+      "externalId": "ja:S8-028",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/039990_P_YUKIHAMI.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/039990_P_YUKIHAMI.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/39990/regu/all",
+      "sourceName": "ユキハミ"
+    },
+    {
+      "externalId": "ja:S8-029",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/039991_P_MOSUNOU.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/039991_P_MOSUNOU.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/39991/regu/all",
+      "sourceName": "モスノウ"
+    },
+    {
+      "externalId": "ja:S8-030",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/039992_P_ERIKITERU.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/039992_P_ERIKITERU.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/39992/regu/all",
+      "sourceName": "エリキテル"
+    },
+    {
+      "externalId": "ja:S8-031",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/039993_P_EREZADO.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/039993_P_EREZADO.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/39993/regu/all",
+      "sourceName": "エレザード"
+    },
+    {
+      "externalId": "ja:S8-032",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/039994_P_DENDIMUSHI.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/039994_P_DENDIMUSHI.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/39994/regu/all",
+      "sourceName": "デンヂムシ"
+    },
+    {
+      "externalId": "ja:S8-033",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/039995_P_KUWAGANON.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/039995_P_KUWAGANON.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/39995/regu/all",
+      "sourceName": "クワガノン"
+    },
+    {
+      "externalId": "ja:S8-034",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/039996_P_PARUSUWANV.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/039996_P_PARUSUWANV.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/39996/regu/all",
+      "sourceName": "パルスワンV"
+    },
+    {
+      "externalId": "ja:S8-035",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/039997_P_PARUSUWANVMAX.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/039997_P_PARUSUWANVMAX.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/39997/regu/all",
+      "sourceName": "パルスワンVMAX"
+    },
+    {
+      "externalId": "ja:S8-036",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/039998_P_EREZUN.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/039998_P_EREZUN.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/39998/regu/all",
+      "sourceName": "エレズン"
+    },
+    {
+      "externalId": "ja:S8-037",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/039999_P_SUTORINDA.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/039999_P_SUTORINDA.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/39999/regu/all",
+      "sourceName": "ストリンダー"
+    },
+    {
+      "externalId": "ja:S8-038",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040000_P_RUJURA.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040000_P_RUJURA.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/40000/regu/all",
+      "sourceName": "ルージュラ"
+    },
+    {
+      "externalId": "ja:S8-039",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040001_P_MYUUV.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040001_P_MYUUV.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/40001/regu/all",
+      "sourceName": "ミュウV"
+    },
+    {
+      "externalId": "ja:S8-040",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040002_P_MYUUVMAX.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040002_P_MYUUVMAX.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/40002/regu/all",
+      "sourceName": "ミュウVMAX"
+    },
+    {
+      "externalId": "ja:S8-041",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040003_P_BURU.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040003_P_BURU.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/40003/regu/all",
+      "sourceName": "ブルー"
+    },
+    {
+      "externalId": "ja:S8-042",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040004_P_GURANBURU.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040004_P_GURANBURU.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/40004/regu/all",
+      "sourceName": "グランブル"
+    },
+    {
+      "externalId": "ja:S8-043",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040005_P_GARARUSANIGO.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040005_P_GARARUSANIGO.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/40005/regu/all",
+      "sourceName": "ガラル サニーゴ"
+    },
+    {
+      "externalId": "ja:S8-044",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040006_P_GARARUSANIGON.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040006_P_GARARUSANIGON.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/40006/regu/all",
+      "sourceName": "ガラル サニゴーン"
+    },
+    {
+      "externalId": "ja:S8-045",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040007_P_DEOKISHISU.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040007_P_DEOKISHISU.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/40007/regu/all",
+      "sourceName": "デオキシス"
+    },
+    {
+      "externalId": "ja:S8-046",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040008_P_MUNNA.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040008_P_MUNNA.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/40008/regu/all",
+      "sourceName": "ムンナ"
+    },
+    {
+      "externalId": "ja:S8-047",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040009_P_MUSHANA.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040009_P_MUSHANA.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/40009/regu/all",
+      "sourceName": "ムシャーナ"
+    },
+    {
+      "externalId": "ja:S8-048",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040010_P_MEROETTA.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040010_P_MEROETTA.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/40010/regu/all",
+      "sourceName": "メロエッタ"
+    },
+    {
+      "externalId": "ja:S8-049",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040011_P_DORAMESHIYA.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040011_P_DORAMESHIYA.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/40011/regu/all",
+      "sourceName": "ドラメシヤ"
+    },
+    {
+      "externalId": "ja:S8-050",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040012_P_DORONCHI.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040012_P_DORONCHI.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/40012/regu/all",
+      "sourceName": "ドロンチ"
+    },
+    {
+      "externalId": "ja:S8-051",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040013_P_DORAPARUTO.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040013_P_DORAPARUTO.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/40013/regu/all",
+      "sourceName": "ドラパルト"
+    },
+    {
+      "externalId": "ja:S8-052",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040014_P_ISHITSUBUTE.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040014_P_ISHITSUBUTE.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/40014/regu/all",
+      "sourceName": "イシツブテ"
+    },
+    {
+      "externalId": "ja:S8-053",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040015_P_GORON.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040015_P_GORON.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/40015/regu/all",
+      "sourceName": "ゴローン"
+    },
+    {
+      "externalId": "ja:S8-054",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040016_P_GORONYA.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040016_P_GORONYA.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/40016/regu/all",
+      "sourceName": "ゴローニャ"
+    },
+    {
+      "externalId": "ja:S8-055",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040017_P_IWAKU.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040017_P_IWAKU.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/40017/regu/all",
+      "sourceName": "イワーク"
+    },
+    {
+      "externalId": "ja:S8-056",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040018_P_HAGANERU.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040018_P_HAGANERU.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/40018/regu/all",
+      "sourceName": "ハガネール"
+    },
+    {
+      "externalId": "ja:S8-057",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040019_P_MOGURYU.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040019_P_MOGURYU.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/40019/regu/all",
+      "sourceName": "モグリュー"
+    },
+    {
+      "externalId": "ja:S8-058",
+      "imageSmallUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040020_P_TAIRETSU.jpg",
+      "imageLargeUrl": "https://www.pokemon-card.com/assets/images/card_images/large/S8/040020_P_TAIRETSU.jpg",
+      "sourceUrl": "https://www.pokemon-card.com/card-search/details.php/card/40020/regu/all",
+      "sourceName": "タイレーツ"
+    }
+  ]
+}

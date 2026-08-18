@@ -1,0 +1,6 @@
+{
+  "gameId": "pokemon",
+  "note": "Crawled zh-tw cards that did NOT pass the mapping guards. Never seeded.",
+  "generatedAt": "2026-08-18T12:48:33.640Z",
+  "entries": []
+}

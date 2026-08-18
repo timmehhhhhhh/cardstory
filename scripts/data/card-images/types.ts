@@ -45,7 +45,15 @@ export type ReviewReason =
   | "unknown-set-code"
   | "no-catalog-row"
   | "name-mismatch"
-  | "ambiguous-set";
+  | "ambiguous-set"
+  /**
+   * The page loaded but didn't yield the fields needed to map it — e.g.
+   * Diamond & Pearl-era JP pages print "DPBP#269" (a Pokédex-style number)
+   * where modern ones print a collector number like "038 / 100". These are
+   * listed rather than silently dropped, so the review file accounts for
+   * every card the crawl actually found.
+   */
+  | "missing-page-fields";
 
 export interface CardImageReviewEntry {
   reason: ReviewReason;

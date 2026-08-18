@@ -151,9 +151,14 @@ function normalizeName(s: string): string {
 
 async function derive() {
   const cache = openCrawlCache<JaRecord>(CACHE_NAME);
-  const records = cache.all().filter((r) => r.status === 200 && r.setCode && r.number && r.imgPath);
+  const found = cache.all().filter((r) => r.status === 200);
+  // Split rather than filter: a page we fetched but couldn't parse belongs in
+  // the review file, not the bin. Dropping these silently is what made an
+  // earlier run report "Review: 0" while discarding 132 cards.
+  const records = found.filter((r) => r.setCode && r.number && r.imgPath);
+  const unparseable = found.filter((r) => !(r.setCode && r.number && r.imgPath));
   cache.close();
-  console.log(`Usable cached records: ${records.length}`);
+  console.log(`Cards found: ${found.length} (${records.length} parseable, ${unparseable.length} not)`);
 
   const catalog = await db.catalogItem.findMany({
     where: { gameId: "pokemon", externalId: { startsWith: `${LANG}:` } },
@@ -161,8 +166,16 @@ async function derive() {
   });
   const byExternalId = new Map(catalog.map((c) => [c.externalId, c]));
 
+  let alreadyHadImage = 0;
   const entries: CardImageEntry[] = [];
-  const review: CardImageReviewEntry[] = [];
+  const review: CardImageReviewEntry[] = unparseable.map((r) => ({
+    reason: "missing-page-fields" as const,
+    sourceId: r.id,
+    sourceUrl: detailUrlForId(r.id),
+    sourceName: r.name ?? "",
+    sourceSetLabel: r.setCode ?? "",
+    sourceNumber: r.number ?? "",
+  }));
 
   for (const rec of records) {
     const sourceUrl = detailUrlForId(rec.id);
@@ -200,7 +213,10 @@ async function derive() {
       continue;
     }
 
-    if (row.imageSmallUrl) continue;
+    if (row.imageSmallUrl) {
+      alreadyHadImage += 1; // provider already supplied art; leave it alone
+      continue;
+    }
 
     // Only the `large` size exists — `small`/`middle` 404 — so both columns
     // get the same URL.
@@ -241,6 +257,7 @@ async function derive() {
     return acc;
   }, {});
   console.log(`\nMapped:   ${entries.length}`);
+  console.log(`Had art:  ${alreadyHadImage} (already sourced from the provider — untouched)`);
   console.log(`Review:   ${review.length}`, byReason);
   console.log(`\nWrote pokemon-ja.json (verified: false — review, then flip it).`);
 }
