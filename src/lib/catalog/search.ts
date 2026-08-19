@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { GAMES, WIRED_SPORTS_GAMES, getGameMeta } from "@/lib/games/registry";
 import { defaultFinishLabel } from "@/lib/games/pokemon/mapper";
 import { getFinishDisplayLabel } from "@/lib/games/pokemon/finish-patterns";
+import { nameSearchVariants } from "@/lib/utils/name-match";
 
 const WIRED_TCG_GAME_IDS = GAMES.filter((g) => g.status === "WIRED" && g.kind !== "sports").map(
   (g) => g.id
@@ -287,7 +288,12 @@ function sportsWhereFor(
     parallelName: params.baseOnly ? null : undefined,
     OR: params.q
       ? [
-          { playerName: { contains: params.q, mode: "insensitive" } },
+          // A hyphen/space split on the player's name (rare, but not
+          // unheard of — same class of inconsistency as TCG names below)
+          // shouldn't make the row unsearchable — see nameSearchVariants.
+          ...nameSearchVariants(params.q).map((term) => ({
+            playerName: { contains: term, mode: "insensitive" as const },
+          })),
           { setName: { contains: params.q, mode: "insensitive" } },
           { parallelName: { contains: params.q, mode: "insensitive" } },
           { cardNumber: { contains: params.q, mode: "insensitive" } },
@@ -333,15 +339,21 @@ function tcgWhereFor(
   // ANDs every top-level where key together regardless, so `AND: [{ OR:
   // qGroup }]` alone is behaviorally identical to the old bare `OR: qGroup`
   // when only q is set — this refactor is non-breaking for existing callers).
+  // Catalog names are stored verbatim from each source and are genuinely
+  // inconsistent about whether a suffix like "EX"/"GX" is joined with a
+  // space or a hyphen (e.g. "Blaziken-EX" vs "Blaziken ex") — expanding the
+  // query into both forms keeps a typed space from making a hyphenated row
+  // (or vice versa) unsearchable. See nameSearchVariants.
+  const qTerms = params.q ? nameSearchVariants(params.q) : [];
   const qGroup: Prisma.CatalogItemWhereInput[] | undefined = params.q
     ? [
-        { name: { contains: params.q, mode: "insensitive" } },
+        ...qTerms.map((term) => ({ name: { contains: term, mode: "insensitive" as const } })),
         // Lets a non-English row (e.g. a JP Pokémon card whose `name` is
         // "アルフの石版") also match its English name ("Alph Lithograph")
         // when populated — see CatalogItem.nameEn. Orthogonal to the
         // `language` filter below, so this matches under "All languages"
         // and under an explicit non-English language filter alike.
-        { nameEn: { contains: params.q, mode: "insensitive" } },
+        ...qTerms.map((term) => ({ nameEn: { contains: term, mode: "insensitive" as const } })),
         { artist: { contains: params.q, mode: "insensitive" } },
         { number: { contains: params.q, mode: "insensitive" } },
       ]

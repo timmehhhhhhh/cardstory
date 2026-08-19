@@ -28,7 +28,13 @@ import { usePCStore } from "@/lib/pc/store";
 import { SPORTS } from "@/lib/sports/registry";
 import { COMMON_DISTRIBUTORS } from "@/lib/sportscards/distributors";
 import { formatMoney } from "@/lib/utils/format";
-import { SUPPORTED_CURRENCIES, type SupportedCurrency } from "@/lib/constants";
+import {
+  SUPPORTED_CURRENCIES,
+  type SupportedCurrency,
+  CARD_CONDITIONS,
+  CARD_CONDITION_LABELS,
+  type RawCardCondition,
+} from "@/lib/constants";
 import { pcKind, type CardCondition, type ItemLanguage } from "@/lib/pc/types";
 import { resolvePriceAtDate } from "@/lib/pc/resolve-price-at-date";
 
@@ -76,6 +82,7 @@ export function AddSportsCardDialog() {
   const [condition, setCondition] = React.useState<CardCondition>("raw");
   const [gradeCompany, setGradeCompany] = React.useState("PSA");
   const [gradeValue, setGradeValue] = React.useState("10");
+  const [rawCondition, setRawCondition] = React.useState<RawCardCondition | "">("");
   const [costBasis, setCostBasis] = React.useState("");
   const [acquiredAt, setAcquiredAt] = React.useState(() => new Date().toISOString().slice(0, 10));
 
@@ -162,6 +169,7 @@ export function AddSportsCardDialog() {
     setHoldingImageUrl("");
     setQuantity(1);
     setCondition("raw");
+    setRawCondition("");
     setCostBasis("");
     setCostBasisCurrency(lastUsedCostBasisCurrency ?? "USD");
   }
@@ -213,6 +221,7 @@ export function AddSportsCardDialog() {
         condition,
         gradeCompany: condition === "graded" ? gradeCompany : undefined,
         gradeValue: condition === "graded" ? gradeValue : undefined,
+        rawCondition: condition === "raw" && rawCondition ? rawCondition : undefined,
         serialNumber: serialNumber.trim() || undefined,
         language: "EN" as ItemLanguage,
         costBasisTotal: Number(costBasis) || 0,
@@ -503,6 +512,24 @@ export function AddSportsCardDialog() {
                 <Label htmlFor="sc-grade-val">Grade</Label>
                 <Input id="sc-grade-val" value={gradeValue} onChange={(e) => setGradeValue(e.target.value)} className="bg-background" />
               </div>
+            </div>
+          )}
+
+          {condition === "raw" && (
+            <div className="grid gap-1.5">
+              <Label htmlFor="sc-raw-condition">Condition</Label>
+              <Select value={rawCondition} onValueChange={(v) => setRawCondition(v as RawCardCondition)}>
+                <SelectTrigger id="sc-raw-condition" className="bg-background">
+                  <SelectValue placeholder="Not set" />
+                </SelectTrigger>
+                <SelectContent>
+                  {CARD_CONDITIONS.map((c) => (
+                    <SelectItem key={c} value={c}>
+                      {CARD_CONDITION_LABELS[c]} ({c})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           )}
 

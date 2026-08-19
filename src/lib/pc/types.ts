@@ -1,4 +1,4 @@
-import type { SupportedCurrency } from "@/lib/constants";
+import type { SupportedCurrency, RawCardCondition } from "@/lib/constants";
 
 export type CardCondition = "raw" | "graded";
 export type ItemLanguage = "EN" | "JP" | "CN" | "TW" | "KR";
@@ -28,6 +28,8 @@ export interface Holding {
   condition: CardCondition;
   gradeCompany?: string;
   gradeValue?: string;
+  /** Physical grading — only meaningful when condition is "raw". */
+  rawCondition?: RawCardCondition;
   serialNumber?: string;
   language: ItemLanguage;
   /**

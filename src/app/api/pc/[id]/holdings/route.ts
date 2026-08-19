@@ -3,6 +3,7 @@ import { z } from "zod";
 import { auth } from "@/auth";
 import { addHolding, removeHoldings } from "@/lib/pc/manage";
 import { holdingInputSchema } from "@/lib/pc/api-schemas";
+import { mutationErrorResponse } from "@/lib/pc/route-errors";
 
 const removeSchema = z.object({ holdingIds: z.array(z.string()).min(1) });
 
@@ -16,8 +17,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
   try {
     await addHolding(session.user.id, id, parsed.data);
-  } catch {
-    return NextResponse.json({ error: "PC not found" }, { status: 404 });
+  } catch (err) {
+    return mutationErrorResponse(err, { route: "POST /api/pc/[id]/holdings", userId: session.user.id, pcId: id });
   }
   return NextResponse.json({ ok: true });
 }
@@ -32,8 +33,13 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
 
   try {
     await removeHoldings(session.user.id, id, parsed.data.holdingIds);
-  } catch {
-    return NextResponse.json({ error: "PC not found" }, { status: 404 });
+  } catch (err) {
+    return mutationErrorResponse(err, {
+      route: "DELETE /api/pc/[id]/holdings",
+      userId: session.user.id,
+      pcId: id,
+      holdingIds: parsed.data.holdingIds,
+    });
   }
   return NextResponse.json({ ok: true });
 }

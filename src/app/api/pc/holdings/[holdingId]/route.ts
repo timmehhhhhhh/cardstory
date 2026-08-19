@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { updateHolding } from "@/lib/pc/manage";
 import { holdingPatchSchema } from "@/lib/pc/api-schemas";
+import { mutationErrorResponse } from "@/lib/pc/route-errors";
 
 export async function PATCH(
   req: NextRequest,
@@ -16,8 +17,12 @@ export async function PATCH(
 
   try {
     await updateHolding(session.user.id, holdingId, parsed.data);
-  } catch {
-    return NextResponse.json({ error: "Holding not found" }, { status: 404 });
+  } catch (err) {
+    return mutationErrorResponse(err, {
+      route: "PATCH /api/pc/holdings/[holdingId]",
+      userId: session.user.id,
+      holdingId,
+    });
   }
   return NextResponse.json({ ok: true });
 }

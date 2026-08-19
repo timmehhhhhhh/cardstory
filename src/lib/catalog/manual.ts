@@ -17,6 +17,7 @@ export interface ManualSetInput {
   code: string;
   releaseDate?: Date;
   symbolUrl?: string;
+  logoUrl?: string;
   cardCount?: number;
 }
 
@@ -37,6 +38,7 @@ export async function upsertManualSet(input: ManualSetInput): Promise<void> {
       code: input.code,
       releaseDate: input.releaseDate ?? null,
       symbolUrl: input.symbolUrl ?? null,
+      logoUrl: input.logoUrl ?? null,
       cardCount: input.cardCount ?? null,
     },
     update: {},

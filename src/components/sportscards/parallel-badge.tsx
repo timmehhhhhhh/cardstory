@@ -36,7 +36,12 @@ export function ParallelBadge({
   return (
     <span
       className={cn(
-        "pointer-events-none absolute inset-x-0 bottom-0 z-10 truncate bg-background/75 px-1.5 py-0.5 text-center text-[10px] font-semibold tracking-wide text-foreground backdrop-blur",
+        // line-clamp-2 rather than truncate: a one-line ellipsis was
+        // swallowing whole parallel names ("Kaboom! Downtown Fireworks
+        // Gold Vinyl /10") that are exactly what this badge exists to
+        // surface — see the file doc comment. Two lines of 10px text
+        // still reads as a compact strip over the photo.
+        "pointer-events-none absolute inset-x-0 bottom-0 z-10 line-clamp-2 bg-background/75 px-1.5 py-0.5 text-center text-[10px] leading-tight font-semibold tracking-wide text-foreground backdrop-blur",
         className
       )}
       title={

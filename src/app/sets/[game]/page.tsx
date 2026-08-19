@@ -6,7 +6,8 @@ import { ArrowLeft } from "lucide-react";
 import { db } from "@/lib/db";
 import { getGameMeta } from "@/lib/games/registry";
 import { SetTile } from "@/app/sets/[game]/_components/set-tile";
-import { formatReleaseDate } from "@/lib/format/date";
+import { SortToggle } from "@/app/sets/[game]/_components/sort-toggle";
+import { formatReleaseMonthYear } from "@/lib/format/date";
 
 export async function generateMetadata({
   params,
@@ -24,13 +25,17 @@ interface SetTileData {
   code: string | null;
   cardCount: number;
   symbolUrl: string | null;
+  logoUrl: string | null;
   releaseDate: string | null;
 }
 
-async function loadTcgSets(game: string): Promise<SetTileData[]> {
+async function loadTcgSets(game: string, direction: "asc" | "desc"): Promise<SetTileData[]> {
   const sets = await db.set.findMany({
     where: { gameId: game },
-    orderBy: { releaseDate: "desc" },
+    // Explicit nulls: "last" in both directions — Postgres's own default
+    // (nulls sort as largest) already gives this for desc, but being
+    // explicit keeps undated sets out of the way regardless of direction.
+    orderBy: { releaseDate: { sort: direction, nulls: "last" } },
     include: { _count: { select: { items: true } } },
   });
   return sets.map((s) => ({
@@ -40,7 +45,8 @@ async function loadTcgSets(game: string): Promise<SetTileData[]> {
     code: s.code,
     cardCount: s._count.items,
     symbolUrl: s.symbolUrl,
-    releaseDate: formatReleaseDate(s.releaseDate),
+    logoUrl: s.logoUrl,
+    releaseDate: formatReleaseMonthYear(s.releaseDate),
   }));
 }
 
@@ -52,13 +58,18 @@ async function loadTcgSets(game: string): Promise<SetTileData[]> {
  * `code`/`releaseDate` null-handling for how the missing set-code/date
  * concepts are papered over.
  */
-async function loadSportsSets(sport: Sport | undefined): Promise<SetTileData[]> {
+async function loadSportsSets(
+  sport: Sport | undefined,
+  direction: "asc" | "desc"
+): Promise<SetTileData[]> {
   const groups = await db.sportsCardItem.groupBy({
     by: ["year", "distributor", "setName"],
     where: { sport },
     _count: { _all: true },
     _min: { releaseDate: true },
-    orderBy: [{ year: "desc" }],
+    // Sports has no per-set Set.releaseDate row to sort by — year is
+    // already its primary sort key, so the toggle just flips its direction.
+    orderBy: [{ year: direction }],
   });
   return groups.map((g) => {
     const setId = `${g.year ?? ""}::${g.distributor ?? ""}::${g.setName}`;
@@ -70,20 +81,32 @@ async function loadSportsSets(sport: Sport | undefined): Promise<SetTileData[]> 
       code: null,
       cardCount: g._count._all,
       symbolUrl: null,
+      logoUrl: null,
       // Prefer the real researched release date; fall back to the bare year
       // for any product line whose date research came up empty (see
       // scripts/data/lamelo-ball/release-dates.ts).
-      releaseDate: formatReleaseDate(g._min.releaseDate) ?? (g.year ? String(g.year) : null),
+      releaseDate: formatReleaseMonthYear(g._min.releaseDate) ?? (g.year ? String(g.year) : null),
     };
   });
 }
 
-export default async function GameSetsPage({ params }: { params: Promise<{ game: string }> }) {
+export default async function GameSetsPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ game: string }>;
+  searchParams: Promise<{ sort?: string }>;
+}) {
   const { game } = await params;
+  const { sort } = await searchParams;
   const meta = getGameMeta(game);
   if (!meta || meta.status !== "WIRED") notFound();
 
-  const sets = meta.kind === "sports" ? await loadSportsSets(meta.sport) : await loadTcgSets(game);
+  const direction: "asc" | "desc" = sort === "asc" ? "asc" : "desc";
+  const sets =
+    meta.kind === "sports"
+      ? await loadSportsSets(meta.sport, direction)
+      : await loadTcgSets(game, direction);
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6">
@@ -94,9 +117,12 @@ export default async function GameSetsPage({ params }: { params: Promise<{ game:
         <ArrowLeft className="size-4" /> All games
       </Link>
       <h1 className="mb-1 text-lg font-semibold">{meta.name}</h1>
-      <p className="mb-6 text-sm text-muted-foreground">
-        {sets.length} set{sets.length === 1 ? "" : "s"} currently in the catalog.
-      </p>
+      <div className="mb-6 flex items-center justify-between gap-3">
+        <p className="text-sm text-muted-foreground">
+          {sets.length} set{sets.length === 1 ? "" : "s"} currently in the catalog.
+        </p>
+        <SortToggle />
+      </div>
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {sets.map((s) => (
@@ -108,6 +134,7 @@ export default async function GameSetsPage({ params }: { params: Promise<{ game:
             code={s.code}
             cardCount={s.cardCount}
             symbolUrl={s.symbolUrl}
+            logoUrl={s.logoUrl}
             releaseDate={s.releaseDate}
           />
         ))}

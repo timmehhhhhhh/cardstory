@@ -67,6 +67,7 @@ export function PCClient() {
       if (filters.productType !== "all" && r.catalogItem?.productType !== filters.productType) return false;
       if (filters.condition !== "all" && r.condition !== filters.condition) return false;
       if (filters.language !== "all" && r.language !== filters.language) return false;
+      if (filters.promoOnly && r.catalogItem?.rarity !== "Promo") return false;
       return true;
     });
   }, [rows, filters, watchedIds]);

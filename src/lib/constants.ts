@@ -30,3 +30,15 @@ export type PriceHistoryRange = (typeof PRICE_HISTORY_RANGES)[number];
 
 export const PC_CHART_RANGES = ["1D", "7D", "1M", "3M", "6M", "MAX"] as const;
 export type PCChartRange = (typeof PC_CHART_RANGES)[number];
+
+/** Physical grading scale for a "raw" (ungraded) holding, best to worst. */
+export const CARD_CONDITIONS = ["NM", "LP", "MP", "HP", "DMG"] as const;
+export type RawCardCondition = (typeof CARD_CONDITIONS)[number];
+
+export const CARD_CONDITION_LABELS: Record<RawCardCondition, string> = {
+  NM: "Near Mint",
+  LP: "Lightly Played",
+  MP: "Moderately Played",
+  HP: "Heavily Played",
+  DMG: "Damaged",
+};

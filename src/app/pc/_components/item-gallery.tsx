@@ -1,7 +1,8 @@
 "use client";
 
+import * as React from "react";
 import Link from "next/link";
-import { Trash2, TrendingDown, TrendingUp } from "lucide-react";
+import { Pencil, Trash2, TrendingDown, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -9,6 +10,7 @@ import { CardNumberBadge } from "@/components/cards/card-number-badge";
 import { usePCStore } from "@/lib/pc/store";
 import { formatMoney, formatPct } from "@/lib/utils/format";
 import { SportsCardImageDialog } from "@/components/sportscards/sports-card-image-dialog";
+import { EditHoldingDialog } from "@/components/pc/edit-holding-dialog";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
 import { CardImage } from "@/components/cards/card-image";
 import { ParallelBadge } from "@/components/sportscards/parallel-badge";
@@ -39,6 +41,7 @@ export function ItemGallery({
 }) {
   const currency = usePCStore((s) => s.preferences.currency);
   const removeHoldings = usePCStore((s) => s.removeHoldings);
+  const [editingHolding, setEditingHolding] = React.useState<EnrichedHolding | null>(null);
 
   if (rows.length === 0) return <EmptyHoldings />;
 
@@ -84,10 +87,37 @@ export function ItemGallery({
           </div>
         );
 
+        // Pulled out of the subtitle string rather than parsed from it: this
+        // is the one piece of text that actually distinguishes two tiles of
+        // the same player (e.g. two LaMelo Ball cards differ by parallel,
+        // not by name), so it gets its own guaranteed-visible line instead
+        // of riding at the end of a single truncated line where a long set
+        // name pushes it off before it ever renders.
+        const parallelLabel = r.display.imageWatermark
+          ? [
+              r.display.imageWatermark.parallelName,
+              r.display.imageWatermark.serialLimit ? `/${r.display.imageWatermark.serialLimit}` : null,
+            ]
+              .filter(Boolean)
+              .join(" ")
+          : null;
+
         const caption = (
           <div className="flex min-w-0 flex-col gap-0.5 p-2.5">
             <p className="truncate text-sm leading-tight font-medium">{r.display.name}</p>
-            <p className="truncate text-xs text-muted-foreground">{r.display.subtitle}</p>
+            {parallelLabel && (
+              <p className="line-clamp-2 text-xs leading-snug font-semibold text-primary">
+                {parallelLabel}
+              </p>
+            )}
+            {/* line-clamp-2 rather than truncate: this string is
+                "[year distributor setName] · #number · parallel · serial",
+                and a single truncated line was cutting off the set name
+                itself (never mind the parallel/serial after it). Two lines
+                covers the vast majority of real set names. */}
+            <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
+              {r.display.subtitle}
+            </p>
             <div className="mt-1 flex items-baseline justify-between gap-1.5">
               <span className="num-tabular text-sm font-semibold">
                 {formatMoney(r.marketValue, currency)}
@@ -111,6 +141,11 @@ export function ItemGallery({
               {r.condition === "graded" && (
                 <Badge variant="outline" className="font-normal text-muted-foreground">
                   {r.gradeCompany ?? ""} {r.gradeValue ?? ""}
+                </Badge>
+              )}
+              {r.condition === "raw" && r.rawCondition && (
+                <Badge variant="outline" className="font-normal text-muted-foreground">
+                  {r.rawCondition}
                 </Badge>
               )}
             </div>
@@ -164,17 +199,35 @@ export function ItemGallery({
               {art(true)}
               {caption}
             </div>
-            <button
-              type="button"
-              aria-label={`Remove ${r.display.name} from PC`}
-              onClick={() => removeHoldings(activePCId, [r.id])}
-              className="absolute right-1.5 top-1.5 z-10 rounded-full bg-background/70 p-1.5 text-muted-foreground opacity-0 backdrop-blur transition-opacity hover:text-negative focus-visible:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100"
-            >
-              <Trash2 className="size-3.5" />
-            </button>
+            <div className="absolute right-1.5 top-1.5 z-10 flex gap-1">
+              <button
+                type="button"
+                aria-label={`Edit ${r.display.name}`}
+                onClick={() => setEditingHolding(r)}
+                className="rounded-full bg-background/70 p-1.5 text-muted-foreground opacity-0 backdrop-blur transition-opacity hover:text-foreground focus-visible:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100"
+              >
+                <Pencil className="size-3.5" />
+              </button>
+              <button
+                type="button"
+                aria-label={`Remove ${r.display.name} from PC`}
+                onClick={() => removeHoldings(activePCId, [r.id])}
+                className="rounded-full bg-background/70 p-1.5 text-muted-foreground opacity-0 backdrop-blur transition-opacity hover:text-negative focus-visible:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100"
+              >
+                <Trash2 className="size-3.5" />
+              </button>
+            </div>
           </div>
         );
       })}
+      <EditHoldingDialog
+        holding={editingHolding}
+        pcId={activePCId}
+        open={editingHolding !== null}
+        onOpenChange={(open) => {
+          if (!open) setEditingHolding(null);
+        }}
+      />
     </div>
   );
 }

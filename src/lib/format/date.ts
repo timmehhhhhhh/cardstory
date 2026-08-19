@@ -15,3 +15,18 @@ export function formatReleaseDate(value: string | Date | null | undefined): stri
     timeZone: "UTC",
   }).format(date);
 }
+
+/**
+ * Formats a release date as "mm-yyyy" (e.g. "03-2023") — compact and
+ * lexically sortable, used by the Sets list so scanning/sorting by set stays
+ * ordered. Same UTC-safe handling as formatReleaseDate, so the month shown
+ * always matches the stored calendar date regardless of the viewer's
+ * timezone.
+ */
+export function formatReleaseMonthYear(value: string | Date | null | undefined): string | null {
+  if (!value) return null;
+  const date = typeof value === "string" ? new Date(value) : value;
+  if (Number.isNaN(date.getTime())) return null;
+  const mm = String(date.getUTCMonth() + 1).padStart(2, "0");
+  return `${mm}-${date.getUTCFullYear()}`;
+}

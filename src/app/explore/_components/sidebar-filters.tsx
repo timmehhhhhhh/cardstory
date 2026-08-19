@@ -85,6 +85,23 @@ export function SidebarFilters({
         />
       </div>
 
+      {rarityOptions.includes("Promo") && (
+        <>
+          <Separator />
+
+          <div className="flex items-center justify-between">
+            <Label htmlFor="promo-toggle" className="text-sm font-medium">
+              Promos only
+            </Label>
+            <Switch
+              id="promo-toggle"
+              checked={filters.rarity === "Promo"}
+              onCheckedChange={(v) => onChange({ rarity: v ? "Promo" : "all", page: 1 })}
+            />
+          </div>
+        </>
+      )}
+
       <Separator />
 
       <div>

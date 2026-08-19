@@ -5,6 +5,11 @@ export function convertFromUsd(usd: number, currency: SupportedCurrency): number
   return usd * FX_RATES_TO_USD[currency];
 }
 
+/** Inverse of convertFromUsd — normalizes an amount denominated in `currency` back to USD. */
+export function convertToUsd(amount: number, currency: SupportedCurrency): number {
+  return amount / FX_RATES_TO_USD[currency];
+}
+
 export function formatMoney(
   amountUsd: number | null | undefined,
   currency: SupportedCurrency = "USD"

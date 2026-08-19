@@ -37,6 +37,7 @@ export function mapPokemonSet(raw: PokemonApiSet): UnifiedSet {
     code: raw.id,
     releaseDate: raw.releaseDate ? new Date(raw.releaseDate.replace(/\//g, "-")) : undefined,
     symbolUrl: raw.images?.symbol,
+    logoUrl: raw.images?.logo,
     cardCount: raw.total ?? raw.printedTotal,
   };
 }
@@ -198,6 +199,7 @@ export function mapTcgdexSet(raw: TcgdexSetDetail, lang: TcgdexLang): UnifiedSet
     code,
     releaseDate: raw.releaseDate ? new Date(raw.releaseDate) : undefined,
     symbolUrl: raw.symbol,
+    logoUrl: raw.logo,
     cardCount: raw.cardCount?.official ?? raw.cardCount?.total,
   };
 }

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { SUPPORTED_CURRENCIES } from "@/lib/constants";
+import { SUPPORTED_CURRENCIES, CARD_CONDITIONS } from "@/lib/constants";
 
 /** Shared zod validation for a Holding crossing the client/server boundary. */
 export const holdingInputSchema = z.object({
@@ -13,6 +13,7 @@ export const holdingInputSchema = z.object({
   condition: z.enum(["raw", "graded"]),
   gradeCompany: z.string().optional(),
   gradeValue: z.string().optional(),
+  rawCondition: z.enum(CARD_CONDITIONS).optional(),
   serialNumber: z.string().optional(),
   language: z.enum(["EN", "JP", "CN", "TW", "KR"]),
   costBasisTotal: z.number().nonnegative(),

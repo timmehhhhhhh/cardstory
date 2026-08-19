@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Search, Star, X } from "lucide-react";
+import { Search, Sparkles, Star, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import {
@@ -55,6 +55,19 @@ export function SmartFilters({
         )}
       >
         <Star className={cn("size-3.5", filters.watchlistOnly && "fill-watchlist")} /> Watchlist
+      </button>
+
+      <button
+        type="button"
+        onClick={() => onChange({ promoOnly: !filters.promoOnly })}
+        className={cn(
+          "flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-sm",
+          filters.promoOnly
+            ? "border-primary/40 bg-primary/10 text-primary"
+            : "border-border bg-surface text-muted-foreground hover:text-foreground"
+        )}
+      >
+        <Sparkles className="size-3.5" /> Promos
       </button>
 
       <Select value={filters.gameId} onValueChange={(v) => onChange({ gameId: v })}>

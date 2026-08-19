@@ -58,6 +58,7 @@ model Set {
   code        String
   releaseDate DateTime?
   symbolUrl   String?
+  logoUrl     String?
   cardCount   Int?
   items       CatalogItem[]
 
@@ -498,6 +499,13 @@ model Holding {
   condition          String
   gradeCompany       String?
   gradeValue         String?
+  /// The physical grading a "raw" (condition == "raw") holding has been
+  /// assigned by its owner — one of NM/LP/MP/HP/DMG (see CARD_CONDITIONS in
+  /// src/lib/constants.ts). Meaningless when condition == "graded" (that
+  /// holding's condition already comes from gradeCompany/gradeValue). Same
+  /// plain-String, zod-validated-at-the-boundary convention as
+  /// condition/kind/language above — see the model-level comment.
+  rawCondition       String?
   serialNumber       String?
   language           String    @default("EN")
   /// Free-text card name for a hand-keyed holding — set only when both

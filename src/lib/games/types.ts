@@ -7,6 +7,7 @@ export interface UnifiedSet {
   code: string;
   releaseDate?: Date;
   symbolUrl?: string;
+  logoUrl?: string;
   cardCount?: number;
 }
 

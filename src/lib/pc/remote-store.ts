@@ -28,6 +28,23 @@ function nowIso() {
 }
 
 /**
+ * Every optimistic mutation below reverts silently on failure (see
+ * `reconcile` above) — the UI just shows the change undoing itself with no
+ * indication why. Logging here at least makes a failed request visible in
+ * the browser console instead of leaving zero trace anywhere.
+ */
+async function logMutationFailure(action: string, res: Response | null, err?: unknown) {
+  if (err) {
+    console.error(`[pc] ${action} failed`, err);
+    return;
+  }
+  if (res) {
+    const body = await res.text().catch(() => "<unreadable body>");
+    console.error(`[pc] ${action} failed`, { status: res.status, body });
+  }
+}
+
+/**
  * Server-backed PC store for signed-in users — same PCState
  * shape as useLocalPCStore so src/lib/pc/store.ts can switch
  * between the two without any consuming component knowing the difference.
@@ -167,9 +184,15 @@ export function useRemotePCStore<T>(
           body: JSON.stringify({ id: newId, name }),
         })
           .then((res) => {
-            if (!res.ok) reconcile();
+            if (!res.ok) {
+              logMutationFailure("createPC", res);
+              reconcile();
+            }
           })
-          .catch(reconcile);
+          .catch((err) => {
+            logMutationFailure("createPC", null, err);
+            reconcile();
+          });
         return newId;
       },
 
@@ -191,9 +214,15 @@ export function useRemotePCStore<T>(
           body: JSON.stringify({ id: newId, name: p.name, kind: "business" }),
         })
           .then((res) => {
-            if (!res.ok) reconcile();
+            if (!res.ok) {
+              logMutationFailure("ensureBusinessPC", res);
+              reconcile();
+            }
           })
-          .catch(reconcile);
+          .catch((err) => {
+            logMutationFailure("ensureBusinessPC", null, err);
+            reconcile();
+          });
         return newId;
       },
 
@@ -205,18 +234,30 @@ export function useRemotePCStore<T>(
           body: JSON.stringify({ name }),
         })
           .then((res) => {
-            if (!res.ok) reconcile();
+            if (!res.ok) {
+              logMutationFailure("renamePC", res);
+              reconcile();
+            }
           })
-          .catch(reconcile);
+          .catch((err) => {
+            logMutationFailure("renamePC", null, err);
+            reconcile();
+          });
       },
 
       deletePC: (pcId: string) => {
         patch((ps) => ps.filter((p) => p.id !== pcId));
         fetch(`/api/pc/${pcId}`, { method: "DELETE" })
           .then((res) => {
-            if (!res.ok) reconcile();
+            if (!res.ok) {
+              logMutationFailure("deletePC", res);
+              reconcile();
+            }
           })
-          .catch(reconcile);
+          .catch((err) => {
+            logMutationFailure("deletePC", null, err);
+            reconcile();
+          });
       },
 
       addHolding: (pcId: string, input: NewHoldingInput) => {
@@ -266,9 +307,15 @@ export function useRemotePCStore<T>(
           body: JSON.stringify(holdingPatch),
         })
           .then((res) => {
-            if (!res.ok) reconcile();
+            if (!res.ok) {
+              logMutationFailure("updateHolding", res);
+              reconcile();
+            }
           })
-          .catch(reconcile);
+          .catch((err) => {
+            logMutationFailure("updateHolding", null, err);
+            reconcile();
+          });
       },
 
       removeHoldings: (pcId: string, holdingIds: string[]) => {
@@ -285,9 +332,15 @@ export function useRemotePCStore<T>(
           body: JSON.stringify({ holdingIds }),
         })
           .then((res) => {
-            if (!res.ok) reconcile();
+            if (!res.ok) {
+              logMutationFailure("removeHoldings", res);
+              reconcile();
+            }
           })
-          .catch(reconcile);
+          .catch((err) => {
+            logMutationFailure("removeHoldings", null, err);
+            reconcile();
+          });
       },
 
       copyHoldings: (fromId: string, toId: string, holdingIds: string[]) => {
@@ -307,7 +360,10 @@ export function useRemotePCStore<T>(
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ fromId, toId, holdingIds, mode: "copy" }),
         })
-          .catch(() => {})
+          .then((res) => {
+            if (!res.ok) logMutationFailure("copyHoldings", res);
+          })
+          .catch((err) => logMutationFailure("copyHoldings", null, err))
           .finally(reconcile);
       },
 
@@ -329,7 +385,10 @@ export function useRemotePCStore<T>(
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ fromId, toId, holdingIds, mode: "move" }),
         })
-          .catch(() => {})
+          .then((res) => {
+            if (!res.ok) logMutationFailure("moveHoldings", res);
+          })
+          .catch((err) => logMutationFailure("moveHoldings", null, err))
           .finally(reconcile);
       },
     }),

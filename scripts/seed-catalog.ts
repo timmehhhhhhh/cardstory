@@ -79,12 +79,14 @@ async function seedGame(gameId: string) {
         code: set.code,
         releaseDate: set.releaseDate,
         symbolUrl: set.symbolUrl,
+        logoUrl: set.logoUrl,
         cardCount: set.cardCount,
       },
       update: {
         name: set.name,
         releaseDate: set.releaseDate,
         symbolUrl: set.symbolUrl,
+        logoUrl: set.logoUrl,
         cardCount: set.cardCount,
       },
     });

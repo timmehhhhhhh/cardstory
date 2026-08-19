@@ -1,14 +1,16 @@
 "use client";
 
+import * as React from "react";
 import Link from "next/link";
-import { Trash2, TrendingDown, TrendingUp } from "lucide-react";
+import { Pencil, Trash2, TrendingDown, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { CardNumberBadge } from "@/components/cards/card-number-badge";
 import { usePCStore } from "@/lib/pc/store";
-import { formatMoney, formatPct } from "@/lib/utils/format";
+import { formatMoney, formatMoneyIn, formatPct } from "@/lib/utils/format";
 import { SportsCardImageDialog } from "@/components/sportscards/sports-card-image-dialog";
+import { EditHoldingDialog } from "@/components/pc/edit-holding-dialog";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
 import { CardImage } from "@/components/cards/card-image";
 import { ParallelBadge } from "@/components/sportscards/parallel-badge";
@@ -34,6 +36,7 @@ export function ItemGrid({
 }) {
   const currency = usePCStore((s) => s.preferences.currency);
   const removeHoldings = usePCStore((s) => s.removeHoldings);
+  const [editingHolding, setEditingHolding] = React.useState<EnrichedHolding | null>(null);
 
   if (rows.length === 0) return <EmptyHoldings />;
 
@@ -85,7 +88,7 @@ export function ItemGrid({
             </p>
             {(r.costBasisTotal > 0 || r.priceAtAcquisitionTotal != null) && (
               <p className="mt-0.5 text-[11px] leading-snug text-muted-foreground/80">
-                Paid {formatMoney(r.costBasisTotal, currency)}
+                Paid {formatMoneyIn(r.costBasisTotal, r.costBasisCurrency)}
                 {r.priceAtAcquisitionTotal != null &&
                   ` · Market at add ${formatMoney(r.priceAtAcquisitionTotal, currency)}`}
               </p>
@@ -97,6 +100,11 @@ export function ItemGrid({
               {r.condition === "graded" && (
                 <Badge variant="outline" className="font-normal text-muted-foreground">
                   {r.gradeCompany ?? ""} {r.gradeValue ?? ""}
+                </Badge>
+              )}
+              {r.condition === "raw" && r.rawCondition && (
+                <Badge variant="outline" className="font-normal text-muted-foreground">
+                  {r.rawCondition}
                 </Badge>
               )}
               <Badge variant="outline" className="font-normal text-muted-foreground">
@@ -145,19 +153,37 @@ export function ItemGrid({
                 )}
               </div>
               {!bulkMode && (
-                <button
-                  type="button"
-                  aria-label="Remove from PC"
-                  onClick={() => removeHoldings(activePCId, [r.id])}
-                  className="rounded-md p-1.5 text-muted-foreground hover:bg-destructive/10 hover:text-negative"
-                >
-                  <Trash2 className="size-4" />
-                </button>
+                <div className="flex items-center gap-1">
+                  <button
+                    type="button"
+                    aria-label="Edit item"
+                    onClick={() => setEditingHolding(r)}
+                    className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground"
+                  >
+                    <Pencil className="size-4" />
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Remove from PC"
+                    onClick={() => removeHoldings(activePCId, [r.id])}
+                    className="rounded-md p-1.5 text-muted-foreground hover:bg-destructive/10 hover:text-negative"
+                  >
+                    <Trash2 className="size-4" />
+                  </button>
+                </div>
               )}
             </div>
           </div>
         );
       })}
+      <EditHoldingDialog
+        holding={editingHolding}
+        pcId={activePCId}
+        open={editingHolding !== null}
+        onOpenChange={(open) => {
+          if (!open) setEditingHolding(null);
+        }}
+      />
     </div>
   );
 }

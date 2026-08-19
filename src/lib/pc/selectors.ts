@@ -4,6 +4,7 @@ import type { SportsCardItemDetail } from "@/lib/sportscards/manage";
 import { getGameMeta } from "@/lib/games/registry";
 import { getSportMeta } from "@/lib/sports/registry";
 import { cardDetailHref } from "@/lib/catalog/card-href";
+import { convertToUsd } from "@/lib/utils/format";
 
 /** Fields the UI needs that differ in shape between a TCG card and a sports card. */
 export interface DisplayInfo {
@@ -36,6 +37,8 @@ export interface EnrichedHolding extends Holding {
   gainLossPct: number | null;
   /** priceAtAcquisition * quantity — pairs with marketValue/costBasisTotal, which are also totals. Null when priceAtAcquisition isn't known. */
   priceAtAcquisitionTotal: number | null;
+  /** costBasisTotal converted from costBasisCurrency into USD — the unit marketValue is already in, so gain/loss math and USD-denominated exports use this rather than the raw costBasisTotal. */
+  costBasisTotalUsd: number;
 }
 
 function serialSuffix(
@@ -143,8 +146,12 @@ export function enrichHoldings(
     // computeTotals leaves its cost basis out of the portfolio-level
     // percentage for the same reason.
     const custom = holdingIsCustom(h);
-    const gainLoss = custom ? 0 : marketValue - h.costBasisTotal;
-    const gainLossPct = !custom && h.costBasisTotal > 0 ? (gainLoss / h.costBasisTotal) * 100 : null;
+    // marketValue/priceAtAcquisition are always USD, but costBasisTotal is
+    // denominated in whatever costBasisCurrency the user picked — normalize
+    // to USD before doing any arithmetic against it (see convertToUsd).
+    const costBasisTotalUsd = convertToUsd(h.costBasisTotal, h.costBasisCurrency);
+    const gainLoss = custom ? 0 : marketValue - costBasisTotalUsd;
+    const gainLossPct = !custom && costBasisTotalUsd > 0 ? (gainLoss / costBasisTotalUsd) * 100 : null;
     const priceAtAcquisitionTotal = h.priceAtAcquisition != null ? h.priceAtAcquisition * h.quantity : null;
     const display = buildDisplay(h, catalogItem, sportsCardItem);
 
@@ -158,6 +165,7 @@ export function enrichHoldings(
       gainLoss,
       gainLossPct,
       priceAtAcquisitionTotal,
+      costBasisTotalUsd,
     };
   });
 }
@@ -174,9 +182,11 @@ export function computeTotals(rows: EnrichedHolding[]): PCTotals {
   // Custom rows contribute no market value (they have no catalog row), so
   // counting their cost basis here would show every one of them as a total
   // loss against the portfolio — see the matching exclusion in enrichHoldings.
+  // Uses costBasisTotalUsd (not the raw, per-currency costBasisTotal) since
+  // this gets summed/diffed against totalValue, which is always USD.
   const totalCostBasis = rows
     .filter((r) => !holdingIsCustom(r))
-    .reduce((sum, r) => sum + r.costBasisTotal, 0);
+    .reduce((sum, r) => sum + r.costBasisTotalUsd, 0);
   const totalGainLoss = totalValue - totalCostBasis;
   const totalGainLossPct = totalCostBasis > 0 ? (totalGainLoss / totalCostBasis) * 100 : null;
   return { totalValue, totalCostBasis, totalGainLoss, totalGainLossPct };

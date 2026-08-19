@@ -6,6 +6,8 @@ export interface HoldingFilters {
   productType: "all" | "CARD" | "SEALED";
   condition: "all" | "raw" | "graded";
   language: "all" | "EN" | "JP" | "CN" | "TW" | "KR";
+  /** Show only holdings whose catalog item is a promotional printing (CatalogItem.rarity === "Promo"). No-op for sports cards, which have no catalogItem. */
+  promoOnly: boolean;
 }
 
 export const DEFAULT_HOLDING_FILTERS: HoldingFilters = {
@@ -16,4 +18,5 @@ export const DEFAULT_HOLDING_FILTERS: HoldingFilters = {
   productType: "all",
   condition: "all",
   language: "all",
+  promoOnly: false,
 };

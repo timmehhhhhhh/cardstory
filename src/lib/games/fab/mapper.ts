@@ -61,6 +61,7 @@ export function mapFabSet(raw: GoagainApiSet): UnifiedSet {
     code,
     releaseDate: printing?.initial_release_date ? new Date(printing.initial_release_date) : undefined,
     symbolUrl: printing?.set_logo ?? undefined,
+    logoUrl: printing?.set_logo ?? undefined,
   };
 }
 

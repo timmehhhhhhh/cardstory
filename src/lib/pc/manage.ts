@@ -34,6 +34,7 @@ function toHolding(row: {
   condition: string;
   gradeCompany: string | null;
   gradeValue: string | null;
+  rawCondition: string | null;
   serialNumber: string | null;
   language: string;
   customName: string | null;
@@ -55,6 +56,7 @@ function toHolding(row: {
     condition: row.condition as Holding["condition"],
     gradeCompany: row.gradeCompany ?? undefined,
     gradeValue: row.gradeValue ?? undefined,
+    rawCondition: (row.rawCondition as Holding["rawCondition"]) ?? undefined,
     serialNumber: row.serialNumber ?? undefined,
     language: row.language as Holding["language"],
     customName: row.customName ?? undefined,
@@ -212,6 +214,7 @@ export async function addHolding(
       condition: input.condition,
       gradeCompany: input.gradeCompany,
       gradeValue: input.gradeValue,
+      rawCondition: input.rawCondition,
       serialNumber: input.serialNumber,
       language: input.language,
       customName: input.customName,
@@ -328,6 +331,7 @@ export async function transferHoldings(
           condition: h.condition,
           gradeCompany: h.gradeCompany,
           gradeValue: h.gradeValue,
+          rawCondition: h.rawCondition,
           serialNumber: h.serialNumber,
           language: h.language,
           customName: h.customName,
@@ -390,6 +394,7 @@ export async function importLocalPC(
             condition: h.condition,
             gradeCompany: h.gradeCompany,
             gradeValue: h.gradeValue,
+            rawCondition: h.rawCondition,
             serialNumber: h.serialNumber,
             language: h.language,
             customName: h.customName,

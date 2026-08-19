@@ -24,7 +24,13 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { CardPhotoField } from "@/components/pc/card-photo-field";
 import { usePCStore } from "@/lib/pc/store";
-import { SUPPORTED_CURRENCIES, type SupportedCurrency } from "@/lib/constants";
+import {
+  SUPPORTED_CURRENCIES,
+  type SupportedCurrency,
+  CARD_CONDITIONS,
+  CARD_CONDITION_LABELS,
+  type RawCardCondition,
+} from "@/lib/constants";
 import { pcKind, type CardCondition, type ItemLanguage } from "@/lib/pc/types";
 import { resolvePriceAtDate } from "@/lib/pc/resolve-price-at-date";
 
@@ -76,6 +82,7 @@ export function AddHoldingDialog({
   const [condition, setCondition] = React.useState<CardCondition>("raw");
   const [gradeCompany, setGradeCompany] = React.useState("PSA");
   const [gradeValue, setGradeValue] = React.useState("10");
+  const [rawCondition, setRawCondition] = React.useState<RawCardCondition | "">("");
   const [language, setLanguage] = React.useState<ItemLanguage>(defaultLanguage);
   const [costBasis, setCostBasis] = React.useState(suggestedPrice?.toFixed(2) ?? "");
   const [acquiredAt, setAcquiredAt] = React.useState(() => new Date().toISOString().slice(0, 10));
@@ -113,6 +120,7 @@ export function AddHoldingDialog({
       setPCId(defaultPCId);
       setLanguage(defaultLanguage);
       setCostBasisCurrency(lastUsedCostBasisCurrency ?? "USD");
+      setRawCondition("");
       setError(null);
     }
   }
@@ -135,6 +143,7 @@ export function AddHoldingDialog({
         condition,
         gradeCompany: condition === "graded" ? gradeCompany : undefined,
         gradeValue: condition === "graded" ? gradeValue : undefined,
+        rawCondition: condition === "raw" && rawCondition ? rawCondition : undefined,
         language,
         costBasisTotal: Number(costBasis) || 0,
         costBasisCurrency,
@@ -256,6 +265,27 @@ export function AddHoldingDialog({
                   className="bg-background"
                 />
               </div>
+            </div>
+          )}
+
+          {condition === "raw" && (
+            <div className="grid gap-1.5">
+              <Label htmlFor="rawCondition">Condition</Label>
+              <Select
+                value={rawCondition}
+                onValueChange={(v) => setRawCondition(v as RawCardCondition)}
+              >
+                <SelectTrigger id="rawCondition" className="bg-background">
+                  <SelectValue placeholder="Not set" />
+                </SelectTrigger>
+                <SelectContent>
+                  {CARD_CONDITIONS.map((c) => (
+                    <SelectItem key={c} value={c}>
+                      {CARD_CONDITION_LABELS[c]} ({c})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           )}
 
