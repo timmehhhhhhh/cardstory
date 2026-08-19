@@ -167,6 +167,7 @@ export function BusinessClient() {
             selected={selected}
             onToggleSelect={toggleSelect}
             activePCId={businessPCId}
+            sourceLabel="Business Inventory"
           />
         ) : (
           <ItemGrid
@@ -175,6 +176,7 @@ export function BusinessClient() {
             selected={selected}
             onToggleSelect={toggleSelect}
             activePCId={businessPCId}
+            sourceLabel="Business Inventory"
           />
         )}
       </div>

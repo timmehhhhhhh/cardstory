@@ -30,6 +30,7 @@ function toShortlistItem(row: {
   askingPrice: unknown;
   askingCurrency: string;
   notes: string | null;
+  source: string | null;
   addedAt: Date;
   updatedAt: Date;
 }): ShortlistItem {
@@ -44,6 +45,7 @@ function toShortlistItem(row: {
     askingPrice: Number(row.askingPrice),
     askingCurrency: row.askingCurrency as ShortlistItem["askingCurrency"],
     notes: row.notes ?? undefined,
+    source: row.source ?? undefined,
     addedAt: row.addedAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
   };
@@ -71,6 +73,7 @@ export async function addShortlistItem(userId: string, input: ShortlistItemInput
       askingPrice: input.askingPrice,
       askingCurrency: input.askingCurrency,
       notes: input.notes,
+      source: input.source,
     },
   });
 }
@@ -95,6 +98,7 @@ export async function upsertShortlistItem(userId: string, input: ShortlistItemIn
       askingPrice: input.askingPrice,
       askingCurrency: input.askingCurrency,
       notes: input.notes,
+      source: input.source,
     },
     update: {},
   });

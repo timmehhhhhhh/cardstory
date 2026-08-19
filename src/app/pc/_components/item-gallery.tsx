@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Pencil, Trash2, TrendingDown, TrendingUp } from "lucide-react";
+import { Check, Pencil, ShoppingBag, Trash2, TrendingDown, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -15,6 +15,7 @@ import type { EnrichedHolding } from "@/lib/pc/selectors";
 import { CardImage } from "@/components/cards/card-image";
 import { ParallelBadge } from "@/components/sportscards/parallel-badge";
 import { EmptyHoldings } from "@/app/pc/_components/empty-holdings";
+import { useAddToShortlist } from "@/lib/shortlist/use-add-to-shortlist";
 
 /**
  * The image-first way of reading a pc — the same rows ItemGrid renders,
@@ -32,16 +33,21 @@ export function ItemGallery({
   selected,
   onToggleSelect,
   activePCId,
+  sourceLabel,
 }: {
   rows: EnrichedHolding[];
   bulkMode: boolean;
   selected: Set<string>;
   onToggleSelect: (holdingId: string) => void;
   activePCId: string;
+  /** Where a shortlist add from this grid should be recorded as coming from — e.g. "PC · My Collection" or "Business Inventory". */
+  sourceLabel: string;
 }) {
   const currency = usePCStore((s) => s.preferences.currency);
   const removeHoldings = usePCStore((s) => s.removeHoldings);
   const [editingHolding, setEditingHolding] = React.useState<EnrichedHolding | null>(null);
+  const addToShortlist = useAddToShortlist();
+  const [justShortlistedId, setJustShortlistedId] = React.useState<string | null>(null);
 
   if (rows.length === 0) return <EmptyHoldings />;
 
@@ -200,6 +206,30 @@ export function ItemGallery({
               {caption}
             </div>
             <div className="absolute right-1.5 top-1.5 z-10 flex gap-1">
+              {(r.catalogItemId || r.sportsCardItemId) && (
+                <button
+                  type="button"
+                  aria-label={`Add ${r.display.name} to shortlist`}
+                  title="Add to shortlist"
+                  onClick={() => {
+                    addToShortlist({
+                      kind: r.kind ?? "tcg",
+                      catalogItemId: r.catalogItemId,
+                      sportsCardItemId: r.sportsCardItemId,
+                      source: sourceLabel,
+                    });
+                    setJustShortlistedId(r.id);
+                    setTimeout(() => setJustShortlistedId((cur) => (cur === r.id ? null : cur)), 1200);
+                  }}
+                  className="rounded-full bg-background/70 p-1.5 text-muted-foreground opacity-0 backdrop-blur transition-opacity hover:text-primary focus-visible:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100"
+                >
+                  {justShortlistedId === r.id ? (
+                    <Check className="size-3.5 text-positive" />
+                  ) : (
+                    <ShoppingBag className="size-3.5" />
+                  )}
+                </button>
+              )}
               <button
                 type="button"
                 aria-label={`Edit ${r.display.name}`}

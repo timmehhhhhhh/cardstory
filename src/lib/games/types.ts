@@ -4,6 +4,8 @@ export interface UnifiedSet {
   gameId: string;
   externalId: string;
   name: string;
+  /** English translation of `name`, when known — see CatalogItem.nameEn and Set.nameEn. */
+  nameEn?: string;
   code: string;
   releaseDate?: Date;
   symbolUrl?: string;

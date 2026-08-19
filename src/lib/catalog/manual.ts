@@ -14,6 +14,8 @@ export interface ManualSetInput {
   setId: string;
   gameId: string;
   name: string;
+  /** English translation of `name`, when known — see Set.nameEn. */
+  nameEn?: string;
   code: string;
   releaseDate?: Date;
   symbolUrl?: string;
@@ -35,6 +37,7 @@ export async function upsertManualSet(input: ManualSetInput): Promise<void> {
       id: input.setId,
       gameId: input.gameId,
       name: input.name,
+      nameEn: input.nameEn ?? null,
       code: input.code,
       releaseDate: input.releaseDate ?? null,
       symbolUrl: input.symbolUrl ?? null,

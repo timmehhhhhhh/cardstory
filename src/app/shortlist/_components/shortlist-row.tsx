@@ -80,6 +80,9 @@ export function ShortlistRow({
           <CardNumberBadge number={row.display.number} className="flex-none" />
         </div>
         <span className="truncate text-xs text-muted-foreground">{row.display.subtitle}</span>
+        <span className="truncate text-[11px] text-muted-foreground/80">
+          {row.source ?? "Added manually"}
+        </span>
         {marketHint != null && (
           <span className="num-tabular text-xs text-muted-foreground">
             Market ~{formatMoneyIn(marketHint, row.askingCurrency)} ea

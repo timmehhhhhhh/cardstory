@@ -1,5 +1,9 @@
 import type { UnifiedCard, UnifiedSet } from "@/lib/games/types";
 import { FX_RATES_TO_USD } from "@/lib/constants";
+// Relative, not "@/..." — the translation table lives under scripts/data/
+// (alongside scripts/data/pokemon-manual/), outside the "@/*" -> "./src/*"
+// alias's reach.
+import { POKEMON_SET_TRANSLATIONS } from "../../../../scripts/data/pokemon-set-translations";
 
 export interface PokemonApiSet {
   id: string;
@@ -173,6 +177,8 @@ export interface TcgdexSetDetail extends TcgdexSetBrief {
   releaseDate?: string; // "YYYY-MM-DD"
   symbol?: string;
   logo?: string;
+  /** e.g. { id: "SV", name: "Scarlet & Violet" } — used to build the "univ" symbol asset URL below, since non-English set responses omit `symbol`/`logo` entirely. */
+  serie?: { id: string };
   cards: TcgdexCardBrief[];
 }
 
@@ -190,15 +196,37 @@ export interface TcgdexCardDetail extends TcgdexCardBrief {
   pricing?: { cardmarket?: TcgdexCardmarketPricing };
 }
 
+/**
+ * tcgdex's per-language `/sets/{id}` response only carries `symbol`/`logo`
+ * URLs for the "en" locale (confirmed against the live API — every other
+ * language's response omits both fields entirely). Symbols, however, are
+ * shared set-branding art, not per-language translations, and are hosted
+ * under a language-agnostic "univ" path keyed by the same serie/set id every
+ * locale already shares — e.g. `univ/sv/sv10/symbol.png` — so it can be
+ * reconstructed for JA/ZH/KO sets even though their own API response is
+ * silent on it. Logos DO vary by language (translated wordmark) and tcgdex
+ * only actually hosts the English one, so there's no equivalent
+ * reconstruction for logoUrl here — non-English sets simply fall back to
+ * this (now real, rather than always-missing) symbol icon in the UI.
+ */
+function tcgdexUnivSymbolUrl(raw: TcgdexSetDetail): string | undefined {
+  if (!raw.serie?.id) return undefined;
+  return `https://assets.tcgdex.net/univ/${raw.serie.id.toLowerCase()}/${raw.id.toLowerCase()}/symbol.png`;
+}
+
 export function mapTcgdexSet(raw: TcgdexSetDetail, lang: TcgdexLang): UnifiedSet {
   const code = `${lang}:${raw.id}`;
   return {
     gameId: "pokemon",
     externalId: code,
     name: raw.name,
+    // Left unset (not null) for any code missing from the table — mirrors
+    // CatalogItem.nameEn's "not yet identified" convention — see
+    // scripts/data/pokemon-set-translations.ts.
+    nameEn: POKEMON_SET_TRANSLATIONS[code],
     code,
     releaseDate: raw.releaseDate ? new Date(raw.releaseDate) : undefined,
-    symbolUrl: raw.symbol,
+    symbolUrl: raw.symbol ?? tcgdexUnivSymbolUrl(raw),
     logoUrl: raw.logo,
     cardCount: raw.cardCount?.official ?? raw.cardCount?.total,
   };

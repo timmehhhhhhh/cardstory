@@ -181,6 +181,7 @@ export default async function CardDetailPage({
         gameName={gameMeta?.name ?? item.game.name}
         setId={item.setId}
         setName={item.set.name}
+        setNameEn={item.set.nameEn}
         cardName={displayName}
       />
 
@@ -188,7 +189,7 @@ export default async function CardDetailPage({
         <div>
           <h1 className="text-2xl font-bold">{item.name}</h1>
           <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
-            <span>{item.set.name}</span>
+            <span>{item.set.nameEn ? `${item.set.name} (${item.set.nameEn})` : item.set.name}</span>
             {item.number && <span>· {item.number}</span>}
             {item.cardType && <span>· {item.cardType}</span>}
             {releaseDateLabel && <span>· {releaseDateLabel}</span>}

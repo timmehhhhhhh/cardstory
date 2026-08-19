@@ -55,6 +55,13 @@ model Set {
   gameId      String
   game        Game          @relation(fields: [gameId], references: [id])
   name        String
+  /// English name for a non-English set, so e.g. a JP Pokémon set's
+  /// "アビスアイ" is also shown as "Abyss Eye" — see
+  /// scripts/data/pokemon-set-translations.ts. Null for English sets (their
+  /// own `name` already is the English name) and for any non-English set
+  /// whose English translation hasn't been identified yet. Mirrors
+  /// CatalogItem.nameEn above.
+  nameEn      String?
   code        String
   releaseDate DateTime?
   symbolUrl   String?
@@ -63,6 +70,7 @@ model Set {
   items       CatalogItem[]
 
   @@index([gameId])
+  @@index([nameEn])
   @@map("sets")
 }
 
@@ -632,6 +640,12 @@ model ShortlistItem {
   askingCurrency String  @default("USD")
 
   notes     String?
+  /// Where this row was added from — "Explore", "PC · {pcName}", "Business
+  /// Inventory", free text set by the button that created the row. Null for
+  /// rows added the original way, straight from ShortlistAddBar/
+  /// CustomItemDialog on the Shortlist page itself, which isn't tied to any
+  /// card-browsing surface.
+  source    String?
   addedAt   DateTime @default(now())
   updatedAt DateTime @updatedAt
 

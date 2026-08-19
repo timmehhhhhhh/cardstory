@@ -7,6 +7,8 @@ export interface ManualSetRef {
   /** Set.code, e.g. "ja:L1a" — same "<lang>:<tcgdexId>" scheme tcgdex-client.ts uses. */
   code: string;
   name: string;
+  /** English translation of `name`, when known — see Set.nameEn and scripts/data/pokemon-set-translations.ts. */
+  nameEn?: string;
   releaseDate?: string; // "YYYY-MM-DD"
   symbolUrl?: string;
   cardCount?: number;

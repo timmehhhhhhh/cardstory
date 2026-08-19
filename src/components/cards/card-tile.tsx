@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { PackagePlus, Star, Store, TrendingDown, TrendingUp } from "lucide-react";
+import { Check, PackagePlus, ShoppingBag, Star, Store, TrendingDown, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CardImage } from "@/components/cards/card-image";
 import { GameBadge } from "@/components/cards/game-badge";
@@ -10,6 +10,7 @@ import { CardNumberBadge } from "@/components/cards/card-number-badge";
 import { FinishBadge } from "@/components/cards/finish-badge";
 import { AddHoldingDialog } from "@/components/pc/add-holding-dialog";
 import { usePCStore } from "@/lib/pc/store";
+import { useAddToShortlist } from "@/lib/shortlist/use-add-to-shortlist";
 import { formatMoney, formatPct } from "@/lib/utils/format";
 import { getGameMeta } from "@/lib/games/registry";
 import { isItemLanguage } from "@/lib/pc/language";
@@ -49,6 +50,11 @@ export function CardTile({
   const [addDialogOpen, setAddDialogOpen] = React.useState(false);
   const [businessDialogOpen, setBusinessDialogOpen] = React.useState(false);
   const [businessPCId, setBusinessPCId] = React.useState<string | undefined>(undefined);
+  const addToShortlist = useAddToShortlist();
+  // Brief post-click acknowledgment — repeat adds are legitimate (the same
+  // card spotted at two shops), so this is a pulse, not an "already
+  // shortlisted" toggle state like the watchlist star.
+  const [justShortlisted, setJustShortlisted] = React.useState(false);
   // Only surfaced for non-English prints (currently Pokémon JP/CN/TW/KR) —
   // otherwise identical-looking reprints in different languages are
   // indistinguishable in a flat grid.
@@ -138,6 +144,31 @@ export function CardTile({
     </button>
   );
 
+  const shortlistTrigger = (className: string) => (
+    <button
+      type="button"
+      aria-label="Add to shortlist"
+      title="Add to shortlist"
+      onClick={() => {
+        addToShortlist({
+          kind: isSports ? "sports" : "tcg",
+          catalogItemId: isSports ? undefined : item.id,
+          sportsCardItemId: isSports ? item.id : undefined,
+          source: "Explore",
+        });
+        setJustShortlisted(true);
+        setTimeout(() => setJustShortlisted(false), 1200);
+      }}
+      className={className}
+    >
+      {justShortlisted ? (
+        <Check className="size-3.5 text-positive" />
+      ) : (
+        <ShoppingBag className="size-3.5" />
+      )}
+    </button>
+  );
+
   const dialog = (
     <AddHoldingDialog
       catalogItemId={isSports ? undefined : item.id}
@@ -183,7 +214,7 @@ export function CardTile({
             <CardNumberBadge number={item.number} className="flex-none" />
           </div>
           <p className="truncate text-xs text-muted-foreground">
-            {item.setName}
+            {item.setNameEn ? `${item.setName} (${item.setNameEn})` : item.setName}
             {item.artist ? ` · ${item.artist}` : ""}
           </p>
         </div>
@@ -208,6 +239,9 @@ export function CardTile({
           )}
         {dialog}
         {businessDialog}
+        {shortlistTrigger(
+          "relative z-10 flex-none rounded-md p-1.5 text-muted-foreground hover:bg-surface-elevated hover:text-primary"
+        )}
         {watchlistTrigger(
           "relative z-10 flex-none rounded-md p-1.5 text-muted-foreground hover:bg-surface-elevated hover:text-watchlist"
         )}
@@ -241,6 +275,9 @@ export function CardTile({
             addToBusinessInventoryTrigger(
               "rounded-full bg-background/70 p-1.5 text-muted-foreground backdrop-blur transition-colors hover:text-primary"
             )}
+          {shortlistTrigger(
+            "rounded-full bg-background/70 p-1.5 text-muted-foreground backdrop-blur transition-colors hover:text-primary"
+          )}
           {watchlistTrigger(
             "rounded-full bg-background/70 p-1.5 text-muted-foreground backdrop-blur transition-colors hover:text-watchlist"
           )}
@@ -269,7 +306,9 @@ export function CardTile({
           <p className="min-w-0 truncate text-sm font-medium leading-tight">{item.name}</p>
           {languageBadge}
         </div>
-        <p className="truncate text-xs text-muted-foreground">{item.setName}</p>
+        <p className="truncate text-xs text-muted-foreground">
+          {item.setNameEn ? `${item.setName} (${item.setNameEn})` : item.setName}
+        </p>
         {item.cardType && <p className="truncate text-[11px] text-muted-foreground/80">{item.cardType}</p>}
         {item.artist && <p className="truncate text-[11px] text-muted-foreground/80">{item.artist}</p>}
       </div>

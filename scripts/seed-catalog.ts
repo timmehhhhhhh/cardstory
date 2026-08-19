@@ -76,6 +76,7 @@ async function seedGame(gameId: string) {
         id: setId,
         gameId,
         name: set.name,
+        nameEn: set.nameEn ?? null,
         code: set.code,
         releaseDate: set.releaseDate,
         symbolUrl: set.symbolUrl,
@@ -84,6 +85,10 @@ async function seedGame(gameId: string) {
       },
       update: {
         name: set.name,
+        // `undefined` (not `set.nameEn ?? null`) so a re-seed never clobbers
+        // a translation the one-time backfill script wrote for a code this
+        // provider run doesn't have a table entry for yet.
+        nameEn: set.nameEn,
         releaseDate: set.releaseDate,
         symbolUrl: set.symbolUrl,
         logoUrl: set.logoUrl,

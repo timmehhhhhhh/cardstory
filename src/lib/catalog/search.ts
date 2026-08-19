@@ -96,6 +96,8 @@ export interface CatalogSearchItem {
   variantLabel: string | null;
   imageSmallUrl: string | null;
   setName: string;
+  /** English translation of setName, when known — see Set.nameEn. Null for sports rows (no language concept) and for English/untranslated sets. */
+  setNameEn: string | null;
   releaseDate: string | null;
   productType: "CARD" | "SEALED";
   priceRaw: number | null;
@@ -248,6 +250,7 @@ function sportsItemToSearchItem(r: SportsRow, gameId: string): CatalogSearchItem
     cardType: titleCase(r.parallelName ?? r.cardType),
     imageSmallUrl: r.imageUrl,
     setName,
+    setNameEn: null,
     releaseDate: r.releaseDate ? r.releaseDate.toISOString().slice(0, 10) : null,
     productType: "CARD",
     priceRaw: r.latestPriceRaw != null ? Number(r.latestPriceRaw) : null,
@@ -407,7 +410,7 @@ const TCG_SELECT = {
   // `code` (the provider's own set id, e.g. pokemontcg.io's "base6") is
   // what the curated finish-pattern overlay keys off of — see
   // getFinishDisplayLabel — not Set.id (which is prefixed "<gameId>:").
-  set: { select: { name: true, releaseDate: true, code: true } },
+  set: { select: { name: true, nameEn: true, releaseDate: true, code: true } },
 } satisfies Prisma.CatalogItemSelect;
 
 type TcgRow = Prisma.CatalogItemGetPayload<{ select: typeof TCG_SELECT }>;
@@ -435,6 +438,7 @@ function tcgItemToSearchItem(r: TcgRow): CatalogSearchItem {
     variantLabel,
     imageSmallUrl: r.imageSmallUrl,
     setName: r.set.name,
+    setNameEn: r.set.nameEn,
     releaseDate: r.set.releaseDate ? r.set.releaseDate.toISOString().slice(0, 10) : null,
     productType: r.productType,
     priceRaw: r.latestPriceRaw != null ? Number(r.latestPriceRaw) : null,

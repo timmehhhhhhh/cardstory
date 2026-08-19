@@ -22,6 +22,7 @@ interface SetTileData {
   id: string;
   setId: string;
   name: string;
+  nameEn: string | null;
   code: string | null;
   cardCount: number;
   symbolUrl: string | null;
@@ -42,6 +43,7 @@ async function loadTcgSets(game: string, direction: "asc" | "desc"): Promise<Set
     id: s.id,
     setId: s.id,
     name: s.name,
+    nameEn: s.nameEn,
     code: s.code,
     cardCount: s._count.items,
     symbolUrl: s.symbolUrl,
@@ -78,6 +80,7 @@ async function loadSportsSets(
       id: setId,
       setId,
       name,
+      nameEn: null,
       code: null,
       cardCount: g._count._all,
       symbolUrl: null,
@@ -131,6 +134,7 @@ export default async function GameSetsPage({
             gameId={game}
             setId={s.setId}
             name={s.name}
+            nameEn={s.nameEn}
             code={s.code}
             cardCount={s.cardCount}
             symbolUrl={s.symbolUrl}

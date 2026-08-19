@@ -16,10 +16,12 @@
 import { db } from "@/lib/db";
 import { upsertManualSet, upsertManualCatalogItem } from "@/lib/catalog/manual";
 import { POKEMON_MANUAL_ENTRIES } from "./data/pokemon-manual/legend-secrets";
+import { POKEMON_MANUAL_ENTRIES as GARURA_RULE_PROMOS } from "./data/pokemon-manual/garura-rule-promos";
 
 // Add each new manual data file here as it's researched.
 const ENTRY_FILES: { label: string; entries: typeof POKEMON_MANUAL_ENTRIES }[] = [
   { label: "legend-secrets", entries: POKEMON_MANUAL_ENTRIES },
+  { label: "garura-rule-promos", entries: GARURA_RULE_PROMOS },
 ];
 
 async function main() {
@@ -38,6 +40,7 @@ async function main() {
         setId: entry.set.setId,
         gameId: entry.set.gameId,
         name: entry.set.name,
+        nameEn: entry.set.nameEn,
         code: entry.set.code,
         releaseDate: entry.set.releaseDate ? new Date(entry.set.releaseDate) : undefined,
         symbolUrl: entry.set.symbolUrl,

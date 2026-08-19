@@ -151,6 +151,7 @@ export function PCClient() {
             selected={selected}
             onToggleSelect={toggleSelect}
             activePCId={activePCId}
+            sourceLabel={`PC · ${activePC?.name ?? "My PC"}`}
           />
         ) : (
           <ItemGrid
@@ -159,6 +160,7 @@ export function PCClient() {
             selected={selected}
             onToggleSelect={toggleSelect}
             activePCId={activePCId}
+            sourceLabel={`PC · ${activePC?.name ?? "My PC"}`}
           />
         )}
       </div>

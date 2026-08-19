@@ -6,12 +6,14 @@ export function CardBreadcrumb({
   gameName,
   setId,
   setName,
+  setNameEn,
   cardName,
 }: {
   gameId: string;
   gameName: string;
   setId: string;
   setName: string;
+  setNameEn?: string | null;
   cardName: string;
 }) {
   return (
@@ -21,7 +23,7 @@ export function CardBreadcrumb({
       </Link>
       <ChevronRight className="size-3.5" />
       <Link href={`/explore?game=${gameId}&set=${encodeURIComponent(setId)}`} className="hover:text-foreground">
-        {setName}
+        {setNameEn ? `${setName} (${setNameEn})` : setName}
       </Link>
       <ChevronRight className="size-3.5" />
       <span className="text-foreground">{cardName}</span>

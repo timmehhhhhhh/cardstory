@@ -11,6 +11,7 @@ const shortlistBaseFields = {
   askingPrice: z.number().nonnegative(),
   askingCurrency: z.enum(SUPPORTED_CURRENCIES),
   notes: z.string().max(500).optional(),
+  source: z.string().max(200).optional(),
 };
 
 /**

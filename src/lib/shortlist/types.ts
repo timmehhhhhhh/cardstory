@@ -51,6 +51,13 @@ export interface ShortlistItem {
   askingPrice: number;
   askingCurrency: SupportedCurrency;
   notes?: string;
+  /**
+   * Where this row was added from — "Explore", "PC · {pcName}", "Business
+   * Inventory" — set by whichever card-tile shortlist button created it.
+   * Undefined for rows added the original way, straight from
+   * ShortlistAddBar/CustomItemDialog on the Shortlist page itself.
+   */
+  source?: string;
   addedAt: string;
   updatedAt: string;
 }
