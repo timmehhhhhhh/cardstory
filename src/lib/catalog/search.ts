@@ -83,6 +83,8 @@ export interface CatalogSearchItem {
   gameId: string;
   externalId: string;
   name: string;
+  /** English translation of `name`, when known — see CatalogItem.nameEn. Null for sports rows (no language concept) and for English/untranslated cards. */
+  nameEn: string | null;
   number: string | null;
   rarity: string | null;
   /** Illustrator credit, e.g. Pokémon's "Mitsuhiro Arita". Null for games/rows with no artist credit. */
@@ -241,6 +243,7 @@ function sportsItemToSearchItem(r: SportsRow, gameId: string): CatalogSearchItem
     gameId,
     externalId: r.id,
     name: r.parallelName ? `${r.playerName} — ${r.parallelName}` : r.playerName,
+    nameEn: null,
     number: r.cardNumber,
     rarity: null,
     artist: null,
@@ -397,6 +400,7 @@ const TCG_SELECT = {
   externalId: true,
   variantKey: true,
   name: true,
+  nameEn: true,
   number: true,
   rarity: true,
   artist: true,
@@ -429,6 +433,7 @@ function tcgItemToSearchItem(r: TcgRow): CatalogSearchItem {
     gameId: r.gameId,
     externalId: r.externalId,
     name: r.name,
+    nameEn: r.nameEn,
     number: r.number,
     rarity: r.rarity,
     artist: r.artist,

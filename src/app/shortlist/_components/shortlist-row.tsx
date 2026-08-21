@@ -79,6 +79,9 @@ export function ShortlistRow({
           )}
           <CardNumberBadge number={row.display.number} className="flex-none" />
         </div>
+        {row.display.nameEn && (
+          <span className="truncate text-xs text-muted-foreground">{row.display.nameEn}</span>
+        )}
         <span className="truncate text-xs text-muted-foreground">{row.display.subtitle}</span>
         <span className="truncate text-[11px] text-muted-foreground/80">
           {row.source ?? "Added manually"}

@@ -24,7 +24,9 @@ export function MostValuable({ rows }: { rows: EnrichedHolding[] }) {
                 <div className="relative size-8 flex-none overflow-hidden rounded bg-muted">
                   <CardImage src={r.display.imageUrl} alt="" className="object-contain" />
                 </div>
-                <span className="min-w-0 flex-1 truncate text-sm">{r.display.name}</span>
+                <span className="min-w-0 flex-1 truncate text-sm" title={r.display.nameEn ?? undefined}>
+                  {r.display.name}
+                </span>
                 <span className="num-tabular text-sm font-medium">{formatMoney(r.marketValue, currency)}</span>
               </>
             );

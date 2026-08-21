@@ -129,6 +129,7 @@ async function seedGame(gameId: string) {
           externalId: card.externalId,
           variantKey: card.variantKey ?? "",
           name: card.name,
+          nameEn: card.nameEn ?? null,
           number: card.number,
           rarity: card.rarity,
           artist: card.artist,
@@ -140,6 +141,11 @@ async function seedGame(gameId: string) {
         },
         update: {
           name: card.name,
+          // `undefined` (not `card.nameEn ?? null`) so a re-seed never
+          // clobbers a value scripts/backfill-catalog-name-en.ts or a
+          // curated table entry already resolved — mirrors how imageSmallUrl/
+          // imageLargeUrl above are left alone by mapTcgdexCardVariants.
+          nameEn: card.nameEn,
           number: card.number,
           rarity: card.rarity,
           artist: card.artist,

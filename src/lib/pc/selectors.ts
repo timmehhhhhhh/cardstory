@@ -9,6 +9,8 @@ import { convertToUsd } from "@/lib/utils/format";
 /** Fields the UI needs that differ in shape between a TCG card and a sports card. */
 export interface DisplayInfo {
   name: string;
+  /** English translation of `name`, when known — see CatalogItem.nameEn. Null for sports/custom rows and for English/untranslated cards. */
+  nameEn: string | null;
   subtitle: string;
   /** The card's number within its set (e.g. "88", "025/198"), when known. */
   number: string | null;
@@ -85,6 +87,7 @@ export function buildDisplay(
     const numberBit = sportsCardItem.cardNumber ? ` · #${sportsCardItem.cardNumber}` : "";
     return {
       name: sportsCardItem.playerName,
+      nameEn: null,
       subtitle: `${setBit}${numberBit}${parallelBit}${serialSuffix(ref, sportsCardItem)}`,
       number: sportsCardItem.cardNumber,
       // The owner's own photo of this copy wins over the shared catalog image.
@@ -107,6 +110,7 @@ export function buildDisplay(
 
   return {
     name: catalogItem?.name ?? ref.customName ?? "Unknown card",
+    nameEn: catalogItem?.nameEn ?? null,
     subtitle: catalogItem
       ? `${catalogItem.setName}${catalogItem.number ? ` · ${catalogItem.number}` : ""}`
       : "",

@@ -18,6 +18,8 @@ export interface UnifiedCard {
   setExternalId: string;
   externalId: string;
   name: string;
+  /** English translation of `name`, when known — see CatalogItem.nameEn and UnifiedSet.nameEn. */
+  nameEn?: string;
   number?: string;
   rarity?: string;
   /** Illustrator credit, e.g. Pokémon's "Mitsuhiro Arita". */

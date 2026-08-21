@@ -111,6 +111,9 @@ export function ItemGallery({
         const caption = (
           <div className="flex min-w-0 flex-col gap-0.5 p-2.5">
             <p className="truncate text-sm leading-tight font-medium">{r.display.name}</p>
+            {r.display.nameEn && (
+              <p className="truncate text-xs leading-snug text-muted-foreground">{r.display.nameEn}</p>
+            )}
             {parallelLabel && (
               <p className="line-clamp-2 text-xs leading-snug font-semibold text-primary">
                 {parallelLabel}

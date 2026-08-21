@@ -24,6 +24,7 @@ function useTradeSide() {
           gameId: item.gameId,
           externalId: item.externalId,
           name: item.name,
+          nameEn: item.nameEn,
           number: item.number,
           imageSmallUrl: item.imageSmallUrl,
           priceRaw: item.priceRaw,

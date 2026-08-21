@@ -61,6 +61,116 @@ export const POKEMON_CARD_TRANSLATIONS: Record<string, string> = {
   "TW:基本鋼能量": "Basic Metal Energy",
   "TW:基本金屬能量": "Basic Metal Energy",
   "TW:基本妖精能量": "Basic Fairy Energy",
+
+  // --- Bracket-style elemental energy, TW ---------------------------------
+  "TW:基本【超】能量": "Basic Psychic Energy",
+  "TW:基本【雷】能量": "Basic Lightning Energy",
+  "TW:基本【火】能量": "Basic Fire Energy",
+  "TW:基本【鬥】能量": "Basic Fighting Energy",
+  "TW:基本【水】能量": "Basic Water Energy",
+  "TW:基本【草】能量": "Basic Grass Energy",
+  "TW:基本【惡】能量": "Basic Darkness Energy",
+  "TW:基本【鋼】能量": "Basic Metal Energy",
+
+  // --- Common Trainer/Item cards, JP --------------------------------------
+  // Verified against this catalog's own English (language="EN") rows and/or
+  // well-documented official English Pokémon TCG print names.
+  "JP:ポケモンいれかえ": "Switch",
+  "JP:ハイパーボール": "Ultra Ball",
+  "JP:ふしぎなアメ": "Rare Candy",
+  "JP:ネストボール": "Nest Ball",
+  "JP:ネットボール": "Net Ball",
+  "JP:ポケギア3.0": "Poké Gear 3.0",
+  "JP:ボスの指令": "Boss's Orders",
+  "JP:あなぬけのヒモ": "Escape Rope",
+  "JP:こだわりハチマキ": "Choice Band",
+  "JP:ジャッジマン": "Judge",
+  "JP:改造ハンマー": "Tool Scrapper",
+  "JP:ツールスクラッパー": "Tool Scrapper",
+  "JP:ダブル無色エネルギー": "Double Colorless Energy",
+  "JP:ポケモンキャッチャー": "Pokémon Catcher",
+  "JP:アクアパッチ": "Aqua Patch",
+  "JP:エネルギー回収": "Energy Retrieval",
+  "JP:エネルギーつけかえ": "Energy Switch",
+  "JP:なぞの化石": "Mysterious Fossil",
+  "JP:フィールドブロアー": "Field Blower",
+  "JP:ふうせん": "Air Balloon",
+  "JP:ポケモン通信": "Pokémon Communication",
+  "JP:まんたんのくすり": "Max Potion",
+  "JP:溶接工": "Welder",
+  "JP:クラッシュハンマー": "Crushing Hammer",
+  "JP:すごいつりざお": "Super Rod",
+  "JP:リセットスタンプ": "Reset Stamp",
+  "JP:ロストスイーパー": "Lost Sweeper",
+  "JP:レインボーエネルギー": "Rainbow Energy",
+  "JP:ロトム図鑑": "Rotom Phone",
+  "JP:ワザマシン エヴォリューション": "TM Evolution",
+  "JP:エスケープボード": "Escape Board",
+  "JP:いちげきエネルギー": "Single Strike Energy",
+  "JP:れんげきエネルギー": "Rapid Strike Energy",
+  "JP:ビーストリング": "Beast Ring",
+  "JP:ジェットエネルギー": "Jet Energy",
+  "JP:ダブルターボエネルギー": "Double Turbo Energy",
+  "JP:クリスタルエネルギー": "Crystal Energy",
+  "JP:オーロラエネルギー": "Aurora Energy",
+  "JP:ルミナスエネルギー": "Luminous Energy",
+  "JP:頂への雪道": "Path to the Peak",
+
+  // Character/Supporter names (JP).
+  "JP:リーリエ": "Lillie",
+  "JP:キバナ": "Kabu",
+  "JP:ナンジャモ": "Iono",
+  "JP:ネモ": "Nemona",
+  "JP:ルザミーネ": "Lusamine",
+  "JP:アセロラ": "Acerola",
+  "JP:グズマ": "Guzma",
+  "JP:グルーシャ": "Grusha",
+  "JP:シロナ": "Cynthia",
+  "JP:ツツジ": "Klara",
+
+  // --- Common Trainer/Item cards, TW (Traditional Chinese) ----------------
+  // Same-card counterparts of the JP entries above, in TW's own wording.
+  "TW:寶可夢交替": "Switch",
+  "TW:高級球": "Ultra Ball",
+  "TW:神奇糖果": "Rare Candy",
+  "TW:巢穴球": "Nest Ball",
+  "TW:寶可夢捕捉器": "Pokémon Catcher",
+  "TW:裁判": "Judge",
+  "TW:超級球": "Great Ball",
+  "TW:等級球": "Level Ball",
+  "TW:先機球": "Quick Ball",
+  "TW:精靈球": "Poké Ball",
+  "TW:傷藥": "Potion",
+  "TW:老大的指令": "Boss's Orders",
+  "TW:能量回收": "Energy Retrieval",
+  "TW:進化薰香": "Evolution Incense",
+  "TW:講究腰帶": "Choice Band",
+  "TW:氣球": "Air Balloon",
+  "TW:道具拆除器": "Tool Scrapper",
+  "TW:寶可裝置3.0": "Poké Gear 3.0",
+  "TW:寶可齒輪3.0": "Poké Gear 3.0",
+  "TW:通頂雪道": "Path to the Peak",
+  "TW:多邊獸Ⅱ": "Porygon2",
+  "TW:多邊獸Ｚ": "Porygon-Z",
+
+  // Character/Supporter names (TW) — same characters as the JP entries above.
+  "TW:妮莫": "Nemona",
+  "TW:瑪俐": "Marnie",
+  "TW:奇巴納": "Kabu",
+
+  // --- Adjective+noun Trainer cards (not a Pokémon possessive) -----------
+  "JP:パルデアの学生": "Paldean Student",
+  "TW:帕底亞的學生": "Paldean Student",
+  "JP:リーリエの決心": "Lillie's Determination",
+
+  // --- Ogerpon mask forms --------------------------------------------------
+  // Base name only (no suffix) — resolvePokemonCardNameEn re-attaches the
+  // printed suffix (e.g. " ex") itself, so this also covers the "ex"
+  // printings without a separate entry per suffix.
+  "JP:オーガポン みどりのめん": "Ogerpon Teal Mask",
+  "JP:オーガポン いしずえのめん": "Ogerpon Cornerstone Mask",
+  "JP:オーガポン いどのめん": "Ogerpon Wellspring Mask",
+  "JP:オーガポン かまどのめん": "Ogerpon Hearthflame Mask",
 };
 
 /**
@@ -104,4 +214,10 @@ export const POKEMON_FORM_PREFIXES: Record<string, string> = {
  * than falling back to the bare species, because "マリィのズルズキン" ->
  * "Scrafty" would be a wrong name, not an incomplete one.
  */
-export const POKEMON_TRAINER_POSSESSIVES: Record<string, string> = {};
+export const POKEMON_TRAINER_POSSESSIVES: Record<string, string> = {
+  "JP:N": "N",
+  "JP:ロケット団": "Team Rocket",
+  "JP:シロナ": "Cynthia",
+  "JP:リーリエ": "Lillie",
+  "JP:マリィ": "Marnie",
+};

@@ -101,7 +101,9 @@ export function ShortlistAddBar({ onAdded }: { onAdded: (itemId: string) => void
               <div className="relative h-8 w-6 flex-none overflow-hidden rounded bg-muted">
                 <CardImage src={item.imageSmallUrl} alt="" className="object-contain" />
               </div>
-              <span className="min-w-0 flex-1 truncate">{item.name}</span>
+              <span className="min-w-0 flex-1 truncate" title={item.nameEn ?? undefined}>
+                {item.name}
+              </span>
               <CardNumberBadge number={item.number} className="flex-none" />
               <span className="num-tabular text-xs text-muted-foreground">
                 {formatMoney(item.priceRaw, currency)}

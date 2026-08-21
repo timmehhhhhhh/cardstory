@@ -15,6 +15,7 @@ import { formatMoney, formatPct } from "@/lib/utils/format";
 import { getGameMeta } from "@/lib/games/registry";
 import { isItemLanguage } from "@/lib/pc/language";
 import { cardDetailHref } from "@/lib/catalog/card-href";
+import { withEnglishName } from "@/lib/catalog/card-name";
 import type { CatalogSearchItem } from "@/lib/catalog/search";
 
 export function CardTile({
@@ -69,7 +70,10 @@ export function CardTile({
   // (e.g. "Charizard — Reverse Holo") so the confirmation is unambiguous —
   // the whole point of splitting finishes into separate tiles is defeated
   // if the dialog you add one from doesn't say which finish you're adding.
-  const displayName = item.variantLabel ? `${item.name} — ${item.variantLabel}` : item.name;
+  const displayName = withEnglishName(
+    item.variantLabel ? `${item.name} — ${item.variantLabel}` : item.name,
+    item.nameEn
+  );
 
   // The whole tile is a "stretched link" (a full-bleed <Link> layered
   // beneath everything, see below) rather than the action buttons living
@@ -213,6 +217,7 @@ export function CardTile({
             <FinishBadge variantKey={item.variantKey} label={item.variantLabel} className="flex-none" />
             <CardNumberBadge number={item.number} className="flex-none" />
           </div>
+          {item.nameEn && <p className="truncate text-xs text-muted-foreground">{item.nameEn}</p>}
           <p className="truncate text-xs text-muted-foreground">
             {item.setNameEn ? `${item.setName} (${item.setNameEn})` : item.setName}
             {item.artist ? ` · ${item.artist}` : ""}
@@ -306,6 +311,7 @@ export function CardTile({
           <p className="min-w-0 truncate text-sm font-medium leading-tight">{item.name}</p>
           {languageBadge}
         </div>
+        {item.nameEn && <p className="truncate text-[11px] text-muted-foreground">{item.nameEn}</p>}
         <p className="truncate text-xs text-muted-foreground">
           {item.setNameEn ? `${item.setName} (${item.setNameEn})` : item.setName}
         </p>
