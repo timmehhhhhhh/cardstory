@@ -17,11 +17,13 @@ import { db } from "@/lib/db";
 import { upsertManualSet, upsertManualCatalogItem } from "@/lib/catalog/manual";
 import { POKEMON_MANUAL_ENTRIES } from "./data/pokemon-manual/legend-secrets";
 import { POKEMON_MANUAL_ENTRIES as GARURA_RULE_PROMOS } from "./data/pokemon-manual/garura-rule-promos";
+import { POKEMON_MANUAL_ENTRIES as SV_P_KOREAN_PROMOS } from "./data/pokemon-manual/sv-p-korean-promos";
 
 // Add each new manual data file here as it's researched.
 const ENTRY_FILES: { label: string; entries: typeof POKEMON_MANUAL_ENTRIES }[] = [
   { label: "legend-secrets", entries: POKEMON_MANUAL_ENTRIES },
   { label: "garura-rule-promos", entries: GARURA_RULE_PROMOS },
+  { label: "sv-p-korean-promos", entries: SV_P_KOREAN_PROMOS },
 ];
 
 async function main() {
