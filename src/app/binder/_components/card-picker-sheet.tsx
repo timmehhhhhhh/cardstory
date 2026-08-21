@@ -84,6 +84,9 @@ export function CardPickerSheet({
                         <p className="min-w-0 truncate text-sm font-medium">{r.display.name}</p>
                         <CardNumberBadge number={r.display.number} className="flex-none" />
                       </div>
+                      {r.display.nameEn && (
+                        <p className="truncate text-xs text-muted-foreground">{r.display.nameEn}</p>
+                      )}
                       <p className="truncate text-xs text-muted-foreground">{r.display.subtitle}</p>
                     </div>
                     <Badge variant={disabled ? "outline" : "secondary"} className="flex-none">

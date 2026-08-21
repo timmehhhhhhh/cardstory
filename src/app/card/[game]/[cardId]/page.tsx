@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { getGameMeta } from "@/lib/games/registry";
 import { CardBreadcrumb } from "@/app/card/[game]/[cardId]/_components/breadcrumb";
+import { withEnglishName } from "@/lib/catalog/card-name";
 import { PriceHistoryPanel } from "@/app/card/[game]/[cardId]/_components/price-history-panel";
 import { CollectionPanel } from "@/app/card/[game]/[cardId]/_components/collection-panel";
 import { ShopPanel } from "@/app/card/[game]/[cardId]/_components/shop-panel";
@@ -165,7 +166,10 @@ export default async function CardDetailPage({
   const variantLabel = variantKey
     ? getFinishDisplayLabel(item.set.code, variantKey, defaultFinishLabel(variantKey))
     : null;
-  const displayName = variantLabel ? `${item.name} — ${variantLabel}` : item.name;
+  const displayName = withEnglishName(
+    variantLabel ? `${item.name} — ${variantLabel}` : item.name,
+    item.nameEn
+  );
   const siblingVariants = await getSiblingVariants(item);
   // Every price/graded-price/eBay-comps lookup below is keyed by the full
   // CatalogItem.id, not the bare externalId — see cardDetailHref for why:
@@ -188,6 +192,7 @@ export default async function CardDetailPage({
       <div className="mb-6 flex flex-wrap items-start justify-between gap-2">
         <div>
           <h1 className="text-2xl font-bold">{item.name}</h1>
+          {item.nameEn && <p className="text-sm text-muted-foreground">{item.nameEn}</p>}
           <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
             <span>{item.set.nameEn ? `${item.set.name} (${item.set.nameEn})` : item.set.name}</span>
             {item.number && <span>· {item.number}</span>}

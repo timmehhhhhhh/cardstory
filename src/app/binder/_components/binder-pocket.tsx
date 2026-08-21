@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { CardNumberBadge } from "@/components/cards/card-number-badge";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
 import { CardImage } from "@/components/cards/card-image";
+import { withEnglishName } from "@/lib/catalog/card-name";
 
 export function BinderPocket({
   card,
@@ -49,7 +50,7 @@ export function BinderPocket({
           onDragStart={onDragStart}
           onDragEnd={onDragEnd}
           onClick={onSelect}
-          aria-label={`${card.display.name} — click to swap`}
+          aria-label={`${withEnglishName(card.display.name, card.display.nameEn)} — click to swap`}
           className="absolute inset-0 flex size-full cursor-grab flex-col items-stretch justify-center active:cursor-grabbing"
         >
           <CardImage
@@ -89,7 +90,7 @@ export function BinderPocket({
             e.stopPropagation();
             onClear();
           }}
-          aria-label={`Remove ${card.display.name} from this pocket`}
+          aria-label={`Remove ${withEnglishName(card.display.name, card.display.nameEn)} from this pocket`}
           className="absolute top-0.5 right-0.5 z-10 flex size-5 items-center justify-center rounded-full bg-black/60 text-white opacity-80 transition-opacity hover:opacity-100 focus-visible:opacity-100 sm:size-4"
         >
           <X className="size-3" />

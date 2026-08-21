@@ -4,6 +4,7 @@ import { FX_RATES_TO_USD } from "@/lib/constants";
 // (alongside scripts/data/pokemon-manual/), outside the "@/*" -> "./src/*"
 // alias's reach.
 import { POKEMON_SET_TRANSLATIONS } from "../../../../scripts/data/pokemon-set-translations";
+import { resolvePokemonCardNameEn } from "@/lib/games/pokemon/card-name-en";
 
 export interface PokemonApiSet {
   id: string;
@@ -253,6 +254,9 @@ export function mapTcgdexCardVariants(
     setExternalId,
     externalId: `${lang}:${raw.id}`,
     name: raw.name,
+    // `undefined` (not `null`) when unresolved — see CatalogItem.nameEn's
+    // "not yet identified" convention, same as symbolUrl/logoUrl below.
+    nameEn: resolvePokemonCardNameEn(raw.name, TCGDEX_LANGUAGE_CODE[lang]),
     number: raw.localId,
     rarity: raw.rarity,
     artist: raw.illustrator,

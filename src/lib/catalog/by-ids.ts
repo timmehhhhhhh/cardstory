@@ -5,6 +5,8 @@ export interface CatalogItemDetail {
   gameId: string;
   externalId: string;
   name: string;
+  /** English translation of `name`, when known — see CatalogItem.nameEn. Null for English/untranslated cards. */
+  nameEn: string | null;
   number: string | null;
   rarity: string | null;
   imageSmallUrl: string | null;
@@ -26,6 +28,7 @@ export async function getCatalogItemsByIds(ids: string[]): Promise<CatalogItemDe
       gameId: true,
       externalId: true,
       name: true,
+      nameEn: true,
       number: true,
       rarity: true,
       imageSmallUrl: true,
@@ -43,6 +46,7 @@ export async function getCatalogItemsByIds(ids: string[]): Promise<CatalogItemDe
     gameId: r.gameId,
     externalId: r.externalId,
     name: r.name,
+    nameEn: r.nameEn,
     number: r.number,
     rarity: r.rarity,
     imageSmallUrl: r.imageSmallUrl,

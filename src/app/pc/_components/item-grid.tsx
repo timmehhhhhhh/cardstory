@@ -89,6 +89,9 @@ export function ItemGrid({
               <p className="text-sm leading-snug font-medium sm:text-base">{r.display.name}</p>
               <CardNumberBadge number={r.display.number} />
             </div>
+            {r.display.nameEn && (
+              <p className="truncate text-xs leading-snug text-muted-foreground sm:text-sm">{r.display.nameEn}</p>
+            )}
             <p className="mt-0.5 text-xs leading-snug text-muted-foreground sm:text-sm">
               {r.display.subtitle}
             </p>

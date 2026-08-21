@@ -36,6 +36,7 @@ export interface EnrichedShortlistItem extends ShortlistItem {
 function customDisplay(item: ShortlistItem): DisplayInfo {
   return {
     name: item.customName ?? "Untitled item",
+    nameEn: null,
     subtitle: item.customSubtitle ?? "Custom item",
     number: null,
     imageUrl: null,

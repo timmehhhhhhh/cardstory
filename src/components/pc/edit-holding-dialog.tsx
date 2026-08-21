@@ -33,6 +33,7 @@ import {
 import { holdingIsCustom, type CardCondition, type ItemLanguage, type Holding } from "@/lib/pc/types";
 import { resolvePriceAtDate } from "@/lib/pc/resolve-price-at-date";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
+import { withEnglishName } from "@/lib/catalog/card-name";
 
 /**
  * Edits an existing holding's own metadata (quantity, condition/grade,
@@ -147,7 +148,7 @@ export function EditHoldingDialog({
       <DialogContent className="bg-surface border-border sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Edit item</DialogTitle>
-          <DialogDescription>{holding.display.name}</DialogDescription>
+          <DialogDescription>{withEnglishName(holding.display.name, holding.display.nameEn)}</DialogDescription>
         </DialogHeader>
 
         <div className="grid gap-4">
