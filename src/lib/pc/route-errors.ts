@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
 
 /**
  * Shared handling for the `try { mutate() } catch { ... }` pattern used by
@@ -22,9 +23,48 @@ export function mutationErrorResponse(
   const isNotFound =
     err instanceof Error && (err.message === "PC not found" || err.message === "Holding not found");
 
+  if (isStaleSessionUserError(err)) {
+    console.error(`[${context.route}] stale session (userId has no users row)`, context, err);
+    return staleSessionResponse();
+  }
+
   console.error(`[${context.route}] mutation failed`, context, err);
 
   return isNotFound
     ? NextResponse.json({ error: (err as Error).message }, { status: 404 })
     : NextResponse.json({ error: "Something went wrong" }, { status: 500 });
+}
+
+/**
+ * True when `err` is Prisma's foreign-key-violation error (P2003) — the
+ * failure a `db.portfolio.create`/`upsert` with `data: { userId, ... }`
+ * throws when `userId` (from the session) has no matching row in `users`.
+ * That happens when a session's JWT outlives the account it names — e.g. a
+ * stale/cached session cookie surviving a dev DB reset/reseed, or (in
+ * principle) an account deleted from another tab. Sessions here are
+ * JWT-based with no DB-backed session state (see src/auth.ts), so nothing
+ * upstream of the write already validated `session.user.id` refers to a
+ * real user — this is the first and only point that finds out.
+ *
+ * Narrow to P2003 specifically (not "any Prisma error") so a genuinely
+ * unexpected DB failure still surfaces as the generic 500 below instead of
+ * being mislabeled as an auth problem.
+ */
+export function isStaleSessionUserError(err: unknown): boolean {
+  return err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2003";
+}
+
+/**
+ * 401 asking the client to re-authenticate, for the stale-session case
+ * above. Deliberately 401 (not 500): the write itself was never wrong, the
+ * credentials backing it were — the same status the top-of-handler
+ * `!session?.user` check already uses for "no session," so the client's
+ * existing "401 → send to /login" handling (if any) covers this too rather
+ * than needing a second code to special-case.
+ */
+export function staleSessionResponse(): NextResponse {
+  return NextResponse.json(
+    { error: "Your session is no longer valid. Please sign in again." },
+    { status: 401 }
+  );
 }
