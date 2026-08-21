@@ -7,6 +7,7 @@ import { addWatchlistEntry } from "@/lib/pc/watchlist-manage";
 import { watchlistAddSchema } from "@/lib/pc/watchlist-schemas";
 import { upsertShortlistItem } from "@/lib/shortlist/manage";
 import { shortlistItemSchema } from "@/lib/shortlist/api-schemas";
+import { isStaleSessionUserError, staleSessionResponse } from "@/lib/pc/route-errors";
 
 const bodySchema = z.object({
   pcs: z.array(pcSchema).max(50),
@@ -21,7 +22,20 @@ export async function POST(req: NextRequest) {
   const parsed = bodySchema.safeParse(await req.json());
   if (!parsed.success) return NextResponse.json({ error: "Invalid import payload" }, { status: 400 });
 
-  await importLocalPC(session.user.id, parsed.data.pcs);
+  // importLocalPC upserts portfolios with `create: { userId, ... }` — same
+  // stale-session FK-violation risk as ensureDefaultPC/createPC in
+  // src/app/api/pc/route.ts if session.user.id has no matching `users` row.
+  try {
+    await importLocalPC(session.user.id, parsed.data.pcs);
+  } catch (err) {
+    if (isStaleSessionUserError(err)) {
+      console.error("[POST /api/pc/import] stale session (userId has no users row)", {
+        userId: session.user.id,
+      });
+      return staleSessionResponse();
+    }
+    throw err;
+  }
 
   // Upserts (see addWatchlistEntry) so re-running the import prompt is
   // safe — same idempotency story importLocalPC's holdings upsert has.
