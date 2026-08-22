@@ -1,3 +1,4 @@
+import { unstable_cache } from "next/cache";
 import { Prisma, type Sport } from "@prisma/client";
 import { db } from "@/lib/db";
 import { GAMES, WIRED_SPORTS_GAMES, getGameMeta } from "@/lib/games/registry";
@@ -691,25 +692,32 @@ export interface CardTypeGroup {
  * mirroring getDistinctRarities below. Deliberately CatalogItem-only — see
  * sportsFilterableFor() above for why sports cards don't participate here.
  */
-export async function getDistinctCardTypes(gameId?: string): Promise<CardTypeGroup[]> {
-  const rows = await db.catalogItem.findMany({
-    where: { gameId, NOT: [{ cardType: null }, { cardType: "" }] },
-    distinct: ["gameId", "cardType"],
-    select: { gameId: true, cardType: true },
-    orderBy: { cardType: "asc" },
-  });
-  const byGame = new Map<string, string[]>();
-  for (const row of rows) {
-    const list = byGame.get(row.gameId);
-    if (list) list.push(row.cardType as string);
-    else byGame.set(row.gameId, [row.cardType as string]);
-  }
-  return GAMES.filter((g) => byGame.has(g.id)).map((g) => ({
-    gameId: g.id,
-    gameName: g.name,
-    cardTypes: byGame.get(g.id)!,
-  }));
-}
+export const getDistinctCardTypes = unstable_cache(
+  async (gameId?: string): Promise<CardTypeGroup[]> => {
+    const rows = await db.catalogItem.findMany({
+      where: { gameId, NOT: [{ cardType: null }, { cardType: "" }] },
+      distinct: ["gameId", "cardType"],
+      select: { gameId: true, cardType: true },
+      orderBy: { cardType: "asc" },
+    });
+    const byGame = new Map<string, string[]>();
+    for (const row of rows) {
+      const list = byGame.get(row.gameId);
+      if (list) list.push(row.cardType as string);
+      else byGame.set(row.gameId, [row.cardType as string]);
+    }
+    return GAMES.filter((g) => byGame.has(g.id)).map((g) => ({
+      gameId: g.id,
+      gameName: g.name,
+      cardTypes: byGame.get(g.id)!,
+    }));
+  },
+  ["catalog-card-types"],
+  // Changes only when the catalog is reseeded/re-crawled, far less often
+  // than the once-daily price-snapshot cron — a 1-day TTL is generous
+  // headroom, not a tight bound.
+  { tags: ["catalog-facets"], revalidate: 86400 }
+);
 
 /**
  * Every distinct non-empty CatalogItem.rarity in the catalog, for populating
@@ -719,15 +727,19 @@ export async function getDistinctCardTypes(gameId?: string): Promise<CardTypeGro
  * pokemontcg.io promo/sealed entries, so both null and "" are excluded.
  * Deliberately CatalogItem-only — SportsCardItem has no rarity column.
  */
-export async function getDistinctRarities(gameId?: string): Promise<string[]> {
-  const rows = await db.catalogItem.findMany({
-    where: { gameId, NOT: [{ rarity: null }, { rarity: "" }] },
-    distinct: ["rarity"],
-    select: { rarity: true },
-    orderBy: { rarity: "asc" },
-  });
-  return rows.map((r) => r.rarity as string);
-}
+export const getDistinctRarities = unstable_cache(
+  async (gameId?: string): Promise<string[]> => {
+    const rows = await db.catalogItem.findMany({
+      where: { gameId, NOT: [{ rarity: null }, { rarity: "" }] },
+      distinct: ["rarity"],
+      select: { rarity: true },
+      orderBy: { rarity: "asc" },
+    });
+    return rows.map((r) => r.rarity as string);
+  },
+  ["catalog-rarities"],
+  { tags: ["catalog-facets"], revalidate: 86400 }
+);
 
 export interface VariantGroup {
   gameId: string;
@@ -749,25 +761,29 @@ export interface VariantGroup {
  * tcgItemToSearchItem). Deliberately CatalogItem-only — see
  * sportsFilterableFor() above for why sports rows don't participate here.
  */
-export async function getDistinctVariants(gameId?: string): Promise<VariantGroup[]> {
-  const rows = await db.catalogItem.findMany({
-    where: { gameId, NOT: [{ variantKey: "" }] },
-    distinct: ["gameId", "variantKey"],
-    select: { gameId: true, variantKey: true },
-  });
-  const byGame = new Map<string, Map<string, string>>(); // gameId -> (finish key -> generic label)
-  for (const row of rows) {
-    const key = row.variantKey;
-    const label = defaultFinishLabel(key);
-    const existing = byGame.get(row.gameId);
-    if (existing) existing.set(key, label);
-    else byGame.set(row.gameId, new Map([[key, label]]));
-  }
-  return GAMES.filter((g) => byGame.has(g.id)).map((g) => ({
-    gameId: g.id,
-    gameName: g.name,
-    variants: Array.from(byGame.get(g.id)!, ([key, label]) => ({ key, label })).sort((a, b) =>
-      a.label.localeCompare(b.label)
-    ),
-  }));
-}
+export const getDistinctVariants = unstable_cache(
+  async (gameId?: string): Promise<VariantGroup[]> => {
+    const rows = await db.catalogItem.findMany({
+      where: { gameId, NOT: [{ variantKey: "" }] },
+      distinct: ["gameId", "variantKey"],
+      select: { gameId: true, variantKey: true },
+    });
+    const byGame = new Map<string, Map<string, string>>(); // gameId -> (finish key -> generic label)
+    for (const row of rows) {
+      const key = row.variantKey;
+      const label = defaultFinishLabel(key);
+      const existing = byGame.get(row.gameId);
+      if (existing) existing.set(key, label);
+      else byGame.set(row.gameId, new Map([[key, label]]));
+    }
+    return GAMES.filter((g) => byGame.has(g.id)).map((g) => ({
+      gameId: g.id,
+      gameName: g.name,
+      variants: Array.from(byGame.get(g.id)!, ([key, label]) => ({ key, label })).sort((a, b) =>
+        a.label.localeCompare(b.label)
+      ),
+    }));
+  },
+  ["catalog-variants"],
+  { tags: ["catalog-facets"], revalidate: 86400 }
+);

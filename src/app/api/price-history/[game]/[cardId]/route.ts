@@ -14,12 +14,18 @@ export async function GET(
     ? (rangeParam as PriceHistoryRange)
     : "3M";
 
+  // Public, side-effect-free price data, refreshed once/day by the
+  // price-snapshot cron — safe to cache for the same window.
+  const cacheHeaders = {
+    "Cache-Control": "public, s-maxage=86400, stale-while-revalidate=604800",
+  };
+
   if (getGameMeta(game)?.kind === "sports") {
     const points = await getSportsCardPriceHistory(decodeURIComponent(cardId), range);
-    return NextResponse.json({ range, points });
+    return NextResponse.json({ range, points }, { headers: cacheHeaders });
   }
 
   const catalogItemId = `${game}:${decodeURIComponent(cardId)}`;
   const points = await getPriceHistory(catalogItemId, range);
-  return NextResponse.json({ range, points });
+  return NextResponse.json({ range, points }, { headers: cacheHeaders });
 }

@@ -80,7 +80,7 @@ To try the dev server from your phone — including over cellular, away from you
 npm run snapshot:manual
 ```
 
-In production, `vercel.json` schedules this daily via Vercel Cron against `POST /api/cron/snapshot-prices`, authenticated with the `CRON_SECRET` env var.
+In production, the `workers/cron-snapshot/` Worker schedules this daily via a Cloudflare Cron Trigger against `POST /api/cron/snapshot-prices`, authenticated with the `CRON_SECRET` env var (must match on both Workers — see `workers/cron-snapshot/wrangler.jsonc`).
 
 ## Project structure
 
@@ -95,4 +95,11 @@ In production, `vercel.json` schedules this daily via Vercel Cron against `POST 
 
 ## Deploying
 
-Deploy to Vercel, set the env vars from `.env.example` in the project settings (using your Neon connection strings), and the cron job registers automatically from `vercel.json`.
+Deploy to Cloudflare Workers:
+
+```bash
+npm run deploy       # builds and deploys the main site
+npm run deploy:cron  # deploys the daily price-snapshot cron Worker
+```
+
+Set the env vars from `.env.example` as Worker secrets (`wrangler secret put <NAME>`, using your Neon connection strings) rather than in `wrangler.jsonc`, since that file is committed. `CRON_SECRET` must be set on both Workers with the same value — see `workers/cron-snapshot/wrangler.jsonc`.

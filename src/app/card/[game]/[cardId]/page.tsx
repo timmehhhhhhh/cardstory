@@ -1,4 +1,6 @@
+import { cache } from "react";
 import { notFound } from "next/navigation";
+import { unstable_cache } from "next/cache";
 import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { getGameMeta } from "@/lib/games/registry";
@@ -23,16 +25,27 @@ type CardData =
   | { kind: "tcg"; item: NonNullable<Awaited<ReturnType<typeof getTcgCard>>> }
   | { kind: "sports"; item: NonNullable<Awaited<ReturnType<typeof getSportsCard>>> };
 
-function getTcgCard(game: string, cardId: string) {
-  const id = `${game}:${decodeURIComponent(cardId)}`;
-  return db.catalogItem.findUnique({ where: { id }, include: { set: true, game: true } });
-}
+const getTcgCard = unstable_cache(
+  (game: string, cardId: string) => {
+    const id = `${game}:${decodeURIComponent(cardId)}`;
+    return db.catalogItem.findUnique({ where: { id }, include: { set: true, game: true } });
+  },
+  ["card-detail-tcg"],
+  { tags: ["catalog-card"], revalidate: 86400 }
+);
 
-function getSportsCard(cardId: string) {
-  return db.sportsCardItem.findUnique({ where: { id: decodeURIComponent(cardId) } });
-}
+const getSportsCard = unstable_cache(
+  (cardId: string) => db.sportsCardItem.findUnique({ where: { id: decodeURIComponent(cardId) } }),
+  ["card-detail-sports"],
+  { tags: ["catalog-card"], revalidate: 86400 }
+);
 
-async function getCard(game: string, cardId: string): Promise<CardData | null> {
+// Wrapped in React's cache() so the identical (game, cardId) lookup done
+// once in the page body and again, independently, inside generateMetadata()
+// below dedupes to a single call within one request/render pass — on top
+// of the unstable_cache above, which persists the underlying DB read across
+// separate requests/isolates.
+const getCard = cache(async (game: string, cardId: string): Promise<CardData | null> => {
   const meta = getGameMeta(game);
   if (meta?.kind === "sports") {
     const item = await getSportsCard(cardId);
@@ -40,7 +53,7 @@ async function getCard(game: string, cardId: string): Promise<CardData | null> {
   }
   const item = await getTcgCard(game, cardId);
   return item ? { kind: "tcg", item } : null;
-}
+});
 
 /**
  * Every other priced finish/variation of this same physical card — same
@@ -50,19 +63,23 @@ async function getCard(game: string, cardId: string): Promise<CardData | null> {
  * them (and for a Pokémon card with only one priced finish) with no extra
  * check needed.
  */
-async function getSiblingVariants(item: { id: string; gameId: string; externalId: string }) {
-  const rows = await db.catalogItem.findMany({
-    where: { gameId: item.gameId, externalId: item.externalId, id: { not: item.id } },
-    select: { id: true, variantKey: true, latestPriceRaw: true, set: { select: { code: true } } },
-  });
-  return rows
-    .map((r) => ({
-      id: r.id,
-      priceRaw: r.latestPriceRaw != null ? Number(r.latestPriceRaw) : null,
-      label: getFinishDisplayLabel(r.set.code, r.variantKey, defaultFinishLabel(r.variantKey)),
-    }))
-    .sort((a, b) => a.label.localeCompare(b.label));
-}
+const getSiblingVariants = unstable_cache(
+  async (item: { id: string; gameId: string; externalId: string }) => {
+    const rows = await db.catalogItem.findMany({
+      where: { gameId: item.gameId, externalId: item.externalId, id: { not: item.id } },
+      select: { id: true, variantKey: true, latestPriceRaw: true, set: { select: { code: true } } },
+    });
+    return rows
+      .map((r) => ({
+        id: r.id,
+        priceRaw: r.latestPriceRaw != null ? Number(r.latestPriceRaw) : null,
+        label: getFinishDisplayLabel(r.set.code, r.variantKey, defaultFinishLabel(r.variantKey)),
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label));
+  },
+  ["card-detail-sibling-variants"],
+  { tags: ["catalog-card"], revalidate: 86400 }
+);
 
 export async function generateMetadata({
   params,

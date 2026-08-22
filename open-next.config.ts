@@ -4,8 +4,22 @@
 // framework-guides/nextjs/) for the current adapter contract. Consumed by
 // the "preview"/"deploy" scripts in package.json and by Cloudflare's
 // "Workers Builds" git-integrated CI/CD (the "Workers Builds: cardstory"
-// GitHub check) — Vercel remains the primary deployment target (see
-// vercel.json's cron config); this is additive, not a replacement.
+// GitHub check). Cloudflare Workers is the primary (and only) deployment
+// target — the site previously also ran on Vercel, but that config
+// (vercel.json) has been removed; the daily price-snapshot cron it used
+// to trigger now lives in workers/cron-snapshot/ instead.
 import { defineCloudflareConfig } from "@opennextjs/cloudflare";
+// Persists Next's data/route cache (unstable_cache, fetch cache, ISR) in a
+// Cloudflare KV namespace across requests/isolates — without this, the
+// adapter's default cache lives only in a single isolate's memory and is
+// lost on every cold start, so unstable_cache calls elsewhere in the app
+// (see lib/catalog/search.ts, sets/[game]/page.tsx, card/[game]/[cardId]/
+// page.tsx) would rarely actually hit. Requires a KV namespace bound as
+// `NEXT_INC_CACHE_KV` in wrangler.jsonc (binding name is hardcoded by the
+// override, see its BINDING_NAME export) — free plan includes 1 namespace,
+// 100k reads/day, 1k writes/day, 1GB storage, ample for this app's traffic.
+import kvIncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/kv-incremental-cache";
 
-export default defineCloudflareConfig();
+export default defineCloudflareConfig({
+  incrementalCache: kvIncrementalCache,
+});

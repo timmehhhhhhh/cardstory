@@ -10,8 +10,6 @@
  * the equivalent official-API client this deliberately does NOT try to
  * imitate the reliability of.
  */
-import * as cheerio from "cheerio";
-
 const BASE_URL = "https://www.ebay.com/sch/i.html";
 
 /** Minimum gap between scrape requests, plus random jitter on top. */
@@ -73,10 +71,18 @@ export async function fetchEbaySoldListings(query: string): Promise<EbaySoldList
   if (!res.ok) return null;
 
   const html = await res.text();
-  return parseSoldListingsHtml(html);
+  return await parseSoldListingsHtml(html);
 }
 
-function parseSoldListingsHtml(html: string): EbaySoldListing[] | null {
+async function parseSoldListingsHtml(html: string): Promise<EbaySoldListing[] | null> {
+  // Lazily imported: cheerio is only needed on this parse path, which only
+  // runs when EBAY_SOLD_COMPS_ENABLED=true (off by default, see
+  // isEbaySoldCompsEnabled above) — dynamic import keeps it out of the
+  // Worker's always-loaded module graph for everyone else. Note: OpenNext/
+  // Wrangler still bundles the module into the single handler.mjs file (no
+  // separate chunk on Workers), so this saves cold-start init work, not
+  // bundle size — see the deploy-bundle-size check in the repo's history.
+  const cheerio = await import("cheerio");
   const $ = cheerio.load(html);
 
   // A CAPTCHA/interstitial page has none of the normal results markup —

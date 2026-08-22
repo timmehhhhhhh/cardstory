@@ -24,6 +24,7 @@ function Logo() {
         width={900}
         height={325}
         priority
+        unoptimized
         className="h-8 w-auto sm:h-9 dark:hidden"
       />
       <Image
@@ -32,6 +33,7 @@ function Logo() {
         width={900}
         height={325}
         priority
+        unoptimized
         className="hidden h-8 w-auto sm:h-9 dark:block"
       />
     </Link>
