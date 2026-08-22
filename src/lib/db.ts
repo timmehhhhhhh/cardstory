@@ -1,5 +1,5 @@
 import { PrismaClient, type Prisma } from "@prisma/client";
-import { PrismaClient as PrismaClientEdge } from "@/generated/prisma-edge";
+import { PrismaClient as PrismaClientEdge } from ".prisma/client-edge";
 import { PrismaNeon } from "@prisma/adapter-neon";
 
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
