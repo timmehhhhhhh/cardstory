@@ -6,7 +6,7 @@
     "postinstall": "prisma generate",
     "dev": "next dev",
     "tunnel": "cloudflared tunnel --url http://localhost:3000",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "seed:catalog": "tsx scripts/seed-catalog.ts",

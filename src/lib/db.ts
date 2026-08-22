@@ -1,27 +1,34 @@
 import { PrismaClient, type Prisma } from "@prisma/client";
-import { PrismaClient as PrismaClientEdge } from ".prisma/client-edge";
+import { PrismaClient as PrismaClientWasm } from "@prisma/client/wasm.js";
 import { PrismaNeon } from "@prisma/adapter-neon";
 
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
 // Cloudflare Workers self-identifies via this documented navigator.userAgent
 // value (developers.cloudflare.com/workers/runtime-apis/web-standards/).
-// Workers can't open raw TCP sockets or load native/WASM query-engine
-// binaries, and Prisma's default engine type ("library") still tries to
-// lazily load one even when a driver adapter is passed to
-// `new PrismaClient({ adapter })`. So Workers uses a second Prisma Client
-// generated with engineType = "client" (see schema.prisma's `client_edge`
-// generator) — Prisma's fully engine-less mode — via the PrismaNeon
-// HTTP/WebSocket adapter. That mode mandates an adapter always, which is
-// exactly why it's a separate client rather than the default: everywhere
-// else (local dev, Vercel) keeps using the default client's built-in
-// engine/TCP connection unmodified, same as before this file added Workers
-// support. Do not import `pg`/`@prisma/adapter-pg` here for that non-Workers
-// path — esbuild bundles whatever this file imports into the single Worker
-// output regardless of which branch runs, and pg's optional pg-cloudflare
-// native-socket shim fails to resolve, breaking the Workers build
-// (confirmed: `Could not resolve "pg-cloudflare"` from opennextjs-cloudflare
-// build when this was tried).
+// Workers can't open raw TCP sockets or load a native query-engine binary, so
+// it needs Prisma's WASM build plus the PrismaNeon HTTP/WebSocket adapter.
+//
+// The import above must point at the WASM build's concrete file, not bare
+// "@prisma/client". The bare specifier picks a build via export conditions,
+// and opennextjs-cloudflare's esbuild pass runs with BOTH `platform: "node"`
+// (which implies the "node" condition) and `conditions: ["workerd"]`. Export
+// maps match in declaration order and Prisma lists "node" first, so the bare
+// import silently resolves to the Node build — which then tries to fs-read the
+// engine and dies at runtime with `no such file or directory, readAll
+// '.../query_engine_bg.wasm'`. The ".js" suffix matters: the package's
+// conditional "./wasm" export maps ESM imports to a wasm.mjs that Prisma does
+// not actually ship, so it fails to resolve — while the package's "./*": "./*"
+// catch-all resolves the concrete wasm.js unconditionally. From there
+// opennextjs-cloudflare's
+// setWranglerExternal() plugin marks the .wasm external with an absolute path
+// and wrangler bundles it as a CompiledWasm module.
+//
+// Do not import `pg`/`@prisma/adapter-pg` here for the non-Workers path —
+// esbuild bundles whatever this file imports into the single Worker output
+// regardless of which branch runs, and pg's optional pg-cloudflare
+// native-socket shim fails to resolve, breaking the Workers build (confirmed:
+// `Could not resolve "pg-cloudflare"` from opennextjs-cloudflare build).
 const isCloudflareWorkers =
   typeof navigator !== "undefined" && navigator.userAgent === "Cloudflare-Workers";
 
@@ -30,9 +37,9 @@ function createPrismaClient() {
     process.env.NODE_ENV === "development" ? ["warn", "error"] : ["error"];
   if (isCloudflareWorkers) {
     const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL });
-    // Structurally identical to the default client's type (same schema) —
-    // cast so the rest of the app can keep using the default client's type.
-    return new PrismaClientEdge({ adapter, log }) as unknown as PrismaClient;
+    // Same schema, so structurally identical to the default client's type —
+    // cast so the rest of the app keeps using the default client's type.
+    return new PrismaClientWasm({ adapter, log }) as unknown as PrismaClient;
   }
   return new PrismaClient({ log });
 }

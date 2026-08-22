@@ -11,32 +11,13 @@
 // holdings into this DB so it can be shared via a public link, authorized
 // by a client-held ownerToken rather than a session.
 
+// One client, generated to the default node_modules/.prisma/client. It emits
+// both a Node build (index.js, native engine — used by local dev) and a WASM
+// build (wasm.js + query_engine_bg.wasm) that Cloudflare Workers uses via the
+// "@prisma/client/wasm" subpath export. See src/lib/db.ts for how the two are
+// selected at runtime.
 generator client {
   provider = "prisma-client-js"
-}
-
-// A second client generated specifically for Cloudflare Workers
-// (src/lib/db.ts). engineType = "client" is Prisma's fully engine-less mode
-// — no native/WASM query-engine binary is bundled or loaded at all, which
-// Workers requires (it can't load native binaries, and the default
-// "library" engine still tries to lazily load one even when a driver
-// adapter is passed to `new PrismaClient({ adapter })`). That mode mandates
-// a driver adapter always, so it's kept as a separate generator/output
-// rather than replacing the default client above, which local dev and
-// Vercel keep using unmodified (plain TCP via Prisma's built-in engine,
-// no adapter needed).
-generator client_edge {
-  provider   = "prisma-client-js"
-  // Deliberately placed alongside the default client's own generated output
-  // (node_modules/.prisma/client) rather than under src/ — Next's built-in
-  // serverExternalPackages default list already special-cases the default
-  // client's package (@prisma/client) to avoid a `path.join(process.cwd(),
-  // ...)` call in its runtime from making Next's file tracer sweep the
-  // whole project (public/, etc.) into the server bundle. A bare specifier
-  // resolving into node_modules is required for our own serverExternalPackages
-  // entry (next.config.ts) to get the same treatment for this client.
-  output     = "../node_modules/.prisma/client-edge"
-  engineType = "client"
 }
 
 datasource db {
