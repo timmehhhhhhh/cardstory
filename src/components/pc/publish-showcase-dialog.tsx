@@ -75,7 +75,7 @@ export function PublishShowcaseDialog({
           body: JSON.stringify({ title, payload }),
         });
         if (res.ok) {
-          const data = await res.json();
+          const data = (await res.json()) as { shareId: string; ownerToken: string };
           setShareId(data.shareId);
           setShowcaseEntry(pcId, {
             shareId: data.shareId,

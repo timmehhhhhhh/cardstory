@@ -83,8 +83,8 @@ export function ViewBuilder({
       if (filters.game !== "all") sp.set("game", filters.game);
       const res = await fetch(`/api/catalog/card-types?${sp.toString()}`);
       if (!res.ok) throw new Error("Failed to load card types");
-      const json = await res.json();
-      return json.cardTypeGroups as CardTypeGroup[];
+      const json = (await res.json()) as { cardTypeGroups: CardTypeGroup[] };
+      return json.cardTypeGroups;
     },
     placeholderData: (prev) => prev,
   });
@@ -98,8 +98,8 @@ export function ViewBuilder({
       if (filters.game !== "all") sp.set("game", filters.game);
       const res = await fetch(`/api/catalog/rarities?${sp.toString()}`);
       if (!res.ok) throw new Error("Failed to load rarities");
-      const json = await res.json();
-      return json.rarities as string[];
+      const json = (await res.json()) as { rarities: string[] };
+      return json.rarities;
     },
     placeholderData: (prev) => prev,
   });

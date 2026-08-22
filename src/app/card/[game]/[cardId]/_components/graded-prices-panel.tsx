@@ -14,6 +14,13 @@ type State =
   | { step: "not-found" }
   | { step: "found"; values: GradedPriceValues; cached: boolean };
 
+interface GradedPricesResponse {
+  available: boolean;
+  found?: boolean;
+  values?: GradedPriceValues;
+  cached?: boolean;
+}
+
 const ROWS: { label: string; key: keyof GradedPriceValues }[] = [
   { label: "Ungraded (PriceCharting)", key: "loosePrice" },
   { label: "Grade 7 – 7.5", key: "grade7Price" },
@@ -34,10 +41,10 @@ export function GradedPricesPanel({ gameId, cardExternalId }: { gameId: string; 
     setState({ step: "loading" });
     try {
       const res = await fetch(`/api/graded-prices/${gameId}/${encodeURIComponent(cardExternalId)}`);
-      const data = await res.json();
+      const data = (await res.json()) as GradedPricesResponse;
       if (!data.available) setState({ step: "unavailable" });
-      else if (!data.found) setState({ step: "not-found" });
-      else setState({ step: "found", values: data.values, cached: data.cached });
+      else if (!data.found || !data.values) setState({ step: "not-found" });
+      else setState({ step: "found", values: data.values, cached: Boolean(data.cached) });
     } catch {
       setState({ step: "not-found" });
     }

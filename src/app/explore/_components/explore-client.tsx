@@ -64,8 +64,8 @@ export function ExploreClient({
       if (filters.game !== "all") sp.set("game", filters.game);
       const res = await fetch(`/api/catalog/rarities?${sp.toString()}`);
       if (!res.ok) throw new Error("Failed to load rarities");
-      const json = await res.json();
-      return json.rarities as string[];
+      const json = (await res.json()) as { rarities: string[] };
+      return json.rarities;
     },
     initialData: filters.game === initialFilters.game ? rarityOptions : undefined,
     placeholderData: (prev) => prev,
@@ -79,8 +79,8 @@ export function ExploreClient({
       if (filters.game !== "all") sp.set("game", filters.game);
       const res = await fetch(`/api/catalog/card-types?${sp.toString()}`);
       if (!res.ok) throw new Error("Failed to load card types");
-      const json = await res.json();
-      return json.cardTypeGroups as CardTypeGroup[];
+      const json = (await res.json()) as { cardTypeGroups: CardTypeGroup[] };
+      return json.cardTypeGroups;
     },
     initialData: filters.game === initialFilters.game ? cardTypeGroups : undefined,
     placeholderData: (prev) => prev,
@@ -94,8 +94,8 @@ export function ExploreClient({
       if (filters.game !== "all") sp.set("game", filters.game);
       const res = await fetch(`/api/catalog/variants?${sp.toString()}`);
       if (!res.ok) throw new Error("Failed to load variants");
-      const json = await res.json();
-      return json.variantGroups as VariantGroup[];
+      const json = (await res.json()) as { variantGroups: VariantGroup[] };
+      return json.variantGroups;
     },
     initialData: filters.game === initialFilters.game ? variantGroups : undefined,
     placeholderData: (prev) => prev,
@@ -153,7 +153,7 @@ export function ExploreClient({
       if (filters.watchlistOnly) sp.set("onlyIds", watchlistIds.join(","));
       const res = await fetch(`/api/catalog/search?${sp.toString()}`);
       if (!res.ok) throw new Error("Failed to load catalog");
-      return res.json();
+      return (await res.json()) as SearchResponse;
     },
     initialData: isDefaultQuery ? initialData : undefined,
     placeholderData: (prev) => prev,

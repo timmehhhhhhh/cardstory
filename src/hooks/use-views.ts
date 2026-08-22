@@ -19,8 +19,8 @@ function nowIso() {
 async function fetchViews(): Promise<SavedView[]> {
   const res = await fetch("/api/views");
   if (!res.ok) throw new Error("Failed to load views");
-  const data = await res.json();
-  return data.views as SavedView[];
+  const data = (await res.json()) as { views: SavedView[] };
+  return data.views;
 }
 
 /**

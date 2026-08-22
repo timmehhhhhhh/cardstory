@@ -14,6 +14,13 @@ type State =
   | { step: "not-found" }
   | { step: "found"; values: EbaySoldCompsAggregate; cached: boolean };
 
+interface EbaySoldCompsResponse {
+  available: boolean;
+  found?: boolean;
+  values?: EbaySoldCompsAggregate;
+  cached?: boolean;
+}
+
 const ROWS: { label: string; key: keyof Pick<EbaySoldCompsAggregate, "medianPrice" | "avgPrice" | "minPrice" | "maxPrice"> }[] = [
   { label: "Median", key: "medianPrice" },
   { label: "Average", key: "avgPrice" },
@@ -30,10 +37,10 @@ export function EbaySoldCompsPanel({ gameId, cardExternalId, cardName }: { gameI
     setState({ step: "loading" });
     try {
       const res = await fetch(`/api/ebay-sold-comps/${gameId}/${encodeURIComponent(cardExternalId)}`);
-      const data = await res.json();
+      const data = (await res.json()) as EbaySoldCompsResponse;
       if (!data.available) setState({ step: "unavailable" });
-      else if (!data.found) setState({ step: "not-found" });
-      else setState({ step: "found", values: data.values, cached: data.cached });
+      else if (!data.found || !data.values) setState({ step: "not-found" });
+      else setState({ step: "found", values: data.values, cached: Boolean(data.cached) });
     } catch {
       setState({ step: "not-found" });
     }
