@@ -11,8 +11,8 @@ const QUERY_KEY = ["shortlist"] as const;
 async function fetchShortlist(): Promise<ShortlistItem[]> {
   const res = await fetch("/api/shortlist");
   if (!res.ok) throw new Error("Failed to load shortlist");
-  const data = await res.json();
-  return data.items as ShortlistItem[];
+  const data = (await res.json()) as { items: ShortlistItem[] };
+  return data.items;
 }
 
 function nowIso() {

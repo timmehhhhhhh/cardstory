@@ -12,15 +12,15 @@ const WATCHLIST_QUERY_KEY = ["watchlist"] as const;
 async function fetchPCs(): Promise<PC[]> {
   const res = await fetch("/api/pc");
   if (!res.ok) throw new Error("Failed to load pcs");
-  const data = await res.json();
-  return data.pcs as PC[];
+  const data = (await res.json()) as { pcs: PC[] };
+  return data.pcs;
 }
 
 async function fetchWatchlist(): Promise<WatchlistItem[]> {
   const res = await fetch("/api/watchlist");
   if (!res.ok) throw new Error("Failed to load watchlist");
-  const data = await res.json();
-  return data.entries as WatchlistItem[];
+  const data = (await res.json()) as { entries: WatchlistItem[] };
+  return data.entries;
 }
 
 function nowIso() {

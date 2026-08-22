@@ -46,6 +46,25 @@ interface SearchCandidate {
   consoleName: string;
 }
 
+interface SearchResponse {
+  available: boolean;
+  candidates: SearchCandidate[];
+}
+
+interface ProductResponse {
+  found: boolean;
+  priceChartingId?: string;
+  suggested?: {
+    playerName?: string;
+    cardNumber?: string;
+    parallelName?: string;
+    year?: number;
+    distributor?: string;
+    setName?: string;
+  };
+  values?: { loosePrice?: number | null };
+}
+
 export function AddSportsCardDialog() {
   const [open, setOpen] = React.useState(false);
   const [submitting, setSubmitting] = React.useState(false);
@@ -120,7 +139,7 @@ export function AddSportsCardDialog() {
     setCandidates([]);
     try {
       const res = await fetch(`/api/sportscards/search?sport=${sport}&q=${encodeURIComponent(query)}`);
-      const data = await res.json();
+      const data = (await res.json()) as SearchResponse;
       if (!data.available) setSearchUnavailable(true);
       else setCandidates(data.candidates);
     } finally {
@@ -132,16 +151,16 @@ export function AddSportsCardDialog() {
     setSearching(true);
     try {
       const res = await fetch(`/api/sportscards/product/${candidate.id}`);
-      const data = await res.json();
+      const data = (await res.json()) as ProductResponse;
       if (!data.found) return;
-      setMatchedPriceChartingId(data.priceChartingId);
+      setMatchedPriceChartingId(data.priceChartingId ?? null);
       setMatchedPrice(data.values?.loosePrice ?? null);
-      if (data.suggested.playerName) setPlayerName(data.suggested.playerName);
-      if (data.suggested.cardNumber) setCardNumber(data.suggested.cardNumber);
-      if (data.suggested.parallelName) setParallelName(data.suggested.parallelName);
-      if (data.suggested.year) setYear(String(data.suggested.year));
-      if (data.suggested.distributor) setDistributor(data.suggested.distributor);
-      if (data.suggested.setName) setSetName(data.suggested.setName);
+      if (data.suggested?.playerName) setPlayerName(data.suggested.playerName);
+      if (data.suggested?.cardNumber) setCardNumber(data.suggested.cardNumber);
+      if (data.suggested?.parallelName) setParallelName(data.suggested.parallelName);
+      if (data.suggested?.year) setYear(String(data.suggested.year));
+      if (data.suggested?.distributor) setDistributor(data.suggested.distributor);
+      if (data.suggested?.setName) setSetName(data.suggested.setName);
       if (data.values?.loosePrice != null) setCostBasis(data.values.loosePrice.toFixed(2));
       setCandidates([]);
     } finally {
@@ -202,7 +221,7 @@ export function AddSportsCardDialog() {
         setError("Couldn't save this card. Please try again.");
         return;
       }
-      const { id: sportsCardItemId } = await res.json();
+      const { id: sportsCardItemId } = (await res.json()) as { id: string };
 
       const priceAtAcquisition = await resolvePriceAtDate({
         date: acquiredAt,
