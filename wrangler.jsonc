@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  // Matches the script name Cloudflare already created for this repo's
+  // Workers Builds git integration ("cardstory" — see the build/deploy
+  // URLs on the "Workers Builds: cardstory" GitHub check). Changing this
+  // would make Cloudflare treat it as a different Worker.
+  "name": "cardstory",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-08-22",
+  // Required by @opennextjs/cloudflare — Next.js's server runtime uses
+  // Node.js APIs (Prisma, bcryptjs, cheerio, ...) that only exist under
+  // this compatibility flag.
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  }
+}
