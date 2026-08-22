@@ -15,6 +15,22 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// A second client generated specifically for Cloudflare Workers
+// (src/lib/db.ts). engineType = "client" is Prisma's fully engine-less mode
+// — no native/WASM query-engine binary is bundled or loaded at all, which
+// Workers requires (it can't load native binaries, and the default
+// "library" engine still tries to lazily load one even when a driver
+// adapter is passed to `new PrismaClient({ adapter })`). That mode mandates
+// a driver adapter always, so it's kept as a separate generator/output
+// rather than replacing the default client above, which local dev and
+// Vercel keep using unmodified (plain TCP via Prisma's built-in engine,
+// no adapter needed).
+generator client_edge {
+  provider   = "prisma-client-js"
+  output     = "../src/generated/prisma-edge"
+  engineType = "client"
+}
+
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
