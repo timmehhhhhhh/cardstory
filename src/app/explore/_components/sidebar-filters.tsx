@@ -6,6 +6,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { GAMES, getGameMeta } from "@/lib/games/registry";
 import type { ExploreFilters } from "@/app/explore/_components/types";
@@ -178,57 +187,40 @@ export function SidebarFilters({
           <div>
             <h3 className="mb-2 text-sm font-semibold">Card Type</h3>
             <p className="mb-2 text-xs text-muted-foreground">Not available for every game.</p>
-            <RadioGroup
+            <Select
               value={filters.cardType}
               onValueChange={(v) => onChange({ cardType: v, page: 1 })}
-              className="gap-2"
             >
-              <label className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground">
-                <RadioGroupItem value="all" /> All types
-              </label>
-              {filters.game === "all" ? (
-                // Multiple games in play — group by game as collapsed-by-default
-                // <details> subsections so the list doesn't turn into one long,
-                // undifferentiated mix of every game's taxonomy. A group that
-                // contains the current selection starts open so the active
-                // filter is never hidden.
-                cardTypeGroups.map((group) => (
-                  <details
-                    key={group.gameId}
-                    open={group.cardTypes.includes(filters.cardType)}
-                    className="group"
-                  >
-                    <summary className="cursor-pointer select-none text-sm font-medium text-foreground [&::-webkit-details-marker]:hidden">
-                      <span className="inline-block w-3 text-muted-foreground transition-transform group-open:rotate-90">
-                        ▸
-                      </span>{" "}
-                      {group.gameName}
-                    </summary>
-                    <div className="mt-2 ml-4 flex flex-col gap-2 border-l border-border pl-3">
+              <SelectTrigger className="w-full bg-surface border-border">
+                <SelectValue placeholder="All types" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All types</SelectItem>
+                {filters.game === "all" ? (
+                  // Multiple games in play — group by game with a subheading
+                  // inside the single dropdown, so the list doesn't turn into
+                  // one long, undifferentiated mix of every game's taxonomy.
+                  cardTypeGroups.map((group) => (
+                    <SelectGroup key={group.gameId}>
+                      <SelectLabel>{group.gameName}</SelectLabel>
                       {group.cardTypes.map((ct) => (
-                        <label
-                          key={ct}
-                          className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground"
-                        >
-                          <RadioGroupItem value={ct} /> {ct}
-                        </label>
+                        <SelectItem key={ct} value={ct}>
+                          {ct}
+                        </SelectItem>
                       ))}
-                    </div>
-                  </details>
-                ))
-              ) : (
-                // A single game is selected — its group (if any) is all there
-                // is to show, so render it flat with no redundant heading.
-                cardTypeGroups[0]?.cardTypes.map((ct) => (
-                  <label
-                    key={ct}
-                    className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground"
-                  >
-                    <RadioGroupItem value={ct} /> {ct}
-                  </label>
-                ))
-              )}
-            </RadioGroup>
+                    </SelectGroup>
+                  ))
+                ) : (
+                  // A single game is selected — its group (if any) is all there
+                  // is to show, so render it flat with no redundant heading.
+                  cardTypeGroups[0]?.cardTypes.map((ct) => (
+                    <SelectItem key={ct} value={ct}>
+                      {ct}
+                    </SelectItem>
+                  ))
+                )}
+              </SelectContent>
+            </Select>
           </div>
         </>
       )}
@@ -242,54 +234,38 @@ export function SidebarFilters({
             <p className="mb-2 text-xs text-muted-foreground">
               A card&apos;s priced finish — Holofoil, Reverse Holo, 1st Edition, and so on.
             </p>
-            <RadioGroup
+            <Select
               value={filters.variant}
               onValueChange={(v) => onChange({ variant: v, page: 1 })}
-              className="gap-2"
             >
-              <label className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground">
-                <RadioGroupItem value="all" /> All variations
-              </label>
-              {filters.game === "all" ? (
-                // Same collapsed-by-default per-game grouping as Card Type
-                // above — a group containing the current selection starts open.
-                variantGroups.map((group) => (
-                  <details
-                    key={group.gameId}
-                    open={group.variants.some((v) => v.key === filters.variant)}
-                    className="group"
-                  >
-                    <summary className="cursor-pointer select-none text-sm font-medium text-foreground [&::-webkit-details-marker]:hidden">
-                      <span className="inline-block w-3 text-muted-foreground transition-transform group-open:rotate-90">
-                        ▸
-                      </span>{" "}
-                      {group.gameName}
-                    </summary>
-                    <div className="mt-2 ml-4 flex flex-col gap-2 border-l border-border pl-3">
+              <SelectTrigger className="w-full bg-surface border-border">
+                <SelectValue placeholder="All variations" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All variations</SelectItem>
+                {filters.game === "all" ? (
+                  // Same per-game subheading grouping as Card Type above.
+                  variantGroups.map((group) => (
+                    <SelectGroup key={group.gameId}>
+                      <SelectLabel>{group.gameName}</SelectLabel>
                       {group.variants.map((v) => (
-                        <label
-                          key={v.key}
-                          className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground"
-                        >
-                          <RadioGroupItem value={v.key} /> {v.label}
-                        </label>
+                        <SelectItem key={v.key} value={v.key}>
+                          {v.label}
+                        </SelectItem>
                       ))}
-                    </div>
-                  </details>
-                ))
-              ) : (
-                // A single game is selected — its group (if any) is all there
-                // is to show, so render it flat with no redundant heading.
-                variantGroups[0]?.variants.map((v) => (
-                  <label
-                    key={v.key}
-                    className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground"
-                  >
-                    <RadioGroupItem value={v.key} /> {v.label}
-                  </label>
-                ))
-              )}
-            </RadioGroup>
+                    </SelectGroup>
+                  ))
+                ) : (
+                  // A single game is selected — its group (if any) is all there
+                  // is to show, so render it flat with no redundant heading.
+                  variantGroups[0]?.variants.map((v) => (
+                    <SelectItem key={v.key} value={v.key}>
+                      {v.label}
+                    </SelectItem>
+                  ))
+                )}
+              </SelectContent>
+            </Select>
           </div>
         </>
       )}
