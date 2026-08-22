@@ -49,3 +49,5 @@ next-env.d.ts
 .open-next/
 .wrangler/
 cloudflare-env.d.ts
+# local secrets for `opennextjs-cloudflare preview` (workerd doesn't read .env)
+.dev.vars
