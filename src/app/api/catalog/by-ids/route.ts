@@ -8,5 +8,8 @@ export async function GET(req: NextRequest) {
     .map((s) => s.trim())
     .filter(Boolean);
   const items = await getCatalogItemsByIds(ids);
-  return NextResponse.json({ items });
+  return NextResponse.json(
+    { items },
+    { headers: { "Cache-Control": "public, s-maxage=86400, stale-while-revalidate=604800" } }
+  );
 }

@@ -1,0 +1,23 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  // Standalone Worker whose only job is to fire the daily price-snapshot
+  // job on the main site. It exists because the OpenNext-generated Worker
+  // (.open-next/worker.js, driven by wrangler.jsonc at the repo root) only
+  // exports a `fetch` handler and is regenerated on every `npm run deploy`,
+  // so a `scheduled` handler added there wouldn't survive a rebuild.
+  // Replaces the cron previously defined in vercel.json.
+  "name": "cardstory-cron-snapshot",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-22",
+  "triggers": {
+    // Same schedule as the old vercel.json cron (6am UTC daily).
+    "crons": ["0 6 * * *"]
+  },
+  "vars": {
+    // Non-sensitive. The endpoint this Worker calls on schedule.
+    "TARGET_URL": "https://cardstory.timothy-lim1999.workers.dev/api/cron/snapshot-prices"
+  }
+  // CRON_SECRET must be set as a Worker secret (must match the main
+  // site's CRON_SECRET env var):
+  //   wrangler secret put CRON_SECRET --config workers/cron-snapshot/wrangler.jsonc
+}

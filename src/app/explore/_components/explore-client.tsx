@@ -143,8 +143,19 @@ export function ExploreClient({
     filters.status === "all" &&
     !filters.watchlistOnly;
 
+  // Only fold ownedIds/watchlistIds into the cache key when the current
+  // filters actually depend on them — otherwise every PC/watchlist change
+  // (e.g. adding a holding from a different page) would invalidate and
+  // refetch catalog search results that don't reference ownership at all.
+  const ownershipKey =
+    filters.status === "owned" || filters.status === "not_owned"
+      ? ownedIds
+      : filters.watchlistOnly
+        ? watchlistIds
+        : undefined;
+
   const query = useQuery<SearchResponse>({
-    queryKey: ["catalog-search", filters, ownedIds, watchlistIds],
+    queryKey: ["catalog-search", filters, ownershipKey],
     queryFn: async () => {
       const sp = filtersToSearchParams(filters);
       sp.set("page", String(filters.page));

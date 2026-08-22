@@ -1,4 +1,20 @@
-import { GoogleGenAI, Type } from "@google/genai";
+// Calls Gemini's generateContent REST endpoint directly rather than via the
+// @google/genai SDK — the SDK pulls in ~17MB of node_modules (streaming,
+// Vertex AI, batch/fine-tuning, auth strategies, ...) for what this file
+// only ever uses as a single request/response call, and OpenNext bundles
+// the whole thing into the single Worker script regardless of whether Scan
+// is used. See the Cloudflare free-tier 3 MiB Worker size cap this app
+// deploys under (wrangler.jsonc) — this alone was a meaningful chunk of it.
+// Endpoint/request shape confirmed against the SDK's own compiled output
+// (node_modules/@google/genai/dist/node/index.mjs): base URL, `v1beta`
+// default API version, `{model}:generateContent` path, `x-goog-api-key`
+// auth header, and `config` -> REST `generationConfig` field mapping.
+const GEMINI_API_BASE = "https://generativelanguage.googleapis.com/v1beta";
+const MODEL =
+  // Alias Google keeps pointed at their current recommended flash model —
+  // pinning to a dated model name (e.g. "gemini-2.0-flash") risks it being
+  // retired later, as happened during this build.
+  "gemini-flash-latest";
 
 export interface ScanIdentification {
   gameGuess: "pokemon" | "other" | null;
@@ -8,25 +24,28 @@ export interface ScanIdentification {
   confidence: number;
 }
 
+// Matches the SDK's Type enum values (Type.OBJECT === "OBJECT", etc.) —
+// those are just the OpenAPI schema type strings the REST API expects
+// directly, so no translation layer is needed.
 const responseSchema = {
-  type: Type.OBJECT,
+  type: "OBJECT",
   properties: {
     game_guess: {
-      type: Type.STRING,
+      type: "STRING",
       enum: ["pokemon", "other"],
       description: "Which trading card game this card is from, best guess.",
     },
-    card_name: { type: Type.STRING, description: "The card's printed name." },
+    card_name: { type: "STRING", description: "The card's printed name." },
     set_name_or_symbol: {
-      type: Type.STRING,
+      type: "STRING",
       description: "The set name or set symbol text visible on the card, if legible.",
     },
     card_number: {
-      type: Type.STRING,
+      type: "STRING",
       description: "The collector number printed on the card (e.g. '054/165'), if visible.",
     },
     confidence: {
-      type: Type.NUMBER,
+      type: "NUMBER",
       description: "0 to 1 confidence that card_name was read correctly.",
     },
   },
@@ -34,6 +53,10 @@ const responseSchema = {
 };
 
 const PROMPT = `You are identifying a single physical Pokémon trading card from a photo for a collector's cataloging app. Read the exact printed card name, the set name or set symbol, and the collector number if visible. If the photo doesn't clearly show a single trading card, set card_name to null and confidence to 0.`;
+
+interface GenerateContentResponse {
+  candidates?: { content?: { parts?: { text?: string }[] } }[];
+}
 
 /** Returns null if no API key is configured — callers must fall back to manual search. */
 export async function identifyCardFromImage(
@@ -43,25 +66,36 @@ export async function identifyCardFromImage(
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return null;
 
-  const ai = new GoogleGenAI({ apiKey });
-  const response = await ai.models.generateContent({
-    // Alias Google keeps pointed at their current recommended flash model —
-    // pinning to a dated model name (e.g. "gemini-2.0-flash") risks it
-    // being retired later, as happened during this build.
-    model: "gemini-flash-latest",
-    contents: [
-      {
-        role: "user",
-        parts: [{ text: PROMPT }, { inlineData: { mimeType, data: base64Image } }],
-      },
-    ],
-    config: {
-      responseMimeType: "application/json",
-      responseSchema,
+  const res = await fetch(`${GEMINI_API_BASE}/models/${MODEL}:generateContent`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-goog-api-key": apiKey,
     },
+    body: JSON.stringify({
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: PROMPT }, { inlineData: { mimeType, data: base64Image } }],
+        },
+      ],
+      generationConfig: {
+        responseMimeType: "application/json",
+        responseSchema,
+      },
+    }),
   });
 
-  const text = response.text;
+  if (!res.ok) {
+    console.error("Gemini generateContent failed:", res.status, await res.text());
+    return null;
+  }
+
+  const json = (await res.json()) as GenerateContentResponse;
+  // The SDK's `response.text` getter just concatenates the text parts of
+  // the first candidate — with a single-turn, non-streaming call like this
+  // one there's only ever one part to read.
+  const text = json.candidates?.[0]?.content?.parts?.[0]?.text;
   if (!text) return null;
 
   const parsed = JSON.parse(text) as {

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { unstable_cache } from "next/cache";
 import type { Metadata } from "next";
 import type { Sport } from "@prisma/client";
 import { ArrowLeft } from "lucide-react";
@@ -30,27 +31,33 @@ interface SetTileData {
   releaseDate: string | null;
 }
 
-async function loadTcgSets(game: string, direction: "asc" | "desc"): Promise<SetTileData[]> {
-  const sets = await db.set.findMany({
-    where: { gameId: game },
-    // Explicit nulls: "last" in both directions — Postgres's own default
-    // (nulls sort as largest) already gives this for desc, but being
-    // explicit keeps undated sets out of the way regardless of direction.
-    orderBy: { releaseDate: { sort: direction, nulls: "last" } },
-    include: { _count: { select: { items: true } } },
-  });
-  return sets.map((s) => ({
-    id: s.id,
-    setId: s.id,
-    name: s.name,
-    nameEn: s.nameEn,
-    code: s.code,
-    cardCount: s._count.items,
-    symbolUrl: s.symbolUrl,
-    logoUrl: s.logoUrl,
-    releaseDate: formatReleaseMonthYear(s.releaseDate),
-  }));
-}
+const loadTcgSets = unstable_cache(
+  async (game: string, direction: "asc" | "desc"): Promise<SetTileData[]> => {
+    const sets = await db.set.findMany({
+      where: { gameId: game },
+      // Explicit nulls: "last" in both directions — Postgres's own default
+      // (nulls sort as largest) already gives this for desc, but being
+      // explicit keeps undated sets out of the way regardless of direction.
+      orderBy: { releaseDate: { sort: direction, nulls: "last" } },
+      include: { _count: { select: { items: true } } },
+    });
+    return sets.map((s) => ({
+      id: s.id,
+      setId: s.id,
+      name: s.name,
+      nameEn: s.nameEn,
+      code: s.code,
+      cardCount: s._count.items,
+      symbolUrl: s.symbolUrl,
+      logoUrl: s.logoUrl,
+      releaseDate: formatReleaseMonthYear(s.releaseDate),
+    }));
+  },
+  ["catalog-tcg-sets"],
+  // Set lists only change on reseed/re-crawl, far less often than the
+  // once-daily price cron — see getDistinct* in lib/catalog/search.ts.
+  { tags: ["catalog-sets"], revalidate: 86400 }
+);
 
 /**
  * Sports-kind games have no Set table row to query — SportsCardItem groups
@@ -60,38 +67,40 @@ async function loadTcgSets(game: string, direction: "asc" | "desc"): Promise<Set
  * `code`/`releaseDate` null-handling for how the missing set-code/date
  * concepts are papered over.
  */
-async function loadSportsSets(
-  sport: Sport | undefined,
-  direction: "asc" | "desc"
-): Promise<SetTileData[]> {
-  const groups = await db.sportsCardItem.groupBy({
-    by: ["year", "distributor", "setName"],
-    where: { sport },
-    _count: { _all: true },
-    _min: { releaseDate: true },
-    // Sports has no per-set Set.releaseDate row to sort by — year is
-    // already its primary sort key, so the toggle just flips its direction.
-    orderBy: [{ year: direction }],
-  });
-  return groups.map((g) => {
-    const setId = `${g.year ?? ""}::${g.distributor ?? ""}::${g.setName}`;
-    const name = [g.year, g.distributor, g.setName].filter(Boolean).join(" ").trim();
-    return {
-      id: setId,
-      setId,
-      name,
-      nameEn: null,
-      code: null,
-      cardCount: g._count._all,
-      symbolUrl: null,
-      logoUrl: null,
-      // Prefer the real researched release date; fall back to the bare year
-      // for any product line whose date research came up empty (see
-      // scripts/data/lamelo-ball/release-dates.ts).
-      releaseDate: formatReleaseMonthYear(g._min.releaseDate) ?? (g.year ? String(g.year) : null),
-    };
-  });
-}
+const loadSportsSets = unstable_cache(
+  async (sport: Sport | undefined, direction: "asc" | "desc"): Promise<SetTileData[]> => {
+    const groups = await db.sportsCardItem.groupBy({
+      by: ["year", "distributor", "setName"],
+      where: { sport },
+      _count: { _all: true },
+      _min: { releaseDate: true },
+      // Sports has no per-set Set.releaseDate row to sort by — year is
+      // already its primary sort key, so the toggle just flips its direction.
+      orderBy: [{ year: direction }],
+    });
+    return groups.map((g) => {
+      const setId = `${g.year ?? ""}::${g.distributor ?? ""}::${g.setName}`;
+      const name = [g.year, g.distributor, g.setName].filter(Boolean).join(" ").trim();
+      return {
+        id: setId,
+        setId,
+        name,
+        nameEn: null,
+        code: null,
+        cardCount: g._count._all,
+        symbolUrl: null,
+        logoUrl: null,
+        // Prefer the real researched release date; fall back to the bare year
+        // for any product line whose date research came up empty (see
+        // scripts/data/lamelo-ball/release-dates.ts).
+        releaseDate:
+          formatReleaseMonthYear(g._min.releaseDate) ?? (g.year ? String(g.year) : null),
+      };
+    });
+  },
+  ["catalog-sports-sets"],
+  { tags: ["catalog-sets"], revalidate: 86400 }
+);
 
 export default async function GameSetsPage({
   params,
