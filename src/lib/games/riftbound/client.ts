@@ -35,15 +35,38 @@ async function fetchSets(): Promise<UnifiedSet[]> {
 
 async function fetchCardsForSet(setExternalId: string): Promise<UnifiedCard[]> {
   const cards: UnifiedCard[] = [];
+  // riftcodex.com's /cards pagination isn't reliable for larger sets: the
+  // same riftbound_id (e.g. every OPP/VEN promo reprint) can come back on
+  // more than one page. Riftbound has no real card-variant concept (unlike
+  // Pokémon's finish/language variants — see mapPokemonCardVariants), so
+  // every riftbound_id is meant to identify exactly one printing; a repeat
+  // is always a duplicate from the API, never a second variant. Drop it
+  // here rather than letting it flow into seed-catalog.ts's primary/variant
+  // dedup logic, which would otherwise treat the repeat as a distinct
+  // variant and violate the (gameId, externalId, variantKey) unique index.
+  const seenIds = new Set<string>();
   let page = 1;
+  let duplicateCount = 0;
   const size = 100; // riftcodex.com caps `size` at 100/page.
   for (;;) {
     const json = await fetchJson<{ items: RiftcodexApiCard[]; total: number; pages: number }>(
       `${BASE_URL}/cards?set_id=${encodeURIComponent(setExternalId.toUpperCase())}&page=${page}&size=${size}`
     );
-    cards.push(...json.items.map((c) => mapRiftboundCard(c, setExternalId)));
+    for (const raw of json.items) {
+      if (seenIds.has(raw.riftbound_id)) {
+        duplicateCount += 1;
+        continue;
+      }
+      seenIds.add(raw.riftbound_id);
+      cards.push(mapRiftboundCard(raw, setExternalId));
+    }
     if (page >= json.pages || json.items.length === 0) break;
     page += 1;
+  }
+  if (duplicateCount > 0) {
+    console.warn(
+      `[riftbound] set ${setExternalId}: dropped ${duplicateCount} duplicate riftbound_id row(s) returned by the API's pagination.`
+    );
   }
   return cards;
 }

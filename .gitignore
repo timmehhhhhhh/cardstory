@@ -44,3 +44,8 @@ scripts/.cache/
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# cloudflare (opennextjs-cloudflare build output / local wrangler state / generated types)
+.open-next/
+.wrangler/
+cloudflare-env.d.ts

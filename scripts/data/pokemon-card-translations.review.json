@@ -1,17 +1,12 @@
 {
   "gameId": "pokemon",
   "note": "Non-English card names the resolver could not translate, ranked by row count. Add entries to POKEMON_CARD_TRANSLATIONS in scripts/data/pokemon-card-translations.ts and re-run scripts/backfill-catalog-name-en.ts.",
-  "generatedAt": "2026-08-21T09:25:57.334Z",
+  "generatedAt": "2026-08-22T06:09:44.748Z",
   "entries": [
     {
       "language": "JP",
       "name": "未知",
       "rowCount": 25
-    },
-    {
-      "language": "TW",
-      "name": "茸茸羊",
-      "rowCount": 17
     },
     {
       "language": "JP",
@@ -111,11 +106,6 @@
     {
       "language": "TW",
       "name": "能量轉移",
-      "rowCount": 10
-    },
-    {
-      "language": "TW",
-      "name": "赫拉克羅斯",
       "rowCount": 10
     },
     {
@@ -290,22 +280,7 @@
     },
     {
       "language": "TW",
-      "name": "火神蛾",
-      "rowCount": 8
-    },
-    {
-      "language": "TW",
-      "name": "爆炸頭水牛",
-      "rowCount": 8
-    },
-    {
-      "language": "TW",
       "name": "粉碎之錘",
-      "rowCount": 8
-    },
-    {
-      "language": "TW",
-      "name": "芽米",
       "rowCount": 8
     },
     {
@@ -326,11 +301,6 @@
     {
       "language": "TW",
       "name": "高速雷能量",
-      "rowCount": 8
-    },
-    {
-      "language": "TW",
-      "name": "鴨嘴炎獸",
       "rowCount": 8
     },
     {
@@ -480,22 +450,7 @@
     },
     {
       "language": "TW",
-      "name": "沙基拉斯",
-      "rowCount": 7
-    },
-    {
-      "language": "TW",
-      "name": "泳圈鼬",
-      "rowCount": 7
-    },
-    {
-      "language": "TW",
       "name": "清洗水能量",
-      "rowCount": 7
-    },
-    {
-      "language": "TW",
-      "name": "烈箭鷹",
       "rowCount": 7
     },
     {
@@ -745,17 +700,7 @@
     },
     {
       "language": "TW",
-      "name": "沙河馬",
-      "rowCount": 6
-    },
-    {
-      "language": "TW",
       "name": "洗翠 野蠻鱸魚",
-      "rowCount": 6
-    },
-    {
-      "language": "TW",
-      "name": "滑滑小子",
       "rowCount": 6
     },
     {
@@ -1120,11 +1065,6 @@
     },
     {
       "language": "TW",
-      "name": "掘地兔",
-      "rowCount": 5
-    },
-    {
-      "language": "TW",
       "name": "放逐吸塵器",
       "rowCount": 5
     },
@@ -1205,11 +1145,6 @@
     },
     {
       "language": "TW",
-      "name": "飄浮泡泡",
-      "rowCount": 5
-    },
-    {
-      "language": "TW",
       "name": "養鳥人",
       "rowCount": 5
     },
@@ -1231,11 +1166,6 @@
     {
       "language": "CN",
       "name": "<阿響的>鳳王ex",
-      "rowCount": 4
-    },
-    {
-      "language": "CN",
-      "name": "爆炸頭水牛",
       "rowCount": 4
     },
     {
@@ -3570,11 +3500,6 @@
     },
     {
       "language": "TW",
-      "name": "咕咕鴿",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
       "name": "哎呀球菇",
       "rowCount": 3
     },
@@ -3706,11 +3631,6 @@
     {
       "language": "TW",
       "name": "強力糖錠",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
-      "name": "彩粉蝶",
       "rowCount": 3
     },
     {
@@ -3896,11 +3816,6 @@
     {
       "language": "TW",
       "name": "秋明",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
-      "name": "粉蝶蟲",
       "rowCount": 3
     },
     {
@@ -6295,11 +6210,6 @@
     },
     {
       "language": "TW",
-      "name": "毒粉蛾",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
       "name": "泰姆",
       "rowCount": 2
     },
@@ -6335,17 +6245,7 @@
     },
     {
       "language": "TW",
-      "name": "火神蛾V",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
       "name": "災禍箱",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
-      "name": "烈箭鷹V",
       "rowCount": 2
     },
     {
@@ -6381,11 +6281,6 @@
     {
       "language": "TW",
       "name": "生存組合",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
-      "name": "甲殼繭",
       "rowCount": 2
     },
     {
@@ -6576,11 +6471,6 @@
     {
       "language": "TW",
       "name": "釀光市",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
-      "name": "野蠻鱸魚",
       "rowCount": 2
     },
     {
@@ -7310,11 +7200,6 @@
     },
     {
       "language": "CN",
-      "name": "彩粉蝶",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
       "name": "急進開關",
       "rowCount": 1
     },
@@ -7370,22 +7255,12 @@
     },
     {
       "language": "CN",
-      "name": "沙基拉斯",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
       "name": "沙鈴仙人掌",
       "rowCount": 1
     },
     {
       "language": "CN",
       "name": "泰姆",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
-      "name": "泳圈鼬",
       "rowCount": 1
     },
     {
@@ -7406,11 +7281,6 @@
     {
       "language": "CN",
       "name": "激動競技場",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
-      "name": "火神蛾",
       "rowCount": 1
     },
     {
@@ -7475,11 +7345,6 @@
     },
     {
       "language": "CN",
-      "name": "烈箭鷹",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
       "name": "無殼海兔",
       "rowCount": 1
     },
@@ -7536,11 +7401,6 @@
     {
       "language": "CN",
       "name": "竹蘭的力量負重",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
-      "name": "粉蝶蟲",
       "rowCount": 1
     },
     {
@@ -7746,11 +7606,6 @@
     {
       "language": "CN",
       "name": "飄浮泡泡 太陽的樣子",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
-      "name": "鴨嘴炎獸",
       "rowCount": 1
     },
     {

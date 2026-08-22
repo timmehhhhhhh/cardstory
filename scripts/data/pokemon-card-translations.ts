@@ -163,6 +163,45 @@ export const POKEMON_CARD_TRANSLATIONS: Record<string, string> = {
   "TW:帕底亞的學生": "Paldean Student",
   "JP:リーリエの決心": "Lillie's Determination",
 
+  // --- Species-table mismatches (TW/CN) -----------------------------------
+  // The upstream sindresorhus/pokemon table (scripts/data/pokemon-species-names.ts)
+  // has these species under a string that doesn't match the real Pokémon
+  // TCG's printed Traditional/Simplified Chinese name — same failure mode as
+  // the Porygon2/Porygon-Z entries above, just discovered later from the
+  // live catalog's unresolved-name worklist (pokemon-card-translations.review.json).
+  // Each entry here is the actual printed name (cross-checked against
+  // Bulbapedia and Chinese Pokémon wikis, verified by matching National
+  // Dex number), not the upstream table's string. Only added for languages
+  // where the catalog actually has unresolved rows using that name — see
+  // pokemon-species-names.ts for what the (wrong) generated entry is.
+  "TW:野蠻鱸魚": "Basculin",
+  "TW:赫拉克羅斯": "Heracross",
+  "TW:飄浮泡泡": "Castform",
+  "TW:芽米": "Shaymin",
+  "TW:沙河馬": "Hippopotas",
+  "TW:滑滑小子": "Scraggy",
+  "TW:掘地兔": "Diggersby",
+  "TW:甲殼繭": "Silcoon",
+  "TW:茸茸羊": "Flaaffy",
+  "TW:火神蛾": "Volcarona",
+  "CN:火神蛾": "Volcarona",
+  "TW:爆炸頭水牛": "Bouffalant",
+  "CN:爆炸頭水牛": "Bouffalant",
+  "TW:鴨嘴炎獸": "Magmortar",
+  "CN:鴨嘴炎獸": "Magmortar",
+  "TW:沙基拉斯": "Pupitar",
+  "CN:沙基拉斯": "Pupitar",
+  "TW:泳圈鼬": "Buizel",
+  "CN:泳圈鼬": "Buizel",
+  "TW:烈箭鷹": "Talonflame",
+  "CN:烈箭鷹": "Talonflame",
+  "TW:彩粉蝶": "Vivillon",
+  "CN:彩粉蝶": "Vivillon",
+  "TW:粉蝶蟲": "Scatterbug",
+  "CN:粉蝶蟲": "Scatterbug",
+  "TW:咕咕鴿": "Tranquill",
+  "TW:毒粉蛾": "Dustox",
+
   // --- Ogerpon mask forms --------------------------------------------------
   // Base name only (no suffix) — resolvePokemonCardNameEn re-attaches the
   // printed suffix (e.g. " ex") itself, so this also covers the "ex"
