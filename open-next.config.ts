@@ -9,17 +9,16 @@
 // (vercel.json) has been removed; the daily price-snapshot cron it used
 // to trigger now lives in workers/cron-snapshot/ instead.
 import { defineCloudflareConfig } from "@opennextjs/cloudflare";
-// Persists Next's data/route cache (unstable_cache, fetch cache, ISR) in a
-// Cloudflare KV namespace across requests/isolates — without this, the
-// adapter's default cache lives only in a single isolate's memory and is
-// lost on every cold start, so unstable_cache calls elsewhere in the app
-// (see lib/catalog/search.ts, sets/[game]/page.tsx, card/[game]/[cardId]/
-// page.tsx) would rarely actually hit. Requires a KV namespace bound as
-// `NEXT_INC_CACHE_KV` in wrangler.jsonc (binding name is hardcoded by the
-// override, see its BINDING_NAME export) — free plan includes 1 namespace,
-// 100k reads/day, 1k writes/day, 1GB storage, ample for this app's traffic.
-import kvIncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/kv-incremental-cache";
 
-export default defineCloudflareConfig({
-  incrementalCache: kvIncrementalCache,
-});
+// A KV-backed incremental cache (persisting unstable_cache/fetch-cache/ISR
+// across requests and isolates, not just within one warm isolate) was tried
+// here but reverted: it tipped the deployed Worker over Cloudflare's 3 MiB
+// gzip free-plan cap (see the "Workers Builds: cardstory" check on the PR
+// that added it) — this app's bundle already sits close to that cap from
+// Prisma's WASM engine (see lib/db.ts's comments) plus the Gemini/recharts/
+// cheerio dependencies, leaving little headroom for new bundle surface.
+// unstable_cache calls elsewhere in the app (lib/catalog/search.ts,
+// sets/[game]/page.tsx, card/[game]/[cardId]/page.tsx) still help within a
+// single warm isolate via the adapter's default in-memory cache; revisit
+// KV once there's a plan for trimming the base bundle first.
+export default defineCloudflareConfig();

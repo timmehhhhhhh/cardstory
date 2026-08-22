@@ -15,17 +15,6 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
-  // Backs open-next.config.ts's KV incremental cache, persisting Next's
-  // data/route cache (unstable_cache, fetch cache, ISR) across requests and
-  // isolates. Binding name is hardcoded by @opennextjs/cloudflare's
-  // kv-incremental-cache override — do not rename. Free plan: 1 namespace,
-  // 100k reads/day, 1k writes/day, 1GB storage.
-  "kv_namespaces": [
-    {
-      "binding": "NEXT_INC_CACHE_KV",
-      "id": "c06d7548c14b446a9c1cf562df011599"
-    }
-  ],
   // Non-sensitive only — DATABASE_URL, AUTH_SECRET, and the other API keys
   // from .env.example must be set as Worker *secrets* instead (Cloudflare
   // dashboard → Worker → Settings → Variables and Secrets, or
