@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
 import type { WatchlistItem } from "@/lib/pc/types";
 
@@ -33,11 +34,17 @@ export async function addWatchlistEntry(
   kind: WatchlistItem["kind"],
   priceAtAdd: number | null
 ): Promise<void> {
-  await db.watchlistEntry.upsert({
-    where: { userId_itemId: { userId, itemId } },
-    create: { userId, itemId, kind, priceAtAdd },
-    update: {},
-  });
+  try {
+    await db.watchlistEntry.create({ data: { userId, itemId, kind, priceAtAdd } });
+  } catch (err) {
+    // P2002 = unique constraint violation (userId_itemId) — already watched,
+    // which is the intended idempotent no-op per this function's contract.
+    // (Deliberately not db.watchlistEntry.upsert() here: a compound-unique-key
+    // upsert can compile to a transactional read-then-write that the Neon HTTP
+    // adapter used on Cloudflare Workers can't execute — see src/lib/db.ts.)
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002") return;
+    throw err;
+  }
 }
 
 /** Safe no-op if the item wasn't watched — same idempotency as addWatchlistEntry. */
