@@ -31,6 +31,10 @@ export function CardTile({
   const toggleWatchlist = usePCStore((s) => s.toggleWatchlist);
   const businessMode = usePCStore((s) => s.preferences.businessMode);
   const ensureBusinessPC = usePCStore((s) => s.ensureBusinessPC);
+  const quickAdd = usePCStore((s) => s.preferences.quickAdd);
+  const activePCId = usePCStore((s) => s.activePCId);
+  const addHolding = usePCStore((s) => s.addHolding);
+  const lastUsedCostBasisCurrency = usePCStore((s) => s.preferences.lastUsedCostBasisCurrency);
 
   const positive = (item.priceChangePct ?? 0) >= 0;
   const isSports = getGameMeta(item.gameId)?.kind === "sports";
@@ -56,6 +60,8 @@ export function CardTile({
   // card spotted at two shops), so this is a pulse, not an "already
   // shortlisted" toggle state like the watchlist star.
   const [justShortlisted, setJustShortlisted] = React.useState(false);
+  // Same pulse pattern as justShortlisted, for the Quick Add bypass below.
+  const [justQuickAdded, setJustQuickAdded] = React.useState(false);
   // Only surfaced for non-English prints (currently Pokémon JP/CN/TW/KR) —
   // otherwise identical-looking reprints in different languages are
   // indistinguishable in a flat grid.
@@ -83,6 +89,35 @@ export function CardTile({
   // router with a scheduled-but-uncommitted transition that fires later
   // (e.g. when the dialog closes and hands focus back to the trigger).
   // Structuring these as siblings avoids that class of bug entirely.
+  // When Quick Add is on (and Business mode isn't — that bypass already has
+  // its own dedicated trigger below), this skips AddHoldingDialog entirely
+  // and drops the card straight into the active PC with default values —
+  // no quantity/condition/date to fill in, mirroring the Business
+  // Inventory bypass's "no picker to get wrong" philosophy but for
+  // whichever PC is already active.
+  async function handleQuickAdd() {
+    try {
+      await addHolding(activePCId, {
+        kind: isSports ? "sports" : "tcg",
+        catalogItemId: isSports ? undefined : item.id,
+        sportsCardItemId: isSports ? item.id : undefined,
+        quantity: 1,
+        condition: "raw",
+        language: nonEnglishLanguage ?? "EN",
+        costBasisTotal: 0,
+        costBasisCurrency: lastUsedCostBasisCurrency ?? "USD",
+        priceAtAcquisition: null,
+        acquiredAt: null,
+      });
+      setJustQuickAdded(true);
+      setTimeout(() => setJustQuickAdded(false), 1200);
+    } catch (err) {
+      // No dialog to surface an error in — fire-and-forget, same as the
+      // LaMelo checklist's quick-check flow.
+      console.error("Quick add failed", err);
+    }
+  }
+
   const addToCollectionTrigger = (className: string) => (
     // `relative z-10 flex-none` lives on this wrapper (not just the button
     // below) so it still stacks above the full-bleed Link and holds its
@@ -92,10 +127,17 @@ export function CardTile({
       <button
         type="button"
         aria-label="Add to collection"
-        onClick={() => setAddDialogOpen(true)}
+        onClick={() => {
+          if (quickAdd && !businessMode) void handleQuickAdd();
+          else setAddDialogOpen(true);
+        }}
         className={className}
       >
-        <PackagePlus className="size-3.5" />
+        {justQuickAdded ? (
+          <Check className="size-3.5 text-positive" />
+        ) : (
+          <PackagePlus className="size-3.5" />
+        )}
       </button>
       {ownedQuantity > 0 && (
         <span

@@ -119,6 +119,15 @@ export interface Preferences {
    * prisma/schema.prisma) is set.
    */
   businessMode: boolean;
+  /**
+   * When on (and businessMode is off), an Explore card's add-to-PC click
+   * skips AddHoldingDialog and adds straight into the active PC with
+   * default values, mirroring Business Mode's own forced-PC bypass. Local
+   * UI state, same as businessMode — stays local even for signed-in users
+   * (see remote-store.ts). Business Mode takes priority when both are on,
+   * since it's a vendor-specific forced destination.
+   */
+  quickAdd: boolean;
 }
 
 /**
