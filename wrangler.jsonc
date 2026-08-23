@@ -17,6 +17,19 @@
   // cleared once for the corrected command to actually take effect.
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-08-22",
+  // `.open-next/worker.js` is already a fully bundled, minified output from
+  // `opennextjs-cloudflare build` — `wrangler deploy` re-bundles it once
+  // more through its own esbuild pass regardless, and defaults keepNames to
+  // true when this is unset. That injects `__name(fn, "fn")` calls into
+  // every function body, including next-themes' theme-init function — which
+  // next-themes inlines client-side as a raw <script> tag by calling
+  // `.toString()` on it at runtime. Function.prototype.toString() returns
+  // the POST-transform source, so the shipped snippet references `__name`
+  // without the helper (which lives in wrangler's bundle scope, not in the
+  // extracted function text) — the browser then throws "__name is not
+  // defined" on every page load, before hydration completes. `false` here
+  // stops esbuild from injecting those calls in the first place.
+  "keep_names": false,
   // Required by @opennextjs/cloudflare — Next.js's server runtime uses
   // Node.js APIs (Prisma, bcryptjs, cheerio, ...) that only exist under
   // this compatibility flag.
