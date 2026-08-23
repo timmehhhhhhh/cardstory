@@ -886,6 +886,12 @@ export interface VariantGroup {
  * "Cracked Ice Holo" (that name is purely a per-tile display overlay, see
  * tcgItemToSearchItem). Deliberately CatalogItem-only — see
  * sportsFilterableFor() above for why sports rows don't participate here.
+ *
+ * "cosmosHolo" is a deliberate, data-verified exception to the rule above:
+ * unlike Cracked Ice Holo, TCGCollector-verified "Cosmos Holo" cards are
+ * given their own distinct variantKey at import time (see
+ * scripts/apply-cosmos-holo-variant.ts), so they surface here as their own
+ * filter entry rather than folding into "Reverse Holo".
  */
 export const getDistinctVariants = unstable_cache(
   async (gameId?: string): Promise<VariantGroup[]> => {

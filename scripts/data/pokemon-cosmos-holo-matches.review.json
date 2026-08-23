@@ -1,0 +1,4782 @@
+{
+  "note": "Crawled TCGCollector 'Cosmos Holo' cards that did NOT map to an existing reverseHolofoil CatalogItem row. Never applied.",
+  "generatedAt": "2026-08-23T12:13:13.490Z",
+  "entries": [
+    {
+      "sourceName": "Zarude",
+      "sourceSet": "Pitch Black",
+      "sourceNumber": "056/084",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me5::56"
+    },
+    {
+      "sourceName": "Aurorus",
+      "sourceSet": "Perfect Order",
+      "sourceNumber": "024/088",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me3::24"
+    },
+    {
+      "sourceName": "Luxray",
+      "sourceSet": "Perfect Order",
+      "sourceNumber": "028/088",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me3::28"
+    },
+    {
+      "sourceName": "Tyrantrum",
+      "sourceSet": "Perfect Order",
+      "sourceNumber": "045/088",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me3::45"
+    },
+    {
+      "sourceName": "Gengar",
+      "sourceSet": "Perfect Order",
+      "sourceNumber": "050/088",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me3::50"
+    },
+    {
+      "sourceName": "Erika's Tangela",
+      "sourceSet": "Ascended Heroes",
+      "sourceNumber": "007/217",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me2pt5::7"
+    },
+    {
+      "sourceName": "Chikorita",
+      "sourceSet": "Ascended Heroes",
+      "sourceNumber": "008/217",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me2pt5::8"
+    },
+    {
+      "sourceName": "Charmander",
+      "sourceSet": "Ascended Heroes",
+      "sourceNumber": "020/217",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me2pt5::20"
+    },
+    {
+      "sourceName": "Tepig",
+      "sourceSet": "Ascended Heroes",
+      "sourceNumber": "029/217",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me2pt5::29"
+    },
+    {
+      "sourceName": "Totodile",
+      "sourceSet": "Ascended Heroes",
+      "sourceNumber": "041/217",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me2pt5::41"
+    },
+    {
+      "sourceName": "Gastly",
+      "sourceSet": "Ascended Heroes",
+      "sourceNumber": "123/217",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me2pt5::123"
+    },
+    {
+      "sourceName": "Larry's Komala",
+      "sourceSet": "Ascended Heroes",
+      "sourceNumber": "175/217",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me2pt5::175"
+    },
+    {
+      "sourceName": "Oddish",
+      "sourceSet": "Phantasmal Flames",
+      "sourceNumber": "001/094",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me2::1"
+    },
+    {
+      "sourceName": "Gloom",
+      "sourceSet": "Phantasmal Flames",
+      "sourceNumber": "002/094",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me2::2"
+    },
+    {
+      "sourceName": "Vileplume",
+      "sourceSet": "Phantasmal Flames",
+      "sourceNumber": "003/094",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me2::3"
+    },
+    {
+      "sourceName": "Reshiram",
+      "sourceSet": "Phantasmal Flames",
+      "sourceNumber": "017/094",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me2::17"
+    },
+    {
+      "sourceName": "Suicune",
+      "sourceSet": "Phantasmal Flames",
+      "sourceNumber": "026/094",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me2::26"
+    },
+    {
+      "sourceName": "Pawmot",
+      "sourceSet": "Phantasmal Flames",
+      "sourceNumber": "034/094",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me2::34"
+    },
+    {
+      "sourceName": "Zacian",
+      "sourceSet": "Phantasmal Flames",
+      "sourceNumber": "045/094",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me2::45"
+    },
+    {
+      "sourceName": "Flygon",
+      "sourceSet": "Phantasmal Flames",
+      "sourceNumber": "053/094",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me2::53"
+    },
+    {
+      "sourceName": "Kyogre",
+      "sourceSet": "Mega Evolution",
+      "sourceNumber": "034/132",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me1::34"
+    },
+    {
+      "sourceName": "Clawitzer",
+      "sourceSet": "Mega Evolution",
+      "sourceNumber": "038/132",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me1::38"
+    },
+    {
+      "sourceName": "Raikou",
+      "sourceSet": "Mega Evolution",
+      "sourceNumber": "048/132",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me1::48"
+    },
+    {
+      "sourceName": "Ralts",
+      "sourceSet": "Mega Evolution",
+      "sourceNumber": "058/132",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me1::58"
+    },
+    {
+      "sourceName": "Kirlia",
+      "sourceSet": "Mega Evolution",
+      "sourceNumber": "059/132",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me1::59"
+    },
+    {
+      "sourceName": "Riolu",
+      "sourceSet": "Mega Evolution",
+      "sourceNumber": "076/132",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me1::76"
+    },
+    {
+      "sourceName": "Steelix",
+      "sourceSet": "Mega Evolution",
+      "sourceNumber": "093/132",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:me1::93"
+    },
+    {
+      "sourceName": "Drifloon",
+      "sourceSet": "Mega Evolution Promos",
+      "sourceNumber": "005",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Drifblim",
+      "sourceSet": "Mega Evolution Promos",
+      "sourceNumber": "006",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Psyduck",
+      "sourceSet": "Mega Evolution Promos",
+      "sourceNumber": "007",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Golduck",
+      "sourceSet": "Mega Evolution Promos",
+      "sourceNumber": "008",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Cottonee",
+      "sourceSet": "Mega Evolution Promos",
+      "sourceNumber": "018",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Whimsicott",
+      "sourceSet": "Mega Evolution Promos",
+      "sourceNumber": "019",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Sneasel",
+      "sourceSet": "Mega Evolution Promos",
+      "sourceNumber": "020",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Weavile",
+      "sourceSet": "Mega Evolution Promos",
+      "sourceNumber": "021",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Makuhita",
+      "sourceSet": "Mega Evolution Promos",
+      "sourceNumber": "068",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Chikorita",
+      "sourceSet": "Mega Evolution Promos",
+      "sourceNumber": "069",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Toxel",
+      "sourceSet": "Mega Evolution Promos",
+      "sourceNumber": "078",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Charmeleon",
+      "sourceSet": "Mega Evolution Promos",
+      "sourceNumber": "079",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Slowpoke",
+      "sourceSet": "Mega Evolution Promos",
+      "sourceNumber": "086",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Binacle",
+      "sourceSet": "Mega Evolution Promos",
+      "sourceNumber": "087",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Hydrapple",
+      "sourceSet": "Destined Rivals",
+      "sourceNumber": "018/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv10::18"
+    },
+    {
+      "sourceName": "Ethan's Magcargo",
+      "sourceSet": "Destined Rivals",
+      "sourceNumber": "036/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv10::36"
+    },
+    {
+      "sourceName": "Blaziken",
+      "sourceSet": "Destined Rivals",
+      "sourceNumber": "042/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv10::42"
+    },
+    {
+      "sourceName": "Team Rocket's Articuno",
+      "sourceSet": "Destined Rivals",
+      "sourceNumber": "051/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv10::51"
+    },
+    {
+      "sourceName": "Team Rocket's Zapdos",
+      "sourceSet": "Destined Rivals",
+      "sourceNumber": "070/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv10::70"
+    },
+    {
+      "sourceName": "Team Rocket's Tyranitar",
+      "sourceSet": "Destined Rivals",
+      "sourceNumber": "096/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv10::96"
+    },
+    {
+      "sourceName": "Cynthia's Gible",
+      "sourceSet": "Destined Rivals",
+      "sourceNumber": "102/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv10::102"
+    },
+    {
+      "sourceName": "Cynthia's Gabite",
+      "sourceSet": "Destined Rivals",
+      "sourceNumber": "103/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv10::103"
+    },
+    {
+      "sourceName": "Team Rocket's Meowth",
+      "sourceSet": "Destined Rivals",
+      "sourceNumber": "149/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv10::149"
+    },
+    {
+      "sourceName": "Arven's Greedent",
+      "sourceSet": "Destined Rivals",
+      "sourceNumber": "159/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv10::159"
+    },
+    {
+      "sourceName": "Team Rocket's Giovanni",
+      "sourceSet": "Destined Rivals",
+      "sourceNumber": "174/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv10::174"
+    },
+    {
+      "sourceName": "Meowscarada",
+      "sourceSet": "Journey Together",
+      "sourceNumber": "018/159",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv9::18"
+    },
+    {
+      "sourceName": "Wailord",
+      "sourceSet": "Journey Together",
+      "sourceNumber": "041/159",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv9::41"
+    },
+    {
+      "sourceName": "Iono's Tadbulb",
+      "sourceSet": "Journey Together",
+      "sourceNumber": "052/159",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv9::52"
+    },
+    {
+      "sourceName": "Lycanroc",
+      "sourceSet": "Journey Together",
+      "sourceNumber": "085/159",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv9::85"
+    },
+    {
+      "sourceName": "Tyranitar",
+      "sourceSet": "Journey Together",
+      "sourceNumber": "095/159",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv9::95"
+    },
+    {
+      "sourceName": "Hop's Wooloo",
+      "sourceSet": "Journey Together",
+      "sourceNumber": "135/159",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv9::135"
+    },
+    {
+      "sourceName": "Hop's Dubwool",
+      "sourceSet": "Journey Together",
+      "sourceNumber": "136/159",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv9::136"
+    },
+    {
+      "sourceName": "Lillie's Pearl",
+      "sourceSet": "Journey Together",
+      "sourceNumber": "151/159",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv9::151"
+    },
+    {
+      "sourceName": "Leafeon",
+      "sourceSet": "Prismatic Evolutions",
+      "sourceNumber": "005/131",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv8pt5::5"
+    },
+    {
+      "sourceName": "Flareon",
+      "sourceSet": "Prismatic Evolutions",
+      "sourceNumber": "013/131",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv8pt5::13"
+    },
+    {
+      "sourceName": "Vaporeon",
+      "sourceSet": "Prismatic Evolutions",
+      "sourceNumber": "022/131",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv8pt5::22"
+    },
+    {
+      "sourceName": "Glaceon",
+      "sourceSet": "Prismatic Evolutions",
+      "sourceNumber": "025/131",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv8pt5::25"
+    },
+    {
+      "sourceName": "Jolteon",
+      "sourceSet": "Prismatic Evolutions",
+      "sourceNumber": "029/131",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv8pt5::29"
+    },
+    {
+      "sourceName": "Espeon",
+      "sourceSet": "Prismatic Evolutions",
+      "sourceNumber": "033/131",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv8pt5::33"
+    },
+    {
+      "sourceName": "Sylveon",
+      "sourceSet": "Prismatic Evolutions",
+      "sourceNumber": "040/131",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv8pt5::40"
+    },
+    {
+      "sourceName": "Umbreon",
+      "sourceSet": "Prismatic Evolutions",
+      "sourceNumber": "059/131",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv8pt5::59"
+    },
+    {
+      "sourceName": "Rabsca",
+      "sourceSet": "Surging Sparks",
+      "sourceNumber": "014/191",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv8::14"
+    },
+    {
+      "sourceName": "Skeledirge",
+      "sourceSet": "Surging Sparks",
+      "sourceNumber": "031/191",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv8::31"
+    },
+    {
+      "sourceName": "Togekiss",
+      "sourceSet": "Surging Sparks",
+      "sourceNumber": "072/191",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv8::72"
+    },
+    {
+      "sourceName": "Tapu Lele",
+      "sourceSet": "Surging Sparks",
+      "sourceNumber": "092/191",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv8::92"
+    },
+    {
+      "sourceName": "Gastrodon",
+      "sourceSet": "Surging Sparks",
+      "sourceNumber": "107/191",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv8::107"
+    },
+    {
+      "sourceName": "Duraludon",
+      "sourceSet": "Surging Sparks",
+      "sourceNumber": "129/191",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv8::129"
+    },
+    {
+      "sourceName": "Rhyperior",
+      "sourceSet": "Stellar Crown",
+      "sourceNumber": "076/142",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv7::76"
+    },
+    {
+      "sourceName": "Klinklang",
+      "sourceSet": "Stellar Crown",
+      "sourceNumber": "101/142",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv7::101"
+    },
+    {
+      "sourceName": "Melmetal",
+      "sourceSet": "Stellar Crown",
+      "sourceNumber": "104/142",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv7::104"
+    },
+    {
+      "sourceName": "Archaludon",
+      "sourceSet": "Stellar Crown",
+      "sourceNumber": "107/142",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv7::107"
+    },
+    {
+      "sourceName": "Horsea",
+      "sourceSet": "Shrouded Fable",
+      "sourceNumber": "010/064",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv6pt5::10"
+    },
+    {
+      "sourceName": "Seadra",
+      "sourceSet": "Shrouded Fable",
+      "sourceNumber": "011/064",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv6pt5::11"
+    },
+    {
+      "sourceName": "Dipplin",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "018/167",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv6::18"
+    },
+    {
+      "sourceName": "Sinistcha",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "022/167",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv6::22"
+    },
+    {
+      "sourceName": "Teal Mask Ogerpon",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "024/167",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv6::24"
+    },
+    {
+      "sourceName": "Chandelure",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "038/167",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv6::38"
+    },
+    {
+      "sourceName": "Finizen",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "059/167",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv6::59"
+    },
+    {
+      "sourceName": "Palafin",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "060/167",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv6::60"
+    },
+    {
+      "sourceName": "Alakazam",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "082/167",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv6::82"
+    },
+    {
+      "sourceName": "Munkidori",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "095/167",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv6::95"
+    },
+    {
+      "sourceName": "Fezandipiti",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "096/167",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv6::96"
+    },
+    {
+      "sourceName": "Hisuian Arcanine",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "100/167",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv6::100"
+    },
+    {
+      "sourceName": "Okidogi",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "111/167",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv6::111"
+    },
+    {
+      "sourceName": "Ogre's Mask",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "159/167",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv6::159"
+    },
+    {
+      "sourceName": "Pikachu",
+      "sourceSet": "Temporal Forces",
+      "sourceNumber": "051/162",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv5::51"
+    },
+    {
+      "sourceName": "Iron Thorns",
+      "sourceSet": "Temporal Forces",
+      "sourceNumber": "062/162",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv5::62"
+    },
+    {
+      "sourceName": "Scream Tail",
+      "sourceSet": "Temporal Forces",
+      "sourceNumber": "077/162",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv5::77"
+    },
+    {
+      "sourceName": "Iron Valiant",
+      "sourceSet": "Temporal Forces",
+      "sourceNumber": "079/162",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv5::79"
+    },
+    {
+      "sourceName": "Roaring Moon",
+      "sourceSet": "Temporal Forces",
+      "sourceNumber": "109/162",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv5::109"
+    },
+    {
+      "sourceName": "Koraidon",
+      "sourceSet": "Temporal Forces",
+      "sourceNumber": "119/162",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv5::119"
+    },
+    {
+      "sourceName": "Miraidon",
+      "sourceSet": "Temporal Forces",
+      "sourceNumber": "121/162",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv5::121"
+    },
+    {
+      "sourceName": "Hoothoot",
+      "sourceSet": "Temporal Forces",
+      "sourceNumber": "126/162",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv5::126"
+    },
+    {
+      "sourceName": "Noctowl",
+      "sourceSet": "Temporal Forces",
+      "sourceNumber": "127/162",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv5::127"
+    },
+    {
+      "sourceName": "Charmander",
+      "sourceSet": "Paldean Fates",
+      "sourceNumber": "007/091",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv4pt5::7"
+    },
+    {
+      "sourceName": "Charmeleon",
+      "sourceSet": "Paldean Fates",
+      "sourceNumber": "008/091",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv4pt5::8"
+    },
+    {
+      "sourceName": "Charcadet",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "026/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv4::26"
+    },
+    {
+      "sourceName": "Iron Moth",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "028/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv4::28"
+    },
+    {
+      "sourceName": "Kingdra",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "032/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv4::32"
+    },
+    {
+      "sourceName": "Palkia",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "040/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv4::40"
+    },
+    {
+      "sourceName": "Chien-Pao",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "057/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv4::57"
+    },
+    {
+      "sourceName": "Zekrom",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "066/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv4::66"
+    },
+    {
+      "sourceName": "Latios",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "073/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv4::73"
+    },
+    {
+      "sourceName": "Espathra",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "081/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv4::81"
+    },
+    {
+      "sourceName": "Lokix",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "122/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv4::122"
+    },
+    {
+      "sourceName": "Brute Bonnet",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "123/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv4::123"
+    },
+    {
+      "sourceName": "Steelix",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "125/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv4::125"
+    },
+    {
+      "sourceName": "Honedge",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "131/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv4::131"
+    },
+    {
+      "sourceName": "Doublade",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "132/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv4::132"
+    },
+    {
+      "sourceName": "Porygon-Z",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "144/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv4::144"
+    },
+    {
+      "sourceName": "Iron Jugulis",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "158/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv4::158"
+    },
+    {
+      "sourceName": "Ancient Booster Energy Capsule",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "159/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv4::159"
+    },
+    {
+      "sourceName": "Future Booster Energy Capsule",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "164/182",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv4::164"
+    },
+    {
+      "sourceName": "Charmander",
+      "sourceSet": "Scarlet & Violet 151",
+      "sourceNumber": "004/165",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3pt5::4"
+    },
+    {
+      "sourceName": "Charmeleon",
+      "sourceSet": "Scarlet & Violet 151",
+      "sourceNumber": "005/165",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3pt5::5"
+    },
+    {
+      "sourceName": "Raichu",
+      "sourceSet": "Scarlet & Violet 151",
+      "sourceNumber": "026/165",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3pt5::26"
+    },
+    {
+      "sourceName": "Abra",
+      "sourceSet": "Scarlet & Violet 151",
+      "sourceNumber": "063/165",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3pt5::63"
+    },
+    {
+      "sourceName": "Kadabra",
+      "sourceSet": "Scarlet & Violet 151",
+      "sourceNumber": "064/165",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3pt5::64"
+    },
+    {
+      "sourceName": "Machamp",
+      "sourceSet": "Scarlet & Violet 151",
+      "sourceNumber": "068/165",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3pt5::68"
+    },
+    {
+      "sourceName": "Gengar",
+      "sourceSet": "Scarlet & Violet 151",
+      "sourceNumber": "094/165",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3pt5::94"
+    },
+    {
+      "sourceName": "Electabuzz",
+      "sourceSet": "Scarlet & Violet 151",
+      "sourceNumber": "125/165",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3pt5::125"
+    },
+    {
+      "sourceName": "Dragonite",
+      "sourceSet": "Scarlet & Violet 151",
+      "sourceNumber": "149/165",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3pt5::149"
+    },
+    {
+      "sourceName": "Rowlet",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "013/197",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3::13"
+    },
+    {
+      "sourceName": "Dartrix",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "014/197",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3::14"
+    },
+    {
+      "sourceName": "Bounsweet",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "016/197",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3::16"
+    },
+    {
+      "sourceName": "Steenee",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "017/197",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3::17"
+    },
+    {
+      "sourceName": "Scovillain",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "025/197",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3::25"
+    },
+    {
+      "sourceName": "Froakie",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "056/197",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3::56"
+    },
+    {
+      "sourceName": "Frogadier",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "057/197",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3::57"
+    },
+    {
+      "sourceName": "Palafin",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "062/197",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3::62"
+    },
+    {
+      "sourceName": "Togekiss",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "085/197",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3::85"
+    },
+    {
+      "sourceName": "Greavard",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "100/197",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3::100"
+    },
+    {
+      "sourceName": "Larvitar",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "105/197",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3::105"
+    },
+    {
+      "sourceName": "Pupitar",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "106/197",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3::106"
+    },
+    {
+      "sourceName": "Darkrai",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "136/197",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3::136"
+    },
+    {
+      "sourceName": "Scizor",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "141/197",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3::141"
+    },
+    {
+      "sourceName": "Pawniard",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "148/197",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3::148"
+    },
+    {
+      "sourceName": "Bisharp",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "149/197",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv3::149"
+    },
+    {
+      "sourceName": "Gyarados",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "043/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::43"
+    },
+    {
+      "sourceName": "Baxcalibur",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "060/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::60"
+    },
+    {
+      "sourceName": "Luxray",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "071/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::71"
+    },
+    {
+      "sourceName": "Pawmi",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "074/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::74"
+    },
+    {
+      "sourceName": "Pawmo",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "075/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::75"
+    },
+    {
+      "sourceName": "Ceruledge",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "098/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::98"
+    },
+    {
+      "sourceName": "Tinkaton",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "105/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::105"
+    },
+    {
+      "sourceName": "Mankey",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "106/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::106"
+    },
+    {
+      "sourceName": "Primeape",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "107/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::107"
+    },
+    {
+      "sourceName": "Larvitar",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "110/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::110"
+    },
+    {
+      "sourceName": "Pupitar",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "111/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::111"
+    },
+    {
+      "sourceName": "Rockruff",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "116/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::116"
+    },
+    {
+      "sourceName": "Garganacl",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "123/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::123"
+    },
+    {
+      "sourceName": "Glimmora",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "126/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::126"
+    },
+    {
+      "sourceName": "Tyranitar",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "135/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::135"
+    },
+    {
+      "sourceName": "Sableye",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "136/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::136"
+    },
+    {
+      "sourceName": "Hydreigon",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "140/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::140"
+    },
+    {
+      "sourceName": "Maschiff",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "142/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::142"
+    },
+    {
+      "sourceName": "Orthworm",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "151/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::151"
+    },
+    {
+      "sourceName": "Slakoth",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "160/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::160"
+    },
+    {
+      "sourceName": "Vigoroth",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "161/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::161"
+    },
+    {
+      "sourceName": "Slaking",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "162/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::162"
+    },
+    {
+      "sourceName": "Tandemaus",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "167/193",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv2::167"
+    },
+    {
+      "sourceName": "Meowscarada",
+      "sourceSet": "Scarlet & Violet",
+      "sourceNumber": "015/198",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv1::15"
+    },
+    {
+      "sourceName": "Skeledirge",
+      "sourceSet": "Scarlet & Violet",
+      "sourceNumber": "038/198",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv1::38"
+    },
+    {
+      "sourceName": "Quaquaval",
+      "sourceSet": "Scarlet & Violet",
+      "sourceNumber": "054/198",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv1::54"
+    },
+    {
+      "sourceName": "Rotom",
+      "sourceSet": "Scarlet & Violet",
+      "sourceNumber": "070/198",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv1::70"
+    },
+    {
+      "sourceName": "Klawf",
+      "sourceSet": "Scarlet & Violet",
+      "sourceNumber": "122/198",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv1::122"
+    },
+    {
+      "sourceName": "Spiritomb",
+      "sourceSet": "Scarlet & Violet",
+      "sourceNumber": "129/198",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv1::129"
+    },
+    {
+      "sourceName": "Lechonk",
+      "sourceSet": "Scarlet & Violet",
+      "sourceNumber": "154/198",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sv1::154"
+    },
+    {
+      "sourceName": "Basic Grass Energy",
+      "sourceSet": "Scarlet & Violet Energies",
+      "sourceNumber": "001",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sve::001"
+    },
+    {
+      "sourceName": "Basic Fire Energy",
+      "sourceSet": "Scarlet & Violet Energies",
+      "sourceNumber": "002",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sve::002"
+    },
+    {
+      "sourceName": "Basic Water Energy",
+      "sourceSet": "Scarlet & Violet Energies",
+      "sourceNumber": "003",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sve::003"
+    },
+    {
+      "sourceName": "Basic Lightning Energy",
+      "sourceSet": "Scarlet & Violet Energies",
+      "sourceNumber": "004",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sve::004"
+    },
+    {
+      "sourceName": "Basic Psychic Energy",
+      "sourceSet": "Scarlet & Violet Energies",
+      "sourceNumber": "005",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sve::005"
+    },
+    {
+      "sourceName": "Basic Fighting Energy",
+      "sourceSet": "Scarlet & Violet Energies",
+      "sourceNumber": "006",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sve::006"
+    },
+    {
+      "sourceName": "Basic Darkness Energy",
+      "sourceSet": "Scarlet & Violet Energies",
+      "sourceNumber": "007",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sve::007"
+    },
+    {
+      "sourceName": "Basic Metal Energy",
+      "sourceSet": "Scarlet & Violet Energies",
+      "sourceNumber": "008",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sve::008"
+    },
+    {
+      "sourceName": "Kyogre",
+      "sourceSet": "Crown Zenith",
+      "sourceNumber": "036/159",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh12pt5::36"
+    },
+    {
+      "sourceName": "Spidops",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "009",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::009"
+    },
+    {
+      "sourceName": "Espathra",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "010",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::010"
+    },
+    {
+      "sourceName": "Arcanine",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "011",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::011"
+    },
+    {
+      "sourceName": "Dondozo",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "012",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::012"
+    },
+    {
+      "sourceName": "Smoliv",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "023",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::023"
+    },
+    {
+      "sourceName": "Growlithe",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "024",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::024"
+    },
+    {
+      "sourceName": "Tinkatink",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "025",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::025"
+    },
+    {
+      "sourceName": "Varoom",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "026",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::026"
+    },
+    {
+      "sourceName": "Pawmi",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "040",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::040"
+    },
+    {
+      "sourceName": "Paldean Wooper",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "041",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::041"
+    },
+    {
+      "sourceName": "Houndstone",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "042",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::042"
+    },
+    {
+      "sourceName": "Eevee",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "043",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::043"
+    },
+    {
+      "sourceName": "Bulbasaur",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "046",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::046"
+    },
+    {
+      "sourceName": "Charmander",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "047",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::047"
+    },
+    {
+      "sourceName": "Squirtle",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "048",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::048"
+    },
+    {
+      "sourceName": "Pineco",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "061",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::061"
+    },
+    {
+      "sourceName": "Sinistea",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "062",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::062"
+    },
+    {
+      "sourceName": "Cetitan",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "063",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::063"
+    },
+    {
+      "sourceName": "Arctibax",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "064",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::064"
+    },
+    {
+      "sourceName": "Carvanha",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "093",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::093"
+    },
+    {
+      "sourceName": "Bellibolt",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "094",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::094"
+    },
+    {
+      "sourceName": "Cleffa",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "095",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::095"
+    },
+    {
+      "sourceName": "Cyclizar",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "096",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::096"
+    },
+    {
+      "sourceName": "Shroodle",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "099",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::099"
+    },
+    {
+      "sourceName": "Toxel",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "119",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::119"
+    },
+    {
+      "sourceName": "Pupitar",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "120",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::120"
+    },
+    {
+      "sourceName": "Revavroom",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "121",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::121"
+    },
+    {
+      "sourceName": "Snorlax",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "122",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::122"
+    },
+    {
+      "sourceName": "Horsea",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "137",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::137"
+    },
+    {
+      "sourceName": "Porygon2",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "138",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::138"
+    },
+    {
+      "sourceName": "Latias",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "139",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::139"
+    },
+    {
+      "sourceName": "Tinkaton",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "140",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::140"
+    },
+    {
+      "sourceName": "Wooper",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "155",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::155"
+    },
+    {
+      "sourceName": "Quagsire",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "156",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::156"
+    },
+    {
+      "sourceName": "Zapdos",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "157",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::157"
+    },
+    {
+      "sourceName": "Pachirisu",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "158",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::158"
+    },
+    {
+      "sourceName": "Flareon",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "167",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::167"
+    },
+    {
+      "sourceName": "Vaporeon",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "168",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::168"
+    },
+    {
+      "sourceName": "Jolteon",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "169",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::169"
+    },
+    {
+      "sourceName": "Leafeon",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "170",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::170"
+    },
+    {
+      "sourceName": "Glaceon",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "171",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::171"
+    },
+    {
+      "sourceName": "Sylveon",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "172",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::172"
+    },
+    {
+      "sourceName": "Yanma",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "185",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::185"
+    },
+    {
+      "sourceName": "Scraggy",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "186",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::186"
+    },
+    {
+      "sourceName": "Yanmega",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "187",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::187"
+    },
+    {
+      "sourceName": "Scrafty",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "188",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::188"
+    },
+    {
+      "sourceName": "Zarude",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "199",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::199"
+    },
+    {
+      "sourceName": "Eevee",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "200",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::200"
+    },
+    {
+      "sourceName": "Zebstrika",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "201",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::201"
+    },
+    {
+      "sourceName": "Kangaskhan",
+      "sourceSet": "Scarlet & Violet Promos",
+      "sourceNumber": "202",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:svp::202"
+    },
+    {
+      "sourceName": "Articuno",
+      "sourceSet": "Silver Tempest",
+      "sourceNumber": "036/195",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh12::36"
+    },
+    {
+      "sourceName": "Pikachu",
+      "sourceSet": "Pokémon GO",
+      "sourceNumber": "027/078",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pgo::27"
+    },
+    {
+      "sourceName": "Blissey",
+      "sourceSet": "Pokémon GO",
+      "sourceNumber": "052/078",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pgo::52"
+    },
+    {
+      "sourceName": "Snorlax",
+      "sourceSet": "Pokémon GO",
+      "sourceNumber": "055/078",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pgo::55"
+    },
+    {
+      "sourceName": "Hisuian Voltorb",
+      "sourceSet": "Astral Radiance",
+      "sourceNumber": "002/189",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh10::2"
+    },
+    {
+      "sourceName": "Keldeo",
+      "sourceSet": "Astral Radiance",
+      "sourceNumber": "045/189",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh10::45"
+    },
+    {
+      "sourceName": "Hisuian Growlithe",
+      "sourceSet": "Astral Radiance",
+      "sourceNumber": "070/189",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh10::70"
+    },
+    {
+      "sourceName": "Hisuian Sneasel",
+      "sourceSet": "Astral Radiance",
+      "sourceNumber": "092/189",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh10::92"
+    },
+    {
+      "sourceName": "Absol",
+      "sourceSet": "Astral Radiance",
+      "sourceNumber": "097/189",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh10::97"
+    },
+    {
+      "sourceName": "Moltres",
+      "sourceSet": "Brilliant Stars",
+      "sourceNumber": "021/172",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh9::21"
+    },
+    {
+      "sourceName": "Empoleon",
+      "sourceSet": "Brilliant Stars",
+      "sourceNumber": "037/172",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh9::37"
+    },
+    {
+      "sourceName": "Mewtwo",
+      "sourceSet": "Brilliant Stars",
+      "sourceNumber": "056/172",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh9::56"
+    },
+    {
+      "sourceName": "Boss's Orders",
+      "sourceSet": "Brilliant Stars",
+      "sourceNumber": "132/172",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh9::132"
+    },
+    {
+      "sourceName": "Electrode",
+      "sourceSet": "Fusion Strike",
+      "sourceNumber": "088/264",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh8::88"
+    },
+    {
+      "sourceName": "Dragapult",
+      "sourceSet": "Fusion Strike",
+      "sourceNumber": "130/264",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh8::130"
+    },
+    {
+      "sourceName": "Landorus",
+      "sourceSet": "Fusion Strike",
+      "sourceNumber": "148/264",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh8::148"
+    },
+    {
+      "sourceName": "Galarian Obstagoon",
+      "sourceSet": "Fusion Strike",
+      "sourceNumber": "161/264",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh8::161"
+    },
+    {
+      "sourceName": "Wooloo",
+      "sourceSet": "Fusion Strike",
+      "sourceNumber": "222/264",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh8::222"
+    },
+    {
+      "sourceName": "Regieleki",
+      "sourceSet": "Evolving Skies",
+      "sourceNumber": "060/203",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh7::60"
+    },
+    {
+      "sourceName": "Marshadow",
+      "sourceSet": "Evolving Skies",
+      "sourceNumber": "080/203",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh7::80"
+    },
+    {
+      "sourceName": "Dialga",
+      "sourceSet": "Evolving Skies",
+      "sourceNumber": "112/203",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh7::112"
+    },
+    {
+      "sourceName": "Regidrago",
+      "sourceSet": "Evolving Skies",
+      "sourceNumber": "124/203",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh7::124"
+    },
+    {
+      "sourceName": "Inteleon",
+      "sourceSet": "Chilling Reign",
+      "sourceNumber": "043/198",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh6::43"
+    },
+    {
+      "sourceName": "Thundurus",
+      "sourceSet": "Chilling Reign",
+      "sourceNumber": "052/198",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh6::52"
+    },
+    {
+      "sourceName": "Galarian Slowking",
+      "sourceSet": "Chilling Reign",
+      "sourceNumber": "098/198",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh6::98"
+    },
+    {
+      "sourceName": "Klara",
+      "sourceSet": "Chilling Reign",
+      "sourceNumber": "145/198",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh6::145"
+    },
+    {
+      "sourceName": "Tepig",
+      "sourceSet": "Battle Styles",
+      "sourceNumber": "023/163",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh5::23"
+    },
+    {
+      "sourceName": "Shinx",
+      "sourceSet": "Battle Styles",
+      "sourceNumber": "046/163",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh5::46"
+    },
+    {
+      "sourceName": "Sandaconda",
+      "sourceSet": "Battle Styles",
+      "sourceNumber": "082/163",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh5::82"
+    },
+    {
+      "sourceName": "Professor's Research",
+      "sourceSet": "Shining Fates",
+      "sourceNumber": "060/072",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh45::60"
+    },
+    {
+      "sourceName": "Shaymin",
+      "sourceSet": "Vivid Voltage",
+      "sourceNumber": "015/185",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh4::15"
+    },
+    {
+      "sourceName": "Flareon",
+      "sourceSet": "Vivid Voltage",
+      "sourceNumber": "026/185",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh4::26"
+    },
+    {
+      "sourceName": "Vaporeon",
+      "sourceSet": "Vivid Voltage",
+      "sourceNumber": "030/185",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh4::30"
+    },
+    {
+      "sourceName": "Jolteon",
+      "sourceSet": "Vivid Voltage",
+      "sourceNumber": "047/185",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh4::47"
+    },
+    {
+      "sourceName": "Zapdos",
+      "sourceSet": "Vivid Voltage",
+      "sourceNumber": "048/185",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh4::48"
+    },
+    {
+      "sourceName": "Zekrom",
+      "sourceSet": "Vivid Voltage",
+      "sourceNumber": "060/185",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh4::60"
+    },
+    {
+      "sourceName": "Zeraora",
+      "sourceSet": "Vivid Voltage",
+      "sourceNumber": "061/185",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh4::61"
+    },
+    {
+      "sourceName": "Duraludon",
+      "sourceSet": "Vivid Voltage",
+      "sourceNumber": "129/185",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh4::129"
+    },
+    {
+      "sourceName": "Tornadus",
+      "sourceSet": "Vivid Voltage",
+      "sourceNumber": "142/185",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh4::142"
+    },
+    {
+      "sourceName": "Toxtricity",
+      "sourceSet": "Darkness Ablaze",
+      "sourceNumber": "063/189",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh3::63"
+    },
+    {
+      "sourceName": "Mimikyu",
+      "sourceSet": "Darkness Ablaze",
+      "sourceNumber": "081/189",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh3::81"
+    },
+    {
+      "sourceName": "Darkrai",
+      "sourceSet": "Darkness Ablaze",
+      "sourceNumber": "105/189",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh3::105"
+    },
+    {
+      "sourceName": "Applin",
+      "sourceSet": "Rebel Clash",
+      "sourceNumber": "020/192",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh2::20"
+    },
+    {
+      "sourceName": "Appletun",
+      "sourceSet": "Rebel Clash",
+      "sourceNumber": "023/192",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh2::23"
+    },
+    {
+      "sourceName": "Eiscue",
+      "sourceSet": "Rebel Clash",
+      "sourceNumber": "054/192",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh2::54"
+    },
+    {
+      "sourceName": "Galarian Sirfetch'd",
+      "sourceSet": "Rebel Clash",
+      "sourceNumber": "095/192",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh2::95"
+    },
+    {
+      "sourceName": "Snorlax",
+      "sourceSet": "Rebel Clash",
+      "sourceNumber": "141/192",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh2::141"
+    },
+    {
+      "sourceName": "Grookey",
+      "sourceSet": "Sword & Shield",
+      "sourceNumber": "010/202",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh1::10"
+    },
+    {
+      "sourceName": "Rillaboom",
+      "sourceSet": "Sword & Shield",
+      "sourceNumber": "014/202",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh1::14"
+    },
+    {
+      "sourceName": "Scorbunny",
+      "sourceSet": "Sword & Shield",
+      "sourceNumber": "030/202",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh1::30"
+    },
+    {
+      "sourceName": "Cinderace",
+      "sourceSet": "Sword & Shield",
+      "sourceNumber": "034/202",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh1::34"
+    },
+    {
+      "sourceName": "Shellder",
+      "sourceSet": "Sword & Shield",
+      "sourceNumber": "040/202",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh1::40"
+    },
+    {
+      "sourceName": "Sobble",
+      "sourceSet": "Sword & Shield",
+      "sourceNumber": "054/202",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh1::54"
+    },
+    {
+      "sourceName": "Inteleon",
+      "sourceSet": "Sword & Shield",
+      "sourceNumber": "058/202",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh1::58"
+    },
+    {
+      "sourceName": "Boltund",
+      "sourceSet": "Sword & Shield",
+      "sourceNumber": "076/202",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh1::76"
+    },
+    {
+      "sourceName": "Morpeko",
+      "sourceSet": "Sword & Shield",
+      "sourceNumber": "078/202",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh1::78"
+    },
+    {
+      "sourceName": "Snorlax",
+      "sourceSet": "Sword & Shield",
+      "sourceNumber": "140/202",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swsh1::140"
+    },
+    {
+      "sourceName": "Gossifleur",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH010",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH010"
+    },
+    {
+      "sourceName": "Wooloo",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH011",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH011"
+    },
+    {
+      "sourceName": "Morpeko",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH012",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH012"
+    },
+    {
+      "sourceName": "Galarian Ponyta",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH013",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH013"
+    },
+    {
+      "sourceName": "Mantine",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH026",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH026"
+    },
+    {
+      "sourceName": "Noctowl",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH027",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH027"
+    },
+    {
+      "sourceName": "Duraludon",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH028",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH028"
+    },
+    {
+      "sourceName": "Rayquaza",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH029",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH029"
+    },
+    {
+      "sourceName": "Morpeko",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH031",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH031"
+    },
+    {
+      "sourceName": "Snorlax",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH032",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH032"
+    },
+    {
+      "sourceName": "Zacian",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH033",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH033"
+    },
+    {
+      "sourceName": "Zamazenta",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH034",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH034"
+    },
+    {
+      "sourceName": "Pikachu",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH039",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH039"
+    },
+    {
+      "sourceName": "Hatenna",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH040",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH040"
+    },
+    {
+      "sourceName": "Flareon",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH041",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH041"
+    },
+    {
+      "sourceName": "Eevee",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH042",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH042"
+    },
+    {
+      "sourceName": "Eldegoss",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH046",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH046"
+    },
+    {
+      "sourceName": "Drednaw",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH047",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH047"
+    },
+    {
+      "sourceName": "Centiskorch",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH048",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH048"
+    },
+    {
+      "sourceName": "Lapras",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH051",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH051"
+    },
+    {
+      "sourceName": "Gengar",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH052",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH052"
+    },
+    {
+      "sourceName": "Machamp",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH053",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH053"
+    },
+    {
+      "sourceName": "Coalossal",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH054",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH054"
+    },
+    {
+      "sourceName": "Alcremie",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH058",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH058"
+    },
+    {
+      "sourceName": "Galarian Obstagoon",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH059",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH059"
+    },
+    {
+      "sourceName": "Duraludon",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH060",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH060"
+    },
+    {
+      "sourceName": "Grookey",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH070",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH070"
+    },
+    {
+      "sourceName": "Scorbunny",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH071",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH071"
+    },
+    {
+      "sourceName": "Vaporeon",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH072",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH072"
+    },
+    {
+      "sourceName": "Sobble",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH073",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH073"
+    },
+    {
+      "sourceName": "Special Delivery Pikachu",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH074",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH074"
+    },
+    {
+      "sourceName": "Special Delivery Charizard",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH075",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH075"
+    },
+    {
+      "sourceName": "Galarian Mr. Rime",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH079",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH079"
+    },
+    {
+      "sourceName": "Dedenne",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH080",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH080"
+    },
+    {
+      "sourceName": "Polteageist",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH081",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH081"
+    },
+    {
+      "sourceName": "Bunnelby",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH082",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH082"
+    },
+    {
+      "sourceName": "Charmander",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH092",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH092"
+    },
+    {
+      "sourceName": "Arrokuda",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH093",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH093"
+    },
+    {
+      "sourceName": "Jolteon",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH094",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH094"
+    },
+    {
+      "sourceName": "Eevee",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH095",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH095"
+    },
+    {
+      "sourceName": "Morpeko",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH116",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH116"
+    },
+    {
+      "sourceName": "Phanpy",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH117",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH117"
+    },
+    {
+      "sourceName": "Eevee",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH118",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH118"
+    },
+    {
+      "sourceName": "Snorlax",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH119",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH119"
+    },
+    {
+      "sourceName": "Marnie",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH120",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH120"
+    },
+    {
+      "sourceName": "Galarian Slowpoke",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH126",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH126"
+    },
+    {
+      "sourceName": "Eevee",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH127",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH127"
+    },
+    {
+      "sourceName": "Eiscue",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH128",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH128"
+    },
+    {
+      "sourceName": "Umbreon",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH129",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH129"
+    },
+    {
+      "sourceName": "Tepig",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH172",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH172"
+    },
+    {
+      "sourceName": "Blitzle",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH173",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH173"
+    },
+    {
+      "sourceName": "Espeon",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH174",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH174"
+    },
+    {
+      "sourceName": "Eevee",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH175",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH175"
+    },
+    {
+      "sourceName": "Special Delivery Bidoof",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH177",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH177"
+    },
+    {
+      "sourceName": "Flapple",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH189",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH189"
+    },
+    {
+      "sourceName": "Eevee",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH190",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH190"
+    },
+    {
+      "sourceName": "Leafeon",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH191",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH191"
+    },
+    {
+      "sourceName": "Glaceon",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH192",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH192"
+    },
+    {
+      "sourceName": "Toxel",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH209",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH209"
+    },
+    {
+      "sourceName": "Oricorio",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH210",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH210"
+    },
+    {
+      "sourceName": "Sylveon",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH211",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH211"
+    },
+    {
+      "sourceName": "Eevee",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH212",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH212"
+    },
+    {
+      "sourceName": "Rowlet",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH220",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH220"
+    },
+    {
+      "sourceName": "Cyndaquil",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH221",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH221"
+    },
+    {
+      "sourceName": "Oshawott",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH222",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH222"
+    },
+    {
+      "sourceName": "Bulbasaur",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH231",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH231"
+    },
+    {
+      "sourceName": "Charmander",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH232",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH232"
+    },
+    {
+      "sourceName": "Squirtle",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH233",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH233"
+    },
+    {
+      "sourceName": "Pikachu",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH234",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH234"
+    },
+    {
+      "sourceName": "Scorbunny",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH244",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH244"
+    },
+    {
+      "sourceName": "Croagunk",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH245",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH245"
+    },
+    {
+      "sourceName": "Weavile",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH246",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH246"
+    },
+    {
+      "sourceName": "Regigigas",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH247",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH247"
+    },
+    {
+      "sourceName": "Hisuian Basculin",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH273",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH273"
+    },
+    {
+      "sourceName": "Cranidos",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH274",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH274"
+    },
+    {
+      "sourceName": "Manaphy",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH275",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH275"
+    },
+    {
+      "sourceName": "Togetic",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH276",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH276"
+    },
+    {
+      "sourceName": "Rillaboom",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH277",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH277"
+    },
+    {
+      "sourceName": "Cinderace",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH278",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH278"
+    },
+    {
+      "sourceName": "Inteleon",
+      "sourceSet": "Sword & Shield Promos",
+      "sourceNumber": "SWSH279",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:swshp::SWSH279"
+    },
+    {
+      "sourceName": "Golisopod",
+      "sourceSet": "Unified Minds",
+      "sourceNumber": "51/236",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm11::51"
+    },
+    {
+      "sourceName": "Dragonite",
+      "sourceSet": "Unified Minds",
+      "sourceNumber": "151/236",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm11::151"
+    },
+    {
+      "sourceName": "Silvally",
+      "sourceSet": "Unified Minds",
+      "sourceNumber": "184/236",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm11::184"
+    },
+    {
+      "sourceName": "Arcanine",
+      "sourceSet": "Unbroken Bonds",
+      "sourceNumber": "22/214",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm10::22"
+    },
+    {
+      "sourceName": "Squirtle",
+      "sourceSet": "Unbroken Bonds",
+      "sourceNumber": "33/214",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm10::33"
+    },
+    {
+      "sourceName": "Wartortle",
+      "sourceSet": "Unbroken Bonds",
+      "sourceNumber": "34/214",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm10::34"
+    },
+    {
+      "sourceName": "Mewtwo",
+      "sourceSet": "Unbroken Bonds",
+      "sourceNumber": "75/214",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm10::75"
+    },
+    {
+      "sourceName": "Melmetal",
+      "sourceSet": "Unbroken Bonds",
+      "sourceNumber": "129/214",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm10::129"
+    },
+    {
+      "sourceName": "Charizard",
+      "sourceSet": "Team Up",
+      "sourceNumber": "14/181",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm9::14"
+    },
+    {
+      "sourceName": "Dragonite",
+      "sourceSet": "Team Up",
+      "sourceNumber": "119/181",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm9::119"
+    },
+    {
+      "sourceName": "Meganium",
+      "sourceSet": "Lost Thunder",
+      "sourceNumber": "8/214",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm8::8"
+    },
+    {
+      "sourceName": "Typhlosion",
+      "sourceSet": "Lost Thunder",
+      "sourceNumber": "42/214",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm8::42"
+    },
+    {
+      "sourceName": "Espeon",
+      "sourceSet": "Lost Thunder",
+      "sourceNumber": "89/214",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm8::89"
+    },
+    {
+      "sourceName": "Giratina",
+      "sourceSet": "Lost Thunder",
+      "sourceNumber": "97/214",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm8::97"
+    },
+    {
+      "sourceName": "Umbreon",
+      "sourceSet": "Lost Thunder",
+      "sourceNumber": "120/214",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm8::120"
+    },
+    {
+      "sourceName": "Steelix",
+      "sourceSet": "Lost Thunder",
+      "sourceNumber": "125/214",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm8::125"
+    },
+    {
+      "sourceName": "Gardevoir",
+      "sourceSet": "Lost Thunder",
+      "sourceNumber": "141/214",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm8::141"
+    },
+    {
+      "sourceName": "Blissey",
+      "sourceSet": "Lost Thunder",
+      "sourceNumber": "153/214",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm8::153"
+    },
+    {
+      "sourceName": "Wailord",
+      "sourceSet": "Celestial Storm",
+      "sourceNumber": "40/168",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm7::40"
+    },
+    {
+      "sourceName": "Salamence",
+      "sourceSet": "Celestial Storm",
+      "sourceNumber": "106/168",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm7::106"
+    },
+    {
+      "sourceName": "Regice",
+      "sourceSet": "Crimson Invasion",
+      "sourceNumber": "28/111",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm4::28"
+    },
+    {
+      "sourceName": "Regirock",
+      "sourceSet": "Crimson Invasion",
+      "sourceNumber": "53/111",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm4::53"
+    },
+    {
+      "sourceName": "Registeel",
+      "sourceSet": "Crimson Invasion",
+      "sourceNumber": "68/111",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm4::68"
+    },
+    {
+      "sourceName": "Pikachu",
+      "sourceSet": "Shining Legends",
+      "sourceNumber": "28/73",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm35::28"
+    },
+    {
+      "sourceName": "Gyarados",
+      "sourceSet": "Burning Shadows",
+      "sourceNumber": "33/147",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm3::33"
+    },
+    {
+      "sourceName": "Raichu",
+      "sourceSet": "Burning Shadows",
+      "sourceNumber": "41/147",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm3::41"
+    },
+    {
+      "sourceName": "Tapu Koko",
+      "sourceSet": "Yellow A Alternate",
+      "sourceNumber": "SM30a",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Eevee",
+      "sourceSet": "Yellow A Alternate",
+      "sourceNumber": "101a/149",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Alolan Sandshrew",
+      "sourceSet": "Yellow A Alternate",
+      "sourceNumber": "19a/145",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Alolan Vulpix",
+      "sourceSet": "Yellow A Alternate",
+      "sourceNumber": "21a/145",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Garbodor",
+      "sourceSet": "Yellow A Alternate",
+      "sourceNumber": "51a/145",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Kirlia",
+      "sourceSet": "Yellow A Alternate",
+      "sourceNumber": "92a/147",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Porygon-Z",
+      "sourceSet": "Yellow A Alternate",
+      "sourceNumber": "105a/147",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Regigigas",
+      "sourceSet": "Yellow A Alternate",
+      "sourceNumber": "84a/111",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Alolan Exeggutor",
+      "sourceSet": "Yellow A Alternate",
+      "sourceNumber": "2a/131",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Sceptile",
+      "sourceSet": "Yellow A Alternate",
+      "sourceNumber": "10a/168",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Altaria",
+      "sourceSet": "Yellow A Alternate",
+      "sourceNumber": "40a/70",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Alolan Golem",
+      "sourceSet": "Guardians Rising",
+      "sourceNumber": "42/145",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm2::42"
+    },
+    {
+      "sourceName": "Machamp",
+      "sourceSet": "Guardians Rising",
+      "sourceNumber": "65/145",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm2::65"
+    },
+    {
+      "sourceName": "Rowlet",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "9/149",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm1::9"
+    },
+    {
+      "sourceName": "Dartrix",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "10/149",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm1::10"
+    },
+    {
+      "sourceName": "Litten",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "24/149",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm1::24"
+    },
+    {
+      "sourceName": "Torracat",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "25/149",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm1::25"
+    },
+    {
+      "sourceName": "Popplio",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "39/149",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm1::39"
+    },
+    {
+      "sourceName": "Brionne",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "40/149",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm1::40"
+    },
+    {
+      "sourceName": "Crobat",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "56/149",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm1::56"
+    },
+    {
+      "sourceName": "Alolan Muk",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "58/149",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm1::58"
+    },
+    {
+      "sourceName": "Gigalith",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "71/149",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm1::71"
+    },
+    {
+      "sourceName": "Alolan Persian",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "79/149",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm1::79"
+    },
+    {
+      "sourceName": "Sharpedo",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "82/149",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm1::82"
+    },
+    {
+      "sourceName": "Alolan Dugtrio",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "87/149",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm1::87"
+    },
+    {
+      "sourceName": "Dragonite",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "96/149",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm1::96"
+    },
+    {
+      "sourceName": "Eevee",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "101/149",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:sm1::101"
+    },
+    {
+      "sourceName": "Rockruff",
+      "sourceSet": "Sun & Moon Promos",
+      "sourceNumber": "SM06",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:smp::SM06"
+    },
+    {
+      "sourceName": "Tapu Koko",
+      "sourceSet": "Sun & Moon Promos",
+      "sourceNumber": "SM30",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:smp::SM30"
+    },
+    {
+      "sourceName": "Alolan Meowth",
+      "sourceSet": "Sun & Moon Promos",
+      "sourceNumber": "SM51",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:smp::SM51"
+    },
+    {
+      "sourceName": "Alolan Raichu",
+      "sourceSet": "Sun & Moon Promos",
+      "sourceNumber": "SM65",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:smp::SM65"
+    },
+    {
+      "sourceName": "Detective Pikachu",
+      "sourceSet": "Sun & Moon Promos",
+      "sourceNumber": "SM170",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:smp::SM170"
+    },
+    {
+      "sourceName": "Bulbasaur",
+      "sourceSet": "Sun & Moon Promos",
+      "sourceNumber": "SM198",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:smp::SM198"
+    },
+    {
+      "sourceName": "Psyduck",
+      "sourceSet": "Sun & Moon Promos",
+      "sourceNumber": "SM199",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:smp::SM199"
+    },
+    {
+      "sourceName": "Snubbull",
+      "sourceSet": "Sun & Moon Promos",
+      "sourceNumber": "SM200",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:smp::SM200"
+    },
+    {
+      "sourceName": "Shiftry",
+      "sourceSet": "Steam Siege",
+      "sourceNumber": "11/114",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy11::11"
+    },
+    {
+      "sourceName": "Bisharp",
+      "sourceSet": "Steam Siege",
+      "sourceNumber": "64/114",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy11::64"
+    },
+    {
+      "sourceName": "Tyranitar",
+      "sourceSet": "Fates Collide",
+      "sourceNumber": "56/124",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy10::56"
+    },
+    {
+      "sourceName": "Lucario",
+      "sourceSet": "Fates Collide",
+      "sourceNumber": "63/124",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy10::63"
+    },
+    {
+      "sourceName": "Meganium",
+      "sourceSet": "BREAKpoint",
+      "sourceNumber": "3/122",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy9::3"
+    },
+    {
+      "sourceName": "Slowking",
+      "sourceSet": "BREAKpoint",
+      "sourceNumber": "21/122",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy9::21"
+    },
+    {
+      "sourceName": "Suicune",
+      "sourceSet": "BREAKpoint",
+      "sourceNumber": "30/122",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy9::30"
+    },
+    {
+      "sourceName": "Vivillon",
+      "sourceSet": "BREAKthrough",
+      "sourceNumber": "15/162",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy8::15"
+    },
+    {
+      "sourceName": "Typhlosion",
+      "sourceSet": "BREAKthrough",
+      "sourceNumber": "20/162",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy8::20"
+    },
+    {
+      "sourceName": "Raikou",
+      "sourceSet": "BREAKthrough",
+      "sourceNumber": "55/162",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy8::55"
+    },
+    {
+      "sourceName": "Gengar",
+      "sourceSet": "BREAKthrough",
+      "sourceNumber": "60/162",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy8::60"
+    },
+    {
+      "sourceName": "Gallade",
+      "sourceSet": "BREAKthrough",
+      "sourceNumber": "84/162",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy8::84"
+    },
+    {
+      "sourceName": "Zoroark",
+      "sourceSet": "BREAKthrough",
+      "sourceNumber": "91/162",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy8::91"
+    },
+    {
+      "sourceName": "Yveltal",
+      "sourceSet": "BREAKthrough",
+      "sourceNumber": "94/162",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy8::94"
+    },
+    {
+      "sourceName": "Xerneas",
+      "sourceSet": "BREAKthrough",
+      "sourceNumber": "107/162",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy8::107"
+    },
+    {
+      "sourceName": "Bellossom",
+      "sourceSet": "Ancient Origins",
+      "sourceNumber": "4/98",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy7::4"
+    },
+    {
+      "sourceName": "Flareon",
+      "sourceSet": "Ancient Origins",
+      "sourceNumber": "13/98",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy7::13"
+    },
+    {
+      "sourceName": "Entei",
+      "sourceSet": "Ancient Origins",
+      "sourceNumber": "14/98",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy7::14"
+    },
+    {
+      "sourceName": "Gyarados",
+      "sourceSet": "Ancient Origins",
+      "sourceNumber": "20/98",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy7::20"
+    },
+    {
+      "sourceName": "Gyarados",
+      "sourceSet": "Ancient Origins",
+      "sourceNumber": "21/98",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy7::21"
+    },
+    {
+      "sourceName": "Vaporeon",
+      "sourceSet": "Ancient Origins",
+      "sourceNumber": "22/98",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy7::22"
+    },
+    {
+      "sourceName": "Jolteon",
+      "sourceSet": "Ancient Origins",
+      "sourceNumber": "26/98",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy7::26"
+    },
+    {
+      "sourceName": "Gardevoir",
+      "sourceSet": "Ancient Origins",
+      "sourceNumber": "54/98",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy7::54"
+    },
+    {
+      "sourceName": "Dragonite",
+      "sourceSet": "Roaring Skies",
+      "sourceNumber": "52/108",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy6::52"
+    },
+    {
+      "sourceName": "Salamence",
+      "sourceSet": "Roaring Skies",
+      "sourceNumber": "57/108",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy6::57"
+    },
+    {
+      "sourceName": "Eelektross",
+      "sourceSet": "Primal Clash",
+      "sourceNumber": "65/160",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy5::65"
+    },
+    {
+      "sourceName": "Flygon",
+      "sourceSet": "Primal Clash",
+      "sourceNumber": "110/160",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy5::110"
+    },
+    {
+      "sourceName": "Pyroar",
+      "sourceSet": "Phantom Forces",
+      "sourceNumber": "12/119",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy4::12"
+    },
+    {
+      "sourceName": "Feraligatr",
+      "sourceSet": "Phantom Forces",
+      "sourceNumber": "17/119",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy4::17"
+    },
+    {
+      "sourceName": "Crobat",
+      "sourceSet": "Phantom Forces",
+      "sourceNumber": "33/119",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy4::33"
+    },
+    {
+      "sourceName": "Chandelure",
+      "sourceSet": "Phantom Forces",
+      "sourceNumber": "43/119",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy4::43"
+    },
+    {
+      "sourceName": "Hydreigon",
+      "sourceSet": "Phantom Forces",
+      "sourceNumber": "74/119",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy4::74"
+    },
+    {
+      "sourceName": "Goodra",
+      "sourceSet": "Phantom Forces",
+      "sourceNumber": "77/119",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy4::77"
+    },
+    {
+      "sourceName": "Blissey",
+      "sourceSet": "Phantom Forces",
+      "sourceNumber": "81/119",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy4::81"
+    },
+    {
+      "sourceName": "Politoed",
+      "sourceSet": "Furious Fists",
+      "sourceNumber": "18/111",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy3::18"
+    },
+    {
+      "sourceName": "Amaura",
+      "sourceSet": "Furious Fists",
+      "sourceNumber": "25/111",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy3::25"
+    },
+    {
+      "sourceName": "Aurorus",
+      "sourceSet": "Furious Fists",
+      "sourceNumber": "26/111",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy3::26"
+    },
+    {
+      "sourceName": "Machamp",
+      "sourceSet": "Furious Fists",
+      "sourceNumber": "46/111",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy3::46"
+    },
+    {
+      "sourceName": "Tyrunt",
+      "sourceSet": "Furious Fists",
+      "sourceNumber": "61/111",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy3::61"
+    },
+    {
+      "sourceName": "Tyrantrum",
+      "sourceSet": "Furious Fists",
+      "sourceNumber": "62/111",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy3::62"
+    },
+    {
+      "sourceName": "Hawlucha",
+      "sourceSet": "Furious Fists",
+      "sourceNumber": "63/111",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy3::63"
+    },
+    {
+      "sourceName": "Noivern",
+      "sourceSet": "Furious Fists",
+      "sourceNumber": "77/111",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy3::77"
+    },
+    {
+      "sourceName": "Fossil Researcher",
+      "sourceSet": "Furious Fists",
+      "sourceNumber": "92/111",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy3::92"
+    },
+    {
+      "sourceName": "Druddigon",
+      "sourceSet": "Flashfire",
+      "sourceNumber": "70/106",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy2::70"
+    },
+    {
+      "sourceName": "Chesnaught",
+      "sourceSet": "XY",
+      "sourceNumber": "14/146",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy1::14"
+    },
+    {
+      "sourceName": "Vivillon",
+      "sourceSet": "XY",
+      "sourceNumber": "17/146",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy1::17"
+    },
+    {
+      "sourceName": "Gogoat",
+      "sourceSet": "XY",
+      "sourceNumber": "19/146",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy1::19"
+    },
+    {
+      "sourceName": "Delphox",
+      "sourceSet": "XY",
+      "sourceNumber": "26/146",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy1::26"
+    },
+    {
+      "sourceName": "Talonflame",
+      "sourceSet": "XY",
+      "sourceNumber": "28/146",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy1::28"
+    },
+    {
+      "sourceName": "Greninja",
+      "sourceSet": "XY",
+      "sourceNumber": "41/146",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy1::41"
+    },
+    {
+      "sourceName": "Pikachu",
+      "sourceSet": "XY",
+      "sourceNumber": "42/146",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy1::42"
+    },
+    {
+      "sourceName": "Raichu",
+      "sourceSet": "XY",
+      "sourceNumber": "43/146",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy1::43"
+    },
+    {
+      "sourceName": "Rhyperior",
+      "sourceSet": "XY",
+      "sourceNumber": "62/146",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy1::62"
+    },
+    {
+      "sourceName": "Zoroark",
+      "sourceSet": "XY",
+      "sourceNumber": "73/146",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy1::73"
+    },
+    {
+      "sourceName": "Furfrou",
+      "sourceSet": "XY",
+      "sourceNumber": "114/146",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xy1::114"
+    },
+    {
+      "sourceName": "Charizard",
+      "sourceSet": "Legendary Treasures",
+      "sourceNumber": "19/113",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw11::19"
+    },
+    {
+      "sourceName": "Lucario",
+      "sourceSet": "Legendary Treasures",
+      "sourceNumber": "80/113",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw11::80"
+    },
+    {
+      "sourceName": "Zoroark",
+      "sourceSet": "Legendary Treasures",
+      "sourceNumber": "90/113",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw11::90"
+    },
+    {
+      "sourceName": "Xerneas",
+      "sourceSet": "XY Promos",
+      "sourceNumber": "XY05",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xyp::XY05"
+    },
+    {
+      "sourceName": "Yveltal",
+      "sourceSet": "XY Promos",
+      "sourceNumber": "XY06",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xyp::XY06"
+    },
+    {
+      "sourceName": "Kyogre",
+      "sourceSet": "XY Promos",
+      "sourceNumber": "XY51",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xyp::XY51"
+    },
+    {
+      "sourceName": "Groudon",
+      "sourceSet": "XY Promos",
+      "sourceNumber": "XY52",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xyp::XY52"
+    },
+    {
+      "sourceName": "Rayquaza",
+      "sourceSet": "XY Promos",
+      "sourceNumber": "XY64",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xyp::XY64"
+    },
+    {
+      "sourceName": "Jirachi",
+      "sourceSet": "XY Promos",
+      "sourceNumber": "XY67",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xyp::XY67"
+    },
+    {
+      "sourceName": "Giratina",
+      "sourceSet": "XY Promos",
+      "sourceNumber": "XY184",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:xyp::XY184"
+    },
+    {
+      "sourceName": "Blastoise",
+      "sourceSet": "Plasma Blast",
+      "sourceNumber": "16/101",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw10::16"
+    },
+    {
+      "sourceName": "Machamp",
+      "sourceSet": "Plasma Blast",
+      "sourceNumber": "49/101",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw10::49"
+    },
+    {
+      "sourceName": "Haxorus",
+      "sourceSet": "Plasma Blast",
+      "sourceNumber": "69/101",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw10::69"
+    },
+    {
+      "sourceName": "Reshiram",
+      "sourceSet": "Plasma Freeze",
+      "sourceNumber": "17/116",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw9::17"
+    },
+    {
+      "sourceName": "Zekrom",
+      "sourceSet": "Plasma Freeze",
+      "sourceNumber": "39/116",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw9::39"
+    },
+    {
+      "sourceName": "Dragonite",
+      "sourceSet": "Plasma Freeze",
+      "sourceNumber": "83/116",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw9::83"
+    },
+    {
+      "sourceName": "Infernape",
+      "sourceSet": "Plasma Storm",
+      "sourceNumber": "17/135",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw8::17"
+    },
+    {
+      "sourceName": "Weezing",
+      "sourceSet": "Plasma Storm",
+      "sourceNumber": "58/135",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw8::58"
+    },
+    {
+      "sourceName": "Gallade",
+      "sourceSet": "Plasma Storm",
+      "sourceNumber": "61/135",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw8::61"
+    },
+    {
+      "sourceName": "Serperior",
+      "sourceSet": "Boundaries Crossed",
+      "sourceNumber": "13/149",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw7::13"
+    },
+    {
+      "sourceName": "Charizard",
+      "sourceSet": "Boundaries Crossed",
+      "sourceNumber": "20/149",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw7::20"
+    },
+    {
+      "sourceName": "Emboar",
+      "sourceSet": "Boundaries Crossed",
+      "sourceNumber": "26/149",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw7::26"
+    },
+    {
+      "sourceName": "Samurott",
+      "sourceSet": "Boundaries Crossed",
+      "sourceNumber": "41/149",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw7::41"
+    },
+    {
+      "sourceName": "Electivire",
+      "sourceSet": "Boundaries Crossed",
+      "sourceNumber": "54/149",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw7::54"
+    },
+    {
+      "sourceName": "Dusknoir",
+      "sourceSet": "Boundaries Crossed",
+      "sourceNumber": "63/149",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw7::63"
+    },
+    {
+      "sourceName": "Scizor",
+      "sourceSet": "Boundaries Crossed",
+      "sourceNumber": "94/149",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw7::94"
+    },
+    {
+      "sourceName": "Dragonite",
+      "sourceSet": "Dragon Vault",
+      "sourceNumber": "5/20",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dv1::5"
+    },
+    {
+      "sourceName": "Salamence",
+      "sourceSet": "Dragon Vault",
+      "sourceNumber": "8/20",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dv1::8"
+    },
+    {
+      "sourceName": "Gyarados",
+      "sourceSet": "Dragons Exalted",
+      "sourceNumber": "24/124",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw6::24"
+    },
+    {
+      "sourceName": "Milotic",
+      "sourceSet": "Dragons Exalted",
+      "sourceNumber": "28/124",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw6::28"
+    },
+    {
+      "sourceName": "Ampharos",
+      "sourceSet": "Dragons Exalted",
+      "sourceNumber": "40/124",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw6::40"
+    },
+    {
+      "sourceName": "Sigilyph",
+      "sourceSet": "Dragons Exalted",
+      "sourceNumber": "52/124",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw6::52"
+    },
+    {
+      "sourceName": "Aggron",
+      "sourceSet": "Dragons Exalted",
+      "sourceNumber": "80/124",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw6::80"
+    },
+    {
+      "sourceName": "Garchomp",
+      "sourceSet": "Dragons Exalted",
+      "sourceNumber": "91/124",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw6::91"
+    },
+    {
+      "sourceName": "Hydreigon",
+      "sourceSet": "Dragons Exalted",
+      "sourceNumber": "98/124",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw6::98"
+    },
+    {
+      "sourceName": "Venusaur",
+      "sourceSet": "Dark Explorers",
+      "sourceNumber": "3/108",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw5::3"
+    },
+    {
+      "sourceName": "Blaziken",
+      "sourceSet": "Dark Explorers",
+      "sourceNumber": "17/108",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw5::17"
+    },
+    {
+      "sourceName": "Krookodile",
+      "sourceSet": "Dark Explorers",
+      "sourceNumber": "66/108",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw5::66"
+    },
+    {
+      "sourceName": "Moltres",
+      "sourceSet": "Next Destinies",
+      "sourceNumber": "14/99",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw4::14"
+    },
+    {
+      "sourceName": "Articuno",
+      "sourceSet": "Next Destinies",
+      "sourceNumber": "27/99",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw4::27"
+    },
+    {
+      "sourceName": "Raichu",
+      "sourceSet": "Next Destinies",
+      "sourceNumber": "40/99",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw4::40"
+    },
+    {
+      "sourceName": "Zapdos",
+      "sourceSet": "Next Destinies",
+      "sourceNumber": "41/99",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw4::41"
+    },
+    {
+      "sourceName": "Luxray",
+      "sourceSet": "Next Destinies",
+      "sourceNumber": "46/99",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw4::46"
+    },
+    {
+      "sourceName": "Beheeyem",
+      "sourceSet": "Next Destinies",
+      "sourceNumber": "62/99",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw4::62"
+    },
+    {
+      "sourceName": "Lucario",
+      "sourceSet": "Next Destinies",
+      "sourceNumber": "64/99",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw4::64"
+    },
+    {
+      "sourceName": "Wigglytuff",
+      "sourceSet": "Next Destinies",
+      "sourceNumber": "79/99",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw4::79"
+    },
+    {
+      "sourceName": "Persian",
+      "sourceSet": "Next Destinies",
+      "sourceNumber": "81/99",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw4::81"
+    },
+    {
+      "sourceName": "Virizion",
+      "sourceSet": "Noble Victories",
+      "sourceNumber": "13/101",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw3::13"
+    },
+    {
+      "sourceName": "Kyurem",
+      "sourceSet": "Noble Victories",
+      "sourceNumber": "34/101",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw3::34"
+    },
+    {
+      "sourceName": "Terrakion",
+      "sourceSet": "Noble Victories",
+      "sourceNumber": "73/101",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw3::73"
+    },
+    {
+      "sourceName": "Cobalion",
+      "sourceSet": "Noble Victories",
+      "sourceNumber": "84/101",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw3::84"
+    },
+    {
+      "sourceName": "Beartic",
+      "sourceSet": "Emerging Powers",
+      "sourceNumber": "30/98",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw2::30"
+    },
+    {
+      "sourceName": "Excadrill",
+      "sourceSet": "Emerging Powers",
+      "sourceNumber": "56/98",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw2::56"
+    },
+    {
+      "sourceName": "Snivy",
+      "sourceSet": "Black & White",
+      "sourceNumber": "1/114",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw1::1"
+    },
+    {
+      "sourceName": "Tepig",
+      "sourceSet": "Black & White",
+      "sourceNumber": "15/114",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw1::15"
+    },
+    {
+      "sourceName": "Oshawott",
+      "sourceSet": "Black & White",
+      "sourceNumber": "27/114",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bw1::27"
+    },
+    {
+      "sourceName": "Minccino",
+      "sourceSet": "Black & White Promos",
+      "sourceNumber": "BW13",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bwp::BW13"
+    },
+    {
+      "sourceName": "Zoroark",
+      "sourceSet": "Black & White Promos",
+      "sourceNumber": "BW19",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bwp::BW19"
+    },
+    {
+      "sourceName": "Scraggy",
+      "sourceSet": "Black & White Promos",
+      "sourceNumber": "BW25",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bwp::BW25"
+    },
+    {
+      "sourceName": "Riolu",
+      "sourceSet": "Black & White Promos",
+      "sourceNumber": "BW33",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bwp::BW33"
+    },
+    {
+      "sourceName": "Luxio",
+      "sourceSet": "Black & White Promos",
+      "sourceNumber": "BW34",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bwp::BW34"
+    },
+    {
+      "sourceName": "Pikachu",
+      "sourceSet": "Black & White Promos",
+      "sourceNumber": "BW54",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bwp::BW54"
+    },
+    {
+      "sourceName": "Druddigon",
+      "sourceSet": "Black & White Promos",
+      "sourceNumber": "BW80",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:bwp::BW80"
+    },
+    {
+      "sourceName": "Steelix",
+      "sourceSet": "Unleashed",
+      "sourceNumber": "24/95",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:hgss2::24"
+    },
+    {
+      "sourceName": "Tyranitar",
+      "sourceSet": "Unleashed",
+      "sourceNumber": "26/95",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:hgss2::26"
+    },
+    {
+      "sourceName": "Feraligatr",
+      "sourceSet": "HeartGold & SoulSilver",
+      "sourceNumber": "20/123",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:hgss1::20"
+    },
+    {
+      "sourceName": "Meganium",
+      "sourceSet": "HeartGold & SoulSilver",
+      "sourceNumber": "26/123",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:hgss1::26"
+    },
+    {
+      "sourceName": "Typhlosion",
+      "sourceSet": "HeartGold & SoulSilver",
+      "sourceNumber": "32/123",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:hgss1::32"
+    },
+    {
+      "sourceName": "Latias",
+      "sourceSet": "HeartGold & SoulSilver Promos",
+      "sourceNumber": "HGSS10",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:hsp::HGSS10"
+    },
+    {
+      "sourceName": "Latios",
+      "sourceSet": "HeartGold & SoulSilver Promos",
+      "sourceNumber": "HGSS11",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:hsp::HGSS11"
+    },
+    {
+      "sourceName": "Arcanine G",
+      "sourceSet": "Supreme Victors",
+      "sourceNumber": "15/147",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pl3::15"
+    },
+    {
+      "sourceName": "Milotic C",
+      "sourceSet": "Supreme Victors",
+      "sourceNumber": "35/147",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pl3::35"
+    },
+    {
+      "sourceName": "Gallade E4",
+      "sourceSet": "Rising Rivals",
+      "sourceNumber": "20/111",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pl2::20"
+    },
+    {
+      "sourceName": "Rhyperior E4",
+      "sourceSet": "Rising Rivals",
+      "sourceNumber": "32/111",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pl2::32"
+    },
+    {
+      "sourceName": "Manaphy",
+      "sourceSet": "POP Series 9",
+      "sourceNumber": "2/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop9::2"
+    },
+    {
+      "sourceName": "Regigigas",
+      "sourceSet": "POP Series 9",
+      "sourceNumber": "4/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop9::4"
+    },
+    {
+      "sourceName": "Rotom",
+      "sourceSet": "POP Series 9",
+      "sourceNumber": "5/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop9::5"
+    },
+    {
+      "sourceName": "Croagunk",
+      "sourceSet": "POP Series 9",
+      "sourceNumber": "7/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop9::7"
+    },
+    {
+      "sourceName": "Lopunny",
+      "sourceSet": "POP Series 9",
+      "sourceNumber": "9/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop9::9"
+    },
+    {
+      "sourceName": "Pachirisu",
+      "sourceSet": "POP Series 9",
+      "sourceNumber": "10/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop9::10"
+    },
+    {
+      "sourceName": "Pichu",
+      "sourceSet": "POP Series 9",
+      "sourceNumber": "11/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop9::11"
+    },
+    {
+      "sourceName": "Chimchar",
+      "sourceSet": "POP Series 9",
+      "sourceNumber": "13/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop9::13"
+    },
+    {
+      "sourceName": "Pikachu",
+      "sourceSet": "POP Series 9",
+      "sourceNumber": "15/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop9::15"
+    },
+    {
+      "sourceName": "Piplup",
+      "sourceSet": "POP Series 9",
+      "sourceNumber": "16/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop9::16"
+    },
+    {
+      "sourceName": "Giratina",
+      "sourceSet": "Platinum",
+      "sourceNumber": "28/127",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pl1::28"
+    },
+    {
+      "sourceName": "Shaymin",
+      "sourceSet": "Platinum",
+      "sourceNumber": "38/127",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pl1::38"
+    },
+    {
+      "sourceName": "Gyarados",
+      "sourceSet": "Stormfront",
+      "sourceNumber": "19/100",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dp7::19"
+    },
+    {
+      "sourceName": "Tyranitar",
+      "sourceSet": "Stormfront",
+      "sourceNumber": "30/100",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dp7::30"
+    },
+    {
+      "sourceName": "Heatran",
+      "sourceSet": "POP Series 8",
+      "sourceNumber": "1/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop8::1"
+    },
+    {
+      "sourceName": "Lucario",
+      "sourceSet": "POP Series 8",
+      "sourceNumber": "2/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop8::2"
+    },
+    {
+      "sourceName": "Luxray",
+      "sourceSet": "POP Series 8",
+      "sourceNumber": "3/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop8::3"
+    },
+    {
+      "sourceName": "Probopass",
+      "sourceSet": "POP Series 8",
+      "sourceNumber": "4/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop8::4"
+    },
+    {
+      "sourceName": "Yanmega",
+      "sourceSet": "POP Series 8",
+      "sourceNumber": "5/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop8::5"
+    },
+    {
+      "sourceName": "Happiny",
+      "sourceSet": "POP Series 8",
+      "sourceNumber": "14/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop8::14"
+    },
+    {
+      "sourceName": "Heatran",
+      "sourceSet": "Legends Awakened",
+      "sourceNumber": "30/146",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dp6::30"
+    },
+    {
+      "sourceName": "Regigigas",
+      "sourceSet": "Legends Awakened",
+      "sourceNumber": "37/146",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dp6::37"
+    },
+    {
+      "sourceName": "Cynthia's Feelings",
+      "sourceSet": "Legends Awakened",
+      "sourceNumber": "131/146",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dp6::131"
+    },
+    {
+      "sourceName": "Glaceon",
+      "sourceSet": "Majestic Dawn",
+      "sourceNumber": "20/100",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dp5::20"
+    },
+    {
+      "sourceName": "Leafeon",
+      "sourceSet": "Majestic Dawn",
+      "sourceNumber": "24/100",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dp5::24"
+    },
+    {
+      "sourceName": "Ampharos",
+      "sourceSet": "POP Series 7",
+      "sourceNumber": "1/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop7::1"
+    },
+    {
+      "sourceName": "Gallade",
+      "sourceSet": "POP Series 7",
+      "sourceNumber": "2/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop7::2"
+    },
+    {
+      "sourceName": "Latias",
+      "sourceSet": "POP Series 7",
+      "sourceNumber": "3/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop7::3"
+    },
+    {
+      "sourceName": "Latios",
+      "sourceSet": "POP Series 7",
+      "sourceNumber": "4/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop7::4"
+    },
+    {
+      "sourceName": "Mothim",
+      "sourceSet": "POP Series 7",
+      "sourceNumber": "5/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop7::5"
+    },
+    {
+      "sourceName": "Kirlia",
+      "sourceSet": "POP Series 7",
+      "sourceNumber": "8/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop7::8"
+    },
+    {
+      "sourceName": "Dialga",
+      "sourceSet": "Great Encounters",
+      "sourceNumber": "16/106",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dp4::16"
+    },
+    {
+      "sourceName": "Palkia",
+      "sourceSet": "Great Encounters",
+      "sourceNumber": "26/106",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dp4::26"
+    },
+    {
+      "sourceName": "Electivire",
+      "sourceSet": "Secret Wonders",
+      "sourceNumber": "25/132",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dp3::25"
+    },
+    {
+      "sourceName": "Magmortar",
+      "sourceSet": "Secret Wonders",
+      "sourceNumber": "31/132",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dp3::31"
+    },
+    {
+      "sourceName": "Manaphy",
+      "sourceSet": "POP Series 6",
+      "sourceNumber": "3/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop6::3"
+    },
+    {
+      "sourceName": "Gible",
+      "sourceSet": "POP Series 6",
+      "sourceNumber": "7/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop6::7"
+    },
+    {
+      "sourceName": "Riolu",
+      "sourceSet": "POP Series 6",
+      "sourceNumber": "8/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop6::8"
+    },
+    {
+      "sourceName": "Pikachu",
+      "sourceSet": "POP Series 6",
+      "sourceNumber": "9/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop6::9"
+    },
+    {
+      "sourceName": "Chimchar",
+      "sourceSet": "POP Series 6",
+      "sourceNumber": "14/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop6::14"
+    },
+    {
+      "sourceName": "Piplup",
+      "sourceSet": "POP Series 6",
+      "sourceNumber": "15/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop6::15"
+    },
+    {
+      "sourceName": "Turtwig",
+      "sourceSet": "POP Series 6",
+      "sourceNumber": "17/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop6::17"
+    },
+    {
+      "sourceName": "Bastiodon",
+      "sourceSet": "Mysterious Treasures",
+      "sourceNumber": "21/123",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dp2::21"
+    },
+    {
+      "sourceName": "Rampardos",
+      "sourceSet": "Mysterious Treasures",
+      "sourceNumber": "33/123",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dp2::33"
+    },
+    {
+      "sourceName": "Bebe's Search",
+      "sourceSet": "Mysterious Treasures",
+      "sourceNumber": "109/123",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dp2::109"
+    },
+    {
+      "sourceName": "Chimchar",
+      "sourceSet": "Diamond & Pearl",
+      "sourceNumber": "76/130",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dp1::76"
+    },
+    {
+      "sourceName": "Piplup",
+      "sourceSet": "Diamond & Pearl",
+      "sourceNumber": "93/130",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dp1::93"
+    },
+    {
+      "sourceName": "Turtwig",
+      "sourceSet": "Diamond & Pearl",
+      "sourceNumber": "103/130",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dp1::103"
+    },
+    {
+      "sourceName": "Professor Rowan",
+      "sourceSet": "Diamond & Pearl",
+      "sourceNumber": "112/130",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dp1::112"
+    },
+    {
+      "sourceName": "Piplup",
+      "sourceSet": "Diamond & Pearl Promos",
+      "sourceNumber": "DP03",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dpp::DP03"
+    },
+    {
+      "sourceName": "Pikachu",
+      "sourceSet": "Diamond & Pearl Promos",
+      "sourceNumber": "DP16",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dpp::DP16"
+    },
+    {
+      "sourceName": "Darkrai",
+      "sourceSet": "Diamond & Pearl Promos",
+      "sourceNumber": "DP24",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dpp::DP24"
+    },
+    {
+      "sourceName": "Dialga",
+      "sourceSet": "Diamond & Pearl Promos",
+      "sourceNumber": "DP26",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dpp::DP26"
+    },
+    {
+      "sourceName": "Palkia",
+      "sourceSet": "Diamond & Pearl Promos",
+      "sourceNumber": "DP27",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dpp::DP27"
+    },
+    {
+      "sourceName": "Regigigas",
+      "sourceSet": "Diamond & Pearl Promos",
+      "sourceNumber": "DP40",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dpp::DP40"
+    },
+    {
+      "sourceName": "Toxicroak G",
+      "sourceSet": "Diamond & Pearl Promos",
+      "sourceNumber": "DP41",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:dpp::DP41"
+    },
+    {
+      "sourceName": "Ho-Oh",
+      "sourceSet": "POP Series 5",
+      "sourceNumber": "1/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop5::1"
+    },
+    {
+      "sourceName": "Lugia",
+      "sourceSet": "POP Series 5",
+      "sourceNumber": "2/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop5::2"
+    },
+    {
+      "sourceName": "Mew",
+      "sourceSet": "POP Series 5",
+      "sourceNumber": "3/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop5::3"
+    },
+    {
+      "sourceName": "Pikachu",
+      "sourceSet": "POP Series 5",
+      "sourceNumber": "12/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop5::12"
+    },
+    {
+      "sourceName": "Dusclops",
+      "sourceSet": "EX Power Keepers",
+      "sourceNumber": "14/108",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:ex16::14"
+    },
+    {
+      "sourceName": "Mightyena",
+      "sourceSet": "EX Power Keepers",
+      "sourceNumber": "18/108",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:ex16::18"
+    },
+    {
+      "sourceName": "Blastoise",
+      "sourceSet": "EX Crystal Guardians",
+      "sourceNumber": "14/100",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:ex14::14"
+    },
+    {
+      "sourceName": "Swampert",
+      "sourceSet": "EX Crystal Guardians",
+      "sourceNumber": "27/100",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:ex14::27"
+    },
+    {
+      "sourceName": "Venusaur",
+      "sourceSet": "EX Crystal Guardians",
+      "sourceNumber": "28/100",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:ex14::28"
+    },
+    {
+      "sourceName": "Deoxys",
+      "sourceSet": "POP Series 4",
+      "sourceNumber": "2/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop4::2"
+    },
+    {
+      "sourceName": "Flygon",
+      "sourceSet": "POP Series 4",
+      "sourceNumber": "3/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop4::3"
+    },
+    {
+      "sourceName": "Mew",
+      "sourceSet": "POP Series 4",
+      "sourceNumber": "4/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop4::4"
+    },
+    {
+      "sourceName": "Combusken",
+      "sourceSet": "POP Series 4",
+      "sourceNumber": "6/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop4::6"
+    },
+    {
+      "sourceName": "Mudkip",
+      "sourceSet": "POP Series 4",
+      "sourceNumber": "11/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop4::11"
+    },
+    {
+      "sourceName": "Pikachu",
+      "sourceSet": "POP Series 4",
+      "sourceNumber": "13/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop4::13"
+    },
+    {
+      "sourceName": "Wobbuffet",
+      "sourceSet": "POP Series 4",
+      "sourceNumber": "16/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop4::16"
+    },
+    {
+      "sourceName": "Blastoise",
+      "sourceSet": "POP Series 3",
+      "sourceNumber": "1/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop3::1"
+    },
+    {
+      "sourceName": "Flareon",
+      "sourceSet": "POP Series 3",
+      "sourceNumber": "2/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop3::2"
+    },
+    {
+      "sourceName": "Jolteon",
+      "sourceSet": "POP Series 3",
+      "sourceNumber": "3/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop3::3"
+    },
+    {
+      "sourceName": "Minun",
+      "sourceSet": "POP Series 3",
+      "sourceNumber": "4/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop3::4"
+    },
+    {
+      "sourceName": "Plusle",
+      "sourceSet": "POP Series 3",
+      "sourceNumber": "5/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop3::5"
+    },
+    {
+      "sourceName": "Vaporeon",
+      "sourceSet": "POP Series 3",
+      "sourceNumber": "6/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop3::6"
+    },
+    {
+      "sourceName": "Ho-Oh ex",
+      "sourceSet": "POP Series 3",
+      "sourceNumber": "17/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop3::17"
+    },
+    {
+      "sourceName": "Omastar",
+      "sourceSet": "EX Legend Maker",
+      "sourceNumber": "23/92",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:ex12::23"
+    },
+    {
+      "sourceName": "Ho-Oh",
+      "sourceSet": "EX Unseen Forces",
+      "sourceNumber": "27/115",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:ex10::27"
+    },
+    {
+      "sourceName": "Lugia",
+      "sourceSet": "EX Unseen Forces",
+      "sourceNumber": "29/115",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:ex10::29"
+    },
+    {
+      "sourceName": "Entei",
+      "sourceSet": "POP Series 2",
+      "sourceNumber": "1/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop2::1"
+    },
+    {
+      "sourceName": "Pidgeot",
+      "sourceSet": "POP Series 2",
+      "sourceNumber": "2/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop2::2"
+    },
+    {
+      "sourceName": "Raikou",
+      "sourceSet": "POP Series 2",
+      "sourceNumber": "3/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop2::3"
+    },
+    {
+      "sourceName": "Suicune",
+      "sourceSet": "POP Series 2",
+      "sourceNumber": "4/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop2::4"
+    },
+    {
+      "sourceName": "Tauros",
+      "sourceSet": "POP Series 2",
+      "sourceNumber": "5/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop2::5"
+    },
+    {
+      "sourceName": "Venusaur",
+      "sourceSet": "POP Series 2",
+      "sourceNumber": "6/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop2::6"
+    },
+    {
+      "sourceName": "Celebi ex",
+      "sourceSet": "POP Series 2",
+      "sourceNumber": "17/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop2::17"
+    },
+    {
+      "sourceName": "Deoxys",
+      "sourceSet": "EX Deoxys",
+      "sourceNumber": "16/107",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:ex8::16"
+    },
+    {
+      "sourceName": "Rayquaza",
+      "sourceSet": "EX Deoxys",
+      "sourceNumber": "22/107",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:ex8::22"
+    },
+    {
+      "sourceName": "Dark Dragonite",
+      "sourceSet": "EX Team Rocket Returns",
+      "sourceNumber": "15/109",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:ex7::15"
+    },
+    {
+      "sourceName": "Dark Tyranitar",
+      "sourceSet": "EX Team Rocket Returns",
+      "sourceNumber": "20/109",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:ex7::20"
+    },
+    {
+      "sourceName": "Blaziken",
+      "sourceSet": "POP Series 1",
+      "sourceNumber": "1/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop1::1"
+    },
+    {
+      "sourceName": "Metagross",
+      "sourceSet": "POP Series 1",
+      "sourceNumber": "2/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop1::2"
+    },
+    {
+      "sourceName": "Rayquaza",
+      "sourceSet": "POP Series 1",
+      "sourceNumber": "3/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop1::3"
+    },
+    {
+      "sourceName": "Sceptile",
+      "sourceSet": "POP Series 1",
+      "sourceNumber": "4/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop1::4"
+    },
+    {
+      "sourceName": "Swampert",
+      "sourceSet": "POP Series 1",
+      "sourceNumber": "5/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop1::5"
+    },
+    {
+      "sourceName": "Armaldo ex",
+      "sourceSet": "POP Series 1",
+      "sourceNumber": "16/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop1::16"
+    },
+    {
+      "sourceName": "Tyranitar ex",
+      "sourceSet": "POP Series 1",
+      "sourceNumber": "17/17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:pop1::17"
+    },
+    {
+      "sourceName": "Flygon",
+      "sourceSet": "EX Dragon",
+      "sourceNumber": "15/97",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:ex3::15"
+    },
+    {
+      "sourceName": "Salamence",
+      "sourceSet": "EX Dragon",
+      "sourceNumber": "19/97",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:ex3::19"
+    },
+    {
+      "sourceName": "Multi Energy",
+      "sourceSet": "EX Sandstorm",
+      "sourceNumber": "93/100",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:ex2::93"
+    },
+    {
+      "sourceName": "Kyogre ex",
+      "sourceSet": "Nintendo Promos",
+      "sourceNumber": "001",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:np::001"
+    },
+    {
+      "sourceName": "Groudon ex",
+      "sourceSet": "Nintendo Promos",
+      "sourceNumber": "002",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:np::002"
+    },
+    {
+      "sourceName": "Pikachu",
+      "sourceSet": "Nintendo Promos",
+      "sourceNumber": "012",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:np::012"
+    },
+    {
+      "sourceName": "Treecko",
+      "sourceSet": "Nintendo Promos",
+      "sourceNumber": "016",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:np::016"
+    },
+    {
+      "sourceName": "Torchic",
+      "sourceSet": "Nintendo Promos",
+      "sourceNumber": "017",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:np::017"
+    },
+    {
+      "sourceName": "Mudkip",
+      "sourceSet": "Nintendo Promos",
+      "sourceNumber": "018",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:np::018"
+    },
+    {
+      "sourceName": "Whismur",
+      "sourceSet": "Nintendo Promos",
+      "sourceNumber": "019",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:np::019"
+    },
+    {
+      "sourceName": "Pikachu",
+      "sourceSet": "Nintendo Promos",
+      "sourceNumber": "035",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:np::035"
+    },
+    {
+      "sourceName": "Darkness Energy",
+      "sourceSet": "EX Ruby & Sapphire",
+      "sourceNumber": "93/109",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:ex1::93"
+    },
+    {
+      "sourceName": "Metal Energy",
+      "sourceSet": "EX Ruby & Sapphire",
+      "sourceNumber": "94/109",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:ex1::94"
+    },
+    {
+      "sourceName": "Rainbow Energy",
+      "sourceSet": "Energize Your Game Cycle 2002",
+      "sourceNumber": "No. 001",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Fighting Energy",
+      "sourceSet": "Energize Your Game Cycle 2002",
+      "sourceNumber": "No. 002",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Fire Energy",
+      "sourceSet": "Energize Your Game Cycle 2002",
+      "sourceNumber": "No. 003",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Grass Energy",
+      "sourceSet": "Energize Your Game Cycle 2002",
+      "sourceNumber": "No. 004",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Lightning Energy",
+      "sourceSet": "Energize Your Game Cycle 2002",
+      "sourceNumber": "No. 005",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Psychic Energy",
+      "sourceSet": "Energize Your Game Cycle 2002",
+      "sourceNumber": "No. 006",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Water Energy",
+      "sourceSet": "Energize Your Game Cycle 2002",
+      "sourceNumber": "No. 007",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Recycle Energy",
+      "sourceSet": "Energize Your Game Cycle 2002",
+      "sourceNumber": "No. 008",
+      "reason": "unknown-set-name"
+    },
+    {
+      "sourceName": "Meowth",
+      "sourceSet": "Wizards of the Coast Promos",
+      "sourceNumber": "10",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:basep::10"
+    },
+    {
+      "sourceName": "Eevee",
+      "sourceSet": "Wizards of the Coast Promos",
+      "sourceNumber": "11",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:basep::11"
+    },
+    {
+      "sourceName": "Dark Persian",
+      "sourceSet": "Wizards of the Coast Promos",
+      "sourceNumber": "17",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:basep::17"
+    },
+    {
+      "sourceName": "_'s Pikachu",
+      "sourceSet": "Wizards of the Coast Promos",
+      "sourceNumber": "24",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:basep::24"
+    },
+    {
+      "sourceName": "Machamp",
+      "sourceSet": "Base Set",
+      "sourceNumber": "8/102",
+      "reason": "no-catalog-row",
+      "detail": "pokemon:base1::8"
+    }
+  ]
+}

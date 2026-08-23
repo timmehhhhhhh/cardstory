@@ -71,6 +71,13 @@ const FINISH_LABELS: Record<string, string> = {
   "1stEditionUnlimited": "1st Edition Unlimited",
   unlimited: "Unlimited",
   unlimitedHolofoil: "Unlimited Holofoil",
+  // Not a pokemontcg.io-provided key — see scripts/apply-cosmos-holo-variant.ts.
+  // A curated subset of `reverseHolofoil` rows TCGCollector independently
+  // verifies as using the "Cosmos Holo" foil texture gets its variantKey
+  // rewritten to this at import time, specifically so it gets its own
+  // Explore filter entry (see getDistinctVariants in lib/catalog/search.ts) —
+  // unlike finish-patterns.ts's curated overlays, which stay display-only.
+  cosmosHolo: "Cosmos Holo",
 };
 
 /** "someNewFinish" -> "Some New Finish" — a readable fallback for a finish key this app doesn't recognize yet, so an unseen provider key still renders something legible instead of being silently dropped. */

@@ -1,0 +1,7 @@
+{
+  "gameId": "pokemon",
+  "sourceNote": "Cards TCGCollector tags with the 'Cosmos Holo' card variant (https://www.tcgcollector.com/cards/intl?releaseDateOrder=newToOld&cardVariantTypes=48), captured by scripts/crawl-tcgcollector-cosmos-holo.ts and matched to existing reverseHolofoil CatalogItem rows by set name + card number + name guard. Applying this file (scripts/apply-cosmos-holo-variant.ts) only changes each matched row's variantKey to 'cosmosHolo' — never its id — so it's a permanent, reseed-safe change.",
+  "verified": false,
+  "generatedAt": "2026-08-23T12:13:13.488Z",
+  "entries": []
+}

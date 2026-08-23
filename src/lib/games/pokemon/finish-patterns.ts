@@ -24,6 +24,14 @@
  * than just showing the generic finish name. Broader historical coverage
  * (Team Rocket-era "cosmos" reverse holos, etc.) is intentionally a
  * follow-up, not part of this initial table.
+ *
+ * "Cosmos Holo" itself did NOT go through this table — it needed its own
+ * Explore filter entry (not just a per-tile display name), which this
+ * read-time overlay deliberately can't provide (see getDistinctVariants in
+ * lib/catalog/search.ts). Instead, TCGCollector-verified Cosmos Holo cards
+ * have their `variantKey` itself rewritten from "reverseHolofoil" to
+ * "cosmosHolo" at import time — see scripts/crawl-tcgcollector-cosmos-holo.ts
+ * and scripts/apply-cosmos-holo-variant.ts.
  */
 const FINISH_PATTERNS: Record<string, Record<string, string>> = {
   // Legendary Collection (2002) — every reverseHolofoil print in this set
