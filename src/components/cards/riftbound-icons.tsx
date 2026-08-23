@@ -37,7 +37,7 @@ const RARITY_SHAPE: Record<string, (color: string) => React.ReactNode> = {
 const RARITY_COLOR: Record<string, string> = {
   Common: "#9ca3af",
   Uncommon: "#3aa76d",
-  Rare: "#3b82f6",
+  Rare: "#7c3aed",
   Epic: "#e08a2b",
   Showcase: "#d4af37",
   Promo: "#a855f7",
