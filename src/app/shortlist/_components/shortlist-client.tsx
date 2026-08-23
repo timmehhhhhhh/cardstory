@@ -4,7 +4,7 @@ import * as React from "react";
 import { ShoppingBag } from "lucide-react";
 import { useShortlistData } from "@/hooks/use-shortlist-data";
 import { ShortlistAddBar } from "@/app/shortlist/_components/shortlist-add-bar";
-import { ShortlistRow } from "@/app/shortlist/_components/shortlist-row";
+import { ShortlistStackedRows } from "@/app/shortlist/_components/shortlist-row";
 import { ShortlistCheckoutBar } from "@/app/shortlist/_components/shortlist-checkout-bar";
 import { ShortlistCheckoutDialog } from "@/app/shortlist/_components/shortlist-checkout-dialog";
 import { computeShortlistTotals } from "@/lib/shortlist/selectors";
@@ -76,15 +76,12 @@ export function ShortlistClient() {
               {totals.cardCount === 1 ? "" : "s"}
             </span>
           </div>
-          {rows.map((row) => (
-            <ShortlistRow
-              key={row.id}
-              row={row}
-              selected={selected.has(row.id)}
-              onToggleSelected={(v) => toggle(row.id, v)}
-              autoFocusPrice={row.id === focusId}
-            />
-          ))}
+          <ShortlistStackedRows
+            rows={rows}
+            selected={selected}
+            onToggleSelected={toggle}
+            focusId={focusId}
+          />
         </div>
       )}
 

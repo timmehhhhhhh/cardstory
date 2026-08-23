@@ -172,4 +172,39 @@
   .no-scrollbar {
     scrollbar-width: none;
   }
+
+  /*
+   * Card-story flip transition (card-story-dialog.tsx) — a 3D rotateY turn
+   * distinct from the stack tile's lateral slide, so "flip to the next
+   * copy's story" reads as its own gesture rather than a re-skinned swipe.
+   * Kept out of prefers-reduced-motion entirely via the `motion-reduce:
+   * animate-none` class at the call site rather than duplicating a
+   * reduced-motion variant here.
+   */
+  @keyframes card-flip-in {
+    from {
+      transform: rotateY(-90deg);
+      opacity: 0;
+    }
+    to {
+      transform: rotateY(0deg);
+      opacity: 1;
+    }
+  }
+  @keyframes card-flip-in-reverse {
+    from {
+      transform: rotateY(90deg);
+      opacity: 0;
+    }
+    to {
+      transform: rotateY(0deg);
+      opacity: 1;
+    }
+  }
+  .animate-card-flip-in {
+    animation: card-flip-in 220ms ease-out;
+  }
+  .animate-card-flip-in-reverse {
+    animation: card-flip-in-reverse 220ms ease-out;
+  }
 }

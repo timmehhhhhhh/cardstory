@@ -18,18 +18,31 @@ import { SUPPORTED_CURRENCIES, type SupportedCurrency } from "@/lib/constants";
 import { formatMoneyIn } from "@/lib/utils/format";
 import { useShortlistStore } from "@/lib/shortlist/store";
 import type { EnrichedShortlistItem } from "@/lib/shortlist/selectors";
+import { CardStack } from "@/components/cards/card-stack";
+import { CardStoryDialog } from "@/components/cards/card-story-dialog";
+import { groupShortlistIntoStacks, shortlistToStoryFace } from "@/lib/collections/stacks";
 
-export function ShortlistRow({
+/**
+ * One row's worth of content for a single shortlist item — the front (or
+ * only) face of a card stack (see card-stack.tsx). Pulled out of
+ * ShortlistRow so both a lone entry and every face of a duplicate stack
+ * (the same card added from a few different shops/visits) render through
+ * the exact same markup.
+ */
+function ShortlistRowFace({
   row,
   selected,
   onToggleSelected,
   autoFocusPrice,
+  stackBadge,
 }: {
   row: EnrichedShortlistItem;
   selected: boolean;
   onToggleSelected: (selected: boolean) => void;
   /** Set on the row that was just added, so the next thing typed is its price. */
   autoFocusPrice?: boolean;
+  /** "1 of 3" when this face belongs to a stack — shown alongside the source line. */
+  stackBadge?: string;
 }) {
   const updateShortlistItem = useShortlistStore((s) => s.updateShortlistItem);
   const removeShortlistItems = useShortlistStore((s) => s.removeShortlistItems);
@@ -58,11 +71,18 @@ export function ShortlistRow({
 
   return (
     <div className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-xl border border-border bg-surface px-3 py-2.5">
-      <Checkbox
-        checked={selected}
-        onCheckedChange={(v) => onToggleSelected(v === true)}
-        aria-label={`Select ${row.display.name}`}
-      />
+      {/* onPointerDown stopped on every interactive control below: when this
+          face sits inside a CardStack, its outer wrapper listens for
+          pointerdown/up on the whole row to detect swipe-vs-tap — without
+          this, using a control would also register as a tap and open the
+          card-story dialog at the same time. */}
+      <span onPointerDown={(e) => e.stopPropagation()}>
+        <Checkbox
+          checked={selected}
+          onCheckedChange={(v) => onToggleSelected(v === true)}
+          aria-label={`Select ${row.display.name}`}
+        />
+      </span>
 
       <div className="relative h-12 w-9 flex-none overflow-hidden rounded bg-muted">
         <CardImage src={row.display.imageUrl} alt="" className="object-contain" />
@@ -71,7 +91,11 @@ export function ShortlistRow({
       <div className="flex min-w-0 flex-1 basis-40 flex-col gap-0.5">
         <div className="flex items-center gap-1.5">
           {row.display.href ? (
-            <Link href={row.display.href} className="min-w-0 truncate text-sm font-medium hover:underline">
+            <Link
+              href={row.display.href}
+              onPointerDown={(e) => e.stopPropagation()}
+              className="min-w-0 truncate text-sm font-medium hover:underline"
+            >
               {row.display.name}
             </Link>
           ) : (
@@ -84,6 +108,7 @@ export function ShortlistRow({
         )}
         <span className="truncate text-xs text-muted-foreground">{row.display.subtitle}</span>
         <span className="truncate text-[11px] text-muted-foreground/80">
+          {stackBadge ? `${stackBadge} · ` : ""}
           {row.source ?? "Added manually"}
         </span>
         {marketHint != null && (
@@ -93,7 +118,7 @@ export function ShortlistRow({
         )}
       </div>
 
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1" onPointerDown={(e) => e.stopPropagation()}>
         <button
           type="button"
           aria-label="Decrease quantity"
@@ -113,7 +138,7 @@ export function ShortlistRow({
         </button>
       </div>
 
-      <div className="flex items-center gap-1.5">
+      <div className="flex items-center gap-1.5" onPointerDown={(e) => e.stopPropagation()}>
         <Select
           value={row.askingCurrency}
           onValueChange={(v) => updateShortlistItem(row.id, { askingCurrency: v as SupportedCurrency })}
@@ -154,11 +179,94 @@ export function ShortlistRow({
       <button
         type="button"
         aria-label={`Remove ${row.display.name}`}
+        onPointerDown={(e) => e.stopPropagation()}
         onClick={() => removeShortlistItems([row.id])}
         className="rounded p-1 text-muted-foreground hover:bg-destructive/10 hover:text-negative"
       >
         <Trash2 className="size-4" />
       </button>
     </div>
+  );
+}
+
+export function ShortlistRow({
+  row,
+  selected,
+  onToggleSelected,
+  autoFocusPrice,
+}: {
+  row: EnrichedShortlistItem;
+  selected: boolean;
+  onToggleSelected: (selected: boolean) => void;
+  autoFocusPrice?: boolean;
+}) {
+  return (
+    <ShortlistRowFace
+      row={row}
+      selected={selected}
+      onToggleSelected={onToggleSelected}
+      autoFocusPrice={autoFocusPrice}
+    />
+  );
+}
+
+/**
+ * Groups shortlist rows into stacks (same card added more than once — a
+ * few different shops, a few different visits) and renders each as a
+ * CardStack: "1 of N" swipeable, tap to read that entry's story (when it
+ * was added, from where, at what asking price). Rows the current
+ * selection/checkout logic keys on are still every underlying
+ * ShortlistItem id — a stack only changes how they're displayed, not what
+ * "select all" or checkout operate over.
+ */
+export function ShortlistStackedRows({
+  rows,
+  selected,
+  onToggleSelected,
+  focusId,
+}: {
+  rows: EnrichedShortlistItem[];
+  selected: Set<string>;
+  onToggleSelected: (id: string, selected: boolean) => void;
+  focusId: string | null;
+}) {
+  const [storyStack, setStoryStack] = React.useState<{
+    faces: EnrichedShortlistItem[];
+    index: number;
+  } | null>(null);
+
+  const stacks = groupShortlistIntoStacks(rows);
+
+  return (
+    <>
+      {stacks.map((stack) => (
+        <CardStack
+          key={stack.key}
+          stack={stack}
+          variant="row"
+          onActivate={(face, index) => setStoryStack({ faces: stack.faces, index })}
+          renderFace={(row, { index, total }) => (
+            <ShortlistRowFace
+              key={row.id}
+              row={row}
+              selected={selected.has(row.id)}
+              onToggleSelected={(v) => onToggleSelected(row.id, v)}
+              autoFocusPrice={row.id === focusId}
+              stackBadge={total > 1 ? `${index + 1} of ${total}` : undefined}
+            />
+          )}
+        />
+      ))}
+      {storyStack && (
+        <CardStoryDialog
+          faces={storyStack.faces.map(shortlistToStoryFace)}
+          initialIndex={storyStack.index}
+          open={storyStack !== null}
+          onOpenChange={(open) => {
+            if (!open) setStoryStack(null);
+          }}
+        />
+      )}
+    </>
   );
 }
