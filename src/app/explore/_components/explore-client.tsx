@@ -9,6 +9,7 @@ import { SidebarFilters } from "@/app/explore/_components/sidebar-filters";
 import { SortDropdown } from "@/app/explore/_components/sort-dropdown";
 import { ViewToggle } from "@/app/explore/_components/view-toggle";
 import { BusinessModeToggle } from "@/app/explore/_components/business-mode-toggle";
+import { QuickAddToggle } from "@/app/explore/_components/quick-add-toggle";
 import { SaveAsViewButton } from "@/app/explore/_components/save-as-view-button";
 import { ExploreGrid } from "@/app/explore/_components/explore-grid";
 import { filtersToSearchParams, type ExploreFilters } from "@/app/explore/_components/types";
@@ -218,6 +219,7 @@ export function ExploreClient({
               </button>
             )}
             <BusinessModeToggle />
+            <QuickAddToggle />
           </div>
           <div className="flex items-center gap-2">
             <span className="hidden text-sm text-muted-foreground sm:inline">

@@ -47,6 +47,7 @@ function defaultState(): PCStoreDataV1 {
       viewMode: "list",
       lastUsedCostBasisCurrency: "USD",
       businessMode: false,
+      quickAdd: false,
     },
   };
 }
@@ -56,6 +57,7 @@ export interface PCActions {
   setViewMode: (mode: ViewMode) => void;
   setLastUsedCostBasisCurrency: (currency: SupportedCurrency) => void;
   setBusinessMode: (businessMode: boolean) => void;
+  setQuickAdd: (quickAdd: boolean) => void;
 
   createPC: (name: string) => string;
   renamePC: (pcId: string, name: string) => void;
@@ -107,6 +109,8 @@ export const useLocalPCStore = create<PCState>()(
         set((s) => ({ preferences: { ...s.preferences, lastUsedCostBasisCurrency } })),
       setBusinessMode: (businessMode) =>
         set((s) => ({ preferences: { ...s.preferences, businessMode } })),
+      setQuickAdd: (quickAdd) =>
+        set((s) => ({ preferences: { ...s.preferences, quickAdd } })),
 
       createPC: (name) => {
         const p: PC = { id: id(), name, createdAt: nowIso(), holdings: [] };

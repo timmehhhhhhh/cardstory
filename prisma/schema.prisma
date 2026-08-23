@@ -539,10 +539,16 @@ model Holding {
   /// resolved via getPriceAtDate()/getSportsCardPriceAtDate() against that
   /// date (which may be backdated, not necessarily "today"). Null when
   /// acquiredAt predates the item's oldest price snapshot, the item has no
-  /// tracked price history at all, or the holding predates this field —
-  /// same "nullable denormalized cache" convention as latestPriceRaw.
+  /// tracked price history at all, the holding predates this field, or
+  /// acquiredAt itself hasn't been set yet — same "nullable denormalized
+  /// cache" convention as latestPriceRaw.
   priceAtAcquisition Decimal?  @db.Decimal(10, 2)
-  acquiredAt         DateTime
+  /// When the user physically acquired this card — distinct from
+  /// `createdAt` (when the row was added to CardStory). Left null unless
+  /// explicitly set by the user; no longer defaulted to "today" on add, so
+  /// this stays honest for the acquisition-history feature it's meant to
+  /// eventually support.
+  acquiredAt         DateTime?
   notes              String?
   /// A photo of the specific physical card this holding represents — the
   /// owner's own copy, distinct from CatalogItem/SportsCardItem's shared

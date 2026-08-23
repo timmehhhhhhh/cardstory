@@ -41,7 +41,7 @@ function toHolding(row: {
   costBasisTotal: unknown;
   costBasisCurrency: string;
   priceAtAcquisition: unknown;
-  acquiredAt: Date;
+  acquiredAt: Date | null;
   notes: string | null;
   imageUrl: string | null;
   createdAt: Date;
@@ -63,7 +63,7 @@ function toHolding(row: {
     costBasisTotal: Number(row.costBasisTotal),
     costBasisCurrency: row.costBasisCurrency as Holding["costBasisCurrency"],
     priceAtAcquisition: row.priceAtAcquisition != null ? Number(row.priceAtAcquisition) : undefined,
-    acquiredAt: row.acquiredAt.toISOString(),
+    acquiredAt: row.acquiredAt ? row.acquiredAt.toISOString() : null,
     notes: row.notes ?? undefined,
     imageUrl: row.imageUrl ?? undefined,
     createdAt: row.createdAt.toISOString(),
@@ -221,7 +221,7 @@ export async function addHolding(
       costBasisTotal: input.costBasisTotal,
       costBasisCurrency: input.costBasisCurrency,
       priceAtAcquisition: input.priceAtAcquisition,
-      acquiredAt: new Date(input.acquiredAt),
+      acquiredAt: input.acquiredAt ? new Date(input.acquiredAt) : null,
       notes: input.notes,
       imageUrl: input.imageUrl,
     },
@@ -265,7 +265,11 @@ export async function updateHolding(
     where: { id: holdingId },
     data: {
       ...rest,
-      ...(acquiredAt ? { acquiredAt: new Date(acquiredAt) } : {}),
+      // Distinguish "not present in the patch" (undefined — leave alone)
+      // from "explicitly cleared" (null) from "set to a date" (string) —
+      // a plain `acquiredAt ? {...} : {}` would silently drop an explicit
+      // null and never actually clear the date.
+      ...(acquiredAt !== undefined ? { acquiredAt: acquiredAt ? new Date(acquiredAt) : null } : {}),
     },
   });
 
@@ -401,7 +405,7 @@ export async function importLocalPC(
             costBasisTotal: h.costBasisTotal,
             costBasisCurrency: h.costBasisCurrency,
             priceAtAcquisition: h.priceAtAcquisition,
-            acquiredAt: new Date(h.acquiredAt),
+            acquiredAt: h.acquiredAt ? new Date(h.acquiredAt) : null,
             notes: h.notes,
             imageUrl: h.imageUrl,
           },

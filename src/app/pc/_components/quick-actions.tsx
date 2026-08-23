@@ -37,7 +37,7 @@ function exportCsv(rows: EnrichedHolding[]) {
       r.priceAtAcquisitionTotal != null ? r.priceAtAcquisitionTotal.toFixed(2) : "",
       r.marketValue.toFixed(2),
       r.gainLoss.toFixed(2),
-      r.acquiredAt.slice(0, 10),
+      r.acquiredAt ? r.acquiredAt.slice(0, 10) : "",
     ]
       .map((v) => `"${String(v).replace(/"/g, '""')}"`)
       .join(",")

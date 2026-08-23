@@ -64,7 +64,8 @@ export function ShortlistCheckoutDialog({
   const [gradeValue, setGradeValue] = React.useState("10");
   const [rawCondition, setRawCondition] = React.useState<RawCardCondition | "">("");
   const [language, setLanguage] = React.useState<ItemLanguage>("EN");
-  const [acquiredAt, setAcquiredAt] = React.useState(() => new Date().toISOString().slice(0, 10));
+  // Empty by default — Date Acquired is only ever set explicitly by the user.
+  const [acquiredAt, setAcquiredAt] = React.useState("");
   const [submitting, setSubmitting] = React.useState(false);
   const [result, setResult] = React.useState<{ succeeded: number; failed: number } | null>(null);
   // The rows actually being submitted. Starts as every selected row; after
@@ -83,7 +84,7 @@ export function ShortlistCheckoutDialog({
       setLanguage("EN");
       setCondition("raw");
       setRawCondition("");
-      setAcquiredAt(new Date().toISOString().slice(0, 10));
+      setAcquiredAt("");
       setResult(null);
       setPending(rows);
     }
@@ -105,7 +106,7 @@ export function ShortlistCheckoutDialog({
     for (const row of pending) {
       try {
         const priceAtAcquisition = await resolvePriceAtDate({
-          date: acquiredAt,
+          date: acquiredAt || null,
           liveSuggestedPrice: row.marketUnitPrice,
           catalogItemId: row.catalogItemId,
           sportsCardItemId: row.sportsCardItemId,
@@ -126,7 +127,7 @@ export function ShortlistCheckoutDialog({
           costBasisTotal: row.askingPrice * row.quantity,
           costBasisCurrency: row.askingCurrency,
           priceAtAcquisition,
-          acquiredAt: new Date(acquiredAt).toISOString(),
+          acquiredAt: acquiredAt ? new Date(acquiredAt).toISOString() : null,
         });
         succeeded.push(row.id);
       } catch {

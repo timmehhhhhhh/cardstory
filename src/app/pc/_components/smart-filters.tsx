@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Search, Sparkles, Star, X } from "lucide-react";
+import { CalendarDays, Search, Sparkles, Star, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import {
@@ -165,6 +165,39 @@ export function SmartFilters({
           <SelectItem value="KR">Korean</SelectItem>
         </SelectContent>
       </Select>
+
+      {/* Date Added filters on the holding's immutable createdAt — when it
+          landed in CardStory, not Date Acquired (acquiredAt), which is a
+          user-editable, optional physical-acquisition date. There's no way
+          to edit this field from the UI; it's filter-only. */}
+      <div className="flex items-center gap-1">
+        <CalendarDays className="size-3.5 shrink-0 text-muted-foreground" />
+        <Input
+          type="date"
+          value={filters.dateAddedFrom}
+          onChange={(e) => onChange({ dateAddedFrom: e.target.value })}
+          aria-label="Date added from"
+          className="h-8 w-[130px] bg-surface border-border text-sm"
+        />
+        <span className="text-xs text-muted-foreground">–</span>
+        <Input
+          type="date"
+          value={filters.dateAddedTo}
+          onChange={(e) => onChange({ dateAddedTo: e.target.value })}
+          aria-label="Date added to"
+          className="h-8 w-[130px] bg-surface border-border text-sm"
+        />
+        {(filters.dateAddedFrom || filters.dateAddedTo) && (
+          <button
+            type="button"
+            aria-label="Clear date added filter"
+            onClick={() => onChange({ dateAddedFrom: "", dateAddedTo: "" })}
+            className="text-muted-foreground hover:text-foreground"
+          >
+            <X className="size-3.5" />
+          </button>
+        )}
+      </div>
     </div>
   );
 }

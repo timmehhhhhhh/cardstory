@@ -94,7 +94,7 @@ export function EditHoldingDialog({
       setImageUrl(holding.imageUrl ?? "");
       setCostBasis(holding.costBasisTotal.toFixed(2));
       setCostBasisCurrency(holding.costBasisCurrency);
-      setAcquiredAt(holding.acquiredAt.slice(0, 10));
+      setAcquiredAt(holding.acquiredAt ? holding.acquiredAt.slice(0, 10) : "");
       setNotes(holding.notes ?? "");
       setError(null);
     }
@@ -108,10 +108,11 @@ export function EditHoldingDialog({
     setSubmitting(true);
     setError(null);
     try {
-      const acquiredAtChanged = acquiredAt !== holding.acquiredAt.slice(0, 10);
+      const acquiredAtChanged =
+        acquiredAt !== (holding.acquiredAt ? holding.acquiredAt.slice(0, 10) : "");
       const priceAtAcquisition = acquiredAtChanged
         ? await resolvePriceAtDate({
-            date: acquiredAt,
+            date: acquiredAt || null,
             liveSuggestedPrice: holding.unitPrice,
             catalogItemId: holding.catalogItemId,
             sportsCardItemId: holding.sportsCardItemId,
@@ -127,7 +128,7 @@ export function EditHoldingDialog({
         language,
         costBasisTotal: Number(costBasis) || 0,
         costBasisCurrency,
-        acquiredAt: new Date(acquiredAt).toISOString(),
+        acquiredAt: acquiredAt ? new Date(acquiredAt).toISOString() : null,
         imageUrl: imageUrl.trim() || undefined,
         notes: notes.trim() || undefined,
         ...(isCustom ? { customName: customName.trim() || undefined } : {}),
