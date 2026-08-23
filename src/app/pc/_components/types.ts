@@ -8,6 +8,14 @@ export interface HoldingFilters {
   language: "all" | "EN" | "JP" | "CN" | "TW" | "KR";
   /** Show only holdings whose catalog item is a promotional printing (CatalogItem.rarity === "Promo"). No-op for sports cards, which have no catalogItem. */
   promoOnly: boolean;
+  /**
+   * Filters on the holding's immutable `createdAt` (when it was added to
+   * CardStory) — a static, server-set field with no UI to edit it.
+   * Deliberately distinct from Date Acquired (`acquiredAt`), which is a
+   * user-editable, optional physical-acquisition date. "" | "YYYY-MM-DD".
+   */
+  dateAddedFrom: string;
+  dateAddedTo: string;
 }
 
 export const DEFAULT_HOLDING_FILTERS: HoldingFilters = {
@@ -19,4 +27,6 @@ export const DEFAULT_HOLDING_FILTERS: HoldingFilters = {
   condition: "all",
   language: "all",
   promoOnly: false,
+  dateAddedFrom: "",
+  dateAddedTo: "",
 };

@@ -68,6 +68,8 @@ export function PCClient() {
       if (filters.condition !== "all" && r.condition !== filters.condition) return false;
       if (filters.language !== "all" && r.language !== filters.language) return false;
       if (filters.promoOnly && r.catalogItem?.rarity !== "Promo") return false;
+      if (filters.dateAddedFrom && r.createdAt.slice(0, 10) < filters.dateAddedFrom) return false;
+      if (filters.dateAddedTo && r.createdAt.slice(0, 10) > filters.dateAddedTo) return false;
       return true;
     });
   }, [rows, filters, watchedIds]);
