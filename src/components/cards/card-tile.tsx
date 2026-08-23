@@ -89,15 +89,15 @@ export function CardTile({
   // router with a scheduled-but-uncommitted transition that fires later
   // (e.g. when the dialog closes and hands focus back to the trigger).
   // Structuring these as siblings avoids that class of bug entirely.
-  // When Quick Add is on (and Business mode isn't — that bypass already has
-  // its own dedicated trigger below), this skips AddHoldingDialog entirely
-  // and drops the card straight into the active PC with default values —
-  // no quantity/condition/date to fill in, mirroring the Business
-  // Inventory bypass's "no picker to get wrong" philosophy but for
-  // whichever PC is already active.
-  async function handleQuickAdd() {
+  // When Quick Add is on, this skips AddHoldingDialog entirely and drops
+  // the card straight into `targetPCId` with default values — no
+  // quantity/condition/date to fill in. Business mode and Quick Add now
+  // compose: Business mode picks the destination PC (Business Inventory
+  // vs. whichever personal PC is active), Quick Add decides whether the
+  // dialog is skipped to get there — see the two call sites below.
+  async function handleQuickAdd(targetPCId: string) {
     try {
-      await addHolding(activePCId, {
+      await addHolding(targetPCId, {
         kind: isSports ? "sports" : "tcg",
         catalogItemId: isSports ? undefined : item.id,
         sportsCardItemId: isSports ? item.id : undefined,
@@ -128,7 +128,7 @@ export function CardTile({
         type="button"
         aria-label="Add to collection"
         onClick={() => {
-          if (quickAdd && !businessMode) void handleQuickAdd();
+          if (quickAdd) void handleQuickAdd(businessMode ? ensureBusinessPC() : activePCId);
           else setAddDialogOpen(true);
         }}
         className={className}
@@ -153,7 +153,10 @@ export function CardTile({
   // Vendor-only quick-add, shown alongside the general Add trigger while
   // Business mode is on (see business-mode-toggle.tsx) — guarantees the
   // card lands in the Business Inventory pc with no PC picker to get
-  // wrong, unlike the general Add dialog which only *defaults* there.
+  // wrong, unlike the general Add dialog which only *defaults* there. When
+  // the Quick Add toggle is also on, this bypasses its own dialog too —
+  // same "skip the dialog" behavior as the general trigger above, just
+  // always targeting Business Inventory regardless of which PC is active.
   const addToBusinessInventoryTrigger = (className: string) => (
     <button
       type="button"
@@ -162,8 +165,12 @@ export function CardTile({
       onClick={() => {
         // Re-ensured here (idempotent) in case the Business Inventory pc
         // was deleted after Business mode was switched on.
-        setBusinessPCId(ensureBusinessPC());
-        setBusinessDialogOpen(true);
+        const targetPCId = ensureBusinessPC();
+        if (quickAdd) void handleQuickAdd(targetPCId);
+        else {
+          setBusinessPCId(targetPCId);
+          setBusinessDialogOpen(true);
+        }
       }}
       className={className}
     >
