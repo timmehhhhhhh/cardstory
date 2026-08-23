@@ -43,6 +43,6 @@
   // dashboard → Worker → Settings → Variables and Secrets, or
   // `wrangler secret put <NAME>`), since this file is committed.
   "vars": {
-    "NEXT_PUBLIC_APP_URL": "https://cardstory.timothy-lim1999.workers.dev"
+    "NEXT_PUBLIC_APP_URL": "https://cardstory.app"
   }
 }
