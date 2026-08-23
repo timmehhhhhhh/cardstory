@@ -13,6 +13,12 @@ import { db } from "@/lib/db";
 export const { handlers, auth, signIn, signOut } = NextAuth({
   session: { strategy: "jwt" },
   pages: { signIn: "/login" },
+  // Auth.js only auto-trusts the request host on Vercel/Cloudflare Pages
+  // (via VERCEL/CF_PAGES env vars); this app deploys to Cloudflare Workers,
+  // which isn't auto-detected. Without this, every /api/auth/* request in
+  // production is rejected with UntrustedHost before it reaches authorize(),
+  // so sign-in silently fails with a generic "incorrect credentials" error.
+  trustHost: true,
   providers: [
     Credentials({
       credentials: {
