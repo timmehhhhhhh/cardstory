@@ -20,7 +20,7 @@ import { GAMES, getGameMeta } from "@/lib/games/registry";
 import type { ExploreFilters } from "@/app/explore/_components/types";
 import type { CardTypeGroup, VariantGroup } from "@/lib/catalog/search";
 import { RIFTBOUND_RARITY_LABEL } from "@/lib/games/riftbound/rarity";
-import { DomainIcon, RarityIcon } from "@/components/cards/riftbound-icons";
+import { DomainIcon } from "@/components/cards/riftbound-icons";
 
 const WIRED_GAMES = GAMES.filter((g) => g.status === "WIRED");
 
@@ -301,7 +301,6 @@ export function SidebarFilters({
                   className="flex items-center gap-2 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground"
                 >
                   <RadioGroupItem value={r} />
-                  <RarityIcon rarity={r} />
                   {RIFTBOUND_RARITY_LABEL[r] ?? r}
                 </label>
               ))}
