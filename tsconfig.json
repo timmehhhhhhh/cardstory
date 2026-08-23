@@ -39,6 +39,17 @@
     ".next-verify/dev/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    // workers/** are standalone Cloudflare Workers (their own wrangler.jsonc,
+    // deployed independently of the Next.js app — see
+    // workers/cron-snapshot/wrangler.jsonc) that reference Workers runtime
+    // globals (ScheduledEvent, ExecutionContext) this app's tsconfig doesn't
+    // declare. Those globals normally resolve locally via the gitignored,
+    // `npm run cf-typegen`-generated cloudflare-env.d.ts, which masked this
+    // from `next build`'s TypeScript step whenever that file happened to
+    // exist — but it's never present on a clean checkout (CI included), so
+    // `**/*.ts` picking these files up broke the build outright. They aren't
+    // part of the app's compile unit and shouldn't be typechecked by it.
+    "workers"
   ]
 }
