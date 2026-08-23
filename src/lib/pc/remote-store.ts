@@ -170,9 +170,15 @@ export function useRemotePCStore<T>(
             })
         )
           .then((res) => {
-            if (!res.ok) reconcileWatchlist();
+            if (!res.ok) {
+              logMutationFailure("toggleWatchlist", res);
+              reconcileWatchlist();
+            }
           })
-          .catch(reconcileWatchlist);
+          .catch((err) => {
+            logMutationFailure("toggleWatchlist", null, err);
+            reconcileWatchlist();
+          });
       },
       isWatchlisted: (itemId: string) => watchlist.some((w) => w.itemId === itemId),
 

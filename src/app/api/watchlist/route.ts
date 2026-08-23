@@ -20,8 +20,13 @@ export async function POST(req: NextRequest) {
   const parsed = watchlistAddSchema.safeParse(await req.json());
   if (!parsed.success) return NextResponse.json({ error: "Invalid entry" }, { status: 400 });
 
-  await addWatchlistEntry(session.user.id, parsed.data.itemId, parsed.data.kind, parsed.data.priceAtAdd ?? null);
-  return NextResponse.json({ ok: true });
+  try {
+    await addWatchlistEntry(session.user.id, parsed.data.itemId, parsed.data.kind, parsed.data.priceAtAdd ?? null);
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    console.error("[watchlist] POST failed", err);
+    return NextResponse.json({ error: "Failed to add to watchlist" }, { status: 500 });
+  }
 }
 
 export async function DELETE(req: NextRequest) {
@@ -31,6 +36,11 @@ export async function DELETE(req: NextRequest) {
   const parsed = watchlistRemoveSchema.safeParse(await req.json());
   if (!parsed.success) return NextResponse.json({ error: "Invalid request" }, { status: 400 });
 
-  await removeWatchlistEntry(session.user.id, parsed.data.itemId);
-  return NextResponse.json({ ok: true });
+  try {
+    await removeWatchlistEntry(session.user.id, parsed.data.itemId);
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    console.error("[watchlist] DELETE failed", err);
+    return NextResponse.json({ error: "Failed to remove from watchlist" }, { status: 500 });
+  }
 }
