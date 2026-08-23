@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { logActivity } from "@/lib/activity/log";
 import type { Holding, NewHoldingInput, PC } from "@/lib/pc/types";
-import type { ImportPC } from "@/lib/pc/api-schemas";
+import type { ImportPC, LetGoDetails } from "@/lib/pc/api-schemas";
 
 /**
  * Server-backed PC storage for signed-in users — the accounts
@@ -44,6 +44,13 @@ function toHolding(row: {
   acquiredAt: Date | null;
   notes: string | null;
   imageUrl: string | null;
+  archivedAt: Date | null;
+  letGoAt: Date | null;
+  letGoMethod: string | null;
+  letGoTo: string | null;
+  letGoAmount: unknown;
+  letGoCurrency: string | null;
+  letGoNotes: string | null;
   createdAt: Date;
   updatedAt: Date;
 }): Holding {
@@ -66,6 +73,13 @@ function toHolding(row: {
     acquiredAt: row.acquiredAt ? row.acquiredAt.toISOString() : null,
     notes: row.notes ?? undefined,
     imageUrl: row.imageUrl ?? undefined,
+    archivedAt: row.archivedAt ? row.archivedAt.toISOString() : null,
+    letGoAt: row.letGoAt ? row.letGoAt.toISOString() : null,
+    letGoMethod: (row.letGoMethod as Holding["letGoMethod"]) ?? undefined,
+    letGoTo: row.letGoTo ?? undefined,
+    letGoAmount: row.letGoAmount != null ? Number(row.letGoAmount) : undefined,
+    letGoCurrency: (row.letGoCurrency as Holding["letGoCurrency"]) ?? undefined,
+    letGoNotes: row.letGoNotes ?? undefined,
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
   };
@@ -188,6 +202,29 @@ export async function renamePC(userId: string, pcId: string, name: string): Prom
 
 export async function deletePC(userId: string, pcId: string): Promise<void> {
   const pc = await assertOwnsPC(userId, pcId);
+
+  // Archived holdings are meant to survive forever (that's the whole point
+  // of PC Archives/Business Archives) — Holding.portfolioId cascades on
+  // delete, so an archived row left in this pc would otherwise be silently
+  // destroyed along with it. Hand any archived rows off to another pc of
+  // the same kind first; if there isn't one, refuse the delete rather than
+  // losing that history.
+  const archivedCount = await db.holding.count({ where: { portfolioId: pcId, archivedAt: { not: null } } });
+  if (archivedCount > 0) {
+    const fallback = await db.portfolio.findFirst({
+      where: { userId, kind: pc.kind, id: { not: pcId } },
+      orderBy: { createdAt: "asc" },
+      select: { id: true },
+    });
+    if (!fallback) {
+      throw new Error("PC has archived cards");
+    }
+    await db.holding.updateMany({
+      where: { portfolioId: pcId, archivedAt: { not: null } },
+      data: { portfolioId: fallback.id },
+    });
+  }
+
   await db.portfolio.delete({ where: { id: pcId } });
   await logActivity(userId, {
     action: "pc.deleted",
@@ -260,7 +297,7 @@ export async function updateHolding(
   patch: Partial<Omit<Holding, "id">>
 ): Promise<void> {
   const holding = await assertOwnsHolding(userId, holdingId);
-  const { acquiredAt, ...rest } = patch;
+  const { acquiredAt, archivedAt, letGoAt, ...rest } = patch;
   await db.holding.update({
     where: { id: holdingId },
     data: {
@@ -268,8 +305,12 @@ export async function updateHolding(
       // Distinguish "not present in the patch" (undefined — leave alone)
       // from "explicitly cleared" (null) from "set to a date" (string) —
       // a plain `acquiredAt ? {...} : {}` would silently drop an explicit
-      // null and never actually clear the date.
+      // null and never actually clear the date. Same reasoning applies to
+      // archivedAt/letGoAt below: a "restore" patch explicitly clears both
+      // with null (see restoreHolding-style calls from the Archives UI).
       ...(acquiredAt !== undefined ? { acquiredAt: acquiredAt ? new Date(acquiredAt) : null } : {}),
+      ...(archivedAt !== undefined ? { archivedAt: archivedAt ? new Date(archivedAt) : null } : {}),
+      ...(letGoAt !== undefined ? { letGoAt: letGoAt ? new Date(letGoAt) : null } : {}),
     },
   });
 
@@ -280,6 +321,66 @@ export async function updateHolding(
     entityId: holdingId,
     summary: `Updated ${itemName} in ${holding.portfolio.name}`,
     metadata: { changedFields: Object.keys(patch) },
+  });
+}
+
+/**
+ * Soft-deletes holdings out of the active PC into its Archives — the
+ * everyday "remove a card" path (item-grid/item-gallery trash icon,
+ * BulkActionsBar's Delete button). Unlike removeHoldings below, this never
+ * touches the row itself beyond stamping the archive columns, so every
+ * acquisition detail (acquiredAt, costBasisTotal, notes, imageUrl…) stays
+ * intact for PC Archives / Business Archives to show later. `letGo` is
+ * entirely optional — a user can archive with zero details and fill them
+ * in from Archives whenever the card turns out to matter to them.
+ */
+export async function archiveHoldings(
+  userId: string,
+  pcId: string,
+  holdingIds: string[],
+  letGo?: LetGoDetails
+): Promise<void> {
+  const pc = await assertOwnsPC(userId, pcId);
+  const holdings = await db.holding.findMany({
+    where: { portfolioId: pcId, id: { in: holdingIds } },
+    select: { kind: true, catalogItemId: true, sportsCardItemId: true, customName: true, quantity: true },
+  });
+  if (holdings.length === 0) return;
+
+  const letGoAt = letGo?.letGoAt ? new Date(letGo.letGoAt) : new Date();
+  await db.holding.updateMany({
+    where: { portfolioId: pcId, id: { in: holdingIds } },
+    data: {
+      archivedAt: new Date(),
+      letGoAt,
+      // Explicit nulls (not undefined) for anything left blank — this is
+      // the authoritative write of a fresh archive record, so a previous
+      // restore/re-archive cycle's stale letGo* values must actually be
+      // overwritten rather than left as whatever Prisma's "undefined means
+      // don't touch" default would otherwise preserve.
+      letGoMethod: letGo?.letGoMethod ?? null,
+      letGoTo: letGo?.letGoTo ?? null,
+      letGoAmount: letGo?.letGoAmount ?? null,
+      letGoCurrency: letGo?.letGoCurrency ?? null,
+      letGoNotes: letGo?.letGoNotes ?? null,
+    },
+  });
+
+  let summary: string;
+  if (holdings.length <= 5) {
+    const names = await Promise.all(
+      holdings.map((h) => resolveItemName(h.kind, h.catalogItemId, h.sportsCardItemId, h.customName))
+    );
+    const list = holdings.map((h, i) => formatQuantityLabel(h.quantity, names[i])).join(", ");
+    summary = `Archived ${list} from ${pc.name}`;
+  } else {
+    summary = `Archived ${holdings.length} cards from ${pc.name}`;
+  }
+  await logActivity(userId, {
+    action: "holding.archived",
+    entityType: "holding",
+    summary,
+    metadata: { pcId, holdingIds },
   });
 }
 

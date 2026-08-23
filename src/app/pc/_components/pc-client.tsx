@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { BookOpen } from "lucide-react";
+import { Archive, BookOpen } from "lucide-react";
 import { usePCData } from "@/hooks/use-pc-data";
 import { usePCStore } from "@/lib/pc/store";
 import { pcKind } from "@/lib/pc/types";
@@ -102,6 +102,12 @@ export function PCClient() {
             <Link href="/binder">
               <BookOpen className="size-4" />
               Binder
+            </Link>
+          </Button>
+          <Button asChild variant="outline" size="sm">
+            <Link href="/pc/archives">
+              <Archive className="size-4" />
+              Archives
             </Link>
           </Button>
         </div>

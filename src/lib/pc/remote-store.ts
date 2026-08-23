@@ -5,6 +5,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { id, useLocalPCStore, type PCState } from "@/lib/pc/local-store";
 import type { Holding, HoldingKind, NewHoldingInput, PC, WatchlistItem } from "@/lib/pc/types";
 import { pcKind } from "@/lib/pc/types";
+import type { LetGoDetails } from "@/lib/pc/api-schemas";
 
 const QUERY_KEY = ["pc"] as const;
 const WATCHLIST_QUERY_KEY = ["watchlist"] as const;
@@ -316,6 +317,49 @@ export function useRemotePCStore<T>(
           })
           .catch((err) => {
             logMutationFailure("updateHolding", null, err);
+            reconcile();
+          });
+      },
+
+      archiveHoldings: (pcId: string, holdingIds: string[], letGo?: LetGoDetails) => {
+        const letGoAt = letGo?.letGoAt ?? nowIso();
+        patch((ps) =>
+          ps.map((p) =>
+            p.id !== pcId
+              ? p
+              : {
+                  ...p,
+                  holdings: p.holdings.map((h) =>
+                    holdingIds.includes(h.id)
+                      ? {
+                          ...h,
+                          archivedAt: nowIso(),
+                          letGoAt,
+                          letGoMethod: letGo?.letGoMethod,
+                          letGoTo: letGo?.letGoTo,
+                          letGoAmount: letGo?.letGoAmount ?? undefined,
+                          letGoCurrency: letGo?.letGoCurrency,
+                          letGoNotes: letGo?.letGoNotes,
+                          updatedAt: nowIso(),
+                        }
+                      : h
+                  ),
+                }
+          )
+        );
+        fetch("/api/pc/holdings/archive", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ pcId, holdingIds, letGo }),
+        })
+          .then((res) => {
+            if (!res.ok) {
+              logMutationFailure("archiveHoldings", res);
+              reconcile();
+            }
+          })
+          .catch((err) => {
+            logMutationFailure("archiveHoldings", null, err);
             reconcile();
           });
       },

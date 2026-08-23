@@ -22,10 +22,25 @@ export function mutationErrorResponse(
 ): NextResponse {
   const isNotFound =
     err instanceof Error && (err.message === "PC not found" || err.message === "Holding not found");
+  // Thrown by manage.ts's deletePC when it holds archived cards with
+  // nowhere else of the same kind to go — a real, expected refusal (not a
+  // bug), so it gets its own status instead of collapsing into the generic
+  // 500 below.
+  const isArchiveConflict = err instanceof Error && err.message === "PC has archived cards";
 
   if (isStaleSessionUserError(err)) {
     console.error(`[${context.route}] stale session (userId has no users row)`, context, err);
     return staleSessionResponse();
+  }
+
+  if (isArchiveConflict) {
+    return NextResponse.json(
+      {
+        error:
+          "This PC still has archived cards with nowhere else to go. Create another PC of the same type first, or permanently delete its archived cards.",
+      },
+      { status: 409 }
+    );
   }
 
   console.error(`[${context.route}] mutation failed`, context, err);

@@ -11,11 +11,252 @@ import { usePCStore } from "@/lib/pc/store";
 import { formatMoney, formatPct } from "@/lib/utils/format";
 import { SportsCardImageDialog } from "@/components/sportscards/sports-card-image-dialog";
 import { EditHoldingDialog } from "@/components/pc/edit-holding-dialog";
+import { ArchiveDetailsDialog } from "@/components/pc/archive-details-dialog";
+import { withEnglishName } from "@/lib/catalog/card-name";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
 import { CardImage } from "@/components/cards/card-image";
 import { ParallelBadge } from "@/components/sportscards/parallel-badge";
 import { EmptyHoldings } from "@/app/pc/_components/empty-holdings";
 import { useAddToShortlist } from "@/lib/shortlist/use-add-to-shortlist";
+import { CardStack } from "@/components/cards/card-stack";
+import { CardStoryDialog } from "@/components/cards/card-story-dialog";
+import { groupHoldingsIntoStacks, holdingToStoryFace } from "@/lib/collections/stacks";
+
+/**
+ * One tile's worth of content for a single holding — the front (or only)
+ * face of a card stack (see card-stack.tsx). Pulled out of ItemGallery so
+ * both a lone card and every face of a duplicate stack render through the
+ * exact same markup.
+ */
+function HoldingGalleryFace({
+  r,
+  bulkMode,
+  isSelected,
+  onToggleSelect,
+  sourceLabel,
+  onEdit,
+  onArchive,
+  stackBadge,
+  suppressLink,
+}: {
+  r: EnrichedHolding;
+  bulkMode: boolean;
+  isSelected: boolean;
+  onToggleSelect: (holdingId: string) => void;
+  sourceLabel: string;
+  onEdit: (holding: EnrichedHolding) => void;
+  onArchive: (holding: EnrichedHolding) => void;
+  /** "1 of 4" when this face belongs to a stack — replaces the plain Qty badge. */
+  stackBadge?: string;
+  /**
+   * True when this face is part of a multi-copy stack — CardStack already
+   * turns a tap on the art into "open this copy's story" there, so the
+   * usual stretched link to the card's catalog page is dropped to avoid
+   * both firing on the same tap.
+   */
+  suppressLink?: boolean;
+}) {
+  const currency = usePCStore((s) => s.preferences.currency);
+  const addToShortlist = useAddToShortlist();
+  const [justShortlisted, setJustShortlisted] = React.useState(false);
+
+  const positive = r.gainLoss >= 0;
+
+  // The tile's content sits under a full-bleed <Link>/select button and
+  // is `pointer-events-none` so clicks reach it — which would also swallow
+  // the sports "attach a photo" affordance, hence the `pointer-events-auto`
+  // layer around it. In bulk mode it's dropped entirely (`attachable`
+  // false): selection is the only thing a click should mean there.
+  const art = (attachable: boolean) => (
+    <div className="relative aspect-[5/7] w-full bg-muted">
+      <CardImage
+        src={r.display.imageUrl}
+        alt={r.display.name}
+        sizes="(min-width:1024px) 200px, (min-width:640px) 30vw, 45vw"
+        className="object-contain p-1.5"
+        fallbackVariant="icon-label"
+        // Same routing as ItemGrid: a rotted URL lands on the sports
+        // "attach a photo" affordance rather than a broken image.
+        fallback={
+          attachable && r.sportsCardItem ? (
+            <span className="pointer-events-auto absolute inset-0 z-10">
+              <SportsCardImageDialog sportsCardItemId={r.sportsCardItem.id} />
+            </span>
+          ) : undefined
+        }
+        overlay={
+          r.display.imageWatermark ? (
+            <ParallelBadge
+              parallelName={r.display.imageWatermark.parallelName}
+              serialLimit={r.display.imageWatermark.serialLimit}
+              inherited={r.display.imageWatermark.inherited}
+            />
+          ) : undefined
+        }
+      />
+      <CardNumberBadge number={r.display.number} variant="overlay" />
+    </div>
+  );
+
+  // Pulled out of the subtitle string rather than parsed from it: this
+  // is the one piece of text that actually distinguishes two tiles of
+  // the same player (e.g. two LaMelo Ball cards differ by parallel,
+  // not by name), so it gets its own guaranteed-visible line instead
+  // of riding at the end of a single truncated line where a long set
+  // name pushes it off before it ever renders.
+  const parallelLabel = r.display.imageWatermark
+    ? [
+        r.display.imageWatermark.parallelName,
+        r.display.imageWatermark.serialLimit ? `/${r.display.imageWatermark.serialLimit}` : null,
+      ]
+        .filter(Boolean)
+        .join(" ")
+    : null;
+
+  const caption = (
+    <div className="flex min-w-0 flex-col gap-0.5 p-2.5">
+      <p className="truncate text-sm leading-tight font-medium">{r.display.name}</p>
+      {r.display.nameEn && (
+        <p className="truncate text-xs leading-snug text-muted-foreground">{r.display.nameEn}</p>
+      )}
+      {parallelLabel && (
+        <p className="line-clamp-2 text-xs leading-snug font-semibold text-primary">{parallelLabel}</p>
+      )}
+      {/* line-clamp-2 rather than truncate: this string is
+          "[year distributor setName] · #number · parallel · serial",
+          and a single truncated line was cutting off the set name
+          itself (never mind the parallel/serial after it). Two lines
+          covers the vast majority of real set names. */}
+      <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">{r.display.subtitle}</p>
+      <div className="mt-1 flex items-baseline justify-between gap-1.5">
+        <span className="num-tabular text-sm font-semibold">{formatMoney(r.marketValue, currency)}</span>
+        {r.gainLossPct != null && (
+          <span
+            className={cn(
+              "num-tabular flex flex-none items-center gap-0.5 text-[11px]",
+              positive ? "text-positive" : "text-negative"
+            )}
+          >
+            {positive ? <TrendingUp className="size-3" /> : <TrendingDown className="size-3" />}
+            {formatPct(r.gainLossPct)}
+          </span>
+        )}
+      </div>
+      <div className="mt-1 flex flex-wrap items-center gap-1">
+        <Badge variant="outline" className="font-normal text-muted-foreground">
+          {stackBadge ?? `Qty ${r.quantity}`}
+        </Badge>
+        {r.condition === "graded" && (
+          <Badge variant="outline" className="font-normal text-muted-foreground">
+            {r.gradeCompany ?? ""} {r.gradeValue ?? ""}
+          </Badge>
+        )}
+        {r.condition === "raw" && r.rawCondition && (
+          <Badge variant="outline" className="font-normal text-muted-foreground">
+            {r.rawCondition}
+          </Badge>
+        )}
+      </div>
+    </div>
+  );
+
+  const tileClass = cn(
+    "group relative flex flex-col overflow-hidden rounded-xl border bg-surface transition-colors",
+    // A ring on top of the border — at gallery density the checkbox
+    // alone is too small to scan a selection by.
+    isSelected ? "border-primary ring-1 ring-primary" : "border-border hover:border-primary/40"
+  );
+
+  // In bulk mode the whole tile is the checkbox target rather than a
+  // link: at this size the card art *is* the hit area a user aims
+  // for, and sending them to a detail page mid-selection is never
+  // what they meant. Outside bulk mode it goes back to being a link.
+  if (bulkMode) {
+    return (
+      <div className={tileClass}>
+        <button
+          type="button"
+          aria-label={`Select ${r.display.name}`}
+          aria-pressed={isSelected}
+          onClick={() => onToggleSelect(r.id)}
+          className="absolute inset-0 z-0"
+        />
+        <div className="pointer-events-none">
+          {art(false)}
+          {caption}
+        </div>
+        <Checkbox
+          checked={isSelected}
+          onCheckedChange={() => onToggleSelect(r.id)}
+          aria-label={`Select ${r.display.name}`}
+          className="absolute right-1.5 top-1.5 z-10 border-border bg-background/80 backdrop-blur"
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className={tileClass}>
+      {/* Stretched link layered beneath the remove button rather than
+          wrapping it — see CardTile for why nesting a control inside a
+          <Link> leaves Next's router with a stale transition. */}
+      {r.display.href && !suppressLink && (
+        <Link href={r.display.href} aria-label={r.display.name} className="absolute inset-0 z-0" />
+      )}
+      <div className="pointer-events-none">
+        {art(true)}
+        {caption}
+      </div>
+      {/* onPointerDown stopped here: when this face sits inside a CardStack,
+          its outer wrapper listens for pointerdown/up on the whole face to
+          detect swipe-vs-tap — without this, pressing one of these buttons
+          would also register as a tap on the stack and open the card-story
+          dialog at the same time the button's own action runs. */}
+      <div
+        className="absolute right-1.5 top-1.5 z-10 flex gap-1"
+        onPointerDown={(e) => e.stopPropagation()}
+      >
+        {(r.catalogItemId || r.sportsCardItemId) && (
+          <button
+            type="button"
+            aria-label={`Add ${r.display.name} to shortlist`}
+            title="Add to shortlist"
+            onClick={() => {
+              addToShortlist({
+                kind: r.kind ?? "tcg",
+                catalogItemId: r.catalogItemId,
+                sportsCardItemId: r.sportsCardItemId,
+                source: sourceLabel,
+              });
+              setJustShortlisted(true);
+              setTimeout(() => setJustShortlisted(false), 1200);
+            }}
+            className="rounded-full bg-background/70 p-1.5 text-muted-foreground opacity-0 backdrop-blur transition-opacity hover:text-primary focus-visible:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100"
+          >
+            {justShortlisted ? <Check className="size-3.5 text-positive" /> : <ShoppingBag className="size-3.5" />}
+          </button>
+        )}
+        <button
+          type="button"
+          aria-label={`Edit ${r.display.name}`}
+          onClick={() => onEdit(r)}
+          className="rounded-full bg-background/70 p-1.5 text-muted-foreground opacity-0 backdrop-blur transition-opacity hover:text-foreground focus-visible:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100"
+        >
+          <Pencil className="size-3.5" />
+        </button>
+        <button
+          type="button"
+          aria-label={`Archive ${r.display.name}`}
+          title="Archive card"
+          onClick={() => onArchive(r)}
+          className="rounded-full bg-background/70 p-1.5 text-muted-foreground opacity-0 backdrop-blur transition-opacity hover:text-negative focus-visible:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100"
+        >
+          <Trash2 className="size-3.5" />
+        </button>
+      </div>
+    </div>
+  );
+}
 
 /**
  * The image-first way of reading a pc — the same rows ItemGrid renders,
@@ -26,6 +267,10 @@ import { useAddToShortlist } from "@/lib/shortlist/use-add-to-shortlist";
  * this trades that detail for card art you can actually recognise across a
  * whole collection at once, which is what a binder-style scan of a PC is
  * for. Anything dropped here is one click away on the card's detail page.
+ *
+ * Multiple holdings of the same card (see groupHoldingsIntoStacks) collapse
+ * into one CardStack tile — swipe/click the chevrons to cycle "1 of N", tap
+ * the art to read that copy's card story (card-story-dialog.tsx).
  */
 export function ItemGallery({
   rows,
@@ -43,216 +288,58 @@ export function ItemGallery({
   /** Where a shortlist add from this grid should be recorded as coming from — e.g. "PC · My Collection" or "Business Inventory". */
   sourceLabel: string;
 }) {
-  const currency = usePCStore((s) => s.preferences.currency);
-  const removeHoldings = usePCStore((s) => s.removeHoldings);
   const [editingHolding, setEditingHolding] = React.useState<EnrichedHolding | null>(null);
-  const addToShortlist = useAddToShortlist();
-  const [justShortlistedId, setJustShortlistedId] = React.useState<string | null>(null);
+  const [archivingHolding, setArchivingHolding] = React.useState<EnrichedHolding | null>(null);
+  const [storyStack, setStoryStack] = React.useState<{ faces: EnrichedHolding[]; index: number } | null>(null);
+  const archiveHoldings = usePCStore((s) => s.archiveHoldings);
 
   if (rows.length === 0) return <EmptyHoldings />;
 
+  const stacks = groupHoldingsIntoStacks(rows);
+
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-      {rows.map((r) => {
-        const positive = r.gainLoss >= 0;
-        const isSelected = selected.has(r.id);
-
-        // The tile's content sits under a full-bleed <Link>/select button and
-        // is `pointer-events-none` so clicks reach it — which would also swallow
-        // the sports "attach a photo" affordance, hence the `pointer-events-auto`
-        // layer around it. In bulk mode it's dropped entirely (`attachable`
-        // false): selection is the only thing a click should mean there.
-        const art = (attachable: boolean) => (
-          <div className="relative aspect-[5/7] w-full bg-muted">
-            <CardImage
-              src={r.display.imageUrl}
-              alt={r.display.name}
-              sizes="(min-width:1024px) 200px, (min-width:640px) 30vw, 45vw"
-              className="object-contain p-1.5"
-              fallbackVariant="icon-label"
-              // Same routing as ItemGrid: a rotted URL lands on the sports
-              // "attach a photo" affordance rather than a broken image.
-              fallback={
-                attachable && r.sportsCardItem ? (
-                  <span className="pointer-events-auto absolute inset-0 z-10">
-                    <SportsCardImageDialog sportsCardItemId={r.sportsCardItem.id} />
-                  </span>
-                ) : undefined
-              }
-              overlay={
-                r.display.imageWatermark ? (
-                  <ParallelBadge
-                    parallelName={r.display.imageWatermark.parallelName}
-                    serialLimit={r.display.imageWatermark.serialLimit}
-                    inherited={r.display.imageWatermark.inherited}
-                  />
-                ) : undefined
-              }
+      {stacks.map((stack) => (
+        <CardStack
+          key={stack.key}
+          stack={stack}
+          variant="gallery"
+          // Bulk mode's own stretched select-button already owns taps on the
+          // tile (see HoldingGalleryFace) — opening the story dialog on top
+          // of that would fire both at once.
+          onActivate={bulkMode ? undefined : (face, index) => setStoryStack({ faces: stack.faces, index })}
+          renderFace={(r, { index, total }) => (
+            <HoldingGalleryFace
+              key={r.id}
+              r={r}
+              bulkMode={bulkMode}
+              isSelected={selected.has(r.id)}
+              onToggleSelect={onToggleSelect}
+              sourceLabel={sourceLabel}
+              onEdit={setEditingHolding}
+              onArchive={setArchivingHolding}
+              stackBadge={total > 1 ? `${index + 1} of ${total}` : undefined}
+              suppressLink={total > 1}
             />
-            <CardNumberBadge number={r.display.number} variant="overlay" />
-          </div>
-        );
-
-        // Pulled out of the subtitle string rather than parsed from it: this
-        // is the one piece of text that actually distinguishes two tiles of
-        // the same player (e.g. two LaMelo Ball cards differ by parallel,
-        // not by name), so it gets its own guaranteed-visible line instead
-        // of riding at the end of a single truncated line where a long set
-        // name pushes it off before it ever renders.
-        const parallelLabel = r.display.imageWatermark
-          ? [
-              r.display.imageWatermark.parallelName,
-              r.display.imageWatermark.serialLimit ? `/${r.display.imageWatermark.serialLimit}` : null,
-            ]
-              .filter(Boolean)
-              .join(" ")
-          : null;
-
-        const caption = (
-          <div className="flex min-w-0 flex-col gap-0.5 p-2.5">
-            <p className="truncate text-sm leading-tight font-medium">{r.display.name}</p>
-            {r.display.nameEn && (
-              <p className="truncate text-xs leading-snug text-muted-foreground">{r.display.nameEn}</p>
-            )}
-            {parallelLabel && (
-              <p className="line-clamp-2 text-xs leading-snug font-semibold text-primary">
-                {parallelLabel}
-              </p>
-            )}
-            {/* line-clamp-2 rather than truncate: this string is
-                "[year distributor setName] · #number · parallel · serial",
-                and a single truncated line was cutting off the set name
-                itself (never mind the parallel/serial after it). Two lines
-                covers the vast majority of real set names. */}
-            <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">
-              {r.display.subtitle}
-            </p>
-            <div className="mt-1 flex items-baseline justify-between gap-1.5">
-              <span className="num-tabular text-sm font-semibold">
-                {formatMoney(r.marketValue, currency)}
-              </span>
-              {r.gainLossPct != null && (
-                <span
-                  className={cn(
-                    "num-tabular flex flex-none items-center gap-0.5 text-[11px]",
-                    positive ? "text-positive" : "text-negative"
-                  )}
-                >
-                  {positive ? <TrendingUp className="size-3" /> : <TrendingDown className="size-3" />}
-                  {formatPct(r.gainLossPct)}
-                </span>
-              )}
-            </div>
-            <div className="mt-1 flex flex-wrap items-center gap-1">
-              <Badge variant="outline" className="font-normal text-muted-foreground">
-                Qty {r.quantity}
-              </Badge>
-              {r.condition === "graded" && (
-                <Badge variant="outline" className="font-normal text-muted-foreground">
-                  {r.gradeCompany ?? ""} {r.gradeValue ?? ""}
-                </Badge>
-              )}
-              {r.condition === "raw" && r.rawCondition && (
-                <Badge variant="outline" className="font-normal text-muted-foreground">
-                  {r.rawCondition}
-                </Badge>
-              )}
-            </div>
-          </div>
-        );
-
-        const tileClass = cn(
-          "group relative flex flex-col overflow-hidden rounded-xl border bg-surface transition-colors",
-          // A ring on top of the border — at gallery density the checkbox
-          // alone is too small to scan a selection by.
-          isSelected ? "border-primary ring-1 ring-primary" : "border-border hover:border-primary/40"
-        );
-
-        // In bulk mode the whole tile is the checkbox target rather than a
-        // link: at this size the card art *is* the hit area a user aims
-        // for, and sending them to a detail page mid-selection is never
-        // what they meant. Outside bulk mode it goes back to being a link.
-        if (bulkMode) {
-          return (
-            <div key={r.id} className={tileClass}>
-              <button
-                type="button"
-                aria-label={`Select ${r.display.name}`}
-                aria-pressed={isSelected}
-                onClick={() => onToggleSelect(r.id)}
-                className="absolute inset-0 z-0"
-              />
-              <div className="pointer-events-none">
-                {art(false)}
-                {caption}
-              </div>
-              <Checkbox
-                checked={isSelected}
-                onCheckedChange={() => onToggleSelect(r.id)}
-                aria-label={`Select ${r.display.name}`}
-                className="absolute right-1.5 top-1.5 z-10 border-border bg-background/80 backdrop-blur"
-              />
-            </div>
-          );
+          )}
+        />
+      ))}
+      <ArchiveDetailsDialog
+        open={archivingHolding !== null}
+        onOpenChange={(open) => {
+          if (!open) setArchivingHolding(null);
+        }}
+        title="Archive card"
+        description={
+          archivingHolding ? withEnglishName(archivingHolding.display.name, archivingHolding.display.nameEn) : undefined
         }
-
-        return (
-          <div key={r.id} className={tileClass}>
-            {/* Stretched link layered beneath the remove button rather than
-                wrapping it — see CardTile for why nesting a control inside a
-                <Link> leaves Next's router with a stale transition. */}
-            {r.display.href && (
-              <Link href={r.display.href} aria-label={r.display.name} className="absolute inset-0 z-0" />
-            )}
-            <div className="pointer-events-none">
-              {art(true)}
-              {caption}
-            </div>
-            <div className="absolute right-1.5 top-1.5 z-10 flex gap-1">
-              {(r.catalogItemId || r.sportsCardItemId) && (
-                <button
-                  type="button"
-                  aria-label={`Add ${r.display.name} to shortlist`}
-                  title="Add to shortlist"
-                  onClick={() => {
-                    addToShortlist({
-                      kind: r.kind ?? "tcg",
-                      catalogItemId: r.catalogItemId,
-                      sportsCardItemId: r.sportsCardItemId,
-                      source: sourceLabel,
-                    });
-                    setJustShortlistedId(r.id);
-                    setTimeout(() => setJustShortlistedId((cur) => (cur === r.id ? null : cur)), 1200);
-                  }}
-                  className="rounded-full bg-background/70 p-1.5 text-muted-foreground opacity-0 backdrop-blur transition-opacity hover:text-primary focus-visible:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100"
-                >
-                  {justShortlistedId === r.id ? (
-                    <Check className="size-3.5 text-positive" />
-                  ) : (
-                    <ShoppingBag className="size-3.5" />
-                  )}
-                </button>
-              )}
-              <button
-                type="button"
-                aria-label={`Edit ${r.display.name}`}
-                onClick={() => setEditingHolding(r)}
-                className="rounded-full bg-background/70 p-1.5 text-muted-foreground opacity-0 backdrop-blur transition-opacity hover:text-foreground focus-visible:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100"
-              >
-                <Pencil className="size-3.5" />
-              </button>
-              <button
-                type="button"
-                aria-label={`Remove ${r.display.name} from PC`}
-                onClick={() => removeHoldings(activePCId, [r.id])}
-                className="rounded-full bg-background/70 p-1.5 text-muted-foreground opacity-0 backdrop-blur transition-opacity hover:text-negative focus-visible:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100"
-              >
-                <Trash2 className="size-3.5" />
-              </button>
-            </div>
-          </div>
-        );
-      })}
+        submitLabel="Archive card"
+        onSubmit={(letGo) => {
+          if (!archivingHolding) return;
+          archiveHoldings(activePCId, [archivingHolding.id], letGo);
+          setArchivingHolding(null);
+        }}
+      />
       <EditHoldingDialog
         holding={editingHolding}
         pcId={activePCId}
@@ -261,6 +348,16 @@ export function ItemGallery({
           if (!open) setEditingHolding(null);
         }}
       />
+      {storyStack && (
+        <CardStoryDialog
+          faces={storyStack.faces.map(holdingToStoryFace)}
+          initialIndex={storyStack.index}
+          open={storyStack !== null}
+          onOpenChange={(open) => {
+            if (!open) setStoryStack(null);
+          }}
+        />
+      )}
     </div>
   );
 }

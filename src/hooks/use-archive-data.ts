@@ -3,32 +3,34 @@
 import * as React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { usePCStore } from "@/lib/pc/store";
-import { enrichHoldings, computeTotals } from "@/lib/pc/selectors";
-import { holdingKind, type Holding, type PC } from "@/lib/pc/types";
+import { enrichHoldings, type EnrichedHolding } from "@/lib/pc/selectors";
+import { holdingIsArchived, holdingKind, pcKind, type PCKind } from "@/lib/pc/types";
 import type { CatalogItemDetail } from "@/lib/catalog/by-ids";
 import type { SportsCardItemDetail } from "@/lib/sportscards/manage";
 
-const EMPTY_HOLDINGS: Holding[] = [];
+/** An archived row, plus which pc it originally (still) lives in — needed for restore/permanent-delete, which are pc-scoped calls. */
+export interface ArchivedRow extends EnrichedHolding {
+  pcId: string;
+  pcName: string;
+}
 
 /**
- * Active pc's holdings, enriched with live catalog data + totals.
- *
- * Pass `pcIdOverride` to scope this to a specific pc regardless of which
- * one is globally "active" — e.g. the Business Inventory page, which reads
- * the business pc's data without disturbing whatever's active on /pc.
+ * All archived holdings across every one of the user's PCs of a given kind
+ * ("personal" for PC Archives, "business" for Business Archives), newest
+ * archived first. Mirrors usePCData's catalog/sports enrichment, but
+ * collects ids across *all* matching pcs instead of a single active one —
+ * see src/hooks/use-pc-data.ts for the sibling this deliberately doesn't
+ * share code with.
  */
-export function usePCData(pcIdOverride?: string) {
+export function useArchiveData(scopeKind: PCKind) {
   const pcs = usePCStore((s) => s.pcs);
-  const globalActivePCId = usePCStore((s) => s.activePCId);
-  const activePCId = pcIdOverride ?? globalActivePCId;
-  const active: PC | undefined = pcs.find((p) => p.id === activePCId);
-  // Archived holdings (see PC Archives / Business Archives) stay in the
-  // same pc.holdings array they've always been in — never removed, never
-  // moved — so every active-collection view just filters them back out
-  // here rather than each dashboard/list needing to know about archiving.
+
   const holdings = React.useMemo(
-    () => (active?.holdings ?? EMPTY_HOLDINGS).filter((h) => !h.archivedAt),
-    [active?.holdings]
+    () =>
+      pcs
+        .filter((p) => pcKind(p) === scopeKind)
+        .flatMap((p) => p.holdings.filter(holdingIsArchived).map((h) => ({ ...h, pcId: p.id, pcName: p.name }))),
+    [pcs, scopeKind]
   );
 
   const catalogIds = React.useMemo(
@@ -68,19 +70,15 @@ export function usePCData(pcIdOverride?: string) {
     },
   });
 
-  const rows = React.useMemo(
-    () => enrichHoldings(holdings, catalogQuery.data?.items ?? [], sportsQuery.data?.items ?? []),
-    [holdings, catalogQuery.data, sportsQuery.data]
-  );
-  const totals = React.useMemo(() => computeTotals(rows), [rows]);
+  const rows: ArchivedRow[] = React.useMemo(() => {
+    const enriched = enrichHoldings(holdings, catalogQuery.data?.items ?? [], sportsQuery.data?.items ?? []);
+    return enriched
+      .map((r, i) => ({ ...r, pcId: holdings[i].pcId, pcName: holdings[i].pcName }))
+      .sort((a, b) => (b.archivedAt ?? "").localeCompare(a.archivedAt ?? ""));
+  }, [holdings, catalogQuery.data, sportsQuery.data]);
 
   return {
-    pcs,
-    activePCId,
-    activePC: active,
-    holdings,
     rows,
-    totals,
     isLoading: (catalogQuery.isLoading && catalogIds.length > 0) || (sportsQuery.isLoading && sportsIds.length > 0),
   };
 }

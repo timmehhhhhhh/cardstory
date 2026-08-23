@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { usePCStore } from "@/lib/pc/store";
+import { ArchiveDetailsDialog } from "@/components/pc/archive-details-dialog";
 
 export function BulkActionsBar({
   activePCId,
@@ -24,7 +25,8 @@ export function BulkActionsBar({
   const pcs = usePCStore((s) => s.pcs);
   const copyHoldings = usePCStore((s) => s.copyHoldings);
   const moveHoldings = usePCStore((s) => s.moveHoldings);
-  const removeHoldings = usePCStore((s) => s.removeHoldings);
+  const archiveHoldings = usePCStore((s) => s.archiveHoldings);
+  const [archiveDialogOpen, setArchiveDialogOpen] = React.useState(false);
 
   const otherPCs = pcs.filter((p) => p.id !== activePCId);
   // Only tracks an explicit user pick; falls back to the first option so no
@@ -84,12 +86,9 @@ export function BulkActionsBar({
         variant="outline"
         size="sm"
         className="border-negative/40 text-negative hover:bg-negative/10"
-        onClick={() => {
-          removeHoldings(activePCId, ids);
-          onClear();
-        }}
+        onClick={() => setArchiveDialogOpen(true)}
       >
-        <Trash2 className="size-4" /> Delete
+        <Trash2 className="size-4" /> Archive
       </Button>
 
       <button
@@ -100,6 +99,18 @@ export function BulkActionsBar({
       >
         <X className="size-4" />
       </button>
+
+      <ArchiveDetailsDialog
+        open={archiveDialogOpen}
+        onOpenChange={setArchiveDialogOpen}
+        title={`Archive ${ids.length} card${ids.length === 1 ? "" : "s"}`}
+        submitLabel={`Archive ${ids.length} card${ids.length === 1 ? "" : "s"}`}
+        onSubmit={(letGo) => {
+          archiveHoldings(activePCId, ids, letGo);
+          setArchiveDialogOpen(false);
+          onClear();
+        }}
+      />
     </div>
   );
 }

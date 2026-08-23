@@ -43,3 +43,15 @@ export const CARD_CONDITION_LABELS: Record<RawCardCondition, string> = {
   HP: "Heavily Played",
   DMG: "Damaged",
 };
+
+/** How an archived card left the collection — see Holding.letGoMethod / PC Archives. */
+export const LET_GO_METHODS = ["sold", "traded", "gifted", "lost", "other"] as const;
+export type LetGoMethod = (typeof LET_GO_METHODS)[number];
+
+export const LET_GO_METHOD_LABELS: Record<LetGoMethod, string> = {
+  sold: "Sold",
+  traded: "Traded",
+  gifted: "Gifted",
+  lost: "Lost / Missing",
+  other: "Other",
+};
