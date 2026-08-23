@@ -1,6 +1,4759 @@
 {
   "gameId": "pokemon",
   "note": "Crawled zh-tw cards that did NOT pass the mapping guards. Never seeded.",
-  "generatedAt": "2026-08-18T12:48:33.640Z",
-  "entries": []
+  "generatedAt": "2026-08-23T14:01:27.484Z",
+  "entries": [
+    {
+      "sourceId": 10700,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10700/",
+      "sourceName": "凱羅斯",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "067/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-067"
+    },
+    {
+      "sourceId": 10701,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10701/",
+      "sourceName": "斯魔茶",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "068/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-068"
+    },
+    {
+      "sourceId": 10702,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10702/",
+      "sourceName": "煤炭龜",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "069/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-069"
+    },
+    {
+      "sourceId": 10703,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10703/",
+      "sourceName": "烈焰猴",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "070/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-070"
+    },
+    {
+      "sourceId": 10704,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10704/",
+      "sourceName": "霏歐納",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "071/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-071"
+    },
+    {
+      "sourceId": 10705,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10705/",
+      "sourceName": "古月鳥",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "072/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-072"
+    },
+    {
+      "sourceId": 10706,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10706/",
+      "sourceName": "光電傘蜥",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "073/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-073"
+    },
+    {
+      "sourceId": 10707,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10707/",
+      "sourceName": "眷戀雲",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "074/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-074"
+    },
+    {
+      "sourceId": 10708,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10708/",
+      "sourceName": "洗翠 卡蒂狗",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "075/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-075"
+    },
+    {
+      "sourceId": 10709,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10709/",
+      "sourceName": "大朝北鼻",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "076/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-076"
+    },
+    {
+      "sourceId": 10710,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10710/",
+      "sourceName": "啃果蟲",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "077/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-077"
+    },
+    {
+      "sourceId": 10711,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10711/",
+      "sourceName": "伊布",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "078/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-078"
+    },
+    {
+      "sourceId": 10712,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10712/",
+      "sourceName": "來悲粗茶ex",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "079/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-079"
+    },
+    {
+      "sourceId": 10713,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10713/",
+      "sourceName": "熔岩蝸牛ex",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "080/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-080"
+    },
+    {
+      "sourceId": 10714,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10714/",
+      "sourceName": "鐵荊棘ex",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "081/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-081"
+    },
+    {
+      "sourceId": 10715,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10715/",
+      "sourceName": "吼叫尾ex",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "082/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-082"
+    },
+    {
+      "sourceId": 10716,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10716/",
+      "sourceName": "甲賀忍蛙ex",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "083/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-083"
+    },
+    {
+      "sourceId": 10717,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10717/",
+      "sourceName": "月月熊 赫月 ex",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "084/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-084"
+    },
+    {
+      "sourceId": 10718,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10718/",
+      "sourceName": "管理員",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "085/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-085"
+    },
+    {
+      "sourceId": 10719,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10719/",
+      "sourceName": "悟松",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "086/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-086"
+    },
+    {
+      "sourceId": 10720,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10720/",
+      "sourceName": "沙儷",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "087/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-087"
+    },
+    {
+      "sourceId": 10721,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10721/",
+      "sourceName": "水蓮的照顧",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "088/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-088"
+    },
+    {
+      "sourceId": 10722,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10722/",
+      "sourceName": "來悲粗茶ex",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "089/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-089"
+    },
+    {
+      "sourceId": 10723,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10723/",
+      "sourceName": "甲賀忍蛙ex",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "090/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-090"
+    },
+    {
+      "sourceId": 10724,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10724/",
+      "sourceName": "月月熊 赫月 ex",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "091/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-091"
+    },
+    {
+      "sourceId": 10725,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10725/",
+      "sourceName": "沙儷",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "092/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-092"
+    },
+    {
+      "sourceId": 10726,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10726/",
+      "sourceName": "水蓮的照顧",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "093/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-093"
+    },
+    {
+      "sourceId": 15821,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15821/",
+      "sourceName": "月月熊 赫月 ex",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "094/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-094"
+    },
+    {
+      "sourceId": 15822,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15822/",
+      "sourceName": "緊急滑板",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "095/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-095"
+    },
+    {
+      "sourceId": 15823,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15823/",
+      "sourceName": "夜光能量",
+      "sourceSetLabel": "SV5a",
+      "sourceNumber": "096/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5a-096"
+    },
+    {
+      "sourceId": 9024,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9024/",
+      "sourceName": "摩托蜥",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "056/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-056"
+    },
+    {
+      "sourceId": 12563,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12563/",
+      "sourceName": "慶祝開場樂",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "058/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-058"
+    },
+    {
+      "sourceId": 10517,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10517/",
+      "sourceName": "吉利蛋",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "099/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-099"
+    },
+    {
+      "sourceId": 10518,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10518/",
+      "sourceName": "大電海燕ex",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "100/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-100"
+    },
+    {
+      "sourceId": 10519,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10519/",
+      "sourceName": "謎擬Q",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "101/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-101"
+    },
+    {
+      "sourceId": 10520,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10520/",
+      "sourceName": "滑滑小子",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "102/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-102"
+    },
+    {
+      "sourceId": 10521,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10521/",
+      "sourceName": "頭巾混混",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "103/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-103"
+    },
+    {
+      "sourceId": 10522,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10522/",
+      "sourceName": "神奇糖果",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "104/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-104"
+    },
+    {
+      "sourceId": 10523,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10523/",
+      "sourceName": "洛拍棒",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "105/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-105"
+    },
+    {
+      "sourceId": 10524,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10524/",
+      "sourceName": "奇樹",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "106/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-106"
+    },
+    {
+      "sourceId": 10647,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10647/",
+      "sourceName": "大嘴娃",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "107/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-107"
+    },
+    {
+      "sourceId": 11111,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11111/",
+      "sourceName": "蜻蜻蜓",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "108/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-108"
+    },
+    {
+      "sourceId": 11112,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11112/",
+      "sourceName": "遠古巨蜓",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "109/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-109"
+    },
+    {
+      "sourceId": 11113,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11113/",
+      "sourceName": "輕身鱈ex",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "110/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-110"
+    },
+    {
+      "sourceId": 11114,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11114/",
+      "sourceName": "百變怪",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "111/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-111"
+    },
+    {
+      "sourceId": 11115,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11115/",
+      "sourceName": "厲害釣竿",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "112/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-112"
+    },
+    {
+      "sourceId": 11116,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11116/",
+      "sourceName": "博士的研究",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "113/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-113"
+    },
+    {
+      "sourceId": 11117,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11117/",
+      "sourceName": "博士的研究",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "114/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-114"
+    },
+    {
+      "sourceId": 11118,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11118/",
+      "sourceName": "毅萬與馥好",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "115/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-115"
+    },
+    {
+      "sourceId": 11128,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11128/",
+      "sourceName": "新葉喵",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "116/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-116"
+    },
+    {
+      "sourceId": 11129,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11129/",
+      "sourceName": "呆火鱷",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "117/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-117"
+    },
+    {
+      "sourceId": 11130,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11130/",
+      "sourceName": "捷拉奧拉",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "133/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-133"
+    },
+    {
+      "sourceId": 10856,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10856/",
+      "sourceName": "霓虹魚V",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "134/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-134"
+    },
+    {
+      "sourceId": 10857,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10857/",
+      "sourceName": "瑪納霏",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "135/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-135"
+    },
+    {
+      "sourceId": 10858,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10858/",
+      "sourceName": "反擊捕捉器",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "136/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-136"
+    },
+    {
+      "sourceId": 10859,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10859/",
+      "sourceName": "大地之容器",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "137/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-137"
+    },
+    {
+      "sourceId": 10860,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10860/",
+      "sourceName": "洗翠的沉重球",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "138/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-138"
+    },
+    {
+      "sourceId": 10861,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10861/",
+      "sourceName": "放逐吸塵器",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "139/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-139"
+    },
+    {
+      "sourceId": 10862,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10862/",
+      "sourceName": "緊急滑板",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "140/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-140"
+    },
+    {
+      "sourceId": 10863,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10863/",
+      "sourceName": "森林封印石",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "141/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-141"
+    },
+    {
+      "sourceId": 10864,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10864/",
+      "sourceName": "烏栗",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "142/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-142"
+    },
+    {
+      "sourceId": 10865,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10865/",
+      "sourceName": "雙重渦輪能量",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "143/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-143"
+    },
+    {
+      "sourceId": 11119,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11119/",
+      "sourceName": "電蜘蛛ex",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "144/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-144"
+    },
+    {
+      "sourceId": 11120,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11120/",
+      "sourceName": "貓頭夜鷹",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "145/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-145"
+    },
+    {
+      "sourceId": 11121,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11121/",
+      "sourceName": "旋轉洛托姆",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "146/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-146"
+    },
+    {
+      "sourceId": 11122,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11122/",
+      "sourceName": "爆炸頭水牛",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "147/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-147"
+    },
+    {
+      "sourceId": 11123,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11123/",
+      "sourceName": "太樂巴戈斯ex",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "148/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-148"
+    },
+    {
+      "sourceId": 11124,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11124/",
+      "sourceName": "玻璃喇叭",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "149/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-149"
+    },
+    {
+      "sourceId": 11125,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11125/",
+      "sourceName": "赤松",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "150/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-150"
+    },
+    {
+      "sourceId": 11126,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11126/",
+      "sourceName": "零之大空洞",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "151/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-151"
+    },
+    {
+      "sourceId": 11127,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11127/",
+      "sourceName": "皮卡丘",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "152/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-152"
+    },
+    {
+      "sourceId": 11492,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11492/",
+      "sourceName": "皮卡丘",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "153/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-153"
+    },
+    {
+      "sourceId": 11493,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11493/",
+      "sourceName": "索羅亞克GX",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "154/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-154"
+    },
+    {
+      "sourceId": 11494,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11494/",
+      "sourceName": "究極奈克洛茲瑪GX",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "155/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-155"
+    },
+    {
+      "sourceId": 11495,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11495/",
+      "sourceName": "烈空坐GX",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "156/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-156"
+    },
+    {
+      "sourceId": 11496,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11496/",
+      "sourceName": "皮卡丘&捷克羅姆GX",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "157/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-157"
+    },
+    {
+      "sourceId": 11497,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11497/",
+      "sourceName": "阿爾宙斯&帝牙盧卡&帕路奇亞GX",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "158/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-158"
+    },
+    {
+      "sourceId": 11498,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11498/",
+      "sourceName": "無極汰那VMAX\n[無極巨化]",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "159/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-159"
+    },
+    {
+      "sourceId": 11499,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11499/",
+      "sourceName": "夢幻VMAX\n[極巨化/匯流]",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "160/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-160"
+    },
+    {
+      "sourceId": 11500,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11500/",
+      "sourceName": "阿爾宙斯VSTAR",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "161/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-161"
+    },
+    {
+      "sourceId": 11501,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11501/",
+      "sourceName": "騎拉帝納VSTAR",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "162/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-162"
+    },
+    {
+      "sourceId": 11502,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11502/",
+      "sourceName": "洛奇亞VSTAR",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "163/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-163"
+    },
+    {
+      "sourceId": 11503,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11503/",
+      "sourceName": "密勒頓ex",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "164/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-164"
+    },
+    {
+      "sourceId": 11504,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11504/",
+      "sourceName": "古劍豹ex",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "165/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-165"
+    },
+    {
+      "sourceId": 11505,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11505/",
+      "sourceName": "噴火龍ex",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "166/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-166"
+    },
+    {
+      "sourceId": 11506,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11506/",
+      "sourceName": "轟鳴月ex",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "167/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-167"
+    },
+    {
+      "sourceId": 11507,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11507/",
+      "sourceName": "鐵武者ex",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "168/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-168"
+    },
+    {
+      "sourceId": 11508,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11508/",
+      "sourceName": "皮卡丘",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "169/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-169"
+    },
+    {
+      "sourceId": 11509,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11509/",
+      "sourceName": "謎擬Q",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "170/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-170"
+    },
+    {
+      "sourceId": 11510,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11510/",
+      "sourceName": "伊布",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "171/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-171"
+    },
+    {
+      "sourceId": 11518,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11518/",
+      "sourceName": "蟲甲聖ex",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "174/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-174"
+    },
+    {
+      "sourceId": 11519,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11519/",
+      "sourceName": "鐵包袱",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "175/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-175"
+    },
+    {
+      "sourceId": 11520,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11520/",
+      "sourceName": "沙河馬",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "176/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-176"
+    },
+    {
+      "sourceId": 11521,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11521/",
+      "sourceName": "河馬獸",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "177/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-177"
+    },
+    {
+      "sourceId": 11522,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11522/",
+      "sourceName": "老大的指令",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "178/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-178"
+    },
+    {
+      "sourceId": 11523,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11523/",
+      "sourceName": "招式學習器機",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "179/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-179"
+    },
+    {
+      "sourceId": 11524,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11524/",
+      "sourceName": "噴射能量",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "180/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-180"
+    },
+    {
+      "sourceId": 11525,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/11525/",
+      "sourceName": "慶祝開場樂",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "181/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-181"
+    },
+    {
+      "sourceId": 12574,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12574/",
+      "sourceName": "朋友手冊",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "182/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-182"
+    },
+    {
+      "sourceId": 12575,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12575/",
+      "sourceName": "大比鳥ex",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "183/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-183"
+    },
+    {
+      "sourceId": 12576,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12576/",
+      "sourceName": "奧琳博士的氣魄",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "184/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-184"
+    },
+    {
+      "sourceId": 12254,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12254/",
+      "sourceName": "皮卡丘ex",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "185/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-185"
+    },
+    {
+      "sourceId": 12255,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12255/",
+      "sourceName": "米立龍",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "186/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-186"
+    },
+    {
+      "sourceId": 12262,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12262/",
+      "sourceName": "破空焰",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "187/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-187"
+    },
+    {
+      "sourceId": 12263,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12263/",
+      "sourceName": "刺龍王ex",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "188/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-188"
+    },
+    {
+      "sourceId": 12264,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12264/",
+      "sourceName": "甲賀忍蛙ex",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "189/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-189"
+    },
+    {
+      "sourceId": 12265,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12265/",
+      "sourceName": "古劍豹",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "190/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-190"
+    },
+    {
+      "sourceId": 12266,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12266/",
+      "sourceName": "三合一磁怪",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "191/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-191"
+    },
+    {
+      "sourceId": 12267,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12267/",
+      "sourceName": "愛管侍",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "192/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-192"
+    },
+    {
+      "sourceId": 12577,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12577/",
+      "sourceName": "夜間擔架",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "204/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-204"
+    },
+    {
+      "sourceId": 12567,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12567/",
+      "sourceName": "<赫普的>啪嚓海膽ex",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "208/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-208"
+    },
+    {
+      "sourceId": 12568,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12568/",
+      "sourceName": "飄飄球",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "209/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-209"
+    },
+    {
+      "sourceId": 12569,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12569/",
+      "sourceName": "隨風球",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "210/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-210"
+    },
+    {
+      "sourceId": 12570,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12570/",
+      "sourceName": "米立龍",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "211/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-211"
+    },
+    {
+      "sourceId": 12571,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12571/",
+      "sourceName": "好友寶芬",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "212/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-212"
+    },
+    {
+      "sourceId": 12572,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12572/",
+      "sourceName": "派帕",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "213/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-213"
+    },
+    {
+      "sourceId": 12573,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12573/",
+      "sourceName": "‌寶可夢中心的姐姐",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "214/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-214"
+    },
+    {
+      "sourceId": 12268,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12268/",
+      "sourceName": "卡比獸",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "215/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-215"
+    },
+    {
+      "sourceId": 12859,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12859/",
+      "sourceName": "艾莉絲的鬥志",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "218/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-218"
+    },
+    {
+      "sourceId": 12849,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12849/",
+      "sourceName": "可達鴨",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "220/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-220"
+    },
+    {
+      "sourceId": 12850,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12850/",
+      "sourceName": "哥達鴨",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "221/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-221"
+    },
+    {
+      "sourceId": 12851,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12851/",
+      "sourceName": "大力鱷",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "222/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-222"
+    },
+    {
+      "sourceId": 12852,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12852/",
+      "sourceName": "皮卡丘",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "223/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-223"
+    },
+    {
+      "sourceId": 12853,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12853/",
+      "sourceName": "顫弦蠑螈ex",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "224/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-224"
+    },
+    {
+      "sourceId": 12854,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12854/",
+      "sourceName": "振翼髮",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "225/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-225"
+    },
+    {
+      "sourceId": 12855,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12855/",
+      "sourceName": "<火箭隊的>袋獸ex",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "226/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-226"
+    },
+    {
+      "sourceId": 12856,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12856/",
+      "sourceName": "夜間擔架",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "227/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-227"
+    },
+    {
+      "sourceId": 12857,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12857/",
+      "sourceName": "火箭隊的催眠裝置",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "228/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-228"
+    },
+    {
+      "sourceId": 12858,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12858/",
+      "sourceName": "烏栗",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "229/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-229"
+    },
+    {
+      "sourceId": 12938,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12938/",
+      "sourceName": "好友寶芬",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "230/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-230"
+    },
+    {
+      "sourceId": 12942,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12942/",
+      "sourceName": "好友寶芬",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "230/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-230"
+    },
+    {
+      "sourceId": 12894,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12894/",
+      "sourceName": "木木梟",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "231/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-231"
+    },
+    {
+      "sourceId": 12895,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12895/",
+      "sourceName": "小火龍",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "232/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-232"
+    },
+    {
+      "sourceId": 12896,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12896/",
+      "sourceName": "傑尼龜",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "233/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-233"
+    },
+    {
+      "sourceId": 12897,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12897/",
+      "sourceName": "卡咪龜",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "234/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-234"
+    },
+    {
+      "sourceId": 12898,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12898/",
+      "sourceName": "水箭龜ex",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "235/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-235"
+    },
+    {
+      "sourceId": 12899,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12899/",
+      "sourceName": "皮卡丘",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "236/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-236"
+    },
+    {
+      "sourceId": 12900,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12900/",
+      "sourceName": "電海燕",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "237/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-237"
+    },
+    {
+      "sourceId": 12901,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12901/",
+      "sourceName": "呆呆獸",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "238/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-238"
+    },
+    {
+      "sourceId": 12902,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12902/",
+      "sourceName": "纏紅鶴",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "239/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-239"
+    },
+    {
+      "sourceId": 12903,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12903/",
+      "sourceName": "托戈德瑪爾",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "240/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-240"
+    },
+    {
+      "sourceId": 13115,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13115/",
+      "sourceName": "小火龍",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "242/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-242"
+    },
+    {
+      "sourceId": 13116,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13116/",
+      "sourceName": "皮卡丘",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "243/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-243"
+    },
+    {
+      "sourceId": 13117,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13117/",
+      "sourceName": "麒麟奇",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "244/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-244"
+    },
+    {
+      "sourceId": 13118,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13118/",
+      "sourceName": "迷你龍",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "245/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-245"
+    },
+    {
+      "sourceId": 13119,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13119/",
+      "sourceName": "伊布",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "246/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-246"
+    },
+    {
+      "sourceId": 13957,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13957/",
+      "sourceName": "奇樹",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "247/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-247"
+    },
+    {
+      "sourceId": 13120,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13120/",
+      "sourceName": "能量輸送",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "249/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-249"
+    },
+    {
+      "sourceId": 13121,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13121/",
+      "sourceName": "傷藥",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "250/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-250"
+    },
+    {
+      "sourceId": 13122,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13122/",
+      "sourceName": "粉碎之錘",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "251/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-251"
+    },
+    {
+      "sourceId": 13123,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13123/",
+      "sourceName": "高級球",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "252/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-252"
+    },
+    {
+      "sourceId": 13124,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13124/",
+      "sourceName": "寶可夢交替",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "253/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-253"
+    },
+    {
+      "sourceId": 13125,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13125/",
+      "sourceName": "寶可夢捕捉器",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "254/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-254"
+    },
+    {
+      "sourceId": 13126,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13126/",
+      "sourceName": "老大的指令",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "255/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-255"
+    },
+    {
+      "sourceId": 13127,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13127/",
+      "sourceName": "黑連",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "256/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-256"
+    },
+    {
+      "sourceId": 13128,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13128/",
+      "sourceName": "基本【草】能量",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "257/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-257"
+    },
+    {
+      "sourceId": 13129,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13129/",
+      "sourceName": "基本【火】能量",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "258/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-258"
+    },
+    {
+      "sourceId": 13130,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13130/",
+      "sourceName": "基本【水】能量",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "259/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-259"
+    },
+    {
+      "sourceId": 13131,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13131/",
+      "sourceName": "基本【雷】能量",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "260/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-260"
+    },
+    {
+      "sourceId": 13132,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13132/",
+      "sourceName": "基本【超】能量",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "261/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-261"
+    },
+    {
+      "sourceId": 13133,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13133/",
+      "sourceName": "基本【鬥】能量",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "262/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-262"
+    },
+    {
+      "sourceId": 13134,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13134/",
+      "sourceName": "基本【惡】能量",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "263/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-263"
+    },
+    {
+      "sourceId": 13135,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13135/",
+      "sourceName": "基本【鋼】能量",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "264/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-264"
+    },
+    {
+      "sourceId": 13136,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/13136/",
+      "sourceName": "比克提尼",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "265/SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-265"
+    },
+    {
+      "sourceId": 8736,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/8736/",
+      "sourceName": "樂園度假地",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-SV-P"
+    },
+    {
+      "sourceId": 9025,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9025/",
+      "sourceName": "勝利之證",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-SV-P"
+    },
+    {
+      "sourceId": 9026,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9026/",
+      "sourceName": "勝利之證",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-SV-P"
+    },
+    {
+      "sourceId": 9027,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9027/",
+      "sourceName": "勝利之證",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-SV-P"
+    },
+    {
+      "sourceId": 12564,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12564/",
+      "sourceName": "勝利之證",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-SV-P"
+    },
+    {
+      "sourceId": 12565,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12565/",
+      "sourceName": "勝利之證",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-SV-P"
+    },
+    {
+      "sourceId": 12566,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12566/",
+      "sourceName": "勝利之證",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-SV-P"
+    },
+    {
+      "sourceId": 12578,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12578/",
+      "sourceName": "勝利之證",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-SV-P"
+    },
+    {
+      "sourceId": 12579,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12579/",
+      "sourceName": "勝利之證",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-SV-P"
+    },
+    {
+      "sourceId": 12580,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12580/",
+      "sourceName": "勝利之證",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-SV-P"
+    },
+    {
+      "sourceId": 12939,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12939/",
+      "sourceName": "勝利之證",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-SV-P"
+    },
+    {
+      "sourceId": 12940,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12940/",
+      "sourceName": "勝利之證",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-SV-P"
+    },
+    {
+      "sourceId": 12941,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/12941/",
+      "sourceName": "勝利之證",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-SV-P"
+    },
+    {
+      "sourceId": 18358,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/18358/",
+      "sourceName": "樂園度假地",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-SV-P"
+    },
+    {
+      "sourceId": 18359,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/18359/",
+      "sourceName": "樂園度假地",
+      "sourceSetLabel": "SV-P",
+      "sourceNumber": "SV-P",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV-P-SV-P"
+    },
+    {
+      "sourceId": 15860,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15860/",
+      "sourceName": "團珠蛛",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "079/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-079"
+    },
+    {
+      "sourceId": 15861,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15861/",
+      "sourceName": "原野水母",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "080/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-080"
+    },
+    {
+      "sourceId": 15862,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15862/",
+      "sourceName": "狠辣椒",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "081/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-081"
+    },
+    {
+      "sourceId": 15863,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15863/",
+      "sourceName": "呆呆獸",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "082/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-082"
+    },
+    {
+      "sourceId": 15864,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15864/",
+      "sourceName": "鐵臂槍蝦",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "083/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-083"
+    },
+    {
+      "sourceId": 15865,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15865/",
+      "sourceName": "帕奇利茲",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "084/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-084"
+    },
+    {
+      "sourceId": 15866,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15866/",
+      "sourceName": "巴布土撥",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "085/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-085"
+    },
+    {
+      "sourceId": 15867,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15867/",
+      "sourceName": "催眠貘",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "086/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-086"
+    },
+    {
+      "sourceId": 15868,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15868/",
+      "sourceName": "墓仔狗",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "087/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-087"
+    },
+    {
+      "sourceId": 15869,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15869/",
+      "sourceName": "獒教父",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "088/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-088"
+    },
+    {
+      "sourceId": 15870,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15870/",
+      "sourceName": "下石鳥",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "089/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-089"
+    },
+    {
+      "sourceId": 15871,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15871/",
+      "sourceName": "貪心栗鼠",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "090/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-090"
+    },
+    {
+      "sourceId": 15872,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15872/",
+      "sourceName": "操陷蛛ex",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "091/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-091"
+    },
+    {
+      "sourceId": 15873,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15873/",
+      "sourceName": "風速狗ex",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "092/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-092"
+    },
+    {
+      "sourceId": 15874,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15874/",
+      "sourceName": "自爆磁怪ex",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "093/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-093"
+    },
+    {
+      "sourceId": 15875,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15875/",
+      "sourceName": "密勒頓ex",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "094/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-094"
+    },
+    {
+      "sourceId": 15876,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15876/",
+      "sourceName": "詛咒娃娃ex",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "095/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-095"
+    },
+    {
+      "sourceId": 15877,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15877/",
+      "sourceName": "鐵轍跡ex",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "096/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-096"
+    },
+    {
+      "sourceId": 15878,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15878/",
+      "sourceName": "阿楓",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "097/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-097"
+    },
+    {
+      "sourceId": 15879,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15879/",
+      "sourceName": "博士的研究（弗圖博士）",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "098/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-098"
+    },
+    {
+      "sourceId": 15880,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15880/",
+      "sourceName": "派帕",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "099/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-099"
+    },
+    {
+      "sourceId": 15881,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15881/",
+      "sourceName": "米莫莎",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "100/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-100"
+    },
+    {
+      "sourceId": 15882,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15882/",
+      "sourceName": "操陷蛛ex",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "101/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-101"
+    },
+    {
+      "sourceId": 15883,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15883/",
+      "sourceName": "密勒頓ex",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "102/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-102"
+    },
+    {
+      "sourceId": 15884,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15884/",
+      "sourceName": "鐵轍跡ex",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "103/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-103"
+    },
+    {
+      "sourceId": 15885,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15885/",
+      "sourceName": "派帕",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "104/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-104"
+    },
+    {
+      "sourceId": 15886,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15886/",
+      "sourceName": "米莫莎",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "105/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-105"
+    },
+    {
+      "sourceId": 15887,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15887/",
+      "sourceName": "密勒頓ex",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "106/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-106"
+    },
+    {
+      "sourceId": 15888,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15888/",
+      "sourceName": "神奇糖果",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "107/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-107"
+    },
+    {
+      "sourceId": 15889,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15889/",
+      "sourceName": "基本【雷】能量",
+      "sourceSetLabel": "SV1V",
+      "sourceNumber": "108/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1V-108"
+    },
+    {
+      "sourceId": 15787,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15787/",
+      "sourceName": "赫拉克羅斯",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "072/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-072"
+    },
+    {
+      "sourceId": 15788,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15788/",
+      "sourceName": "火箭雀",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "073/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-073"
+    },
+    {
+      "sourceId": 15789,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15789/",
+      "sourceName": "雷丘",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "074/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-074"
+    },
+    {
+      "sourceId": 15790,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15790/",
+      "sourceName": "沙丘娃",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "075/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-075"
+    },
+    {
+      "sourceId": 15791,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15791/",
+      "sourceName": "小鍛匠",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "076/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-076"
+    },
+    {
+      "sourceId": 15792,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15792/",
+      "sourceName": "巧鍛匠",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "077/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-077"
+    },
+    {
+      "sourceId": 15793,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15793/",
+      "sourceName": "鹽石寶",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "078/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-078"
+    },
+    {
+      "sourceId": 15794,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15794/",
+      "sourceName": "班基拉斯",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "079/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-079"
+    },
+    {
+      "sourceId": 15795,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15795/",
+      "sourceName": "塗標客",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "080/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-080"
+    },
+    {
+      "sourceId": 15796,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15796/",
+      "sourceName": "一家鼠",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "081/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-081"
+    },
+    {
+      "sourceId": 15797,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15797/",
+      "sourceName": "纏紅鶴",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "082/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-082"
+    },
+    {
+      "sourceId": 15798,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15798/",
+      "sourceName": "奇麒麟",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "083/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-083"
+    },
+    {
+      "sourceId": 15799,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15799/",
+      "sourceName": "佛烈托斯ex",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "084/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-084"
+    },
+    {
+      "sourceId": 15800,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15800/",
+      "sourceName": "古玉魚ex",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "085/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-085"
+    },
+    {
+      "sourceId": 15801,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15801/",
+      "sourceName": "電肚蛙ex",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "086/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-086"
+    },
+    {
+      "sourceId": 15802,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15802/",
+      "sourceName": "巨鍛匠ex",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "087/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-087"
+    },
+    {
+      "sourceId": 15803,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15803/",
+      "sourceName": "古鼎鹿ex",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "088/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-088"
+    },
+    {
+      "sourceId": 15804,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15804/",
+      "sourceName": "音波龍ex",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "089/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-089"
+    },
+    {
+      "sourceId": 15805,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15805/",
+      "sourceName": "薩瓦羅",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "090/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-090"
+    },
+    {
+      "sourceId": 15806,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15806/",
+      "sourceName": "奇樹",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "091/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-091"
+    },
+    {
+      "sourceId": 15807,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15807/",
+      "sourceName": "古玉魚ex",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "092/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-092"
+    },
+    {
+      "sourceId": 15808,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15808/",
+      "sourceName": "巨鍛匠ex",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "093/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-093"
+    },
+    {
+      "sourceId": 15809,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15809/",
+      "sourceName": "古鼎鹿ex",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "094/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-094"
+    },
+    {
+      "sourceId": 15810,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15810/",
+      "sourceName": "薩瓦羅",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "095/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-095"
+    },
+    {
+      "sourceId": 15811,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15811/",
+      "sourceName": "奇樹",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "096/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-096"
+    },
+    {
+      "sourceId": 15812,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15812/",
+      "sourceName": "古鼎鹿ex",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "097/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-097"
+    },
+    {
+      "sourceId": 15813,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15813/",
+      "sourceName": "超級能量回收",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "098/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-098"
+    },
+    {
+      "sourceId": 15814,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15814/",
+      "sourceName": "基本【草】能量",
+      "sourceSetLabel": "SV2D",
+      "sourceNumber": "099/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2D-099"
+    },
+    {
+      "sourceId": 10674,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10674/",
+      "sourceName": "天罩蟲",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "067/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-067"
+    },
+    {
+      "sourceId": 10675,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10675/",
+      "sourceName": "陸地水母",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "068/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-068"
+    },
+    {
+      "sourceId": 10676,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10676/",
+      "sourceName": "鐵毒蛾",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "069/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-069"
+    },
+    {
+      "sourceId": 10677,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10677/",
+      "sourceName": "多多冰",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "070/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-070"
+    },
+    {
+      "sourceId": 10678,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10678/",
+      "sourceName": "鐵包袱",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "071/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-071"
+    },
+    {
+      "sourceId": 10679,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10679/",
+      "sourceName": "斑斑馬",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "072/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-072"
+    },
+    {
+      "sourceId": 10680,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10680/",
+      "sourceName": "超能豔鴕",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "073/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-073"
+    },
+    {
+      "sourceId": 10681,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10681/",
+      "sourceName": "大鋼蛇",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "074/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-074"
+    },
+    {
+      "sourceId": 10682,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10682/",
+      "sourceName": "長尾怪手",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "075/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-075"
+    },
+    {
+      "sourceId": 10683,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10683/",
+      "sourceName": "青綿鳥",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "076/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-076"
+    },
+    {
+      "sourceId": 10684,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10684/",
+      "sourceName": "多邊獸Z",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "077/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-077"
+    },
+    {
+      "sourceId": 10685,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10685/",
+      "sourceName": "鐵脖頸",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "078/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-078"
+    },
+    {
+      "sourceId": 10686,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10686/",
+      "sourceName": "鐵臂膀ex",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "079/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-079"
+    },
+    {
+      "sourceId": 10687,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10687/",
+      "sourceName": "鐵武者ex",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "080/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-080"
+    },
+    {
+      "sourceId": 10688,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10688/",
+      "sourceName": "顫弦蠑螈ex",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "081/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-081"
+    },
+    {
+      "sourceId": 10689,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10689/",
+      "sourceName": "堅盾劍怪ex",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "082/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-082"
+    },
+    {
+      "sourceId": 10690,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10690/",
+      "sourceName": "七夕青鳥ex",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "083/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-083"
+    },
+    {
+      "sourceId": 10691,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10691/",
+      "sourceName": "一家鼠ex",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "084/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-084"
+    },
+    {
+      "sourceId": 10692,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10692/",
+      "sourceName": "瓢太",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "085/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-085"
+    },
+    {
+      "sourceId": 10693,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10693/",
+      "sourceName": "弗圖博士的劇本",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "086/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-086"
+    },
+    {
+      "sourceId": 10694,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10694/",
+      "sourceName": "莉普",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "087/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-087"
+    },
+    {
+      "sourceId": 10695,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10695/",
+      "sourceName": "鐵臂膀ex",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "088/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-088"
+    },
+    {
+      "sourceId": 10696,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10696/",
+      "sourceName": "鐵武者ex",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "089/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-089"
+    },
+    {
+      "sourceId": 10697,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10697/",
+      "sourceName": "七夕青鳥ex",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "090/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-090"
+    },
+    {
+      "sourceId": 10698,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10698/",
+      "sourceName": "弗圖博士的劇本",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "091/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-091"
+    },
+    {
+      "sourceId": 10699,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10699/",
+      "sourceName": "莉普",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "092/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-092"
+    },
+    {
+      "sourceId": 15013,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15013/",
+      "sourceName": "鐵武者ex",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "093/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-093"
+    },
+    {
+      "sourceId": 15014,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15014/",
+      "sourceName": "反擊捕捉器",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "094/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-094"
+    },
+    {
+      "sourceId": 15015,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15015/",
+      "sourceName": "基礎【鋼】能量",
+      "sourceSetLabel": "SV4M",
+      "sourceNumber": "095/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4M-095"
+    },
+    {
+      "sourceId": 15892,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15892/",
+      "sourceName": "噴火龍ex",
+      "sourceSetLabel": "SV3",
+      "sourceNumber": "139/108",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV3-139"
+    },
+    {
+      "sourceId": 15008,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15008/",
+      "sourceName": "深缽鎮",
+      "sourceSetLabel": "SV3",
+      "sourceNumber": "140/108",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV3-140"
+    },
+    {
+      "sourceId": 15009,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15009/",
+      "sourceName": "基本【火】能量",
+      "sourceSetLabel": "SV3",
+      "sourceNumber": "141/108",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV3-141"
+    },
+    {
+      "sourceId": 15830,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15830/",
+      "sourceName": "奧利紐",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "079/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-079"
+    },
+    {
+      "sourceId": 15831,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15831/",
+      "sourceName": "紅蓮鎧騎",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "080/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-080"
+    },
+    {
+      "sourceId": 15832,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15832/",
+      "sourceName": "海地鼠",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "081/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-081"
+    },
+    {
+      "sourceId": 15833,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15833/",
+      "sourceName": "吃吼霸",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "082/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-082"
+    },
+    {
+      "sourceId": 15834,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15834/",
+      "sourceName": "拉魯拉絲",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "083/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-083"
+    },
+    {
+      "sourceId": 15835,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15835/",
+      "sourceName": "奇魯莉安",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "084/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-084"
+    },
+    {
+      "sourceId": 15836,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15836/",
+      "sourceName": "狗仔包",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "085/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-085"
+    },
+    {
+      "sourceId": 15837,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15837/",
+      "sourceName": "利歐路",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "086/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-086"
+    },
+    {
+      "sourceId": 15838,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15838/",
+      "sourceName": "黑眼鱷",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "087/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-087"
+    },
+    {
+      "sourceId": 15839,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15839/",
+      "sourceName": "毛崖蟹",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "088/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-088"
+    },
+    {
+      "sourceId": 15840,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15840/",
+      "sourceName": "仆斬將軍",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "089/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-089"
+    },
+    {
+      "sourceId": 15841,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15841/",
+      "sourceName": "姆克兒",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "090/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-090"
+    },
+    {
+      "sourceId": 15842,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15842/",
+      "sourceName": "暴鯉龍ex",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "091/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-091"
+    },
+    {
+      "sourceId": 15843,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15843/",
+      "sourceName": "沙奈朵ex",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "092/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-092"
+    },
+    {
+      "sourceId": 15844,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15844/",
+      "sourceName": "雄偉牙ex",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "093/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-093"
+    },
+    {
+      "sourceId": 15845,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15845/",
+      "sourceName": "故勒頓ex",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "094/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-094"
+    },
+    {
+      "sourceId": 15846,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15846/",
+      "sourceName": "毒骷蛙ex",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "095/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-095"
+    },
+    {
+      "sourceId": 15847,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15847/",
+      "sourceName": "飄香豚ex",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "096/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-096"
+    },
+    {
+      "sourceId": 15848,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15848/",
+      "sourceName": "吉尼亞",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "097/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-097"
+    },
+    {
+      "sourceId": 15849,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15849/",
+      "sourceName": "天星隊手下",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "098/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-098"
+    },
+    {
+      "sourceId": 15850,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15850/",
+      "sourceName": "博士的研究（奧琳博士）",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "099/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-099"
+    },
+    {
+      "sourceId": 15851,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15851/",
+      "sourceName": "牡丹",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "100/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-100"
+    },
+    {
+      "sourceId": 15852,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15852/",
+      "sourceName": "沙奈朵ex",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "101/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-101"
+    },
+    {
+      "sourceId": 15853,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15853/",
+      "sourceName": "雄偉牙ex",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "102/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-102"
+    },
+    {
+      "sourceId": 15854,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15854/",
+      "sourceName": "故勒頓ex",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "103/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-103"
+    },
+    {
+      "sourceId": 15855,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15855/",
+      "sourceName": "吉尼亞",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "104/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-104"
+    },
+    {
+      "sourceId": 15856,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15856/",
+      "sourceName": "牡丹",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "105/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-105"
+    },
+    {
+      "sourceId": 15857,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15857/",
+      "sourceName": "故勒頓ex",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "106/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-106"
+    },
+    {
+      "sourceId": 15858,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15858/",
+      "sourceName": "巢穴球",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "107/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-107"
+    },
+    {
+      "sourceId": 15859,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15859/",
+      "sourceName": "基本【鬥】能量",
+      "sourceSetLabel": "SV1S",
+      "sourceNumber": "108/078",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1S-108"
+    },
+    {
+      "sourceId": 15824,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15824/",
+      "sourceName": "厄鬼椪 碧草面具ex",
+      "sourceSetLabel": "SV6",
+      "sourceNumber": "131/101",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6-131"
+    },
+    {
+      "sourceId": 15825,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15825/",
+      "sourceName": "改造之錘",
+      "sourceSetLabel": "SV6",
+      "sourceNumber": "132/101",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6-132"
+    },
+    {
+      "sourceId": 15826,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15826/",
+      "sourceName": "好友寶芬",
+      "sourceSetLabel": "SV6",
+      "sourceNumber": "133/101",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6-133"
+    },
+    {
+      "sourceId": 9155,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9155/",
+      "sourceName": "滋汁鼴",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "127/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-127"
+    },
+    {
+      "sourceId": 9156,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9156/",
+      "sourceName": "塗標客",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "128/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-128"
+    },
+    {
+      "sourceId": 9157,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9157/",
+      "sourceName": "巨鉗螳螂",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "129/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-129"
+    },
+    {
+      "sourceId": 9158,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9158/",
+      "sourceName": "噗隆隆",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "130/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-130"
+    },
+    {
+      "sourceId": 9159,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9159/",
+      "sourceName": "普隆隆姆",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "131/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-131"
+    },
+    {
+      "sourceId": 9160,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9160/",
+      "sourceName": "鐵轍跡ex",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "132/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-132"
+    },
+    {
+      "sourceId": 9161,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9161/",
+      "sourceName": "賽富豪",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "133/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-133"
+    },
+    {
+      "sourceId": 9162,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9162/",
+      "sourceName": "嗡蝠",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "134/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-134"
+    },
+    {
+      "sourceId": 9163,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9163/",
+      "sourceName": "音波龍ex",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "135/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-135"
+    },
+    {
+      "sourceId": 9164,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9164/",
+      "sourceName": "摩托蜥",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "136/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-136"
+    },
+    {
+      "sourceId": 9165,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9165/",
+      "sourceName": "波波",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "137/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-137"
+    },
+    {
+      "sourceId": 9166,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9166/",
+      "sourceName": "比比鳥",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "138/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-138"
+    },
+    {
+      "sourceId": 9167,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9167/",
+      "sourceName": "大比鳥ex",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "139/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-139"
+    },
+    {
+      "sourceId": 9168,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9168/",
+      "sourceName": "胖丁",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "140/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-140"
+    },
+    {
+      "sourceId": 9169,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9169/",
+      "sourceName": "胖可丁ex",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "141/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-141"
+    },
+    {
+      "sourceId": 9170,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9170/",
+      "sourceName": "嘟嘟",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "142/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-142"
+    },
+    {
+      "sourceId": 9171,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9171/",
+      "sourceName": "嘟嘟利",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "143/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-143"
+    },
+    {
+      "sourceId": 9172,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9172/",
+      "sourceName": "百變怪",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "144/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-144"
+    },
+    {
+      "sourceId": 9173,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9173/",
+      "sourceName": "卡比獸",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "145/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-145"
+    },
+    {
+      "sourceId": 9174,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9174/",
+      "sourceName": "長翅鷗",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "146/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-146"
+    },
+    {
+      "sourceId": 9176,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9176/",
+      "sourceName": "貪心栗鼠",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "148/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-148"
+    },
+    {
+      "sourceId": 9177,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9177/",
+      "sourceName": "藏飽栗鼠",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "149/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-149"
+    },
+    {
+      "sourceId": 9178,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9178/",
+      "sourceName": "愛吃豚",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "150/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-150"
+    },
+    {
+      "sourceId": 9179,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9179/",
+      "sourceName": "飄香豚",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "151/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-151"
+    },
+    {
+      "sourceId": 9180,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9180/",
+      "sourceName": "一對鼠",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "152/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-152"
+    },
+    {
+      "sourceId": 9181,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9181/",
+      "sourceName": "一家鼠",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "153/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-153"
+    },
+    {
+      "sourceId": 9182,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9182/",
+      "sourceName": "怒鸚哥ex",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "154/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-154"
+    },
+    {
+      "sourceId": 9183,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9183/",
+      "sourceName": "纏紅鶴",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "155/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-155"
+    },
+    {
+      "sourceId": 9184,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9184/",
+      "sourceName": "電氣發生器",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "156/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-156"
+    },
+    {
+      "sourceId": 9185,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9185/",
+      "sourceName": "超級能量回收",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "157/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-157"
+    },
+    {
+      "sourceId": 9186,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9186/",
+      "sourceName": "厲害釣竿",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "158/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-158"
+    },
+    {
+      "sourceId": 9187,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9187/",
+      "sourceName": "巢穴球",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "159/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-159"
+    },
+    {
+      "sourceId": 9188,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9188/",
+      "sourceName": "妮莫的背包",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "160/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-160"
+    },
+    {
+      "sourceId": 9189,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9189/",
+      "sourceName": "高級球",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "161/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-161"
+    },
+    {
+      "sourceId": 9190,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9190/",
+      "sourceName": "勉勵的信",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "162/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-162"
+    },
+    {
+      "sourceId": 9191,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9191/",
+      "sourceName": "神奇糖果",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "163/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-163"
+    },
+    {
+      "sourceId": 9192,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9192/",
+      "sourceName": "岩石胸甲",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "164/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-164"
+    },
+    {
+      "sourceId": 9193,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9193/",
+      "sourceName": "大氣球",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "165/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-165"
+    },
+    {
+      "sourceId": 9194,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9194/",
+      "sourceName": "硬硬束帶",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "166/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-166"
+    },
+    {
+      "sourceId": 9195,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9195/",
+      "sourceName": "吃剩的東西",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "167/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-167"
+    },
+    {
+      "sourceId": 15016,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15016/",
+      "sourceName": "古簡蝸ex",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "355/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-355"
+    },
+    {
+      "sourceId": 15017,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15017/",
+      "sourceName": "古玉魚ex",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "356/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-356"
+    },
+    {
+      "sourceId": 15018,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15018/",
+      "sourceName": "古劍豹ex",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "357/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-357"
+    },
+    {
+      "sourceId": 15019,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15019/",
+      "sourceName": "密勒頓ex",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "358/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-358"
+    },
+    {
+      "sourceId": 15020,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15020/",
+      "sourceName": "古鼎鹿ex",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "359/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-359"
+    },
+    {
+      "sourceId": 15021,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15021/",
+      "sourceName": "故勒頓ex",
+      "sourceSetLabel": "SV4a",
+      "sourceNumber": "360/190",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4a-360"
+    },
+    {
+      "sourceId": 9792,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9792/",
+      "sourceName": "波普海豚",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "022/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-022"
+    },
+    {
+      "sourceId": 9793,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9793/",
+      "sourceName": "海豚俠",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "023/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-023"
+    },
+    {
+      "sourceId": 9794,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9794/",
+      "sourceName": "波盪水ex",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "024/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-024"
+    },
+    {
+      "sourceId": 9795,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9795/",
+      "sourceName": "三海地鼠ex",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "025/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-025"
+    },
+    {
+      "sourceId": 9796,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9796/",
+      "sourceName": "瑪力露",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "026/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-026"
+    },
+    {
+      "sourceId": 9797,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9797/",
+      "sourceName": "瑪力露麗",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "027/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-027"
+    },
+    {
+      "sourceId": 9798,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9798/",
+      "sourceName": "銅鏡怪",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "028/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-028"
+    },
+    {
+      "sourceId": 9799,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9799/",
+      "sourceName": "青銅鐘",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "029/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-029"
+    },
+    {
+      "sourceId": 9800,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9800/",
+      "sourceName": "單卵細胞球",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "030/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-030"
+    },
+    {
+      "sourceId": 9801,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9801/",
+      "sourceName": "雙卵細胞球",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "031/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-031"
+    },
+    {
+      "sourceId": 9802,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9802/",
+      "sourceName": "人造細胞卵",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "032/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-032"
+    },
+    {
+      "sourceId": 9803,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9803/",
+      "sourceName": "振翼髮",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "033/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-033"
+    },
+    {
+      "sourceId": 9804,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9804/",
+      "sourceName": "古空棘魚",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "034/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-034"
+    },
+    {
+      "sourceId": 9805,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9805/",
+      "sourceName": "泥偶小人",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "035/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-035"
+    },
+    {
+      "sourceId": 9806,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9806/",
+      "sourceName": "泥偶巨人",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "036/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-036"
+    },
+    {
+      "sourceId": 9807,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9807/",
+      "sourceName": "泥驢仔",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "037/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-037"
+    },
+    {
+      "sourceId": 9808,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9808/",
+      "sourceName": "重泥挽馬",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "038/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-038"
+    },
+    {
+      "sourceId": 9809,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9809/",
+      "sourceName": "小炭仔",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "039/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-039"
+    },
+    {
+      "sourceId": 9810,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9810/",
+      "sourceName": "大炭車",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "040/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-040"
+    },
+    {
+      "sourceId": 9811,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9811/",
+      "sourceName": "巨炭山",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "041/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-041"
+    },
+    {
+      "sourceId": 9812,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9812/",
+      "sourceName": "雄偉牙",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "042/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-042"
+    },
+    {
+      "sourceId": 9813,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9813/",
+      "sourceName": "阿柏蛇",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "043/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-043"
+    },
+    {
+      "sourceId": 9814,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9814/",
+      "sourceName": "阿柏怪",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "044/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-044"
+    },
+    {
+      "sourceId": 9815,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9815/",
+      "sourceName": "鬼斯",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "045/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-045"
+    },
+    {
+      "sourceId": 9816,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9816/",
+      "sourceName": "鬼斯通",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "046/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-046"
+    },
+    {
+      "sourceId": 9817,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9817/",
+      "sourceName": "耿鬼ex",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "047/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-047"
+    },
+    {
+      "sourceId": 9818,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9818/",
+      "sourceName": "土狼犬",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "048/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-048"
+    },
+    {
+      "sourceId": 9819,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9819/",
+      "sourceName": "大狼犬",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "049/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-049"
+    },
+    {
+      "sourceId": 9820,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9820/",
+      "sourceName": "勾魂眼",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "050/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-050"
+    },
+    {
+      "sourceId": 9821,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9821/",
+      "sourceName": "轟鳴月",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "051/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-051"
+    },
+    {
+      "sourceId": 9822,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9822/",
+      "sourceName": "故勒頓",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "052/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-052"
+    },
+    {
+      "sourceId": 9823,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9823/",
+      "sourceName": "猛雷鼓ex",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "053/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-053"
+    },
+    {
+      "sourceId": 9824,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9824/",
+      "sourceName": "咕咕",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "054/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-054"
+    },
+    {
+      "sourceId": 9825,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9825/",
+      "sourceName": "貓頭夜鷹",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "055/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-055"
+    },
+    {
+      "sourceId": 9826,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9826/",
+      "sourceName": "土龍弟弟",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "056/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-056"
+    },
+    {
+      "sourceId": 9827,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9827/",
+      "sourceName": "土龍節節",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "057/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-057"
+    },
+    {
+      "sourceId": 9828,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9828/",
+      "sourceName": "聒噪鳥",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "058/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-058"
+    },
+    {
+      "sourceId": 9758,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9758/",
+      "sourceName": "泡沫栗鼠",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "059/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-059"
+    },
+    {
+      "sourceId": 9759,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9759/",
+      "sourceName": "奇諾栗鼠",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "060/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-060"
+    },
+    {
+      "sourceId": 9760,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9760/",
+      "sourceName": "訂購盒",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "061/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-061"
+    },
+    {
+      "sourceId": 9761,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9761/",
+      "sourceName": "覺醒戰鼓",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "062/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-062"
+    },
+    {
+      "sourceId": 9763,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9763/",
+      "sourceName": "緊急滑板",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "064/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-064"
+    },
+    {
+      "sourceId": 9764,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9764/",
+      "sourceName": "驅勁能量 古代",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "065/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-065"
+    },
+    {
+      "sourceId": 9765,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9765/",
+      "sourceName": "極限腰帶",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "066/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-066"
+    },
+    {
+      "sourceId": 9766,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9766/",
+      "sourceName": "探險家的嚮導",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "067/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-067"
+    },
+    {
+      "sourceId": 9767,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9767/",
+      "sourceName": "枇琶",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "068/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-068"
+    },
+    {
+      "sourceId": 9768,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9768/",
+      "sourceName": "松葉的信心",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "069/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-069"
+    },
+    {
+      "sourceId": 9769,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9769/",
+      "sourceName": "危險密林",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "070/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-070"
+    },
+    {
+      "sourceId": 9770,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/9770/",
+      "sourceName": "新衝天能量",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "071/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-071"
+    },
+    {
+      "sourceId": 10195,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10195/",
+      "sourceName": "樹林龜",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "072/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-072"
+    },
+    {
+      "sourceId": 10196,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10196/",
+      "sourceName": "雪吞蟲",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "073/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-073"
+    },
+    {
+      "sourceId": 15493,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15493/",
+      "sourceName": "破空焰ex",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "098/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-098"
+    },
+    {
+      "sourceId": 15494,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15494/",
+      "sourceName": "波盪水ex",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "099/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-099"
+    },
+    {
+      "sourceId": 15495,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15495/",
+      "sourceName": "猛雷鼓ex",
+      "sourceSetLabel": "SV5K",
+      "sourceNumber": "100/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5K-100"
+    },
+    {
+      "sourceId": 15010,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15010/",
+      "sourceName": "烈咬陸鯊ex",
+      "sourceSetLabel": "SV3a",
+      "sourceNumber": "090/062",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV3a-090"
+    },
+    {
+      "sourceId": 15011,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15011/",
+      "sourceName": "海灘場地",
+      "sourceSetLabel": "SV3a",
+      "sourceNumber": "091/062",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV3a-091"
+    },
+    {
+      "sourceId": 15012,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15012/",
+      "sourceName": "反轉能量",
+      "sourceSetLabel": "SV3a",
+      "sourceNumber": "092/062",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV3a-092"
+    },
+    {
+      "sourceId": 10648,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10648/",
+      "sourceName": "岩殿居蟹",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "067/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-067"
+    },
+    {
+      "sourceId": 10649,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10649/",
+      "sourceName": "鴨嘴寶寶",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "068/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-068"
+    },
+    {
+      "sourceId": 10650,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10650/",
+      "sourceName": "膽小蟲",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "069/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-069"
+    },
+    {
+      "sourceId": 10651,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10651/",
+      "sourceName": "輕身鱈",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "070/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-070"
+    },
+    {
+      "sourceId": 10652,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10652/",
+      "sourceName": "吼叫尾",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "071/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-071"
+    },
+    {
+      "sourceId": 10653,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10653/",
+      "sourceName": "師父鼬",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "072/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-072"
+    },
+    {
+      "sourceId": 10654,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10654/",
+      "sourceName": "鹽石巨靈",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "073/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-073"
+    },
+    {
+      "sourceId": 10655,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10655/",
+      "sourceName": "爬地翅",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "074/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-074"
+    },
+    {
+      "sourceId": 10656,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10656/",
+      "sourceName": "灰塵山",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "075/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-075"
+    },
+    {
+      "sourceId": 10657,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10657/",
+      "sourceName": "莫魯貝可",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "076/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-076"
+    },
+    {
+      "sourceId": 10658,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10658/",
+      "sourceName": "猛惡菇",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "077/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-077"
+    },
+    {
+      "sourceId": 10659,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10659/",
+      "sourceName": "吼爆彈",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "078/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-078"
+    },
+    {
+      "sourceId": 10660,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10660/",
+      "sourceName": "紅蓮鎧騎ex",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "079/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-079"
+    },
+    {
+      "sourceId": 10661,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10661/",
+      "sourceName": "甜冷美后ex",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "080/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-080"
+    },
+    {
+      "sourceId": 10662,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10662/",
+      "sourceName": "具甲武者ex",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "081/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-081"
+    },
+    {
+      "sourceId": 10663,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10663/",
+      "sourceName": "死神棺ex",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "082/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-082"
+    },
+    {
+      "sourceId": 10664,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10664/",
+      "sourceName": "沙鐵皮ex",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "083/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-083"
+    },
+    {
+      "sourceId": 10665,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10665/",
+      "sourceName": "轟鳴月ex",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "084/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-084"
+    },
+    {
+      "sourceId": 10666,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10666/",
+      "sourceName": "奧琳博士的氣魄",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "085/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-085"
+    },
+    {
+      "sourceId": 10667,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10667/",
+      "sourceName": "千里",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "086/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-086"
+    },
+    {
+      "sourceId": 10668,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10668/",
+      "sourceName": "梅洛可",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "087/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-087"
+    },
+    {
+      "sourceId": 10669,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10669/",
+      "sourceName": "具甲武者ex",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "088/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-088"
+    },
+    {
+      "sourceId": 10670,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10670/",
+      "sourceName": "沙鐵皮ex",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "089/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-089"
+    },
+    {
+      "sourceId": 10671,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10671/",
+      "sourceName": "轟鳴月ex",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "090/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-090"
+    },
+    {
+      "sourceId": 10672,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10672/",
+      "sourceName": "奧琳博士的氣魄",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "091/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-091"
+    },
+    {
+      "sourceId": 10673,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10673/",
+      "sourceName": "梅洛可",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "092/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-092"
+    },
+    {
+      "sourceId": 15022,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15022/",
+      "sourceName": "轟鳴月ex",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "093/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-093"
+    },
+    {
+      "sourceId": 15023,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15023/",
+      "sourceName": "豪華斗篷",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "094/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-094"
+    },
+    {
+      "sourceId": 15024,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15024/",
+      "sourceName": "基礎【惡】能量",
+      "sourceSetLabel": "SV4K",
+      "sourceNumber": "095/066",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV4K-095"
+    },
+    {
+      "sourceId": 15729,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15729/",
+      "sourceName": "熱帶龍",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "074/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-074"
+    },
+    {
+      "sourceId": 15730,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15730/",
+      "sourceName": "新葉喵",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "075/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-075"
+    },
+    {
+      "sourceId": 15731,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15731/",
+      "sourceName": "蒂蕾喵",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "076/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-076"
+    },
+    {
+      "sourceId": 15732,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15732/",
+      "sourceName": "火炎獅",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "077/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-077"
+    },
+    {
+      "sourceId": 15733,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15733/",
+      "sourceName": "呆火鱷",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "078/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-078"
+    },
+    {
+      "sourceId": 15734,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15734/",
+      "sourceName": "炙燙鱷",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "079/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-079"
+    },
+    {
+      "sourceId": 15735,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15735/",
+      "sourceName": "鯉魚王",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "080/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-080"
+    },
+    {
+      "sourceId": 15736,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15736/",
+      "sourceName": "潤水鴨",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "081/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-081"
+    },
+    {
+      "sourceId": 15737,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15737/",
+      "sourceName": "湧躍鴨",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "082/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-082"
+    },
+    {
+      "sourceId": 15738,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15738/",
+      "sourceName": "夢妖魔",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "083/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-083"
+    },
+    {
+      "sourceId": 15739,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15739/",
+      "sourceName": "帕底亞 肯泰羅",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "084/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-084"
+    },
+    {
+      "sourceId": 15740,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15740/",
+      "sourceName": "帕底亞 烏波",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "085/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-085"
+    },
+    {
+      "sourceId": 15741,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15741/",
+      "sourceName": "魔幻假面喵ex",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "086/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-086"
+    },
+    {
+      "sourceId": 15742,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15742/",
+      "sourceName": "骨紋巨聲鱷ex",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "087/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-087"
+    },
+    {
+      "sourceId": 15743,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15743/",
+      "sourceName": "狂歡浪舞鴨ex",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "088/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-088"
+    },
+    {
+      "sourceId": 15744,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15744/",
+      "sourceName": "咚咚鼠ex",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "089/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-089"
+    },
+    {
+      "sourceId": 15745,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15745/",
+      "sourceName": "鬃岩狼人ex",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "090/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-090"
+    },
+    {
+      "sourceId": 15746,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15746/",
+      "sourceName": "帕底亞 土王ex",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "091/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-091"
+    },
+    {
+      "sourceId": 15747,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15747/",
+      "sourceName": "凰檗",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "092/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-092"
+    },
+    {
+      "sourceId": 15748,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15748/",
+      "sourceName": "克拉韋爾",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "093/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-093"
+    },
+    {
+      "sourceId": 15749,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15749/",
+      "sourceName": "阿速",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "094/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-094"
+    },
+    {
+      "sourceId": 15750,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15750/",
+      "sourceName": "老大的指令（魁奇思）",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "095/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-095"
+    },
+    {
+      "sourceId": 15751,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15751/",
+      "sourceName": "魔幻假面喵ex",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "096/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-096"
+    },
+    {
+      "sourceId": 15752,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15752/",
+      "sourceName": "骨紋巨聲鱷ex",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "097/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-097"
+    },
+    {
+      "sourceId": 15753,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15753/",
+      "sourceName": "狂歡浪舞鴨ex",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "098/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-098"
+    },
+    {
+      "sourceId": 15754,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15754/",
+      "sourceName": "凰檗",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "099/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-099"
+    },
+    {
+      "sourceId": 15755,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15755/",
+      "sourceName": "老大的指令（魁奇思）",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "100/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-100"
+    },
+    {
+      "sourceId": 15756,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15756/",
+      "sourceName": "魔幻假面喵ex",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "101/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-101"
+    },
+    {
+      "sourceId": 15757,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15757/",
+      "sourceName": "骨紋巨聲鱷ex",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "102/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-102"
+    },
+    {
+      "sourceId": 15758,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15758/",
+      "sourceName": "狂歡浪舞鴨ex",
+      "sourceSetLabel": "SV1a",
+      "sourceNumber": "103/073",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV1a-103"
+    },
+    {
+      "sourceId": 15759,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15759/",
+      "sourceName": "納噬草",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "072/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-072"
+    },
+    {
+      "sourceId": 15760,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15760/",
+      "sourceName": "瑪力露",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "073/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-073"
+    },
+    {
+      "sourceId": 15761,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15761/",
+      "sourceName": "冰砌鵝",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "074/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-074"
+    },
+    {
+      "sourceId": 15762,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15762/",
+      "sourceName": "涼脊龍",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "075/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-075"
+    },
+    {
+      "sourceId": 15763,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15763/",
+      "sourceName": "凍脊龍",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "076/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-076"
+    },
+    {
+      "sourceId": 15764,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15764/",
+      "sourceName": "戟脊龍",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "077/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-077"
+    },
+    {
+      "sourceId": 15765,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15765/",
+      "sourceName": "哥德小童",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "078/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-078"
+    },
+    {
+      "sourceId": 15766,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15766/",
+      "sourceName": "蟲甲聖",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "079/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-079"
+    },
+    {
+      "sourceId": 15767,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15767/",
+      "sourceName": "樹才怪",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "080/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-080"
+    },
+    {
+      "sourceId": 15768,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15768/",
+      "sourceName": "拖拖蚓",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "081/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-081"
+    },
+    {
+      "sourceId": 15769,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15769/",
+      "sourceName": "稚山雀",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "082/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-082"
+    },
+    {
+      "sourceId": 15770,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15770/",
+      "sourceName": "土龍節節",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "083/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-083"
+    },
+    {
+      "sourceId": 15771,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15771/",
+      "sourceName": "古簡蝸ex",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "084/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-084"
+    },
+    {
+      "sourceId": 15772,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15772/",
+      "sourceName": "古劍豹ex",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "085/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-085"
+    },
+    {
+      "sourceId": 15773,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15773/",
+      "sourceName": "呆呆王ex",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "086/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-086"
+    },
+    {
+      "sourceId": 15774,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15774/",
+      "sourceName": "棄世猴ex",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "087/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-087"
+    },
+    {
+      "sourceId": 15775,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15775/",
+      "sourceName": "大王銅象ex",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "088/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-088"
+    },
+    {
+      "sourceId": 15776,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15776/",
+      "sourceName": "怒鸚哥ex",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "089/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-089"
+    },
+    {
+      "sourceId": 15777,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15777/",
+      "sourceName": "古魯夏",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "090/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-090"
+    },
+    {
+      "sourceId": 15778,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15778/",
+      "sourceName": "皮拿",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "091/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-091"
+    },
+    {
+      "sourceId": 15779,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15779/",
+      "sourceName": "古簡蝸ex",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "092/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-092"
+    },
+    {
+      "sourceId": 15780,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15780/",
+      "sourceName": "古劍豹ex",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "093/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-093"
+    },
+    {
+      "sourceId": 15781,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15781/",
+      "sourceName": "怒鸚哥ex",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "094/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-094"
+    },
+    {
+      "sourceId": 15782,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15782/",
+      "sourceName": "古魯夏",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "095/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-095"
+    },
+    {
+      "sourceId": 15783,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15783/",
+      "sourceName": "皮拿",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "096/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-096"
+    },
+    {
+      "sourceId": 15891,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15891/",
+      "sourceName": "古劍豹ex",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "097/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-097"
+    },
+    {
+      "sourceId": 15785,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15785/",
+      "sourceName": "厲害釣竿",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "098/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-098"
+    },
+    {
+      "sourceId": 15786,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15786/",
+      "sourceName": "基本【水】能量",
+      "sourceSetLabel": "SV2P",
+      "sourceNumber": "099/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2P-099"
+    },
+    {
+      "sourceId": 15818,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15818/",
+      "sourceName": "鐵斑葉ex",
+      "sourceSetLabel": "SV5M",
+      "sourceNumber": "098/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5M-098"
+    },
+    {
+      "sourceId": 15819,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15819/",
+      "sourceName": "鐵頭殼ex",
+      "sourceSetLabel": "SV5M",
+      "sourceNumber": "099/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5M-099"
+    },
+    {
+      "sourceId": 15820,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/15820/",
+      "sourceName": "鐵磐岩ex",
+      "sourceSetLabel": "SV5M",
+      "sourceNumber": "100/071",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV5M-100"
+    },
+    {
+      "sourceId": 10866,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10866/",
+      "sourceName": "卡璞・哞哞",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "065/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-065"
+    },
+    {
+      "sourceId": 10867,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10867/",
+      "sourceName": "黑魯加",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "066/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-066"
+    },
+    {
+      "sourceId": 10868,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10868/",
+      "sourceName": "墨海馬",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "067/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-067"
+    },
+    {
+      "sourceId": 10869,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10869/",
+      "sourceName": "夜巡靈",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "068/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-068"
+    },
+    {
+      "sourceId": 10870,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10870/",
+      "sourceName": "彷徨夜靈",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "069/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-069"
+    },
+    {
+      "sourceId": 10871,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10871/",
+      "sourceName": "黑夜魔靈",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "070/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-070"
+    },
+    {
+      "sourceId": 10872,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10872/",
+      "sourceName": "克雷色利亞",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "071/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-071"
+    },
+    {
+      "sourceId": 10873,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10873/",
+      "sourceName": "索羅亞",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "072/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-072"
+    },
+    {
+      "sourceId": 10874,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10874/",
+      "sourceName": "銅象",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "073/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-073"
+    },
+    {
+      "sourceId": 10875,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10875/",
+      "sourceName": "斧牙龍",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "074/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-074"
+    },
+    {
+      "sourceId": 10876,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10876/",
+      "sourceName": "貓老大",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "075/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-075"
+    },
+    {
+      "sourceId": 10877,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10877/",
+      "sourceName": "穿著熊",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "076/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-076"
+    },
+    {
+      "sourceId": 10878,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10878/",
+      "sourceName": "刺龍王ex",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "077/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-077"
+    },
+    {
+      "sourceId": 10879,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10879/",
+      "sourceName": "普隆隆姆ex",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "078/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-078"
+    },
+    {
+      "sourceId": 10880,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10880/",
+      "sourceName": "夠讚狗ex",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "079/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-079"
+    },
+    {
+      "sourceId": 10881,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10881/",
+      "sourceName": "願增猿ex",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "080/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-080"
+    },
+    {
+      "sourceId": 10882,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10882/",
+      "sourceName": "吉雉雞ex",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "081/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-081"
+    },
+    {
+      "sourceId": 10883,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10883/",
+      "sourceName": "桃歹郎ex",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "082/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-082"
+    },
+    {
+      "sourceId": 10884,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10884/",
+      "sourceName": "阿克羅瑪的執著",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "083/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-083"
+    },
+    {
+      "sourceId": 10885,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10885/",
+      "sourceName": "阿杏的秘招",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "084/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-084"
+    },
+    {
+      "sourceId": 10886,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10886/",
+      "sourceName": "仙后",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "085/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-085"
+    },
+    {
+      "sourceId": 10887,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10887/",
+      "sourceName": "庫瑟洛斯奇的企圖",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "086/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-086"
+    },
+    {
+      "sourceId": 10888,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10888/",
+      "sourceName": "夠讚狗ex",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "087/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-087"
+    },
+    {
+      "sourceId": 10889,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10889/",
+      "sourceName": "願增猿ex",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "088/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-088"
+    },
+    {
+      "sourceId": 10890,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10890/",
+      "sourceName": "吉雉雞ex",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "089/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-089"
+    },
+    {
+      "sourceId": 10891,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10891/",
+      "sourceName": "桃歹郎ex",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "090/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-090"
+    },
+    {
+      "sourceId": 10892,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10892/",
+      "sourceName": "仙后",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "091/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-091"
+    },
+    {
+      "sourceId": 10893,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10893/",
+      "sourceName": "桃歹郎ex",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "092/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-092"
+    },
+    {
+      "sourceId": 10894,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10894/",
+      "sourceName": "大地之容器",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "093/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-093"
+    },
+    {
+      "sourceId": 10895,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/10895/",
+      "sourceName": "力之沙漏",
+      "sourceSetLabel": "SV6a",
+      "sourceNumber": "094/064",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV6a-094"
+    },
+    {
+      "sourceId": 8331,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/8331/",
+      "sourceName": "夢幻ex",
+      "sourceSetLabel": "SV2a",
+      "sourceNumber": "208/165",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2a-208"
+    },
+    {
+      "sourceId": 8332,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/8332/",
+      "sourceName": "寶可夢交替",
+      "sourceSetLabel": "SV2a",
+      "sourceNumber": "209/165",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2a-209"
+    },
+    {
+      "sourceId": 8333,
+      "sourceUrl": "https://asia.pokemon-card.com/tw/card-search/detail/8333/",
+      "sourceName": "基本【超】能量",
+      "sourceSetLabel": "SV2a",
+      "sourceNumber": "210/165",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "zh-tw:SV2a-210"
+    }
+  ]
 }

@@ -1,0 +1,855 @@
+{
+  "gameId": "pokemon",
+  "note": "Crawled jp.pokellector.com cards that did NOT pass the mapping guards. Never seeded.",
+  "generatedAt": "2026-08-23T11:40:06.605Z",
+  "entries": [
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41498,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Abomasnow-Card-185",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "185"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41255,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Flapple-Card-186",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "186"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41277,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Charizard-Card-187",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "187"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41499,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Flareon-Card-188",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "188"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41500,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Vaporeon-Card-189",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "189"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41273,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Kingdra-Card-190",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "190"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 40974,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Octillery-Card-191",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "191"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41274,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Frosmoth-Card-192",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "192"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41501,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Jolteon-Card-193",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "193"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 40520,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Flaafy-Card-194",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "194"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 40521,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Zekrom-Card-195",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "195"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 40522,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Gardevoir-Card-196",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "196"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41502,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Banette-Card-197",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "197"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 40975,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Dusknoir-Card-198",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "198"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41503,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Malamar-Card-199",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "199"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41504,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Dedenne-Card-200",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "200"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 40970,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Alcremie-Card-201",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "201"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41272,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Rockruff-Card-202",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "202"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41505,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Passimian-Card-203",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "203"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41506,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Falinks-Card-204",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "204"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 40976,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Ariados-Card-205",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "205"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41265,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Houndoom-Card-206",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "206"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41507,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Galarian-Obstagoon-Card-207",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "207"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41275,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Bronzong-Card-208",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "208"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41508,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Druddigon-Card-209",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "209"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 40523,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Eevee-Card-210",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "210"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41509,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Castform-Card-211",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "211"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 40977,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Oranguru-Card-212",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "212"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41510,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Kricketune-V-Card-213",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "213"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41511,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Orbeetle-V-Card-214",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "214"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41512,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Orbeetle-VMAX-Card-215",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "215"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 40971,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Blaziken-V-Card-216",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "216"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41513,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Blaziken-VMAX-Card-217",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "217"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41514,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Centiskorch-V-Card-218",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "218"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41515,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Centiskorch-VMAX-Card-219",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "219"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41516,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Ice-Rider-Calyrex-V-Card-220",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "220"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41517,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Ice-Rider-Calyrex-VMAX-Card-221",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "221"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41518,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Pikachu-V-Card-222",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "222"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 40524,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Pikachu-VMAX-Card-223",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "223"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41279,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Zeraora-Card-224",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "224"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41271,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Boltund-V-Card-225",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "225"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41519,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Morpeko-V-UNION-Card-226",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "226"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41520,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Morpeko-V-UNION-Card-227",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "227"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41521,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Morpeko-V-UNION-Card-228",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "228"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41522,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Morpeko-V-UNION-Card-229",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "229"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41523,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Galarian-Articuno-V-Card-230",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "230"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41524,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Sylveon-V-Card-231",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "231"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41525,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Sylveon-VMAX-Card-232",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "232"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41526,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Mimikyu-V-Card-233",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "233"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41527,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Mimikyu-VMAX-Card-234",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "234"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41528,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Shadow-Rider-Calyrex-V-Card-235",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "235"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41529,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Shadow-Rider-Calyrex-VMAX-Card-236",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "236"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41530,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Galarian-Zapdos-V-Card-237",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "237"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41531,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Single-Strike-Urshifu-V-Card-238",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "238"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41532,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Single-Strike-Urshifu-VMAX-Card-239",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "239"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41533,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Rapid-Strike-Urshifu-V-Card-240",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "240"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41534,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Rapid-Strike-Urshifu-VMAX-Card-241",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "241"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41535,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Galarian-Moltres-V-Card-242",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "242"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41280,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Crobat-V-Card-243",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "243"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41536,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Umbreon-V-Card-244",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "244"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41537,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Umbreon-VMAX-Card-245",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "245"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41538,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Eternatus-V-Card-246",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "246"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41539,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Eternatus-VMAX-Card-247",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "247"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41540,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Corviknight-V-Card-248",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "248"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41541,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Corviknight-VMAX-Card-249",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "249"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41542,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Zacian-V-Card-250",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "250"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 40972,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Zamazenta-V-Card-251",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "251"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41543,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Rayquaza-VMAX-Card-252",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "252"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41278,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Duraludon-VMAX-Card-253",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "253"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 40973,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Blissey-V-Card-254",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "254"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41544,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Acerolas-Intuition-Card-255",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "255"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41545,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Allister-Card-256",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "256"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41546,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Kabu-Card-257",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "257"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41547,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Galar-Friends-Card-258",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "258"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41548,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Raihan-Card-259",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "259"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41549,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Cook-Card-260",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "260"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41550,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Bea-Card-261",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "261"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41551,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Judge-Card-262",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "262"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41552,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Sordward-Shielbert-Card-263",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "263"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41553,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Piers-Card-264",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "264"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41554,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Professor-Burnet-Card-265",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "265"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41555,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Professors-Research-Professor-Juniper-Card-266",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "266"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41556,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Adventurers-Discovery-Card-267",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "267"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41557,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Bosss-Orders-Lysandre-Card-268",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "268"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41558,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Opal-Card-269",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "269"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41559,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Gordie-Card-270",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "270"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41560,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Cafe-Master-Card-271",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "271"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41561,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Mustard-Single-Strike-Card-272",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "272"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41562,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Mustard-Rapid-Strike-Card-273",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "273"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41563,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Melony-Card-274",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "274"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41564,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Milo-Card-275",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "275"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41565,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Gloria-Card-276",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "276"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41566,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Nessa-Card-277",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "277"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41567,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Ice-Rider-Calyrex-VMAX-Card-278",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "278"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41568,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Pikachu-VMAX-Card-279",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "279"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41569,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Mew-VMAX-Card-280",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "280"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41570,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Shadow-Rider-Calyrex-VMAX-Card-281",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "281"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41571,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Single-Strike-Urshifu-VMAX-Card-282",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "282"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41572,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Rapid-Strike-Urshifu-VMAX-Card-283",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "283"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41573,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Rayquaza-VMAX-Card-284",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "284"
+    },
+    {
+      "reason": "missing-page-fields",
+      "sourceId": 41574,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Duraludon-VMAX-Card-285",
+      "sourceName": "",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "285"
+    },
+    {
+      "sourceId": 41250,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Morpeko-V-UNION-Card-57",
+      "sourceName": "ガラル フリーザーV",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "57",
+      "reason": "name-mismatch",
+      "candidateExternalId": "ja:S8b-057",
+      "catalogName": "モルペコV-UNION"
+    },
+    {
+      "sourceId": 41251,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Morpeko-V-UNION-Card-58",
+      "sourceName": "ラルトス",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "58",
+      "reason": "name-mismatch",
+      "candidateExternalId": "ja:S8b-058",
+      "catalogName": "モルペコV-UNION"
+    },
+    {
+      "sourceId": 41252,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Morpeko-V-UNION-Card-59",
+      "sourceName": "キルリア",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "59",
+      "reason": "name-mismatch",
+      "candidateExternalId": "ja:S8b-059",
+      "catalogName": "モルペコV-UNION"
+    },
+    {
+      "sourceId": 41397,
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Bosss-Orders-Card-158",
+      "sourceName": "ボスの指令（フラダリ）",
+      "sourceSetLabel": "S8b",
+      "sourceNumber": "158",
+      "reason": "name-mismatch",
+      "candidateExternalId": "ja:S8b-158",
+      "catalogName": "ボスの指令"
+    }
+  ]
+}

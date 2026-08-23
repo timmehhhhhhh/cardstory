@@ -26,7 +26,13 @@ import { FAB_PROMO_IMAGES } from "./data/card-images/fab-promos";
 const DATA_DIR = path.join(process.cwd(), "scripts", "data", "card-images");
 
 /** JSON files written by the crawlers. Missing ones are skipped, not fatal. */
-const JSON_FILES = ["pokemon-tw.json", "pokemon-ja.json", "pokemon-cn.json"];
+const JSON_FILES = [
+  "pokemon-tw.json",
+  "pokemon-ja.json",
+  "pokemon-cn.json",
+  "pokemon-jp-pokellector.json",
+  "pokemon-kr.json",
+];
 
 function loadJsonFile(name: string): CardImageFile | null {
   const file = path.join(DATA_DIR, name);
