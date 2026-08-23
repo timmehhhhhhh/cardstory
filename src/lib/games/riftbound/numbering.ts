@@ -24,3 +24,31 @@ export function parseRiftboundNumber(riftboundId: string): string | undefined {
   const parts = riftboundId.split("-");
   return parts.length >= 2 ? parts[1].toUpperCase() : undefined;
 }
+
+/**
+ * Reads the alternate-art / overnumbered signals straight out of the same
+ * numerator/denominator the id already encodes (see parseRiftboundNumber's
+ * doc comment above) — no extra API data (e.g. the set's total card count)
+ * is needed, since the denominator here *is* that total.
+ *
+ * - `isAlternateArt`: numerator has a letter suffix ("026a" -> true), the
+ *   printed marking for a special-artwork variant.
+ * - `isOvernumbered`: the numerator's numeric value exceeds the denominator
+ *   ("224/221" -> true), whether or not it also carries the "*" signature
+ *   suffix — both print with a number higher than the set's total.
+ *
+ * Ids that don't match the standard "<number>-<total>" shape (Token/Rune
+ * ids, see parseRiftboundNumber) are neither: both flags default to false.
+ */
+export function classifyRiftboundNumbering(riftboundId: string): {
+  isAlternateArt: boolean;
+  isOvernumbered: boolean;
+} {
+  const match = /^[a-z0-9]+-(\d+)([a-z*]?)-(\d+)$/i.exec(riftboundId);
+  if (!match) return { isAlternateArt: false, isOvernumbered: false };
+  const [, digits, suffix, total] = match;
+  return {
+    isAlternateArt: /[a-z]/i.test(suffix),
+    isOvernumbered: Number(digits) > Number(total),
+  };
+}

@@ -1,6 +1,6 @@
 import type { UnifiedCard, UnifiedSet } from "@/lib/games/types";
 import { cardTypeLabel } from "@/lib/games/riftbound/card-types";
-import { parseRiftboundNumber } from "@/lib/games/riftbound/numbering";
+import { classifyRiftboundNumbering, parseRiftboundNumber } from "@/lib/games/riftbound/numbering";
 
 export interface RiftcodexApiSet {
   set_id: string;
@@ -40,13 +40,22 @@ export function mapRiftboundSet(raw: RiftcodexApiSet): UnifiedSet {
 }
 
 export function mapRiftboundCard(raw: RiftcodexApiCard, setExternalId: string): UnifiedCard {
+  const rawRarity = raw.classification.rarity ?? undefined;
+  // Rare is reserved for standard prints. A card's printed number is
+  // independent of its API rarity, so an alt-art or overnumbered variant can
+  // come back as "Rare" from riftcodex.com — reclassify those to Showcase
+  // (displayed as "Alternate Art", see rarity.ts/riftbound-icons.tsx) so
+  // they read, filter, and sort as the special printing they actually are.
+  const { isAlternateArt, isOvernumbered } = classifyRiftboundNumbering(raw.riftbound_id);
+  const rarity =
+    rawRarity === "Rare" && (isAlternateArt || isOvernumbered) ? "Showcase" : rawRarity;
   return {
     gameId: "riftbound",
     setExternalId,
     externalId: raw.riftbound_id,
     name: raw.name,
     number: parseRiftboundNumber(raw.riftbound_id),
-    rarity: raw.classification.rarity ?? undefined,
+    rarity,
     cardType: cardTypeLabel(raw.classification.type, raw.classification.supertype),
     domain: raw.classification.domain ?? [],
     imageSmallUrl: raw.media?.image_url ?? undefined,
