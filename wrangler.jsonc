@@ -5,6 +5,13 @@
   // URLs on the "Workers Builds: cardstory" GitHub check). Changing this
   // would make Cloudflare treat it as a different Worker.
   "name": "cardstory",
+  // The Workers Builds git integration's dashboard "Build command" MUST be
+  // `npx opennextjs-cloudflare build` — that's what actually produces this
+  // file; plain `npm run build` only runs `next build` and stops (see the
+  // "build"/"preview"/"deploy" scripts in package.json). Left as `npm run
+  // build` for a while, which built the Next.js app fine but always failed
+  // at deploy with "entry-point file … was not found" once wrangler went
+  // looking for a worker.js that was never generated.
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-08-22",
   // Required by @opennextjs/cloudflare — Next.js's server runtime uses
