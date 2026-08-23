@@ -120,12 +120,12 @@ export interface Preferences {
    */
   businessMode: boolean;
   /**
-   * When on (and businessMode is off), an Explore card's add-to-PC click
-   * skips AddHoldingDialog and adds straight into the active PC with
-   * default values, mirroring Business Mode's own forced-PC bypass. Local
-   * UI state, same as businessMode — stays local even for signed-in users
-   * (see remote-store.ts). Business Mode takes priority when both are on,
-   * since it's a vendor-specific forced destination.
+   * When on, an Explore card's add-to-PC click skips AddHoldingDialog and
+   * adds straight into a PC with default values — the active one, or the
+   * Business Inventory pc when businessMode is also on. The two compose:
+   * businessMode picks the destination PC, quickAdd decides whether the
+   * dialog is skipped to get there. Local UI state, same as businessMode —
+   * stays local even for signed-in users (see remote-store.ts).
    */
   quickAdd: boolean;
 }
