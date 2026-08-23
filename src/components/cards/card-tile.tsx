@@ -63,6 +63,10 @@ export function CardTile({
   const [justShortlisted, setJustShortlisted] = React.useState(false);
   // Same pulse pattern as justShortlisted, for the Quick Add bypass below.
   const [justQuickAdded, setJustQuickAdded] = React.useState(false);
+  // Brief error pulse when toggleWatchlist's request fails — otherwise a
+  // failed save is indistinguishable from a successful one (the optimistic
+  // update reverts silently), which reads as "the button did nothing."
+  const [watchlistFailed, setWatchlistFailed] = React.useState(false);
   // Only surfaced for non-English prints (currently Pokémon JP/CN/TW/KR) —
   // otherwise identical-looking reprints in different languages are
   // indistinguishable in a flat grid.
@@ -179,11 +183,13 @@ export function CardTile({
     </button>
   );
 
-  const watchlistTitle = watchlisted
-    ? `Watching since ${new Date(watchlistEntry!.addedAt).toLocaleDateString()}${
-        watchlistEntry!.priceAtAdd != null ? ` · ${formatMoney(watchlistEntry!.priceAtAdd, currency)} at add` : ""
-      }`
-    : undefined;
+  const watchlistTitle = watchlistFailed
+    ? "Couldn't update watchlist — try again"
+    : watchlisted
+      ? `Watching since ${new Date(watchlistEntry!.addedAt).toLocaleDateString()}${
+          watchlistEntry!.priceAtAdd != null ? ` · ${formatMoney(watchlistEntry!.priceAtAdd, currency)} at add` : ""
+        }`
+      : undefined;
 
   const watchlistTrigger = (className: string) => (
     <button
@@ -191,10 +197,22 @@ export function CardTile({
       aria-label={watchlisted ? "Remove from watchlist" : "Add to watchlist"}
       aria-pressed={watchlisted}
       title={watchlistTitle}
-      onClick={() => toggleWatchlist(item.id, isSports ? "sports" : "tcg", item.priceRaw)}
+      onClick={() => {
+        void toggleWatchlist(item.id, isSports ? "sports" : "tcg", item.priceRaw).then((ok) => {
+          if (!ok) {
+            setWatchlistFailed(true);
+            setTimeout(() => setWatchlistFailed(false), 1500);
+          }
+        });
+      }}
       className={className}
     >
-      <Star className={cn("size-4", watchlisted && "fill-watchlist text-watchlist")} />
+      <Star
+        className={cn(
+          "size-4",
+          watchlistFailed ? "text-negative" : watchlisted && "fill-watchlist text-watchlist"
+        )}
+      />
     </button>
   );
 

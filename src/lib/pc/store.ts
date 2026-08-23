@@ -13,7 +13,8 @@ export type { PCState } from "@/lib/pc/local-store";
  * change. Logged-out visitors are served entirely from localStorage
  * (useLocalPCStore, untouched); signed-in users are served from the
  * server (useRemotePCStore). See remote-store.ts for what does and
- * doesn't move server-side (preferences/watchlist stay local either way).
+ * doesn't move server-side (preferences stay local either way; watchlist
+ * is real account data and moves server-side for signed-in users).
  *
  * Both hooks are always called (React hook rules — no conditional hook
  * calls), and the unused one's query stays disabled via `enabled`.

@@ -15,6 +15,7 @@ import { RarityBadge } from "@/components/cards/rarity-badge";
 import { FinishBadge } from "@/components/cards/finish-badge";
 import { DomainIcon } from "@/components/cards/riftbound-icons";
 import { OtherVersionsPanel } from "@/app/card/[game]/[cardId]/_components/other-versions-panel";
+import { WatchlistButton } from "@/app/card/[game]/[cardId]/_components/watchlist-button";
 import { Badge } from "@/components/ui/badge";
 import { formatReleaseDate } from "@/lib/format/date";
 import { defaultFinishLabel } from "@/lib/games/pokemon/mapper";
@@ -137,6 +138,7 @@ export default async function CardDetailPage({
               {item.isRelic && <Badge variant="secondary">Relic</Badge>}
             </div>
           </div>
+          <WatchlistButton sportsCardItemId={item.id} priceRaw={priceRaw} />
         </div>
 
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-[260px_1fr_300px]">
@@ -229,6 +231,7 @@ export default async function CardDetailPage({
             )}
           </div>
         </div>
+        <WatchlistButton catalogItemId={item.id} priceRaw={priceRaw} />
       </div>
 
       <OtherVersionsPanel

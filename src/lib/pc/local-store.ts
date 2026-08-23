@@ -83,7 +83,14 @@ export interface PCActions {
   copyHoldings: (fromId: string, toId: string, holdingIds: string[]) => void;
   moveHoldings: (fromId: string, toId: string, holdingIds: string[]) => void;
 
-  toggleWatchlist: (itemId: string, kind: HoldingKind, priceAtAdd: number | null) => void;
+  /**
+   * Promise-returning (even here, where it's always synchronous under the
+   * hood) so callers share one shape with useRemotePCStore's toggleWatchlist,
+   * which genuinely can fail server-side — see that file for why a caller
+   * needs to be able to await this to show failure feedback instead of
+   * assuming it always lands.
+   */
+  toggleWatchlist: (itemId: string, kind: HoldingKind, priceAtAdd: number | null) => Promise<boolean>;
   isWatchlisted: (itemId: string) => boolean;
 }
 
@@ -197,7 +204,7 @@ export const useLocalPCStore = create<PCState>()(
         get().removeHoldings(fromId, holdingIds);
       },
 
-      toggleWatchlist: (itemId, kind, priceAtAdd) =>
+      toggleWatchlist: (itemId, kind, priceAtAdd) => {
         set((s) => {
           const exists = s.watchlist.some((w) => w.itemId === itemId);
           return {
@@ -205,7 +212,9 @@ export const useLocalPCStore = create<PCState>()(
               ? s.watchlist.filter((w) => w.itemId !== itemId)
               : [...s.watchlist, { itemId, kind, addedAt: nowIso(), priceAtAdd }],
           };
-        }),
+        });
+        return Promise.resolve(true);
+      },
       isWatchlisted: (itemId) => get().watchlist.some((w) => w.itemId === itemId),
     }),
     {

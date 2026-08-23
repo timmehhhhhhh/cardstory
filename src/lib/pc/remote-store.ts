@@ -152,12 +152,17 @@ export function useRemotePCStore<T>(
 
       toggleWatchlist: (itemId: string, kind: HoldingKind, priceAtAdd: number | null) => {
         const exists = watchlist.some((w) => w.itemId === itemId);
+        // Round to match WatchlistEntry.priceAtAdd's Decimal(10, 2) column
+        // (prisma/schema.prisma) — priceAtAdd here can carry more than 2
+        // decimal places via floating-point Number(Decimal) conversion
+        // upstream, and the zod schema only checks nonnegative(), not scale.
+        const roundedPriceAtAdd = priceAtAdd != null ? Math.round(priceAtAdd * 100) / 100 : priceAtAdd;
         watchlistPatch((w) =>
           exists
             ? w.filter((x) => x.itemId !== itemId)
-            : [...w, { itemId, kind, addedAt: nowIso(), priceAtAdd }]
+            : [...w, { itemId, kind, addedAt: nowIso(), priceAtAdd: roundedPriceAtAdd }]
         );
-        (exists
+        return (exists
           ? fetch("/api/watchlist", {
               method: "DELETE",
               headers: { "Content-Type": "application/json" },
@@ -166,13 +171,22 @@ export function useRemotePCStore<T>(
           : fetch("/api/watchlist", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ itemId, kind, priceAtAdd }),
+              body: JSON.stringify({ itemId, kind, priceAtAdd: roundedPriceAtAdd }),
             })
         )
           .then((res) => {
-            if (!res.ok) reconcileWatchlist();
+            if (!res.ok) {
+              logMutationFailure("toggleWatchlist", res);
+              reconcileWatchlist();
+              return false;
+            }
+            return true;
           })
-          .catch(reconcileWatchlist);
+          .catch((err) => {
+            logMutationFailure("toggleWatchlist", null, err);
+            reconcileWatchlist();
+            return false;
+          });
       },
       isWatchlisted: (itemId: string) => watchlist.some((w) => w.itemId === itemId),
 
