@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { GAMES, WIRED_SPORTS_GAMES, getGameMeta } from "@/lib/games/registry";
 import { defaultFinishLabel } from "@/lib/games/pokemon/mapper";
 import { getFinishDisplayLabel } from "@/lib/games/pokemon/finish-patterns";
+import { RIFTBOUND_RARITY_ORDER } from "@/lib/games/riftbound/rarity";
 import { nameSearchVariants } from "@/lib/utils/name-match";
 
 const WIRED_TCG_GAME_IDS = GAMES.filter((g) => g.status === "WIRED" && g.kind !== "sports").map(
@@ -719,6 +720,15 @@ export const getDistinctCardTypes = unstable_cache(
   { tags: ["catalog-facets"], revalidate: 86400 }
 );
 
+// Per-game rarity tier order, for ranking getDistinctRarities' output instead
+// of leaving it alphabetical (alphabetical would put Riftbound's "Epic"
+// before "Rare"/"Uncommon", scrambling the tier hierarchy). Only Riftbound
+// has a known, verified tier order today — other games fall back to
+// alphabetical below.
+const RARITY_RANK: Record<string, string[]> = {
+  riftbound: RIFTBOUND_RARITY_ORDER,
+};
+
 /**
  * Every distinct non-empty CatalogItem.rarity in the catalog, for populating
  * Explore's "Rarity" filter — optionally scoped to a single game, since
@@ -726,6 +736,12 @@ export const getDistinctCardTypes = unstable_cache(
  * Riftbound's "Epic"). Some rows have rarity = "" (not null) from
  * pokemontcg.io promo/sealed entries, so both null and "" are excluded.
  * Deliberately CatalogItem-only — SportsCardItem has no rarity column.
+ *
+ * Sorted by the game's tier order (RARITY_RANK) when known, so e.g.
+ * Riftbound's filter list reads Common → Uncommon → Rare → Epic → Showcase →
+ * Promo rather than alphabetically; unranked values (unknown game, or a
+ * future rarity string not yet in the rank list) sort alphabetically after
+ * the known ones.
  */
 export const getDistinctRarities = unstable_cache(
   async (gameId?: string): Promise<string[]> => {
@@ -733,9 +749,18 @@ export const getDistinctRarities = unstable_cache(
       where: { gameId, NOT: [{ rarity: null }, { rarity: "" }] },
       distinct: ["rarity"],
       select: { rarity: true },
-      orderBy: { rarity: "asc" },
     });
-    return rows.map((r) => r.rarity as string);
+    const values = rows.map((r) => r.rarity as string);
+    const rank = gameId ? RARITY_RANK[gameId] : undefined;
+    if (!rank) return values.sort((a, b) => a.localeCompare(b));
+    return values.sort((a, b) => {
+      const ai = rank.indexOf(a);
+      const bi = rank.indexOf(b);
+      if (ai === -1 && bi === -1) return a.localeCompare(b);
+      if (ai === -1) return 1;
+      if (bi === -1) return -1;
+      return ai - bi;
+    });
   },
   ["catalog-rarities"],
   { tags: ["catalog-facets"], revalidate: 86400 }
