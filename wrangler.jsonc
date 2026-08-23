@@ -38,6 +38,28 @@
       "id": "c06d7548c14b446a9c1cf562df011599"
     }
   ],
+  // Backs open-next.config.ts's Durable Object-sharded tag cache — without
+  // this, revalidateTag()/revalidatePath() have nowhere to record "this tag
+  // is stale" on Cloudflare (unlike local `next dev`, whose built-in cache
+  // tracks tags natively), so calls to them silently no-op in production.
+  // Binding name is hardcoded by @opennextjs/cloudflare's
+  // do-sharded-tag-cache override — do not rename. The DOShardedTagCache
+  // class itself is generated into .open-next/worker.js by `opennextjs-
+  // cloudflare build`, not written by hand in this repo.
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "NEXT_TAG_CACHE_DO_SHARDED",
+        "class_name": "DOShardedTagCache"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["DOShardedTagCache"]
+    }
+  ],
   // Non-sensitive only — DATABASE_URL, AUTH_SECRET, and the other API keys
   // from .env.example must be set as Worker *secrets* instead (Cloudflare
   // dashboard → Worker → Settings → Variables and Secrets, or

@@ -23,7 +23,17 @@ import { defineCloudflareConfig } from "@opennextjs/cloudflare";
 // account is on the Workers Paid plan (10 MiB gzip cap), there's ample
 // headroom and it's safe to re-enable.
 import kvIncrementalCache from "@opennextjs/cloudflare/overrides/incremental-cache/kv-incremental-cache";
+// Tag-based on-demand revalidation (revalidateTag/revalidatePath — see
+// api/admin/revalidate-facets and lib/catalog/search.ts's "catalog-facets"
+// tag) needs its own store, separate from the incremental cache above: the
+// incremental cache holds cached *values*, this holds "which tags were
+// revalidated when". Without a tagCache configured at all, revalidateTag()
+// calls succeed but do nothing on Cloudflare — Durable Objects (rather than
+// the KV-backed alternative) for strong consistency: no up-to-60s
+// eventual-consistency window on a revalidation actually taking effect.
+import doShardedTagCache from "@opennextjs/cloudflare/overrides/tag-cache/do-sharded-tag-cache";
 
 export default defineCloudflareConfig({
   incrementalCache: kvIncrementalCache,
+  tagCache: doShardedTagCache({ baseShardSize: 12 }),
 });
