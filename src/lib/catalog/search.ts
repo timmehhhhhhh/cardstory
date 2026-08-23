@@ -5,6 +5,7 @@ import { GAMES, WIRED_SPORTS_GAMES, getGameMeta } from "@/lib/games/registry";
 import { defaultFinishLabel } from "@/lib/games/pokemon/mapper";
 import { getFinishDisplayLabel } from "@/lib/games/pokemon/finish-patterns";
 import { RIFTBOUND_RARITY_ORDER } from "@/lib/games/riftbound/rarity";
+import { RIFTBOUND_DOMAIN_ORDER } from "@/lib/games/riftbound/domain";
 import { nameSearchVariants } from "@/lib/utils/name-match";
 
 const WIRED_TCG_GAME_IDS = GAMES.filter((g) => g.status === "WIRED" && g.kind !== "sports").map(
@@ -25,6 +26,7 @@ export const CATALOG_SORTS = [
   "type_asc",
   "release_desc",
   "release_asc",
+  "domain_asc",
 ] as const;
 export type CatalogSort = (typeof CATALOG_SORTS)[number];
 
@@ -56,6 +58,15 @@ export interface CatalogSearchParams {
    * game (variantKey is always "" there). Scalar-or-array, see cardType above.
    */
   variant?: string | string[];
+  /**
+   * Riftbound-only — CatalogItem.domain, e.g. "Fury"/"Calm" (see
+   * lib/games/riftbound/domain.ts). A scalar value matches any row whose
+   * domain array *contains* it (Prisma `has`, since a dual-domain Legend
+   * carries two); an array OR's across values (Prisma `hasSome`), same
+   * scalar-or-array convention as cardType/rarity above. No-op for every
+   * other game (their `domain` column is always `[]`).
+   */
+  domain?: string | string[];
   /**
    * Illustrator credit — see CatalogItem.artist. Unlike cardType/rarity/
    * language, this never matches by exact equality: each value is matched
@@ -92,6 +103,8 @@ export interface CatalogSearchItem {
   /** Illustrator credit, e.g. Pokémon's "Mitsuhiro Arita". Null for games/rows with no artist credit. */
   artist: string | null;
   cardType: string | null;
+  /** Riftbound's domain(s) — see lib/games/riftbound/domain.ts. Always `[]` for every other game and for sports rows. */
+  domain: string[];
   /** CatalogItem.language, e.g. "EN"/"JP"/"CN"/"TW"/"KR". Null for sports rows (no language concept). */
   language: string | null;
   /** CatalogItem.variantKey (the raw provider finish key, e.g. "reverseHolofoil"). Null for rows with no finish concept — every sports row, and every TCG row where variantKey is "". */
@@ -131,6 +144,13 @@ function orderBy(sort: CatalogSort): Prisma.CatalogItemOrderByWithRelationInput[
       // Card numbers ("025/198", "BOL024", plain "1"/"10") need natural,
       // numeric-aware comparison that the DB can't express directly — see
       // compareCardNumbers, applied in-memory after a full fetch below.
+      return [{ name: "asc" }];
+    case "domain_asc":
+      // Domain is a string array ranked against a static tier list
+      // (RIFTBOUND_DOMAIN_ORDER) — Postgres/Prisma can't express that CASE
+      // ranking as a plain orderBy, so this DB-level fallback just orders by
+      // name; compareDomains applied in-memory (see runTcgQuery) does the
+      // real ordering, same pattern as number_asc above.
       return [{ name: "asc" }];
     case "best_match":
     default:
@@ -253,6 +273,7 @@ function sportsItemToSearchItem(r: SportsRow, gameId: string): CatalogSearchItem
     variantKey: null,
     variantLabel: null,
     cardType: titleCase(r.parallelName ?? r.cardType),
+    domain: [],
     imageSmallUrl: r.imageUrl,
     setName,
     setNameEn: null,
@@ -332,6 +353,7 @@ function sportsFilterableFor(params: CatalogSearchParams): boolean {
     !isFilterSet(params.language) &&
     !isFilterSet(params.artist) &&
     !isFilterSet(params.variant) &&
+    !isFilterSet(params.domain) &&
     params.productType !== "SEALED"
   );
 }
@@ -379,12 +401,24 @@ function tcgWhereFor(
   if (qGroup) andClauses.push({ OR: qGroup });
   if (artistGroup) andClauses.push({ OR: artistGroup });
 
+  // domain is a string array, so it needs `has`/`hasSome` rather than the
+  // scalar equalsOrIn helper (`has` for a single value — matches either
+  // domain of a dual-domain Legend; `hasSome` OR's across a Views chip list).
+  const domainValues = toArray(params.domain);
+  const domainFilter: Prisma.CatalogItemWhereInput["domain"] =
+    domainValues.length === 0
+      ? undefined
+      : domainValues.length === 1
+        ? { has: domainValues[0] }
+        : { hasSome: domainValues };
+
   return {
     gameId: gameIdFilter,
     setId: params.setId,
     productType: params.productType,
     cardType: equalsOrIn(params.cardType),
     rarity: equalsOrIn(params.rarity),
+    domain: domainFilter,
     language: equalsOrIn(params.language),
     variantKey: equalsOrIn(params.variant),
     id: params.onlyIds
@@ -407,6 +441,7 @@ const TCG_SELECT = {
   rarity: true,
   artist: true,
   cardType: true,
+  domain: true,
   language: true,
   imageSmallUrl: true,
   productType: true,
@@ -440,6 +475,7 @@ function tcgItemToSearchItem(r: TcgRow): CatalogSearchItem {
     rarity: r.rarity,
     artist: r.artist,
     cardType: r.cardType,
+    domain: r.domain,
     language: r.language,
     variantKey,
     variantLabel,
@@ -468,15 +504,18 @@ async function runTcgQuery(
 ) {
   const where = tcgWhereFor(params, gameIdFilter);
 
-  if (sort === "number_asc") {
+  if (sort === "number_asc" || sort === "domain_asc") {
     const [rows, total] = await Promise.all([
       db.catalogItem.findMany({ where, take: NUMBER_SORT_FETCH_CAP, select: TCG_SELECT }),
       db.catalogItem.count({ where }),
     ]);
-    const items = rows
-      .map(tcgItemToSearchItem)
-      .sort((a, b) => compareCardNumbers(a.number, b.number) || a.name.localeCompare(b.name))
-      .slice((page - 1) * pageSize, page * pageSize);
+    const compare =
+      sort === "domain_asc"
+        ? (a: CatalogSearchItem, b: CatalogSearchItem) =>
+            compareDomains(a.domain, b.domain) || a.name.localeCompare(b.name)
+        : (a: CatalogSearchItem, b: CatalogSearchItem) =>
+            compareCardNumbers(a.number, b.number) || a.name.localeCompare(b.name);
+    const items = rows.map(tcgItemToSearchItem).sort(compare).slice((page - 1) * pageSize, page * pageSize);
     return { items, total };
   }
 
@@ -562,6 +601,25 @@ function compareCardNumbers(a: string | null, b: string | null): number {
 }
 
 /**
+ * Ranks by each row's first domain against RIFTBOUND_DOMAIN_ORDER (a dual-
+ * domain Legend's second domain doesn't affect its sort position — only
+ * which group it groups into). Rows with no domain (every non-Riftbound
+ * game) sort last, same nulls-last convention as compareCardNumbers.
+ */
+function compareDomains(a: string[], b: string[]): number {
+  const [da, db_] = [a[0], b[0]];
+  if (da == null && db_ == null) return 0;
+  if (da == null) return 1;
+  if (db_ == null) return -1;
+  const ai = RIFTBOUND_DOMAIN_ORDER.indexOf(da);
+  const bi = RIFTBOUND_DOMAIN_ORDER.indexOf(db_);
+  if (ai === -1 && bi === -1) return da.localeCompare(db_);
+  if (ai === -1) return 1;
+  if (bi === -1) return -1;
+  return ai - bi;
+}
+
+/**
  * Final ordering applied to the in-memory merge of TCG + sports results
  * (see searchMerged below). Each source table's own DB-side orderBy only
  * needs to produce a correctly-sorted top-N locally — this is what actually
@@ -583,6 +641,8 @@ function compareSearchItems(a: CatalogSearchItem, b: CatalogSearchItem, sort: Ca
     }
     case "number_asc":
       return compareCardNumbers(a.number, b.number) || a.name.localeCompare(b.name);
+    case "domain_asc":
+      return compareDomains(a.domain, b.domain) || a.name.localeCompare(b.name);
     case "release_desc":
       return (
         compareNullsLastStr(a.releaseDate, b.releaseDate, false) || a.name.localeCompare(b.name)
@@ -607,11 +667,14 @@ async function searchMerged(
   sort: CatalogSort
 ) {
   const includeSports = sportsFilterableFor(params) && WIRED_SPORT_ENUMS.length > 0;
-  // number_asc has no matching DB orderBy (see compareCardNumbers), so the
-  // DB-side "take N" can't be trusted to contain the true top-N by number —
-  // fetch up to the full cap regardless of page so the in-memory sort below
-  // sees everything it needs to.
-  const fetchN = sort === "number_asc" ? MERGE_FETCH_CAP : Math.min(page * pageSize, MERGE_FETCH_CAP);
+  // number_asc/domain_asc have no matching DB orderBy (see compareCardNumbers/
+  // compareDomains), so the DB-side "take N" can't be trusted to contain the
+  // true top-N — fetch up to the full cap regardless of page so the
+  // in-memory sort below sees everything it needs to.
+  const fetchN =
+    sort === "number_asc" || sort === "domain_asc"
+      ? MERGE_FETCH_CAP
+      : Math.min(page * pageSize, MERGE_FETCH_CAP);
 
   const tcgWhere = tcgWhereFor(params, { in: WIRED_TCG_GAME_IDS });
   const sportsGameId = WIRED_SPORTS_GAMES[0]?.id ?? "basketball-nba";
@@ -763,6 +826,44 @@ export const getDistinctRarities = unstable_cache(
     });
   },
   ["catalog-rarities"],
+  { tags: ["catalog-facets"], revalidate: 86400 }
+);
+
+// Per-game domain order, same idea as RARITY_RANK above. Only Riftbound has
+// a domain concept today.
+const DOMAIN_RANK: Record<string, string[]> = {
+  riftbound: RIFTBOUND_DOMAIN_ORDER,
+};
+
+/**
+ * Every distinct value across every CatalogItem.domain array in the catalog,
+ * for populating Explore's "Domain" filter — optionally scoped to a single
+ * game. Unlike getDistinctRarities/getDistinctCardTypes, `domain` is a
+ * Postgres array column: Prisma's `distinct` would dedupe whole arrays
+ * (["Calm"] vs ["Calm","Body"] count as different rows), not the individual
+ * strings inside them, so this fetches every non-empty array and flattens
+ * it in memory instead. Riftbound-only today (every other game's `domain`
+ * is always `[]`, so this returns `[]` for them without a special case).
+ */
+export const getDistinctDomains = unstable_cache(
+  async (gameId?: string): Promise<string[]> => {
+    const rows = await db.catalogItem.findMany({
+      where: { gameId, NOT: { domain: { isEmpty: true } } },
+      select: { domain: true },
+    });
+    const values = Array.from(new Set(rows.flatMap((r) => r.domain)));
+    const rank = gameId ? DOMAIN_RANK[gameId] : undefined;
+    if (!rank) return values.sort((a, b) => a.localeCompare(b));
+    return values.sort((a, b) => {
+      const ai = rank.indexOf(a);
+      const bi = rank.indexOf(b);
+      if (ai === -1 && bi === -1) return a.localeCompare(b);
+      if (ai === -1) return 1;
+      if (bi === -1) return -1;
+      return ai - bi;
+    });
+  },
+  ["catalog-domains"],
   { tags: ["catalog-facets"], revalidate: 86400 }
 );
 

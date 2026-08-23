@@ -13,6 +13,7 @@ import { GradedPricesPanel } from "@/app/card/[game]/[cardId]/_components/graded
 import { EbaySoldCompsPanel } from "@/app/card/[game]/[cardId]/_components/ebay-sold-comps-panel";
 import { RarityBadge } from "@/components/cards/rarity-badge";
 import { FinishBadge } from "@/components/cards/finish-badge";
+import { DomainIcon } from "@/components/cards/riftbound-icons";
 import { OtherVersionsPanel } from "@/app/card/[game]/[cardId]/_components/other-versions-panel";
 import { Badge } from "@/components/ui/badge";
 import { formatReleaseDate } from "@/lib/format/date";
@@ -217,8 +218,15 @@ export default async function CardDetailPage({
             {releaseDateLabel && <span>· {releaseDateLabel}</span>}
             {item.artist && <span>· Illustrated by {item.artist}</span>}
             {item.language !== "EN" && <span>· {item.language}</span>}
-            <RarityBadge rarity={item.rarity} />
+            <RarityBadge rarity={item.rarity} cardType={item.cardType} />
             <FinishBadge variantKey={variantKey} label={variantLabel} />
+            {item.domain.length > 0 && (
+              <span className="flex items-center gap-1">
+                {item.domain.map((d) => (
+                  <DomainIcon key={d} domain={d} />
+                ))}
+              </span>
+            )}
           </div>
         </div>
       </div>

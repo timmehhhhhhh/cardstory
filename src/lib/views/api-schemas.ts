@@ -8,6 +8,7 @@ export const viewFiltersSchema = z.object({
   type: z.enum(["all", "CARD", "SEALED"]).default("all"),
   cardTypes: z.array(z.string().min(1).max(80)).max(50).default([]),
   rarities: z.array(z.string().min(1).max(80)).max(50).default([]),
+  domains: z.array(z.string().min(1).max(40)).max(10).default([]),
   languages: z.array(z.enum(["EN", "JP", "CN", "TW", "KR"])).max(5).default([]),
   artists: z.array(z.string().min(1).max(100)).max(25).default([]),
   baseOnly: z.boolean().default(false),

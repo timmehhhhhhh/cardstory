@@ -1,5 +1,6 @@
 import type { UnifiedCard, UnifiedSet } from "@/lib/games/types";
 import { cardTypeLabel } from "@/lib/games/riftbound/card-types";
+import { parseRiftboundNumber } from "@/lib/games/riftbound/numbering";
 
 export interface RiftcodexApiSet {
   set_id: string;
@@ -16,6 +17,7 @@ export interface RiftcodexApiCard {
     type: string; // "Unit" | "Spell" | "Gear" | "Rune" | "Battlefield" | "Legend"
     supertype: string | null; // "Champion" | "Signature" | "Basic" | "Token" | null
     rarity: string | null;
+    domain: string[]; // "Fury" | "Calm" | "Mind" | "Body" | "Chaos" | "Order" | "Colorless", one or two entries
   };
   media?: {
     image_url?: string | null;
@@ -43,9 +45,10 @@ export function mapRiftboundCard(raw: RiftcodexApiCard, setExternalId: string): 
     setExternalId,
     externalId: raw.riftbound_id,
     name: raw.name,
-    number: raw.collector_number != null ? String(raw.collector_number) : undefined,
+    number: parseRiftboundNumber(raw.riftbound_id),
     rarity: raw.classification.rarity ?? undefined,
     cardType: cardTypeLabel(raw.classification.type, raw.classification.supertype),
+    domain: raw.classification.domain ?? [],
     imageSmallUrl: raw.media?.image_url ?? undefined,
     imageLargeUrl: raw.media?.image_url ?? undefined,
     productType: "CARD",

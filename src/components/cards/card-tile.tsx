@@ -8,6 +8,7 @@ import { CardImage } from "@/components/cards/card-image";
 import { GameBadge } from "@/components/cards/game-badge";
 import { CardNumberBadge } from "@/components/cards/card-number-badge";
 import { FinishBadge } from "@/components/cards/finish-badge";
+import { DomainIcon } from "@/components/cards/riftbound-icons";
 import { AddHoldingDialog } from "@/components/pc/add-holding-dialog";
 import { usePCStore } from "@/lib/pc/store";
 import { useAddToShortlist } from "@/lib/shortlist/use-add-to-shortlist";
@@ -258,6 +259,13 @@ export function CardTile({
             <p className="min-w-0 truncate text-sm font-medium">{item.name}</p>
             <FinishBadge variantKey={item.variantKey} label={item.variantLabel} className="flex-none" />
             <CardNumberBadge number={item.number} className="flex-none" />
+            {item.domain.length > 0 && (
+              <span className="flex flex-none items-center gap-0.5">
+                {item.domain.map((d) => (
+                  <DomainIcon key={d} domain={d} />
+                ))}
+              </span>
+            )}
           </div>
           {item.nameEn && <p className="truncate text-xs text-muted-foreground">{item.nameEn}</p>}
           <p className="truncate text-xs text-muted-foreground">
@@ -359,6 +367,13 @@ export function CardTile({
         </p>
         {item.cardType && <p className="truncate text-[11px] text-muted-foreground/80">{item.cardType}</p>}
         {item.artist && <p className="truncate text-[11px] text-muted-foreground/80">{item.artist}</p>}
+        {item.domain.length > 0 && (
+          <span className="flex items-center gap-0.5">
+            {item.domain.map((d) => (
+              <DomainIcon key={d} domain={d} />
+            ))}
+          </span>
+        )}
       </div>
       {dialog}
       {businessDialog}
