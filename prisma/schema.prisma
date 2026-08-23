@@ -561,6 +561,34 @@ model Holding {
   /// reference image. Either an https:// URL or a client-resized JPEG data
   /// URL (see resizeImageToDataUrl), so plain text is enough.
   imageUrl           String?
+  /// When this holding was archived (soft-deleted) out of the active
+  /// collection — null means it's still active. Archiving never moves
+  /// portfolioId or touches any of the acquisition fields above, so an
+  /// archived row still carries its full "how it entered the collection"
+  /// history intact; it's simply excluded from active PC views client-side
+  /// (see holdingIsArchived in src/lib/pc/types.ts) and surfaced instead in
+  /// PC Archives / Business Archives (src/components/pc/archive-client.tsx).
+  archivedAt         DateTime?
+  /// When the card actually left the collection — distinct from
+  /// archivedAt (when the row was archived in CardStory), same relationship
+  /// as acquiredAt vs createdAt above. Defaults to "now" at archive time but
+  /// editable afterward, same reasoning as acquiredAt.
+  letGoAt            DateTime?
+  /// "sold" | "traded" | "gifted" | "lost" | "other" — plain lowercase
+  /// string validated by zod at the API boundary, same convention as
+  /// Holding.kind/condition above. Left null when the user archives without
+  /// filling in any let-go details yet.
+  letGoMethod        String?
+  /// Free-text: who or what the card was passed on to (a person, a shop, a
+  /// trade partner) — optional, filled in whenever the user chooses to.
+  letGoTo            String?
+  /// What the card was let go for, denominated in letGoCurrency (not
+  /// converted to USD) — same "amount the user typed in" convention as
+  /// costBasisTotal/costBasisCurrency above. Null/blank for a trade, gift,
+  /// or loss with no cash amount involved.
+  letGoAmount        Decimal?  @db.Decimal(10, 2)
+  letGoCurrency      String?
+  letGoNotes         String?
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
 

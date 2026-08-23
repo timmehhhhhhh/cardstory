@@ -13,6 +13,7 @@ import type {
 } from "@/lib/pc/types";
 import { pcKind } from "@/lib/pc/types";
 import type { SupportedCurrency } from "@/lib/constants";
+import type { LetGoDetails } from "@/lib/pc/api-schemas";
 
 // Kept as "portfolio" (not "pc") so existing users' already-persisted
 // localStorage data isn't orphaned by the PC rename.
@@ -79,6 +80,12 @@ export interface PCActions {
     holdingId: string,
     patch: Partial<Omit<Holding, "id">>
   ) => void;
+  /**
+   * Soft-deletes holdings out of the active pc into Archives (see
+   * src/components/pc/archive-client.tsx) — the everyday "remove a card"
+   * path. `letGo` is optional; the row keeps every other field intact.
+   */
+  archiveHoldings: (pcId: string, holdingIds: string[], letGo?: LetGoDetails) => void;
   removeHoldings: (pcId: string, holdingIds: string[]) => void;
   copyHoldings: (fromId: string, toId: string, holdingIds: string[]) => void;
   moveHoldings: (fromId: string, toId: string, holdingIds: string[]) => void;
@@ -171,6 +178,34 @@ export const useLocalPCStore = create<PCState>()(
                 }
           ),
         })),
+      archiveHoldings: (pcId, holdingIds, letGo) =>
+        set((s) => {
+          const letGoAt = letGo?.letGoAt ?? nowIso();
+          return {
+            pcs: s.pcs.map((p) =>
+              p.id !== pcId
+                ? p
+                : {
+                    ...p,
+                    holdings: p.holdings.map((h) =>
+                      holdingIds.includes(h.id)
+                        ? {
+                            ...h,
+                            archivedAt: nowIso(),
+                            letGoAt,
+                            letGoMethod: letGo?.letGoMethod,
+                            letGoTo: letGo?.letGoTo,
+                            letGoAmount: letGo?.letGoAmount ?? undefined,
+                            letGoCurrency: letGo?.letGoCurrency,
+                            letGoNotes: letGo?.letGoNotes,
+                            updatedAt: nowIso(),
+                          }
+                        : h
+                    ),
+                  }
+            ),
+          };
+        }),
       removeHoldings: (pcId, holdingIds) =>
         set((s) => ({
           pcs: s.pcs.map((p) =>

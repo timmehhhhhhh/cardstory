@@ -11,6 +11,8 @@ import { usePCStore } from "@/lib/pc/store";
 import { formatMoney, formatPct } from "@/lib/utils/format";
 import { SportsCardImageDialog } from "@/components/sportscards/sports-card-image-dialog";
 import { EditHoldingDialog } from "@/components/pc/edit-holding-dialog";
+import { ArchiveDetailsDialog } from "@/components/pc/archive-details-dialog";
+import { withEnglishName } from "@/lib/catalog/card-name";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
 import { CardImage } from "@/components/cards/card-image";
 import { ParallelBadge } from "@/components/sportscards/parallel-badge";
@@ -31,9 +33,9 @@ function HoldingGalleryFace({
   bulkMode,
   isSelected,
   onToggleSelect,
-  activePCId,
   sourceLabel,
   onEdit,
+  onArchive,
   stackBadge,
   suppressLink,
 }: {
@@ -41,9 +43,9 @@ function HoldingGalleryFace({
   bulkMode: boolean;
   isSelected: boolean;
   onToggleSelect: (holdingId: string) => void;
-  activePCId: string;
   sourceLabel: string;
   onEdit: (holding: EnrichedHolding) => void;
+  onArchive: (holding: EnrichedHolding) => void;
   /** "1 of 4" when this face belongs to a stack — replaces the plain Qty badge. */
   stackBadge?: string;
   /**
@@ -55,7 +57,6 @@ function HoldingGalleryFace({
   suppressLink?: boolean;
 }) {
   const currency = usePCStore((s) => s.preferences.currency);
-  const removeHoldings = usePCStore((s) => s.removeHoldings);
   const addToShortlist = useAddToShortlist();
   const [justShortlisted, setJustShortlisted] = React.useState(false);
 
@@ -245,8 +246,9 @@ function HoldingGalleryFace({
         </button>
         <button
           type="button"
-          aria-label={`Remove ${r.display.name} from PC`}
-          onClick={() => removeHoldings(activePCId, [r.id])}
+          aria-label={`Archive ${r.display.name}`}
+          title="Archive card"
+          onClick={() => onArchive(r)}
           className="rounded-full bg-background/70 p-1.5 text-muted-foreground opacity-0 backdrop-blur transition-opacity hover:text-negative focus-visible:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100"
         >
           <Trash2 className="size-3.5" />
@@ -287,7 +289,9 @@ export function ItemGallery({
   sourceLabel: string;
 }) {
   const [editingHolding, setEditingHolding] = React.useState<EnrichedHolding | null>(null);
+  const [archivingHolding, setArchivingHolding] = React.useState<EnrichedHolding | null>(null);
   const [storyStack, setStoryStack] = React.useState<{ faces: EnrichedHolding[]; index: number } | null>(null);
+  const archiveHoldings = usePCStore((s) => s.archiveHoldings);
 
   if (rows.length === 0) return <EmptyHoldings />;
 
@@ -311,15 +315,31 @@ export function ItemGallery({
               bulkMode={bulkMode}
               isSelected={selected.has(r.id)}
               onToggleSelect={onToggleSelect}
-              activePCId={activePCId}
               sourceLabel={sourceLabel}
               onEdit={setEditingHolding}
+              onArchive={setArchivingHolding}
               stackBadge={total > 1 ? `${index + 1} of ${total}` : undefined}
               suppressLink={total > 1}
             />
           )}
         />
       ))}
+      <ArchiveDetailsDialog
+        open={archivingHolding !== null}
+        onOpenChange={(open) => {
+          if (!open) setArchivingHolding(null);
+        }}
+        title="Archive card"
+        description={
+          archivingHolding ? withEnglishName(archivingHolding.display.name, archivingHolding.display.nameEn) : undefined
+        }
+        submitLabel="Archive card"
+        onSubmit={(letGo) => {
+          if (!archivingHolding) return;
+          archiveHoldings(activePCId, [archivingHolding.id], letGo);
+          setArchivingHolding(null);
+        }}
+      />
       <EditHoldingDialog
         holding={editingHolding}
         pcId={activePCId}

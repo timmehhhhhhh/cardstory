@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { BookOpen } from "lucide-react";
+import { Archive, BookOpen } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { usePCData } from "@/hooks/use-pc-data";
 import { usePCStore } from "@/lib/pc/store";
@@ -118,6 +118,12 @@ export function BusinessClient() {
             <Link href="/business/binder">
               <BookOpen className="size-4" />
               Binder
+            </Link>
+          </Button>
+          <Button asChild variant="outline" size="sm">
+            <Link href="/business/archives">
+              <Archive className="size-4" />
+              Archives
             </Link>
           </Button>
         </div>

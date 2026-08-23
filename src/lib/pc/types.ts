@@ -1,4 +1,4 @@
-import type { SupportedCurrency, RawCardCondition } from "@/lib/constants";
+import type { SupportedCurrency, RawCardCondition, LetGoMethod } from "@/lib/constants";
 
 export type CardCondition = "raw" | "graded";
 export type ItemLanguage = "EN" | "JP" | "CN" | "TW" | "KR";
@@ -62,6 +62,21 @@ export interface Holding {
   notes?: string;
   /** Photo of this specific physical card — the owner's own copy, not the shared catalog image. */
   imageUrl?: string;
+  /**
+   * When this holding was archived (soft-deleted) out of the active
+   * collection — null/undefined means it's still active. See
+   * holdingIsArchived below and src/components/pc/archive-client.tsx.
+   */
+  archivedAt?: string | null;
+  /** When the card actually left the collection — distinct from archivedAt, same relationship as acquiredAt vs createdAt. */
+  letGoAt?: string | null;
+  letGoMethod?: LetGoMethod;
+  /** Free-text: who or what the card was passed on to. */
+  letGoTo?: string;
+  /** Denominated in letGoCurrency, not USD — same convention as costBasisTotal. */
+  letGoAmount?: number | null;
+  letGoCurrency?: SupportedCurrency;
+  letGoNotes?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -80,6 +95,11 @@ export function holdingIsCustom(
   h: Pick<Holding, "catalogItemId" | "sportsCardItemId" | "customName">
 ): boolean {
   return !h.catalogItemId && !h.sportsCardItemId && !!h.customName;
+}
+
+/** True once a holding has been archived (removed from the active collection but retained in Archives). */
+export function holdingIsArchived(h: Pick<Holding, "archivedAt">): boolean {
+  return !!h.archivedAt;
 }
 
 export type PCKind = "personal" | "business";

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { SUPPORTED_CURRENCIES, CARD_CONDITIONS } from "@/lib/constants";
+import { SUPPORTED_CURRENCIES, CARD_CONDITIONS, LET_GO_METHODS } from "@/lib/constants";
 
 /** Shared zod validation for a Holding crossing the client/server boundary. */
 export const holdingInputSchema = z.object({
@@ -22,9 +22,33 @@ export const holdingInputSchema = z.object({
   acquiredAt: z.string().nullable(),
   notes: z.string().optional(),
   imageUrl: z.string().optional(),
+  archivedAt: z.string().nullable().optional(),
+  letGoAt: z.string().nullable().optional(),
+  letGoMethod: z.enum(LET_GO_METHODS).optional(),
+  letGoTo: z.string().max(200).optional(),
+  letGoAmount: z.number().nonnegative().nullable().optional(),
+  letGoCurrency: z.enum(SUPPORTED_CURRENCIES).optional(),
+  letGoNotes: z.string().max(1000).optional(),
 });
 
 export const holdingPatchSchema = holdingInputSchema.omit({ id: true }).partial();
+
+/** Optional "how this card left the collection" details captured when archiving — see POST /api/pc/holdings/archive. */
+export const letGoDetailsSchema = z.object({
+  letGoAt: z.string().nullable().optional(),
+  letGoMethod: z.enum(LET_GO_METHODS).optional(),
+  letGoTo: z.string().max(200).optional(),
+  letGoAmount: z.number().nonnegative().nullable().optional(),
+  letGoCurrency: z.enum(SUPPORTED_CURRENCIES).optional(),
+  letGoNotes: z.string().max(1000).optional(),
+});
+
+export const archiveHoldingsSchema = z.object({
+  pcId: z.string().min(1),
+  holdingIds: z.array(z.string()).min(1),
+  letGo: letGoDetailsSchema.optional(),
+});
+export type LetGoDetails = z.infer<typeof letGoDetailsSchema>;
 
 export const pcSchema = z.object({
   id: z.string().min(1),
