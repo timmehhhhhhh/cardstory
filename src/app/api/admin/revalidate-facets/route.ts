@@ -30,10 +30,18 @@ export async function POST(req: NextRequest) {
   if (!isAuthorized(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  // "max" = stale-while-revalidate: marks the tag stale now, next visit to
-  // an Explore page refetches in the background. This Next.js's revalidateTag
-  // requires the profile arg — the old expire-immediately single-arg form is
-  // deprecated (see node_modules/next/dist/docs/.../revalidateTag.md).
-  revalidateTag("catalog-facets", "max");
+  // Deliberately NOT `"max"` (stale-while-revalidate): on this Cloudflare
+  // Workers deployment, the "revalidate in the background after responding"
+  // continuation gets killed by the runtime once the triggering request
+  // completes — confirmed live via `wrangler tail`:
+  //   "A promise was resolved ... from a different request context ...
+  //    Continuations for that request are unlikely to run safely and have
+  //    been canceled."
+  // So with "max" the tag gets marked stale but the actual re-fetch from
+  // Postgres never happens — every subsequent read just keeps re-serving
+  // the old cached value forever. `{ expire: 0 }` instead makes the *next*
+  // read block and refetch synchronously, inside its own request, which
+  // isn't subject to that cross-request-continuation cancellation.
+  revalidateTag("catalog-facets", { expire: 0 });
   return NextResponse.json({ revalidated: "catalog-facets", at: new Date().toISOString() });
 }

@@ -17,6 +17,19 @@
   // cleared once for the corrected command to actually take effect.
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-08-22",
+  // `.open-next/worker.js` is already a fully bundled, minified output from
+  // `opennextjs-cloudflare build` — `wrangler deploy` re-bundles it once
+  // more through its own esbuild pass regardless, and defaults keepNames to
+  // true when this is unset. That injects `__name(fn, "fn")` calls into
+  // every function body, including next-themes' theme-init function — which
+  // next-themes inlines client-side as a raw <script> tag by calling
+  // `.toString()` on it at runtime. Function.prototype.toString() returns
+  // the POST-transform source, so the shipped snippet references `__name`
+  // without the helper (which lives in wrangler's bundle scope, not in the
+  // extracted function text) — the browser then throws "__name is not
+  // defined" on every page load, before hydration completes. `false` here
+  // stops esbuild from injecting those calls in the first place.
+  "keep_names": false,
   // Required by @opennextjs/cloudflare — Next.js's server runtime uses
   // Node.js APIs (Prisma, bcryptjs, cheerio, ...) that only exist under
   // this compatibility flag.
@@ -36,6 +49,28 @@
     {
       "binding": "NEXT_INC_CACHE_KV",
       "id": "c06d7548c14b446a9c1cf562df011599"
+    }
+  ],
+  // Backs open-next.config.ts's Durable Object-sharded tag cache — without
+  // this, revalidateTag()/revalidatePath() have nowhere to record "this tag
+  // is stale" on Cloudflare (unlike local `next dev`, whose built-in cache
+  // tracks tags natively), so calls to them silently no-op in production.
+  // Binding name is hardcoded by @opennextjs/cloudflare's
+  // do-sharded-tag-cache override — do not rename. The DOShardedTagCache
+  // class itself is generated into .open-next/worker.js by `opennextjs-
+  // cloudflare build`, not written by hand in this repo.
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "NEXT_TAG_CACHE_DO_SHARDED",
+        "class_name": "DOShardedTagCache"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["DOShardedTagCache"]
     }
   ],
   // Non-sensitive only — DATABASE_URL, AUTH_SECRET, and the other API keys
