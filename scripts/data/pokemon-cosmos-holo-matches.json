@@ -1,7 +1,2390 @@
 {
   "gameId": "pokemon",
   "sourceNote": "Cards TCGCollector tags with the 'Cosmos Holo' card variant (https://www.tcgcollector.com/cards/intl?releaseDateOrder=newToOld&cardVariantTypes=48), captured by scripts/crawl-tcgcollector-cosmos-holo.ts and matched to existing reverseHolofoil CatalogItem rows by set name + card number + name guard. Applying this file (scripts/apply-cosmos-holo-variant.ts) only changes each matched row's variantKey to 'cosmosHolo' — never its id — so it's a permanent, reseed-safe change.",
-  "verified": false,
-  "generatedAt": "2026-08-23T12:13:13.488Z",
-  "entries": []
+  "verified": true,
+  "generatedAt": "2026-08-23T14:02:00.128Z",
+  "entries": [
+    {
+      "catalogItemId": "pokemon:me2-1:reverseHolofoil",
+      "sourceName": "Oddish",
+      "sourceSet": "Phantasmal Flames",
+      "sourceNumber": "001/094"
+    },
+    {
+      "catalogItemId": "pokemon:me2-2:reverseHolofoil",
+      "sourceName": "Gloom",
+      "sourceSet": "Phantasmal Flames",
+      "sourceNumber": "002/094"
+    },
+    {
+      "catalogItemId": "pokemon:me2-3:reverseHolofoil",
+      "sourceName": "Vileplume",
+      "sourceSet": "Phantasmal Flames",
+      "sourceNumber": "003/094"
+    },
+    {
+      "catalogItemId": "pokemon:me2-17:reverseHolofoil",
+      "sourceName": "Reshiram",
+      "sourceSet": "Phantasmal Flames",
+      "sourceNumber": "017/094"
+    },
+    {
+      "catalogItemId": "pokemon:me2-26:reverseHolofoil",
+      "sourceName": "Suicune",
+      "sourceSet": "Phantasmal Flames",
+      "sourceNumber": "026/094"
+    },
+    {
+      "catalogItemId": "pokemon:me2-34:reverseHolofoil",
+      "sourceName": "Pawmot",
+      "sourceSet": "Phantasmal Flames",
+      "sourceNumber": "034/094"
+    },
+    {
+      "catalogItemId": "pokemon:me2-45:reverseHolofoil",
+      "sourceName": "Zacian",
+      "sourceSet": "Phantasmal Flames",
+      "sourceNumber": "045/094"
+    },
+    {
+      "catalogItemId": "pokemon:me2-53:reverseHolofoil",
+      "sourceName": "Flygon",
+      "sourceSet": "Phantasmal Flames",
+      "sourceNumber": "053/094"
+    },
+    {
+      "catalogItemId": "pokemon:me1-34:reverseHolofoil",
+      "sourceName": "Kyogre",
+      "sourceSet": "Mega Evolution",
+      "sourceNumber": "034/132"
+    },
+    {
+      "catalogItemId": "pokemon:me1-38:reverseHolofoil",
+      "sourceName": "Clawitzer",
+      "sourceSet": "Mega Evolution",
+      "sourceNumber": "038/132"
+    },
+    {
+      "catalogItemId": "pokemon:me1-48:reverseHolofoil",
+      "sourceName": "Raikou",
+      "sourceSet": "Mega Evolution",
+      "sourceNumber": "048/132"
+    },
+    {
+      "catalogItemId": "pokemon:me1-58:reverseHolofoil",
+      "sourceName": "Ralts",
+      "sourceSet": "Mega Evolution",
+      "sourceNumber": "058/132"
+    },
+    {
+      "catalogItemId": "pokemon:me1-59:reverseHolofoil",
+      "sourceName": "Kirlia",
+      "sourceSet": "Mega Evolution",
+      "sourceNumber": "059/132"
+    },
+    {
+      "catalogItemId": "pokemon:me1-76:reverseHolofoil",
+      "sourceName": "Riolu",
+      "sourceSet": "Mega Evolution",
+      "sourceNumber": "076/132"
+    },
+    {
+      "catalogItemId": "pokemon:me1-93:reverseHolofoil",
+      "sourceName": "Steelix",
+      "sourceSet": "Mega Evolution",
+      "sourceNumber": "093/132"
+    },
+    {
+      "catalogItemId": "pokemon:sv10-18:reverseHolofoil",
+      "sourceName": "Hydrapple",
+      "sourceSet": "Destined Rivals",
+      "sourceNumber": "018/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv10-36:reverseHolofoil",
+      "sourceName": "Ethan's Magcargo",
+      "sourceSet": "Destined Rivals",
+      "sourceNumber": "036/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv10-42:reverseHolofoil",
+      "sourceName": "Blaziken",
+      "sourceSet": "Destined Rivals",
+      "sourceNumber": "042/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv10-51:reverseHolofoil",
+      "sourceName": "Team Rocket's Articuno",
+      "sourceSet": "Destined Rivals",
+      "sourceNumber": "051/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv10-70:reverseHolofoil",
+      "sourceName": "Team Rocket's Zapdos",
+      "sourceSet": "Destined Rivals",
+      "sourceNumber": "070/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv10-96:reverseHolofoil",
+      "sourceName": "Team Rocket's Tyranitar",
+      "sourceSet": "Destined Rivals",
+      "sourceNumber": "096/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv10-102:reverseHolofoil",
+      "sourceName": "Cynthia's Gible",
+      "sourceSet": "Destined Rivals",
+      "sourceNumber": "102/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv10-103:reverseHolofoil",
+      "sourceName": "Cynthia's Gabite",
+      "sourceSet": "Destined Rivals",
+      "sourceNumber": "103/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv10-149:reverseHolofoil",
+      "sourceName": "Team Rocket's Meowth",
+      "sourceSet": "Destined Rivals",
+      "sourceNumber": "149/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv10-159:reverseHolofoil",
+      "sourceName": "Arven's Greedent",
+      "sourceSet": "Destined Rivals",
+      "sourceNumber": "159/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv10-174:reverseHolofoil",
+      "sourceName": "Team Rocket's Giovanni",
+      "sourceSet": "Destined Rivals",
+      "sourceNumber": "174/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv9-18:reverseHolofoil",
+      "sourceName": "Meowscarada",
+      "sourceSet": "Journey Together",
+      "sourceNumber": "018/159"
+    },
+    {
+      "catalogItemId": "pokemon:sv9-41:reverseHolofoil",
+      "sourceName": "Wailord",
+      "sourceSet": "Journey Together",
+      "sourceNumber": "041/159"
+    },
+    {
+      "catalogItemId": "pokemon:sv9-52:reverseHolofoil",
+      "sourceName": "Iono's Tadbulb",
+      "sourceSet": "Journey Together",
+      "sourceNumber": "052/159"
+    },
+    {
+      "catalogItemId": "pokemon:sv9-85:reverseHolofoil",
+      "sourceName": "Lycanroc",
+      "sourceSet": "Journey Together",
+      "sourceNumber": "085/159"
+    },
+    {
+      "catalogItemId": "pokemon:sv9-95:reverseHolofoil",
+      "sourceName": "Tyranitar",
+      "sourceSet": "Journey Together",
+      "sourceNumber": "095/159"
+    },
+    {
+      "catalogItemId": "pokemon:sv9-135:reverseHolofoil",
+      "sourceName": "Hop's Wooloo",
+      "sourceSet": "Journey Together",
+      "sourceNumber": "135/159"
+    },
+    {
+      "catalogItemId": "pokemon:sv9-136:reverseHolofoil",
+      "sourceName": "Hop's Dubwool",
+      "sourceSet": "Journey Together",
+      "sourceNumber": "136/159"
+    },
+    {
+      "catalogItemId": "pokemon:sv9-151:reverseHolofoil",
+      "sourceName": "Lillie's Pearl",
+      "sourceSet": "Journey Together",
+      "sourceNumber": "151/159"
+    },
+    {
+      "catalogItemId": "pokemon:sv8pt5-5:reverseHolofoil",
+      "sourceName": "Leafeon",
+      "sourceSet": "Prismatic Evolutions",
+      "sourceNumber": "005/131"
+    },
+    {
+      "catalogItemId": "pokemon:sv8pt5-13:reverseHolofoil",
+      "sourceName": "Flareon",
+      "sourceSet": "Prismatic Evolutions",
+      "sourceNumber": "013/131"
+    },
+    {
+      "catalogItemId": "pokemon:sv8pt5-22:reverseHolofoil",
+      "sourceName": "Vaporeon",
+      "sourceSet": "Prismatic Evolutions",
+      "sourceNumber": "022/131"
+    },
+    {
+      "catalogItemId": "pokemon:sv8pt5-25:reverseHolofoil",
+      "sourceName": "Glaceon",
+      "sourceSet": "Prismatic Evolutions",
+      "sourceNumber": "025/131"
+    },
+    {
+      "catalogItemId": "pokemon:sv8pt5-29:reverseHolofoil",
+      "sourceName": "Jolteon",
+      "sourceSet": "Prismatic Evolutions",
+      "sourceNumber": "029/131"
+    },
+    {
+      "catalogItemId": "pokemon:sv8pt5-33:reverseHolofoil",
+      "sourceName": "Espeon",
+      "sourceSet": "Prismatic Evolutions",
+      "sourceNumber": "033/131"
+    },
+    {
+      "catalogItemId": "pokemon:sv8pt5-40:reverseHolofoil",
+      "sourceName": "Sylveon",
+      "sourceSet": "Prismatic Evolutions",
+      "sourceNumber": "040/131"
+    },
+    {
+      "catalogItemId": "pokemon:sv8pt5-59:reverseHolofoil",
+      "sourceName": "Umbreon",
+      "sourceSet": "Prismatic Evolutions",
+      "sourceNumber": "059/131"
+    },
+    {
+      "catalogItemId": "pokemon:sv8-14:reverseHolofoil",
+      "sourceName": "Rabsca",
+      "sourceSet": "Surging Sparks",
+      "sourceNumber": "014/191"
+    },
+    {
+      "catalogItemId": "pokemon:sv8-31:reverseHolofoil",
+      "sourceName": "Skeledirge",
+      "sourceSet": "Surging Sparks",
+      "sourceNumber": "031/191"
+    },
+    {
+      "catalogItemId": "pokemon:sv8-72:reverseHolofoil",
+      "sourceName": "Togekiss",
+      "sourceSet": "Surging Sparks",
+      "sourceNumber": "072/191"
+    },
+    {
+      "catalogItemId": "pokemon:sv8-92:reverseHolofoil",
+      "sourceName": "Tapu Lele",
+      "sourceSet": "Surging Sparks",
+      "sourceNumber": "092/191"
+    },
+    {
+      "catalogItemId": "pokemon:sv8-107:reverseHolofoil",
+      "sourceName": "Gastrodon",
+      "sourceSet": "Surging Sparks",
+      "sourceNumber": "107/191"
+    },
+    {
+      "catalogItemId": "pokemon:sv8-129:reverseHolofoil",
+      "sourceName": "Duraludon",
+      "sourceSet": "Surging Sparks",
+      "sourceNumber": "129/191"
+    },
+    {
+      "catalogItemId": "pokemon:sv7-76:reverseHolofoil",
+      "sourceName": "Rhyperior",
+      "sourceSet": "Stellar Crown",
+      "sourceNumber": "076/142"
+    },
+    {
+      "catalogItemId": "pokemon:sv7-101:reverseHolofoil",
+      "sourceName": "Klinklang",
+      "sourceSet": "Stellar Crown",
+      "sourceNumber": "101/142"
+    },
+    {
+      "catalogItemId": "pokemon:sv7-104:reverseHolofoil",
+      "sourceName": "Melmetal",
+      "sourceSet": "Stellar Crown",
+      "sourceNumber": "104/142"
+    },
+    {
+      "catalogItemId": "pokemon:sv7-107:reverseHolofoil",
+      "sourceName": "Archaludon",
+      "sourceSet": "Stellar Crown",
+      "sourceNumber": "107/142"
+    },
+    {
+      "catalogItemId": "pokemon:sv6pt5-10:reverseHolofoil",
+      "sourceName": "Horsea",
+      "sourceSet": "Shrouded Fable",
+      "sourceNumber": "010/064"
+    },
+    {
+      "catalogItemId": "pokemon:sv6pt5-11:reverseHolofoil",
+      "sourceName": "Seadra",
+      "sourceSet": "Shrouded Fable",
+      "sourceNumber": "011/064"
+    },
+    {
+      "catalogItemId": "pokemon:sv6-18:reverseHolofoil",
+      "sourceName": "Dipplin",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "018/167"
+    },
+    {
+      "catalogItemId": "pokemon:sv6-22:reverseHolofoil",
+      "sourceName": "Sinistcha",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "022/167"
+    },
+    {
+      "catalogItemId": "pokemon:sv6-24:reverseHolofoil",
+      "sourceName": "Teal Mask Ogerpon",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "024/167"
+    },
+    {
+      "catalogItemId": "pokemon:sv6-38:reverseHolofoil",
+      "sourceName": "Chandelure",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "038/167"
+    },
+    {
+      "catalogItemId": "pokemon:sv6-59:reverseHolofoil",
+      "sourceName": "Finizen",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "059/167"
+    },
+    {
+      "catalogItemId": "pokemon:sv6-60:reverseHolofoil",
+      "sourceName": "Palafin",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "060/167"
+    },
+    {
+      "catalogItemId": "pokemon:sv6-82:reverseHolofoil",
+      "sourceName": "Alakazam",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "082/167"
+    },
+    {
+      "catalogItemId": "pokemon:sv6-95:reverseHolofoil",
+      "sourceName": "Munkidori",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "095/167"
+    },
+    {
+      "catalogItemId": "pokemon:sv6-96:reverseHolofoil",
+      "sourceName": "Fezandipiti",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "096/167"
+    },
+    {
+      "catalogItemId": "pokemon:sv6-100:reverseHolofoil",
+      "sourceName": "Hisuian Arcanine",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "100/167"
+    },
+    {
+      "catalogItemId": "pokemon:sv6-111:reverseHolofoil",
+      "sourceName": "Okidogi",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "111/167"
+    },
+    {
+      "catalogItemId": "pokemon:sv6-159:reverseHolofoil",
+      "sourceName": "Ogre's Mask",
+      "sourceSet": "Twilight Masquerade",
+      "sourceNumber": "159/167"
+    },
+    {
+      "catalogItemId": "pokemon:sv5-51:reverseHolofoil",
+      "sourceName": "Pikachu",
+      "sourceSet": "Temporal Forces",
+      "sourceNumber": "051/162"
+    },
+    {
+      "catalogItemId": "pokemon:sv5-62:reverseHolofoil",
+      "sourceName": "Iron Thorns",
+      "sourceSet": "Temporal Forces",
+      "sourceNumber": "062/162"
+    },
+    {
+      "catalogItemId": "pokemon:sv5-77:reverseHolofoil",
+      "sourceName": "Scream Tail",
+      "sourceSet": "Temporal Forces",
+      "sourceNumber": "077/162"
+    },
+    {
+      "catalogItemId": "pokemon:sv5-79:reverseHolofoil",
+      "sourceName": "Iron Valiant",
+      "sourceSet": "Temporal Forces",
+      "sourceNumber": "079/162"
+    },
+    {
+      "catalogItemId": "pokemon:sv5-109:reverseHolofoil",
+      "sourceName": "Roaring Moon",
+      "sourceSet": "Temporal Forces",
+      "sourceNumber": "109/162"
+    },
+    {
+      "catalogItemId": "pokemon:sv5-119:reverseHolofoil",
+      "sourceName": "Koraidon",
+      "sourceSet": "Temporal Forces",
+      "sourceNumber": "119/162"
+    },
+    {
+      "catalogItemId": "pokemon:sv5-121:reverseHolofoil",
+      "sourceName": "Miraidon",
+      "sourceSet": "Temporal Forces",
+      "sourceNumber": "121/162"
+    },
+    {
+      "catalogItemId": "pokemon:sv5-126:reverseHolofoil",
+      "sourceName": "Hoothoot",
+      "sourceSet": "Temporal Forces",
+      "sourceNumber": "126/162"
+    },
+    {
+      "catalogItemId": "pokemon:sv5-127:reverseHolofoil",
+      "sourceName": "Noctowl",
+      "sourceSet": "Temporal Forces",
+      "sourceNumber": "127/162"
+    },
+    {
+      "catalogItemId": "pokemon:sv4pt5-7:reverseHolofoil",
+      "sourceName": "Charmander",
+      "sourceSet": "Paldean Fates",
+      "sourceNumber": "007/091"
+    },
+    {
+      "catalogItemId": "pokemon:sv4pt5-8:reverseHolofoil",
+      "sourceName": "Charmeleon",
+      "sourceSet": "Paldean Fates",
+      "sourceNumber": "008/091"
+    },
+    {
+      "catalogItemId": "pokemon:sv4-26:reverseHolofoil",
+      "sourceName": "Charcadet",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "026/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv4-28:reverseHolofoil",
+      "sourceName": "Iron Moth",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "028/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv4-32:reverseHolofoil",
+      "sourceName": "Kingdra",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "032/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv4-40:reverseHolofoil",
+      "sourceName": "Palkia",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "040/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv4-57:reverseHolofoil",
+      "sourceName": "Chien-Pao",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "057/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv4-66:reverseHolofoil",
+      "sourceName": "Zekrom",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "066/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv4-73:reverseHolofoil",
+      "sourceName": "Latios",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "073/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv4-81:reverseHolofoil",
+      "sourceName": "Espathra",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "081/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv4-122:reverseHolofoil",
+      "sourceName": "Lokix",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "122/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv4-123:reverseHolofoil",
+      "sourceName": "Brute Bonnet",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "123/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv4-125:reverseHolofoil",
+      "sourceName": "Steelix",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "125/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv4-131:reverseHolofoil",
+      "sourceName": "Honedge",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "131/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv4-132:reverseHolofoil",
+      "sourceName": "Doublade",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "132/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv4-144:reverseHolofoil",
+      "sourceName": "Porygon-Z",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "144/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv4-158:reverseHolofoil",
+      "sourceName": "Iron Jugulis",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "158/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv4-159:reverseHolofoil",
+      "sourceName": "Ancient Booster Energy Capsule",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "159/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv4-164:reverseHolofoil",
+      "sourceName": "Future Booster Energy Capsule",
+      "sourceSet": "Paradox Rift",
+      "sourceNumber": "164/182"
+    },
+    {
+      "catalogItemId": "pokemon:sv3pt5-4:reverseHolofoil",
+      "sourceName": "Charmander",
+      "sourceSet": "Scarlet & Violet 151",
+      "sourceNumber": "004/165"
+    },
+    {
+      "catalogItemId": "pokemon:sv3pt5-5:reverseHolofoil",
+      "sourceName": "Charmeleon",
+      "sourceSet": "Scarlet & Violet 151",
+      "sourceNumber": "005/165"
+    },
+    {
+      "catalogItemId": "pokemon:sv3pt5-26:reverseHolofoil",
+      "sourceName": "Raichu",
+      "sourceSet": "Scarlet & Violet 151",
+      "sourceNumber": "026/165"
+    },
+    {
+      "catalogItemId": "pokemon:sv3pt5-63:reverseHolofoil",
+      "sourceName": "Abra",
+      "sourceSet": "Scarlet & Violet 151",
+      "sourceNumber": "063/165"
+    },
+    {
+      "catalogItemId": "pokemon:sv3pt5-64:reverseHolofoil",
+      "sourceName": "Kadabra",
+      "sourceSet": "Scarlet & Violet 151",
+      "sourceNumber": "064/165"
+    },
+    {
+      "catalogItemId": "pokemon:sv3pt5-68:reverseHolofoil",
+      "sourceName": "Machamp",
+      "sourceSet": "Scarlet & Violet 151",
+      "sourceNumber": "068/165"
+    },
+    {
+      "catalogItemId": "pokemon:sv3pt5-94:reverseHolofoil",
+      "sourceName": "Gengar",
+      "sourceSet": "Scarlet & Violet 151",
+      "sourceNumber": "094/165"
+    },
+    {
+      "catalogItemId": "pokemon:sv3pt5-125:reverseHolofoil",
+      "sourceName": "Electabuzz",
+      "sourceSet": "Scarlet & Violet 151",
+      "sourceNumber": "125/165"
+    },
+    {
+      "catalogItemId": "pokemon:sv3pt5-149:reverseHolofoil",
+      "sourceName": "Dragonite",
+      "sourceSet": "Scarlet & Violet 151",
+      "sourceNumber": "149/165"
+    },
+    {
+      "catalogItemId": "pokemon:sv3-13:reverseHolofoil",
+      "sourceName": "Rowlet",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "013/197"
+    },
+    {
+      "catalogItemId": "pokemon:sv3-14:reverseHolofoil",
+      "sourceName": "Dartrix",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "014/197"
+    },
+    {
+      "catalogItemId": "pokemon:sv3-16:reverseHolofoil",
+      "sourceName": "Bounsweet",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "016/197"
+    },
+    {
+      "catalogItemId": "pokemon:sv3-17:reverseHolofoil",
+      "sourceName": "Steenee",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "017/197"
+    },
+    {
+      "catalogItemId": "pokemon:sv3-25:reverseHolofoil",
+      "sourceName": "Scovillain",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "025/197"
+    },
+    {
+      "catalogItemId": "pokemon:sv3-56:reverseHolofoil",
+      "sourceName": "Froakie",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "056/197"
+    },
+    {
+      "catalogItemId": "pokemon:sv3-57:reverseHolofoil",
+      "sourceName": "Frogadier",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "057/197"
+    },
+    {
+      "catalogItemId": "pokemon:sv3-62:reverseHolofoil",
+      "sourceName": "Palafin",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "062/197"
+    },
+    {
+      "catalogItemId": "pokemon:sv3-85:reverseHolofoil",
+      "sourceName": "Togekiss",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "085/197"
+    },
+    {
+      "catalogItemId": "pokemon:sv3-100:reverseHolofoil",
+      "sourceName": "Greavard",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "100/197"
+    },
+    {
+      "catalogItemId": "pokemon:sv3-105:reverseHolofoil",
+      "sourceName": "Larvitar",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "105/197"
+    },
+    {
+      "catalogItemId": "pokemon:sv3-106:reverseHolofoil",
+      "sourceName": "Pupitar",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "106/197"
+    },
+    {
+      "catalogItemId": "pokemon:sv3-136:reverseHolofoil",
+      "sourceName": "Darkrai",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "136/197"
+    },
+    {
+      "catalogItemId": "pokemon:sv3-141:reverseHolofoil",
+      "sourceName": "Scizor",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "141/197"
+    },
+    {
+      "catalogItemId": "pokemon:sv3-148:reverseHolofoil",
+      "sourceName": "Pawniard",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "148/197"
+    },
+    {
+      "catalogItemId": "pokemon:sv3-149:reverseHolofoil",
+      "sourceName": "Bisharp",
+      "sourceSet": "Obsidian Flames",
+      "sourceNumber": "149/197"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-43:reverseHolofoil",
+      "sourceName": "Gyarados",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "043/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-60:reverseHolofoil",
+      "sourceName": "Baxcalibur",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "060/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-71:reverseHolofoil",
+      "sourceName": "Luxray",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "071/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-74:reverseHolofoil",
+      "sourceName": "Pawmi",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "074/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-75:reverseHolofoil",
+      "sourceName": "Pawmo",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "075/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-98:reverseHolofoil",
+      "sourceName": "Ceruledge",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "098/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-105:reverseHolofoil",
+      "sourceName": "Tinkaton",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "105/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-106:reverseHolofoil",
+      "sourceName": "Mankey",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "106/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-107:reverseHolofoil",
+      "sourceName": "Primeape",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "107/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-110:reverseHolofoil",
+      "sourceName": "Larvitar",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "110/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-111:reverseHolofoil",
+      "sourceName": "Pupitar",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "111/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-116:reverseHolofoil",
+      "sourceName": "Rockruff",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "116/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-123:reverseHolofoil",
+      "sourceName": "Garganacl",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "123/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-126:reverseHolofoil",
+      "sourceName": "Glimmora",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "126/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-135:reverseHolofoil",
+      "sourceName": "Tyranitar",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "135/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-136:reverseHolofoil",
+      "sourceName": "Sableye",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "136/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-140:reverseHolofoil",
+      "sourceName": "Hydreigon",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "140/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-142:reverseHolofoil",
+      "sourceName": "Maschiff",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "142/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-151:reverseHolofoil",
+      "sourceName": "Orthworm",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "151/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-160:reverseHolofoil",
+      "sourceName": "Slakoth",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "160/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-161:reverseHolofoil",
+      "sourceName": "Vigoroth",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "161/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-162:reverseHolofoil",
+      "sourceName": "Slaking",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "162/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv2-167:reverseHolofoil",
+      "sourceName": "Tandemaus",
+      "sourceSet": "Paldea Evolved",
+      "sourceNumber": "167/193"
+    },
+    {
+      "catalogItemId": "pokemon:sv1-15:reverseHolofoil",
+      "sourceName": "Meowscarada",
+      "sourceSet": "Scarlet & Violet",
+      "sourceNumber": "015/198"
+    },
+    {
+      "catalogItemId": "pokemon:sv1-38:reverseHolofoil",
+      "sourceName": "Skeledirge",
+      "sourceSet": "Scarlet & Violet",
+      "sourceNumber": "038/198"
+    },
+    {
+      "catalogItemId": "pokemon:sv1-54:reverseHolofoil",
+      "sourceName": "Quaquaval",
+      "sourceSet": "Scarlet & Violet",
+      "sourceNumber": "054/198"
+    },
+    {
+      "catalogItemId": "pokemon:sv1-70:reverseHolofoil",
+      "sourceName": "Rotom",
+      "sourceSet": "Scarlet & Violet",
+      "sourceNumber": "070/198"
+    },
+    {
+      "catalogItemId": "pokemon:sv1-122:reverseHolofoil",
+      "sourceName": "Klawf",
+      "sourceSet": "Scarlet & Violet",
+      "sourceNumber": "122/198"
+    },
+    {
+      "catalogItemId": "pokemon:sv1-129:reverseHolofoil",
+      "sourceName": "Spiritomb",
+      "sourceSet": "Scarlet & Violet",
+      "sourceNumber": "129/198"
+    },
+    {
+      "catalogItemId": "pokemon:sv1-154:reverseHolofoil",
+      "sourceName": "Lechonk",
+      "sourceSet": "Scarlet & Violet",
+      "sourceNumber": "154/198"
+    },
+    {
+      "catalogItemId": "pokemon:swsh12pt5-36:reverseHolofoil",
+      "sourceName": "Kyogre",
+      "sourceSet": "Crown Zenith",
+      "sourceNumber": "036/159"
+    },
+    {
+      "catalogItemId": "pokemon:swsh12-36:reverseHolofoil",
+      "sourceName": "Articuno",
+      "sourceSet": "Silver Tempest",
+      "sourceNumber": "036/195"
+    },
+    {
+      "catalogItemId": "pokemon:pgo-27:reverseHolofoil",
+      "sourceName": "Pikachu",
+      "sourceSet": "Pokémon GO",
+      "sourceNumber": "027/078"
+    },
+    {
+      "catalogItemId": "pokemon:pgo-52:reverseHolofoil",
+      "sourceName": "Blissey",
+      "sourceSet": "Pokémon GO",
+      "sourceNumber": "052/078"
+    },
+    {
+      "catalogItemId": "pokemon:pgo-55:reverseHolofoil",
+      "sourceName": "Snorlax",
+      "sourceSet": "Pokémon GO",
+      "sourceNumber": "055/078"
+    },
+    {
+      "catalogItemId": "pokemon:swsh10-2:reverseHolofoil",
+      "sourceName": "Hisuian Voltorb",
+      "sourceSet": "Astral Radiance",
+      "sourceNumber": "002/189"
+    },
+    {
+      "catalogItemId": "pokemon:swsh10-45:reverseHolofoil",
+      "sourceName": "Keldeo",
+      "sourceSet": "Astral Radiance",
+      "sourceNumber": "045/189"
+    },
+    {
+      "catalogItemId": "pokemon:swsh10-70:reverseHolofoil",
+      "sourceName": "Hisuian Growlithe",
+      "sourceSet": "Astral Radiance",
+      "sourceNumber": "070/189"
+    },
+    {
+      "catalogItemId": "pokemon:swsh10-92:reverseHolofoil",
+      "sourceName": "Hisuian Sneasel",
+      "sourceSet": "Astral Radiance",
+      "sourceNumber": "092/189"
+    },
+    {
+      "catalogItemId": "pokemon:swsh10-97:reverseHolofoil",
+      "sourceName": "Absol",
+      "sourceSet": "Astral Radiance",
+      "sourceNumber": "097/189"
+    },
+    {
+      "catalogItemId": "pokemon:swsh9-21:reverseHolofoil",
+      "sourceName": "Moltres",
+      "sourceSet": "Brilliant Stars",
+      "sourceNumber": "021/172"
+    },
+    {
+      "catalogItemId": "pokemon:swsh9-37:reverseHolofoil",
+      "sourceName": "Empoleon",
+      "sourceSet": "Brilliant Stars",
+      "sourceNumber": "037/172"
+    },
+    {
+      "catalogItemId": "pokemon:swsh9-56:reverseHolofoil",
+      "sourceName": "Mewtwo",
+      "sourceSet": "Brilliant Stars",
+      "sourceNumber": "056/172"
+    },
+    {
+      "catalogItemId": "pokemon:swsh9-132:reverseHolofoil",
+      "sourceName": "Boss's Orders",
+      "sourceSet": "Brilliant Stars",
+      "sourceNumber": "132/172"
+    },
+    {
+      "catalogItemId": "pokemon:swsh8-88:reverseHolofoil",
+      "sourceName": "Electrode",
+      "sourceSet": "Fusion Strike",
+      "sourceNumber": "088/264"
+    },
+    {
+      "catalogItemId": "pokemon:swsh8-130:reverseHolofoil",
+      "sourceName": "Dragapult",
+      "sourceSet": "Fusion Strike",
+      "sourceNumber": "130/264"
+    },
+    {
+      "catalogItemId": "pokemon:swsh8-148:reverseHolofoil",
+      "sourceName": "Landorus",
+      "sourceSet": "Fusion Strike",
+      "sourceNumber": "148/264"
+    },
+    {
+      "catalogItemId": "pokemon:swsh8-161:reverseHolofoil",
+      "sourceName": "Galarian Obstagoon",
+      "sourceSet": "Fusion Strike",
+      "sourceNumber": "161/264"
+    },
+    {
+      "catalogItemId": "pokemon:swsh8-222:reverseHolofoil",
+      "sourceName": "Wooloo",
+      "sourceSet": "Fusion Strike",
+      "sourceNumber": "222/264"
+    },
+    {
+      "catalogItemId": "pokemon:swsh7-60:reverseHolofoil",
+      "sourceName": "Regieleki",
+      "sourceSet": "Evolving Skies",
+      "sourceNumber": "060/203"
+    },
+    {
+      "catalogItemId": "pokemon:swsh7-80:reverseHolofoil",
+      "sourceName": "Marshadow",
+      "sourceSet": "Evolving Skies",
+      "sourceNumber": "080/203"
+    },
+    {
+      "catalogItemId": "pokemon:swsh7-112:reverseHolofoil",
+      "sourceName": "Dialga",
+      "sourceSet": "Evolving Skies",
+      "sourceNumber": "112/203"
+    },
+    {
+      "catalogItemId": "pokemon:swsh7-124:reverseHolofoil",
+      "sourceName": "Regidrago",
+      "sourceSet": "Evolving Skies",
+      "sourceNumber": "124/203"
+    },
+    {
+      "catalogItemId": "pokemon:swsh6-43:reverseHolofoil",
+      "sourceName": "Inteleon",
+      "sourceSet": "Chilling Reign",
+      "sourceNumber": "043/198"
+    },
+    {
+      "catalogItemId": "pokemon:swsh6-52:reverseHolofoil",
+      "sourceName": "Thundurus",
+      "sourceSet": "Chilling Reign",
+      "sourceNumber": "052/198"
+    },
+    {
+      "catalogItemId": "pokemon:swsh6-98:reverseHolofoil",
+      "sourceName": "Galarian Slowking",
+      "sourceSet": "Chilling Reign",
+      "sourceNumber": "098/198"
+    },
+    {
+      "catalogItemId": "pokemon:swsh6-145:reverseHolofoil",
+      "sourceName": "Klara",
+      "sourceSet": "Chilling Reign",
+      "sourceNumber": "145/198"
+    },
+    {
+      "catalogItemId": "pokemon:swsh5-23:reverseHolofoil",
+      "sourceName": "Tepig",
+      "sourceSet": "Battle Styles",
+      "sourceNumber": "023/163"
+    },
+    {
+      "catalogItemId": "pokemon:swsh5-46:reverseHolofoil",
+      "sourceName": "Shinx",
+      "sourceSet": "Battle Styles",
+      "sourceNumber": "046/163"
+    },
+    {
+      "catalogItemId": "pokemon:swsh5-82:reverseHolofoil",
+      "sourceName": "Sandaconda",
+      "sourceSet": "Battle Styles",
+      "sourceNumber": "082/163"
+    },
+    {
+      "catalogItemId": "pokemon:swsh45-60:reverseHolofoil",
+      "sourceName": "Professor's Research",
+      "sourceSet": "Shining Fates",
+      "sourceNumber": "060/072"
+    },
+    {
+      "catalogItemId": "pokemon:swsh4-15:reverseHolofoil",
+      "sourceName": "Shaymin",
+      "sourceSet": "Vivid Voltage",
+      "sourceNumber": "015/185"
+    },
+    {
+      "catalogItemId": "pokemon:swsh4-26:reverseHolofoil",
+      "sourceName": "Flareon",
+      "sourceSet": "Vivid Voltage",
+      "sourceNumber": "026/185"
+    },
+    {
+      "catalogItemId": "pokemon:swsh4-30:reverseHolofoil",
+      "sourceName": "Vaporeon",
+      "sourceSet": "Vivid Voltage",
+      "sourceNumber": "030/185"
+    },
+    {
+      "catalogItemId": "pokemon:swsh4-47:reverseHolofoil",
+      "sourceName": "Jolteon",
+      "sourceSet": "Vivid Voltage",
+      "sourceNumber": "047/185"
+    },
+    {
+      "catalogItemId": "pokemon:swsh4-48:reverseHolofoil",
+      "sourceName": "Zapdos",
+      "sourceSet": "Vivid Voltage",
+      "sourceNumber": "048/185"
+    },
+    {
+      "catalogItemId": "pokemon:swsh4-60:reverseHolofoil",
+      "sourceName": "Zekrom",
+      "sourceSet": "Vivid Voltage",
+      "sourceNumber": "060/185"
+    },
+    {
+      "catalogItemId": "pokemon:swsh4-61:reverseHolofoil",
+      "sourceName": "Zeraora",
+      "sourceSet": "Vivid Voltage",
+      "sourceNumber": "061/185"
+    },
+    {
+      "catalogItemId": "pokemon:swsh4-129:reverseHolofoil",
+      "sourceName": "Duraludon",
+      "sourceSet": "Vivid Voltage",
+      "sourceNumber": "129/185"
+    },
+    {
+      "catalogItemId": "pokemon:swsh4-142:reverseHolofoil",
+      "sourceName": "Tornadus",
+      "sourceSet": "Vivid Voltage",
+      "sourceNumber": "142/185"
+    },
+    {
+      "catalogItemId": "pokemon:swsh3-63:reverseHolofoil",
+      "sourceName": "Toxtricity",
+      "sourceSet": "Darkness Ablaze",
+      "sourceNumber": "063/189"
+    },
+    {
+      "catalogItemId": "pokemon:swsh3-81:reverseHolofoil",
+      "sourceName": "Mimikyu",
+      "sourceSet": "Darkness Ablaze",
+      "sourceNumber": "081/189"
+    },
+    {
+      "catalogItemId": "pokemon:swsh3-105:reverseHolofoil",
+      "sourceName": "Darkrai",
+      "sourceSet": "Darkness Ablaze",
+      "sourceNumber": "105/189"
+    },
+    {
+      "catalogItemId": "pokemon:swsh2-20:reverseHolofoil",
+      "sourceName": "Applin",
+      "sourceSet": "Rebel Clash",
+      "sourceNumber": "020/192"
+    },
+    {
+      "catalogItemId": "pokemon:swsh2-23:reverseHolofoil",
+      "sourceName": "Appletun",
+      "sourceSet": "Rebel Clash",
+      "sourceNumber": "023/192"
+    },
+    {
+      "catalogItemId": "pokemon:swsh2-54:reverseHolofoil",
+      "sourceName": "Eiscue",
+      "sourceSet": "Rebel Clash",
+      "sourceNumber": "054/192"
+    },
+    {
+      "catalogItemId": "pokemon:swsh2-95:reverseHolofoil",
+      "sourceName": "Galarian Sirfetch'd",
+      "sourceSet": "Rebel Clash",
+      "sourceNumber": "095/192"
+    },
+    {
+      "catalogItemId": "pokemon:swsh2-141:reverseHolofoil",
+      "sourceName": "Snorlax",
+      "sourceSet": "Rebel Clash",
+      "sourceNumber": "141/192"
+    },
+    {
+      "catalogItemId": "pokemon:swsh1-10:reverseHolofoil",
+      "sourceName": "Grookey",
+      "sourceSet": "Sword & Shield",
+      "sourceNumber": "010/202"
+    },
+    {
+      "catalogItemId": "pokemon:swsh1-14:reverseHolofoil",
+      "sourceName": "Rillaboom",
+      "sourceSet": "Sword & Shield",
+      "sourceNumber": "014/202"
+    },
+    {
+      "catalogItemId": "pokemon:swsh1-30:reverseHolofoil",
+      "sourceName": "Scorbunny",
+      "sourceSet": "Sword & Shield",
+      "sourceNumber": "030/202"
+    },
+    {
+      "catalogItemId": "pokemon:swsh1-34:reverseHolofoil",
+      "sourceName": "Cinderace",
+      "sourceSet": "Sword & Shield",
+      "sourceNumber": "034/202"
+    },
+    {
+      "catalogItemId": "pokemon:swsh1-40:reverseHolofoil",
+      "sourceName": "Shellder",
+      "sourceSet": "Sword & Shield",
+      "sourceNumber": "040/202"
+    },
+    {
+      "catalogItemId": "pokemon:swsh1-54:reverseHolofoil",
+      "sourceName": "Sobble",
+      "sourceSet": "Sword & Shield",
+      "sourceNumber": "054/202"
+    },
+    {
+      "catalogItemId": "pokemon:swsh1-58:reverseHolofoil",
+      "sourceName": "Inteleon",
+      "sourceSet": "Sword & Shield",
+      "sourceNumber": "058/202"
+    },
+    {
+      "catalogItemId": "pokemon:swsh1-76:reverseHolofoil",
+      "sourceName": "Boltund",
+      "sourceSet": "Sword & Shield",
+      "sourceNumber": "076/202"
+    },
+    {
+      "catalogItemId": "pokemon:swsh1-78:reverseHolofoil",
+      "sourceName": "Morpeko",
+      "sourceSet": "Sword & Shield",
+      "sourceNumber": "078/202"
+    },
+    {
+      "catalogItemId": "pokemon:swsh1-140:reverseHolofoil",
+      "sourceName": "Snorlax",
+      "sourceSet": "Sword & Shield",
+      "sourceNumber": "140/202"
+    },
+    {
+      "catalogItemId": "pokemon:sm11-51:reverseHolofoil",
+      "sourceName": "Golisopod",
+      "sourceSet": "Unified Minds",
+      "sourceNumber": "51/236"
+    },
+    {
+      "catalogItemId": "pokemon:sm11-151:reverseHolofoil",
+      "sourceName": "Dragonite",
+      "sourceSet": "Unified Minds",
+      "sourceNumber": "151/236"
+    },
+    {
+      "catalogItemId": "pokemon:sm11-184:reverseHolofoil",
+      "sourceName": "Silvally",
+      "sourceSet": "Unified Minds",
+      "sourceNumber": "184/236"
+    },
+    {
+      "catalogItemId": "pokemon:sm10-22:reverseHolofoil",
+      "sourceName": "Arcanine",
+      "sourceSet": "Unbroken Bonds",
+      "sourceNumber": "22/214"
+    },
+    {
+      "catalogItemId": "pokemon:sm10-33:reverseHolofoil",
+      "sourceName": "Squirtle",
+      "sourceSet": "Unbroken Bonds",
+      "sourceNumber": "33/214"
+    },
+    {
+      "catalogItemId": "pokemon:sm10-34:reverseHolofoil",
+      "sourceName": "Wartortle",
+      "sourceSet": "Unbroken Bonds",
+      "sourceNumber": "34/214"
+    },
+    {
+      "catalogItemId": "pokemon:sm10-75:reverseHolofoil",
+      "sourceName": "Mewtwo",
+      "sourceSet": "Unbroken Bonds",
+      "sourceNumber": "75/214"
+    },
+    {
+      "catalogItemId": "pokemon:sm10-129:reverseHolofoil",
+      "sourceName": "Melmetal",
+      "sourceSet": "Unbroken Bonds",
+      "sourceNumber": "129/214"
+    },
+    {
+      "catalogItemId": "pokemon:sm9-14:reverseHolofoil",
+      "sourceName": "Charizard",
+      "sourceSet": "Team Up",
+      "sourceNumber": "14/181"
+    },
+    {
+      "catalogItemId": "pokemon:sm9-119:reverseHolofoil",
+      "sourceName": "Dragonite",
+      "sourceSet": "Team Up",
+      "sourceNumber": "119/181"
+    },
+    {
+      "catalogItemId": "pokemon:sm8-8:reverseHolofoil",
+      "sourceName": "Meganium",
+      "sourceSet": "Lost Thunder",
+      "sourceNumber": "8/214"
+    },
+    {
+      "catalogItemId": "pokemon:sm8-42:reverseHolofoil",
+      "sourceName": "Typhlosion",
+      "sourceSet": "Lost Thunder",
+      "sourceNumber": "42/214"
+    },
+    {
+      "catalogItemId": "pokemon:sm8-89:reverseHolofoil",
+      "sourceName": "Espeon",
+      "sourceSet": "Lost Thunder",
+      "sourceNumber": "89/214"
+    },
+    {
+      "catalogItemId": "pokemon:sm8-97:reverseHolofoil",
+      "sourceName": "Giratina",
+      "sourceSet": "Lost Thunder",
+      "sourceNumber": "97/214"
+    },
+    {
+      "catalogItemId": "pokemon:sm8-120:reverseHolofoil",
+      "sourceName": "Umbreon",
+      "sourceSet": "Lost Thunder",
+      "sourceNumber": "120/214"
+    },
+    {
+      "catalogItemId": "pokemon:sm8-125:reverseHolofoil",
+      "sourceName": "Steelix",
+      "sourceSet": "Lost Thunder",
+      "sourceNumber": "125/214"
+    },
+    {
+      "catalogItemId": "pokemon:sm8-141:reverseHolofoil",
+      "sourceName": "Gardevoir",
+      "sourceSet": "Lost Thunder",
+      "sourceNumber": "141/214"
+    },
+    {
+      "catalogItemId": "pokemon:sm8-153:reverseHolofoil",
+      "sourceName": "Blissey",
+      "sourceSet": "Lost Thunder",
+      "sourceNumber": "153/214"
+    },
+    {
+      "catalogItemId": "pokemon:sm7-40:reverseHolofoil",
+      "sourceName": "Wailord",
+      "sourceSet": "Celestial Storm",
+      "sourceNumber": "40/168"
+    },
+    {
+      "catalogItemId": "pokemon:sm7-106:reverseHolofoil",
+      "sourceName": "Salamence",
+      "sourceSet": "Celestial Storm",
+      "sourceNumber": "106/168"
+    },
+    {
+      "catalogItemId": "pokemon:sm4-28:reverseHolofoil",
+      "sourceName": "Regice",
+      "sourceSet": "Crimson Invasion",
+      "sourceNumber": "28/111"
+    },
+    {
+      "catalogItemId": "pokemon:sm4-53:reverseHolofoil",
+      "sourceName": "Regirock",
+      "sourceSet": "Crimson Invasion",
+      "sourceNumber": "53/111"
+    },
+    {
+      "catalogItemId": "pokemon:sm4-68:reverseHolofoil",
+      "sourceName": "Registeel",
+      "sourceSet": "Crimson Invasion",
+      "sourceNumber": "68/111"
+    },
+    {
+      "catalogItemId": "pokemon:sm35-28:reverseHolofoil",
+      "sourceName": "Pikachu",
+      "sourceSet": "Shining Legends",
+      "sourceNumber": "28/73"
+    },
+    {
+      "catalogItemId": "pokemon:sm3-33:reverseHolofoil",
+      "sourceName": "Gyarados",
+      "sourceSet": "Burning Shadows",
+      "sourceNumber": "33/147"
+    },
+    {
+      "catalogItemId": "pokemon:sm3-41:reverseHolofoil",
+      "sourceName": "Raichu",
+      "sourceSet": "Burning Shadows",
+      "sourceNumber": "41/147"
+    },
+    {
+      "catalogItemId": "pokemon:sm2-42:reverseHolofoil",
+      "sourceName": "Alolan Golem",
+      "sourceSet": "Guardians Rising",
+      "sourceNumber": "42/145"
+    },
+    {
+      "catalogItemId": "pokemon:sm2-65:reverseHolofoil",
+      "sourceName": "Machamp",
+      "sourceSet": "Guardians Rising",
+      "sourceNumber": "65/145"
+    },
+    {
+      "catalogItemId": "pokemon:sm1-9:reverseHolofoil",
+      "sourceName": "Rowlet",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "9/149"
+    },
+    {
+      "catalogItemId": "pokemon:sm1-10:reverseHolofoil",
+      "sourceName": "Dartrix",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "10/149"
+    },
+    {
+      "catalogItemId": "pokemon:sm1-24:reverseHolofoil",
+      "sourceName": "Litten",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "24/149"
+    },
+    {
+      "catalogItemId": "pokemon:sm1-25:reverseHolofoil",
+      "sourceName": "Torracat",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "25/149"
+    },
+    {
+      "catalogItemId": "pokemon:sm1-39:reverseHolofoil",
+      "sourceName": "Popplio",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "39/149"
+    },
+    {
+      "catalogItemId": "pokemon:sm1-40:reverseHolofoil",
+      "sourceName": "Brionne",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "40/149"
+    },
+    {
+      "catalogItemId": "pokemon:sm1-56:reverseHolofoil",
+      "sourceName": "Crobat",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "56/149"
+    },
+    {
+      "catalogItemId": "pokemon:sm1-58:reverseHolofoil",
+      "sourceName": "Alolan Muk",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "58/149"
+    },
+    {
+      "catalogItemId": "pokemon:sm1-71:reverseHolofoil",
+      "sourceName": "Gigalith",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "71/149"
+    },
+    {
+      "catalogItemId": "pokemon:sm1-79:reverseHolofoil",
+      "sourceName": "Alolan Persian",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "79/149"
+    },
+    {
+      "catalogItemId": "pokemon:sm1-82:reverseHolofoil",
+      "sourceName": "Sharpedo",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "82/149"
+    },
+    {
+      "catalogItemId": "pokemon:sm1-87:reverseHolofoil",
+      "sourceName": "Alolan Dugtrio",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "87/149"
+    },
+    {
+      "catalogItemId": "pokemon:sm1-96:reverseHolofoil",
+      "sourceName": "Dragonite",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "96/149"
+    },
+    {
+      "catalogItemId": "pokemon:sm1-101:reverseHolofoil",
+      "sourceName": "Eevee",
+      "sourceSet": "Sun & Moon",
+      "sourceNumber": "101/149"
+    },
+    {
+      "catalogItemId": "pokemon:xy11-11:reverseHolofoil",
+      "sourceName": "Shiftry",
+      "sourceSet": "Steam Siege",
+      "sourceNumber": "11/114"
+    },
+    {
+      "catalogItemId": "pokemon:xy11-64:reverseHolofoil",
+      "sourceName": "Bisharp",
+      "sourceSet": "Steam Siege",
+      "sourceNumber": "64/114"
+    },
+    {
+      "catalogItemId": "pokemon:xy10-56:reverseHolofoil",
+      "sourceName": "Tyranitar",
+      "sourceSet": "Fates Collide",
+      "sourceNumber": "56/124"
+    },
+    {
+      "catalogItemId": "pokemon:xy10-63:reverseHolofoil",
+      "sourceName": "Lucario",
+      "sourceSet": "Fates Collide",
+      "sourceNumber": "63/124"
+    },
+    {
+      "catalogItemId": "pokemon:xy9-3:reverseHolofoil",
+      "sourceName": "Meganium",
+      "sourceSet": "BREAKpoint",
+      "sourceNumber": "3/122"
+    },
+    {
+      "catalogItemId": "pokemon:xy9-21:reverseHolofoil",
+      "sourceName": "Slowking",
+      "sourceSet": "BREAKpoint",
+      "sourceNumber": "21/122"
+    },
+    {
+      "catalogItemId": "pokemon:xy9-30:reverseHolofoil",
+      "sourceName": "Suicune",
+      "sourceSet": "BREAKpoint",
+      "sourceNumber": "30/122"
+    },
+    {
+      "catalogItemId": "pokemon:xy8-15:reverseHolofoil",
+      "sourceName": "Vivillon",
+      "sourceSet": "BREAKthrough",
+      "sourceNumber": "15/162"
+    },
+    {
+      "catalogItemId": "pokemon:xy8-20:reverseHolofoil",
+      "sourceName": "Typhlosion",
+      "sourceSet": "BREAKthrough",
+      "sourceNumber": "20/162"
+    },
+    {
+      "catalogItemId": "pokemon:xy8-55:reverseHolofoil",
+      "sourceName": "Raikou",
+      "sourceSet": "BREAKthrough",
+      "sourceNumber": "55/162"
+    },
+    {
+      "catalogItemId": "pokemon:xy8-60:reverseHolofoil",
+      "sourceName": "Gengar",
+      "sourceSet": "BREAKthrough",
+      "sourceNumber": "60/162"
+    },
+    {
+      "catalogItemId": "pokemon:xy8-84:reverseHolofoil",
+      "sourceName": "Gallade",
+      "sourceSet": "BREAKthrough",
+      "sourceNumber": "84/162"
+    },
+    {
+      "catalogItemId": "pokemon:xy8-91:reverseHolofoil",
+      "sourceName": "Zoroark",
+      "sourceSet": "BREAKthrough",
+      "sourceNumber": "91/162"
+    },
+    {
+      "catalogItemId": "pokemon:xy8-94:reverseHolofoil",
+      "sourceName": "Yveltal",
+      "sourceSet": "BREAKthrough",
+      "sourceNumber": "94/162"
+    },
+    {
+      "catalogItemId": "pokemon:xy8-107:reverseHolofoil",
+      "sourceName": "Xerneas",
+      "sourceSet": "BREAKthrough",
+      "sourceNumber": "107/162"
+    },
+    {
+      "catalogItemId": "pokemon:xy7-4:reverseHolofoil",
+      "sourceName": "Bellossom",
+      "sourceSet": "Ancient Origins",
+      "sourceNumber": "4/98"
+    },
+    {
+      "catalogItemId": "pokemon:xy7-13:reverseHolofoil",
+      "sourceName": "Flareon",
+      "sourceSet": "Ancient Origins",
+      "sourceNumber": "13/98"
+    },
+    {
+      "catalogItemId": "pokemon:xy7-14:reverseHolofoil",
+      "sourceName": "Entei",
+      "sourceSet": "Ancient Origins",
+      "sourceNumber": "14/98"
+    },
+    {
+      "catalogItemId": "pokemon:xy7-20:reverseHolofoil",
+      "sourceName": "Gyarados",
+      "sourceSet": "Ancient Origins",
+      "sourceNumber": "20/98"
+    },
+    {
+      "catalogItemId": "pokemon:xy7-21:reverseHolofoil",
+      "sourceName": "Gyarados",
+      "sourceSet": "Ancient Origins",
+      "sourceNumber": "21/98"
+    },
+    {
+      "catalogItemId": "pokemon:xy7-22:reverseHolofoil",
+      "sourceName": "Vaporeon",
+      "sourceSet": "Ancient Origins",
+      "sourceNumber": "22/98"
+    },
+    {
+      "catalogItemId": "pokemon:xy7-26:reverseHolofoil",
+      "sourceName": "Jolteon",
+      "sourceSet": "Ancient Origins",
+      "sourceNumber": "26/98"
+    },
+    {
+      "catalogItemId": "pokemon:xy7-54:reverseHolofoil",
+      "sourceName": "Gardevoir",
+      "sourceSet": "Ancient Origins",
+      "sourceNumber": "54/98"
+    },
+    {
+      "catalogItemId": "pokemon:xy6-52:reverseHolofoil",
+      "sourceName": "Dragonite",
+      "sourceSet": "Roaring Skies",
+      "sourceNumber": "52/108"
+    },
+    {
+      "catalogItemId": "pokemon:xy6-57:reverseHolofoil",
+      "sourceName": "Salamence",
+      "sourceSet": "Roaring Skies",
+      "sourceNumber": "57/108"
+    },
+    {
+      "catalogItemId": "pokemon:xy5-65:reverseHolofoil",
+      "sourceName": "Eelektross",
+      "sourceSet": "Primal Clash",
+      "sourceNumber": "65/160"
+    },
+    {
+      "catalogItemId": "pokemon:xy5-110:reverseHolofoil",
+      "sourceName": "Flygon",
+      "sourceSet": "Primal Clash",
+      "sourceNumber": "110/160"
+    },
+    {
+      "catalogItemId": "pokemon:xy4-12:reverseHolofoil",
+      "sourceName": "Pyroar",
+      "sourceSet": "Phantom Forces",
+      "sourceNumber": "12/119"
+    },
+    {
+      "catalogItemId": "pokemon:xy4-17:reverseHolofoil",
+      "sourceName": "Feraligatr",
+      "sourceSet": "Phantom Forces",
+      "sourceNumber": "17/119"
+    },
+    {
+      "catalogItemId": "pokemon:xy4-33:reverseHolofoil",
+      "sourceName": "Crobat",
+      "sourceSet": "Phantom Forces",
+      "sourceNumber": "33/119"
+    },
+    {
+      "catalogItemId": "pokemon:xy4-43:reverseHolofoil",
+      "sourceName": "Chandelure",
+      "sourceSet": "Phantom Forces",
+      "sourceNumber": "43/119"
+    },
+    {
+      "catalogItemId": "pokemon:xy4-74:reverseHolofoil",
+      "sourceName": "Hydreigon",
+      "sourceSet": "Phantom Forces",
+      "sourceNumber": "74/119"
+    },
+    {
+      "catalogItemId": "pokemon:xy4-77:reverseHolofoil",
+      "sourceName": "Goodra",
+      "sourceSet": "Phantom Forces",
+      "sourceNumber": "77/119"
+    },
+    {
+      "catalogItemId": "pokemon:xy4-81:reverseHolofoil",
+      "sourceName": "Blissey",
+      "sourceSet": "Phantom Forces",
+      "sourceNumber": "81/119"
+    },
+    {
+      "catalogItemId": "pokemon:xy3-18:reverseHolofoil",
+      "sourceName": "Politoed",
+      "sourceSet": "Furious Fists",
+      "sourceNumber": "18/111"
+    },
+    {
+      "catalogItemId": "pokemon:xy3-25:reverseHolofoil",
+      "sourceName": "Amaura",
+      "sourceSet": "Furious Fists",
+      "sourceNumber": "25/111"
+    },
+    {
+      "catalogItemId": "pokemon:xy3-26:reverseHolofoil",
+      "sourceName": "Aurorus",
+      "sourceSet": "Furious Fists",
+      "sourceNumber": "26/111"
+    },
+    {
+      "catalogItemId": "pokemon:xy3-46:reverseHolofoil",
+      "sourceName": "Machamp",
+      "sourceSet": "Furious Fists",
+      "sourceNumber": "46/111"
+    },
+    {
+      "catalogItemId": "pokemon:xy3-61:reverseHolofoil",
+      "sourceName": "Tyrunt",
+      "sourceSet": "Furious Fists",
+      "sourceNumber": "61/111"
+    },
+    {
+      "catalogItemId": "pokemon:xy3-62:reverseHolofoil",
+      "sourceName": "Tyrantrum",
+      "sourceSet": "Furious Fists",
+      "sourceNumber": "62/111"
+    },
+    {
+      "catalogItemId": "pokemon:xy3-63:reverseHolofoil",
+      "sourceName": "Hawlucha",
+      "sourceSet": "Furious Fists",
+      "sourceNumber": "63/111"
+    },
+    {
+      "catalogItemId": "pokemon:xy3-77:reverseHolofoil",
+      "sourceName": "Noivern",
+      "sourceSet": "Furious Fists",
+      "sourceNumber": "77/111"
+    },
+    {
+      "catalogItemId": "pokemon:xy3-92:reverseHolofoil",
+      "sourceName": "Fossil Researcher",
+      "sourceSet": "Furious Fists",
+      "sourceNumber": "92/111"
+    },
+    {
+      "catalogItemId": "pokemon:xy2-70:reverseHolofoil",
+      "sourceName": "Druddigon",
+      "sourceSet": "Flashfire",
+      "sourceNumber": "70/106"
+    },
+    {
+      "catalogItemId": "pokemon:xy1-14:reverseHolofoil",
+      "sourceName": "Chesnaught",
+      "sourceSet": "XY",
+      "sourceNumber": "14/146"
+    },
+    {
+      "catalogItemId": "pokemon:xy1-17:reverseHolofoil",
+      "sourceName": "Vivillon",
+      "sourceSet": "XY",
+      "sourceNumber": "17/146"
+    },
+    {
+      "catalogItemId": "pokemon:xy1-19:reverseHolofoil",
+      "sourceName": "Gogoat",
+      "sourceSet": "XY",
+      "sourceNumber": "19/146"
+    },
+    {
+      "catalogItemId": "pokemon:xy1-26:reverseHolofoil",
+      "sourceName": "Delphox",
+      "sourceSet": "XY",
+      "sourceNumber": "26/146"
+    },
+    {
+      "catalogItemId": "pokemon:xy1-28:reverseHolofoil",
+      "sourceName": "Talonflame",
+      "sourceSet": "XY",
+      "sourceNumber": "28/146"
+    },
+    {
+      "catalogItemId": "pokemon:xy1-41:reverseHolofoil",
+      "sourceName": "Greninja",
+      "sourceSet": "XY",
+      "sourceNumber": "41/146"
+    },
+    {
+      "catalogItemId": "pokemon:xy1-42:reverseHolofoil",
+      "sourceName": "Pikachu",
+      "sourceSet": "XY",
+      "sourceNumber": "42/146"
+    },
+    {
+      "catalogItemId": "pokemon:xy1-43:reverseHolofoil",
+      "sourceName": "Raichu",
+      "sourceSet": "XY",
+      "sourceNumber": "43/146"
+    },
+    {
+      "catalogItemId": "pokemon:xy1-62:reverseHolofoil",
+      "sourceName": "Rhyperior",
+      "sourceSet": "XY",
+      "sourceNumber": "62/146"
+    },
+    {
+      "catalogItemId": "pokemon:xy1-73:reverseHolofoil",
+      "sourceName": "Zoroark",
+      "sourceSet": "XY",
+      "sourceNumber": "73/146"
+    },
+    {
+      "catalogItemId": "pokemon:xy1-114:reverseHolofoil",
+      "sourceName": "Furfrou",
+      "sourceSet": "XY",
+      "sourceNumber": "114/146"
+    },
+    {
+      "catalogItemId": "pokemon:bw11-19:reverseHolofoil",
+      "sourceName": "Charizard",
+      "sourceSet": "Legendary Treasures",
+      "sourceNumber": "19/113"
+    },
+    {
+      "catalogItemId": "pokemon:bw11-80:reverseHolofoil",
+      "sourceName": "Lucario",
+      "sourceSet": "Legendary Treasures",
+      "sourceNumber": "80/113"
+    },
+    {
+      "catalogItemId": "pokemon:bw11-90:reverseHolofoil",
+      "sourceName": "Zoroark",
+      "sourceSet": "Legendary Treasures",
+      "sourceNumber": "90/113"
+    },
+    {
+      "catalogItemId": "pokemon:bw10-16:reverseHolofoil",
+      "sourceName": "Blastoise",
+      "sourceSet": "Plasma Blast",
+      "sourceNumber": "16/101"
+    },
+    {
+      "catalogItemId": "pokemon:bw10-49:reverseHolofoil",
+      "sourceName": "Machamp",
+      "sourceSet": "Plasma Blast",
+      "sourceNumber": "49/101"
+    },
+    {
+      "catalogItemId": "pokemon:bw10-69:reverseHolofoil",
+      "sourceName": "Haxorus",
+      "sourceSet": "Plasma Blast",
+      "sourceNumber": "69/101"
+    },
+    {
+      "catalogItemId": "pokemon:bw9-17:reverseHolofoil",
+      "sourceName": "Reshiram",
+      "sourceSet": "Plasma Freeze",
+      "sourceNumber": "17/116"
+    },
+    {
+      "catalogItemId": "pokemon:bw9-39:reverseHolofoil",
+      "sourceName": "Zekrom",
+      "sourceSet": "Plasma Freeze",
+      "sourceNumber": "39/116"
+    },
+    {
+      "catalogItemId": "pokemon:bw9-83:reverseHolofoil",
+      "sourceName": "Dragonite",
+      "sourceSet": "Plasma Freeze",
+      "sourceNumber": "83/116"
+    },
+    {
+      "catalogItemId": "pokemon:bw8-17:reverseHolofoil",
+      "sourceName": "Infernape",
+      "sourceSet": "Plasma Storm",
+      "sourceNumber": "17/135"
+    },
+    {
+      "catalogItemId": "pokemon:bw8-58:reverseHolofoil",
+      "sourceName": "Weezing",
+      "sourceSet": "Plasma Storm",
+      "sourceNumber": "58/135"
+    },
+    {
+      "catalogItemId": "pokemon:bw8-61:reverseHolofoil",
+      "sourceName": "Gallade",
+      "sourceSet": "Plasma Storm",
+      "sourceNumber": "61/135"
+    },
+    {
+      "catalogItemId": "pokemon:bw7-13:reverseHolofoil",
+      "sourceName": "Serperior",
+      "sourceSet": "Boundaries Crossed",
+      "sourceNumber": "13/149"
+    },
+    {
+      "catalogItemId": "pokemon:bw7-20:reverseHolofoil",
+      "sourceName": "Charizard",
+      "sourceSet": "Boundaries Crossed",
+      "sourceNumber": "20/149"
+    },
+    {
+      "catalogItemId": "pokemon:bw7-26:reverseHolofoil",
+      "sourceName": "Emboar",
+      "sourceSet": "Boundaries Crossed",
+      "sourceNumber": "26/149"
+    },
+    {
+      "catalogItemId": "pokemon:bw7-41:reverseHolofoil",
+      "sourceName": "Samurott",
+      "sourceSet": "Boundaries Crossed",
+      "sourceNumber": "41/149"
+    },
+    {
+      "catalogItemId": "pokemon:bw7-54:reverseHolofoil",
+      "sourceName": "Electivire",
+      "sourceSet": "Boundaries Crossed",
+      "sourceNumber": "54/149"
+    },
+    {
+      "catalogItemId": "pokemon:bw7-63:reverseHolofoil",
+      "sourceName": "Dusknoir",
+      "sourceSet": "Boundaries Crossed",
+      "sourceNumber": "63/149"
+    },
+    {
+      "catalogItemId": "pokemon:bw7-94:reverseHolofoil",
+      "sourceName": "Scizor",
+      "sourceSet": "Boundaries Crossed",
+      "sourceNumber": "94/149"
+    },
+    {
+      "catalogItemId": "pokemon:bw6-24:reverseHolofoil",
+      "sourceName": "Gyarados",
+      "sourceSet": "Dragons Exalted",
+      "sourceNumber": "24/124"
+    },
+    {
+      "catalogItemId": "pokemon:bw6-28:reverseHolofoil",
+      "sourceName": "Milotic",
+      "sourceSet": "Dragons Exalted",
+      "sourceNumber": "28/124"
+    },
+    {
+      "catalogItemId": "pokemon:bw6-40:reverseHolofoil",
+      "sourceName": "Ampharos",
+      "sourceSet": "Dragons Exalted",
+      "sourceNumber": "40/124"
+    },
+    {
+      "catalogItemId": "pokemon:bw6-52:reverseHolofoil",
+      "sourceName": "Sigilyph",
+      "sourceSet": "Dragons Exalted",
+      "sourceNumber": "52/124"
+    },
+    {
+      "catalogItemId": "pokemon:bw6-80:reverseHolofoil",
+      "sourceName": "Aggron",
+      "sourceSet": "Dragons Exalted",
+      "sourceNumber": "80/124"
+    },
+    {
+      "catalogItemId": "pokemon:bw6-91:reverseHolofoil",
+      "sourceName": "Garchomp",
+      "sourceSet": "Dragons Exalted",
+      "sourceNumber": "91/124"
+    },
+    {
+      "catalogItemId": "pokemon:bw6-98:reverseHolofoil",
+      "sourceName": "Hydreigon",
+      "sourceSet": "Dragons Exalted",
+      "sourceNumber": "98/124"
+    },
+    {
+      "catalogItemId": "pokemon:bw5-3:reverseHolofoil",
+      "sourceName": "Venusaur",
+      "sourceSet": "Dark Explorers",
+      "sourceNumber": "3/108"
+    },
+    {
+      "catalogItemId": "pokemon:bw5-17:reverseHolofoil",
+      "sourceName": "Blaziken",
+      "sourceSet": "Dark Explorers",
+      "sourceNumber": "17/108"
+    },
+    {
+      "catalogItemId": "pokemon:bw5-66:reverseHolofoil",
+      "sourceName": "Krookodile",
+      "sourceSet": "Dark Explorers",
+      "sourceNumber": "66/108"
+    },
+    {
+      "catalogItemId": "pokemon:bw4-14:reverseHolofoil",
+      "sourceName": "Moltres",
+      "sourceSet": "Next Destinies",
+      "sourceNumber": "14/99"
+    },
+    {
+      "catalogItemId": "pokemon:bw4-27:reverseHolofoil",
+      "sourceName": "Articuno",
+      "sourceSet": "Next Destinies",
+      "sourceNumber": "27/99"
+    },
+    {
+      "catalogItemId": "pokemon:bw4-40:reverseHolofoil",
+      "sourceName": "Raichu",
+      "sourceSet": "Next Destinies",
+      "sourceNumber": "40/99"
+    },
+    {
+      "catalogItemId": "pokemon:bw4-41:reverseHolofoil",
+      "sourceName": "Zapdos",
+      "sourceSet": "Next Destinies",
+      "sourceNumber": "41/99"
+    },
+    {
+      "catalogItemId": "pokemon:bw4-46:reverseHolofoil",
+      "sourceName": "Luxray",
+      "sourceSet": "Next Destinies",
+      "sourceNumber": "46/99"
+    },
+    {
+      "catalogItemId": "pokemon:bw4-62:reverseHolofoil",
+      "sourceName": "Beheeyem",
+      "sourceSet": "Next Destinies",
+      "sourceNumber": "62/99"
+    },
+    {
+      "catalogItemId": "pokemon:bw4-64:reverseHolofoil",
+      "sourceName": "Lucario",
+      "sourceSet": "Next Destinies",
+      "sourceNumber": "64/99"
+    },
+    {
+      "catalogItemId": "pokemon:bw4-79:reverseHolofoil",
+      "sourceName": "Wigglytuff",
+      "sourceSet": "Next Destinies",
+      "sourceNumber": "79/99"
+    },
+    {
+      "catalogItemId": "pokemon:bw4-81:reverseHolofoil",
+      "sourceName": "Persian",
+      "sourceSet": "Next Destinies",
+      "sourceNumber": "81/99"
+    },
+    {
+      "catalogItemId": "pokemon:bw3-13:reverseHolofoil",
+      "sourceName": "Virizion",
+      "sourceSet": "Noble Victories",
+      "sourceNumber": "13/101"
+    },
+    {
+      "catalogItemId": "pokemon:bw3-34:reverseHolofoil",
+      "sourceName": "Kyurem",
+      "sourceSet": "Noble Victories",
+      "sourceNumber": "34/101"
+    },
+    {
+      "catalogItemId": "pokemon:bw3-73:reverseHolofoil",
+      "sourceName": "Terrakion",
+      "sourceSet": "Noble Victories",
+      "sourceNumber": "73/101"
+    },
+    {
+      "catalogItemId": "pokemon:bw3-84:reverseHolofoil",
+      "sourceName": "Cobalion",
+      "sourceSet": "Noble Victories",
+      "sourceNumber": "84/101"
+    },
+    {
+      "catalogItemId": "pokemon:bw2-30:reverseHolofoil",
+      "sourceName": "Beartic",
+      "sourceSet": "Emerging Powers",
+      "sourceNumber": "30/98"
+    },
+    {
+      "catalogItemId": "pokemon:bw2-56:reverseHolofoil",
+      "sourceName": "Excadrill",
+      "sourceSet": "Emerging Powers",
+      "sourceNumber": "56/98"
+    },
+    {
+      "catalogItemId": "pokemon:bw1-1:reverseHolofoil",
+      "sourceName": "Snivy",
+      "sourceSet": "Black & White",
+      "sourceNumber": "1/114"
+    },
+    {
+      "catalogItemId": "pokemon:bw1-15:reverseHolofoil",
+      "sourceName": "Tepig",
+      "sourceSet": "Black & White",
+      "sourceNumber": "15/114"
+    },
+    {
+      "catalogItemId": "pokemon:bw1-27:reverseHolofoil",
+      "sourceName": "Oshawott",
+      "sourceSet": "Black & White",
+      "sourceNumber": "27/114"
+    },
+    {
+      "catalogItemId": "pokemon:hgss2-24:reverseHolofoil",
+      "sourceName": "Steelix",
+      "sourceSet": "Unleashed",
+      "sourceNumber": "24/95"
+    },
+    {
+      "catalogItemId": "pokemon:hgss2-26:reverseHolofoil",
+      "sourceName": "Tyranitar",
+      "sourceSet": "Unleashed",
+      "sourceNumber": "26/95"
+    },
+    {
+      "catalogItemId": "pokemon:hgss1-20:reverseHolofoil",
+      "sourceName": "Feraligatr",
+      "sourceSet": "HeartGold & SoulSilver",
+      "sourceNumber": "20/123"
+    },
+    {
+      "catalogItemId": "pokemon:hgss1-26:reverseHolofoil",
+      "sourceName": "Meganium",
+      "sourceSet": "HeartGold & SoulSilver",
+      "sourceNumber": "26/123"
+    },
+    {
+      "catalogItemId": "pokemon:hgss1-32:reverseHolofoil",
+      "sourceName": "Typhlosion",
+      "sourceSet": "HeartGold & SoulSilver",
+      "sourceNumber": "32/123"
+    },
+    {
+      "catalogItemId": "pokemon:pl3-15:reverseHolofoil",
+      "sourceName": "Arcanine G",
+      "sourceSet": "Supreme Victors",
+      "sourceNumber": "15/147"
+    },
+    {
+      "catalogItemId": "pokemon:pl3-35:reverseHolofoil",
+      "sourceName": "Milotic C",
+      "sourceSet": "Supreme Victors",
+      "sourceNumber": "35/147"
+    },
+    {
+      "catalogItemId": "pokemon:pl2-20:reverseHolofoil",
+      "sourceName": "Gallade E4",
+      "sourceSet": "Rising Rivals",
+      "sourceNumber": "20/111"
+    },
+    {
+      "catalogItemId": "pokemon:pl2-32:reverseHolofoil",
+      "sourceName": "Rhyperior E4",
+      "sourceSet": "Rising Rivals",
+      "sourceNumber": "32/111"
+    },
+    {
+      "catalogItemId": "pokemon:pl1-28:reverseHolofoil",
+      "sourceName": "Giratina",
+      "sourceSet": "Platinum",
+      "sourceNumber": "28/127"
+    },
+    {
+      "catalogItemId": "pokemon:pl1-38:reverseHolofoil",
+      "sourceName": "Shaymin",
+      "sourceSet": "Platinum",
+      "sourceNumber": "38/127"
+    },
+    {
+      "catalogItemId": "pokemon:dp7-19:reverseHolofoil",
+      "sourceName": "Gyarados",
+      "sourceSet": "Stormfront",
+      "sourceNumber": "19/100"
+    },
+    {
+      "catalogItemId": "pokemon:dp7-30:reverseHolofoil",
+      "sourceName": "Tyranitar",
+      "sourceSet": "Stormfront",
+      "sourceNumber": "30/100"
+    },
+    {
+      "catalogItemId": "pokemon:dp6-30:reverseHolofoil",
+      "sourceName": "Heatran",
+      "sourceSet": "Legends Awakened",
+      "sourceNumber": "30/146"
+    },
+    {
+      "catalogItemId": "pokemon:dp6-37:reverseHolofoil",
+      "sourceName": "Regigigas",
+      "sourceSet": "Legends Awakened",
+      "sourceNumber": "37/146"
+    },
+    {
+      "catalogItemId": "pokemon:dp6-131:reverseHolofoil",
+      "sourceName": "Cynthia's Feelings",
+      "sourceSet": "Legends Awakened",
+      "sourceNumber": "131/146"
+    },
+    {
+      "catalogItemId": "pokemon:dp5-20:reverseHolofoil",
+      "sourceName": "Glaceon",
+      "sourceSet": "Majestic Dawn",
+      "sourceNumber": "20/100"
+    },
+    {
+      "catalogItemId": "pokemon:dp5-24:reverseHolofoil",
+      "sourceName": "Leafeon",
+      "sourceSet": "Majestic Dawn",
+      "sourceNumber": "24/100"
+    },
+    {
+      "catalogItemId": "pokemon:dp4-16:reverseHolofoil",
+      "sourceName": "Dialga",
+      "sourceSet": "Great Encounters",
+      "sourceNumber": "16/106"
+    },
+    {
+      "catalogItemId": "pokemon:dp4-26:reverseHolofoil",
+      "sourceName": "Palkia",
+      "sourceSet": "Great Encounters",
+      "sourceNumber": "26/106"
+    },
+    {
+      "catalogItemId": "pokemon:dp3-25:reverseHolofoil",
+      "sourceName": "Electivire",
+      "sourceSet": "Secret Wonders",
+      "sourceNumber": "25/132"
+    },
+    {
+      "catalogItemId": "pokemon:dp3-31:reverseHolofoil",
+      "sourceName": "Magmortar",
+      "sourceSet": "Secret Wonders",
+      "sourceNumber": "31/132"
+    },
+    {
+      "catalogItemId": "pokemon:dp2-21:reverseHolofoil",
+      "sourceName": "Bastiodon",
+      "sourceSet": "Mysterious Treasures",
+      "sourceNumber": "21/123"
+    },
+    {
+      "catalogItemId": "pokemon:dp2-33:reverseHolofoil",
+      "sourceName": "Rampardos",
+      "sourceSet": "Mysterious Treasures",
+      "sourceNumber": "33/123"
+    },
+    {
+      "catalogItemId": "pokemon:dp2-109:reverseHolofoil",
+      "sourceName": "Bebe's Search",
+      "sourceSet": "Mysterious Treasures",
+      "sourceNumber": "109/123"
+    },
+    {
+      "catalogItemId": "pokemon:dp1-76:reverseHolofoil",
+      "sourceName": "Chimchar",
+      "sourceSet": "Diamond & Pearl",
+      "sourceNumber": "76/130"
+    },
+    {
+      "catalogItemId": "pokemon:dp1-93:reverseHolofoil",
+      "sourceName": "Piplup",
+      "sourceSet": "Diamond & Pearl",
+      "sourceNumber": "93/130"
+    },
+    {
+      "catalogItemId": "pokemon:dp1-103:reverseHolofoil",
+      "sourceName": "Turtwig",
+      "sourceSet": "Diamond & Pearl",
+      "sourceNumber": "103/130"
+    },
+    {
+      "catalogItemId": "pokemon:dp1-112:reverseHolofoil",
+      "sourceName": "Professor Rowan",
+      "sourceSet": "Diamond & Pearl",
+      "sourceNumber": "112/130"
+    },
+    {
+      "catalogItemId": "pokemon:ex16-14:reverseHolofoil",
+      "sourceName": "Dusclops",
+      "sourceSet": "EX Power Keepers",
+      "sourceNumber": "14/108"
+    },
+    {
+      "catalogItemId": "pokemon:ex16-18:reverseHolofoil",
+      "sourceName": "Mightyena",
+      "sourceSet": "EX Power Keepers",
+      "sourceNumber": "18/108"
+    },
+    {
+      "catalogItemId": "pokemon:ex14-14:reverseHolofoil",
+      "sourceName": "Blastoise",
+      "sourceSet": "EX Crystal Guardians",
+      "sourceNumber": "14/100"
+    },
+    {
+      "catalogItemId": "pokemon:ex14-27:reverseHolofoil",
+      "sourceName": "Swampert",
+      "sourceSet": "EX Crystal Guardians",
+      "sourceNumber": "27/100"
+    },
+    {
+      "catalogItemId": "pokemon:ex14-28:reverseHolofoil",
+      "sourceName": "Venusaur",
+      "sourceSet": "EX Crystal Guardians",
+      "sourceNumber": "28/100"
+    },
+    {
+      "catalogItemId": "pokemon:ex12-23:reverseHolofoil",
+      "sourceName": "Omastar",
+      "sourceSet": "EX Legend Maker",
+      "sourceNumber": "23/92"
+    },
+    {
+      "catalogItemId": "pokemon:ex10-27:reverseHolofoil",
+      "sourceName": "Ho-Oh",
+      "sourceSet": "EX Unseen Forces",
+      "sourceNumber": "27/115"
+    },
+    {
+      "catalogItemId": "pokemon:ex10-29:reverseHolofoil",
+      "sourceName": "Lugia",
+      "sourceSet": "EX Unseen Forces",
+      "sourceNumber": "29/115"
+    },
+    {
+      "catalogItemId": "pokemon:ex8-16:reverseHolofoil",
+      "sourceName": "Deoxys",
+      "sourceSet": "EX Deoxys",
+      "sourceNumber": "16/107"
+    },
+    {
+      "catalogItemId": "pokemon:ex8-22:reverseHolofoil",
+      "sourceName": "Rayquaza",
+      "sourceSet": "EX Deoxys",
+      "sourceNumber": "22/107"
+    },
+    {
+      "catalogItemId": "pokemon:ex7-15:reverseHolofoil",
+      "sourceName": "Dark Dragonite",
+      "sourceSet": "EX Team Rocket Returns",
+      "sourceNumber": "15/109"
+    },
+    {
+      "catalogItemId": "pokemon:ex7-20:reverseHolofoil",
+      "sourceName": "Dark Tyranitar",
+      "sourceSet": "EX Team Rocket Returns",
+      "sourceNumber": "20/109"
+    },
+    {
+      "catalogItemId": "pokemon:ex3-15:reverseHolofoil",
+      "sourceName": "Flygon",
+      "sourceSet": "EX Dragon",
+      "sourceNumber": "15/97"
+    },
+    {
+      "catalogItemId": "pokemon:ex3-19:reverseHolofoil",
+      "sourceName": "Salamence",
+      "sourceSet": "EX Dragon",
+      "sourceNumber": "19/97"
+    },
+    {
+      "catalogItemId": "pokemon:ex2-93:reverseHolofoil",
+      "sourceName": "Multi Energy",
+      "sourceSet": "EX Sandstorm",
+      "sourceNumber": "93/100"
+    },
+    {
+      "catalogItemId": "pokemon:ex1-93:reverseHolofoil",
+      "sourceName": "Darkness Energy",
+      "sourceSet": "EX Ruby & Sapphire",
+      "sourceNumber": "93/109"
+    },
+    {
+      "catalogItemId": "pokemon:ex1-94:reverseHolofoil",
+      "sourceName": "Metal Energy",
+      "sourceSet": "EX Ruby & Sapphire",
+      "sourceNumber": "94/109"
+    }
+  ]
 }
