@@ -3,7 +3,8 @@
  * the catalog, filling in images for cards whose provider had none.
  *
  * The mapping files are produced by the crawlers (crawl-pokemon-ja-images.ts,
- * crawl-pokemon-tw-images.ts) and by hand for small sets like the FAB promos.
+ * crawl-pokemon-tw-images.ts, crawl-pokemon-cn-images.ts) and by hand for
+ * small sets like the FAB promos.
  * Following the same gate as seed-pokemon-manual.ts, a file whose `verified`
  * flag is still false is skipped with a warning rather than seeded on trust —
  * flip it only after reading the crawler's derive summary and spot-checking
@@ -25,7 +26,7 @@ import { FAB_PROMO_IMAGES } from "./data/card-images/fab-promos";
 const DATA_DIR = path.join(process.cwd(), "scripts", "data", "card-images");
 
 /** JSON files written by the crawlers. Missing ones are skipped, not fatal. */
-const JSON_FILES = ["pokemon-tw.json", "pokemon-ja.json"];
+const JSON_FILES = ["pokemon-tw.json", "pokemon-ja.json", "pokemon-cn.json"];
 
 function loadJsonFile(name: string): CardImageFile | null {
   const file = path.join(DATA_DIR, name);
