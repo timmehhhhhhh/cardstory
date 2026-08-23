@@ -28,6 +28,10 @@ const FINISH_FAMILY_COLOR: Record<string, string> = {
   "1stEditionNormal": "bg-[#d9a441]/15 text-[#d9a441] border-[#d9a441]/30",
   "1stEditionHolofoil": "bg-[#d9a441]/15 text-[#d9a441] border-[#d9a441]/30",
   "1stEditionUnlimited": "bg-[#d9a441]/15 text-[#d9a441] border-[#d9a441]/30",
+  // Its own color, distinct from reverseHolofoil's teal above — see
+  // FINISH_LABELS.cosmosHolo in lib/games/pokemon/mapper.ts for why this is
+  // a separate variantKey rather than a reverseHolofoil display overlay.
+  cosmosHolo: "bg-[#c45b9e]/15 text-[#c45b9e] border-[#c45b9e]/30",
 };
 const DEFAULT_FINISH_COLOR = "bg-surface-elevated text-muted-foreground border-border";
 
