@@ -19,7 +19,7 @@ export const holdingInputSchema = z.object({
   costBasisTotal: z.number().nonnegative(),
   costBasisCurrency: z.enum(SUPPORTED_CURRENCIES),
   priceAtAcquisition: z.number().nonnegative().nullable().optional(),
-  acquiredAt: z.string(),
+  acquiredAt: z.string().nullable(),
   notes: z.string().optional(),
   imageUrl: z.string().optional(),
 });

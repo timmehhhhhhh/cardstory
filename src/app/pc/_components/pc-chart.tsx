@@ -14,7 +14,13 @@ export function PCChart({ rows }: { rows: EnrichedHolding[] }) {
   const currency = usePCStore((s) => s.preferences.currency);
 
   const holdingsPayload = React.useMemo(
-    () => rows.map((r) => ({ catalogItemId: r.catalogItemId, quantity: r.quantity, acquiredAt: r.acquiredAt })),
+    () =>
+      rows.map((r) => ({
+        catalogItemId: r.catalogItemId,
+        quantity: r.quantity,
+        acquiredAt: r.acquiredAt,
+        createdAt: r.createdAt,
+      })),
     [rows]
   );
 

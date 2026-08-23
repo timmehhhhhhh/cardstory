@@ -51,7 +51,14 @@ export interface Holding {
    * or the holding predates this field.
    */
   priceAtAcquisition?: number | null;
-  acquiredAt: string;
+  /**
+   * When the user physically acquired this card — distinct from
+   * `createdAt` below (when the row was added to CardStory). Null unless
+   * the user explicitly set it; never defaulted to "today" on add, since
+   * this is meant to eventually back an acquisition-history feature where
+   * an honestly-empty date matters.
+   */
+  acquiredAt: string | null;
   notes?: string;
   /** Photo of this specific physical card — the owner's own copy, not the shared catalog image. */
   imageUrl?: string;

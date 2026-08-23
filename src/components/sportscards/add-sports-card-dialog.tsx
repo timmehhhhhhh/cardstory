@@ -103,7 +103,8 @@ export function AddSportsCardDialog() {
   const [gradeValue, setGradeValue] = React.useState("10");
   const [rawCondition, setRawCondition] = React.useState<RawCardCondition | "">("");
   const [costBasis, setCostBasis] = React.useState("");
-  const [acquiredAt, setAcquiredAt] = React.useState(() => new Date().toISOString().slice(0, 10));
+  // Empty by default — Date Acquired is only ever set explicitly by the user.
+  const [acquiredAt, setAcquiredAt] = React.useState("");
 
   const pcs = usePCStore((s) => s.pcs);
   const activePCId = usePCStore((s) => s.activePCId);
@@ -191,6 +192,7 @@ export function AddSportsCardDialog() {
     setRawCondition("");
     setCostBasis("");
     setCostBasisCurrency(lastUsedCostBasisCurrency ?? "USD");
+    setAcquiredAt("");
   }
 
   async function handleAdd() {
@@ -224,7 +226,7 @@ export function AddSportsCardDialog() {
       const { id: sportsCardItemId } = (await res.json()) as { id: string };
 
       const priceAtAcquisition = await resolvePriceAtDate({
-        date: acquiredAt,
+        date: acquiredAt || null,
         liveSuggestedPrice: matchedPrice,
         sportsCardItemId,
       });
@@ -246,7 +248,7 @@ export function AddSportsCardDialog() {
         costBasisTotal: Number(costBasis) || 0,
         costBasisCurrency,
         priceAtAcquisition,
-        acquiredAt: new Date(acquiredAt).toISOString(),
+        acquiredAt: acquiredAt ? new Date(acquiredAt).toISOString() : null,
         imageUrl: holdingImageUrl.trim() || undefined,
       });
       setLastUsedCostBasisCurrency(costBasisCurrency);

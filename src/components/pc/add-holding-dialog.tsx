@@ -85,7 +85,9 @@ export function AddHoldingDialog({
   const [rawCondition, setRawCondition] = React.useState<RawCardCondition | "">("");
   const [language, setLanguage] = React.useState<ItemLanguage>(defaultLanguage);
   const [costBasis, setCostBasis] = React.useState(suggestedPrice?.toFixed(2) ?? "");
-  const [acquiredAt, setAcquiredAt] = React.useState(() => new Date().toISOString().slice(0, 10));
+  // Empty by default — Date Acquired is only ever set explicitly by the
+  // user, not silently defaulted to today (see prisma/schema.prisma).
+  const [acquiredAt, setAcquiredAt] = React.useState("");
   const [imageUrl, setImageUrl] = React.useState("");
   const [submitting, setSubmitting] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -121,6 +123,7 @@ export function AddHoldingDialog({
       setLanguage(defaultLanguage);
       setCostBasisCurrency(lastUsedCostBasisCurrency ?? "USD");
       setRawCondition("");
+      setAcquiredAt("");
       setError(null);
     }
   }
@@ -130,7 +133,7 @@ export function AddHoldingDialog({
     setError(null);
     try {
       const priceAtAcquisition = await resolvePriceAtDate({
-        date: acquiredAt,
+        date: acquiredAt || null,
         liveSuggestedPrice: suggestedPrice,
         catalogItemId,
         sportsCardItemId,
@@ -148,7 +151,7 @@ export function AddHoldingDialog({
         costBasisTotal: Number(costBasis) || 0,
         costBasisCurrency,
         priceAtAcquisition,
-        acquiredAt: new Date(acquiredAt).toISOString(),
+        acquiredAt: acquiredAt ? new Date(acquiredAt).toISOString() : null,
         imageUrl: imageUrl.trim() || undefined,
       });
       setLastUsedCostBasisCurrency(costBasisCurrency);

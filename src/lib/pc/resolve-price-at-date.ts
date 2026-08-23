@@ -9,7 +9,9 @@
  * server-side and passed down as a prop), so no network call is made. When
  * `date` is backdated, this fetches the nearest snapshot on/before that
  * date via /api/pricing/at-date. Best-effort: a failed fetch resolves to
- * null rather than blocking the add.
+ * null rather than blocking the add. `date` is null-safe: a holding with no
+ * Date Acquired yet (the empty-by-default case) has nothing to resolve
+ * against, so this returns null immediately without a network call.
  */
 export async function resolvePriceAtDate({
   date,
@@ -17,12 +19,13 @@ export async function resolvePriceAtDate({
   catalogItemId,
   sportsCardItemId,
 }: {
-  /** "YYYY-MM-DD", the value the "Acquired on" field holds. */
-  date: string;
+  /** "YYYY-MM-DD", the value the "Acquired on" field holds, or null when unset. */
+  date: string | null;
   liveSuggestedPrice: number | null;
   catalogItemId?: string;
   sportsCardItemId?: string;
 }): Promise<number | null> {
+  if (!date) return null;
   const today = new Date().toISOString().slice(0, 10);
   if (date === today) return liveSuggestedPrice ?? null;
   if (!catalogItemId && !sportsCardItemId) return null;

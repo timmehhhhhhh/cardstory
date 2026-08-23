@@ -13,7 +13,10 @@ const RANGE_DAYS: Record<PCChartRange, number> = {
 export interface HoldingRef {
   catalogItemId: string;
   quantity: number;
-  acquiredAt: string; // ISO datetime
+  /** ISO datetime, or null when the user hasn't set a Date Acquired yet — see `createdAt` fallback below. */
+  acquiredAt: string | null;
+  /** ISO datetime the holding was added to CardStory — the fallback plotting date when acquiredAt is unset. */
+  createdAt: string;
 }
 
 export interface ValuePoint {
@@ -64,7 +67,10 @@ export async function computePCValueHistory(
     const cutoff = new Date(`${date}T23:59:59.999Z`);
     let total = 0;
     for (const h of holdings) {
-      if (new Date(h.acquiredAt) > cutoff) continue;
+      // A holding with no Date Acquired yet is still plotted, just from the
+      // day it was added to CardStory instead of a physical acquisition date.
+      const plottedFrom = h.acquiredAt ?? h.createdAt;
+      if (new Date(plottedFrom) > cutoff) continue;
       const price = lastKnownPrice.get(h.catalogItemId);
       if (price != null) total += price * h.quantity;
     }

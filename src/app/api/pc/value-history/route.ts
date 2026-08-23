@@ -9,7 +9,8 @@ const bodySchema = z.object({
     z.object({
       catalogItemId: z.string(),
       quantity: z.number(),
-      acquiredAt: z.string(),
+      acquiredAt: z.string().nullable(),
+      createdAt: z.string(),
     })
   ),
   range: z.enum(PC_CHART_RANGES),
