@@ -1,0 +1,1268 @@
+{
+  "gameId": "pokemon",
+  "sourceNote": "Japanese card images from jp.pokellector.com (a fan card database), crawled offline by scripts/crawl-pokemon-jp-pokellector-images.ts. A second JP source alongside pokemon-ja.json (pokemon-card.com), used because pokellector's sets are cheap to enumerate by set rather than requiring a full id-space sweep. Image URLs are hotlinked from the publisher's CDN, never re-hosted. Every entry passed a set-code, catalog-row and card-name match against our catalog.",
+  "verified": false,
+  "generatedAt": "2026-08-23T11:40:06.603Z",
+  "entries": [
+    {
+      "externalId": "ja:S8b-001",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Weedle.S8B.1.41281.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Weedle.S8B.1.41281.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Weedle-Card-1",
+      "sourceName": "ビードル"
+    },
+    {
+      "externalId": "ja:S8b-002",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Kakuna.S8B.2.41282.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Kakuna.S8B.2.41282.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Kakuna-Card-2",
+      "sourceName": "コクーン"
+    },
+    {
+      "externalId": "ja:S8b-003",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Beedrill.S8B.3.41283.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Beedrill.S8B.3.41283.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Beedrill-Card-3",
+      "sourceName": "スピアー"
+    },
+    {
+      "externalId": "ja:S8b-004",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Kricketune-V.S8B.4.41284.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Kricketune-V.S8B.4.41284.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Kricketune-V-Card-4",
+      "sourceName": "コロトックV"
+    },
+    {
+      "externalId": "ja:S8b-005",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Cherubi.S8B.5.41253.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Cherubi.S8B.5.41253.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Cherubi-Card-5",
+      "sourceName": "チェリンボ"
+    },
+    {
+      "externalId": "ja:S8b-006",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Cherrim.S8B.6.41285.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Cherrim.S8B.6.41285.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Cherrim-Card-6",
+      "sourceName": "チェリム"
+    },
+    {
+      "externalId": "ja:S8b-007",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Snover.S8B.7.41286.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Snover.S8B.7.41286.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Snover-Card-7",
+      "sourceName": "ユキカブリ"
+    },
+    {
+      "externalId": "ja:S8b-008",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Abomasnow.S8B.8.41287.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Abomasnow.S8B.8.41287.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Abomasnow-Card-8",
+      "sourceName": "ユキノオー"
+    },
+    {
+      "externalId": "ja:S8b-009",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Blipbug.S8B.9.41288.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Blipbug.S8B.9.41288.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Blipbug-Card-9",
+      "sourceName": "サッチムシ"
+    },
+    {
+      "externalId": "ja:S8b-010",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Orbeetle-V.S8B.10.41289.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Orbeetle-V.S8B.10.41289.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Orbeetle-V-Card-10",
+      "sourceName": "イオルブV"
+    },
+    {
+      "externalId": "ja:S8b-011",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Orbeetle-VMAX.S8B.11.41290.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Orbeetle-VMAX.S8B.11.41290.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Orbeetle-VMAX-Card-11",
+      "sourceName": "イオルブVMAX"
+    },
+    {
+      "externalId": "ja:S8b-012",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Applin.S8B.12.41291.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Applin.S8B.12.41291.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Applin-Card-12",
+      "sourceName": "カジッチュ"
+    },
+    {
+      "externalId": "ja:S8b-013",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Flapple.S8B.13.41292.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Flapple.S8B.13.41292.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Flapple-Card-13",
+      "sourceName": "アップリュー"
+    },
+    {
+      "externalId": "ja:S8b-014",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Zarude.S8B.14.41293.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Zarude.S8B.14.41293.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Zarude-Card-14",
+      "sourceName": "ザルード"
+    },
+    {
+      "externalId": "ja:S8b-015",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Charmander.S8B.15.41294.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Charmander.S8B.15.41294.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Charmander-Card-15",
+      "sourceName": "ヒトカゲ"
+    },
+    {
+      "externalId": "ja:S8b-016",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Charmeleon.S8B.16.41295.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Charmeleon.S8B.16.41295.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Charmeleon-Card-16",
+      "sourceName": "リザード"
+    },
+    {
+      "externalId": "ja:S8b-017",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Charizard.S8B.17.41261.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Charizard.S8B.17.41261.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Charizard-Card-17",
+      "sourceName": "リザードン"
+    },
+    {
+      "externalId": "ja:S8b-018",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Flareon.S8B.18.41296.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Flareon.S8B.18.41296.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Flareon-Card-18",
+      "sourceName": "ブースター"
+    },
+    {
+      "externalId": "ja:S8b-019",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Blaziken-V.S8B.19.40978.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Blaziken-V.S8B.19.40978.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Blaziken-V-Card-19",
+      "sourceName": "バシャーモV"
+    },
+    {
+      "externalId": "ja:S8b-020",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Blaziken-VMAX.S8B.20.41297.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Blaziken-VMAX.S8B.20.41297.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Blaziken-VMAX-Card-20",
+      "sourceName": "バシャーモVMAX"
+    },
+    {
+      "externalId": "ja:S8b-021",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Castform-Sunny-Form.S8B.21.41298.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Castform-Sunny-Form.S8B.21.41298.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Castform-Sunny-Form-Card-21",
+      "sourceName": "ポワルン たいようのすがた"
+    },
+    {
+      "externalId": "ja:S8b-022",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Centiskorch-V.S8B.22.41299.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Centiskorch-V.S8B.22.41299.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Centiskorch-V-Card-22",
+      "sourceName": "マルヤクデV"
+    },
+    {
+      "externalId": "ja:S8b-023",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Centiskorch-VMAX.S8B.23.41300.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Centiskorch-VMAX.S8B.23.41300.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Centiskorch-VMAX-Card-23",
+      "sourceName": "マルヤクデVMAX"
+    },
+    {
+      "externalId": "ja:S8b-024",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Horsea.S8B.24.41301.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Horsea.S8B.24.41301.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Horsea-Card-24",
+      "sourceName": "タッツー"
+    },
+    {
+      "externalId": "ja:S8b-025",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Seadra.S8B.25.41302.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Seadra.S8B.25.41302.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Seadra-Card-25",
+      "sourceName": "シードラ"
+    },
+    {
+      "externalId": "ja:S8b-026",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Kingdra.S8B.26.41303.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Kingdra.S8B.26.41303.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Kingdra-Card-26",
+      "sourceName": "キングドラ"
+    },
+    {
+      "externalId": "ja:S8b-027",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Galarian-Mr-Mime.S8B.27.41304.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Galarian-Mr-Mime.S8B.27.41304.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Galarian-Mr-Mime-Card-27",
+      "sourceName": "ガラル バリヤード"
+    },
+    {
+      "externalId": "ja:S8b-028",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Galarian-Mr-Rime.S8B.28.41305.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Galarian-Mr-Rime.S8B.28.41305.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Galarian-Mr-Rime-Card-28",
+      "sourceName": "ガラル バリコオル"
+    },
+    {
+      "externalId": "ja:S8b-029",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Vaporeon.S8B.29.41306.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Vaporeon.S8B.29.41306.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Vaporeon-Card-29",
+      "sourceName": "シャワーズ"
+    },
+    {
+      "externalId": "ja:S8b-030",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Remoraid.S8B.30.41307.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Remoraid.S8B.30.41307.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Remoraid-Card-30",
+      "sourceName": "テッポウオ"
+    },
+    {
+      "externalId": "ja:S8b-031",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Octillery.S8B.31.40981.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Octillery.S8B.31.40981.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Octillery-Card-31",
+      "sourceName": "オクタン"
+    },
+    {
+      "externalId": "ja:S8b-032",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Castform-Rainy-Form.S8B.32.41308.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Castform-Rainy-Form.S8B.32.41308.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Castform-Rainy-Form-Card-32",
+      "sourceName": "ポワルン あまみずのすがた"
+    },
+    {
+      "externalId": "ja:S8b-033",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Castform-Snowy-Form.S8B.33.41309.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Castform-Snowy-Form.S8B.33.41309.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Castform-Snowy-Form-Card-33",
+      "sourceName": "ポワルン ゆきぐものすがた"
+    },
+    {
+      "externalId": "ja:S8b-034",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Snorunt.S8B.34.41254.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Snorunt.S8B.34.41254.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Snorunt-Card-34",
+      "sourceName": "ユキワラシ"
+    },
+    {
+      "externalId": "ja:S8b-035",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Froslass.S8B.35.41310.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Froslass.S8B.35.41310.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Froslass-Card-35",
+      "sourceName": "ユキメノコ"
+    },
+    {
+      "externalId": "ja:S8b-036",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Sobble.S8B.36.41311.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Sobble.S8B.36.41311.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Sobble-Card-36",
+      "sourceName": "メッソン"
+    },
+    {
+      "externalId": "ja:S8b-037",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Drizzile.S8B.37.41312.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Drizzile.S8B.37.41312.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Drizzile-Card-37",
+      "sourceName": "ジメレオン"
+    },
+    {
+      "externalId": "ja:S8b-038",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Inteleon.S8B.38.41313.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Inteleon.S8B.38.41313.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Inteleon-Card-38",
+      "sourceName": "インテレオン"
+    },
+    {
+      "externalId": "ja:S8b-039",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Snom.S8B.39.41314.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Snom.S8B.39.41314.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Snom-Card-39",
+      "sourceName": "ユキハミ"
+    },
+    {
+      "externalId": "ja:S8b-040",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Frosmoth.S8B.40.41315.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Frosmoth.S8B.40.41315.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Frosmoth-Card-40",
+      "sourceName": "モスノウ"
+    },
+    {
+      "externalId": "ja:S8b-041",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Eiscue.S8B.41.41246.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Eiscue.S8B.41.41246.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Eiscue-Card-41",
+      "sourceName": "コオリッポ"
+    },
+    {
+      "externalId": "ja:S8b-042",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Rapid-Strike-Urshifu.S8B.42.41316.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Rapid-Strike-Urshifu.S8B.42.41316.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Rapid-Strike-Urshifu-Card-42",
+      "sourceName": "れんげきウーラオス"
+    },
+    {
+      "externalId": "ja:S8b-043",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/view-full-Ice-Rider-Calyrex-V.S8B.43.41575.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/view-full-Ice-Rider-Calyrex-V.S8B.43.41575.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Ice-Rider-Calyrex-V-Card-43",
+      "sourceName": "はくばバドレックスV"
+    },
+    {
+      "externalId": "ja:S8b-044",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Ice-Rider-Calyrex-VMAX.S8B.44.40529.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Ice-Rider-Calyrex-VMAX.S8B.44.40529.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Ice-Rider-Calyrex-VMAX-Card-44",
+      "sourceName": "はくばバドレックスVMAX"
+    },
+    {
+      "externalId": "ja:S8b-045",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Pikachu-V.S8B.45.41317.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Pikachu-V.S8B.45.41317.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Pikachu-V-Card-45",
+      "sourceName": "ピカチュウV"
+    },
+    {
+      "externalId": "ja:S8b-046",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Pikachu-VMAX.S8B.46.40530.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Pikachu-VMAX.S8B.46.40530.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Pikachu-VMAX-Card-46",
+      "sourceName": "ピカチュウVMAX"
+    },
+    {
+      "externalId": "ja:S8b-047",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Voltorb.S8B.47.41318.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Voltorb.S8B.47.41318.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Voltorb-Card-47",
+      "sourceName": "ビリリダマ"
+    },
+    {
+      "externalId": "ja:S8b-048",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Electrode.S8B.48.41319.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Electrode.S8B.48.41319.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Electrode-Card-48",
+      "sourceName": "マルマイン"
+    },
+    {
+      "externalId": "ja:S8b-049",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Jolteon.S8B.49.41320.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Jolteon.S8B.49.41320.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Jolteon-Card-49",
+      "sourceName": "サンダース"
+    },
+    {
+      "externalId": "ja:S8b-050",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Zapdos.S8B.50.41321.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Zapdos.S8B.50.41321.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Zapdos-Card-50",
+      "sourceName": "サンダー"
+    },
+    {
+      "externalId": "ja:S8b-051",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Mareep.S8B.51.41322.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Mareep.S8B.51.41322.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Mareep-Card-51",
+      "sourceName": "メリープ"
+    },
+    {
+      "externalId": "ja:S8b-052",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Flaafy.S8B.52.40525.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Flaafy.S8B.52.40525.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Flaafy-Card-52",
+      "sourceName": "モココ"
+    },
+    {
+      "externalId": "ja:S8b-053",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Zekrom.S8B.53.40526.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Zekrom.S8B.53.40526.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Zekrom-Card-53",
+      "sourceName": "ゼクロム"
+    },
+    {
+      "externalId": "ja:S8b-054",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Zeraora-V.S8B.54.41323.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Zeraora-V.S8B.54.41323.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Zeraora-V-Card-54",
+      "sourceName": "ゼラオラV"
+    },
+    {
+      "externalId": "ja:S8b-055",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Boltund-V.S8B.55.41324.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Boltund-V.S8B.55.41324.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Boltund-V-Card-55",
+      "sourceName": "パルスワンV"
+    },
+    {
+      "externalId": "ja:S8b-056",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Morpeko-V-UNION.S8B.56.41249.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Morpeko-V-UNION.S8B.56.41249.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Morpeko-V-UNION-Card-56",
+      "sourceName": "モルペコV-UNION"
+    },
+    {
+      "externalId": "ja:S8b-060",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Galarian-Articuno-V.S8B.60.41325.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Galarian-Articuno-V.S8B.60.41325.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Galarian-Articuno-V-Card-60",
+      "sourceName": "ガラル フリーザーV"
+    },
+    {
+      "externalId": "ja:S8b-061",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Ralts.S8B.61.41326.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Ralts.S8B.61.41326.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Ralts-Card-61",
+      "sourceName": "ラルトス"
+    },
+    {
+      "externalId": "ja:S8b-062",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Kirlia.S8B.62.41327.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Kirlia.S8B.62.41327.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Kirlia-Card-62",
+      "sourceName": "キルリア"
+    },
+    {
+      "externalId": "ja:S8b-063",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Gardevoir.S8B.63.40527.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Gardevoir.S8B.63.40527.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Gardevoir-Card-63",
+      "sourceName": "サーナイト"
+    },
+    {
+      "externalId": "ja:S8b-064",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Shuppet.S8B.64.41328.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Shuppet.S8B.64.41328.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Shuppet-Card-64",
+      "sourceName": "カゲボウズ"
+    },
+    {
+      "externalId": "ja:S8b-065",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Banette.S8B.65.41329.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Banette.S8B.65.41329.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Banette-Card-65",
+      "sourceName": "ジュペッタ"
+    },
+    {
+      "externalId": "ja:S8b-066",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Duskull.S8B.66.41330.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Duskull.S8B.66.41330.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Duskull-Card-66",
+      "sourceName": "ヨマワル"
+    },
+    {
+      "externalId": "ja:S8b-067",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Dusclops.S8B.67.41331.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Dusclops.S8B.67.41331.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Dusclops-Card-67",
+      "sourceName": "サマヨール"
+    },
+    {
+      "externalId": "ja:S8b-068",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Dusknoir.S8B.68.40982.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Dusknoir.S8B.68.40982.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Dusknoir-Card-68",
+      "sourceName": "ヨノワール"
+    },
+    {
+      "externalId": "ja:S8b-069",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Cresselia.S8B.69.41332.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Cresselia.S8B.69.41332.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Cresselia-Card-69",
+      "sourceName": "クレセリア"
+    },
+    {
+      "externalId": "ja:S8b-070",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Sigilyph.S8B.70.41333.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Sigilyph.S8B.70.41333.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Sigilyph-Card-70",
+      "sourceName": "シンボラー"
+    },
+    {
+      "externalId": "ja:S8b-071",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Inkay.S8B.71.41334.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Inkay.S8B.71.41334.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Inkay-Card-71",
+      "sourceName": "マーイーカ"
+    },
+    {
+      "externalId": "ja:S8b-072",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Malamar.S8B.72.41335.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Malamar.S8B.72.41335.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Malamar-Card-72",
+      "sourceName": "カラマネロ"
+    },
+    {
+      "externalId": "ja:S8b-073",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Dedenne.S8B.73.41247.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Dedenne.S8B.73.41247.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Dedenne-Card-73",
+      "sourceName": "デデンネ"
+    },
+    {
+      "externalId": "ja:S8b-074",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Sylveon-V.S8B.74.41336.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Sylveon-V.S8B.74.41336.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Sylveon-V-Card-74",
+      "sourceName": "ニンフィアV"
+    },
+    {
+      "externalId": "ja:S8b-075",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Sylveon-VMAX.S8B.75.41337.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Sylveon-VMAX.S8B.75.41337.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Sylveon-VMAX-Card-75",
+      "sourceName": "ニンフィアVMAX"
+    },
+    {
+      "externalId": "ja:S8b-076",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Mimikyu-V.S8B.76.41338.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Mimikyu-V.S8B.76.41338.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Mimikyu-V-Card-76",
+      "sourceName": "ミミッキュV"
+    },
+    {
+      "externalId": "ja:S8b-077",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Mimikyu-VMAX.S8B.77.41243.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Mimikyu-VMAX.S8B.77.41243.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Mimikyu-VMAX-Card-77",
+      "sourceName": "ミミッキュVMAX"
+    },
+    {
+      "externalId": "ja:S8b-078",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Dottler.S8B.78.41339.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Dottler.S8B.78.41339.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Dottler-Card-78",
+      "sourceName": "レドームシ"
+    },
+    {
+      "externalId": "ja:S8b-079",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Orbeetle.S8B.79.41340.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Orbeetle.S8B.79.41340.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Orbeetle-Card-79",
+      "sourceName": "イオルブ"
+    },
+    {
+      "externalId": "ja:S8b-080",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Milcery.S8B.80.41341.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Milcery.S8B.80.41341.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Milcery-Card-80",
+      "sourceName": "マホミル"
+    },
+    {
+      "externalId": "ja:S8b-081",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Alcremie.S8B.81.40969.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Alcremie.S8B.81.40969.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Alcremie-Card-81",
+      "sourceName": "マホイップ"
+    },
+    {
+      "externalId": "ja:S8b-082",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Shadow-Rider-Calyrex-V.S8B.82.41342.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Shadow-Rider-Calyrex-V.S8B.82.41342.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Shadow-Rider-Calyrex-V-Card-82",
+      "sourceName": "こくばバドレックスV"
+    },
+    {
+      "externalId": "ja:S8b-083",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Shadow-Rider-Calyrex-VMAX.S8B.83.40531.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Shadow-Rider-Calyrex-VMAX.S8B.83.40531.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Shadow-Rider-Calyrex-VMAX-Card-83",
+      "sourceName": "こくばバドレックスVMAX"
+    },
+    {
+      "externalId": "ja:S8b-084",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Galarian-Zapdos-V.S8B.84.41343.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Galarian-Zapdos-V.S8B.84.41343.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Galarian-Zapdos-V-Card-84",
+      "sourceName": "ガラル サンダーV"
+    },
+    {
+      "externalId": "ja:S8b-085",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Gallade.S8B.85.41344.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Gallade.S8B.85.41344.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Gallade-Card-85",
+      "sourceName": "エルレイド"
+    },
+    {
+      "externalId": "ja:S8b-086",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Rockruff.S8B.86.41345.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Rockruff.S8B.86.41345.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Rockruff-Card-86",
+      "sourceName": "イワンコ"
+    },
+    {
+      "externalId": "ja:S8b-087",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Lycanroc.S8B.87.41346.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Lycanroc.S8B.87.41346.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Lycanroc-Card-87",
+      "sourceName": "ルガルガン"
+    },
+    {
+      "externalId": "ja:S8b-088",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Passimian.S8B.88.41264.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Passimian.S8B.88.41264.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Passimian-Card-88",
+      "sourceName": "ナゲツケサル"
+    },
+    {
+      "externalId": "ja:S8b-089",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Falinks.S8B.89.41347.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Falinks.S8B.89.41347.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Falinks-Card-89",
+      "sourceName": "タイレーツ"
+    },
+    {
+      "externalId": "ja:S8b-090",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Stonjourner.S8B.90.41348.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Stonjourner.S8B.90.41348.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Stonjourner-Card-90",
+      "sourceName": "イシヘンジン"
+    },
+    {
+      "externalId": "ja:S8b-091",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Kubfu.S8B.91.41349.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Kubfu.S8B.91.41349.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Kubfu-Card-91",
+      "sourceName": "ダクマ"
+    },
+    {
+      "externalId": "ja:S8b-092",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Single-Strike-Urshifu-V.S8B.92.41350.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Single-Strike-Urshifu-V.S8B.92.41350.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Single-Strike-Urshifu-V-Card-92",
+      "sourceName": "いちげきウーラオスV"
+    },
+    {
+      "externalId": "ja:S8b-093",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Single-Strike-Urshifu-VMAX.S8B.93.40532.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Single-Strike-Urshifu-VMAX.S8B.93.40532.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Single-Strike-Urshifu-VMAX-Card-93",
+      "sourceName": "いちげきウーラオスVMAX"
+    },
+    {
+      "externalId": "ja:S8b-094",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Rapid-Strike-Urshifu-V.S8B.94.41351.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Rapid-Strike-Urshifu-V.S8B.94.41351.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Rapid-Strike-Urshifu-V-Card-94",
+      "sourceName": "れんげきウーラオスV"
+    },
+    {
+      "externalId": "ja:S8b-095",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Rapid-Strike-Urshifu-VMAX.S8B.95.40533.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Rapid-Strike-Urshifu-VMAX.S8B.95.40533.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Rapid-Strike-Urshifu-VMAX-Card-95",
+      "sourceName": "れんげきウーラオスVMAX"
+    },
+    {
+      "externalId": "ja:S8b-096",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Galarian-Moltres-V.S8B.96.41352.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Galarian-Moltres-V.S8B.96.41352.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Galarian-Moltres-V-Card-96",
+      "sourceName": "ガラル ファイヤーV"
+    },
+    {
+      "externalId": "ja:S8b-097",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Spinarak.S8B.97.41353.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Spinarak.S8B.97.41353.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Spinarak-Card-97",
+      "sourceName": "イトマル"
+    },
+    {
+      "externalId": "ja:S8b-098",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Ariados.S8B.98.40983.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Ariados.S8B.98.40983.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Ariados-Card-98",
+      "sourceName": "アリアドス"
+    },
+    {
+      "externalId": "ja:S8b-099",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Crobat-V.S8B.99.41354.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Crobat-V.S8B.99.41354.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Crobat-V-Card-99",
+      "sourceName": "クロバットV"
+    },
+    {
+      "externalId": "ja:S8b-100",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Umbreon-V.S8B.100.41355.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Umbreon-V.S8B.100.41355.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Umbreon-V-Card-100",
+      "sourceName": "ブラッキーV"
+    },
+    {
+      "externalId": "ja:S8b-101",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Umbreon-VMAX.S8B.101.41356.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Umbreon-VMAX.S8B.101.41356.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Umbreon-VMAX-Card-101",
+      "sourceName": "ブラッキーVMAX"
+    },
+    {
+      "externalId": "ja:S8b-102",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Houndour.S8B.102.41357.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Houndour.S8B.102.41357.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Houndour-Card-102",
+      "sourceName": "デルビル"
+    },
+    {
+      "externalId": "ja:S8b-103",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Houndoom.S8B.103.41358.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Houndoom.S8B.103.41358.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Houndoom-Card-103",
+      "sourceName": "ヘルガー"
+    },
+    {
+      "externalId": "ja:S8b-104",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Galarian-Zigzagoon.S8B.104.41359.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Galarian-Zigzagoon.S8B.104.41359.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Galarian-Zigzagoon-Card-104",
+      "sourceName": "ガラル ジグザグマ"
+    },
+    {
+      "externalId": "ja:S8b-105",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Galarian-Linoone.S8B.105.41360.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Galarian-Linoone.S8B.105.41360.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Galarian-Linoone-Card-105",
+      "sourceName": "ガラル マッスグマ"
+    },
+    {
+      "externalId": "ja:S8b-106",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Galarian-Obstagoon.S8B.106.41361.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Galarian-Obstagoon.S8B.106.41361.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Galarian-Obstagoon-Card-106",
+      "sourceName": "ガラル タチフサグマ"
+    },
+    {
+      "externalId": "ja:S8b-107",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Spiritomb.S8B.107.41362.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Spiritomb.S8B.107.41362.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Spiritomb-Card-107",
+      "sourceName": "ミカルゲ"
+    },
+    {
+      "externalId": "ja:S8b-108",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Hoopa.S8B.108.41363.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Hoopa.S8B.108.41363.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Hoopa-Card-108",
+      "sourceName": "フーパ"
+    },
+    {
+      "externalId": "ja:S8b-109",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Eternatus-V.S8B.109.41364.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Eternatus-V.S8B.109.41364.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Eternatus-V-Card-109",
+      "sourceName": "ムゲンダイナV"
+    },
+    {
+      "externalId": "ja:S8b-110",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Eternatus-VMAX.S8B.110.41365.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Eternatus-VMAX.S8B.110.41365.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Eternatus-VMAX-Card-110",
+      "sourceName": "ムゲンダイナVMAX"
+    },
+    {
+      "externalId": "ja:S8b-111",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Single-Strike-Urshifu.S8B.111.41366.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Single-Strike-Urshifu.S8B.111.41366.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Single-Strike-Urshifu-Card-111",
+      "sourceName": "いちげきウーラオス"
+    },
+    {
+      "externalId": "ja:S8b-112",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Bronzor.S8B.112.41367.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Bronzor.S8B.112.41367.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Bronzor-Card-112",
+      "sourceName": "ドーミラー"
+    },
+    {
+      "externalId": "ja:S8b-113",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Bronzong.S8B.113.41368.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Bronzong.S8B.113.41368.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Bronzong-Card-113",
+      "sourceName": "ドータクン"
+    },
+    {
+      "externalId": "ja:S8b-114",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Cobalion.S8B.114.41369.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Cobalion.S8B.114.41369.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Cobalion-Card-114",
+      "sourceName": "コバルオン"
+    },
+    {
+      "externalId": "ja:S8b-115",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Corviknight-V.S8B.115.41370.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Corviknight-V.S8B.115.41370.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Corviknight-V-Card-115",
+      "sourceName": "アーマーガアV"
+    },
+    {
+      "externalId": "ja:S8b-116",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Corviknight-VMAX.S8B.116.41267.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Corviknight-VMAX.S8B.116.41267.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Corviknight-VMAX-Card-116",
+      "sourceName": "アーマーガアVMAX"
+    },
+    {
+      "externalId": "ja:S8b-117",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Zacian-V.S8B.117.41371.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Zacian-V.S8B.117.41371.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Zacian-V-Card-117",
+      "sourceName": "ザシアンV"
+    },
+    {
+      "externalId": "ja:S8b-118",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Zamazenta-V.S8B.118.40979.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Zamazenta-V.S8B.118.40979.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Zamazenta-V-Card-118",
+      "sourceName": "ザマゼンタV"
+    },
+    {
+      "externalId": "ja:S8b-119",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Rayquaza-V.S8B.119.41372.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Rayquaza-V.S8B.119.41372.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Rayquaza-V-Card-119",
+      "sourceName": "レックウザV"
+    },
+    {
+      "externalId": "ja:S8b-120",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Rayquaza-VMAX.S8B.120.40534.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Rayquaza-VMAX.S8B.120.40534.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Rayquaza-VMAX-Card-120",
+      "sourceName": "レックウザVMAX"
+    },
+    {
+      "externalId": "ja:S8b-121",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Druddigon.S8B.121.41248.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Druddigon.S8B.121.41248.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Druddigon-Card-121",
+      "sourceName": "クリムガン"
+    },
+    {
+      "externalId": "ja:S8b-122",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Duraludon-V.S8B.122.41373.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Duraludon-V.S8B.122.41373.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Duraludon-V-Card-122",
+      "sourceName": "ジュラルドンV"
+    },
+    {
+      "externalId": "ja:S8b-123",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Daruladon-VMAX.S8B.123.40535.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Daruladon-VMAX.S8B.123.40535.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Daruladon-VMAX-Card-123",
+      "sourceName": "ジュラルドンVMAX"
+    },
+    {
+      "externalId": "ja:S8b-124",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Tauros.S8B.124.41374.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Tauros.S8B.124.41374.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Tauros-Card-124",
+      "sourceName": "ケンタロス"
+    },
+    {
+      "externalId": "ja:S8b-125",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Eevee.S8B.125.40528.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Eevee.S8B.125.40528.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Eevee-Card-125",
+      "sourceName": "イーブイ"
+    },
+    {
+      "externalId": "ja:S8b-126",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Snorlax.S8B.126.41266.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Snorlax.S8B.126.41266.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Snorlax-Card-126",
+      "sourceName": "カビゴン"
+    },
+    {
+      "externalId": "ja:S8b-127",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Blissey-V.S8B.127.40980.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Blissey-V.S8B.127.40980.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Blissey-V-Card-127",
+      "sourceName": "ハピナスV"
+    },
+    {
+      "externalId": "ja:S8b-128",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Castform.S8B.128.41375.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Castform.S8B.128.41375.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Castform-Card-128",
+      "sourceName": "ポワルン"
+    },
+    {
+      "externalId": "ja:S8b-129",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Oranguru.S8B.129.40984.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Oranguru.S8B.129.40984.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Oranguru-Card-129",
+      "sourceName": "ヤレユータン"
+    },
+    {
+      "externalId": "ja:S8b-130",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Escape-Rope.S8B.130.41376.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Escape-Rope.S8B.130.41376.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Escape-Rope-Card-130",
+      "sourceName": "あなぬけのヒモ"
+    },
+    {
+      "externalId": "ja:S8b-131",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Fan-of-Waves.S8B.131.41377.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Fan-of-Waves.S8B.131.41377.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Fan-of-Waves-Card-131",
+      "sourceName": "うねりの扇"
+    },
+    {
+      "externalId": "ja:S8b-132",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Welcoming-Lantern.S8B.132.41378.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Welcoming-Lantern.S8B.132.41378.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Welcoming-Lantern-Card-132",
+      "sourceName": "おむかえちょうちん"
+    },
+    {
+      "externalId": "ja:S8b-133",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Scoop-Up-Net.S8B.133.41379.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Scoop-Up-Net.S8B.133.41379.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Scoop-Up-Net-Card-133",
+      "sourceName": "回収ネット"
+    },
+    {
+      "externalId": "ja:S8b-134",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Urn-of-Vitality.S8B.134.41380.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Urn-of-Vitality.S8B.134.41380.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Urn-of-Vitality-Card-134",
+      "sourceName": "活力の壺"
+    },
+    {
+      "externalId": "ja:S8b-135",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Fog-Crystal.S8B.135.40539.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Fog-Crystal.S8B.135.40539.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Fog-Crystal-Card-135",
+      "sourceName": "霧の水晶"
+    },
+    {
+      "externalId": "ja:S8b-136",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Turbo-Patch.S8B.136.41381.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Turbo-Patch.S8B.136.41381.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Turbo-Patch-Card-136",
+      "sourceName": "ターボパッチ"
+    },
+    {
+      "externalId": "ja:S8b-137",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Capacious-Bucket.S8B.137.41382.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Capacious-Bucket.S8B.137.41382.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Capacious-Bucket-Card-137",
+      "sourceName": "たっぷりバケツ"
+    },
+    {
+      "externalId": "ja:S8b-138",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Tool-Scrapper.S8B.138.41383.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Tool-Scrapper.S8B.138.41383.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Tool-Scrapper-Card-138",
+      "sourceName": "ツールスクラッパー"
+    },
+    {
+      "externalId": "ja:S8b-139",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Ordinary-Rod.S8B.139.41384.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Ordinary-Rod.S8B.139.41384.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Ordinary-Rod-Card-139",
+      "sourceName": "ふつうのつりざお"
+    },
+    {
+      "externalId": "ja:S8b-140",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Echoing-Horn.S8B.140.41385.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Echoing-Horn.S8B.140.41385.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Echoing-Horn-Card-140",
+      "sourceName": "やまびこホーン"
+    },
+    {
+      "externalId": "ja:S8b-141",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Level-Ball.S8B.141.40536.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Level-Ball.S8B.141.40536.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Level-Ball-Card-141",
+      "sourceName": "レベルボール"
+    },
+    {
+      "externalId": "ja:S8b-142",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Anti-Hex-Gloves.S8B.142.41269.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Anti-Hex-Gloves.S8B.142.41269.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Anti-Hex-Gloves-Card-142",
+      "sourceName": "おはらいグローブ"
+    },
+    {
+      "externalId": "ja:S8b-143",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Cape-of-Toughness.S8B.143.41386.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Cape-of-Toughness.S8B.143.41386.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Cape-of-Toughness-Card-143",
+      "sourceName": "タフネスマント"
+    },
+    {
+      "externalId": "ja:S8b-144",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Hunter-Gloves.S8B.144.41268.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Hunter-Gloves.S8B.144.41268.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Hunter-Gloves-Card-144",
+      "sourceName": "ハンターグローブ"
+    },
+    {
+      "externalId": "ja:S8b-145",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Air-Balloon.S8B.145.41387.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Air-Balloon.S8B.145.41387.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Air-Balloon-Card-145",
+      "sourceName": "ふうせん"
+    },
+    {
+      "externalId": "ja:S8b-146",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Telescopic-Sight.S8B.146.41388.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Telescopic-Sight.S8B.146.41388.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Telescopic-Sight-Card-146",
+      "sourceName": "望遠スコープ"
+    },
+    {
+      "externalId": "ja:S8b-147",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Memory-Capsule.S8B.147.41389.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Memory-Capsule.S8B.147.41389.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Memory-Capsule-Card-147",
+      "sourceName": "メモリーカプセル"
+    },
+    {
+      "externalId": "ja:S8b-148",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Acerolas-Intuition.S8B.148.41244.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Acerolas-Intuition.S8B.148.41244.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Acerolas-Intuition-Card-148",
+      "sourceName": "アセロラの予感"
+    },
+    {
+      "externalId": "ja:S8b-149",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Galar-Friends.S8B.149.41270.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Galar-Friends.S8B.149.41270.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Galar-Friends-Card-149",
+      "sourceName": "ガラルの仲間たち"
+    },
+    {
+      "externalId": "ja:S8b-150",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Raihan.S8B.150.41390.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Raihan.S8B.150.41390.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Raihan-Card-150",
+      "sourceName": "キバナ"
+    },
+    {
+      "externalId": "ja:S8b-151",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Klara.S8B.151.41391.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Klara.S8B.151.41391.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Klara-Card-151",
+      "sourceName": "クララ"
+    },
+    {
+      "externalId": "ja:S8b-152",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Korrinas-Focus.S8B.152.41392.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Korrinas-Focus.S8B.152.41392.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Korrinas-Focus-Card-152",
+      "sourceName": "コルニの気合い"
+    },
+    {
+      "externalId": "ja:S8b-153",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Bruno.S8B.153.41393.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Bruno.S8B.153.41393.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Bruno-Card-153",
+      "sourceName": "シバ"
+    },
+    {
+      "externalId": "ja:S8b-154",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Leon.S8B.154.41394.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Leon.S8B.154.41394.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Leon-Card-154",
+      "sourceName": "ダンデ"
+    },
+    {
+      "externalId": "ja:S8b-155",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Bird-Keeper.S8B.155.41395.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Bird-Keeper.S8B.155.41395.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Bird-Keeper-Card-155",
+      "sourceName": "とりつかい"
+    },
+    {
+      "externalId": "ja:S8b-156",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Peony.S8B.156.41396.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Peony.S8B.156.41396.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Peony-Card-156",
+      "sourceName": "ピオニー"
+    },
+    {
+      "externalId": "ja:S8b-157",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Adventurers-Discovery.S8B.157.40537.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Adventurers-Discovery.S8B.157.40537.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Adventurers-Discovery-Card-157",
+      "sourceName": "冒険家の発見"
+    },
+    {
+      "externalId": "ja:S8b-159",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Caf-Master.S8B.159.40672.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Caf-Master.S8B.159.40672.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Caf-Master-Card-159",
+      "sourceName": "マスター"
+    },
+    {
+      "externalId": "ja:S8b-160",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Marnie.S8B.160.41398.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Marnie.S8B.160.41398.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Marnie-Card-160",
+      "sourceName": "マリィ"
+    },
+    {
+      "externalId": "ja:S8b-161",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Melony.S8B.161.41399.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Melony.S8B.161.41399.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Melony-Card-161",
+      "sourceName": "メロン"
+    },
+    {
+      "externalId": "ja:S8b-162",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Cheryl.S8B.162.41400.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Cheryl.S8B.162.41400.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Cheryl-Card-162",
+      "sourceName": "モミ"
+    },
+    {
+      "externalId": "ja:S8b-163",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Gloria.S8B.163.41245.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Gloria.S8B.163.41245.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Gloria-Card-163",
+      "sourceName": "ユウリ"
+    },
+    {
+      "externalId": "ja:S8b-164",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Nessa.S8B.164.41401.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Nessa.S8B.164.41401.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Nessa-Card-164",
+      "sourceName": "ルリナ"
+    },
+    {
+      "externalId": "ja:S8b-165",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Rose.S8B.165.41402.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Rose.S8B.165.41402.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Rose-Card-165",
+      "sourceName": "ローズ"
+    },
+    {
+      "externalId": "ja:S8b-166",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Tower-of-Darkness.S8B.166.41403.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Tower-of-Darkness.S8B.166.41403.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Tower-of-Darkness-Card-166",
+      "sourceName": "あくの塔"
+    },
+    {
+      "externalId": "ja:S8b-167",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Path-to-the-Peak.S8B.167.40538.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Path-to-the-Peak.S8B.167.40538.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Path-to-the-Peak-Card-167",
+      "sourceName": "頂への雪道"
+    },
+    {
+      "externalId": "ja:S8b-168",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Old-Cemetery.S8B.168.41404.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Old-Cemetery.S8B.168.41404.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Old-Cemetery-Card-168",
+      "sourceName": "いにしえの墓地"
+    },
+    {
+      "externalId": "ja:S8b-169",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Turffield-Stadium.S8B.169.41405.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Turffield-Stadium.S8B.169.41405.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Turffield-Stadium-Card-169",
+      "sourceName": "ターフスタジアム"
+    },
+    {
+      "externalId": "ja:S8b-170",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Tower-of-Waters.S8B.170.41406.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Tower-of-Waters.S8B.170.41406.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Tower-of-Waters-Card-170",
+      "sourceName": "みずの塔"
+    },
+    {
+      "externalId": "ja:S8b-171",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Aromatic-Energy.S8B.171.41407.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Aromatic-Energy.S8B.171.41407.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Aromatic-Energy-Card-171",
+      "sourceName": "アロマ草エネルギー"
+    },
+    {
+      "externalId": "ja:S8b-172",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Heat-Energy.S8B.172.41408.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Heat-Energy.S8B.172.41408.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Heat-Energy-Card-172",
+      "sourceName": "ヒート炎エネルギー"
+    },
+    {
+      "externalId": "ja:S8b-173",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Wash-Energy.S8B.173.41409.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Wash-Energy.S8B.173.41409.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Wash-Energy-Card-173",
+      "sourceName": "ウォッシュ水エネルギー"
+    },
+    {
+      "externalId": "ja:S8b-174",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Speed-Energy.S8B.174.41410.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Speed-Energy.S8B.174.41410.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Speed-Energy-Card-174",
+      "sourceName": "スピード雷エネルギー"
+    },
+    {
+      "externalId": "ja:S8b-175",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Horror-Energy.S8B.175.41411.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Horror-Energy.S8B.175.41411.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Horror-Energy-Card-175",
+      "sourceName": "ホラー超エネルギー"
+    },
+    {
+      "externalId": "ja:S8b-176",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Stone-Energy.S8B.176.41412.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Stone-Energy.S8B.176.41412.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Stone-Energy-Card-176",
+      "sourceName": "ストーン闘エネルギー"
+    },
+    {
+      "externalId": "ja:S8b-177",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Hiding-Energy.S8B.177.41413.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Hiding-Energy.S8B.177.41413.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Hiding-Energy-Card-177",
+      "sourceName": "ハイド悪エネルギー"
+    },
+    {
+      "externalId": "ja:S8b-178",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Coating-Energy.S8B.178.41414.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Coating-Energy.S8B.178.41414.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Coating-Energy-Card-178",
+      "sourceName": "コーティング鋼エネルギー"
+    },
+    {
+      "externalId": "ja:S8b-179",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Powerful-Energy.S8B.179.41415.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Powerful-Energy.S8B.179.41415.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Powerful-Energy-Card-179",
+      "sourceName": "パワフル無色エネルギー"
+    },
+    {
+      "externalId": "ja:S8b-180",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Single-Strike-Energy.S8B.180.41416.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Single-Strike-Energy.S8B.180.41416.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Single-Strike-Energy-Card-180",
+      "sourceName": "いちげきエネルギー"
+    },
+    {
+      "externalId": "ja:S8b-181",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Aurora-Energy.S8B.181.41417.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Aurora-Energy.S8B.181.41417.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Aurora-Energy-Card-181",
+      "sourceName": "オーロラエネルギー"
+    },
+    {
+      "externalId": "ja:S8b-182",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Capture-Energy.S8B.182.41418.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Capture-Energy.S8B.182.41418.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Capture-Energy-Card-182",
+      "sourceName": "キャプチャーエネルギー"
+    },
+    {
+      "externalId": "ja:S8b-183",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Twin-Energy.S8B.183.41419.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Twin-Energy.S8B.183.41419.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Twin-Energy-Card-183",
+      "sourceName": "ツインエネルギー"
+    },
+    {
+      "externalId": "ja:S8b-184",
+      "imageSmallUrl": "https://den-cards.pokellector.com/338/Rapid-Strike-Energy.S8B.184.41420.thumb.png",
+      "imageLargeUrl": "https://den-cards.pokellector.com/338/Rapid-Strike-Energy.S8B.184.41420.png",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/Rapid-Strike-Energy-Card-184",
+      "sourceName": "れんげきエネルギー"
+    }
+  ]
+}
