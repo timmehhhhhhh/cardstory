@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import {
   getDistinctCardTypes,
+  getDistinctDomains,
   getDistinctRarities,
   getDistinctVariants,
   searchCatalog,
@@ -18,7 +19,7 @@ export default async function ExplorePage({
   const sp = await searchParams;
   const filters = filtersFromSearchParams(sp);
 
-  const [initialData, cardTypeGroups, rarityOptions, variantGroups] = await Promise.all([
+  const [initialData, cardTypeGroups, rarityOptions, domainOptions, variantGroups] = await Promise.all([
     searchCatalog({
       q: filters.q || undefined,
       gameId: filters.game !== "all" ? filters.game : undefined,
@@ -26,6 +27,7 @@ export default async function ExplorePage({
       productType: filters.type !== "all" ? filters.type : undefined,
       cardType: filters.cardType !== "all" ? filters.cardType : undefined,
       rarity: filters.rarity !== "all" ? filters.rarity : undefined,
+      domain: filters.domain !== "all" ? filters.domain : undefined,
       variant: filters.variant !== "all" ? filters.variant : undefined,
       language: filters.language !== "all" ? filters.language : undefined,
       baseOnly: filters.baseOnly,
@@ -34,6 +36,7 @@ export default async function ExplorePage({
     }),
     getDistinctCardTypes(filters.game !== "all" ? filters.game : undefined),
     getDistinctRarities(filters.game !== "all" ? filters.game : undefined),
+    getDistinctDomains(filters.game !== "all" ? filters.game : undefined),
     getDistinctVariants(filters.game !== "all" ? filters.game : undefined),
   ]);
 
@@ -43,6 +46,7 @@ export default async function ExplorePage({
       initialData={initialData}
       cardTypeGroups={cardTypeGroups}
       rarityOptions={rarityOptions}
+      domainOptions={domainOptions}
       variantGroups={variantGroups}
     />
   );

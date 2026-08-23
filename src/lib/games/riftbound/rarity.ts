@@ -12,3 +12,14 @@
  * known tiers, same defensive posture as cardTypeLabel()'s doc comment.
  */
 export const RIFTBOUND_RARITY_ORDER = ["Common", "Uncommon", "Rare", "Epic", "Showcase", "Promo"];
+
+/**
+ * Display-only relabeling — the community/official term for the API's
+ * "Showcase" tier is "Alternate Art" (special alternate-artwork printings,
+ * e.g. "120a/221" — see numbering.ts). The stored/filtered/sorted value
+ * stays "Showcase" everywhere (RIFTBOUND_RARITY_ORDER, DB rows, URL params);
+ * only user-facing text (RarityBadge, sidebar filter labels) reads this map.
+ */
+export const RIFTBOUND_RARITY_LABEL: Record<string, string> = {
+  Showcase: "Alternate Art",
+};

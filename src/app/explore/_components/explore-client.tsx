@@ -33,12 +33,14 @@ export function ExploreClient({
   initialData,
   cardTypeGroups,
   rarityOptions,
+  domainOptions,
   variantGroups,
 }: {
   initialFilters: ExploreFilters;
   initialData: SearchResponse;
   cardTypeGroups: CardTypeGroup[];
   rarityOptions: string[];
+  domainOptions: string[];
   variantGroups: VariantGroup[];
 }) {
   const router = useRouter();
@@ -72,6 +74,21 @@ export function ExploreClient({
     placeholderData: (prev) => prev,
   });
   const resolvedRarityOptions = rarityQuery.data ?? rarityOptions;
+
+  const domainQuery = useQuery<string[]>({
+    queryKey: ["catalog-domains", filters.game],
+    queryFn: async () => {
+      const sp = new URLSearchParams();
+      if (filters.game !== "all") sp.set("game", filters.game);
+      const res = await fetch(`/api/catalog/domains?${sp.toString()}`);
+      if (!res.ok) throw new Error("Failed to load domains");
+      const json = (await res.json()) as { domains: string[] };
+      return json.domains;
+    },
+    initialData: filters.game === initialFilters.game ? domainOptions : undefined,
+    placeholderData: (prev) => prev,
+  });
+  const resolvedDomainOptions = domainQuery.data ?? domainOptions;
 
   const cardTypeQuery = useQuery<CardTypeGroup[]>({
     queryKey: ["catalog-card-types", filters.game],
@@ -134,6 +151,7 @@ export function ExploreClient({
     filters.type === initialFilters.type &&
     filters.cardType === initialFilters.cardType &&
     filters.rarity === initialFilters.rarity &&
+    filters.domain === initialFilters.domain &&
     filters.variant === initialFilters.variant &&
     filters.language === initialFilters.language &&
     filters.baseOnly === initialFilters.baseOnly &&
@@ -182,6 +200,7 @@ export function ExploreClient({
           onChange={updateFilters}
           cardTypeGroups={resolvedCardTypeGroups}
           rarityOptions={resolvedRarityOptions}
+          domainOptions={resolvedDomainOptions}
           variantGroups={resolvedVariantGroups}
         />
       </div>

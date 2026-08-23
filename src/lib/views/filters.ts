@@ -20,6 +20,7 @@ export function viewFiltersToSearchParams(f: ViewFilters): URLSearchParams {
   if (f.type !== "all") sp.set("type", f.type);
   if (f.cardTypes.length > 0) sp.set("cardType", f.cardTypes.join(","));
   if (f.rarities.length > 0) sp.set("rarity", f.rarities.join(","));
+  if (f.domains.length > 0) sp.set("domain", f.domains.join(","));
   if (f.languages.length > 0) sp.set("language", f.languages.join(","));
   if (f.artists.length > 0) sp.set("artist", f.artists.join(","));
   if (f.baseOnly) sp.set("baseOnly", "1");
@@ -43,6 +44,7 @@ export function exploreFiltersToViewFilters(f: ExploreFilters): ViewFilters {
     type: f.type,
     cardTypes: f.cardType !== "all" ? [f.cardType] : [],
     rarities: f.rarity !== "all" ? [f.rarity] : [],
+    domains: f.domain !== "all" ? [f.domain] : [],
     languages: f.language !== "all" ? [f.language] : [],
     artists: [],
     baseOnly: f.baseOnly,

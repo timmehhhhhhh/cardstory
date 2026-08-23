@@ -13,6 +13,7 @@ const SORT_LABELS: Record<CatalogSort, string> = {
   best_match: "Best Match",
   name_asc: "Name (A–Z)",
   number_asc: "Card Number",
+  domain_asc: "Domain",
   price_desc: "Price: High to Low",
   price_asc: "Price: Low to High",
   trending_up: "Trending Up",

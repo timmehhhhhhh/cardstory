@@ -26,6 +26,8 @@ export interface UnifiedCard {
   artist?: string;
   /** Game-specific card type, e.g. Riftbound's "Champion Unit" / "Legend" / "Gear", or Flesh & Blood's "Hero" / "Action" / "Equipment". */
   cardType?: string;
+  /** Riftbound's domain(s) — see lib/games/riftbound/domain.ts. Undefined/omitted for every other game (CatalogItem.domain defaults to `[]`). */
+  domain?: string[];
   imageSmallUrl?: string;
   imageLargeUrl?: string;
   productType: ProductType;

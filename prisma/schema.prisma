@@ -112,6 +112,11 @@ model CatalogItem {
   /// lib/games/riftbound/card-types.ts). Null for games that don't have a
   /// distinct card-type taxonomy wired up yet.
   cardType               String?
+  /// Riftbound's `classification.domain` — one or two of Fury/Calm/Mind/
+  /// Body/Chaos/Order/Colorless (see lib/games/riftbound/domain.ts). A
+  /// dual-domain Legend has two entries; every other game leaves this at
+  /// its `[]` default (no domain concept).
+  domain                 String[]                @default([])
   imageSmallUrl          String?
   imageLargeUrl          String?
   productType            ProductType             @default(CARD)
@@ -144,6 +149,7 @@ model CatalogItem {
   @@index([nameEn])
   @@index([cardType])
   @@index([rarity])
+  @@index([domain])
   @@index([latestPriceRaw])
   @@index([priceChangePct])
   @@map("catalog_items")

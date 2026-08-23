@@ -44,6 +44,7 @@ export async function GET(req: NextRequest) {
     rarity: parseMulti(sp.get("rarity")),
     language: parseMulti(sp.get("language")),
     variant: parseMulti(sp.get("variant")),
+    domain: parseMulti(sp.get("domain")),
     artist: parseMulti(sp.get("artist")),
     baseOnly: sp.get("baseOnly") === "1",
     onlyIds: parseMulti(sp.get("onlyIds")),

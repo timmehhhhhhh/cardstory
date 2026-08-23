@@ -21,6 +21,8 @@ export interface ViewFilters {
   cardTypes: string[];
   /** [] = all. CatalogItem.rarity values, e.g. "Ultra Rare" or "Epic". */
   rarities: string[];
+  /** [] = all. CatalogItem.domain values, e.g. Riftbound's "Fury"/"Calm" — no-op for every other game. */
+  domains: string[];
   /** [] = all. CatalogItem.language — no-op for sports rows. */
   languages: ("EN" | "JP" | "CN" | "TW" | "KR")[];
   /** Free-text artist name chips, OR'd via case-insensitive "contains". No-op for sports rows (no artist column). */
@@ -37,6 +39,7 @@ export const DEFAULT_VIEW_FILTERS: ViewFilters = {
   type: "all",
   cardTypes: [],
   rarities: [],
+  domains: [],
   languages: [],
   artists: [],
   baseOnly: false,

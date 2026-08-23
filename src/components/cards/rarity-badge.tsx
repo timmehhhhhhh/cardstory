@@ -1,4 +1,6 @@
 import { cn } from "@/lib/utils";
+import { RIFTBOUND_RARITY_LABEL } from "@/lib/games/riftbound/rarity";
+import { ChampionIcon, RarityIcon } from "@/components/cards/riftbound-icons";
 
 const RARITY_COLOR: Record<string, string> = {
   common: "text-muted-foreground",
@@ -16,8 +18,38 @@ const RARITY_COLOR: Record<string, string> = {
   promo: "text-chart-2",
 };
 
-export function RarityBadge({ rarity, className }: { rarity: string | null; className?: string }) {
+// Exact-cased keys into RarityIcon/RIFTBOUND_RARITY_LABEL — Riftbound's
+// rarity.ts values are always this casing, unlike the lowercased
+// RARITY_COLOR lookup above (which also has to match other games' casing).
+const RIFTBOUND_RARITIES = new Set(["Common", "Uncommon", "Rare", "Epic", "Showcase", "Promo"]);
+
+/**
+ * `cardType` is optional and only used to detect a Champion card (Riftbound's
+ * cardTypeLabel() prefixes "Champion" onto the printed type, e.g. "Champion
+ * Unit" — see lib/games/riftbound/card-types.ts) so its crest icon can show
+ * alongside the real rarity icon — Champion is a separate supertype flag,
+ * never a rarity tier of its own (see rarity.ts's doc comment).
+ */
+export function RarityBadge({
+  rarity,
+  cardType,
+  className,
+}: {
+  rarity: string | null;
+  cardType?: string | null;
+  className?: string;
+}) {
   if (!rarity) return null;
+  const isChampion = cardType?.startsWith("Champion") ?? false;
+  if (RIFTBOUND_RARITIES.has(rarity)) {
+    return (
+      <span className={cn("inline-flex items-center gap-1 text-xs font-medium", className)}>
+        <RarityIcon rarity={rarity} />
+        {RIFTBOUND_RARITY_LABEL[rarity] ?? rarity}
+        {isChampion && <ChampionIcon />}
+      </span>
+    );
+  }
   const color = RARITY_COLOR[rarity.toLowerCase()] ?? "text-muted-foreground";
   return <span className={cn("text-xs font-medium", color, className)}>{rarity}</span>;
 }
