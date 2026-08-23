@@ -429,6 +429,7 @@ model User {
   watchlistEntries  WatchlistEntry[]
   shortlistItems    ShortlistItem[]
   savedViews        SavedView[]
+  decks             Deck[]
 
   @@map("users")
 }
@@ -682,4 +683,71 @@ model SavedView {
 
   @@index([userId])
   @@map("saved_views")
+}
+
+/// Server-backed deck ("Deck Crafting" — src/app/deck-crafting) for a
+/// signed-in user, the accounts equivalent of the local-only deck shape in
+/// src/lib/deck-crafting/types.ts. Mirrors the Portfolio/Holding dual-store
+/// split (see that model's comment): logged-out users keep decks entirely
+/// in localStorage (src/lib/deck-crafting/local-store.ts); signing in
+/// switches reads/writes to these tables (src/lib/deck-crafting/store.ts).
+/// Deliberately NOT following Binder's local-only-forever pattern — a deck
+/// is a discrete named entity a user builds up over time and expects to
+/// find again on another device, same shape as a Portfolio, not a single
+/// per-browser planning tool.
+model Deck {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name   String
+  /// A src/lib/games/registry.ts game id — only "riftbound" | "fab" |
+  /// "pokemon" are buildable today (see src/lib/deck-crafting/formats),
+  /// but this isn't a Prisma enum so a future wired game needs no migration.
+  gameId String
+  /// A src/lib/deck-crafting/formats id, e.g. "riftbound-constructed",
+  /// "fab-blitz", "pokemon-standard" — looked up in the format registry to
+  /// get this deck's construction rules; not a foreign key since formats
+  /// are code-defined data, not a DB table (see that module's doc comment).
+  formatId String
+  /// "wip" | "complete" — a plain user-set label (like Holding.kind's
+  /// convention), never auto-derived from validateDeck()'s legality output:
+  /// a deck can be legal and still mid-tinkering, or intentionally
+  /// left incomplete.
+  status String @default("wip")
+  /// User-controlled position in their deck list — reordered via drag and
+  /// drop, same "explicit user-owned ordering" idea as Holding has none of
+  /// but Binder's page array relies on array order for.
+  sortOrder Int      @default(0)
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cards     DeckCard[]
+
+  @@index([userId, sortOrder])
+  @@map("decks")
+}
+
+/// One card-in-a-deck line. catalogItemId is a plain scalar, not a
+/// @relation — same "batch lookup via /api/catalog/by-ids, not a join"
+/// reasoning as Holding.catalogItemId. Whether this card is one the user
+/// actually owns (the "Not Owned" watermark) is deliberately NOT stored
+/// here: it's computed at read time against the user's live PC holdings
+/// (src/lib/pc/selectors.ts-style derivation), so it never goes stale as
+/// holdings are added/removed after the card was added to the deck.
+model DeckCard {
+  id     String @id @default(cuid())
+  deckId String
+  deck   Deck   @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  /// A section id from this deck's format config, e.g. "legend" |
+  /// "champion" | "battlefield" | "rune" | "main" | "sideboard" | "bench"
+  /// for Riftbound — see src/lib/deck-crafting/formats. Not a Prisma enum
+  /// since the set of valid ids is per-format, not global.
+  section       String
+  catalogItemId String
+  quantity      Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([deckId])
+  @@map("deck_cards")
 }

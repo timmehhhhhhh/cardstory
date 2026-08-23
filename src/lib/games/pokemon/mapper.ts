@@ -22,6 +22,10 @@ export interface PokemonApiCard {
   number?: string;
   rarity?: string;
   artist?: string;
+  /** "Pokémon" | "Trainer" | "Energy" — see cardTypeFromSupertype below. */
+  supertype?: string;
+  /** e.g. ["Basic"], ["Stage 1"], ["Item"], ["Basic"] (for Basic Energy) — see cardTypeFromSupertype below. */
+  subtypes?: string[];
   images?: { small?: string; large?: string };
   tcgplayer?: {
     prices?: Record<
@@ -97,6 +101,24 @@ const PRICE_KEY_PRIORITY = ["holofoil", "normal", "reverseHolofoil", "1stEdition
  * price data at all still produce a single unpriced row — both preserve
  * today's exact behavior, just without the old price-folding.
  */
+/**
+ * pokemontcg.io's `supertype` ("Pokémon" | "Trainer" | "Energy") and
+ * `subtypes` (e.g. ["Basic"], ["Stage 1"], ["Item"]) combined into
+ * CatalogItem.cardType, e.g. "Pokémon · Basic", "Trainer", "Energy · Basic"
+ * — the "Basic" marker on Pokémon/Energy is what Deck Crafting's format
+ * rules key off of (a legal deck needs ≥1 Basic Pokémon; Basic Energy is
+ * exempt from the 4-copy limit — see src/lib/deck-crafting/formats/pokemon.ts).
+ * Only the "Basic" subtype is folded in (not e.g. "Stage 1" or "Item") since
+ * that's the only one any format rule currently keys off of; undefined when
+ * supertype itself is missing, which tcgdex-sourced (non-English) cards
+ * currently are — see mapTcgdexCard below.
+ */
+export function cardTypeFromSupertype(supertype: string | undefined, subtypes: string[] | undefined): string | undefined {
+  if (!supertype) return undefined;
+  const isBasic = subtypes?.includes("Basic");
+  return isBasic ? `${supertype} · Basic` : supertype;
+}
+
 export function mapPokemonCardVariants(raw: PokemonApiCard, setExternalId: string): UnifiedCard[] {
   const base = {
     gameId: "pokemon",
@@ -106,6 +128,7 @@ export function mapPokemonCardVariants(raw: PokemonApiCard, setExternalId: strin
     number: raw.number,
     rarity: raw.rarity,
     artist: raw.artist,
+    cardType: cardTypeFromSupertype(raw.supertype, raw.subtypes),
     imageSmallUrl: raw.images?.small,
     imageLargeUrl: raw.images?.large,
     productType: "CARD" as const,

@@ -6,6 +6,7 @@ export const NAV_LINKS = [
   { href: "/pc", label: "PC" },
   { href: "/shortlist", label: "Shortlist" },
   { href: "/binder", label: "Binder Planner" },
+  { href: "/deck-crafting", label: "Deck Crafting" },
   { href: "/business", label: "Business", vendorOnly: true },
   { href: "/views", label: "Views" },
   { href: "/trade-analyzer", label: "Trade Analyzer" },
