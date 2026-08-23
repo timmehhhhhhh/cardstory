@@ -15,7 +15,7 @@
   },
   "vars": {
     // Non-sensitive. The endpoint this Worker calls on schedule.
-    "TARGET_URL": "https://cardstory.timothy-lim1999.workers.dev/api/cron/snapshot-prices"
+    "TARGET_URL": "https://cardstory.app/api/cron/snapshot-prices"
   }
   // CRON_SECRET must be set as a Worker secret (must match the main
   // site's CRON_SECRET env var):
