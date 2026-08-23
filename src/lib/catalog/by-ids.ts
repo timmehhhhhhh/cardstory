@@ -9,6 +9,8 @@ export interface CatalogItemDetail {
   nameEn: string | null;
   number: string | null;
   rarity: string | null;
+  /** Game-specific card type, e.g. Riftbound's "Champion Unit" — see CatalogItem.cardType. Used by Deck Crafting to slot a card into a format's sections (src/lib/deck-crafting/validate.ts). Null for games/cards without a captured type. */
+  cardType: string | null;
   imageSmallUrl: string | null;
   imageLargeUrl: string | null;
   setName: string;
@@ -31,6 +33,7 @@ export async function getCatalogItemsByIds(ids: string[]): Promise<CatalogItemDe
       nameEn: true,
       number: true,
       rarity: true,
+      cardType: true,
       imageSmallUrl: true,
       imageLargeUrl: true,
       productType: true,
@@ -49,6 +52,7 @@ export async function getCatalogItemsByIds(ids: string[]): Promise<CatalogItemDe
     nameEn: r.nameEn,
     number: r.number,
     rarity: r.rarity,
+    cardType: r.cardType,
     imageSmallUrl: r.imageSmallUrl,
     imageLargeUrl: r.imageLargeUrl,
     setName: r.set.name,
