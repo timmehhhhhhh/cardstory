@@ -9,6 +9,11 @@ const RARITY_COLOR: Record<string, string> = {
   "secret rare": "text-[#a9688a]",
   "ultra rare": "text-[#a9688a]",
   special: "text-[#a9688a]",
+  // Riftbound (see lib/games/riftbound/rarity.ts) — common/uncommon/rare
+  // already covered by the keys above.
+  epic: "text-chart-4",
+  showcase: "text-chart-5",
+  promo: "text-chart-2",
 };
 
 export function RarityBadge({ rarity, className }: { rarity: string | null; className?: string }) {
