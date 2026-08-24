@@ -11,7 +11,7 @@ import { FinishBadge } from "@/components/cards/finish-badge";
 import { DomainIcon } from "@/components/cards/riftbound-icons";
 import { AddHoldingDialog } from "@/components/pc/add-holding-dialog";
 import { usePCStore } from "@/lib/pc/store";
-import { useAddToShortlist } from "@/lib/shortlist/use-add-to-shortlist";
+import { useAddToShortlist, useIsShortlisted } from "@/lib/shortlist/use-add-to-shortlist";
 import { formatMoney, formatPct } from "@/lib/utils/format";
 import { getGameMeta } from "@/lib/games/registry";
 import { isItemLanguage } from "@/lib/pc/language";
@@ -59,9 +59,10 @@ export function CardTile({
   const [businessDialogOpen, setBusinessDialogOpen] = React.useState(false);
   const [businessPCId, setBusinessPCId] = React.useState<string | undefined>(undefined);
   const addToShortlist = useAddToShortlist();
+  const shortlisted = useIsShortlisted(isSports ? undefined : item.id, isSports ? item.id : undefined);
   // Brief post-click acknowledgment — repeat adds are legitimate (the same
-  // card spotted at two shops), so this is a pulse, not an "already
-  // shortlisted" toggle state like the watchlist star.
+  // card spotted at two shops), so this is a pulse layered on top of (not a
+  // replacement for) the persistent `shortlisted` fill below.
   const [justShortlisted, setJustShortlisted] = React.useState(false);
   // Same pulse pattern as justShortlisted, for the Quick Add bypass below.
   const [justQuickAdded, setJustQuickAdded] = React.useState(false);
@@ -203,8 +204,9 @@ export function CardTile({
   const shortlistTrigger = (className: string) => (
     <button
       type="button"
-      aria-label="Add to shortlist"
-      title="Add to shortlist"
+      aria-label={shortlisted ? "On shortlist" : "Add to shortlist"}
+      aria-pressed={shortlisted}
+      title={shortlisted ? "On shortlist" : "Add to shortlist"}
       onClick={() => {
         addToShortlist({
           kind: isSports ? "sports" : "tcg",
@@ -220,7 +222,7 @@ export function CardTile({
       {justShortlisted ? (
         <Check className="size-3.5 text-positive" />
       ) : (
-        <ShoppingBag className="size-3.5" />
+        <ShoppingBag className={cn("size-3.5", shortlisted && "fill-primary text-primary")} />
       )}
     </button>
   );
