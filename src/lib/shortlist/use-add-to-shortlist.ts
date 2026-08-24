@@ -37,19 +37,22 @@ export function useAddToShortlist() {
 }
 
 /**
- * Whether a given catalog/sports card already has a row on the shortlist —
- * drives the "filled in" icon state on the shortlist button, the same way
- * usePCStore's watchlist lookup drives the watchlist star. Deliberately
- * ignores `quantity`/kind "custom" rows (a custom row has no catalogItemId
- * or sportsCardItemId to match against, same as ownedQuantity in
- * card-tile.tsx).
+ * Total quantity across every shortlist row matching this catalog/sports
+ * card — drives the quantity badge on the shortlist button, the same way
+ * ownedQuantity in card-tile.tsx drives the "Add to collection" badge.
+ * Repeat adds create separate rows (see useAddToShortlist above), so this
+ * sums `quantity` across all of them rather than just checking existence.
+ * Deliberately ignores kind "custom" rows (a custom row has no
+ * catalogItemId or sportsCardItemId to match against, same as ownedQuantity
+ * in card-tile.tsx).
  */
-export function useIsShortlisted(catalogItemId?: string, sportsCardItemId?: string) {
+export function useShortlistQuantity(catalogItemId?: string, sportsCardItemId?: string) {
   return useShortlistStore((s) =>
-    s.items.some(
-      (i) =>
+    s.items.reduce((sum, i) => {
+      const matches =
         (catalogItemId != null && i.catalogItemId === catalogItemId) ||
-        (sportsCardItemId != null && i.sportsCardItemId === sportsCardItemId)
-    )
+        (sportsCardItemId != null && i.sportsCardItemId === sportsCardItemId);
+      return matches ? sum + i.quantity : sum;
+    }, 0)
   );
 }
