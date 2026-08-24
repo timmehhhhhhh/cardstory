@@ -77,18 +77,32 @@ export function QuickActions({
           <a.icon className="size-4" /> {a.label}
         </Link>
       ))}
-      <button
-        type="button"
-        onClick={onToggleBulkMode}
-        className={cn(
-          "flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm",
-          bulkMode
-            ? "border-primary/40 bg-primary/10 text-primary"
-            : "border-border bg-surface text-muted-foreground hover:bg-surface-elevated hover:text-foreground"
-        )}
-      >
-        <CheckSquare className="size-4" /> Bulk Actions
-      </button>
+      <div className="sticky top-14 z-30 bg-background/95 py-0.5 backdrop-blur supports-backdrop-blur:bg-background/60">
+        <button
+          type="button"
+          role="switch"
+          aria-checked={bulkMode}
+          onClick={onToggleBulkMode}
+          title="When on, select multiple cards to copy, move, or archive them together"
+          className={cn(
+            "flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors",
+            bulkMode
+              ? "border-primary/40 bg-primary/10 text-primary"
+              : "border-border bg-surface text-muted-foreground hover:text-foreground"
+          )}
+        >
+          <CheckSquare className="size-3.5" />
+          Bulk Actions
+          <span
+            className={cn(
+              "ml-0.5 rounded-full px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide",
+              bulkMode ? "bg-primary/20 text-primary" : "bg-muted text-muted-foreground"
+            )}
+          >
+            {bulkMode ? "On" : "Off"}
+          </span>
+        </button>
+      </div>
       <button
         type="button"
         onClick={() => exportCsv(rows)}
