@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
 import { SessionProvider } from "next-auth/react";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/sonner";
 import { PCImportPrompt } from "@/components/auth/pc-import-prompt";
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -32,6 +33,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           <TooltipProvider delayDuration={150}>
             {children}
             <PCImportPrompt />
+            <Toaster position="bottom-right" richColors />
           </TooltipProvider>
         </ThemeProvider>
       </QueryClientProvider>

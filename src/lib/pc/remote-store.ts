@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 import { id, useLocalPCStore, type PCState } from "@/lib/pc/local-store";
 import type { Holding, HoldingKind, NewHoldingInput, PC, WatchlistItem } from "@/lib/pc/types";
 import { pcKind } from "@/lib/pc/types";
@@ -29,18 +30,58 @@ function nowIso() {
 }
 
 /**
+ * User-facing message for each mutation's failure toast — deliberately
+ * phrased around what the user just did (not the internal action name),
+ * since "archiveHoldings failed" means nothing to someone who clicked
+ * "Archive card". Falls back to a generic message for anything unlisted.
+ */
+const MUTATION_FAILURE_MESSAGES: Record<string, string> = {
+  toggleWatchlist: "Couldn't update your watchlist.",
+  createPC: "Couldn't create the PC.",
+  ensureBusinessPC: "Couldn't set up your Business PC.",
+  renamePC: "Couldn't rename the PC.",
+  deletePC: "Couldn't delete the PC.",
+  updateHolding: "Couldn't save your changes to that card.",
+  archiveHoldings: "Couldn't archive that card — it's still in your PC.",
+  removeHoldings: "Couldn't delete that card.",
+  copyHoldings: "Couldn't copy that card.",
+  moveHoldings: "Couldn't move that card.",
+};
+
+/**
  * Every optimistic mutation below reverts silently on failure (see
- * `reconcile` above) — the UI just shows the change undoing itself with no
- * indication why. Logging here at least makes a failed request visible in
- * the browser console instead of leaving zero trace anywhere.
+ * `reconcile` above) — without this, the UI just shows the change undoing
+ * itself with no indication why, which reads as "the button doesn't work"
+ * (see the PC Archives bug this was added for: a transient 500 during
+ * archiveHoldings silently reverted the optimistic archive, so the card
+ * just reappeared with zero explanation). Logging preserves the previous
+ * console-only trace for debugging; the toast is what tells the *user*
+ * something went wrong and their action didn't stick, so they know to retry
+ * instead of assuming it worked.
  */
 async function logMutationFailure(action: string, res: Response | null, err?: unknown) {
+  const fallback = MUTATION_FAILURE_MESSAGES[action] ?? "Something went wrong — please try again.";
+
   if (err) {
+    toast.error(fallback);
     console.error(`[pc] ${action} failed`, err);
     return;
   }
   if (res) {
     const body = await res.text().catch(() => "<unreadable body>");
+    // Routes like the stale-session 401 or the "PC has archived cards" 409
+    // (see route-errors.ts) return a specific, already user-facing `error`
+    // message — prefer that over the generic fallback when present, since
+    // it tells the user something actionable instead of just "try again".
+    const specific = (() => {
+      try {
+        const parsed = JSON.parse(body) as { error?: unknown };
+        return typeof parsed.error === "string" ? parsed.error : null;
+      } catch {
+        return null;
+      }
+    })();
+    toast.error(specific ?? fallback);
     console.error(`[pc] ${action} failed`, { status: res.status, body });
   }
 }
