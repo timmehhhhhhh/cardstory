@@ -59,6 +59,8 @@ export interface BinderStoreDataV1 {
   schemaVersion: 1;
   activeBinderId: string;
   binders: Binder[];
+  /** Whether each pocket's card-number tag (top-left overlay) is shown. Defaults to on. */
+  showNumberTags: boolean;
 }
 
 /** A pocket currently targeted for placement, identified by page + slot index. */

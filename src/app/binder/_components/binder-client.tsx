@@ -20,6 +20,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 
 export function BinderClient({
   pcIdOverride,
@@ -47,6 +48,8 @@ export function BinderClient({
   const addPage = useBinderStore((s) => s.addPage);
   const removePage = useBinderStore((s) => s.removePage);
   const placeCard = useBinderStore((s) => s.placeCard);
+  const showNumberTags = useBinderStore((s) => s.showNumberTags);
+  const setShowNumberTags = useBinderStore((s) => s.setShowNumberTags);
 
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const step: 1 | 2 = isDesktop ? 2 : 1;
@@ -247,6 +250,13 @@ export function BinderClient({
 
           <div className="h-4 w-px bg-border" />
 
+          <label className="flex items-center gap-2">
+            <span className="text-xs font-medium text-muted-foreground">Card numbers</span>
+            <Switch size="sm" checked={showNumberTags} onCheckedChange={setShowNumberTags} />
+          </label>
+
+          <div className="h-4 w-px bg-border" />
+
           <div className="flex items-center gap-1.5">
             <span className="text-xs font-medium text-muted-foreground">Cover</span>
             {BINDER_COVER_COLORS.map((c) => (
@@ -275,6 +285,7 @@ export function BinderClient({
         selectedPocket={selectedPocket}
         dragSourcePageId={dragSource?.pageId ?? null}
         dragOverPocket={dragOverPocket}
+        showNumberTags={showNumberTags}
         onSelectPocket={handleSelectPocket}
         onClearPocket={handleClearPocket}
         onDragStartSlot={(pageId, slotIndex) => setDragSource({ pageId, slotIndex })}

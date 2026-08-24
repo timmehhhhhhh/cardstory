@@ -11,6 +11,7 @@ export function BinderPocket({
   card,
   selected,
   draggedOver,
+  showNumberTag,
   onSelect,
   onClear,
   onDragStart,
@@ -22,6 +23,8 @@ export function BinderPocket({
   card: EnrichedHolding | undefined;
   selected: boolean;
   draggedOver: boolean;
+  /** Whether to show the card-number overlay tag in the top-left corner. */
+  showNumberTag: boolean;
   onSelect: () => void;
   onClear: () => void;
   onDragStart: (e: React.DragEvent) => void;
@@ -81,7 +84,7 @@ export function BinderPocket({
         </button>
       )}
 
-      {filled && <CardNumberBadge number={card.display.number} variant="overlay" />}
+      {filled && showNumberTag && <CardNumberBadge number={card.display.number} variant="overlay" />}
 
       {filled && (
         <button
