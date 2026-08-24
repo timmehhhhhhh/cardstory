@@ -21,6 +21,13 @@ import type { Holding } from "@/lib/pc/types";
 
 const EMPTY_HOLDINGS: Holding[] = [];
 
+// Explore's search/filters state is normally seeded from the URL, but the
+// top-nav "Explore" link is a plain `/explore` href with no query string, and
+// this route has no shared layout — so navigating away and back fully
+// unmounts ExploreClient and resets everything. Session-storing the last
+// query string lets a bare landing restore it instead of defaulting.
+const LAST_QUERY_STORAGE_KEY = "cardstory:explore:last-query";
+
 interface SearchResponse {
   items: CatalogSearchItem[];
   total: number;
@@ -59,6 +66,27 @@ export function ExploreClient({
     setPrevInitialFiltersKey(initialFiltersKey);
     setFilters(initialFilters);
   }
+
+  // Restore the last session's search/filters when landing on a bare
+  // `/explore` (no query string at all) — the exact case the top-nav link
+  // produces. A URL that already carries params is an intentional deep link
+  // (e.g. from /sets or the search box) and must win over any saved session.
+  const restoredRef = React.useRef(false);
+  React.useEffect(() => {
+    if (restoredRef.current) return;
+    restoredRef.current = true;
+    if (window.location.search) return;
+    let saved: string | null = null;
+    try {
+      saved = window.sessionStorage.getItem(LAST_QUERY_STORAGE_KEY);
+    } catch {
+      return;
+    }
+    if (saved) {
+      router.replace(`/explore?${saved}`, { scroll: false });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const rarityQuery = useQuery<string[]>({
     queryKey: ["catalog-rarities", filters.game],
@@ -143,6 +171,12 @@ export function ExploreClient({
     const sp = filtersToSearchParams(next);
     const qs = sp.toString();
     router.replace(qs ? `/explore?${qs}` : "/explore", { scroll: false });
+    try {
+      window.sessionStorage.setItem(LAST_QUERY_STORAGE_KEY, qs);
+    } catch {
+      // Storage disabled (private browsing, etc.) — restore-on-return just
+      // won't work; navigation itself must never be affected.
+    }
   }
 
   const isDefaultQuery =
