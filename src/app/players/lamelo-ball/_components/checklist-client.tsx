@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { usePCStore } from "@/lib/pc/store";
 import type { ChecklistCard, ChecklistCardType, ChecklistVariant } from "@/lib/sportscards/manage";
-import type { ItemLanguage } from "@/lib/pc/types";
+import { holdingIsArchived, type ItemLanguage } from "@/lib/pc/types";
 
 const CARD_TYPE_LABEL: Record<ChecklistCardType, string> = {
   base: "Base",
@@ -45,18 +45,28 @@ function ChecklistCardRow({ card }: { card: ChecklistCard }) {
   const activePCId = usePCStore((s) => s.activePCId);
   const pcs = usePCStore((s) => s.pcs);
   const addHolding = usePCStore((s) => s.addHolding);
-  const removeHoldings = usePCStore((s) => s.removeHoldings);
+  const archiveHoldings = usePCStore((s) => s.archiveHoldings);
 
   const activePC = pcs.find((p) => p.id === activePCId);
   const holdings = activePC?.holdings ?? [];
 
+  // Archived holdings stick around in activePC.holdings (they're soft-deleted
+  // into PC Archives, not removed) so they must be excluded here — otherwise
+  // a card the user just unchecked/archived would still read as "owned" and
+  // the checkbox would refuse to uncheck.
   function holdingIdsFor(sportsCardItemId: string) {
-    return holdings.filter((h) => h.sportsCardItemId === sportsCardItemId).map((h) => h.id);
+    return holdings
+      .filter((h) => h.sportsCardItemId === sportsCardItemId && !holdingIsArchived(h))
+      .map((h) => h.id);
   }
 
   function toggleOwned(variant: ChecklistVariant, owned: boolean) {
     if (owned) {
-      removeHoldings(activePCId, holdingIdsFor(variant.sportsCardItemId));
+      // Archive rather than hard-delete — unchecking a card here is just
+      // another "remove a card from the PC" affordance, same as the trash
+      // icon on the main PC/Business pages, so it needs to land in PC
+      // Archives / Business Archives instead of vanishing outright.
+      archiveHoldings(activePCId, holdingIdsFor(variant.sportsCardItemId));
     } else {
       addHolding(activePCId, {
         kind: "sports",
@@ -71,7 +81,7 @@ function ChecklistCardRow({ card }: { card: ChecklistCard }) {
         // acquisition — no historical lookup needed.
         priceAtAcquisition: variant.priceRaw,
         acquiredAt: new Date().toISOString(),
-        // Fire-and-forget, like removeHoldings above — a failure already
+        // Fire-and-forget, like archiveHoldings above — a failure already
         // rolls the optimistic add back out via reconcile() inside the
         // store (see useRemotePCStore.addHolding); this checkbox has no
         // form to keep open or error text to show, so just avoid an
