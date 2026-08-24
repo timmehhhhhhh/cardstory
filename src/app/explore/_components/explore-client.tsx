@@ -240,7 +240,7 @@ export function ExploreClient({
       </div>
 
       <div className="min-w-0 flex-1">
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+        <div className="sticky top-14 z-30 -mx-4 mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-border bg-background/95 px-4 py-3 backdrop-blur supports-backdrop-blur:bg-background/80 sm:-mx-6 sm:px-6">
           <div className="flex items-center gap-2">
             <h1 className="text-lg font-semibold">Find a Product</h1>
             <Sheet open={filtersOpen} onOpenChange={setFiltersOpen}>
