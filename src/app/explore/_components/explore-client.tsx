@@ -292,7 +292,10 @@ export function ExploreClient({
           page={data.page}
           pageSize={data.pageSize}
           total={data.total}
-          onPageChange={(page) => updateFilters({ page })}
+          onPageChange={(page) => {
+            updateFilters({ page });
+            window.scrollTo({ top: 0, behavior: "instant" });
+          }}
         />
       </div>
     </div>
