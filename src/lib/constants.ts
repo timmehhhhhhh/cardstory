@@ -2,6 +2,7 @@ export const APP_NAME = "CardStory";
 
 export const NAV_LINKS = [
   { href: "/explore", label: "Explore" },
+  { href: "/watchlist", label: "Watchlist" },
   { href: "/sets", label: "Sets" },
   { href: "/pc", label: "PC" },
   { href: "/shortlist", label: "Shortlist" },
