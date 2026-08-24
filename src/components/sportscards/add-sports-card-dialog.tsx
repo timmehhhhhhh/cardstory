@@ -255,8 +255,8 @@ export function AddSportsCardDialog() {
 
       resetForm();
       setOpen(false);
-    } catch {
-      setError("Couldn't add this card. Please try again.");
+    } catch (err) {
+      setError(err instanceof Error && err.message ? err.message : "Couldn't add this card. Please try again.");
     } finally {
       setSubmitting(false);
     }

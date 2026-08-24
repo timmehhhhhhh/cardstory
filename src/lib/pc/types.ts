@@ -1,4 +1,5 @@
 import type { SupportedCurrency, RawCardCondition, LetGoMethod } from "@/lib/constants";
+import type { LetGoDetails } from "@/lib/pc/api-schemas";
 
 export type CardCondition = "raw" | "graded";
 export type ItemLanguage = "EN" | "JP" | "CN" | "TW" | "KR";
@@ -176,3 +177,47 @@ export interface PCStoreDataV1 {
 }
 
 export type NewHoldingInput = Omit<Holding, "id" | "createdAt" | "updatedAt">;
+
+/**
+ * The actions every PC store implementation exposes — shared by
+ * useRemotePCStore (src/lib/pc/remote-store.ts, the only implementation now
+ * that an account is required to use the app; a local/localStorage-backed
+ * guest implementation used to sit alongside it here too) so
+ * src/lib/pc/store.ts's `usePCStore` selector convention stays the same
+ * regardless of what backs it.
+ */
+export interface PCActions {
+  setCurrency: (currency: SupportedCurrency) => void;
+  setViewMode: (mode: ViewMode) => void;
+  setLastUsedCostBasisCurrency: (currency: SupportedCurrency) => void;
+  setBusinessMode: (businessMode: boolean) => void;
+  setQuickAdd: (quickAdd: boolean) => void;
+
+  createPC: (name: string) => string;
+  renamePC: (pcId: string, name: string) => void;
+  deletePC: (pcId: string) => void;
+  setActivePC: (pcId: string) => void;
+  /** Returns the id of the "Business Inventory" PC, creating it first if this is the first time it's needed. */
+  ensureBusinessPC: () => string;
+
+  addHolding: (pcId: string, input: NewHoldingInput) => Promise<string>;
+  updateHolding: (
+    pcId: string,
+    holdingId: string,
+    patch: Partial<Omit<Holding, "id">>
+  ) => void;
+  /**
+   * Soft-deletes holdings out of the active pc into Archives (see
+   * src/components/pc/archive-client.tsx) — the everyday "remove a card"
+   * path. `letGo` is optional; the row keeps every other field intact.
+   */
+  archiveHoldings: (pcId: string, holdingIds: string[], letGo?: LetGoDetails) => void;
+  removeHoldings: (pcId: string, holdingIds: string[]) => void;
+  copyHoldings: (fromId: string, toId: string, holdingIds: string[]) => void;
+  moveHoldings: (fromId: string, toId: string, holdingIds: string[]) => void;
+
+  toggleWatchlist: (itemId: string, kind: HoldingKind, priceAtAdd: number | null) => void;
+  isWatchlisted: (itemId: string) => boolean;
+}
+
+export type PCState = PCStoreDataV1 & PCActions;

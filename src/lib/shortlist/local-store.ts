@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { id } from "@/lib/pc/local-store";
+import { id } from "@/lib/pc/id";
 import type {
   NewShortlistItemInput,
   ShortlistItem,

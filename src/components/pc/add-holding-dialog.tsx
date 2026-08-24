@@ -156,12 +156,12 @@ export function AddHoldingDialog({
       });
       setLastUsedCostBasisCurrency(costBasisCurrency);
       setOpen(false);
-    } catch {
-      // addHolding already rolls the optimistic add back out of the
-      // cache on failure (see useRemotePCStore) — this just makes sure
-      // the user actually finds out, instead of the dialog quietly
-      // closing on a card that never really landed in their PC.
-      setError("Couldn't add this card. Please try again.");
+    } catch (err) {
+      // useRemotePCStore's addHolding already rolls the optimistic add back
+      // out of the cache on failure and throws a reason worth showing —
+      // this just makes sure the user actually finds out, instead of the
+      // dialog quietly closing on a card that never really landed in their PC.
+      setError(err instanceof Error && err.message ? err.message : "Couldn't add this card. Please try again.");
     } finally {
       setSubmitting(false);
     }

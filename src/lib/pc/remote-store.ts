@@ -2,8 +2,9 @@
 
 import * as React from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { id, useLocalPCStore, type PCState } from "@/lib/pc/local-store";
-import type { Holding, HoldingKind, NewHoldingInput, PC, WatchlistItem } from "@/lib/pc/types";
+import { id } from "@/lib/pc/id";
+import { usePCPreferencesStore } from "@/lib/pc/preferences-store";
+import type { Holding, HoldingKind, NewHoldingInput, PC, PCState, WatchlistItem } from "@/lib/pc/types";
 import { pcKind } from "@/lib/pc/types";
 import type { LetGoDetails } from "@/lib/pc/api-schemas";
 
@@ -46,25 +47,30 @@ async function logMutationFailure(action: string, res: Response | null, err?: un
 }
 
 /**
- * Server-backed PC store for signed-in users — same PCState
- * shape as useLocalPCStore so src/lib/pc/store.ts can switch
- * between the two without any consuming component knowing the difference.
+ * Server-backed PC store — the only PC store implementation now that an
+ * account is required to use the app at all (see src/middleware.ts). Used
+ * to be one of two interchangeable implementations behind
+ * src/lib/pc/store.ts's local/remote switch, back when a signed-out guest
+ * got a localStorage-backed one instead; still returns the same PCState
+ * shape (src/lib/pc/types.ts) that switch relied on, since store.ts still
+ * passes selectors straight through unchanged.
  *
- * PC/holding ids are still generated client-side (matching the
- * local store) so every action can keep a synchronous return signature —
- * some call sites (e.g. pc-selector.tsx) need a freshly-created
- * PC's id back immediately, before any network round trip.
+ * PC/holding ids are still generated client-side so every action can keep a
+ * synchronous return signature — some call sites (e.g. pc-selector.tsx)
+ * need a freshly-created PC's id back immediately, before any network round
+ * trip.
  *
  * Mutations optimistically patch the React Query cache, fire the request,
  * and on failure invalidate the cache to refetch the server's actual state
  * (a reconcile, not a retry) — simple and correct at this app's data scale.
  *
  * preferences/activePCId are NOT server-backed — they're per-browser UI
- * state, not collection data, so they're read straight from the local store
- * even here. watchlist, unlike those, IS real account data (a signed-in
- * user's watchlist should follow them across devices), so it gets the same
+ * state, not collection data, so they're read straight from
+ * usePCPreferencesStore (src/lib/pc/preferences-store.ts) even here.
+ * watchlist, unlike those, IS real account data (a signed-in user's
+ * watchlist should follow them across devices), so it gets the same
  * query-cache-backed treatment as `pcs` below rather than delegating to the
- * local store.
+ * preferences store.
  */
 export function useRemotePCStore<T>(
   selector: (s: PCState) => T,
@@ -86,16 +92,16 @@ export function useRemotePCStore<T>(
     staleTime: 30_000,
   });
 
-  const preferences = useLocalPCStore((s) => s.preferences);
-  const localActiveId = useLocalPCStore((s) => s.activePCId);
-  const setLocalActivePC = useLocalPCStore((s) => s.setActivePC);
-  const setCurrency = useLocalPCStore((s) => s.setCurrency);
-  const setViewMode = useLocalPCStore((s) => s.setViewMode);
-  const setLastUsedCostBasisCurrency = useLocalPCStore(
+  const preferences = usePCPreferencesStore((s) => s.preferences);
+  const localActiveId = usePCPreferencesStore((s) => s.activePCId);
+  const setLocalActivePC = usePCPreferencesStore((s) => s.setActivePC);
+  const setCurrency = usePCPreferencesStore((s) => s.setCurrency);
+  const setViewMode = usePCPreferencesStore((s) => s.setViewMode);
+  const setLastUsedCostBasisCurrency = usePCPreferencesStore(
     (s) => s.setLastUsedCostBasisCurrency
   );
-  const setBusinessMode = useLocalPCStore((s) => s.setBusinessMode);
-  const setQuickAdd = useLocalPCStore((s) => s.setQuickAdd);
+  const setBusinessMode = usePCPreferencesStore((s) => s.setBusinessMode);
+  const setQuickAdd = usePCPreferencesStore((s) => s.setQuickAdd);
 
   // The locally-remembered "active PC" may not exist in the server
   // list yet (first login, or it was deleted from another device) — fall

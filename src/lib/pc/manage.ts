@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { logActivity } from "@/lib/activity/log";
 import type { Holding, NewHoldingInput, PC } from "@/lib/pc/types";
-import type { ImportPC, LetGoDetails } from "@/lib/pc/api-schemas";
+import type { LetGoDetails } from "@/lib/pc/api-schemas";
 
 /**
  * Server-backed PC storage for signed-in users — the accounts
@@ -209,8 +209,11 @@ export async function deletePC(userId: string, pcId: string): Promise<void> {
   // destroyed along with it. Hand any archived rows off to another pc of
   // the same kind first; if there isn't one, refuse the delete rather than
   // losing that history.
-  const archivedCount = await db.holding.count({ where: { portfolioId: pcId, archivedAt: { not: null } } });
-  if (archivedCount > 0) {
+  const archived = await db.holding.findMany({
+    where: { portfolioId: pcId, archivedAt: { not: null } },
+    select: { id: true },
+  });
+  if (archived.length > 0) {
     const fallback = await db.portfolio.findFirst({
       where: { userId, kind: pc.kind, id: { not: pcId } },
       orderBy: { createdAt: "asc" },
@@ -219,10 +222,13 @@ export async function deletePC(userId: string, pcId: string): Promise<void> {
     if (!fallback) {
       throw new Error("PC has archived cards");
     }
-    await db.holding.updateMany({
-      where: { portfolioId: pcId, archivedAt: { not: null } },
-      data: { portfolioId: fallback.id },
-    });
+    // One `update` per row rather than a single `updateMany` — see
+    // archiveHoldings' comment below for why: `updateMany`/`deleteMany`
+    // need an interactive transaction under the Neon HTTP adapter this app
+    // runs on in production, which that adapter can't provide.
+    await Promise.all(
+      archived.map((h) => db.holding.update({ where: { id: h.id }, data: { portfolioId: fallback.id } }))
+    );
   }
 
   await db.portfolio.delete({ where: { id: pcId } });
@@ -343,28 +349,32 @@ export async function archiveHoldings(
   const pc = await assertOwnsPC(userId, pcId);
   const holdings = await db.holding.findMany({
     where: { portfolioId: pcId, id: { in: holdingIds } },
-    select: { kind: true, catalogItemId: true, sportsCardItemId: true, customName: true, quantity: true },
+    select: { id: true, kind: true, catalogItemId: true, sportsCardItemId: true, customName: true, quantity: true },
   });
   if (holdings.length === 0) return;
 
   const letGoAt = letGo?.letGoAt ? new Date(letGo.letGoAt) : new Date();
-  await db.holding.updateMany({
-    where: { portfolioId: pcId, id: { in: holdingIds } },
-    data: {
-      archivedAt: new Date(),
-      letGoAt,
-      // Explicit nulls (not undefined) for anything left blank — this is
-      // the authoritative write of a fresh archive record, so a previous
-      // restore/re-archive cycle's stale letGo* values must actually be
-      // overwritten rather than left as whatever Prisma's "undefined means
-      // don't touch" default would otherwise preserve.
-      letGoMethod: letGo?.letGoMethod ?? null,
-      letGoTo: letGo?.letGoTo ?? null,
-      letGoAmount: letGo?.letGoAmount ?? null,
-      letGoCurrency: letGo?.letGoCurrency ?? null,
-      letGoNotes: letGo?.letGoNotes ?? null,
-    },
-  });
+  const archiveData = {
+    archivedAt: new Date(),
+    letGoAt,
+    // Explicit nulls (not undefined) for anything left blank — this is
+    // the authoritative write of a fresh archive record, so a previous
+    // restore/re-archive cycle's stale letGo* values must actually be
+    // overwritten rather than left as whatever Prisma's "undefined means
+    // don't touch" default would otherwise preserve.
+    letGoMethod: letGo?.letGoMethod ?? null,
+    letGoTo: letGo?.letGoTo ?? null,
+    letGoAmount: letGo?.letGoAmount ?? null,
+    letGoCurrency: letGo?.letGoCurrency ?? null,
+    letGoNotes: letGo?.letGoNotes ?? null,
+  };
+  // One `update` per row rather than a single `updateMany` — this app's
+  // production Prisma client (src/lib/db.ts) talks to Neon over
+  // PrismaNeonHTTP, a plain-fetch adapter that deliberately can't support
+  // interactive transactions (see that file's comment). `updateMany`
+  // internally requires one, so it fails there with "Transactions are not
+  // supported in HTTP mode" — a single-row `update` doesn't.
+  await Promise.all(holdings.map((h) => db.holding.update({ where: { id: h.id }, data: archiveData })));
 
   let summary: string;
   if (holdings.length <= 5) {
@@ -388,11 +398,14 @@ export async function removeHoldings(userId: string, pcId: string, holdingIds: s
   const pc = await assertOwnsPC(userId, pcId);
   const holdings = await db.holding.findMany({
     where: { portfolioId: pcId, id: { in: holdingIds } },
-    select: { kind: true, catalogItemId: true, sportsCardItemId: true, customName: true, quantity: true },
+    select: { id: true, kind: true, catalogItemId: true, sportsCardItemId: true, customName: true, quantity: true },
   });
   if (holdings.length === 0) return;
 
-  await db.holding.deleteMany({ where: { portfolioId: pcId, id: { in: holdingIds } } });
+  // Per-row `delete` rather than `deleteMany` — same "no interactive
+  // transactions over the Neon HTTP adapter" reasoning as archiveHoldings
+  // above.
+  await Promise.all(holdings.map((h) => db.holding.delete({ where: { id: h.id } })));
 
   let summary: string;
   if (holdings.length <= 5) {
@@ -424,35 +437,41 @@ export async function transferHoldings(
 
   const holdings = await db.holding.findMany({ where: { portfolioId: fromId, id: { in: holdingIds } } });
 
-  await db.$transaction(async (tx) => {
-    for (const h of holdings) {
-      await tx.holding.create({
-        data: {
-          portfolioId: toId,
-          kind: h.kind,
-          catalogItemId: h.catalogItemId,
-          sportsCardItemId: h.sportsCardItemId,
-          quantity: h.quantity,
-          condition: h.condition,
-          gradeCompany: h.gradeCompany,
-          gradeValue: h.gradeValue,
-          rawCondition: h.rawCondition,
-          serialNumber: h.serialNumber,
-          language: h.language,
-          customName: h.customName,
-          costBasisTotal: h.costBasisTotal,
-          costBasisCurrency: h.costBasisCurrency,
-          priceAtAcquisition: h.priceAtAcquisition,
-          acquiredAt: h.acquiredAt,
-          notes: h.notes,
-          imageUrl: h.imageUrl,
-        },
-      });
-    }
-    if (mode === "move") {
-      await tx.holding.deleteMany({ where: { portfolioId: fromId, id: { in: holdingIds } } });
-    }
-  });
+  // Not wrapped in `db.$transaction` — this app's production Prisma client
+  // (src/lib/db.ts) talks to Neon over PrismaNeonHTTP, a plain-fetch
+  // adapter that can't support interactive transactions at all ("Transactions
+  // are not supported in HTTP mode"), so `$transaction` throws unconditionally
+  // there. Each create/delete below is already a single-row operation and
+  // needs no transaction of its own; a failure partway through just leaves
+  // the transfer partially done rather than rolled back, same tradeoff
+  // archiveHoldings/removeHoldings above already accept.
+  for (const h of holdings) {
+    await db.holding.create({
+      data: {
+        portfolioId: toId,
+        kind: h.kind,
+        catalogItemId: h.catalogItemId,
+        sportsCardItemId: h.sportsCardItemId,
+        quantity: h.quantity,
+        condition: h.condition,
+        gradeCompany: h.gradeCompany,
+        gradeValue: h.gradeValue,
+        rawCondition: h.rawCondition,
+        serialNumber: h.serialNumber,
+        language: h.language,
+        customName: h.customName,
+        costBasisTotal: h.costBasisTotal,
+        costBasisCurrency: h.costBasisCurrency,
+        priceAtAcquisition: h.priceAtAcquisition,
+        acquiredAt: h.acquiredAt,
+        notes: h.notes,
+        imageUrl: h.imageUrl,
+      },
+    });
+  }
+  if (mode === "move") {
+    await Promise.all(holdings.map((h) => db.holding.delete({ where: { id: h.id } })));
+  }
 
   if (holdings.length > 0) {
     await logActivity(userId, {
@@ -460,82 +479,6 @@ export async function transferHoldings(
       entityType: "holding",
       summary: `${mode === "move" ? "Moved" : "Copied"} ${holdings.length} card${holdings.length === 1 ? "" : "s"} from ${fromPc.name} to ${toPc.name}`,
       metadata: { fromId, toId, holdingIds, mode },
-    });
-  }
-}
-
-/**
- * One-time import of a browser's entire local PC payload into the
- * user's account, preserving ids so the caller's optimistic client state
- * doesn't need to change shape. Runs as a single transaction — if any part
- * fails, nothing is partially imported (the local copy is never deleted
- * either way, so a failed import is simply safe to retry).
- */
-export async function importLocalPC(
-  userId: string,
-  pcs: ImportPC[]
-): Promise<void> {
-  const importedIds: string[] = [];
-
-  await db.$transaction(async (tx) => {
-    for (const p of pcs) {
-      if (p.holdings.length === 0) continue;
-      importedIds.push(p.id);
-      await tx.portfolio.upsert({
-        where: { id: p.id },
-        create: { id: p.id, userId, name: p.name },
-        update: {},
-      });
-      for (const h of p.holdings) {
-        await tx.holding.upsert({
-          where: { id: h.id },
-          create: {
-            id: h.id,
-            portfolioId: p.id,
-            kind: h.kind ?? "tcg",
-            catalogItemId: h.catalogItemId,
-            sportsCardItemId: h.sportsCardItemId,
-            quantity: h.quantity,
-            condition: h.condition,
-            gradeCompany: h.gradeCompany,
-            gradeValue: h.gradeValue,
-            rawCondition: h.rawCondition,
-            serialNumber: h.serialNumber,
-            language: h.language,
-            customName: h.customName,
-            costBasisTotal: h.costBasisTotal,
-            costBasisCurrency: h.costBasisCurrency,
-            priceAtAcquisition: h.priceAtAcquisition,
-            acquiredAt: h.acquiredAt ? new Date(h.acquiredAt) : null,
-            notes: h.notes,
-            imageUrl: h.imageUrl,
-          },
-          update: {},
-        });
-      }
-    }
-
-    // GET /api/pc (ensureDefaultPC) may have already created
-    // an empty "Main" PC for this user before the import prompt was
-    // answered — a race between the eager PC fetch and the user's
-    // import decision. Clean up any such empty PCs now that real
-    // data has landed, so the account isn't left with a stray duplicate.
-    if (importedIds.length > 0) {
-      await tx.portfolio.deleteMany({
-        where: { userId, id: { notIn: importedIds }, holdings: { none: {} } },
-      });
-    }
-  });
-
-  if (importedIds.length > 0) {
-    const totalHoldings = pcs
-      .filter((p) => importedIds.includes(p.id))
-      .reduce((sum, p) => sum + p.holdings.length, 0);
-    await logActivity(userId, {
-      action: "holding.imported",
-      entityType: "holding",
-      summary: `Imported ${totalHoldings} card${totalHoldings === 1 ? "" : "s"} across ${importedIds.length} PC${importedIds.length === 1 ? "" : "s"}`,
-      metadata: { pcIds: importedIds, totalHoldings },
     });
   }
 }

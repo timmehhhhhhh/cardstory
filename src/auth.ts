@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
 import { db } from "@/lib/db";
+import { authConfig } from "@/auth.config";
 
 /**
  * Credentials-only auth (email + password) with JWT sessions — no
@@ -9,16 +10,21 @@ import { db } from "@/lib/db";
  * there's no OAuth provider to link and JWT sessions need no DB-backed
  * session state. Trade-off: sessions can't be revoked server-side before
  * they expire; acceptable for this app.
+ *
+ * Extends src/auth.config.ts's shared (Edge-safe) config with the
+ * Credentials provider — see that file's comment for why the provider
+ * (and everything it pulls in — bcryptjs, Prisma) lives only here, not
+ * there.
  */
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  session: { strategy: "jwt" },
-  pages: { signIn: "/login" },
+  ...authConfig,
+  // trustHost/pages/session/callbacks all come from authConfig above —
   // Auth.js only auto-trusts the request host on Vercel/Cloudflare Pages
   // (via VERCEL/CF_PAGES env vars); this app deploys to Cloudflare Workers,
-  // which isn't auto-detected. Without this, every /api/auth/* request in
-  // production is rejected with UntrustedHost before it reaches authorize(),
-  // so sign-in silently fails with a generic "incorrect credentials" error.
-  trustHost: true,
+  // which isn't auto-detected, so authConfig sets it explicitly. Without
+  // that, every /api/auth/* request in production is rejected with
+  // UntrustedHost before it reaches authorize() below, so sign-in silently
+  // fails with a generic "incorrect credentials" error.
   providers: [
     Credentials({
       credentials: {
@@ -42,27 +48,4 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
-  callbacks: {
-    jwt({ token, user, trigger, session }) {
-      if (user) {
-        token.uid = user.id;
-        token.isVendor = (user as { isVendor?: boolean }).isVendor ?? false;
-      }
-      // Lets the client refresh isVendor into the JWT right after toggling
-      // it (see account-menu.tsx's `update({ isVendor })` call) without
-      // requiring a full sign-out/sign-in — session() only ever reads what
-      // jwt() already put on the token, so it has to land here.
-      if (trigger === "update" && session && typeof session.isVendor === "boolean") {
-        token.isVendor = session.isVendor;
-      }
-      return token;
-    },
-    session({ session, token }) {
-      if (session.user && typeof token.uid === "string") {
-        session.user.id = token.uid;
-        session.user.isVendor = token.isVendor === true;
-      }
-      return session;
-    },
-  },
 });

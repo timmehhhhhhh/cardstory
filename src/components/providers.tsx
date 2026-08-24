@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
 import { SessionProvider } from "next-auth/react";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { PCImportPrompt } from "@/components/auth/pc-import-prompt";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = React.useState(
@@ -31,7 +30,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
         >
           <TooltipProvider delayDuration={150}>
             {children}
-            <PCImportPrompt />
           </TooltipProvider>
         </ThemeProvider>
       </QueryClientProvider>

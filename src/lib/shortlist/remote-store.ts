@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { id } from "@/lib/pc/local-store";
+import { id } from "@/lib/pc/id";
 import type { NewShortlistItemInput, ShortlistItem } from "@/lib/shortlist/types";
 import type { ShortlistState } from "@/lib/shortlist/local-store";
 
