@@ -3,9 +3,10 @@ import type { ShortlistItem, ShortlistItemKind } from "@/lib/shortlist/types";
 import type { ShortlistItemInput, ShortlistItemPatchInput } from "@/lib/shortlist/api-schemas";
 
 /**
- * Server-backed In-Store Shortlist storage for signed-in users — the
- * accounts equivalent of src/lib/shortlist/local-store.ts. Same
- * "re-check ownership via userId, never trust a bare id" posture as
+ * Server-backed In-Store Shortlist storage for signed-in users — the only
+ * storage this app has for shortlists (see src/proxy.ts; there is no
+ * anonymous/local mode anymore). Same "re-check ownership via userId,
+ * never trust a bare id" posture as
  * src/lib/pc/manage.ts for the one mutation where it matters (update —
  * see assertOwnsShortlistItem).
  *

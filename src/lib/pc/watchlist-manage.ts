@@ -3,9 +3,10 @@ import { db } from "@/lib/db";
 import type { WatchlistItem } from "@/lib/pc/types";
 
 /**
- * Server-backed watchlist storage for signed-in users — the accounts
- * equivalent of the `watchlist` slice of src/lib/pc/local-store.ts. Same
- * "re-check ownership via userId, never trust a bare id" posture as
+ * Server-backed watchlist storage for signed-in users — the only storage
+ * this app has for watchlists (see src/proxy.ts; there is no
+ * anonymous/local mode anymore). Same "re-check ownership via userId,
+ * never trust a bare id" posture as
  * src/lib/pc/manage.ts, though there's nothing to own-check here beyond
  * scoping every query to the caller's own userId.
  *

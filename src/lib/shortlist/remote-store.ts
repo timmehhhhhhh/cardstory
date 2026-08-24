@@ -2,9 +2,8 @@
 
 import * as React from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { id } from "@/lib/pc/local-store";
-import type { NewShortlistItemInput, ShortlistItem } from "@/lib/shortlist/types";
-import type { ShortlistState } from "@/lib/shortlist/local-store";
+import { id } from "@/lib/pc/id";
+import type { NewShortlistItemInput, ShortlistItem, ShortlistState } from "@/lib/shortlist/types";
 
 const QUERY_KEY = ["shortlist"] as const;
 
@@ -20,9 +19,9 @@ function nowIso() {
 }
 
 /**
- * Server-backed shortlist store for signed-in users — same ShortlistState
- * shape as useLocalShortlistStore so src/lib/shortlist/store.ts can switch
- * between the two without any consuming component knowing the difference.
+ * Server-backed shortlist store for signed-in users — the only
+ * implementation behind src/lib/shortlist/store.ts's pass-through, so
+ * consuming components never called this directly.
  * A direct transcription of the watchlist half of src/lib/pc/remote-store.ts:
  * ids are still client-generated, mutations optimistically patch the query
  * cache, fire the request, and reconcile (invalidate + refetch) on failure.

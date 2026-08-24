@@ -1,25 +1,20 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useLocalShortlistStore, type ShortlistState } from "@/lib/shortlist/local-store";
 import { useRemoteShortlistStore } from "@/lib/shortlist/remote-store";
+import type { ShortlistState } from "@/lib/shortlist/types";
 
-export type { ShortlistState } from "@/lib/shortlist/local-store";
+export type { ShortlistState } from "@/lib/shortlist/types";
 
 /**
  * The single shortlist store every component reads from — same
- * useSession()-based switcher as src/lib/pc/store.ts. Logged-out visitors
- * are served entirely from localStorage; signed-in users are served from
- * the server. Both hooks are always called (React hook rules — no
- * conditional hook calls); the unused one's query stays disabled via
- * `enabled`.
+ * pass-through shape as src/lib/pc/store.ts. Every route now requires a
+ * signed-in session (see src/proxy.ts), so this is a direct pass-through
+ * to useRemoteShortlistStore; `enabled` stays a defensive no-op for the
+ * brief moment a session is still resolving on first paint, rather than
+ * firing requests that are guaranteed to 401.
  */
 export function useShortlistStore<T>(selector: (s: ShortlistState) => T): T {
   const { status } = useSession();
-  const authed = status === "authenticated";
-
-  const local = useLocalShortlistStore(selector);
-  const remote = useRemoteShortlistStore(selector, { enabled: authed });
-
-  return authed ? remote : local;
+  return useRemoteShortlistStore(selector, { enabled: status === "authenticated" });
 }

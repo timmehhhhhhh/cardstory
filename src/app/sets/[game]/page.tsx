@@ -9,6 +9,7 @@ import { getGameMeta } from "@/lib/games/registry";
 import { SetTile } from "@/app/sets/[game]/_components/set-tile";
 import { SortToggle } from "@/app/sets/[game]/_components/sort-toggle";
 import { formatReleaseMonthYear } from "@/lib/format/date";
+import { requireSession } from "@/lib/auth/require-session";
 
 export async function generateMetadata({
   params,
@@ -109,6 +110,7 @@ export default async function GameSetsPage({
   params: Promise<{ game: string }>;
   searchParams: Promise<{ sort?: string }>;
 }) {
+  await requireSession();
   const { game } = await params;
   const { sort } = await searchParams;
   const meta = getGameMeta(game);

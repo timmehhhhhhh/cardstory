@@ -1,27 +1,20 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { useDeckCraftingStore as useLocalDeckCraftingStore } from "@/lib/deck-crafting/local-store";
 import { useRemoteDeckCraftingStore } from "@/lib/deck-crafting/remote-store";
+import type { DeckCraftingState } from "@/lib/deck-crafting/types";
 
-export type { DeckCraftingState } from "@/lib/deck-crafting/local-store";
-import type { DeckCraftingState } from "@/lib/deck-crafting/local-store";
+export type { DeckCraftingState } from "@/lib/deck-crafting/types";
 
 /**
- * The single Deck Crafting store every component reads from — logged-out
- * visitors are served entirely from localStorage (useLocalDeckCraftingStore,
- * untouched); signed-in users are served from the server
- * (useRemoteDeckCraftingStore). Mirrors src/lib/pc/store.ts's switcher exactly.
- *
- * Both hooks are always called (React hook rules — no conditional hook
- * calls), and the unused one's query stays disabled via `enabled`.
+ * The single Deck Crafting store every component reads from — same
+ * pass-through shape as src/lib/pc/store.ts. Every route now requires a
+ * signed-in session (see src/proxy.ts), so this is a direct pass-through
+ * to useRemoteDeckCraftingStore; `enabled` stays a defensive no-op for the
+ * brief moment a session is still resolving on first paint, rather than
+ * firing requests that are guaranteed to 401.
  */
 export function useDeckCraftingStore<T>(selector: (s: DeckCraftingState) => T): T {
   const { status } = useSession();
-  const authed = status === "authenticated";
-
-  const local = useLocalDeckCraftingStore(selector);
-  const remote = useRemoteDeckCraftingStore(selector, { enabled: authed });
-
-  return authed ? remote : local;
+  return useRemoteDeckCraftingStore(selector, { enabled: status === "authenticated" });
 }

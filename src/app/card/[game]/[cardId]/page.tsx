@@ -18,6 +18,7 @@ import { OtherVersionsPanel } from "@/app/card/[game]/[cardId]/_components/other
 import { Badge } from "@/components/ui/badge";
 import { formatReleaseDate } from "@/lib/format/date";
 import { defaultFinishLabel } from "@/lib/games/pokemon/mapper";
+import { requireSession } from "@/lib/auth/require-session";
 import { getFinishDisplayLabel } from "@/lib/games/pokemon/finish-patterns";
 import { CardImage } from "@/components/cards/card-image";
 import { ParallelBadge } from "@/components/sportscards/parallel-badge";
@@ -102,6 +103,7 @@ export default async function CardDetailPage({
 }: {
   params: Promise<{ game: string; cardId: string }>;
 }) {
+  await requireSession();
   const { game, cardId } = await params;
   const card = await getCard(game, cardId);
   if (!card) notFound();

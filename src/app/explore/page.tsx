@@ -8,6 +8,7 @@ import {
 } from "@/lib/catalog/search";
 import { filtersFromSearchParams } from "@/app/explore/_components/types";
 import { ExploreClient } from "@/app/explore/_components/explore-client";
+import { requireSession } from "@/lib/auth/require-session";
 
 export const metadata: Metadata = { title: "Explore" };
 
@@ -16,6 +17,7 @@ export default async function ExplorePage({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
+  await requireSession();
   const sp = await searchParams;
   const filters = filtersFromSearchParams(sp);
 

@@ -5,8 +5,9 @@ import { watchlistAddSchema, watchlistRemoveSchema } from "@/lib/pc/watchlist-sc
 
 export async function GET() {
   const session = await auth();
-  // Anonymous stays local-only (see src/lib/pc/local-store.ts) — an empty
-  // list is a safe default here, no 401, since this is a read not a mutation.
+  // Every route requires a signed-in session (see src/proxy.ts), so
+  // session?.user should always be set here — an empty list is still a
+  // safe fallback rather than a 401, since this is a read not a mutation.
   if (!session?.user) return NextResponse.json({ entries: [] });
 
   const entries = await listWatchlist(session.user.id);

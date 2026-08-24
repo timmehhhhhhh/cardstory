@@ -16,18 +16,20 @@ import {
 import type { PCStoreDataV1, WatchlistItem } from "@/lib/pc/types";
 import type { ShortlistStoreDataV1 } from "@/lib/shortlist/types";
 
-// Kept as "portfolio" (not "pc") to match src/lib/pc/local-store.ts's
-// unchanged storage key, so existing local data is still found.
+// Kept as "portfolio" (not "pc") — the storage key an anonymous browser's
+// now-deleted local pc store used to write, so any data left over from
+// before every route required a signed-in session (see src/proxy.ts) is
+// still found and offered for import.
 const STORAGE_KEY = "cardstory:portfolio:v1";
 const SHORTLIST_STORAGE_KEY = "cardstory:shortlist:v1";
 const IMPORT_STATUS_KEY = "cardstory:portfolio:import-status";
 
 /**
  * This component reads raw localStorage JSON directly (below), bypassing
- * useLocalPCStore's zustand `persist` migration — so a browser that still
- * has the pre-upgrade watchlist shape (a bare catalogItemId[]) sitting in
- * storage could reach this point unmigrated. Defensively normalize the same
- * way local-store.ts's migrate() does, rather than sending malformed
+ * zustand `persist`'s migration — so a browser that still has the
+ * pre-upgrade watchlist shape (a bare catalogItemId[]) sitting in storage
+ * could reach this point unmigrated. Defensively normalize it the same way
+ * the old local pc store's migrate() used to, rather than sending malformed
  * entries to /api/pc/import.
  */
 function normalizeWatchlist(watchlist: unknown): WatchlistItem[] {
