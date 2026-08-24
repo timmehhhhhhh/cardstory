@@ -13,12 +13,14 @@ const CARD_TYPE_LABEL: Record<ChecklistCardType, string> = {
   base: "Base",
   insert: "Insert",
   short_print: "Short Print",
+  ssp: "Super Short Print",
 };
 
 const CARD_TYPE_VARIANT: Record<ChecklistCardType, "outline" | "secondary" | "default"> = {
   base: "outline",
   insert: "secondary",
   short_print: "default",
+  ssp: "default",
 };
 
 /** Owns the Front/Back label and the fixed checklist thumbnail size; the

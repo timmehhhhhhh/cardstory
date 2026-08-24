@@ -317,16 +317,16 @@ export function ViewBuilder({
               <div className="flex items-center justify-between">
                 <div>
                   <Label htmlFor="view-base-only" className="text-sm font-medium">
-                    Hide parallels
+                    Show all parallels
                   </Label>
                   <p className="mt-0.5 text-xs text-muted-foreground">
-                    Sports cards only — show just each card&apos;s base version.
+                    Sports cards only — by default each card matches once; open it to see every parallel/refractor.
                   </p>
                 </div>
                 <Switch
                   id="view-base-only"
-                  checked={filters.baseOnly}
-                  onCheckedChange={(v) => setFilters((f) => ({ ...f, baseOnly: v }))}
+                  checked={!filters.baseOnly}
+                  onCheckedChange={(v) => setFilters((f) => ({ ...f, baseOnly: !v }))}
                 />
               </div>
             </>

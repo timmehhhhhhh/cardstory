@@ -23,7 +23,9 @@ export function viewFiltersToSearchParams(f: ViewFilters): URLSearchParams {
   if (f.domains.length > 0) sp.set("domain", f.domains.join(","));
   if (f.languages.length > 0) sp.set("language", f.languages.join(","));
   if (f.artists.length > 0) sp.set("artist", f.artists.join(","));
-  if (f.baseOnly) sp.set("baseOnly", "1");
+  // Always written explicitly (never omitted) since the default flipped to
+  // true — an omitted param must not be ambiguous with "off".
+  sp.set("baseOnly", f.baseOnly ? "1" : "0");
   if (f.sort !== "best_match") sp.set("sort", f.sort);
   return sp;
 }

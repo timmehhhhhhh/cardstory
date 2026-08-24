@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { getSportsCardProductById } from "@/lib/pricing/sportscardspro/client";
 import { mapPriceChartingProduct } from "@/lib/pricing/pricecharting/mapper";
 import { upsertSportsCardPriceSnapshot } from "@/lib/pricing/sports-snapshot";
+import { compareParallelsByRarity } from "@/lib/sportscards/rarity";
 
 export interface SportsCardItemInput {
   /** If present, we trust the id over the free-text fields and re-fetch real data server-side. */
@@ -157,7 +158,7 @@ export async function updateSportsCardImage(id: string, imageUrl: string): Promi
 // here never implies anyone owns it.
 // ---------------------------------------------------------------------------
 
-export type ChecklistCardType = "base" | "insert" | "short_print";
+export type ChecklistCardType = "base" | "insert" | "short_print" | "ssp";
 
 export interface ChecklistRowInput extends SportsCardItemInput {
   cardType: ChecklistCardType;
@@ -165,6 +166,8 @@ export interface ChecklistRowInput extends SportsCardItemInput {
   sourceUrl?: string;
   /** The product line's real street date — shared by every row in the same (year, distributor, setName), see scripts/data/lamelo-ball/release-dates.ts. */
   releaseDate?: Date;
+  /** True when imageUrl is inherited from this group's base card rather than a scan of this exact parallel — see the same-named column on SportsCardItem. Defaults to false (an explicit scan) when omitted. */
+  imageIsInherited?: boolean;
 }
 
 /**
@@ -230,6 +233,7 @@ export async function upsertChecklistSportsCardItem(input: ChecklistRowInput): P
     imageUrl: input.imageUrl ?? null,
     imageBackUrl: input.imageBackUrl ?? null,
     sourceUrl: input.sourceUrl ?? null,
+    imageIsInherited: input.imageIsInherited ?? false,
     cardType: input.cardType,
     releaseDate: input.releaseDate ?? null,
     externalKey,
@@ -312,4 +316,60 @@ export async function getPlayerChecklist(sport: Sport, playerName: string): Prom
   }
 
   return [...groups.values()];
+}
+
+// ---------------------------------------------------------------------------
+// Card-level variant grouping — every parallel/refractor a given base card
+// (or insert/short print/SSP) was released as, ordered by rarity. Backs both
+// the sports card detail page's parallels panel and the add-to-collection
+// variant picker (GET /api/sportscards/[id]/variants), so both stay in sync.
+// Unlike getPlayerChecklist (grouped by player, checklist-seeded rows only),
+// this groups from any single known row's id, so it also works for ad hoc
+// user-added cards (cardType: null).
+// ---------------------------------------------------------------------------
+
+export interface SportsCardVariant {
+  sportsCardItemId: string;
+  /** null = the base/unparalleled version. */
+  parallelName: string | null;
+  serialLimit: string | null;
+  priceRaw: number | null;
+}
+
+/**
+ * Every row sharing the same card identity as `sportsCardItemId` — i.e.
+ * every parallel/refractor of that card, including the base row itself —
+ * ordered with the base version first, then least-to-most rare
+ * (compareParallelsByRarity). Returns [] if the id doesn't exist.
+ *
+ * Grouping key is (sport, year, distributor, setName, cardNumber, cardType)
+ * for checklist-seeded rows. Ad hoc user-added cards never set cardType, so
+ * for those the match drops cardType from the key entirely (matching any
+ * cardType, including null) — otherwise a user-added base card and a
+ * checklist-seeded one with the same number could never be told apart.
+ */
+export async function getSportsCardGroupVariants(sportsCardItemId: string): Promise<SportsCardVariant[]> {
+  const anchor = await db.sportsCardItem.findUnique({ where: { id: sportsCardItemId } });
+  if (!anchor) return [];
+
+  const rows = await db.sportsCardItem.findMany({
+    where: {
+      sport: anchor.sport,
+      year: anchor.year,
+      distributor: anchor.distributor,
+      setName: anchor.setName,
+      cardNumber: anchor.cardNumber,
+      ...(anchor.cardType != null ? { cardType: anchor.cardType } : {}),
+    },
+  });
+
+  const variants: SportsCardVariant[] = rows.map((r) => ({
+    sportsCardItemId: r.id,
+    parallelName: r.parallelName && r.parallelName.length > 0 ? r.parallelName : null,
+    serialLimit: r.serialLimit,
+    priceRaw: r.latestPriceRaw != null ? Number(r.latestPriceRaw) : null,
+  }));
+
+  variants.sort(compareParallelsByRarity);
+  return variants;
 }

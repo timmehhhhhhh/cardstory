@@ -11,7 +11,7 @@ export const viewFiltersSchema = z.object({
   domains: z.array(z.string().min(1).max(40)).max(10).default([]),
   languages: z.array(z.enum(["EN", "JP", "CN", "TW", "KR"])).max(5).default([]),
   artists: z.array(z.string().min(1).max(100)).max(25).default([]),
-  baseOnly: z.boolean().default(false),
+  baseOnly: z.boolean().default(true),
   sort: z.enum(CATALOG_SORTS).default("best_match"),
 });
 export type ViewFiltersInput = z.infer<typeof viewFiltersSchema>;
