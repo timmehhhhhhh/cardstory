@@ -3,6 +3,7 @@
 import * as React from "react";
 import { EyeOff, Settings as SettingsIcon, Store } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { toast } from "sonner";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 
@@ -52,7 +53,13 @@ export function SettingsClient() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ isVendor }),
       });
-      if (res.ok) await update({ isVendor });
+      if (res.ok) {
+        await update({ isVendor });
+      } else {
+        toast.error("Couldn't update your vendor account setting.");
+      }
+    } catch {
+      toast.error("Couldn't update your vendor account setting.");
     } finally {
       setVendorPending(false);
     }
@@ -66,7 +73,13 @@ export function SettingsClient() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ hidePricing }),
       });
-      if (res.ok) await update({ hidePricing });
+      if (res.ok) {
+        await update({ hidePricing });
+      } else {
+        toast.error("Couldn't update your pricing preference.");
+      }
+    } catch {
+      toast.error("Couldn't update your pricing preference.");
     } finally {
       setPricingPending(false);
     }
