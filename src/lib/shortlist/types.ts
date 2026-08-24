@@ -69,3 +69,32 @@ export interface ShortlistStoreDataV1 {
   schemaVersion: 1;
   items: ShortlistItem[];
 }
+
+/**
+ * Every mutation the shortlist store exposes — same shape whether it's
+ * ultimately backed by the server (src/lib/shortlist/remote-store.ts, the
+ * only implementation left; see git history for the anonymous
+ * localStorage version this replaced) so consuming components never know
+ * which is live.
+ */
+export interface ShortlistActions {
+  /**
+   * Returns the new item's id synchronously (client-generated, same
+   * convention as createPC) so the caller can focus the row it just
+   * created — the add bar does exactly that.
+   */
+  addShortlistItem: (input: NewShortlistItemInput) => string;
+  /**
+   * One generic patch action rather than setQuantity/setPrice/setNotes,
+   * matching updateHolding — the qty steppers, the price field and the
+   * currency picker all funnel through it.
+   */
+  updateShortlistItem: (
+    itemId: string,
+    patch: Partial<Omit<ShortlistItem, "id" | "addedAt">>
+  ) => void;
+  removeShortlistItems: (itemIds: string[]) => void;
+  clearShortlist: () => void;
+}
+
+export type ShortlistState = ShortlistStoreDataV1 & ShortlistActions;

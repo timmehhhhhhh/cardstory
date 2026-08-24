@@ -5,10 +5,11 @@ import { shortlistItemSchema, shortlistRemoveSchema } from "@/lib/shortlist/api-
 
 export async function GET() {
   const session = await auth();
-  // Anonymous stays local-only (see src/lib/shortlist/local-store.ts) — an
-  // empty list is a safe default here, no 401, since this is a read not a
-  // mutation, and a 401 would make useQuery throw while the session is
-  // still resolving on first paint.
+  // Every route requires a signed-in session (see src/proxy.ts), so
+  // session?.user should always be set here — an empty list is still a
+  // safe fallback rather than a 401, since this is a read not a mutation,
+  // and a 401 would make useQuery throw while the session is still
+  // resolving on first paint.
   if (!session?.user) return NextResponse.json({ items: [] });
 
   const items = await listShortlist(session.user.id);

@@ -2,9 +2,8 @@
 
 import * as React from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { id } from "@/lib/deck-crafting/local-store";
-import type { DeckCraftingState } from "@/lib/deck-crafting/local-store";
-import type { Deck, DeckCard } from "@/lib/deck-crafting/types";
+import { id } from "@/lib/deck-crafting/id";
+import type { Deck, DeckCard, DeckCraftingState } from "@/lib/deck-crafting/types";
 
 const QUERY_KEY = ["decks"] as const;
 
@@ -38,11 +37,11 @@ function logMutationFailure(action: string, res: Response | null, err?: unknown)
 }
 
 /**
- * Server-backed deck store for signed-in users — same `DeckCraftingState`
- * shape as the local store so src/lib/deck-crafting/store.ts can switch
- * between the two without any consuming component knowing the difference.
- * Mirrors src/lib/pc/remote-store.ts's shape/optimistic-update/reconcile
- * pattern exactly.
+ * Server-backed deck store for signed-in users — the only implementation
+ * behind src/lib/deck-crafting/store.ts's pass-through, so consuming
+ * components never called this directly. Mirrors
+ * src/lib/pc/remote-store.ts's shape/optimistic-update/reconcile pattern
+ * exactly.
  */
 export function useRemoteDeckCraftingStore<T>(
   selector: (s: DeckCraftingState) => T,

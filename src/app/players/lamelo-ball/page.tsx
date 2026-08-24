@@ -1,5 +1,6 @@
 import { getPlayerChecklist } from "@/lib/sportscards/manage";
 import { ChecklistClient } from "./_components/checklist-client";
+import { requireSession } from "@/lib/auth/require-session";
 
 export const metadata = {
   title: "LaMelo Ball Card Checklist — CardStory",
@@ -8,6 +9,7 @@ export const metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function LameloBallPage() {
+  await requireSession();
   const cards = await getPlayerChecklist("NBA", "LaMelo Ball");
 
   return (
