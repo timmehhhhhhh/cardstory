@@ -17,7 +17,7 @@ import type { EnrichedHolding } from "@/lib/pc/selectors";
 import { CardImage } from "@/components/cards/card-image";
 import { ParallelBadge } from "@/components/sportscards/parallel-badge";
 import { EmptyHoldings } from "@/app/pc/_components/empty-holdings";
-import { useAddToShortlist } from "@/lib/shortlist/use-add-to-shortlist";
+import { useAddToShortlist, useIsShortlisted } from "@/lib/shortlist/use-add-to-shortlist";
 import { CardStack } from "@/components/cards/card-stack";
 import { CardStoryDialog } from "@/components/cards/card-story-dialog";
 import { groupHoldingsIntoStacks, holdingToStoryFace } from "@/lib/collections/stacks";
@@ -53,6 +53,7 @@ function HoldingRowFace({
 }) {
   const currency = usePCStore((s) => s.preferences.currency);
   const addToShortlist = useAddToShortlist();
+  const shortlisted = useIsShortlisted(r.catalogItemId, r.sportsCardItemId);
   const [justShortlisted, setJustShortlisted] = React.useState(false);
 
   const positive = r.gainLoss >= 0;
@@ -163,8 +164,9 @@ function HoldingRowFace({
             {(r.catalogItemId || r.sportsCardItemId) && (
               <button
                 type="button"
-                aria-label="Add to shortlist"
-                title="Add to shortlist"
+                aria-label={shortlisted ? "On shortlist" : "Add to shortlist"}
+                aria-pressed={shortlisted}
+                title={shortlisted ? "On shortlist" : "Add to shortlist"}
                 onClick={() => {
                   addToShortlist({
                     kind: r.kind ?? "tcg",
@@ -177,7 +179,11 @@ function HoldingRowFace({
                 }}
                 className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-primary"
               >
-                {justShortlisted ? <Check className="size-4 text-positive" /> : <ShoppingBag className="size-4" />}
+                {justShortlisted ? (
+                  <Check className="size-4 text-positive" />
+                ) : (
+                  <ShoppingBag className={cn("size-4", shortlisted && "fill-primary text-primary")} />
+                )}
               </button>
             )}
             <button

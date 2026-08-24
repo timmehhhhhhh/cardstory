@@ -17,7 +17,7 @@ import type { EnrichedHolding } from "@/lib/pc/selectors";
 import { CardImage } from "@/components/cards/card-image";
 import { ParallelBadge } from "@/components/sportscards/parallel-badge";
 import { EmptyHoldings } from "@/app/pc/_components/empty-holdings";
-import { useAddToShortlist } from "@/lib/shortlist/use-add-to-shortlist";
+import { useAddToShortlist, useIsShortlisted } from "@/lib/shortlist/use-add-to-shortlist";
 import { CardStack } from "@/components/cards/card-stack";
 import { CardStoryDialog } from "@/components/cards/card-story-dialog";
 import { groupHoldingsIntoStacks, holdingToStoryFace } from "@/lib/collections/stacks";
@@ -58,6 +58,7 @@ function HoldingGalleryFace({
 }) {
   const currency = usePCStore((s) => s.preferences.currency);
   const addToShortlist = useAddToShortlist();
+  const shortlisted = useIsShortlisted(r.catalogItemId, r.sportsCardItemId);
   const [justShortlisted, setJustShortlisted] = React.useState(false);
 
   const positive = r.gainLoss >= 0;
@@ -219,8 +220,11 @@ function HoldingGalleryFace({
         {(r.catalogItemId || r.sportsCardItemId) && (
           <button
             type="button"
-            aria-label={`Add ${r.display.name} to shortlist`}
-            title="Add to shortlist"
+            aria-label={
+              shortlisted ? `${r.display.name} is on shortlist` : `Add ${r.display.name} to shortlist`
+            }
+            aria-pressed={shortlisted}
+            title={shortlisted ? "On shortlist" : "Add to shortlist"}
             onClick={() => {
               addToShortlist({
                 kind: r.kind ?? "tcg",
@@ -231,9 +235,19 @@ function HoldingGalleryFace({
               setJustShortlisted(true);
               setTimeout(() => setJustShortlisted(false), 1200);
             }}
-            className="rounded-full bg-background/70 p-1.5 text-muted-foreground opacity-0 backdrop-blur transition-opacity hover:text-primary focus-visible:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100"
+            className={cn(
+              "rounded-full bg-background/70 p-1.5 text-muted-foreground backdrop-blur transition-opacity hover:text-primary focus-visible:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100",
+              // Stays visible without hovering once shortlisted, same as the
+              // other buttons' opacity-0-until-hover default otherwise —
+              // the whole point of the fill is to read as a lasting state.
+              shortlisted ? "opacity-100" : "opacity-0"
+            )}
           >
-            {justShortlisted ? <Check className="size-3.5 text-positive" /> : <ShoppingBag className="size-3.5" />}
+            {justShortlisted ? (
+              <Check className="size-3.5 text-positive" />
+            ) : (
+              <ShoppingBag className={cn("size-3.5", shortlisted && "fill-primary text-primary")} />
+            )}
           </button>
         )}
         <button

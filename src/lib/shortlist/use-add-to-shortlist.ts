@@ -35,3 +35,21 @@ export function useAddToShortlist() {
     });
   };
 }
+
+/**
+ * Whether a given catalog/sports card already has a row on the shortlist —
+ * drives the "filled in" icon state on the shortlist button, the same way
+ * usePCStore's watchlist lookup drives the watchlist star. Deliberately
+ * ignores `quantity`/kind "custom" rows (a custom row has no catalogItemId
+ * or sportsCardItemId to match against, same as ownedQuantity in
+ * card-tile.tsx).
+ */
+export function useIsShortlisted(catalogItemId?: string, sportsCardItemId?: string) {
+  return useShortlistStore((s) =>
+    s.items.some(
+      (i) =>
+        (catalogItemId != null && i.catalogItemId === catalogItemId) ||
+        (sportsCardItemId != null && i.sportsCardItemId === sportsCardItemId)
+    )
+  );
+}
