@@ -1,7 +1,7 @@
 {
   "gameId": "pokemon",
   "note": "Non-English card names the resolver could not translate, ranked by row count. Add entries to POKEMON_CARD_TRANSLATIONS in scripts/data/pokemon-card-translations.ts and re-run scripts/backfill-catalog-name-en.ts.",
-  "generatedAt": "2026-08-22T06:09:44.748Z",
+  "generatedAt": "2026-08-24T19:43:41.695Z",
   "entries": [
     {
       "language": "JP",
@@ -19,38 +19,8 @@
       "rowCount": 14
     },
     {
-      "language": "TW",
-      "name": "博士的研究（山梨博士）",
-      "rowCount": 13
-    },
-    {
-      "language": "TW",
-      "name": "老大的指令（赤日）",
-      "rowCount": 12
-    },
-    {
-      "language": "TW",
-      "name": "莎娜",
-      "rowCount": 12
-    },
-    {
-      "language": "TW",
-      "name": "醜醜魚",
-      "rowCount": 12
-    },
-    {
       "language": "JP",
       "name": "なかよしポフィン",
-      "rowCount": 11
-    },
-    {
-      "language": "TW",
-      "name": "博士的研究(木蘭博士)",
-      "rowCount": 11
-    },
-    {
-      "language": "TW",
-      "name": "摔角鷹人",
       "rowCount": 11
     },
     {
@@ -85,22 +55,7 @@
     },
     {
       "language": "TW",
-      "name": "圓絲蛛",
-      "rowCount": 10
-    },
-    {
-      "language": "TW",
-      "name": "夜巡靈",
-      "rowCount": 10
-    },
-    {
-      "language": "TW",
       "name": "普通釣竿",
-      "rowCount": 10
-    },
-    {
-      "language": "TW",
-      "name": "竹蘭的霸氣",
       "rowCount": 10
     },
     {
@@ -140,32 +95,7 @@
     },
     {
       "language": "TW",
-      "name": "光電傘蜥",
-      "rowCount": 9
-    },
-    {
-      "language": "TW",
       "name": "奇樹",
-      "rowCount": 9
-    },
-    {
-      "language": "TW",
-      "name": "好啦魷",
-      "rowCount": 9
-    },
-    {
-      "language": "TW",
-      "name": "彷徨夜靈",
-      "rowCount": 9
-    },
-    {
-      "language": "TW",
-      "name": "極光能量",
-      "rowCount": 9
-    },
-    {
-      "language": "TW",
-      "name": "熔蟻獸",
       "rowCount": 9
     },
     {
@@ -175,17 +105,7 @@
     },
     {
       "language": "TW",
-      "name": "老大的指令（坂木）",
-      "rowCount": 9
-    },
-    {
-      "language": "TW",
       "name": "能量輸送",
-      "rowCount": 9
-    },
-    {
-      "language": "TW",
-      "name": "蜻蜻蜓",
       "rowCount": 9
     },
     {
@@ -196,11 +116,6 @@
     {
       "language": "TW",
       "name": "阿馴",
-      "rowCount": 9
-    },
-    {
-      "language": "TW",
-      "name": "雙重渦輪能量",
       "rowCount": 9
     },
     {
@@ -250,21 +165,6 @@
     },
     {
       "language": "TW",
-      "name": "克拉拉",
-      "rowCount": 8
-    },
-    {
-      "language": "TW",
-      "name": "博士的研究",
-      "rowCount": 8
-    },
-    {
-      "language": "TW",
-      "name": "可爾妮的氣勢",
-      "rowCount": 8
-    },
-    {
-      "language": "TW",
       "name": "強力無能量",
       "rowCount": 8
     },
@@ -280,17 +180,7 @@
     },
     {
       "language": "TW",
-      "name": "粉碎之錘",
-      "rowCount": 8
-    },
-    {
-      "language": "TW",
       "name": "草路競技場",
-      "rowCount": 8
-    },
-    {
-      "language": "TW",
-      "name": "足量水桶",
       "rowCount": 8
     },
     {
@@ -301,11 +191,6 @@
     {
       "language": "TW",
       "name": "高速雷能量",
-      "rowCount": 8
-    },
-    {
-      "language": "TW",
-      "name": "黑夜魔靈",
       "rowCount": 8
     },
     {
@@ -440,16 +325,6 @@
     },
     {
       "language": "TW",
-      "name": "希巴",
-      "rowCount": 7
-    },
-    {
-      "language": "TW",
-      "name": "幼基拉斯",
-      "rowCount": 7
-    },
-    {
-      "language": "TW",
       "name": "清洗水能量",
       "rowCount": 7
     },
@@ -461,11 +336,6 @@
     {
       "language": "TW",
       "name": "遠古巨蜓",
-      "rowCount": 7
-    },
-    {
-      "language": "TW",
-      "name": "雙子能量",
       "rowCount": 7
     },
     {
@@ -675,11 +545,6 @@
     },
     {
       "language": "TW",
-      "name": "厄鬼椪 碧草面具ex",
-      "rowCount": 6
-    },
-    {
-      "language": "TW",
       "name": "回收網",
       "rowCount": 6
     },
@@ -696,11 +561,6 @@
     {
       "language": "TW",
       "name": "杜娟",
-      "rowCount": 6
-    },
-    {
-      "language": "TW",
-      "name": "洗翠 野蠻鱸魚",
       "rowCount": 6
     },
     {
@@ -726,11 +586,6 @@
     {
       "language": "TW",
       "name": "金屬碟",
-      "rowCount": 6
-    },
-    {
-      "language": "TW",
-      "name": "雙首暴龍",
       "rowCount": 6
     },
     {
@@ -1010,11 +865,6 @@
     },
     {
       "language": "TW",
-      "name": "一擊武道熊師V",
-      "rowCount": 5
-    },
-    {
-      "language": "TW",
       "name": "丹瑜",
       "rowCount": 5
     },
@@ -1026,21 +876,6 @@
     {
       "language": "TW",
       "name": "冒險家的發現",
-      "rowCount": 5
-    },
-    {
-      "language": "TW",
-      "name": "厄鬼椪 水井面具ex",
-      "rowCount": 5
-    },
-    {
-      "language": "TW",
-      "name": "厄鬼椪 火灶面具ex",
-      "rowCount": 5
-    },
-    {
-      "language": "TW",
-      "name": "厄鬼椪 礎石面具ex",
       "rowCount": 5
     },
     {
@@ -1075,16 +910,6 @@
     },
     {
       "language": "TW",
-      "name": "洗翠的沉重球",
-      "rowCount": 5
-    },
-    {
-      "language": "TW",
-      "name": "派帕",
-      "rowCount": 5
-    },
-    {
-      "language": "TW",
       "name": "渦輪修正檔",
       "rowCount": 5
     },
@@ -1096,16 +921,6 @@
     {
       "language": "TW",
       "name": "珠貝",
-      "rowCount": 5
-    },
-    {
-      "language": "TW",
-      "name": "班基拉斯",
-      "rowCount": 5
-    },
-    {
-      "language": "TW",
-      "name": "班基拉斯V",
       "rowCount": 5
     },
     {
@@ -1157,16 +972,6 @@
       "language": "TW",
       "name": "高科技雷達",
       "rowCount": 5
-    },
-    {
-      "language": "CN",
-      "name": "<竹蘭的>烈咬陸鯊ex",
-      "rowCount": 4
-    },
-    {
-      "language": "CN",
-      "name": "<阿響的>鳳王ex",
-      "rowCount": 4
     },
     {
       "language": "CN",
@@ -1890,26 +1695,6 @@
     },
     {
       "language": "TW",
-      "name": "<竹蘭的>烈咬陸鯊ex",
-      "rowCount": 4
-    },
-    {
-      "language": "TW",
-      "name": "<阿響的>鳳王ex",
-      "rowCount": 4
-    },
-    {
-      "language": "TW",
-      "name": "一擊能量",
-      "rowCount": 4
-    },
-    {
-      "language": "TW",
-      "name": "三首惡龍",
-      "rowCount": 4
-    },
-    {
-      "language": "TW",
       "name": "丹帝",
       "rowCount": 4
     },
@@ -1920,32 +1705,12 @@
     },
     {
       "language": "TW",
-      "name": "仙子伊布",
-      "rowCount": 4
-    },
-    {
-      "language": "TW",
-      "name": "仙子伊布V",
-      "rowCount": 4
-    },
-    {
-      "language": "TW",
       "name": "健行鞋",
       "rowCount": 4
     },
     {
       "language": "TW",
       "name": "傷害水泵",
-      "rowCount": 4
-    },
-    {
-      "language": "TW",
-      "name": "光輝甲賀忍蛙",
-      "rowCount": 4
-    },
-    {
-      "language": "TW",
-      "name": "冰伊布",
       "rowCount": 4
     },
     {
@@ -2035,11 +1800,6 @@
     },
     {
       "language": "TW",
-      "name": "時拉比V",
-      "rowCount": 4
-    },
-    {
-      "language": "TW",
       "name": "暗碼迷的解讀",
       "rowCount": 4
     },
@@ -2051,11 +1811,6 @@
     {
       "language": "TW",
       "name": "暴風雨山脈",
-      "rowCount": 4
-    },
-    {
-      "language": "TW",
-      "name": "月亮伊布V",
       "rowCount": 4
     },
     {
@@ -2120,11 +1875,6 @@
     },
     {
       "language": "TW",
-      "name": "白馬蕾冠王V",
-      "rowCount": 4
-    },
-    {
-      "language": "TW",
       "name": "皮歐尼",
       "rowCount": 4
     },
@@ -2160,16 +1910,6 @@
     },
     {
       "language": "TW",
-      "name": "葉伊布",
-      "rowCount": 4
-    },
-    {
-      "language": "TW",
-      "name": "葉伊布V",
-      "rowCount": 4
-    },
-    {
-      "language": "TW",
       "name": "葉隱披風",
       "rowCount": 4
     },
@@ -2186,11 +1926,6 @@
     {
       "language": "TW",
       "name": "超級能量回收",
-      "rowCount": 4
-    },
-    {
-      "language": "TW",
-      "name": "連擊武道熊師V",
       "rowCount": 4
     },
     {
@@ -2229,28 +1964,8 @@
       "rowCount": 4
     },
     {
-      "language": "TW",
-      "name": "黑馬蕾冠王V",
-      "rowCount": 4
-    },
-    {
-      "language": "CN",
-      "name": "<派帕的>獒教父ex",
-      "rowCount": 3
-    },
-    {
       "language": "CN",
       "name": "厄鬼椪 碧草面具ex",
-      "rowCount": 3
-    },
-    {
-      "language": "CN",
-      "name": "帕底亞 肯泰羅",
-      "rowCount": 3
-    },
-    {
-      "language": "CN",
-      "name": "帕底亞的夥伴",
       "rowCount": 3
     },
     {
@@ -2280,17 +1995,7 @@
     },
     {
       "language": "CN",
-      "name": "醜醜魚",
-      "rowCount": 3
-    },
-    {
-      "language": "CN",
       "name": "阿杏的秘招",
-      "rowCount": 3
-    },
-    {
-      "language": "CN",
-      "name": "阿響的冒險",
       "rowCount": 3
     },
     {
@@ -3410,42 +3115,7 @@
     },
     {
       "language": "TW",
-      "name": "<派帕的>獒教父ex",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
-      "name": "一擊武道熊師",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
-      "name": "一擊武道熊師VMAX",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
       "name": "不服輸頭帶",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
-      "name": "仙子伊布VMAX",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
-      "name": "光輝噴火龍",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
-      "name": "光輝摔角鷹人",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
-      "name": "光輝沙奈朵",
       "rowCount": 3
     },
     {
@@ -3456,11 +3126,6 @@
     {
       "language": "TW",
       "name": "全罩防守",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
-      "name": "冰伊布V",
       "rowCount": 3
     },
     {
@@ -3481,16 +3146,6 @@
     {
       "language": "TW",
       "name": "匯流能量",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
-      "name": "博士的研究(奧琳博士)",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
-      "name": "博士的研究（弗圖博士）",
       "rowCount": 3
     },
     {
@@ -3550,22 +3205,7 @@
     },
     {
       "language": "TW",
-      "name": "太陽伊布",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
-      "name": "太陽伊布V",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
       "name": "奇異罐頭",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
-      "name": "奈克洛茲瑪V",
       "rowCount": 3
     },
     {
@@ -3606,16 +3246,6 @@
     {
       "language": "TW",
       "name": "希嘉娜的決心",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
-      "name": "帕底亞的夥伴",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
-      "name": "帕路奇亞",
       "rowCount": 3
     },
     {
@@ -3681,16 +3311,6 @@
     {
       "language": "TW",
       "name": "旋轉洛托姆",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
-      "name": "月亮伊布",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
-      "name": "月亮伊布VMAX",
       "rowCount": 3
     },
     {
@@ -3795,11 +3415,6 @@
     },
     {
       "language": "TW",
-      "name": "白馬蕾冠王VMAX",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
       "name": "神奧的夥伴",
       "rowCount": 3
     },
@@ -3875,11 +3490,6 @@
     },
     {
       "language": "TW",
-      "name": "連擊武道熊師",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
       "name": "遠古墓地",
       "rowCount": 3
     },
@@ -3901,11 +3511,6 @@
     {
       "language": "TW",
       "name": "阿克羅瑪的執著",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
-      "name": "阿響的冒險",
       "rowCount": 3
     },
     {
@@ -3954,11 +3559,6 @@
       "rowCount": 3
     },
     {
-      "language": "TW",
-      "name": "黑馬蕾冠王VMAX",
-      "rowCount": 3
-    },
-    {
       "language": "CN",
       "name": "<小霞的>可達鴨",
       "rowCount": 2
@@ -3966,16 +3566,6 @@
     {
       "language": "CN",
       "name": "<小霞的>拉普拉斯",
-      "rowCount": 2
-    },
-    {
-      "language": "CN",
-      "name": "<派帕的>藏飽栗鼠",
-      "rowCount": 2
-    },
-    {
-      "language": "CN",
-      "name": "<竹蘭的>羅絲雷朵",
       "rowCount": 2
     },
     {
@@ -5865,16 +5455,6 @@
     },
     {
       "language": "TW",
-      "name": "<派帕的>藏飽栗鼠",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
-      "name": "<竹蘭的>羅絲雷朵",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
       "name": "<阿響的>火爆獸",
       "rowCount": 2
     },
@@ -5896,11 +5476,6 @@
     {
       "language": "TW",
       "name": "交替推車",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
-      "name": "仙子伊布ex",
       "rowCount": 2
     },
     {
@@ -5935,32 +5510,12 @@
     },
     {
       "language": "TW",
-      "name": "光輝大鋼蛇",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
-      "name": "光輝席多藍恩",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
       "name": "光輝洗翠 大狃拉",
       "rowCount": 2
     },
     {
       "language": "TW",
       "name": "八朔",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
-      "name": "冰伊布ex",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
-      "name": "冰伊布VMAX",
       "rowCount": 2
     },
     {
@@ -5981,11 +5536,6 @@
     {
       "language": "TW",
       "name": "博士的研究（奧琳博士）",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
-      "name": "厄鬼椪 碧草面具",
       "rowCount": 2
     },
     {
@@ -6046,16 +5596,6 @@
     {
       "language": "TW",
       "name": "太晶珠",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
-      "name": "太陽伊布ex",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
-      "name": "太陽伊布VMAX",
       "rowCount": 2
     },
     {
@@ -6165,16 +5705,6 @@
     },
     {
       "language": "TW",
-      "name": "時拉比",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
-      "name": "月亮伊布ex",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
       "name": "月月熊 赫月ex",
       "rowCount": 2
     },
@@ -6261,11 +5791,6 @@
     {
       "language": "TW",
       "name": "玩具捕捉器",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
-      "name": "班基拉斯ex",
       "rowCount": 2
     },
     {
@@ -6390,21 +5915,6 @@
     },
     {
       "language": "TW",
-      "name": "葉伊布ex",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
-      "name": "葉伊布VMAX",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
-      "name": "葉伊布VSTAR",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
       "name": "薩瓦羅",
       "rowCount": 2
     },
@@ -6451,11 +5961,6 @@
     {
       "language": "TW",
       "name": "迷光森林",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
-      "name": "連擊武道熊師VMAX",
       "rowCount": 2
     },
     {
@@ -6571,26 +6076,6 @@
     {
       "language": "CN",
       "name": "<小霞的>鯉魚王",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
-      "name": "<派帕的>偶叫獒",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
-      "name": "<派帕的>原野水母",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
-      "name": "<派帕的>貪心栗鼠",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
-      "name": "<派帕的>陸地水母",
       "rowCount": 1
     },
     {
@@ -6825,67 +6310,7 @@
     },
     {
       "language": "CN",
-      "name": "<竹蘭的>圓陸鯊",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
-      "name": "<竹蘭的>尖牙陸鯊",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
-      "name": "<竹蘭的>毒薔薇",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
-      "name": "<竹蘭的>美納斯",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
-      "name": "<竹蘭的>花岩怪",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
       "name": "<竹蘭的>醜醜魚",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
-      "name": "<阿響的>凱羅斯",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
-      "name": "<阿響的>樹才怪",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
-      "name": "<阿響的>火岩鼠",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
-      "name": "<阿響的>火球鼠",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
-      "name": "<阿響的>熔岩蝸牛",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
-      "name": "<阿響的>熔岩蟲",
-      "rowCount": 1
-    },
-    {
-      "language": "CN",
-      "name": "<阿響的>皮丘",
       "rowCount": 1
     },
     {
@@ -13565,26 +12990,6 @@
     },
     {
       "language": "TW",
-      "name": "<派帕的>偶叫獒",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "<派帕的>原野水母",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "<派帕的>貪心栗鼠",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "<派帕的>陸地水母",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
       "name": "<火箭隊的>以歐路普",
       "rowCount": 1
     },
@@ -13815,67 +13220,7 @@
     },
     {
       "language": "TW",
-      "name": "<竹蘭的>圓陸鯊",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "<竹蘭的>尖牙陸鯊",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "<竹蘭的>毒薔薇",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "<竹蘭的>美納斯",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "<竹蘭的>花岩怪",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
       "name": "<竹蘭的>醜醜魚",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "<阿響的>凱羅斯",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "<阿響的>樹才怪",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "<阿響的>火岩鼠",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "<阿響的>火球鼠",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "<阿響的>熔岩蝸牛",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "<阿響的>熔岩蟲",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "<阿響的>皮丘",
       "rowCount": 1
     },
     {
@@ -13960,11 +13305,6 @@
     },
     {
       "language": "TW",
-      "name": "三首惡龍ex",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
       "name": "不公印章",
       "rowCount": 1
     },
@@ -14020,52 +13360,7 @@
     },
     {
       "language": "TW",
-      "name": "光輝伊布",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "光輝基拉祈",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "光輝妙蛙花",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "光輝水箭龜",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "光輝無極汰那",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "光輝甜冷美后",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "光輝胡地",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "光輝蟲電寶",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
       "name": "全金屬實驗室",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "冰伊布VSTAR",
       "rowCount": 1
     },
     {
@@ -14141,21 +13436,6 @@
     {
       "language": "TW",
       "name": "危險光線",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "厄鬼椪 水井面具",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "厄鬼椪 火灶面具",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "厄鬼椪 礎石面具",
       "rowCount": 1
     },
     {
@@ -14556,11 +13836,6 @@
     {
       "language": "TW",
       "name": "時尚廣場",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "時拉比VMAX",
       "rowCount": 1
     },
     {

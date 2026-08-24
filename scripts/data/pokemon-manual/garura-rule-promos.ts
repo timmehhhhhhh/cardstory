@@ -38,6 +38,9 @@ export const POKEMON_MANUAL_ENTRIES: ManualCatalogItemEntry[] = [
     rarity: "Promo",
     artist: "Nobuyuki Habu",
     cardType: "Trainer",
+    imageSmallUrl:
+      "https://archives.bulbagarden.net/media/upload/thumb/1/19/TouchChangeGaruraParentChildPromo.jpg/250px-TouchChangeGaruraParentChildPromo.jpg",
+    imageLargeUrl: "https://archives.bulbagarden.net/media/upload/1/19/TouchChangeGaruraParentChildPromo.jpg",
     language: "JP",
     sourceNote:
       "No tcgdex set exists to even probe an id against (tcgdex's JP coverage starts at ADV1, " +
@@ -46,7 +49,11 @@ export const POKEMON_MANUAL_ENTRIES: ManualCatalogItemEntry[] = [
       "mandatory-play card for the 'ガルーラルール' (Garura Rules) tag-team format. Confirmed via " +
       "Bulbapedia's dedicated page ('Touch Change! (Garura Parent/Child promo)') plus an " +
       "independent JP retail listing (enndalbuy2.com) citing the same Fan Club Vol. 5 insert " +
-      "detail.",
+      "detail. Image hotlinked from Bulbagarden Archives (bulbapedia.bulbagarden.net's own media " +
+      "host) — no official-publisher CDN page exists for a 1998 tournament promo predating " +
+      "pokemon-card.com's own catalog, so this is a deliberate exception to the 'official CDN " +
+      "only' rule for cards with no crawlable official source; the scan itself was verified by " +
+      "viewing it directly (Trainer card, exact art/text match to this entry).",
     verified: true,
   },
   {
