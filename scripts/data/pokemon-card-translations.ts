@@ -210,6 +210,61 @@ export const POKEMON_CARD_TRANSLATIONS: Record<string, string> = {
   "JP:オーガポン いしずえのめん": "Ogerpon Cornerstone Mask",
   "JP:オーガポン いどのめん": "Ogerpon Wellspring Mask",
   "JP:オーガポン かまどのめん": "Ogerpon Hearthflame Mask",
+
+  // --- Two-form species with their own English name, not a general prefix
+  // (unlike Alolan/Galarian/Mega, "Ice Rider"/"Shadow Rider" and "Single
+  // Strike"/"Rapid Strike" only ever pair with one species each) ----------
+  "TW:白馬蕾冠王": "Ice Rider Calyrex",
+  "TW:黑馬蕾冠王": "Shadow Rider Calyrex",
+  "TW:一擊武道熊師": "Single Strike Urshifu",
+  "TW:連擊武道熊師": "Rapid Strike Urshifu",
+
+  // --- Common Trainer/Item/Energy cards, TW — verified against this
+  // catalog's English rows and/or documented official English print names.
+  "TW:粉碎之錘": "Crushing Hammer",
+  "TW:足量水桶": "Capacious Bucket",
+  "TW:極光能量": "Aurora Energy",
+  "TW:雙重渦輪能量": "Double Turbo Energy",
+  "TW:帕底亞的夥伴": "Paldean Partners",
+  "CN:帕底亞的夥伴": "Paldean Partners",
+
+  // --- Prefix+species combos where the species itself needs a table
+  // override (see "Species-table mismatches" above) and so isn't reachable
+  // through the regional-prefix loop, which only consults the generated
+  // species table — needs the whole prefixed name spelled out here instead.
+  "TW:洗翠 野蠻鱸魚": "Hisuian Basculin",
+  "TW:洗翠的沉重球": "Hisuian Heavy Ball",
+  "TW:光輝摔角鷹人": "Radiant Hawlucha",
+
+  // --- Character Supporter cards (TW/CN) ----------------------------------
+  "TW:希巴": "Bruno",
+  "TW:阿響的冒險": "Ethan's Adventure",
+  "CN:阿響的冒險": "Ethan's Adventure",
+
+  // --- Species-table mismatches (TW/CN), continued — same verification
+  // pattern as the block above (checked by Pokédex number against
+  // Bulbapedia), found from the live catalog's unresolved-name worklist.
+  "TW:醜醜魚": "Feebas",
+  "CN:醜醜魚": "Feebas",
+  "TW:圓絲蛛": "Spinarak",
+  "TW:夜巡靈": "Duskull",
+  "TW:彷徨夜靈": "Dusclops",
+  "TW:黑夜魔靈": "Dusknoir",
+  "TW:光電傘蜥": "Heliolisk",
+  "TW:好啦魷": "Inkay",
+  "TW:熔蟻獸": "Heatmor",
+  "TW:蜻蜻蜓": "Yanma",
+  "TW:幼基拉斯": "Larvitar",
+  "TW:摔角鷹人": "Hawlucha",
+  "TW:仙子伊布": "Sylveon",
+  "TW:冰伊布": "Glaceon",
+  "TW:月亮伊布": "Umbreon",
+  "TW:葉伊布": "Leafeon",
+  "TW:太陽伊布": "Espeon",
+  "TW:班基拉斯": "Tyranitar",
+  "TW:時拉比": "Celebi",
+  "TW:奈克洛茲瑪": "Necrozma",
+  "TW:帕路奇亞": "Palkia",
 };
 
 /**
@@ -238,6 +293,13 @@ export const POKEMON_FORM_PREFIXES: Record<string, string> = {
   "TW:帕底亞": "Paldean",
   "TW:超級": "Mega",
   "TW:原始": "Primal",
+  "TW:光輝": "Radiant",
+  "CN:光辉": "Radiant",
+  // tcgdex's "zh-cn" text is inconsistently simplified (see resolveSpecies's
+  // comment) — some CN rows print this prefix in Traditional characters, so
+  // both spellings are registered under CN rather than relying on a
+  // language-crossing fallback the way species names do.
+  "CN:帕底亞": "Paldean",
   "KR:알로라": "Alolan",
   "KR:가라르": "Galarian",
   "KR:히스이": "Hisuian",
@@ -259,4 +321,10 @@ export const POKEMON_TRAINER_POSSESSIVES: Record<string, string> = {
   "JP:シロナ": "Cynthia",
   "JP:リーリエ": "Lillie",
   "JP:マリィ": "Marnie",
+  "TW:竹蘭": "Cynthia",
+  "CN:竹蘭": "Cynthia",
+  "TW:阿響": "Ethan",
+  "CN:阿響": "Ethan",
+  "TW:派帕": "Arven",
+  "CN:派帕": "Arven",
 };

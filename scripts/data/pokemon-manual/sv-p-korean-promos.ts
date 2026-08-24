@@ -3563,13 +3563,19 @@ export const POKEMON_MANUAL_ENTRIES: ManualCatalogItemEntry[] = [
     rarity: "Promo",
     artist: "Lee Mina",
     cardType: "Pokémon",
+    imageSmallUrl: "https://archives.bulbagarden.net/media/upload/thumb/3/3f/DittoSVPromo173.jpg/250px-DittoSVPromo173.jpg",
+    imageLargeUrl: "https://archives.bulbagarden.net/media/upload/3/3f/DittoSVPromo173.jpg",
     language: "KR",
     sourceNote:
       "Distributed via the '메타몽 프로젝트' (Metamong Project) QR stamp rally at " +
       "'Pokémon Town 2025' (Apr 25 - May 18, 2025). No Wayback Machine snapshot of " +
       "pokemoncard.co.kr's own SVP000000173 page exists, but confirmed this session " +
       "via 4 independent sources: Bulbapedia's SV-P_Promotional_cards_(KTCG) page, " +
-      "kream.co.kr, hellokorea.shop, and general marketplace corroboration.",
+      "kream.co.kr, hellokorea.shop, and general marketplace corroboration. Image " +
+      "hotlinked from Bulbagarden Archives — pokemoncard.co.kr blocks direct fetches " +
+      "this session and no official-CDN scan was reachable, so this is a deliberate " +
+      "exception to the 'official CDN only' rule; the scan was viewed directly and " +
+      "matches this entry exactly (메타몽, 173/SV-P, Metamong Project watermark).",
     verified: true,
   },
 
