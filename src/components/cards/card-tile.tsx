@@ -17,6 +17,7 @@ import { getGameMeta } from "@/lib/games/registry";
 import { isItemLanguage } from "@/lib/pc/language";
 import { cardDetailHref } from "@/lib/catalog/card-href";
 import { withEnglishName } from "@/lib/catalog/card-name";
+import { holdingIsArchived } from "@/lib/pc/types";
 import type { CatalogSearchItem } from "@/lib/catalog/search";
 
 export function CardTile({
@@ -47,6 +48,7 @@ export function CardTile({
       (total, pc) =>
         total +
         pc.holdings.reduce((sum, h) => {
+          if (holdingIsArchived(h)) return sum;
           const matches = isSports ? h.sportsCardItemId === item.id : h.catalogItemId === item.id;
           return matches ? sum + h.quantity : sum;
         }, 0),
