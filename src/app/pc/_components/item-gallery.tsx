@@ -17,7 +17,7 @@ import type { EnrichedHolding } from "@/lib/pc/selectors";
 import { CardImage } from "@/components/cards/card-image";
 import { ParallelBadge } from "@/components/sportscards/parallel-badge";
 import { EmptyHoldings } from "@/app/pc/_components/empty-holdings";
-import { useAddToShortlist, useIsShortlisted } from "@/lib/shortlist/use-add-to-shortlist";
+import { useAddToShortlist, useShortlistQuantity } from "@/lib/shortlist/use-add-to-shortlist";
 import { CardStack } from "@/components/cards/card-stack";
 import { CardStoryDialog } from "@/components/cards/card-story-dialog";
 import { groupHoldingsIntoStacks, holdingToStoryFace } from "@/lib/collections/stacks";
@@ -58,7 +58,7 @@ function HoldingGalleryFace({
 }) {
   const currency = usePCStore((s) => s.preferences.currency);
   const addToShortlist = useAddToShortlist();
-  const shortlisted = useIsShortlisted(r.catalogItemId, r.sportsCardItemId);
+  const shortlistQuantity = useShortlistQuantity(r.catalogItemId, r.sportsCardItemId);
   const [justShortlisted, setJustShortlisted] = React.useState(false);
 
   const positive = r.gainLoss >= 0;
@@ -218,37 +218,49 @@ function HoldingGalleryFace({
         onPointerDown={(e) => e.stopPropagation()}
       >
         {(r.catalogItemId || r.sportsCardItemId) && (
-          <button
-            type="button"
-            aria-label={
-              shortlisted ? `${r.display.name} is on shortlist` : `Add ${r.display.name} to shortlist`
-            }
-            aria-pressed={shortlisted}
-            title={shortlisted ? "On shortlist" : "Add to shortlist"}
-            onClick={() => {
-              addToShortlist({
-                kind: r.kind ?? "tcg",
-                catalogItemId: r.catalogItemId,
-                sportsCardItemId: r.sportsCardItemId,
-                source: sourceLabel,
-              });
-              setJustShortlisted(true);
-              setTimeout(() => setJustShortlisted(false), 1200);
-            }}
-            className={cn(
-              "rounded-full bg-background/70 p-1.5 text-muted-foreground backdrop-blur transition-opacity hover:text-primary focus-visible:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100",
-              // Stays visible without hovering once shortlisted, same as the
-              // other buttons' opacity-0-until-hover default otherwise —
-              // the whole point of the fill is to read as a lasting state.
-              shortlisted ? "opacity-100" : "opacity-0"
+          <span className="relative z-10 inline-flex flex-none">
+            <button
+              type="button"
+              aria-label={
+                shortlistQuantity > 0
+                  ? `${r.display.name} is on shortlist`
+                  : `Add ${r.display.name} to shortlist`
+              }
+              aria-pressed={shortlistQuantity > 0}
+              title={shortlistQuantity > 0 ? "On shortlist" : "Add to shortlist"}
+              onClick={() => {
+                addToShortlist({
+                  kind: r.kind ?? "tcg",
+                  catalogItemId: r.catalogItemId,
+                  sportsCardItemId: r.sportsCardItemId,
+                  source: sourceLabel,
+                });
+                setJustShortlisted(true);
+                setTimeout(() => setJustShortlisted(false), 1200);
+              }}
+              className={cn(
+                "rounded-full bg-background/70 p-1.5 text-muted-foreground backdrop-blur transition-opacity hover:text-primary focus-visible:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100",
+                // Stays visible without hovering once shortlisted, same as the
+                // other buttons' opacity-0-until-hover default otherwise —
+                // the whole point of the badge is to read as a lasting state.
+                shortlistQuantity > 0 ? "opacity-100" : "opacity-0"
+              )}
+            >
+              {justShortlisted ? (
+                <Check className="size-3.5 text-positive" />
+              ) : (
+                <ShoppingBag className="size-3.5" />
+              )}
+            </button>
+            {shortlistQuantity > 0 && (
+              <span
+                aria-label={`${shortlistQuantity} on your shortlist`}
+                className="pointer-events-none absolute -right-1 -top-1 z-10 flex h-4 min-w-4 items-center justify-center rounded-full border border-border bg-primary px-1 text-[10px] font-bold leading-none text-primary-foreground"
+              >
+                {shortlistQuantity > 99 ? "99+" : shortlistQuantity}
+              </span>
             )}
-          >
-            {justShortlisted ? (
-              <Check className="size-3.5 text-positive" />
-            ) : (
-              <ShoppingBag className={cn("size-3.5", shortlisted && "fill-primary text-primary")} />
-            )}
-          </button>
+          </span>
         )}
         <button
           type="button"

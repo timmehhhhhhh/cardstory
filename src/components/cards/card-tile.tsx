@@ -11,7 +11,7 @@ import { FinishBadge } from "@/components/cards/finish-badge";
 import { DomainIcon } from "@/components/cards/riftbound-icons";
 import { AddHoldingDialog } from "@/components/pc/add-holding-dialog";
 import { usePCStore } from "@/lib/pc/store";
-import { useAddToShortlist, useIsShortlisted } from "@/lib/shortlist/use-add-to-shortlist";
+import { useAddToShortlist, useShortlistQuantity } from "@/lib/shortlist/use-add-to-shortlist";
 import { formatMoney, formatPct } from "@/lib/utils/format";
 import { getGameMeta } from "@/lib/games/registry";
 import { isItemLanguage } from "@/lib/pc/language";
@@ -59,10 +59,13 @@ export function CardTile({
   const [businessDialogOpen, setBusinessDialogOpen] = React.useState(false);
   const [businessPCId, setBusinessPCId] = React.useState<string | undefined>(undefined);
   const addToShortlist = useAddToShortlist();
-  const shortlisted = useIsShortlisted(isSports ? undefined : item.id, isSports ? item.id : undefined);
+  const shortlistQuantity = useShortlistQuantity(
+    isSports ? undefined : item.id,
+    isSports ? item.id : undefined
+  );
   // Brief post-click acknowledgment — repeat adds are legitimate (the same
   // card spotted at two shops), so this is a pulse layered on top of (not a
-  // replacement for) the persistent `shortlisted` fill below.
+  // replacement for) the persistent quantity badge below.
   const [justShortlisted, setJustShortlisted] = React.useState(false);
   // Same pulse pattern as justShortlisted, for the Quick Add bypass below.
   const [justQuickAdded, setJustQuickAdded] = React.useState(false);
@@ -202,29 +205,41 @@ export function CardTile({
   );
 
   const shortlistTrigger = (className: string) => (
-    <button
-      type="button"
-      aria-label={shortlisted ? "On shortlist" : "Add to shortlist"}
-      aria-pressed={shortlisted}
-      title={shortlisted ? "On shortlist" : "Add to shortlist"}
-      onClick={() => {
-        addToShortlist({
-          kind: isSports ? "sports" : "tcg",
-          catalogItemId: isSports ? undefined : item.id,
-          sportsCardItemId: isSports ? item.id : undefined,
-          source: "Explore",
-        });
-        setJustShortlisted(true);
-        setTimeout(() => setJustShortlisted(false), 1200);
-      }}
-      className={className}
-    >
-      {justShortlisted ? (
-        <Check className="size-3.5 text-positive" />
-      ) : (
-        <ShoppingBag className={cn("size-3.5", shortlisted && "fill-primary text-primary")} />
+    // Same wrapper pattern as addToCollectionTrigger above — the badge is
+    // absolutely positioned relative to this span, not the button.
+    <span className="relative z-10 inline-flex flex-none">
+      <button
+        type="button"
+        aria-label={shortlistQuantity > 0 ? "On shortlist" : "Add to shortlist"}
+        aria-pressed={shortlistQuantity > 0}
+        title={shortlistQuantity > 0 ? "On shortlist" : "Add to shortlist"}
+        onClick={() => {
+          addToShortlist({
+            kind: isSports ? "sports" : "tcg",
+            catalogItemId: isSports ? undefined : item.id,
+            sportsCardItemId: isSports ? item.id : undefined,
+            source: "Explore",
+          });
+          setJustShortlisted(true);
+          setTimeout(() => setJustShortlisted(false), 1200);
+        }}
+        className={className}
+      >
+        {justShortlisted ? (
+          <Check className="size-3.5 text-positive" />
+        ) : (
+          <ShoppingBag className="size-3.5" />
+        )}
+      </button>
+      {shortlistQuantity > 0 && (
+        <span
+          aria-label={`${shortlistQuantity} on your shortlist`}
+          className="pointer-events-none absolute -right-1 -top-1 z-10 flex h-4 min-w-4 items-center justify-center rounded-full border border-border bg-primary px-1 text-[10px] font-bold leading-none text-primary-foreground"
+        >
+          {shortlistQuantity > 99 ? "99+" : shortlistQuantity}
+        </span>
       )}
-    </button>
+    </span>
   );
 
   const dialog = (

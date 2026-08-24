@@ -17,7 +17,7 @@ import type { EnrichedHolding } from "@/lib/pc/selectors";
 import { CardImage } from "@/components/cards/card-image";
 import { ParallelBadge } from "@/components/sportscards/parallel-badge";
 import { EmptyHoldings } from "@/app/pc/_components/empty-holdings";
-import { useAddToShortlist, useIsShortlisted } from "@/lib/shortlist/use-add-to-shortlist";
+import { useAddToShortlist, useShortlistQuantity } from "@/lib/shortlist/use-add-to-shortlist";
 import { CardStack } from "@/components/cards/card-stack";
 import { CardStoryDialog } from "@/components/cards/card-story-dialog";
 import { groupHoldingsIntoStacks, holdingToStoryFace } from "@/lib/collections/stacks";
@@ -53,7 +53,7 @@ function HoldingRowFace({
 }) {
   const currency = usePCStore((s) => s.preferences.currency);
   const addToShortlist = useAddToShortlist();
-  const shortlisted = useIsShortlisted(r.catalogItemId, r.sportsCardItemId);
+  const shortlistQuantity = useShortlistQuantity(r.catalogItemId, r.sportsCardItemId);
   const [justShortlisted, setJustShortlisted] = React.useState(false);
 
   const positive = r.gainLoss >= 0;
@@ -162,29 +162,39 @@ function HoldingRowFace({
           // from also registering as a tap-to-open-story on the stack.
           <div className="flex items-center gap-1" onPointerDown={(e) => e.stopPropagation()}>
             {(r.catalogItemId || r.sportsCardItemId) && (
-              <button
-                type="button"
-                aria-label={shortlisted ? "On shortlist" : "Add to shortlist"}
-                aria-pressed={shortlisted}
-                title={shortlisted ? "On shortlist" : "Add to shortlist"}
-                onClick={() => {
-                  addToShortlist({
-                    kind: r.kind ?? "tcg",
-                    catalogItemId: r.catalogItemId,
-                    sportsCardItemId: r.sportsCardItemId,
-                    source: sourceLabel,
-                  });
-                  setJustShortlisted(true);
-                  setTimeout(() => setJustShortlisted(false), 1200);
-                }}
-                className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-primary"
-              >
-                {justShortlisted ? (
-                  <Check className="size-4 text-positive" />
-                ) : (
-                  <ShoppingBag className={cn("size-4", shortlisted && "fill-primary text-primary")} />
+              <span className="relative z-10 inline-flex flex-none">
+                <button
+                  type="button"
+                  aria-label={shortlistQuantity > 0 ? "On shortlist" : "Add to shortlist"}
+                  aria-pressed={shortlistQuantity > 0}
+                  title={shortlistQuantity > 0 ? "On shortlist" : "Add to shortlist"}
+                  onClick={() => {
+                    addToShortlist({
+                      kind: r.kind ?? "tcg",
+                      catalogItemId: r.catalogItemId,
+                      sportsCardItemId: r.sportsCardItemId,
+                      source: sourceLabel,
+                    });
+                    setJustShortlisted(true);
+                    setTimeout(() => setJustShortlisted(false), 1200);
+                  }}
+                  className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-primary"
+                >
+                  {justShortlisted ? (
+                    <Check className="size-4 text-positive" />
+                  ) : (
+                    <ShoppingBag className="size-4" />
+                  )}
+                </button>
+                {shortlistQuantity > 0 && (
+                  <span
+                    aria-label={`${shortlistQuantity} on your shortlist`}
+                    className="pointer-events-none absolute -right-1 -top-1 z-10 flex h-4 min-w-4 items-center justify-center rounded-full border border-border bg-primary px-1 text-[10px] font-bold leading-none text-primary-foreground"
+                  >
+                    {shortlistQuantity > 99 ? "99+" : shortlistQuantity}
+                  </span>
                 )}
-              </button>
+              </span>
             )}
             <button
               type="button"
