@@ -5,8 +5,12 @@ import { authConfig } from "@/auth.config";
 /**
  * Requires a signed-in session for every route except: /login and /signup
  * (what a signed-out visitor must be able to reach to become signed in),
- * NextAuth's own /api/auth/* routes, Next's static assets, and
- * /showcase/* + /api/showcase/* — a showcase's whole point is a public,
+ * NextAuth's own /api/auth/* routes, Next's static assets, the app-router
+ * icon file conventions (icon.png, apple-icon.png — favicon.ico used to be
+ * the only one of these and is still excluded by name for any cached/old
+ * requests, but the icon/apple-icon routes need the same treatment or a
+ * signed-out visitor, including on /login itself, gets redirected instead
+ * of the icon), and /showcase/* + /api/showcase/* — a showcase's whole point is a public,
  * shareable link (see README's "publish a shareable showcase"); the
  * person opening one is typically not a CardStory user at all, so gating
  * it would break sharing outright. Everything else — Explore, PC, card
@@ -45,6 +49,6 @@ export default auth((req) => {
 
 export const config = {
   matcher: [
-    "/((?!login|signup|api/auth|showcase|api/showcase|_next/static|_next/image|favicon.ico).*)",
+    "/((?!login|signup|api/auth|showcase|api/showcase|_next/static|_next/image|favicon.ico|icon.png|apple-icon.png).*)",
   ],
 };
