@@ -210,6 +210,10 @@ export const POKEMON_CARD_TRANSLATIONS: Record<string, string> = {
   "JP:オーガポン いしずえのめん": "Ogerpon Cornerstone Mask",
   "JP:オーガポン いどのめん": "Ogerpon Wellspring Mask",
   "JP:オーガポン かまどのめん": "Ogerpon Hearthflame Mask",
+  "TW:厄鬼椪 碧草面具": "Ogerpon Teal Mask",
+  "TW:厄鬼椪 礎石面具": "Ogerpon Cornerstone Mask",
+  "TW:厄鬼椪 水井面具": "Ogerpon Wellspring Mask",
+  "TW:厄鬼椪 火灶面具": "Ogerpon Hearthflame Mask",
 
   // --- Two-form species with their own English name, not a general prefix
   // (unlike Alolan/Galarian/Mega, "Ice Rider"/"Shadow Rider" and "Single
@@ -240,6 +244,36 @@ export const POKEMON_CARD_TRANSLATIONS: Record<string, string> = {
   "TW:希巴": "Bruno",
   "TW:阿響的冒險": "Ethan's Adventure",
   "CN:阿響的冒險": "Ethan's Adventure",
+  "TW:莎娜": "Shauna",
+  "TW:克拉拉": "Klara",
+  "TW:可爾妮的氣勢": "Korrina's Focus",
+  // Bare Supporter card named just for the character — distinct from the
+  // "<Arven>的<species>" possessive pattern POKEMON_TRAINER_POSSESSIVES
+  // handles, since resolvePossessive only fires when a particle is present.
+  "TW:派帕": "Arven",
+  // "Professor's Research" printed with the pictured professor's name in
+  // parentheses — same card, different professor per printing (real,
+  // distinct English cards, not a guessed pattern: Rowan/Magnolia/Sada/Turo
+  // each have their own confirmed "Professor's Research (Professor X)"
+  // release). 山梨博士 is Sinnoh's Professor Rowan (localization keeps his
+  // tree-name theme with a different tree than the JP/EN "rowan"); 木蘭博士
+  // is a direct-meaning translation of Magnolia (the flower); 奧琳博士 and
+  // 弗圖博士 are phonetic renderings of Sada's JP name オーリム (Ohrim) and
+  // Turo's English name respectively.
+  "TW:博士的研究": "Professor's Research",
+  "TW:博士的研究（山梨博士）": "Professor's Research (Professor Rowan)",
+  "TW:博士的研究(木蘭博士)": "Professor's Research (Professor Magnolia)",
+  "TW:博士的研究(奧琳博士)": "Professor's Research (Professor Sada)",
+  "TW:博士的研究（弗圖博士）": "Professor's Research (Professor Turo)",
+  // "Boss's Orders" printed with the pictured team boss's name in
+  // parentheses, same pattern as Professor's Research above. 坂木 is
+  // Giovanni's JP/CN name (Sakaki); 赤日 is this catalog's TW rendering of
+  // Cyrus's JP name アカギ (Akagi).
+  "TW:老大的指令（坂木）": "Boss's Orders (Giovanni)",
+  "TW:老大的指令（赤日）": "Boss's Orders (Cyrus)",
+  "TW:竹蘭的霸氣": "Cynthia's Ambition",
+  "TW:一擊能量": "Single Strike Energy",
+  "TW:雙子能量": "Twin Energy",
 
   // --- Species-table mismatches (TW/CN), continued — same verification
   // pattern as the block above (checked by Pokédex number against
@@ -265,6 +299,8 @@ export const POKEMON_CARD_TRANSLATIONS: Record<string, string> = {
   "TW:時拉比": "Celebi",
   "TW:奈克洛茲瑪": "Necrozma",
   "TW:帕路奇亞": "Palkia",
+  "TW:三首惡龍": "Hydreigon",
+  "TW:雙首暴龍": "Zweilous",
 };
 
 /**

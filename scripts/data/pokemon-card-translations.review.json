@@ -1,7 +1,7 @@
 {
   "gameId": "pokemon",
   "note": "Non-English card names the resolver could not translate, ranked by row count. Add entries to POKEMON_CARD_TRANSLATIONS in scripts/data/pokemon-card-translations.ts and re-run scripts/backfill-catalog-name-en.ts.",
-  "generatedAt": "2026-08-24T13:45:09.043Z",
+  "generatedAt": "2026-08-24T19:43:41.695Z",
   "entries": [
     {
       "language": "JP",
@@ -19,28 +19,8 @@
       "rowCount": 14
     },
     {
-      "language": "TW",
-      "name": "博士的研究（山梨博士）",
-      "rowCount": 13
-    },
-    {
-      "language": "TW",
-      "name": "老大的指令（赤日）",
-      "rowCount": 12
-    },
-    {
-      "language": "TW",
-      "name": "莎娜",
-      "rowCount": 12
-    },
-    {
       "language": "JP",
       "name": "なかよしポフィン",
-      "rowCount": 11
-    },
-    {
-      "language": "TW",
-      "name": "博士的研究(木蘭博士)",
       "rowCount": 11
     },
     {
@@ -76,11 +56,6 @@
     {
       "language": "TW",
       "name": "普通釣竿",
-      "rowCount": 10
-    },
-    {
-      "language": "TW",
-      "name": "竹蘭的霸氣",
       "rowCount": 10
     },
     {
@@ -126,11 +101,6 @@
     {
       "language": "TW",
       "name": "美蓉",
-      "rowCount": 9
-    },
-    {
-      "language": "TW",
-      "name": "老大的指令（坂木）",
       "rowCount": 9
     },
     {
@@ -191,21 +161,6 @@
     {
       "language": "JP",
       "name": "ポリゴンZ",
-      "rowCount": 8
-    },
-    {
-      "language": "TW",
-      "name": "克拉拉",
-      "rowCount": 8
-    },
-    {
-      "language": "TW",
-      "name": "博士的研究",
-      "rowCount": 8
-    },
-    {
-      "language": "TW",
-      "name": "可爾妮的氣勢",
       "rowCount": 8
     },
     {
@@ -381,11 +336,6 @@
     {
       "language": "TW",
       "name": "遠古巨蜓",
-      "rowCount": 7
-    },
-    {
-      "language": "TW",
-      "name": "雙子能量",
       "rowCount": 7
     },
     {
@@ -595,11 +545,6 @@
     },
     {
       "language": "TW",
-      "name": "厄鬼椪 碧草面具ex",
-      "rowCount": 6
-    },
-    {
-      "language": "TW",
       "name": "回收網",
       "rowCount": 6
     },
@@ -641,11 +586,6 @@
     {
       "language": "TW",
       "name": "金屬碟",
-      "rowCount": 6
-    },
-    {
-      "language": "TW",
-      "name": "雙首暴龍",
       "rowCount": 6
     },
     {
@@ -940,21 +880,6 @@
     },
     {
       "language": "TW",
-      "name": "厄鬼椪 水井面具ex",
-      "rowCount": 5
-    },
-    {
-      "language": "TW",
-      "name": "厄鬼椪 火灶面具ex",
-      "rowCount": 5
-    },
-    {
-      "language": "TW",
-      "name": "厄鬼椪 礎石面具ex",
-      "rowCount": 5
-    },
-    {
-      "language": "TW",
       "name": "堅韌斗篷",
       "rowCount": 5
     },
@@ -981,11 +906,6 @@
     {
       "language": "TW",
       "name": "沙鈴仙人掌",
-      "rowCount": 5
-    },
-    {
-      "language": "TW",
-      "name": "派帕",
       "rowCount": 5
     },
     {
@@ -1771,16 +1691,6 @@
     {
       "language": "JP",
       "name": "馬",
-      "rowCount": 4
-    },
-    {
-      "language": "TW",
-      "name": "一擊能量",
-      "rowCount": 4
-    },
-    {
-      "language": "TW",
-      "name": "三首惡龍",
       "rowCount": 4
     },
     {
@@ -3236,16 +3146,6 @@
     {
       "language": "TW",
       "name": "匯流能量",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
-      "name": "博士的研究(奧琳博士)",
-      "rowCount": 3
-    },
-    {
-      "language": "TW",
-      "name": "博士的研究（弗圖博士）",
       "rowCount": 3
     },
     {
@@ -5636,11 +5536,6 @@
     {
       "language": "TW",
       "name": "博士的研究（奧琳博士）",
-      "rowCount": 2
-    },
-    {
-      "language": "TW",
-      "name": "厄鬼椪 碧草面具",
       "rowCount": 2
     },
     {
@@ -13410,11 +13305,6 @@
     },
     {
       "language": "TW",
-      "name": "三首惡龍ex",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
       "name": "不公印章",
       "rowCount": 1
     },
@@ -13546,21 +13436,6 @@
     {
       "language": "TW",
       "name": "危險光線",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "厄鬼椪 水井面具",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "厄鬼椪 火灶面具",
-      "rowCount": 1
-    },
-    {
-      "language": "TW",
-      "name": "厄鬼椪 礎石面具",
       "rowCount": 1
     },
     {
