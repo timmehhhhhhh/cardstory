@@ -37,6 +37,15 @@ export function DeckSectionZone({
   const limitLabel = section.max === null ? `${count}` : `${count}/${section.max}`;
   const ok = result?.ok ?? true;
 
+  // Keep the picker open across multiple picks (users often add many cards
+  // in a row) — only auto-close once the section hits its max. Sections
+  // with no max stay open until the user cancels/dismisses manually.
+  React.useEffect(() => {
+    if (pickerOpen && section.max !== null && count >= section.max) {
+      setPickerOpen(false);
+    }
+  }, [pickerOpen, count, section.max]);
+
   return (
     <div className="rounded-xl border border-border bg-surface p-4">
       <div className="mb-3 flex items-center justify-between">
@@ -120,7 +129,6 @@ export function DeckSectionZone({
         section={section}
         onPick={(catalogItemId) => {
           addCard(deck.id, section.id, catalogItemId, 1);
-          setPickerOpen(false);
         }}
       />
     </div>
