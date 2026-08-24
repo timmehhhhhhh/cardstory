@@ -35,10 +35,14 @@ export const authConfig = {
       if (user) {
         token.uid = user.id;
         token.isVendor = (user as { isVendor?: boolean }).isVendor ?? false;
+        token.hidePricing = (user as { hidePricing?: boolean }).hidePricing ?? false;
       }
       // See src/auth.ts's identical callback for why.
       if (trigger === "update" && session && typeof session.isVendor === "boolean") {
         token.isVendor = session.isVendor;
+      }
+      if (trigger === "update" && session && typeof session.hidePricing === "boolean") {
+        token.hidePricing = session.hidePricing;
       }
       return token;
     },
@@ -46,6 +50,7 @@ export const authConfig = {
       if (session.user && typeof token.uid === "string") {
         session.user.id = token.uid;
         session.user.isVendor = token.isVendor === true;
+        session.user.hidePricing = token.hidePricing === true;
       }
       return session;
     },

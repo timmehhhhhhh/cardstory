@@ -12,6 +12,8 @@ import { DomainIcon } from "@/components/cards/riftbound-icons";
 import { AddHoldingDialog } from "@/components/pc/add-holding-dialog";
 import { usePCStore } from "@/lib/pc/store";
 import { useAddToShortlist, useShortlistQuantity } from "@/lib/shortlist/use-add-to-shortlist";
+import { Money } from "@/components/ui/money";
+import { usePricingVisible } from "@/lib/utils/use-pricing-visible";
 import { formatMoney, formatPct } from "@/lib/utils/format";
 import { getGameMeta } from "@/lib/games/registry";
 import { isItemLanguage } from "@/lib/pc/language";
@@ -28,6 +30,7 @@ export function CardTile({
   view?: "grid" | "list";
 }) {
   const currency = usePCStore((s) => s.preferences.currency);
+  const pricingVisible = usePricingVisible();
   const watchlistEntry = usePCStore((s) => s.watchlist.find((w) => w.itemId === item.id));
   const watchlisted = !!watchlistEntry;
   const toggleWatchlist = usePCStore((s) => s.toggleWatchlist);
@@ -187,7 +190,9 @@ export function CardTile({
 
   const watchlistTitle = watchlisted
     ? `Watching since ${new Date(watchlistEntry!.addedAt).toLocaleDateString()}${
-        watchlistEntry!.priceAtAdd != null ? ` · ${formatMoney(watchlistEntry!.priceAtAdd, currency)} at add` : ""
+        watchlistEntry!.priceAtAdd != null && pricingVisible
+          ? ` · ${formatMoney(watchlistEntry!.priceAtAdd, currency)} at add`
+          : ""
       }`
     : undefined;
 
@@ -304,7 +309,9 @@ export function CardTile({
           {languageBadge}
         </div>
         <div className="pointer-events-none w-24 flex-none text-right">
-          <p className="num-tabular text-sm font-semibold">{formatMoney(item.priceRaw, currency)}</p>
+          <p className="num-tabular text-sm font-semibold">
+            <Money amountUsd={item.priceRaw} currency={currency} />
+          </p>
           {item.priceChangePct != null && (
             <p className={cn("num-tabular text-xs", positive ? "text-positive" : "text-negative")}>
               {formatPct(item.priceChangePct)}
@@ -366,7 +373,7 @@ export function CardTile({
         {item.hasPrice && (
           <div className="absolute inset-x-1.5 bottom-1.5 flex items-center justify-between rounded-md bg-background/80 px-1.5 py-1 backdrop-blur">
             <span className="num-tabular text-xs font-semibold">
-              {formatMoney(item.priceRaw, currency)}
+              <Money amountUsd={item.priceRaw} currency={currency} />
             </span>
             {item.priceChangePct != null && (
               <span

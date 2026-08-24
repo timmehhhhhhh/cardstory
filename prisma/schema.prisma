@@ -426,6 +426,11 @@ model User {
   /// (src/app/explore/_components/business-mode-toggle.tsx), which is the
   /// only thing this flag controls.
   isVendor     Boolean  @default(false)
+  /// Per-account display preference: when true, all monetary values and
+  /// pricing charts are masked app-wide for this user (see
+  /// src/lib/utils/use-pricing-visible.ts). Toggled from
+  /// src/app/settings/_components/settings-client.tsx.
+  hidePricing  Boolean  @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 

@@ -1,12 +1,9 @@
 "use client";
 
-import * as React from "react";
 import Link from "next/link";
-import { History, LogOut, Store, User } from "lucide-react";
+import { History, LogOut, Settings, User } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,24 +14,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export function AccountMenu() {
-  const { data: session, update } = useSession();
-  const [pending, setPending] = React.useState(false);
+  const { data: session } = useSession();
 
   if (!session?.user) return null;
-
-  async function handleVendorToggle(isVendor: boolean) {
-    setPending(true);
-    try {
-      const res = await fetch("/api/account/vendor", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ isVendor }),
-      });
-      if (res.ok) await update({ isVendor });
-    } finally {
-      setPending(false);
-    }
-  }
 
   return (
     <DropdownMenu>
@@ -48,21 +30,12 @@ export function AccountMenu() {
           {session.user.email}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <div className="flex items-center justify-between gap-3 px-2 py-1.5">
-          <Label htmlFor="vendor-toggle" className="flex items-center gap-2 text-sm font-normal">
-            <Store className="size-4 text-muted-foreground" />
-            Vendor account
-          </Label>
-          <Switch
-            id="vendor-toggle"
-            size="sm"
-            checked={session.user.isVendor}
-            disabled={pending}
-            onCheckedChange={handleVendorToggle}
-            onClick={(e) => e.stopPropagation()}
-          />
-        </div>
-        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link href="/settings">
+            <Settings className="size-4" />
+            User Settings
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/history">
             <History className="size-4" />

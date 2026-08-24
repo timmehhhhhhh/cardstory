@@ -1,7 +1,10 @@
 "use client";
 
+import Link from "next/link";
+import { EyeOff } from "lucide-react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { formatMoney } from "@/lib/utils/format";
+import { usePricingVisible } from "@/lib/utils/use-pricing-visible";
 import type { SupportedCurrency } from "@/lib/constants";
 
 export interface ChartPoint {
@@ -37,10 +40,26 @@ export function StockLineChart({
   currency?: SupportedCurrency;
   height?: number;
 }) {
+  const pricingVisible = usePricingVisible();
   const values = points.map((p) => p.value).filter((v): v is number => v != null);
   const positive = values.length >= 2 ? values[values.length - 1] >= values[0] : true;
   const color = positive ? "var(--positive)" : "var(--negative)";
   const gradientId = `chart-fill-${positive ? "up" : "down"}`;
+
+  if (!pricingVisible) {
+    return (
+      <div
+        style={{ height }}
+        className="flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border text-sm text-muted-foreground"
+      >
+        <EyeOff className="size-4" />
+        <p>Pricing is hidden</p>
+        <Link href="/settings" className="text-xs underline underline-offset-2">
+          Change in Settings
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div style={{ width: "100%", height }}>

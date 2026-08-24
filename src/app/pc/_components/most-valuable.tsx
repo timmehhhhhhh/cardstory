@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { topByValue } from "@/lib/pc/selectors";
 import { usePCStore } from "@/lib/pc/store";
-import { formatMoney } from "@/lib/utils/format";
+import { Money } from "@/components/ui/money";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
 import { CardImage } from "@/components/cards/card-image";
 
@@ -27,7 +27,9 @@ export function MostValuable({ rows }: { rows: EnrichedHolding[] }) {
                 <span className="min-w-0 flex-1 truncate text-sm" title={r.display.nameEn ?? undefined}>
                   {r.display.name}
                 </span>
-                <span className="num-tabular text-sm font-medium">{formatMoney(r.marketValue, currency)}</span>
+                <span className="num-tabular text-sm font-medium">
+                  <Money amountUsd={r.marketValue} currency={currency} />
+                </span>
               </>
             );
             return (
