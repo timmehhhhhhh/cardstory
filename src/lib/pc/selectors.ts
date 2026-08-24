@@ -1,4 +1,11 @@
-import { holdingIsCustom, holdingKind, type Holding, type HoldingKind } from "@/lib/pc/types";
+import {
+  holdingIsCustom,
+  holdingKind,
+  type Holding,
+  type HoldingKind,
+  type SortDirection,
+  type SortField,
+} from "@/lib/pc/types";
 import type { CatalogItemDetail } from "@/lib/catalog/by-ids";
 import type { SportsCardItemDetail } from "@/lib/sportscards/manage";
 import { getGameMeta } from "@/lib/games/registry";
@@ -231,4 +238,41 @@ export function topByChange(rows: EnrichedHolding[], n: number, direction: "up" 
     return direction === "up" ? bv - av : av - bv;
   });
   return sorted.slice(0, n);
+}
+
+/**
+ * Orders holdings for the PC List/Gallery per the user-picked sort field and
+ * direction (Preferences.sortField/sortDirection, src/lib/pc/types.ts). A
+ * stable sort — ties keep their incoming order — so switching sort fields
+ * doesn't needlessly reshuffle holdings that compare equal.
+ */
+export function sortHoldings(
+  rows: EnrichedHolding[],
+  field: SortField,
+  direction: SortDirection
+): EnrichedHolding[] {
+  const sign = direction === "asc" ? 1 : -1;
+  return [...rows].sort((a, b) => {
+    switch (field) {
+      case "dateAdded":
+        return sign * a.createdAt.localeCompare(b.createdAt);
+      case "dateAcquired": {
+        // Holdings with no acquiredAt sort last regardless of direction —
+        // "unknown" isn't meaningfully older or newer than a known date.
+        if (!a.acquiredAt && !b.acquiredAt) return 0;
+        if (!a.acquiredAt) return 1;
+        if (!b.acquiredAt) return -1;
+        return sign * a.acquiredAt.localeCompare(b.acquiredAt);
+      }
+      case "name":
+        return sign * a.display.name.localeCompare(b.display.name);
+      case "setName": {
+        const aSet = a.catalogItem?.setName ?? a.sportsCardItem?.setName ?? "";
+        const bSet = b.catalogItem?.setName ?? b.sportsCardItem?.setName ?? "";
+        return sign * aSet.localeCompare(bSet);
+      }
+      default:
+        return 0;
+    }
+  });
 }
