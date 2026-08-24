@@ -9,7 +9,8 @@ export const holdingInputSchema = z.object({
   sportsCardItemId: z.string().optional(),
   /** Only set when neither id above is — a card the user keyed in by hand. */
   customName: z.string().max(200).optional(),
-  quantity: z.number().int().positive(),
+  /** Positive and capped at 20 — a single holding can't be added/edited past 20x the same card in one go. */
+  quantity: z.number().int().positive().max(20),
   condition: z.enum(["raw", "graded"]),
   gradeCompany: z.string().optional(),
   gradeValue: z.string().optional(),
