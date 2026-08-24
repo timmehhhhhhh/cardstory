@@ -34,10 +34,15 @@ import type { LetGoDetails } from "@/lib/pc/api-schemas";
  * details — let-go date, method, who/what it went to, amount, notes. Used
  * two ways:
  *
- * - Archiving from an active PC (item-grid/item-gallery's trash icon,
- *   BulkActionsBar's Delete button): the Save action *is* the archive
- *   confirmation, no separate window.confirm — every field is optional,
- *   the dialog explains they can be filled in later from Archives.
+ * - Archiving several holdings at once from BulkActionsBar's Archive
+ *   button: the Save action *is* the archive confirmation, no separate
+ *   window.confirm — every field is optional, the dialog explains they can
+ *   be filled in later from Archives. A single card's trash icon
+ *   (item-grid/item-gallery) deliberately skips this dialog and archives
+ *   immediately — popping up a date picker every time someone wants to
+ *   quickly archive one card was more friction than the optional details
+ *   were worth, and those details can always be added afterwards from
+ *   Archives.
  * - Editing an already-archived holding's details from PC Archives /
  *   Business Archives, pre-seeded via `initial`.
  *

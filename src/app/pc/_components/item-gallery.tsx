@@ -11,8 +11,6 @@ import { usePCStore } from "@/lib/pc/store";
 import { formatMoney, formatPct } from "@/lib/utils/format";
 import { SportsCardImageDialog } from "@/components/sportscards/sports-card-image-dialog";
 import { EditHoldingDialog } from "@/components/pc/edit-holding-dialog";
-import { ArchiveDetailsDialog } from "@/components/pc/archive-details-dialog";
-import { withEnglishName } from "@/lib/catalog/card-name";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
 import { CardImage } from "@/components/cards/card-image";
 import { ParallelBadge } from "@/components/sportscards/parallel-badge";
@@ -315,7 +313,6 @@ export function ItemGallery({
   sourceLabel: string;
 }) {
   const [editingHolding, setEditingHolding] = React.useState<EnrichedHolding | null>(null);
-  const [archivingHolding, setArchivingHolding] = React.useState<EnrichedHolding | null>(null);
   const [storyStack, setStoryStack] = React.useState<{ faces: EnrichedHolding[]; index: number } | null>(null);
   const archiveHoldings = usePCStore((s) => s.archiveHoldings);
 
@@ -343,29 +340,13 @@ export function ItemGallery({
               onToggleSelect={onToggleSelect}
               sourceLabel={sourceLabel}
               onEdit={setEditingHolding}
-              onArchive={setArchivingHolding}
+              onArchive={(holding) => archiveHoldings(activePCId, [holding.id])}
               stackBadge={total > 1 ? `${index + 1} of ${total}` : undefined}
               suppressLink={total > 1}
             />
           )}
         />
       ))}
-      <ArchiveDetailsDialog
-        open={archivingHolding !== null}
-        onOpenChange={(open) => {
-          if (!open) setArchivingHolding(null);
-        }}
-        title="Archive card"
-        description={
-          archivingHolding ? withEnglishName(archivingHolding.display.name, archivingHolding.display.nameEn) : undefined
-        }
-        submitLabel="Archive card"
-        onSubmit={(letGo) => {
-          if (!archivingHolding) return;
-          archiveHoldings(activePCId, [archivingHolding.id], letGo);
-          setArchivingHolding(null);
-        }}
-      />
       <EditHoldingDialog
         holding={editingHolding}
         pcId={activePCId}
