@@ -57,6 +57,22 @@ export function SidebarFilters({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [qDraft]);
 
+  const [artistDraft, setArtistDraft] = React.useState(filters.artist);
+  // Same render-time resync pattern as qDraft above.
+  const [prevFiltersArtist, setPrevFiltersArtist] = React.useState(filters.artist);
+  if (filters.artist !== prevFiltersArtist) {
+    setPrevFiltersArtist(filters.artist);
+    setArtistDraft(filters.artist);
+  }
+
+  React.useEffect(() => {
+    const t = setTimeout(() => {
+      if (artistDraft !== filters.artist) onChange({ artist: artistDraft, page: 1 });
+    }, 300);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [artistDraft]);
+
   return (
     <aside className="w-full flex-none space-y-5 lg:w-64">
       <div>
@@ -129,6 +145,7 @@ export function SidebarFilters({
               domain: "all",
               cardType: "all",
               variant: "all",
+              artist: "",
             })
           }
           className="gap-2"
@@ -335,6 +352,40 @@ export function SidebarFilters({
                 </label>
               ))}
             </RadioGroup>
+          </div>
+        </>
+      )}
+
+      {(filters.game === "all" || getGameMeta(filters.game)?.kind !== "sports") && (
+        <>
+          <Separator />
+
+          <div>
+            <h3 className="mb-2 text-sm font-semibold">Artist</h3>
+            <p className="mb-2 text-xs text-muted-foreground">
+              Search by illustrator — not available for sports cards.
+            </p>
+            <div className="relative">
+              <Input
+                value={artistDraft}
+                onChange={(e) => setArtistDraft(e.target.value)}
+                placeholder="e.g. Mitsuhiro Arita"
+                className="bg-surface border-border pr-8"
+              />
+              {artistDraft && (
+                <button
+                  type="button"
+                  aria-label="Clear artist"
+                  onClick={() => {
+                    setArtistDraft("");
+                    onChange({ artist: "", page: 1 });
+                  }}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  <X className="size-4" />
+                </button>
+              )}
+            </div>
           </div>
         </>
       )}

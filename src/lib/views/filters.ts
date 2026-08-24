@@ -32,9 +32,9 @@ export function viewFiltersToSearchParams(f: ViewFilters): URLSearchParams {
  * "Save current search as a View" — wraps Explore's single-value fields
  * into one-element arrays, drops "all" down to [], and drops the
  * page-browsing-only fields (status, watchlistOnly, view, page) that
- * ViewFilters deliberately has no room for. Explore has no structured
- * artist filter today (artist only participates in its free-text q
- * search), so `artists` always starts empty here.
+ * ViewFilters deliberately has no room for. Explore's `artist` is a single
+ * scalar (unlike Views' chip list), so it wraps into a one-element array
+ * here too, same as cardType/rarity/domain/language above.
  */
 export function exploreFiltersToViewFilters(f: ExploreFilters): ViewFilters {
   return {
@@ -46,7 +46,7 @@ export function exploreFiltersToViewFilters(f: ExploreFilters): ViewFilters {
     rarities: f.rarity !== "all" ? [f.rarity] : [],
     domains: f.domain !== "all" ? [f.domain] : [],
     languages: f.language !== "all" ? [f.language] : [],
-    artists: [],
+    artists: f.artist ? [f.artist] : [],
     baseOnly: f.baseOnly,
     sort: f.sort,
   };

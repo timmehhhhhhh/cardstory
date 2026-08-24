@@ -9,6 +9,7 @@ export interface ExploreFilters {
   rarity: string; // "all" | CatalogItem.rarity value, e.g. "Ultra Rare" or "Epic"
   domain: string; // "all" | CatalogItem.domain value, e.g. Riftbound's "Fury" — no-op for every other game
   variant: string; // "all" | CatalogItem.variantKey, a card's priced finish, e.g. Pokémon's "reverseHolofoil" — no-op for sports cards and every non-Pokémon game
+  artist: string; // "" | free-text artist name, matched case-insensitive "contains" — no-op for sports cards (no artist column)
   language: "all" | "EN" | "JP" | "CN" | "TW" | "KR"; // CatalogItem.language — no-op for sports cards
   /** Sports cards only — hide every parallel, showing just each card's base version. */
   baseOnly: boolean;
@@ -28,6 +29,7 @@ export const DEFAULT_FILTERS: ExploreFilters = {
   rarity: "all",
   domain: "all",
   variant: "all",
+  artist: "",
   language: "all",
   baseOnly: false,
   status: "all",
@@ -47,6 +49,7 @@ export function filtersToSearchParams(f: ExploreFilters): URLSearchParams {
   if (f.rarity !== "all") sp.set("rarity", f.rarity);
   if (f.domain !== "all") sp.set("domain", f.domain);
   if (f.variant !== "all") sp.set("variant", f.variant);
+  if (f.artist) sp.set("artist", f.artist);
   if (f.language !== "all") sp.set("language", f.language);
   if (f.baseOnly) sp.set("baseOnly", "1");
   if (f.status !== "all") sp.set("status", f.status);
@@ -72,6 +75,7 @@ export function filtersFromSearchParams(
     rarity: get("rarity") ?? DEFAULT_FILTERS.rarity,
     domain: get("domain") ?? DEFAULT_FILTERS.domain,
     variant: get("variant") ?? DEFAULT_FILTERS.variant,
+    artist: get("artist") ?? DEFAULT_FILTERS.artist,
     language: (get("language") as ExploreFilters["language"]) ?? DEFAULT_FILTERS.language,
     baseOnly: get("baseOnly") === "1",
     status: (get("status") as ExploreFilters["status"]) ?? DEFAULT_FILTERS.status,
