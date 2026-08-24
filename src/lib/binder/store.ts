@@ -41,7 +41,7 @@ function defaultBinder(): Binder {
 
 function defaultState(): BinderStoreDataV1 {
   const main = defaultBinder();
-  return { schemaVersion: 1, activeBinderId: main.id, binders: [main] };
+  return { schemaVersion: 1, activeBinderId: main.id, binders: [main], showNumberTags: true };
 }
 
 /**
@@ -69,6 +69,7 @@ export interface BinderActions {
   setActiveBinder: (binderId: string) => void;
   setCoverColor: (binderId: string, color: BinderCoverColorId) => void;
   setLayout: (binderId: string, layoutId: BinderLayoutId) => void;
+  setShowNumberTags: (show: boolean) => void;
 
   addPage: (binderId: string) => void;
   removePage: (binderId: string, pageId: string) => void;
@@ -121,6 +122,8 @@ export const useBinderStore = create<BinderState>()(
 
       setActiveBinder: (binderId) => set({ activeBinderId: binderId }),
 
+      setShowNumberTags: (show) => set({ showNumberTags: show }),
+
       setCoverColor: (binderId, color) => updateBinder(set, binderId, (b) => ({ ...b, coverColor: color })),
 
       setLayout: (binderId, layoutId) =>
@@ -168,7 +171,7 @@ export const useBinderStore = create<BinderState>()(
       version: 1,
       migrate: (persisted) => {
         if (!persisted || typeof persisted !== "object") return defaultState();
-        return persisted as BinderState;
+        return { showNumberTags: true, ...persisted } as BinderState;
       },
     }
   )

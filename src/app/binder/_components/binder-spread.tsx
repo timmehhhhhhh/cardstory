@@ -20,6 +20,7 @@ export function BinderSpread({
   selectedPocket,
   dragSourcePageId,
   dragOverPocket,
+  showNumberTags,
   onSelectPocket,
   onClearPocket,
   onDragStartSlot,
@@ -37,6 +38,7 @@ export function BinderSpread({
   selectedPocket: PocketRef | null;
   dragSourcePageId: string | null;
   dragOverPocket: PocketRef | null;
+  showNumberTags: boolean;
   onSelectPocket: (pageId: string, slotIndex: number) => void;
   onClearPocket: (pageId: string, slotIndex: number) => void;
   onDragStartSlot: (pageId: string, slotIndex: number) => void;
@@ -72,6 +74,7 @@ export function BinderSpread({
             selectedPocket={selectedPocket}
             dragSourcePageId={dragSourcePageId}
             dragOverSlot={dragOverPocket?.pageId === page.id ? dragOverPocket.slotIndex : null}
+            showNumberTags={showNumberTags}
             onSelectPocket={(slotIndex) => onSelectPocket(page.id, slotIndex)}
             onClearPocket={(slotIndex) => onClearPocket(page.id, slotIndex)}
             onDragStartSlot={(slotIndex) => onDragStartSlot(page.id, slotIndex)}

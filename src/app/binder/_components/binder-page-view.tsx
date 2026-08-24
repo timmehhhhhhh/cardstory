@@ -35,6 +35,7 @@ export function BinderPageView({
   selectedPocket,
   dragSourcePageId,
   dragOverSlot,
+  showNumberTags,
   onSelectPocket,
   onClearPocket,
   onDragStartSlot,
@@ -53,6 +54,7 @@ export function BinderPageView({
   selectedPocket: PocketRef | null;
   dragSourcePageId: string | null;
   dragOverSlot: number | null;
+  showNumberTags: boolean;
   onSelectPocket: (slotIndex: number) => void;
   onClearPocket: (slotIndex: number) => void;
   onDragStartSlot: (slotIndex: number) => void;
@@ -90,6 +92,7 @@ export function BinderPageView({
             card={holdingId ? cardsById.get(holdingId) : undefined}
             selected={selectedPocket?.pageId === page.id && selectedPocket.slotIndex === slotIndex}
             draggedOver={dragSourcePageId != null && dragOverSlot === slotIndex}
+            showNumberTag={showNumberTags}
             onSelect={() => onSelectPocket(slotIndex)}
             onClear={() => onClearPocket(slotIndex)}
             onDragStart={() => onDragStartSlot(slotIndex)}
