@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { usePCStore } from "@/lib/pc/store";
 import { enrichHoldings, computeTotals } from "@/lib/pc/selectors";
 import { holdingKind, type Holding, type PC } from "@/lib/pc/types";
@@ -56,6 +56,12 @@ export function usePCData(pcIdOverride?: string) {
       if (!res.ok) throw new Error("Failed to load catalog items");
       return res.json();
     },
+    // Deleting the last holding of a given card shrinks `catalogIds`, which
+    // is itself the query key — that's a key React Query has never fetched,
+    // so without this it'd go briefly `undefined`/loading and collapse the
+    // whole list (and the page's scroll position with it). Keep the
+    // previous items on screen while the shorter id set refetches instead.
+    placeholderData: keepPreviousData,
   });
 
   const sportsQuery = useQuery<{ items: SportsCardItemDetail[] }>({
@@ -66,6 +72,8 @@ export function usePCData(pcIdOverride?: string) {
       if (!res.ok) throw new Error("Failed to load sports card items");
       return res.json();
     },
+    // See catalogQuery above.
+    placeholderData: keepPreviousData,
   });
 
   const rows = React.useMemo(
