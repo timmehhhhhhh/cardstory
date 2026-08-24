@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { Preferences, ViewMode } from "@/lib/pc/types";
+import type { Preferences, SortDirection, SortField, ViewMode } from "@/lib/pc/types";
 import type { SupportedCurrency } from "@/lib/constants";
 
 // A new, dedicated key — deliberately not "cardstory:portfolio:v1" (the old
@@ -20,6 +20,10 @@ function defaultPreferences(): Preferences {
     // The detail-dense list is the default read of a collection; gallery
     // is opt-in via ViewModeToggle (src/app/pc/_components).
     viewMode: "list",
+    // Newest-added first — matches the order holdings have always
+    // effectively appeared in, so this is a no-op default for existing users.
+    sortField: "dateAdded",
+    sortDirection: "desc",
     lastUsedCostBasisCurrency: "USD",
     businessMode: false,
     quickAdd: false,
@@ -38,6 +42,8 @@ export interface PCPreferencesState {
   setActivePC: (pcId: string) => void;
   setCurrency: (currency: SupportedCurrency) => void;
   setViewMode: (mode: ViewMode) => void;
+  setSortField: (field: SortField) => void;
+  setSortDirection: (direction: SortDirection) => void;
   setLastUsedCostBasisCurrency: (currency: SupportedCurrency) => void;
   setBusinessMode: (businessMode: boolean) => void;
   setQuickAdd: (quickAdd: boolean) => void;
@@ -62,6 +68,10 @@ export const usePCPreferencesStore = create<PCPreferencesState>()(
         set((s) => ({ preferences: { ...s.preferences, currency } })),
       setViewMode: (viewMode) =>
         set((s) => ({ preferences: { ...s.preferences, viewMode } })),
+      setSortField: (sortField) =>
+        set((s) => ({ preferences: { ...s.preferences, sortField } })),
+      setSortDirection: (sortDirection) =>
+        set((s) => ({ preferences: { ...s.preferences, sortDirection } })),
       setLastUsedCostBasisCurrency: (lastUsedCostBasisCurrency) =>
         set((s) => ({ preferences: { ...s.preferences, lastUsedCostBasisCurrency } })),
       setBusinessMode: (businessMode) =>
@@ -69,6 +79,23 @@ export const usePCPreferencesStore = create<PCPreferencesState>()(
       setQuickAdd: (quickAdd) =>
         set((s) => ({ preferences: { ...s.preferences, quickAdd } })),
     }),
-    { name: STORAGE_KEY, version: 1 }
+    {
+      name: STORAGE_KEY,
+      version: 1,
+      // Default merge replaces `preferences` wholesale with whatever was
+      // persisted — fine until a new preference (like sortField/
+      // sortDirection here) is added after some browsers already have this
+      // key stored, which would otherwise leave that field undefined
+      // instead of falling back to defaultPreferences(). Merge `preferences`
+      // one level deep so new fields always get their default.
+      merge: (persisted, current) => {
+        const p = (persisted ?? {}) as Partial<PCPreferencesState>;
+        return {
+          ...current,
+          ...p,
+          preferences: { ...current.preferences, ...p.preferences },
+        };
+      },
+    }
   )
 );

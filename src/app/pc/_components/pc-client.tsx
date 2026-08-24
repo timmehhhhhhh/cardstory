@@ -17,6 +17,7 @@ import { ItemGallery } from "@/app/pc/_components/item-gallery";
 import { ViewModeToggle } from "@/app/pc/_components/view-mode-toggle";
 import { BulkActionsBar } from "@/app/pc/_components/bulk-actions-bar";
 import { DEFAULT_HOLDING_FILTERS, type HoldingFilters } from "@/app/pc/_components/types";
+import { sortHoldings } from "@/lib/pc/selectors";
 import { PublishShowcaseDialog } from "@/components/pc/publish-showcase-dialog";
 import { AddSportsCardDialog } from "@/components/sportscards/add-sports-card-dialog";
 import { Button } from "@/components/ui/button";
@@ -27,6 +28,10 @@ export function PCClient() {
   const watchlist = usePCStore((s) => s.watchlist);
   const currency = usePCStore((s) => s.preferences.currency);
   const viewMode = usePCStore((s) => s.preferences.viewMode);
+  const sortField = usePCStore((s) => s.preferences.sortField);
+  const sortDirection = usePCStore((s) => s.preferences.sortDirection);
+  const setSortField = usePCStore((s) => s.setSortField);
+  const setSortDirection = usePCStore((s) => s.setSortDirection);
   const setActivePC = usePCStore((s) => s.setActivePC);
 
   // Business Inventory now lives on its own /business tab and is filtered
@@ -74,6 +79,11 @@ export function PCClient() {
     });
   }, [rows, filters, watchedIds]);
 
+  const sortedRows = React.useMemo(
+    () => sortHoldings(filteredRows, sortField, sortDirection),
+    [filteredRows, sortField, sortDirection]
+  );
+
   function toggleSelect(holdingId: string) {
     setSelected((prev) => {
       const next = new Set(prev);
@@ -96,6 +106,10 @@ export function PCClient() {
               setBulkMode((v) => !v);
               setSelected(new Set());
             }}
+            sortField={sortField}
+            sortDirection={sortDirection}
+            onSortFieldChange={setSortField}
+            onSortDirectionChange={setSortDirection}
           />
           <AddSportsCardDialog />
           <Button asChild variant="outline" size="sm">
@@ -154,7 +168,7 @@ export function PCClient() {
           <p className="text-sm text-muted-foreground">Loading your collection…</p>
         ) : viewMode === "grid" ? (
           <ItemGallery
-            rows={filteredRows}
+            rows={sortedRows}
             bulkMode={bulkMode}
             selected={selected}
             onToggleSelect={toggleSelect}
@@ -163,7 +177,7 @@ export function PCClient() {
           />
         ) : (
           <ItemGrid
-            rows={filteredRows}
+            rows={sortedRows}
             bulkMode={bulkMode}
             selected={selected}
             onToggleSelect={toggleSelect}

@@ -7,6 +7,17 @@ export type ViewMode = "grid" | "list";
 export type HoldingKind = "tcg" | "sports";
 
 /**
+ * How the PC List/Gallery is ordered. "dateAdded" sorts on a holding's
+ * immutable `createdAt` (when it was added to CardStory); "dateAcquired"
+ * sorts on the user-editable, optional `acquiredAt` (see Holding.acquiredAt
+ * below for why the two are kept distinct) — holdings with no acquiredAt
+ * sort last regardless of direction. "name"/"setName" sort on the
+ * resolved display name / set name.
+ */
+export type SortField = "dateAdded" | "dateAcquired" | "name" | "setName";
+export type SortDirection = "asc" | "desc";
+
+/**
  * A single owned line-item in a local PC.
  *
  * - `kind: "tcg"` — `catalogItemId` joins against the server-side TCG
@@ -129,6 +140,9 @@ export interface Preferences {
   currency: SupportedCurrency;
   theme: "dark" | "light";
   viewMode: ViewMode;
+  /** How the PC List/Gallery is ordered — see SortField/SortDirection above. */
+  sortField: SortField;
+  sortDirection: SortDirection;
   /** Last currency picked in an Add-to-PC dialog — pre-fills the next one. */
   lastUsedCostBasisCurrency: SupportedCurrency;
   /**
@@ -187,6 +201,8 @@ export type NewHoldingInput = Omit<Holding, "id" | "createdAt" | "updatedAt">;
 export interface PCActions {
   setCurrency: (currency: SupportedCurrency) => void;
   setViewMode: (mode: ViewMode) => void;
+  setSortField: (field: SortField) => void;
+  setSortDirection: (direction: SortDirection) => void;
   setLastUsedCostBasisCurrency: (currency: SupportedCurrency) => void;
   setBusinessMode: (businessMode: boolean) => void;
   setQuickAdd: (quickAdd: boolean) => void;

@@ -4,6 +4,8 @@ import Link from "next/link";
 import { CheckSquare, Download, LineChart, Repeat } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
+import type { SortDirection, SortField } from "@/lib/pc/types";
+import { SortBySelect } from "@/app/pc/_components/sort-by";
 
 function exportCsv(rows: EnrichedHolding[]) {
   const header = [
@@ -56,10 +58,18 @@ export function QuickActions({
   rows,
   bulkMode,
   onToggleBulkMode,
+  sortField,
+  sortDirection,
+  onSortFieldChange,
+  onSortDirectionChange,
 }: {
   rows: EnrichedHolding[];
   bulkMode: boolean;
   onToggleBulkMode: () => void;
+  sortField: SortField;
+  sortDirection: SortDirection;
+  onSortFieldChange: (field: SortField) => void;
+  onSortDirectionChange: (direction: SortDirection) => void;
 }) {
   const actions = [
     { key: "movers", label: "Market Movers", icon: LineChart, href: "/explore?sort=trending_up" },
@@ -77,7 +87,16 @@ export function QuickActions({
           <a.icon className="size-4" /> {a.label}
         </Link>
       ))}
-      <div className="sticky top-14 z-30 bg-background/95 py-0.5 backdrop-blur supports-backdrop-blur:bg-background/60">
+      {/* Sticky group: Sort By + Bulk Actions stay reachable while scrolling
+          a long collection — everything else in QuickActions scrolls away
+          normally. */}
+      <div className="sticky top-14 z-30 flex items-center gap-2 bg-background/95 py-0.5 backdrop-blur supports-backdrop-blur:bg-background/60">
+        <SortBySelect
+          field={sortField}
+          direction={sortDirection}
+          onFieldChange={onSortFieldChange}
+          onDirectionChange={onSortDirectionChange}
+        />
         <button
           type="button"
           role="switch"
