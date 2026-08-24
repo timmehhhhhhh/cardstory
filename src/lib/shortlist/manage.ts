@@ -120,7 +120,19 @@ export async function updateShortlistItem(
   await db.shortlistItem.update({ where: { id: itemId }, data: patch });
 }
 
-/** Scoped by userId in the where clause, same posture as removeWatchlistEntry — silently no-ops on someone else's id rather than needing a per-id ownership check. */
+/**
+ * Scoped by userId, same posture as removeWatchlistEntry — silently no-ops
+ * on someone else's id rather than needing a per-id ownership check. One
+ * `delete` per row rather than a single `deleteMany` — this app's
+ * production Prisma client (src/lib/db.ts) talks to Neon over
+ * PrismaNeonHTTP, a plain-fetch adapter that can't support interactive
+ * transactions, which `deleteMany` needs internally; a single-row `delete`
+ * doesn't.
+ */
 export async function removeShortlistItems(userId: string, itemIds: string[]): Promise<void> {
-  await db.shortlistItem.deleteMany({ where: { userId, id: { in: itemIds } } });
+  const owned = await db.shortlistItem.findMany({
+    where: { userId, id: { in: itemIds } },
+    select: { id: true },
+  });
+  await Promise.all(owned.map((item) => db.shortlistItem.delete({ where: { id: item.id } })));
 }
