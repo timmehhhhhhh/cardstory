@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
 import { logActivity } from "@/lib/activity/log";
 import type { Holding, NewHoldingInput, PC } from "@/lib/pc/types";
@@ -137,25 +138,50 @@ export async function listPCs(userId: string): Promise<PC[]> {
   }));
 }
 
-/** Creates the user's first PC if they somehow have none yet. Silent infra fallback — not logged. */
-export async function ensureDefaultPC(userId: string): Promise<PC> {
-  const existing = await db.portfolio.findFirst({ where: { userId }, orderBy: { createdAt: "asc" } });
-  if (existing)
-    return {
-      id: existing.id,
-      name: existing.name,
-      kind: existing.kind as PC["kind"],
-      createdAt: existing.createdAt.toISOString(),
-      holdings: [],
-    };
-  const created = await db.portfolio.create({ data: { userId, name: "Main" } });
+function toEmptyPC(p: { id: string; name: string; kind: string; createdAt: Date }): PC {
   return {
-    id: created.id,
-    name: created.name,
-    kind: created.kind as PC["kind"],
-    createdAt: created.createdAt.toISOString(),
+    id: p.id,
+    name: p.name,
+    kind: p.kind as PC["kind"],
+    createdAt: p.createdAt.toISOString(),
     holdings: [],
   };
+}
+
+/**
+ * Creates the user's first PC if they somehow have none yet. Silent infra
+ * fallback — not logged.
+ *
+ * GET /api/pc calls this from a plain "if pcs.length === 0" check, with no
+ * lock around it — two concurrent GETs for a brand-new user (e.g. a page
+ * load that fires the PC query twice) can both see zero PCs and both reach
+ * the `create` below before either has committed, leaving the account with
+ * two duplicate "Main" PCs. A random cuid `id` (the default for every other
+ * PC) can't stop that, since the two inserts never collide on anything.
+ *
+ * Fixed by giving *only* this auto-created default PC a deterministic id
+ * derived from userId instead of a random one, so a concurrent second call
+ * collides with the first on the `id` primary key and Postgres rejects it
+ * (P2002) rather than inserting a duplicate row — the loser just re-reads
+ * the winner's row. User-created PCs (createPC below) are unaffected: they
+ * already take a client-supplied id and this is a one-time bootstrap path.
+ */
+export async function ensureDefaultPC(userId: string): Promise<PC> {
+  const existing = await db.portfolio.findFirst({ where: { userId }, orderBy: { createdAt: "asc" } });
+  if (existing) return toEmptyPC(existing);
+
+  try {
+    const created = await db.portfolio.create({
+      data: { id: `default-${userId}`, userId, name: "Main" },
+    });
+    return toEmptyPC(created);
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002") {
+      const winner = await db.portfolio.findFirst({ where: { userId }, orderBy: { createdAt: "asc" } });
+      if (winner) return toEmptyPC(winner);
+    }
+    throw err;
+  }
 }
 
 export async function createPC(
