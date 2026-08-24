@@ -48,7 +48,19 @@ export async function addWatchlistEntry(
   }
 }
 
-/** Safe no-op if the item wasn't watched — same idempotency as addWatchlistEntry. */
+/**
+ * Safe no-op if the item wasn't watched — same idempotency as
+ * addWatchlistEntry. `delete` (not `deleteMany`) on the @@unique([userId,
+ * itemId]) key, same "Neon HTTP adapter can't do transactions" reasoning as
+ * that function's comment — `deleteMany` needs one, a single-row unique
+ * `delete` doesn't.
+ */
 export async function removeWatchlistEntry(userId: string, itemId: string): Promise<void> {
-  await db.watchlistEntry.deleteMany({ where: { userId, itemId } });
+  try {
+    await db.watchlistEntry.delete({ where: { userId_itemId: { userId, itemId } } });
+  } catch (err) {
+    // P2025 = record not found — already not watched, the intended no-op.
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2025") return;
+    throw err;
+  }
 }
