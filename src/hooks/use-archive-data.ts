@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { usePCStore } from "@/lib/pc/store";
 import { enrichHoldings, type EnrichedHolding } from "@/lib/pc/selectors";
 import { holdingIsArchived, holdingKind, pcKind, type PCKind } from "@/lib/pc/types";
@@ -58,6 +58,11 @@ export function useArchiveData(scopeKind: PCKind) {
       if (!res.ok) throw new Error("Failed to load catalog items");
       return res.json();
     },
+    // See use-pc-data.ts's matching comment — permanently deleting the last
+    // archived copy of a card shrinks `catalogIds`, which is the query key,
+    // so without this the list would briefly go blank/loading and take the
+    // page's scroll position with it.
+    placeholderData: keepPreviousData,
   });
 
   const sportsQuery = useQuery<{ items: SportsCardItemDetail[] }>({
@@ -68,6 +73,7 @@ export function useArchiveData(scopeKind: PCKind) {
       if (!res.ok) throw new Error("Failed to load sports card items");
       return res.json();
     },
+    placeholderData: keepPreviousData,
   });
 
   const rows: ArchivedRow[] = React.useMemo(() => {
