@@ -1,17 +1,21 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
+import { EyeOff } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { StockLineChart } from "@/components/charts/stock-line-chart";
 import { PC_CHART_RANGES, type PCChartRange } from "@/lib/constants";
 import { usePCStore } from "@/lib/pc/store";
+import { usePricingVisible } from "@/lib/utils/use-pricing-visible";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
 
 export function PCChart({ rows }: { rows: EnrichedHolding[] }) {
   const [range, setRange] = React.useState<PCChartRange>("1M");
   const currency = usePCStore((s) => s.preferences.currency);
+  const pricingVisible = usePricingVisible();
 
   const holdingsPayload = React.useMemo(
     () =>
@@ -39,6 +43,18 @@ export function PCChart({ rows }: { rows: EnrichedHolding[] }) {
   });
 
   const points = query.data?.points ?? [];
+
+  if (!pricingVisible) {
+    return (
+      <div className="flex h-[180px] flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border text-sm text-muted-foreground">
+        <EyeOff className="size-4" />
+        <p>Pricing is hidden</p>
+        <Link href="/settings" className="text-xs underline underline-offset-2">
+          Change in Settings
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div>

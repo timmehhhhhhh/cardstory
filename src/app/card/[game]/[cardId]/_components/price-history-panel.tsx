@@ -7,7 +7,8 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { StockLineChart } from "@/components/charts/stock-line-chart";
 import { usePCStore } from "@/lib/pc/store";
-import { formatMoney, formatPct } from "@/lib/utils/format";
+import { Money } from "@/components/ui/money";
+import { formatPct } from "@/lib/utils/format";
 import { PRICE_HISTORY_RANGES, type PriceHistoryRange } from "@/lib/constants";
 
 interface HistoryResponse {
@@ -53,7 +54,7 @@ export function PriceHistoryPanel({
           </p>
           <div className="mt-1 flex items-baseline gap-2">
             <span className="num-tabular text-2xl font-bold">
-              {formatMoney(currentPriceRaw, currency)}
+              <Money amountUsd={currentPriceRaw} currency={currency} />
             </span>
             {currentChangePct != null && (
               <span

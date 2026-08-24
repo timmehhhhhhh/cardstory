@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Camera, History, Menu } from "lucide-react";
+import { Camera, History, Menu, Settings } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -73,6 +73,12 @@ function MobileAccountSection({ onNavigate }: { onNavigate: () => void }) {
   return (
     <div className="flex flex-col gap-2 px-3">
       <span className="truncate text-sm text-muted-foreground">{session?.user?.email}</span>
+      <Button asChild variant="ghost" size="sm" className="justify-start">
+        <Link href="/settings" onClick={onNavigate}>
+          <Settings className="size-4" />
+          User Settings
+        </Link>
+      </Button>
       <div className="flex items-center justify-between">
         <Button asChild variant="ghost" size="sm">
           <Link href="/history" onClick={onNavigate}>

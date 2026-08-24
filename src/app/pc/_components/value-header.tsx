@@ -4,7 +4,8 @@ import { TrendingDown, TrendingUp } from "lucide-react";
 import { PCSelector } from "@/app/pc/_components/pc-selector";
 import { PCChart } from "@/app/pc/_components/pc-chart";
 import { usePCStore } from "@/lib/pc/store";
-import { formatMoney, formatPct } from "@/lib/utils/format";
+import { Money } from "@/components/ui/money";
+import { formatPct } from "@/lib/utils/format";
 import type { EnrichedHolding, PCTotals } from "@/lib/pc/selectors";
 
 export function ValueHeader({
@@ -31,7 +32,9 @@ export function ValueHeader({
               <p className="text-sm font-medium text-muted-foreground">Business Inventory</p>
             )}
           </div>
-          <p className="num-tabular text-3xl font-bold">{formatMoney(totals.totalValue, currency)}</p>
+          <p className="num-tabular text-3xl font-bold">
+            <Money amountUsd={totals.totalValue} currency={currency} />
+          </p>
           {totals.totalCostBasis > 0 && (
             <p
               className={
@@ -40,7 +43,7 @@ export function ValueHeader({
               }
             >
               {positive ? <TrendingUp className="size-4" /> : <TrendingDown className="size-4" />}
-              {formatMoney(totals.totalGainLoss, currency)} ({formatPct(totals.totalGainLossPct)})
+              <Money amountUsd={totals.totalGainLoss} currency={currency} /> ({formatPct(totals.totalGainLossPct)})
             </p>
           )}
         </div>
