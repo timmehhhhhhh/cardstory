@@ -7,8 +7,9 @@ import { ArrowLeft } from "lucide-react";
 import { db } from "@/lib/db";
 import { getGameMeta } from "@/lib/games/registry";
 import { SetTile } from "@/app/sets/[game]/_components/set-tile";
-import { SortToggle } from "@/app/sets/[game]/_components/sort-toggle";
+import { SortControls, type SetSortField } from "@/app/sets/[game]/_components/sort-controls";
 import { formatReleaseMonthYear } from "@/lib/format/date";
+import { languageFromSetCode, languageLabel } from "@/lib/format/language";
 import { requireSession } from "@/lib/auth/require-session";
 
 export async function generateMetadata({
@@ -30,16 +31,20 @@ interface SetTileData {
   symbolUrl: string | null;
   logoUrl: string | null;
   releaseDate: string | null;
+  language: string;
 }
 
 const loadTcgSets = unstable_cache(
-  async (game: string, direction: "asc" | "desc"): Promise<SetTileData[]> => {
+  async (game: string, direction: "asc" | "desc", sortBy: SetSortField): Promise<SetTileData[]> => {
     const sets = await db.set.findMany({
       where: { gameId: game },
       // Explicit nulls: "last" in both directions — Postgres's own default
       // (nulls sort as largest) already gives this for desc, but being
       // explicit keeps undated sets out of the way regardless of direction.
-      orderBy: { releaseDate: { sort: direction, nulls: "last" } },
+      orderBy:
+        sortBy === "name"
+          ? { name: direction }
+          : { releaseDate: { sort: direction, nulls: "last" } },
       include: { _count: { select: { items: true } } },
     });
     return sets.map((s) => ({
@@ -52,6 +57,9 @@ const loadTcgSets = unstable_cache(
       symbolUrl: s.symbolUrl,
       logoUrl: s.logoUrl,
       releaseDate: formatReleaseMonthYear(s.releaseDate),
+      // Only Pokémon has non-English sets, encoded as a "<lang>:" prefix on
+      // `code` — see languageFromSetCode.
+      language: languageFromSetCode(s.code),
     }));
   },
   ["catalog-tcg-sets"],
@@ -69,15 +77,21 @@ const loadTcgSets = unstable_cache(
  * concepts are papered over.
  */
 const loadSportsSets = unstable_cache(
-  async (sport: Sport | undefined, direction: "asc" | "desc"): Promise<SetTileData[]> => {
+  async (
+    sport: Sport | undefined,
+    direction: "asc" | "desc",
+    sortBy: SetSortField
+  ): Promise<SetTileData[]> => {
     const groups = await db.sportsCardItem.groupBy({
       by: ["year", "distributor", "setName"],
       where: { sport },
       _count: { _all: true },
       _min: { releaseDate: true },
       // Sports has no per-set Set.releaseDate row to sort by — year is
-      // already its primary sort key, so the toggle just flips its direction.
-      orderBy: [{ year: direction }],
+      // already its primary sort key for "date"; "name" sorts on setName
+      // instead (the only free-text field — see the SportsCardItem model
+      // comment for why year/distributor/setName stay split).
+      orderBy: [sortBy === "name" ? { setName: direction } : { year: direction }],
     });
     return groups.map((g) => {
       const setId = `${g.year ?? ""}::${g.distributor ?? ""}::${g.setName}`;
@@ -96,6 +110,9 @@ const loadSportsSets = unstable_cache(
         // scripts/data/lamelo-ball/release-dates.ts).
         releaseDate:
           formatReleaseMonthYear(g._min.releaseDate) ?? (g.year ? String(g.year) : null),
+        // SportsCardItem has no language field — sports memorabilia is
+        // English-only, so grouping by language always yields one bucket.
+        language: "EN",
       };
     });
   },
@@ -103,24 +120,50 @@ const loadSportsSets = unstable_cache(
   { tags: ["catalog-sets"], revalidate: 86400 }
 );
 
+/** English first, then the rest alphabetically by display label — mirrors LANGUAGE_OPTIONS' ordering in app/views/_components/view-builder.tsx. */
+function compareLanguage(a: string, b: string): number {
+  if (a === b) return 0;
+  if (a === "EN") return -1;
+  if (b === "EN") return 1;
+  return languageLabel(a).localeCompare(languageLabel(b));
+}
+
 export default async function GameSetsPage({
   params,
   searchParams,
 }: {
   params: Promise<{ game: string }>;
-  searchParams: Promise<{ sort?: string }>;
+  searchParams: Promise<{ sort?: string; sortBy?: string; group?: string }>;
 }) {
   await requireSession();
   const { game } = await params;
-  const { sort } = await searchParams;
+  const { sort, sortBy: sortByParam, group } = await searchParams;
   const meta = getGameMeta(game);
   if (!meta || meta.status !== "WIRED") notFound();
 
   const direction: "asc" | "desc" = sort === "asc" ? "asc" : "desc";
+  const sortBy: SetSortField = sortByParam === "name" ? "name" : "date";
+  const grouped = group === "language";
   const sets =
     meta.kind === "sports"
-      ? await loadSportsSets(meta.sport, direction)
-      : await loadTcgSets(game, direction);
+      ? await loadSportsSets(meta.sport, direction, sortBy)
+      : await loadTcgSets(game, direction, sortBy);
+
+  // Group by language while preserving the already-sorted (date/name) order
+  // within each group — Map insertion order follows first-seen language, so
+  // re-sort just the group keys themselves (English first, see
+  // compareLanguage) rather than the sets inside them.
+  const groups: { language: string; sets: SetTileData[] }[] = grouped
+    ? Array.from(
+        sets.reduce((byLanguage, s) => {
+          const bucket = byLanguage.get(s.language);
+          if (bucket) bucket.push(s);
+          else byLanguage.set(s.language, [s]);
+          return byLanguage;
+        }, new Map<string, SetTileData[]>()),
+        ([language, groupSets]) => ({ language, sets: groupSets })
+      ).sort((a, b) => compareLanguage(a.language, b.language))
+    : [{ language: "", sets }];
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6">
@@ -131,27 +174,41 @@ export default async function GameSetsPage({
         <ArrowLeft className="size-4" /> All games
       </Link>
       <h1 className="mb-1 text-lg font-semibold">{meta.name}</h1>
-      <div className="mb-6 flex items-center justify-between gap-3">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm text-muted-foreground">
           {sets.length} set{sets.length === 1 ? "" : "s"} currently in the catalog.
         </p>
-        <SortToggle />
+        <SortControls />
       </div>
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        {sets.map((s) => (
-          <SetTile
-            key={s.id}
-            gameId={game}
-            setId={s.setId}
-            name={s.name}
-            nameEn={s.nameEn}
-            code={s.code}
-            cardCount={s.cardCount}
-            symbolUrl={s.symbolUrl}
-            logoUrl={s.logoUrl}
-            releaseDate={s.releaseDate}
-          />
+      <div className="space-y-6">
+        {groups.map((g) => (
+          <div key={g.language || "all"}>
+            {grouped && (
+              <h2 className="mb-2 text-sm font-semibold text-muted-foreground">
+                {languageLabel(g.language)}{" "}
+                <span className="font-normal">
+                  ({g.sets.length} set{g.sets.length === 1 ? "" : "s"})
+                </span>
+              </h2>
+            )}
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {g.sets.map((s) => (
+                <SetTile
+                  key={s.id}
+                  gameId={game}
+                  setId={s.setId}
+                  name={s.name}
+                  nameEn={s.nameEn}
+                  code={s.code}
+                  cardCount={s.cardCount}
+                  symbolUrl={s.symbolUrl}
+                  logoUrl={s.logoUrl}
+                  releaseDate={s.releaseDate}
+                />
+              ))}
+            </div>
+          </div>
         ))}
       </div>
     </div>
