@@ -183,7 +183,7 @@ export function AddHoldingDialog({
         kind: sportsCardItemId ? "sports" : "tcg",
         catalogItemId,
         sportsCardItemId: effectiveSportsCardItemId,
-        quantity: Math.max(1, quantity),
+        quantity: Math.min(20, Math.max(1, quantity)),
         condition,
         gradeCompany: condition === "graded" ? gradeCompany : undefined,
         gradeValue: condition === "graded" ? gradeValue : undefined,
@@ -252,6 +252,7 @@ export function AddHoldingDialog({
                 id="quantity"
                 type="number"
                 min={1}
+                max={20}
                 value={quantity}
                 onChange={(e) => setQuantity(Number(e.target.value))}
                 className="bg-background"

@@ -110,26 +110,31 @@ function splitSuffixes(name: string): { base: string; suffix: string } {
   return { base, suffix: parts.join("") };
 }
 
+// tcgdex's "zh-cn" (Simplified) card text is, in practice, inconsistently
+// simplified — a real chunk of it prints in Traditional characters instead
+// (verified against the live catalog: ~4700 of the catalog's 1023 "CN" rows
+// share byte-identical printed text with a "TW" row). Falling back to the
+// Traditional species table for CN-language lookups only widens what
+// resolves; it can't cause a false match, since a species name that happens
+// to collide across scripts still names the same species. Shared by every
+// species.get() call in resolveSpecies — including the one inside the
+// regional-form-prefix loop, where a CN card can pair a Simplified prefix
+// with a Traditionally-spelled species ("帕底亞 肯泰羅" — Simplified would be
+// "肯泰罗").
+function speciesGet(species: Map<string, string>, name: string, language: string): string | undefined {
+  const direct = species.get(name);
+  if (direct) return direct;
+  if (language === "CN") return speciesLookup("TW")?.get(name);
+  return undefined;
+}
+
 /** Resolves a species name, optionally carrying a regional-form/Mega prefix ("アローラ" + "ナッシー"). */
 function resolveSpecies(base: string, language: string): string | undefined {
   const species = speciesLookup(language);
   if (!species) return undefined;
 
-  const direct = species.get(base);
+  const direct = speciesGet(species, base, language);
   if (direct) return direct;
-
-  // tcgdex's "zh-cn" (Simplified) card text is, in practice, inconsistently
-  // simplified — a real chunk of it prints in Traditional characters
-  // instead (verified against the live catalog: ~4700 of the catalog's
-  // 1023 "CN" rows share byte-identical printed text with a "TW" row).
-  // Falling back to the Traditional species table for CN-language rows
-  // only widens what resolves; it can't cause a false match, since a
-  // species name that happens to collide across scripts still names the
-  // same species.
-  if (language === "CN") {
-    const traditional = speciesLookup("TW")?.get(base);
-    if (traditional) return traditional;
-  }
 
   const englishFallback = englishSpeciesLookup().get(base.toLowerCase());
   if (englishFallback) return englishFallback;
@@ -139,7 +144,7 @@ function resolveSpecies(base: string, language: string): string | undefined {
     if (prefixLanguage !== language || !base.startsWith(prefix)) continue;
     // Chinese printings space the adjective off from the species
     // ("帕底亞 肯泰羅"); Japanese and Korean run them together.
-    const rest = species.get(base.slice(prefix.length).trim());
+    const rest = speciesGet(species, base.slice(prefix.length).trim(), language);
     if (rest) return `${english} ${rest}`;
   }
   return undefined;
