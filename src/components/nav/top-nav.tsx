@@ -77,7 +77,7 @@ function MobileAccountSection({ onNavigate }: { onNavigate: () => void }) {
       <Button asChild variant="ghost" size="sm" className="justify-start">
         <Link href="/settings" onClick={onNavigate}>
           <Settings className="size-4" />
-          User Settings
+          Settings
         </Link>
       </Button>
       <div className="flex items-center justify-between">

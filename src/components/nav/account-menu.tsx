@@ -33,7 +33,7 @@ export function AccountMenu() {
         <DropdownMenuItem asChild>
           <Link href="/settings">
             <Settings className="size-4" />
-            User Settings
+            Settings
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
