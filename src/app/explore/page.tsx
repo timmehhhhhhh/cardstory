@@ -31,6 +31,7 @@ export default async function ExplorePage({
       rarity: filters.rarity !== "all" ? filters.rarity : undefined,
       domain: filters.domain !== "all" ? filters.domain : undefined,
       variant: filters.variant !== "all" ? filters.variant : undefined,
+      artist: filters.artist || undefined,
       language: filters.language !== "all" ? filters.language : undefined,
       baseOnly: filters.baseOnly,
       sort: filters.sort,

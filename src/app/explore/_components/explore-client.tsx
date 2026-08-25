@@ -187,6 +187,7 @@ export function ExploreClient({
     filters.rarity === initialFilters.rarity &&
     filters.domain === initialFilters.domain &&
     filters.variant === initialFilters.variant &&
+    filters.artist === initialFilters.artist &&
     filters.language === initialFilters.language &&
     filters.baseOnly === initialFilters.baseOnly &&
     filters.status === initialFilters.status &&
