@@ -60,8 +60,19 @@ export interface CardFieldMap {
   /** Sports imports only — maps to SportsCardItem.serialLimit, e.g. "99" or "1". */
   serialLimit?: FieldSpec;
   releaseDate?: FieldSpec;
-  /** Captured for provenance/manual follow-up only — v1 does not crawl into per-card detail pages. */
+  /** Also used, alongside provenance, as the page fetched for `imageFromDetail` below. */
   detailUrl?: FieldSpec;
+  /**
+   * Many checklist/gallery pages only show a small thumbnail per card, with
+   * the real image (front, or hi-res) living on that card's own detail page.
+   * If set, `fetchDetailImages` visits each card's `detailUrl` and extracts
+   * an image with this spec (resolved against the detail page's document
+   * root, same field-spec semantics as everything else). Requires
+   * `fields.detailUrl` to also be set — no detailUrl, nothing to fetch.
+   */
+  imageFromDetail?: FieldSpec;
+  /** Same idea as `imageFromDetail`, for a card back image. */
+  imageBackFromDetail?: FieldSpec;
 }
 
 export interface ScrapedCard {
@@ -168,6 +179,80 @@ export async function scrapeCards(spec: ScrapeSpec): Promise<ScrapedCard[]> {
     }
   }
   return out;
+}
+
+// ---------------------------------------------------------------------------
+// Per-card detail-page image fetch — opt-in second pass for sites whose
+// listing/checklist page only exposes a thumbnail (or no image at all),
+// where the real card image lives on that card's own detail page.
+// ---------------------------------------------------------------------------
+
+export interface DetailImageFetchOptions {
+  /** Skip cards that already have an imageUrl from the listing page. Default true. */
+  onlyMissing?: boolean;
+  /** Delay between detail-page requests, to be polite to the source site. Default 250ms. */
+  delayMs?: number;
+  /** Called after each attempted fetch, for a progress indicator. */
+  onProgress?: (done: number, total: number) => void;
+}
+
+export interface DetailImageFetchResult {
+  attempted: number;
+  updatedFront: number;
+  updatedBack: number;
+  failed: { name: string; detailUrl: string; error: string }[];
+}
+
+/**
+ * Mutates `cards` in place, filling `imageUrl` (and `imageBackUrl`) by
+ * fetching each card's `detailUrl` and extracting per `fields.imageFromDetail`
+ * / `fields.imageBackFromDetail`. Cards with no `detailUrl`, or with neither
+ * spec set, are left untouched. One request per qualifying card — for a
+ * large set this is the slow path, so it's always opt-in (only runs when a
+ * profile sets one of these specs) and paced by `delayMs`.
+ */
+export async function fetchDetailImages(
+  cards: ScrapedCard[],
+  fields: Pick<CardFieldMap, "imageFromDetail" | "imageBackFromDetail">,
+  opts: DetailImageFetchOptions = {}
+): Promise<DetailImageFetchResult> {
+  const { onlyMissing = true, delayMs = 250, onProgress } = opts;
+  const result: DetailImageFetchResult = { attempted: 0, updatedFront: 0, updatedBack: 0, failed: [] };
+  if (!fields.imageFromDetail && !fields.imageBackFromDetail) return result;
+
+  const targets = cards.filter(
+    (c) => c.detailUrl && (!onlyMissing || !c.imageUrl || (fields.imageBackFromDetail && !c.imageBackUrl))
+  );
+
+  for (let i = 0; i < targets.length; i++) {
+    const card = targets[i];
+    const detailUrl = card.detailUrl!;
+    result.attempted++;
+    try {
+      const html = await fetchHtml(detailUrl);
+      const $ = cheerio.load(html);
+      if (fields.imageFromDetail && (!onlyMissing || !card.imageUrl)) {
+        const url = extractOne($.root(), fields.imageFromDetail, detailUrl);
+        if (url) {
+          card.imageUrl = url;
+          result.updatedFront++;
+        }
+      }
+      if (fields.imageBackFromDetail && (!onlyMissing || !card.imageBackUrl)) {
+        const url = extractOne($.root(), fields.imageBackFromDetail, detailUrl);
+        if (url) {
+          card.imageBackUrl = url;
+          result.updatedBack++;
+        }
+      }
+    } catch (err) {
+      result.failed.push({ name: card.name, detailUrl, error: err instanceof Error ? err.message : String(err) });
+    }
+    onProgress?.(i + 1, targets.length);
+    if (delayMs > 0 && i < targets.length - 1) await new Promise((r) => setTimeout(r, delayMs));
+  }
+
+  return result;
 }
 
 // ---------------------------------------------------------------------------

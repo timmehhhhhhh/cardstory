@@ -40,6 +40,21 @@
  *     sports rows also need playerName) is skipped and reported, never
  *     written half-populated.
  *
+ * Card images (front, and back if the profile asks for one): most listing
+ * pages put a usable image directly on each card tile (profile.fields.image),
+ * which the scrape above already captures — no extra work needed. When a
+ * listing page only has a thumbnail (or no image at all) and the real image
+ * lives on each card's own detail page instead, set
+ * profile.fields.imageFromDetail (and/or imageBackFromDetail) alongside
+ * fields.detailUrl; both `preview` and `import` then do a second pass —
+ * fetching each card's detailUrl and extracting the image from it — before
+ * printing the summary. This is one extra HTTP request per card missing an
+ * image, so it's paced with a delay and can be turned off with
+ * --skip-detail-images. Works the same for TCG and sports profiles — sports
+ * or non-sports doesn't change how the image is fetched, only what row it
+ * ends up on (CatalogItem.imageSmallUrl/imageLargeUrl vs
+ * SportsCardItem.imageUrl).
+ *
  * No pricing is scraped or written here — every price in this schema is
  * either a real snapshot from an official/paid API (PriceCharting,
  * pokemontcg.io, SportsCardsPro) or explicitly absent; see the schema
@@ -62,6 +77,7 @@ import { db } from "@/lib/db";
 import { upsertChecklistSportsCardItem, type ChecklistCardType } from "@/lib/sportscards/manage";
 import { GAMES } from "@/lib/games/registry";
 import {
+  fetchDetailImages,
   fetchHtml,
   scanStructure,
   scrapeCards,
@@ -153,7 +169,7 @@ async function cmdScan(args: string[]) {
 // preview (shared by `preview` and `import`)
 // ---------------------------------------------------------------------------
 
-async function runScrape(profile: Profile): Promise<ScrapedCard[]> {
+async function runScrape(profile: Profile, opts: { fetchDetailImages?: boolean } = {}): Promise<ScrapedCard[]> {
   console.log(`Scraping ${profile.sourceUrls.length} page(s)...`);
   const cards = await scrapeCards({
     sourceUrls: profile.sourceUrls,
@@ -161,6 +177,24 @@ async function runScrape(profile: Profile): Promise<ScrapedCard[]> {
     fields: profile.fields,
     pageFields: profile.pageFields,
   });
+
+  const wantsDetailImages = profile.fields.imageFromDetail || profile.fields.imageBackFromDetail;
+  if (wantsDetailImages && opts.fetchDetailImages !== false) {
+    const targetCount = cards.filter((c) => c.detailUrl && !c.imageUrl).length;
+    console.log(`Fetching per-card images from ${targetCount} detail page(s)...`);
+    const result = await fetchDetailImages(cards, profile.fields, {
+      onProgress: (done, total) => {
+        if (total > 0 && (done % 25 === 0 || done === total)) console.log(`  ${done}/${total}`);
+      },
+    });
+    console.log(
+      `Detail-page images: ${result.updatedFront} front, ${result.updatedBack} back, ${result.failed.length} failed (of ${result.attempted} attempted).`
+    );
+    if (result.failed.length > 0) {
+      console.log(`  First few failures: ${result.failed.slice(0, 5).map((f) => `${f.name} (${f.error})`).join("; ")}`);
+    }
+  }
+
   return cards;
 }
 
@@ -199,11 +233,12 @@ function writePreviewCache(profileName: string, cards: ScrapedCard[]) {
 async function cmdPreview(args: string[]) {
   const profilePath = args[0];
   if (!profilePath) {
-    console.error("Usage: import-card-set.ts preview <profile.json>");
+    console.error("Usage: import-card-set.ts preview <profile.json> [--skip-detail-images]");
     process.exit(1);
   }
+  const skipDetailImages = args.includes("--skip-detail-images");
   const profile = loadProfile(profilePath);
-  const cards = await runScrape(profile);
+  const cards = await runScrape(profile, { fetchDetailImages: !skipDetailImages });
   summarize(profile, cards);
   writePreviewCache(path.basename(profilePath, ".json"), cards);
 }
@@ -335,6 +370,7 @@ async function writeSports(profile: SportsProfile, cards: ScrapedCard[]) {
       isRelic: false,
       serialLimit: card.serialLimit,
       imageUrl: card.imageUrl,
+      imageBackUrl: card.imageBackUrl,
       cardType: normalizeCardType(card.cardType, defaultCardType),
       releaseDate: parseReleaseDate(card.releaseDate) ?? profileReleaseDate,
     });
@@ -354,12 +390,13 @@ async function writeSports(profile: SportsProfile, cards: ScrapedCard[]) {
 async function cmdImport(args: string[]) {
   const profilePath = args[0];
   if (!profilePath) {
-    console.error("Usage: import-card-set.ts import <profile.json> [--commit]");
+    console.error("Usage: import-card-set.ts import <profile.json> [--commit] [--skip-detail-images]");
     process.exit(1);
   }
   const commit = args.includes("--commit");
+  const skipDetailImages = args.includes("--skip-detail-images");
   const profile = loadProfile(profilePath);
-  const cards = await runScrape(profile);
+  const cards = await runScrape(profile, { fetchDetailImages: !skipDetailImages });
   summarize(profile, cards);
   writePreviewCache(path.basename(profilePath, ".json"), cards);
 
@@ -381,8 +418,8 @@ function usage() {
     [
       "Usage:",
       "  npx tsx scripts/import-card-set.ts scan <url> [--min N]",
-      "  npx tsx scripts/import-card-set.ts preview <profile.json>",
-      "  npx tsx scripts/import-card-set.ts import <profile.json> [--commit]",
+      "  npx tsx scripts/import-card-set.ts preview <profile.json> [--skip-detail-images]",
+      "  npx tsx scripts/import-card-set.ts import <profile.json> [--commit] [--skip-detail-images]",
       "",
       "See scripts/data/import-profiles/README.md for the profile schema.",
     ].join("\n")
