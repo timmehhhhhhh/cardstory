@@ -13,9 +13,14 @@ import { authConfig } from "@/auth.config";
  * of the icon), and /showcase/* + /api/showcase/* — a showcase's whole point is a public,
  * shareable link (see README's "publish a shareable showcase"); the
  * person opening one is typically not a CardStory user at all, so gating
- * it would break sharing outright. Everything else — Explore, PC, card
- * pages, every other API route — redirects to /login (with a callbackUrl
- * back to where they were headed) before rendering.
+ * it would break sharing outright. Also excludes /api/admin/revalidate-facets
+ * and /api/cron/* — those routes authenticate themselves via a
+ * `CRON_SECRET` bearer token (see their own `isAuthorized()` checks) and
+ * are invoked by scripts/Cloudflare Cron Triggers with no session cookie
+ * at all, so gating them here would 307-redirect every such request to
+ * /login before the route handler's own check ever runs. Everything else —
+ * Explore, PC, card pages, every other API route — redirects to /login
+ * (with a callbackUrl back to where they were headed) before rendering.
  *
  * A systematic complement to src/lib/auth/require-session.ts's per-page
  * calls (left in place as harmless redundant defense-in-depth) — this is
@@ -49,6 +54,6 @@ export default auth((req) => {
 
 export const config = {
   matcher: [
-    "/((?!login|signup|api/auth|showcase|api/showcase|_next/static|_next/image|favicon.ico|icon.png|apple-icon.png).*)",
+    "/((?!login|signup|api/auth|showcase|api/showcase|api/admin/revalidate-facets|api/cron|_next/static|_next/image|favicon.ico|icon.png|apple-icon.png).*)",
   ],
 };
