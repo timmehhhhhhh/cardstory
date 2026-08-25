@@ -10,8 +10,6 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { APP_NAME, NAV_LINKS } from "@/lib/constants";
-import { ThemeToggle } from "@/components/nav/theme-toggle";
-import { CurrencySelector } from "@/components/nav/currency-selector";
 import { SearchBox } from "@/components/nav/search-box";
 import { AccountMenu } from "@/components/nav/account-menu";
 
@@ -126,10 +124,6 @@ export function TopNav() {
             </Link>
           </Button>
           <SearchBox />
-          <div className="hidden sm:block">
-            <CurrencySelector />
-          </div>
-          <ThemeToggle />
 
           {status === "authenticated" ? (
             <AccountMenu />
@@ -167,11 +161,6 @@ export function TopNav() {
                   <Camera className="size-4" />
                   Scan a card
                 </Link>
-                <div className="mt-4 flex items-center justify-between px-3">
-                  <span className="text-sm text-muted-foreground">Currency</span>
-                  <CurrencySelector />
-                </div>
-
                 <div className="mt-4 border-t border-border pt-4 sm:hidden">
                   {status === "authenticated" ? (
                     <MobileAccountSection onNavigate={() => setMobileOpen(false)} />
