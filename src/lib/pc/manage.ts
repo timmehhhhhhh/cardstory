@@ -44,6 +44,9 @@ function toHolding(row: {
   costBasisCurrency: string;
   priceAtAcquisition: unknown;
   acquiredAt: Date | null;
+  acquisitionMethod: string | null;
+  acquiredFrom: string | null;
+  acquisitionNotes: string | null;
   notes: string | null;
   imageUrl: string | null;
   archivedAt: Date | null;
@@ -73,6 +76,9 @@ function toHolding(row: {
     costBasisCurrency: row.costBasisCurrency as Holding["costBasisCurrency"],
     priceAtAcquisition: row.priceAtAcquisition != null ? Number(row.priceAtAcquisition) : undefined,
     acquiredAt: row.acquiredAt ? row.acquiredAt.toISOString() : null,
+    acquisitionMethod: (row.acquisitionMethod as Holding["acquisitionMethod"]) ?? undefined,
+    acquiredFrom: row.acquiredFrom ?? undefined,
+    acquisitionNotes: row.acquisitionNotes ?? undefined,
     notes: row.notes ?? undefined,
     imageUrl: row.imageUrl ?? undefined,
     archivedAt: row.archivedAt ? row.archivedAt.toISOString() : null,
@@ -292,6 +298,9 @@ export async function addHolding(
       costBasisCurrency: input.costBasisCurrency,
       priceAtAcquisition: input.priceAtAcquisition,
       acquiredAt: input.acquiredAt ? new Date(input.acquiredAt) : null,
+      acquisitionMethod: input.acquisitionMethod,
+      acquiredFrom: input.acquiredFrom,
+      acquisitionNotes: input.acquisitionNotes,
       notes: input.notes,
       imageUrl: input.imageUrl,
     },
@@ -491,6 +500,9 @@ export async function transferHoldings(
         costBasisCurrency: h.costBasisCurrency,
         priceAtAcquisition: h.priceAtAcquisition,
         acquiredAt: h.acquiredAt,
+        acquisitionMethod: h.acquisitionMethod,
+        acquiredFrom: h.acquiredFrom,
+        acquisitionNotes: h.acquisitionNotes,
         notes: h.notes,
         imageUrl: h.imageUrl,
       },
@@ -559,6 +571,9 @@ export async function importLocalPC(
           costBasisCurrency: h.costBasisCurrency,
           priceAtAcquisition: h.priceAtAcquisition,
           acquiredAt: h.acquiredAt ? new Date(h.acquiredAt) : null,
+          acquisitionMethod: h.acquisitionMethod,
+          acquiredFrom: h.acquiredFrom,
+          acquisitionNotes: h.acquisitionNotes,
           notes: h.notes,
           imageUrl: h.imageUrl,
         },

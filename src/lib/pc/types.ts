@@ -1,4 +1,4 @@
-import type { SupportedCurrency, RawCardCondition, LetGoMethod } from "@/lib/constants";
+import type { SupportedCurrency, RawCardCondition, LetGoMethod, AcquisitionMethod } from "@/lib/constants";
 import type { LetGoDetails } from "@/lib/pc/api-schemas";
 
 export type CardCondition = "raw" | "graded";
@@ -71,6 +71,12 @@ export interface Holding {
    * an honestly-empty date matters.
    */
   acquiredAt: string | null;
+  /** How the card came into the collection — bought/traded/gifted/pack/other. */
+  acquisitionMethod?: AcquisitionMethod;
+  /** Free-text: who or where the card was obtained from — shown regardless of acquisitionMethod, same convention as letGoTo. */
+  acquiredFrom?: string;
+  /** Free-text elaboration, only meaningful when acquisitionMethod is "other". */
+  acquisitionNotes?: string;
   notes?: string;
   /** Photo of this specific physical card — the owner's own copy, not the shared catalog image. */
   imageUrl?: string;

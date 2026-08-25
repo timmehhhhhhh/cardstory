@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -30,6 +31,9 @@ import {
   CARD_CONDITIONS,
   CARD_CONDITION_LABELS,
   type RawCardCondition,
+  ACQUISITION_METHODS,
+  ACQUISITION_METHOD_LABELS,
+  type AcquisitionMethod,
 } from "@/lib/constants";
 import { pcKind, type CardCondition, type ItemLanguage } from "@/lib/pc/types";
 import { resolvePriceAtDate } from "@/lib/pc/resolve-price-at-date";
@@ -90,6 +94,9 @@ export function AddHoldingDialog({
   // Empty by default — Date Acquired is only ever set explicitly by the
   // user, not silently defaulted to today (see prisma/schema.prisma).
   const [acquiredAt, setAcquiredAt] = React.useState("");
+  const [acquisitionMethod, setAcquisitionMethod] = React.useState<AcquisitionMethod | "">("");
+  const [acquiredFrom, setAcquiredFrom] = React.useState("");
+  const [acquisitionNotes, setAcquisitionNotes] = React.useState("");
   const [imageUrl, setImageUrl] = React.useState("");
   const [submitting, setSubmitting] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -136,6 +143,9 @@ export function AddHoldingDialog({
       setCostBasisCurrency(lastUsedCostBasisCurrency ?? "USD");
       setRawCondition("");
       setAcquiredAt("");
+      setAcquisitionMethod("");
+      setAcquiredFrom("");
+      setAcquisitionNotes("");
       setError(null);
       setSelectedVariantId(sportsCardItemId);
       setCopyNumber("");
@@ -193,6 +203,10 @@ export function AddHoldingDialog({
         costBasisCurrency,
         priceAtAcquisition,
         acquiredAt: acquiredAt ? new Date(acquiredAt).toISOString() : null,
+        acquisitionMethod: acquisitionMethod || undefined,
+        acquiredFrom: acquiredFrom.trim() || undefined,
+        acquisitionNotes:
+          acquisitionMethod === "other" && acquisitionNotes.trim() ? acquisitionNotes.trim() : undefined,
         imageUrl: imageUrl.trim() || undefined,
         serialNumber: showCopyNumberField && copyNumber.trim() ? copyNumber.trim() : undefined,
       });
@@ -415,6 +429,50 @@ export function AddHoldingDialog({
               />
             </div>
           </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-1.5">
+              <Label htmlFor="acquisitionMethod">How obtained</Label>
+              <Select
+                value={acquisitionMethod}
+                onValueChange={(v) => setAcquisitionMethod(v as AcquisitionMethod)}
+              >
+                <SelectTrigger id="acquisitionMethod" className="bg-background">
+                  <SelectValue placeholder="Not set" />
+                </SelectTrigger>
+                <SelectContent>
+                  {ACQUISITION_METHODS.map((m) => (
+                    <SelectItem key={m} value={m}>
+                      {ACQUISITION_METHOD_LABELS[m]}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid gap-1.5">
+              <Label htmlFor="acquiredFrom">Bought from</Label>
+              <Input
+                id="acquiredFrom"
+                placeholder="Seller, shop, or trade partner (optional)"
+                value={acquiredFrom}
+                onChange={(e) => setAcquiredFrom(e.target.value)}
+                className="bg-background"
+              />
+            </div>
+          </div>
+
+          {acquisitionMethod === "other" && (
+            <div className="grid gap-1.5">
+              <Label htmlFor="acquisitionNotes">Tell us more</Label>
+              <Textarea
+                id="acquisitionNotes"
+                placeholder="How this card came into your possession"
+                value={acquisitionNotes}
+                onChange={(e) => setAcquisitionNotes(e.target.value)}
+                className="bg-background"
+              />
+            </div>
+          )}
         </div>
 
         {error && <p className="text-sm text-negative">{error}</p>}

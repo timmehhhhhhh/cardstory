@@ -560,6 +560,19 @@ model Holding {
   /// this stays honest for the acquisition-history feature it's meant to
   /// eventually support.
   acquiredAt         DateTime?
+  /// "bought" | "traded" | "gifted" | "pack" | "other" — plain lowercase
+  /// string validated by zod at the API boundary, same convention as
+  /// Holding.letGoMethod above. How the card came into the collection —
+  /// left null when the user hasn't set it.
+  acquisitionMethod  String?
+  /// Free-text: who or where the card was obtained from (a seller, a shop,
+  /// a trade partner) — optional, shown regardless of acquisitionMethod,
+  /// same "always visible" convention as letGoTo.
+  acquiredFrom       String?
+  /// Free-text elaboration on how the card ended up in the collection —
+  /// only meaningful (and only shown in the UI) when acquisitionMethod is
+  /// "other", same convention as letGoNotes.
+  acquisitionNotes   String?
   notes              String?
   /// A photo of the specific physical card this holding represents — the
   /// owner's own copy, distinct from CatalogItem/SportsCardItem's shared
@@ -741,31 +754,31 @@ model SavedView {
 /// find again on another device, same shape as a Portfolio, not a single
 /// per-browser planning tool.
 model Deck {
-  id     String @id @default(cuid())
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  name   String
+  id        String     @id @default(cuid())
+  userId    String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
   /// A src/lib/games/registry.ts game id — only "riftbound" | "fab" |
   /// "pokemon" are buildable today (see src/lib/deck-crafting/formats),
   /// but this isn't a Prisma enum so a future wired game needs no migration.
-  gameId String
+  gameId    String
   /// A src/lib/deck-crafting/formats id, e.g. "riftbound-constructed",
   /// "fab-blitz", "pokemon-standard" — looked up in the format registry to
   /// get this deck's construction rules; not a foreign key since formats
   /// are code-defined data, not a DB table (see that module's doc comment).
-  formatId String
+  formatId  String
   /// "wip" | "complete" — a plain user-set label (like Holding.kind's
   /// convention), never auto-derived from validateDeck()'s legality output:
   /// a deck can be legal and still mid-tinkering, or intentionally
   /// left incomplete.
-  status String @default("wip")
+  status    String     @default("wip")
   /// User-controlled position in their deck list — reordered via drag and
   /// drop, same "explicit user-owned ordering" idea as Holding has none of
   /// but Binder's page array relies on array order for.
-  sortOrder Int      @default(0)
+  sortOrder Int        @default(0)
   notes     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   cards     DeckCard[]
 
   @@index([userId, sortOrder])
@@ -780,9 +793,9 @@ model Deck {
 /// (src/lib/pc/selectors.ts-style derivation), so it never goes stale as
 /// holdings are added/removed after the card was added to the deck.
 model DeckCard {
-  id     String @id @default(cuid())
-  deckId String
-  deck   Deck   @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  id            String   @id @default(cuid())
+  deckId        String
+  deck          Deck     @relation(fields: [deckId], references: [id], onDelete: Cascade)
   /// A section id from this deck's format config, e.g. "legend" |
   /// "champion" | "battlefield" | "rune" | "main" | "sideboard" | "bench"
   /// for Riftbound — see src/lib/deck-crafting/formats. Not a Prisma enum
