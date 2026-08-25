@@ -12,9 +12,43 @@ import type { LetGoDetails } from "@/lib/pc/api-schemas";
 const QUERY_KEY = ["pc"] as const;
 const WATCHLIST_QUERY_KEY = ["watchlist"] as const;
 
+/**
+ * Thrown by fetchPCs on a non-OK response — carries enough for the UI to
+ * tell a genuine "you have zero cards" apart from "the fetch failed" (see
+ * the bug this was added for: a failed GET /api/pc rendered identically to
+ * an empty collection, with no error indication at all) and to special-case
+ * the stale-session 401 (route-errors.ts's staleSessionResponse()) with its
+ * own actionable message instead of a generic one.
+ */
+export class PCFetchError extends Error {
+  status: number;
+  isStaleSession: boolean;
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = "PCFetchError";
+    this.status = status;
+    this.isStaleSession = status === 401;
+  }
+}
+
 async function fetchPCs(): Promise<PC[]> {
   const res = await fetch("/api/pc");
-  if (!res.ok) throw new Error("Failed to load pcs");
+  if (!res.ok) {
+    const body = await res.text().catch(() => "");
+    // Prefer the route's own user-facing `error` message when present (e.g.
+    // the stale-session 401's "Your session is no longer valid..." — see
+    // route-errors.ts) over a generic fallback, same convention as
+    // logMutationFailure below for mutation failures.
+    const specific = (() => {
+      try {
+        const parsed = JSON.parse(body) as { error?: unknown };
+        return typeof parsed.error === "string" ? parsed.error : null;
+      } catch {
+        return null;
+      }
+    })();
+    throw new PCFetchError(specific ?? "Couldn't load your collection.", res.status);
+  }
   const data = (await res.json()) as { pcs: PC[] };
   return data.pcs;
 }
@@ -115,12 +149,31 @@ export function useRemotePCStore<T>(
 ): T {
   const queryClient = useQueryClient();
 
-  const { data: pcs = [] } = useQuery({
+  const {
+    data: pcs = [],
+    isError: pcsIsError,
+    error: pcsQueryError,
+    isLoading: pcsIsLoading,
+    refetch: refetchPCsQuery,
+  } = useQuery({
     queryKey: QUERY_KEY,
     queryFn: fetchPCs,
     enabled: opts.enabled,
     staleTime: 30_000,
   });
+
+  // A user-facing message, distinct from "you genuinely have zero cards" —
+  // see usePCData/PCClient, which render an error banner (with retry)
+  // instead of the empty-collection state when this is set.
+  const pcsError = pcsIsError
+    ? pcsQueryError instanceof PCFetchError
+      ? pcsQueryError.message
+      : "Couldn't load your collection. Please try again."
+    : null;
+  const pcsIsStaleSession = pcsQueryError instanceof PCFetchError && pcsQueryError.isStaleSession;
+  const refetchPCs = React.useCallback(() => {
+    void refetchPCsQuery();
+  }, [refetchPCsQuery]);
 
   const { data: watchlist = [] } = useQuery({
     queryKey: WATCHLIST_QUERY_KEY,
@@ -188,6 +241,10 @@ export function useRemotePCStore<T>(
       pcs,
       watchlist,
       preferences,
+      pcsError,
+      pcsIsStaleSession,
+      pcsLoading: pcsIsLoading,
+      refetchPCs,
 
       setCurrency,
       setViewMode,
@@ -497,6 +554,10 @@ export function useRemotePCStore<T>(
       pcs,
       watchlist,
       preferences,
+      pcsError,
+      pcsIsStaleSession,
+      pcsIsLoading,
+      refetchPCs,
       setCurrency,
       setViewMode,
       setSortField,

@@ -19,6 +19,9 @@ const EMPTY_HOLDINGS: Holding[] = [];
  */
 export function usePCData(pcIdOverride?: string) {
   const pcs = usePCStore((s) => s.pcs);
+  const pcsError = usePCStore((s) => s.pcsError);
+  const pcsIsStaleSession = usePCStore((s) => s.pcsIsStaleSession);
+  const refetchPCs = usePCStore((s) => s.refetchPCs);
   const globalActivePCId = usePCStore((s) => s.activePCId);
   const activePCId = pcIdOverride ?? globalActivePCId;
   const active: PC | undefined = pcs.find((p) => p.id === activePCId);
@@ -90,5 +93,12 @@ export function usePCData(pcIdOverride?: string) {
     rows,
     totals,
     isLoading: (catalogQuery.isLoading && catalogIds.length > 0) || (sportsQuery.isLoading && sportsIds.length > 0),
+    // Distinct from `isLoading` above (which never reflects the ["pc"]
+    // query itself) — see PCClient, which shows a "couldn't load your
+    // collection" banner instead of the empty-holdings state when this is
+    // set, rather than the failed fetch silently rendering as zero cards.
+    pcsError,
+    pcsIsStaleSession,
+    refetchPCs,
   };
 }

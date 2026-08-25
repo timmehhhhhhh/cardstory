@@ -245,4 +245,22 @@ export interface PCActions {
   isWatchlisted: (itemId: string) => boolean;
 }
 
-export type PCState = PCStoreDataV1 & PCActions;
+/**
+ * Status of the ["pc"] query itself, surfaced separately from `pcs` so
+ * consumers can tell "the fetch failed" apart from "you genuinely have
+ * zero cards" — see remote-store.ts's fetchPCs/PCFetchError and
+ * hooks/use-pc-data.ts, which pass this through to the PC page's error
+ * banner (with retry) instead of letting it render as an empty collection.
+ */
+export interface PCQueryStatus {
+  /** User-facing message when the ["pc"] fetch has failed; null otherwise (including while loading). */
+  pcsError: string | null;
+  /** True when `pcsError` is specifically the stale-session 401 (see route-errors.ts's staleSessionResponse()) — actionable as "sign in again" rather than "try again". */
+  pcsIsStaleSession: boolean;
+  /** True only during the ["pc"] query's initial fetch (not background refetches). */
+  pcsLoading: boolean;
+  /** Re-runs the ["pc"] fetch — the retry action behind the error banner. */
+  refetchPCs: () => void;
+}
+
+export type PCState = PCStoreDataV1 & PCActions & PCQueryStatus;

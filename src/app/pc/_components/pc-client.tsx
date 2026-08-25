@@ -14,6 +14,7 @@ import { CollectionsByGame } from "@/app/pc/_components/collections-by-game";
 import { SmartFilters } from "@/app/pc/_components/smart-filters";
 import { ItemGrid } from "@/app/pc/_components/item-grid";
 import { ItemGallery } from "@/app/pc/_components/item-gallery";
+import { PCLoadError } from "@/app/pc/_components/pc-load-error";
 import { ViewModeToggle } from "@/app/pc/_components/view-mode-toggle";
 import { BulkActionsBar } from "@/app/pc/_components/bulk-actions-bar";
 import { DEFAULT_HOLDING_FILTERS, type HoldingFilters } from "@/app/pc/_components/types";
@@ -23,7 +24,8 @@ import { Button } from "@/components/ui/button";
 import type { ShowcasePayload } from "@/lib/showcase/types";
 
 export function PCClient() {
-  const { pcs, activePCId, activePC, rows, totals, isLoading } = usePCData();
+  const { pcs, activePCId, activePC, rows, totals, isLoading, pcsError, pcsIsStaleSession, refetchPCs } =
+    usePCData();
   const watchlist = usePCStore((s) => s.watchlist);
   const currency = usePCStore((s) => s.preferences.currency);
   const viewMode = usePCStore((s) => s.preferences.viewMode);
@@ -164,6 +166,8 @@ export function PCClient() {
         </div>
         {isLoading ? (
           <p className="text-sm text-muted-foreground">Loading your collection…</p>
+        ) : pcsError ? (
+          <PCLoadError message={pcsError} isStaleSession={pcsIsStaleSession} onRetry={refetchPCs} />
         ) : viewMode === "grid" ? (
           <ItemGallery
             rows={sortedRows}
