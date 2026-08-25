@@ -95,11 +95,25 @@ In production, the `workers/cron-snapshot/` Worker schedules this daily via a Cl
 
 ## Deploying
 
-Deploy to Cloudflare Workers:
+`npm run deploy` builds and deploys the Worker, but does **not** by itself touch the
+production database — Cloudflare Workers has no access to your local `prisma/migrations/`
+folder. `predeploy` (which npm runs automatically before `deploy`) runs
+`prisma migrate deploy` against whatever `DATABASE_URL`/`DIRECT_URL` are in your shell
+env at the time, so **export production's connection strings first** (the same values
+you set as Worker secrets below), otherwise `predeploy` fails fast with a clear
+"environment variable not found" error rather than silently deploying code with a
+schema the live DB doesn't actually have (this is exactly what caused a full login
+outage on 2026-08-25 — a migration was marked applied in `_prisma_migrations` but its
+`ALTER TABLE` never ran against prod):
 
 ```bash
-npm run deploy       # builds and deploys the main site
-npm run deploy:cron  # deploys the daily price-snapshot cron Worker
+DATABASE_URL="<neon pooled url>" DIRECT_URL="<neon direct url>" npm run deploy
+npm run deploy:cron  # deploys the daily price-snapshot cron Worker (no DB migration needed)
 ```
+
+If you're intentionally deploying with no pending schema changes and don't want to
+export prod DB creds for that one command, run `npx prisma migrate status` first to
+confirm there's nothing pending, or just skip straight to
+`opennextjs-cloudflare build && opennextjs-cloudflare deploy` directly.
 
 Set the env vars from `.env.example` as Worker secrets (`wrangler secret put <NAME>`, using your Neon connection strings) rather than in `wrangler.jsonc`, since that file is committed. `CRON_SECRET` must be set on both Workers with the same value — see `workers/cron-snapshot/wrangler.jsonc`.
