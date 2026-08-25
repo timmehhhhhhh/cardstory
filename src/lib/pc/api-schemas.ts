@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { SUPPORTED_CURRENCIES, CARD_CONDITIONS, LET_GO_METHODS } from "@/lib/constants";
+import { SUPPORTED_CURRENCIES, CARD_CONDITIONS, LET_GO_METHODS, ACQUISITION_METHODS } from "@/lib/constants";
 
 /** Shared zod validation for a Holding crossing the client/server boundary. */
 export const holdingInputSchema = z.object({
@@ -21,6 +21,9 @@ export const holdingInputSchema = z.object({
   costBasisCurrency: z.enum(SUPPORTED_CURRENCIES),
   priceAtAcquisition: z.number().nonnegative().nullable().optional(),
   acquiredAt: z.string().nullable(),
+  acquisitionMethod: z.enum(ACQUISITION_METHODS).optional(),
+  acquiredFrom: z.string().max(200).optional(),
+  acquisitionNotes: z.string().max(1000).optional(),
   notes: z.string().optional(),
   imageUrl: z.string().optional(),
   archivedAt: z.string().nullable().optional(),

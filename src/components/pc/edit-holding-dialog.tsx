@@ -29,6 +29,9 @@ import {
   CARD_CONDITIONS,
   CARD_CONDITION_LABELS,
   type RawCardCondition,
+  ACQUISITION_METHODS,
+  ACQUISITION_METHOD_LABELS,
+  type AcquisitionMethod,
 } from "@/lib/constants";
 import { holdingIsCustom, type CardCondition, type ItemLanguage, type Holding } from "@/lib/pc/types";
 import { resolvePriceAtDate } from "@/lib/pc/resolve-price-at-date";
@@ -69,6 +72,9 @@ export function EditHoldingDialog({
   const [costBasis, setCostBasis] = React.useState("");
   const [costBasisCurrency, setCostBasisCurrency] = React.useState<SupportedCurrency>("USD");
   const [acquiredAt, setAcquiredAt] = React.useState("");
+  const [acquisitionMethod, setAcquisitionMethod] = React.useState<AcquisitionMethod | "">("");
+  const [acquiredFrom, setAcquiredFrom] = React.useState("");
+  const [acquisitionNotes, setAcquisitionNotes] = React.useState("");
   const [notes, setNotes] = React.useState("");
   const [submitting, setSubmitting] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -95,6 +101,9 @@ export function EditHoldingDialog({
       setCostBasis(holding.costBasisTotal.toFixed(2));
       setCostBasisCurrency(holding.costBasisCurrency);
       setAcquiredAt(holding.acquiredAt ? holding.acquiredAt.slice(0, 10) : "");
+      setAcquisitionMethod(holding.acquisitionMethod ?? "");
+      setAcquiredFrom(holding.acquiredFrom ?? "");
+      setAcquisitionNotes(holding.acquisitionNotes ?? "");
       setNotes(holding.notes ?? "");
       setError(null);
     }
@@ -129,6 +138,10 @@ export function EditHoldingDialog({
         costBasisTotal: Number(costBasis) || 0,
         costBasisCurrency,
         acquiredAt: acquiredAt ? new Date(acquiredAt).toISOString() : null,
+        acquisitionMethod: acquisitionMethod || undefined,
+        acquiredFrom: acquiredFrom.trim() || undefined,
+        acquisitionNotes:
+          acquisitionMethod === "other" && acquisitionNotes.trim() ? acquisitionNotes.trim() : undefined,
         imageUrl: imageUrl.trim() || undefined,
         notes: notes.trim() || undefined,
         ...(isCustom ? { customName: customName.trim() || undefined } : {}),
@@ -301,6 +314,50 @@ export function EditHoldingDialog({
               />
             </div>
           </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-1.5">
+              <Label htmlFor="edit-acquisitionMethod">How obtained</Label>
+              <Select
+                value={acquisitionMethod}
+                onValueChange={(v) => setAcquisitionMethod(v as AcquisitionMethod)}
+              >
+                <SelectTrigger id="edit-acquisitionMethod" className="bg-background">
+                  <SelectValue placeholder="Not set" />
+                </SelectTrigger>
+                <SelectContent>
+                  {ACQUISITION_METHODS.map((m) => (
+                    <SelectItem key={m} value={m}>
+                      {ACQUISITION_METHOD_LABELS[m]}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid gap-1.5">
+              <Label htmlFor="edit-acquiredFrom">Bought from</Label>
+              <Input
+                id="edit-acquiredFrom"
+                placeholder="Seller, shop, or trade partner (optional)"
+                value={acquiredFrom}
+                onChange={(e) => setAcquiredFrom(e.target.value)}
+                className="bg-background"
+              />
+            </div>
+          </div>
+
+          {acquisitionMethod === "other" && (
+            <div className="grid gap-1.5">
+              <Label htmlFor="edit-acquisitionNotes">Tell us more</Label>
+              <Textarea
+                id="edit-acquisitionNotes"
+                placeholder="How this card came into your possession"
+                value={acquisitionNotes}
+                onChange={(e) => setAcquisitionNotes(e.target.value)}
+                className="bg-background"
+              />
+            </div>
+          )}
 
           <div className="grid gap-1.5">
             <Label htmlFor="edit-notes">Notes</Label>

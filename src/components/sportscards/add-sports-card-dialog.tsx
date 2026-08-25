@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
@@ -34,6 +35,9 @@ import {
   CARD_CONDITIONS,
   CARD_CONDITION_LABELS,
   type RawCardCondition,
+  ACQUISITION_METHODS,
+  ACQUISITION_METHOD_LABELS,
+  type AcquisitionMethod,
 } from "@/lib/constants";
 import { pcKind, type CardCondition, type ItemLanguage } from "@/lib/pc/types";
 import { resolvePriceAtDate } from "@/lib/pc/resolve-price-at-date";
@@ -105,6 +109,9 @@ export function AddSportsCardDialog() {
   const [costBasis, setCostBasis] = React.useState("");
   // Empty by default — Date Acquired is only ever set explicitly by the user.
   const [acquiredAt, setAcquiredAt] = React.useState("");
+  const [acquisitionMethod, setAcquisitionMethod] = React.useState<AcquisitionMethod | "">("");
+  const [acquiredFrom, setAcquiredFrom] = React.useState("");
+  const [acquisitionNotes, setAcquisitionNotes] = React.useState("");
 
   const pcs = usePCStore((s) => s.pcs);
   const activePCId = usePCStore((s) => s.activePCId);
@@ -193,6 +200,9 @@ export function AddSportsCardDialog() {
     setCostBasis("");
     setCostBasisCurrency(lastUsedCostBasisCurrency ?? "USD");
     setAcquiredAt("");
+    setAcquisitionMethod("");
+    setAcquiredFrom("");
+    setAcquisitionNotes("");
   }
 
   async function handleAdd() {
@@ -249,6 +259,10 @@ export function AddSportsCardDialog() {
         costBasisCurrency,
         priceAtAcquisition,
         acquiredAt: acquiredAt ? new Date(acquiredAt).toISOString() : null,
+        acquisitionMethod: acquisitionMethod || undefined,
+        acquiredFrom: acquiredFrom.trim() || undefined,
+        acquisitionNotes:
+          acquisitionMethod === "other" && acquisitionNotes.trim() ? acquisitionNotes.trim() : undefined,
         imageUrl: holdingImageUrl.trim() || undefined,
       });
       setLastUsedCostBasisCurrency(costBasisCurrency);
@@ -596,6 +610,50 @@ export function AddSportsCardDialog() {
               />
             </div>
           </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="grid gap-1.5">
+              <Label htmlFor="sc-acquisitionMethod">How obtained</Label>
+              <Select
+                value={acquisitionMethod}
+                onValueChange={(v) => setAcquisitionMethod(v as AcquisitionMethod)}
+              >
+                <SelectTrigger id="sc-acquisitionMethod" className="bg-background">
+                  <SelectValue placeholder="Not set" />
+                </SelectTrigger>
+                <SelectContent>
+                  {ACQUISITION_METHODS.map((m) => (
+                    <SelectItem key={m} value={m}>
+                      {ACQUISITION_METHOD_LABELS[m]}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid gap-1.5">
+              <Label htmlFor="sc-acquiredFrom">Bought from</Label>
+              <Input
+                id="sc-acquiredFrom"
+                placeholder="Seller, shop, or trade partner (optional)"
+                value={acquiredFrom}
+                onChange={(e) => setAcquiredFrom(e.target.value)}
+                className="bg-background"
+              />
+            </div>
+          </div>
+
+          {acquisitionMethod === "other" && (
+            <div className="grid gap-1.5">
+              <Label htmlFor="sc-acquisitionNotes">Tell us more</Label>
+              <Textarea
+                id="sc-acquisitionNotes"
+                placeholder="How this card came into your possession"
+                value={acquisitionNotes}
+                onChange={(e) => setAcquisitionNotes(e.target.value)}
+                className="bg-background"
+              />
+            </div>
+          )}
         </div>
 
         {error && <p className="text-sm text-negative">{error}</p>}

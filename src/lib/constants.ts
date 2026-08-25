@@ -56,3 +56,15 @@ export const LET_GO_METHOD_LABELS: Record<LetGoMethod, string> = {
   lost: "Lost / Missing",
   other: "Other",
 };
+
+/** How a card came into the collection — see Holding.acquisitionMethod. */
+export const ACQUISITION_METHODS = ["bought", "traded", "gifted", "pack", "other"] as const;
+export type AcquisitionMethod = (typeof ACQUISITION_METHODS)[number];
+
+export const ACQUISITION_METHOD_LABELS: Record<AcquisitionMethod, string> = {
+  bought: "Bought",
+  traded: "Trade",
+  gifted: "Gifted",
+  pack: "Pulled from pack",
+  other: "Other",
+};
