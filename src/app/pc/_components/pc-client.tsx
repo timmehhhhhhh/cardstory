@@ -19,7 +19,6 @@ import { BulkActionsBar } from "@/app/pc/_components/bulk-actions-bar";
 import { DEFAULT_HOLDING_FILTERS, type HoldingFilters } from "@/app/pc/_components/types";
 import { sortHoldings } from "@/lib/pc/selectors";
 import { PublishShowcaseDialog } from "@/components/pc/publish-showcase-dialog";
-import { AddSportsCardDialog } from "@/components/sportscards/add-sports-card-dialog";
 import { Button } from "@/components/ui/button";
 import type { ShowcasePayload } from "@/lib/showcase/types";
 
@@ -111,7 +110,6 @@ export function PCClient() {
             onSortFieldChange={setSortField}
             onSortDirectionChange={setSortDirection}
           />
-          <AddSportsCardDialog />
           <Button asChild variant="outline" size="sm">
             <Link href="/binder">
               <BookOpen className="size-4" />
