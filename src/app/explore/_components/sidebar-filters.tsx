@@ -76,7 +76,6 @@ export function SidebarFilters({
   return (
     <aside className="w-full flex-none space-y-5 lg:w-64">
       <div>
-        <h2 className="mb-2 text-sm font-semibold">Find a Product</h2>
         <div className="relative">
           <Search className="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
