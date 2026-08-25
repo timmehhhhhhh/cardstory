@@ -9,7 +9,8 @@
     "number": { "selector": ".card-tile__number" },
     "rarity": { "selector": ".card-tile__rarity" },
     "artist": { "selector": ".card-tile__artist" },
-    "detailUrl": { "selector": "a.card-tile__link", "attr": "href" }
+    "detailUrl": { "selector": "a.card-tile__link", "attr": "href" },
+    "imageFromDetail": { "selector": ".card-detail__hero img", "attr": "src" }
   },
   "pageFields": {
     "releaseDate": { "selector": ".set-header__release-date" }

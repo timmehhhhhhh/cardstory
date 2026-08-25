@@ -10,7 +10,10 @@
     "number": { "selector": ".number-cell" },
     "parallel": { "selector": ".parallel-cell" },
     "serialLimit": { "selector": ".print-run-cell", "regex": "/(\\d+)" },
-    "image": { "selector": "img.card-thumb", "attr": "data-src" }
+    "image": { "selector": "img.card-thumb", "attr": "data-src" },
+    "detailUrl": { "selector": "a.checklist-row__link", "attr": "href" },
+    "imageFromDetail": { "selector": ".card-detail__front img", "attr": "src" },
+    "imageBackFromDetail": { "selector": ".card-detail__back img", "attr": "src" }
   },
   "sport": "NBA",
   "year": 2026,

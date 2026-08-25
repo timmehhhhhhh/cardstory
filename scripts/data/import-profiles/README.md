@@ -56,9 +56,32 @@ the card element** `cardSelector` matched (or to the whole page for
 
 `fields.name` is the only required field. Everything else — `image`,
 `imageBack`, `number`, `rarity`, `artist`, `player`, `team`, `cardType`,
-`parallel`, `serialLimit`, `releaseDate`, `detailUrl` — is optional; a
-missing one is just left null on the written row. `player`/`team`/`parallel`/
-`serialLimit` are sports-only; `artist` is meaningful for TCG imports.
+`parallel`, `serialLimit`, `releaseDate`, `detailUrl`, `imageFromDetail`,
+`imageBackFromDetail` — is optional; a missing one is just left null on the
+written row. `player`/`team`/`parallel`/`serialLimit` are sports-only;
+`artist` is meaningful for TCG imports.
+
+## Getting images from a card's own detail page
+
+Most listing pages put a usable image right on the card tile (`fields.image`),
+which is all you need. Some sites only show a small thumbnail on the listing
+page (or no image at all) and keep the real image — front, and sometimes a
+scanned back — on each card's own detail page instead. For that case:
+
+1. Set `fields.detailUrl` to the link to each card's detail page.
+2. Set `fields.imageFromDetail` (and `fields.imageBackFromDetail` for a back
+   image) to the selector/attr for the image **on that detail page** — same
+   field-spec shape as everything else, just resolved against the detail
+   page's document instead of the card tile.
+
+Both `preview` and `import` then do a second pass: for every card with a
+`detailUrl` and no `imageUrl` yet, fetch that page and extract the image
+before printing the summary (this works the same for `kind: "tcg"` and
+`kind: "sports"` profiles — only which DB column the image lands on differs).
+This is one extra HTTP request per missing-image card, so it's paced with a
+delay between requests; skip it with `--skip-detail-images` if you just want
+the listing-page data fast. `imageBackFromDetail` only has anywhere to go for
+`kind: "sports"` — `CatalogItem` (TCG) has no back-image column yet.
 
 ## `kind: "tcg"` extra fields
 
