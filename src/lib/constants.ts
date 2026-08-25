@@ -1,14 +1,16 @@
+import { PackagePlus, ShoppingBag, Star, Store } from "lucide-react";
+
 export const APP_NAME = "CardStory";
 
 export const NAV_LINKS = [
   { href: "/explore", label: "Explore" },
-  { href: "/watchlist", label: "Watchlist" },
+  { href: "/watchlist", label: "Watchlist", icon: Star },
   { href: "/sets", label: "Sets" },
-  { href: "/pc", label: "PC" },
-  { href: "/shortlist", label: "Shortlist" },
+  { href: "/pc", label: "PC", icon: PackagePlus },
+  { href: "/shortlist", label: "Shortlist", icon: ShoppingBag },
   { href: "/binder", label: "Binder Planner" },
   { href: "/deck-crafting", label: "Deck Crafting" },
-  { href: "/business", label: "Business", vendorOnly: true },
+  { href: "/business", label: "Business", vendorOnly: true, icon: Store },
   { href: "/views", label: "Views" },
   { href: "/trade-analyzer", label: "Trade Analyzer" },
 ] as const;

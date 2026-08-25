@@ -54,12 +54,13 @@ function NavLinks({ className, onNavigate }: { className?: string; onNavigate?: 
             href={link.href}
             onClick={onNavigate}
             className={cn(
-              "rounded-md px-3 py-2 text-sm font-medium transition-colors",
+              "inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors",
               active
                 ? "text-foreground"
                 : "text-muted-foreground hover:text-foreground hover:bg-surface-elevated"
             )}
           >
+            {"icon" in link && link.icon ? <link.icon className="size-4" /> : null}
             {link.label}
           </Link>
         );
