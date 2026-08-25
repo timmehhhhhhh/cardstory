@@ -41,9 +41,13 @@ export function SignupForm() {
         redirect: false,
       });
       if (signInResult?.error) {
-        // Account was created but auto-login failed for some reason —
-        // send them to log in manually rather than leaving them stuck.
-        router.push("/login");
+        // Account was created but auto-login failed for some reason (e.g. a
+        // transient AUTH_SECRET/DB problem, not the credentials they just
+        // typed — those are known-correct, we just used them to create the
+        // account). Send them to log in manually rather than leaving them
+        // stuck, but say why instead of silently redirecting.
+        console.error("Auto sign-in after signup failed:", signInResult.error);
+        router.push("/login?autoLoginFailed=1");
         return;
       }
       router.push("/pc");

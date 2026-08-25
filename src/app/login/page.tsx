@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { LoginForm } from "@/components/auth/login-form";
@@ -20,7 +21,9 @@ export default async function LoginPage() {
   return (
     <div className="mx-auto flex max-w-sm flex-col justify-center px-4 py-16 sm:py-24">
       <h1 className="mb-6 text-center text-2xl font-bold tracking-tight">Log in</h1>
-      <LoginForm />
+      <Suspense fallback={null}>
+        <LoginForm />
+      </Suspense>
     </div>
   );
 }
