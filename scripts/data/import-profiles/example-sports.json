@@ -1,0 +1,20 @@
+{
+  "kind": "sports",
+  "label": "EXAMPLE — copy this file, then edit every selector for your actual source page. Run `scan` first.",
+  "sourceUrls": ["https://example.com/checklists/2026-example-prizm"],
+  "cardSelector": "tr.checklist-row",
+  "fields": {
+    "name": { "selector": ".player-cell" },
+    "player": { "selector": ".player-cell" },
+    "team": { "selector": ".team-cell" },
+    "number": { "selector": ".number-cell" },
+    "parallel": { "selector": ".parallel-cell" },
+    "serialLimit": { "selector": ".print-run-cell", "regex": "/(\\d+)" },
+    "image": { "selector": "img.card-thumb", "attr": "data-src" }
+  },
+  "sport": "NBA",
+  "year": 2026,
+  "distributor": "Panini",
+  "setName": "Prizm",
+  "defaultCardType": "base"
+}
