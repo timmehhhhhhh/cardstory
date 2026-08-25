@@ -20,18 +20,26 @@ import { cn } from "@/lib/utils";
  *   flex-none sibling next to other badges.
  */
 
+// Each pair is a near-opaque colored fill + a text color chosen so contrast
+// holds at ~4.5:1+ even in the worst case — the `overlay` variant sits
+// directly on top of arbitrary card artwork (see `variant` doc below), so
+// the fill can't rely on a themed surface color for contrast the way most
+// badges do. Values were picked and contrast-checked (alpha-blended over
+// both pure white and pure black "art") rather than left at full saturation
+// with same-hue tinted backgrounds, which read as illegible on holo/foil art
+// of a similar hue (e.g. pink Cosmos Holo text vanishing on pink card art).
 const FINISH_FAMILY_COLOR: Record<string, string> = {
-  holofoil: "bg-[#7c5cff]/15 text-[#7c5cff] border-[#7c5cff]/30",
-  unlimitedHolofoil: "bg-[#7c5cff]/15 text-[#7c5cff] border-[#7c5cff]/30",
-  reverseHolofoil: "bg-[#2fb5c9]/15 text-[#2fb5c9] border-[#2fb5c9]/30",
-  "1stEdition": "bg-[#d9a441]/15 text-[#d9a441] border-[#d9a441]/30",
-  "1stEditionNormal": "bg-[#d9a441]/15 text-[#d9a441] border-[#d9a441]/30",
-  "1stEditionHolofoil": "bg-[#d9a441]/15 text-[#d9a441] border-[#d9a441]/30",
-  "1stEditionUnlimited": "bg-[#d9a441]/15 text-[#d9a441] border-[#d9a441]/30",
+  holofoil: "bg-[#5a3fe0]/92 text-white border-white/15 backdrop-blur",
+  unlimitedHolofoil: "bg-[#5a3fe0]/92 text-white border-white/15 backdrop-blur",
+  reverseHolofoil: "bg-[#2fb5c9]/92 text-[#0d2b30] border-black/15 backdrop-blur",
+  "1stEdition": "bg-[#d9a441]/92 text-[#2c1d05] border-black/15 backdrop-blur",
+  "1stEditionNormal": "bg-[#d9a441]/92 text-[#2c1d05] border-black/15 backdrop-blur",
+  "1stEditionHolofoil": "bg-[#d9a441]/92 text-[#2c1d05] border-black/15 backdrop-blur",
+  "1stEditionUnlimited": "bg-[#d9a441]/92 text-[#2c1d05] border-black/15 backdrop-blur",
   // Its own color, distinct from reverseHolofoil's teal above — see
   // FINISH_LABELS.cosmosHolo in lib/games/pokemon/mapper.ts for why this is
   // a separate variantKey rather than a reverseHolofoil display overlay.
-  cosmosHolo: "bg-[#c45b9e]/15 text-[#c45b9e] border-[#c45b9e]/30",
+  cosmosHolo: "bg-[#9c3f74]/92 text-white border-white/15 backdrop-blur",
 };
 const DEFAULT_FINISH_COLOR = "bg-surface-elevated text-muted-foreground border-border";
 
@@ -53,7 +61,7 @@ export function FinishBadge({
       className={cn(
         "inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-bold tracking-wide border",
         color,
-        variant === "overlay" && "absolute z-10 backdrop-blur",
+        variant === "overlay" && "absolute z-10",
         className
       )}
     >
