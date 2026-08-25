@@ -13,6 +13,7 @@
     "seed:lamelo-ball": "tsx scripts/seed-lamelo-ball.ts",
     "seed:pokemon-manual": "tsx scripts/seed-pokemon-manual.ts",
     "snapshot:manual": "tsx scripts/run-snapshot.ts",
+    "health-check": "tsx scripts/health-check.ts",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "deploy:cron": "wrangler deploy --config workers/cron-snapshot/wrangler.jsonc",
