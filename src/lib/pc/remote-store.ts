@@ -115,7 +115,7 @@ export function useRemotePCStore<T>(
 ): T {
   const queryClient = useQueryClient();
 
-  const { data: pcs = [] } = useQuery({
+  const { data: pcs = [], isError: pcsError } = useQuery({
     queryKey: QUERY_KEY,
     queryFn: fetchPCs,
     enabled: opts.enabled,
@@ -186,6 +186,7 @@ export function useRemotePCStore<T>(
       schemaVersion: 1,
       activePCId: activePCId ?? localActiveId,
       pcs,
+      pcsError,
       watchlist,
       preferences,
 
@@ -495,6 +496,7 @@ export function useRemotePCStore<T>(
       activePCId,
       localActiveId,
       pcs,
+      pcsError,
       watchlist,
       preferences,
       setCurrency,

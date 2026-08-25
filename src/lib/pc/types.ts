@@ -192,6 +192,15 @@ export interface PCStoreDataV1 {
   schemaVersion: 1;
   activePCId: string;
   pcs: PC[];
+  /**
+   * True when the last fetch of `pcs` from the server failed (network error,
+   * stale session, unhandled server error, ...). `pcs` itself stays whatever
+   * it was before (React Query default `[]` on first load) — consumers that
+   * render "you have zero cards" off an empty `pcs` should check this first,
+   * since a failed fetch and a genuinely empty collection otherwise look
+   * identical. See EmptyHoldings.
+   */
+  pcsError: boolean;
   watchlist: WatchlistItem[];
   preferences: Preferences;
 }
