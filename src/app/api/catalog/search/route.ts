@@ -35,6 +35,10 @@ export async function GET(req: NextRequest) {
 
   const q = sp.get("q") ?? undefined;
 
+  // Fetched unconditionally (not just for logging below) since the
+  // randomized default-feed path also needs the signed-in user's id.
+  const session = await auth();
+
   const result = await searchCatalog({
     q,
     gameId: sp.get("game") ?? undefined,
@@ -52,31 +56,29 @@ export async function GET(req: NextRequest) {
     sort,
     page: sp.get("page") ? Number(sp.get("page")) : undefined,
     pageSize: sp.get("pageSize") ? Number(sp.get("pageSize")) : undefined,
+    randomFeedUserId: session?.user?.id,
   });
 
   // Only log deliberate text searches, not every filter/pagination
   // re-fetch (Explore re-queries on any filter or page change) — and only
   // for signed-in users, since search itself works for guests too.
   const trimmedQuery = q?.trim();
-  if (trimmedQuery) {
-    const session = await auth();
-    if (session?.user) {
-      const summary = `Searched for "${trimmedQuery}"`;
-      const recent = await db.activityLog.findFirst({
-        where: { userId: session.user.id, action: "search.performed", summary },
-        orderBy: { createdAt: "desc" },
-        select: { createdAt: true },
+  if (trimmedQuery && session?.user) {
+    const summary = `Searched for "${trimmedQuery}"`;
+    const recent = await db.activityLog.findFirst({
+      where: { userId: session.user.id, action: "search.performed", summary },
+      orderBy: { createdAt: "desc" },
+      select: { createdAt: true },
+    });
+    const isRecentDuplicate =
+      recent && Date.now() - recent.createdAt.getTime() < SEARCH_LOG_DEDUPE_MS;
+    if (!isRecentDuplicate) {
+      await logActivity(session.user.id, {
+        action: "search.performed",
+        entityType: "search",
+        summary,
+        metadata: { q: trimmedQuery, game: sp.get("game") ?? undefined },
       });
-      const isRecentDuplicate =
-        recent && Date.now() - recent.createdAt.getTime() < SEARCH_LOG_DEDUPE_MS;
-      if (!isRecentDuplicate) {
-        await logActivity(session.user.id, {
-          action: "search.performed",
-          entityType: "search",
-          summary,
-          metadata: { q: trimmedQuery, game: sp.get("game") ?? undefined },
-        });
-      }
     }
   }
 
