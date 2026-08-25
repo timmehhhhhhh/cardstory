@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
@@ -10,9 +10,17 @@ import { Label } from "@/components/ui/label";
 
 export function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [error, setError] = React.useState<string | null>(null);
+  // Pre-fill the error when signup's auto-login step failed (see
+  // signup-form.tsx) — the account exists and the password is right, so
+  // don't make them guess why they landed here.
+  const [error, setError] = React.useState<string | null>(() =>
+    searchParams.get("autoLoginFailed")
+      ? "Your account was created, but we couldn't sign you in automatically. Please log in below."
+      : null
+  );
   const [submitting, setSubmitting] = React.useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -22,7 +30,17 @@ export function LoginForm() {
 
     const result = await signIn("credentials", { email, password, redirect: false });
     if (result?.error) {
-      setError("Incorrect email or password.");
+      // "CredentialsSignin" is what authorize() returning null maps to —
+      // a genuine wrong email/password. Anything else (missing AUTH_SECRET,
+      // a DB outage, UntrustedHost, ...) is a server/config problem, not a
+      // typo, so don't tell the user it's their password — that sends them
+      // down a "reset password" dead end instead of the real fix.
+      if (result.error === "CredentialsSignin") {
+        setError("Incorrect email or password.");
+      } else {
+        console.error("Sign-in failed:", result.error);
+        setError("Something went wrong signing you in. Please try again in a moment.");
+      }
       setSubmitting(false);
       return;
     }
