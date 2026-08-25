@@ -1,7 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { CheckSquare, Download, LineChart, Repeat } from "lucide-react";
+import { CheckSquare, Download } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
 import type { SortDirection, SortField } from "@/lib/pc/types";
@@ -71,22 +70,8 @@ export function QuickActions({
   onSortFieldChange: (field: SortField) => void;
   onSortDirectionChange: (direction: SortDirection) => void;
 }) {
-  const actions = [
-    { key: "movers", label: "Market Movers", icon: LineChart, href: "/explore?sort=trending_up" },
-    { key: "trade", label: "Trade Analyzer", icon: Repeat, href: "/trade-analyzer" },
-  ] as const;
-
   return (
     <div className="flex flex-wrap items-center gap-2">
-      {actions.map((a) => (
-        <Link
-          key={a.key}
-          href={a.href}
-          className="flex items-center gap-1.5 rounded-lg border border-border bg-surface px-3 py-1.5 text-sm text-muted-foreground hover:bg-surface-elevated hover:text-foreground"
-        >
-          <a.icon className="size-4" /> {a.label}
-        </Link>
-      ))}
       {/* Sticky group: Sort By + Bulk Actions stay reachable while scrolling
           a long collection — everything else in QuickActions scrolls away
           normally. */}

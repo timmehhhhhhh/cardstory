@@ -11,7 +11,7 @@ export function EmptyHoldings() {
       <p className="font-medium">Nothing here yet</p>
       <p className="text-sm text-muted-foreground">
         Head to <Link href="/explore" className="text-primary hover:underline">Explore</Link> and add a
-        card, or use &quot;Add Sports Card&quot; above.
+        card.
       </p>
     </div>
   );
