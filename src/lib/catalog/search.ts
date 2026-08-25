@@ -6,7 +6,7 @@ import { defaultFinishLabel } from "@/lib/games/pokemon/mapper";
 import { getFinishDisplayLabel } from "@/lib/games/pokemon/finish-patterns";
 import { RIFTBOUND_RARITY_ORDER } from "@/lib/games/riftbound/rarity";
 import { RIFTBOUND_DOMAIN_ORDER } from "@/lib/games/riftbound/domain";
-import { nameSearchVariants } from "@/lib/utils/name-match";
+import { nameSearchVariants, normalizeForPunctuationInsensitiveMatch } from "@/lib/utils/name-match";
 
 const WIRED_TCG_GAME_IDS = GAMES.filter((g) => g.status === "WIRED" && g.kind !== "sports").map(
   (g) => g.id
@@ -314,11 +314,48 @@ function decodeSportsSetId(
   };
 }
 
-function sportsWhereFor(
+/**
+ * Finds row ids whose `column` matches `q` once both sides are lowercased
+ * and stripped down to letters/digits — see
+ * normalizeForPunctuationInsensitiveMatch. Prisma's typed `contains` filter
+ * (used elsewhere in this file, including nameSearchVariants' space/hyphen
+ * swap) can only compare a query against the *stored* punctuation, so it
+ * can't match e.g. a typed "Kaisa" against a stored "Kai'Sa" — there's no
+ * way to guess where to reinsert the apostrophe. Normalizing away
+ * punctuation on both sides sidesteps that, but the normalization has to
+ * happen in the database, not just on the query string, since `contains`
+ * only ever sees the raw column value — hence the raw query. `strpos` (not
+ * `LIKE`) so a query containing `%`/`_` isn't treated as a wildcard.
+ * Returns `[]` (no extra matches, not "match everything") when the
+ * normalized query is empty, e.g. a query of just punctuation.
+ */
+async function punctuationInsensitiveIds(
+  table: "CatalogItem" | "SportsCardItem",
+  q: string
+): Promise<string[]> {
+  const normalizedQ = normalizeForPunctuationInsensitiveMatch(q);
+  if (!normalizedQ) return [];
+  if (table === "CatalogItem") {
+    const rows = await db.$queryRaw<{ id: string }[]>`
+      SELECT id FROM "CatalogItem"
+      WHERE strpos(regexp_replace(lower(name), '[^a-z0-9]', '', 'g'), ${normalizedQ}) > 0
+         OR ("nameEn" IS NOT NULL AND strpos(regexp_replace(lower("nameEn"), '[^a-z0-9]', '', 'g'), ${normalizedQ}) > 0)
+    `;
+    return rows.map((r) => r.id);
+  }
+  const rows = await db.$queryRaw<{ id: string }[]>`
+    SELECT id FROM "SportsCardItem"
+    WHERE strpos(regexp_replace(lower("playerName"), '[^a-z0-9]', '', 'g'), ${normalizedQ}) > 0
+  `;
+  return rows.map((r) => r.id);
+}
+
+async function sportsWhereFor(
   params: CatalogSearchParams,
   sportFilter: Sport | { in: Sport[] }
-): Prisma.SportsCardItemWhereInput {
+): Promise<Prisma.SportsCardItemWhereInput> {
   const decodedSet = decodeSportsSetId(params.setId);
+  const punctuationIds = params.q ? await punctuationInsensitiveIds("SportsCardItem", params.q) : [];
   return {
     sport: sportFilter,
     year: decodedSet ? decodedSet.year : undefined,
@@ -333,6 +370,9 @@ function sportsWhereFor(
           ...nameSearchVariants(params.q).map((term) => ({
             playerName: { contains: term, mode: "insensitive" as const },
           })),
+          // Apostrophe/hyphen/comma-agnostic match — see
+          // punctuationInsensitiveIds.
+          ...(punctuationIds.length > 0 ? [{ id: { in: punctuationIds } }] : []),
           { setName: { contains: params.q, mode: "insensitive" } },
           { parallelName: { contains: params.q, mode: "insensitive" } },
           { cardNumber: { contains: params.q, mode: "insensitive" } },
@@ -369,10 +409,10 @@ function sportsFilterableFor(params: CatalogSearchParams): boolean {
   );
 }
 
-function tcgWhereFor(
+async function tcgWhereFor(
   params: CatalogSearchParams,
   gameIdFilter: string | { in: string[] }
-): Prisma.CatalogItemWhereInput {
+): Promise<Prisma.CatalogItemWhereInput> {
   // Two independent OR-groups can be in play here — the free-text q search
   // and the artist-chip list — and Prisma only allows one `OR` key per
   // where object. Each group is wrapped in its own `{ OR: [...] }` and
@@ -386,6 +426,7 @@ function tcgWhereFor(
   // query into both forms keeps a typed space from making a hyphenated row
   // (or vice versa) unsearchable. See nameSearchVariants.
   const qTerms = params.q ? nameSearchVariants(params.q) : [];
+  const punctuationIds = params.q ? await punctuationInsensitiveIds("CatalogItem", params.q) : [];
   const qGroup: Prisma.CatalogItemWhereInput[] | undefined = params.q
     ? [
         ...qTerms.map((term) => ({ name: { contains: term, mode: "insensitive" as const } })),
@@ -395,6 +436,10 @@ function tcgWhereFor(
         // `language` filter below, so this matches under "All languages"
         // and under an explicit non-English language filter alike.
         ...qTerms.map((term) => ({ nameEn: { contains: term, mode: "insensitive" as const } })),
+        // Apostrophe/hyphen/comma-agnostic match, e.g. "Kaisa"/"Kai Sa" ->
+        // "Kai'Sa", or "Irelia Fervent" -> "Irelia - Fervent"/"Irelia,
+        // Fervent" — see punctuationInsensitiveIds.
+        ...(punctuationIds.length > 0 ? [{ id: { in: punctuationIds } }] : []),
         { artist: { contains: params.q, mode: "insensitive" } },
         { number: { contains: params.q, mode: "insensitive" } },
       ]
@@ -513,7 +558,7 @@ async function runTcgQuery(
   pageSize: number,
   sort: CatalogSort
 ) {
-  const where = tcgWhereFor(params, gameIdFilter);
+  const where = await tcgWhereFor(params, gameIdFilter);
 
   if (sort === "number_asc" || sort === "domain_asc") {
     const [rows, total] = await Promise.all([
@@ -552,7 +597,7 @@ async function runSportsQuery(
   pageSize: number,
   sort: CatalogSort
 ) {
-  const where = sportsWhereFor(params, sportFilter);
+  const where = await sportsWhereFor(params, sportFilter);
 
   if (sort === "number_asc") {
     const [rows, total] = await Promise.all([
@@ -687,9 +732,11 @@ async function searchMerged(
       ? MERGE_FETCH_CAP
       : Math.min(page * pageSize, MERGE_FETCH_CAP);
 
-  const tcgWhere = tcgWhereFor(params, { in: WIRED_TCG_GAME_IDS });
+  const tcgWhere = await tcgWhereFor(params, { in: WIRED_TCG_GAME_IDS });
   const sportsGameId = WIRED_SPORTS_GAMES[0]?.id ?? "basketball-nba";
-  const sportsWhere = includeSports ? sportsWhereFor(params, { in: WIRED_SPORT_ENUMS }) : undefined;
+  const sportsWhere = includeSports
+    ? await sportsWhereFor(params, { in: WIRED_SPORT_ENUMS })
+    : undefined;
 
   const [tcgRows, sportsRows, tcgTotal, sportsTotal] = await Promise.all([
     db.catalogItem.findMany({
