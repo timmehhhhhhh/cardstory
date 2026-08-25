@@ -33,6 +33,8 @@ import {
 } from "@/lib/constants";
 import { pcKind, type CardCondition, type ItemLanguage } from "@/lib/pc/types";
 import { resolvePriceAtDate } from "@/lib/pc/resolve-price-at-date";
+import { isNumberedSerialLimit } from "@/lib/sportscards/rarity";
+import type { SportsCardVariant } from "@/lib/sportscards/manage";
 
 export function AddHoldingDialog({
   catalogItemId,
@@ -92,6 +94,16 @@ export function AddHoldingDialog({
   const [submitting, setSubmitting] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
 
+  // Which parallel/refractor of a sports card the user is adding — defaults
+  // to whichever row they opened the dialog from (usually the base version,
+  // since Explore now links to that by default). Fetched fresh each time
+  // the dialog opens so a stale list can't silently omit a newer parallel.
+  const [variants, setVariants] = React.useState<SportsCardVariant[]>([]);
+  const [selectedVariantId, setSelectedVariantId] = React.useState(sportsCardItemId);
+  const [copyNumber, setCopyNumber] = React.useState("");
+  const selectedVariant = variants.find((v) => v.sportsCardItemId === selectedVariantId);
+  const showCopyNumberField = isNumberedSerialLimit(selectedVariant?.serialLimit);
+
   const pcs = usePCStore((s) => s.pcs);
   const activePCId = usePCStore((s) => s.activePCId);
   const businessMode = usePCStore((s) => s.preferences.businessMode);
@@ -125,23 +137,52 @@ export function AddHoldingDialog({
       setRawCondition("");
       setAcquiredAt("");
       setError(null);
+      setSelectedVariantId(sportsCardItemId);
+      setCopyNumber("");
+      setVariants([]);
     }
   }
+
+  // Fetch this card's known parallels/refractors fresh each time the dialog
+  // opens, so the picker below can offer them. No-op for TCG cards
+  // (sportsCardItemId unset) and for a sports card with no known parallels
+  // (the fetch just resolves to a single-item list, so the picker below
+  // stays hidden per its own `variants.length > 1` guard).
+  React.useEffect(() => {
+    if (!open || !sportsCardItemId) return;
+    let cancelled = false;
+    fetch(`/api/sportscards/${sportsCardItemId}/variants`)
+      .then((res) => (res.ok ? res.json() : { variants: [] }))
+      .then((data: { variants: SportsCardVariant[] }) => {
+        if (!cancelled) setVariants(data.variants);
+      })
+      .catch(() => {
+        if (!cancelled) setVariants([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [open, sportsCardItemId]);
 
   async function handleAdd() {
     setSubmitting(true);
     setError(null);
     try {
+      // If the user picked a different parallel than the one this dialog
+      // was opened with, everything below (price lookup, cost basis,
+      // the holding itself) targets that variant's own row instead.
+      const effectiveSportsCardItemId = sportsCardItemId ? selectedVariantId : undefined;
       const priceAtAcquisition = await resolvePriceAtDate({
         date: acquiredAt || null,
-        liveSuggestedPrice: suggestedPrice,
+        liveSuggestedPrice:
+          effectiveSportsCardItemId === sportsCardItemId ? suggestedPrice : (selectedVariant?.priceRaw ?? null),
         catalogItemId,
-        sportsCardItemId,
+        sportsCardItemId: effectiveSportsCardItemId,
       });
       await addHolding(pcId, {
         kind: sportsCardItemId ? "sports" : "tcg",
         catalogItemId,
-        sportsCardItemId,
+        sportsCardItemId: effectiveSportsCardItemId,
         quantity: Math.min(20, Math.max(1, quantity)),
         condition,
         gradeCompany: condition === "graded" ? gradeCompany : undefined,
@@ -153,6 +194,7 @@ export function AddHoldingDialog({
         priceAtAcquisition,
         acquiredAt: acquiredAt ? new Date(acquiredAt).toISOString() : null,
         imageUrl: imageUrl.trim() || undefined,
+        serialNumber: showCopyNumberField && copyNumber.trim() ? copyNumber.trim() : undefined,
       });
       setLastUsedCostBasisCurrency(costBasisCurrency);
       setOpen(false);
@@ -232,6 +274,37 @@ export function AddHoldingDialog({
               </Select>
             </div>
           </div>
+
+          {sportsCardItemId && variants.length > 1 && (
+            <div className="grid gap-1.5">
+              <Label htmlFor="variant">Parallel / refractor</Label>
+              <Select value={selectedVariantId} onValueChange={setSelectedVariantId}>
+                <SelectTrigger id="variant" className="bg-background">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {variants.map((v) => (
+                    <SelectItem key={v.sportsCardItemId} value={v.sportsCardItemId}>
+                      {v.parallelName ? `${v.parallelName}${v.serialLimit ? ` /${v.serialLimit}` : ""}` : "Base"}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
+          {showCopyNumberField && (
+            <div className="grid gap-1.5">
+              <Label htmlFor="copyNumber">Which copy do you have?</Label>
+              <Input
+                id="copyNumber"
+                placeholder={`e.g. 14 of /${selectedVariant?.serialLimit}`}
+                value={copyNumber}
+                onChange={(e) => setCopyNumber(e.target.value)}
+                className="bg-background"
+              />
+            </div>
+          )}
 
           <div className="grid gap-1.5">
             <Label>Condition</Label>

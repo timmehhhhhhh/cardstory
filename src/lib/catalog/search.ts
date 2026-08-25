@@ -343,7 +343,8 @@ function sportsWhereFor(
  * (e.g. Riftbound's "Champion Unit") shown in the same shared filter
  * dropdown — so sports rows deliberately don't participate in the
  * cardType/rarity/language/artist/variant facets (their nearest equivalent,
- * parallelName, has its own separate "Hide parallels" toggle), and sealed
+ * parallelName, has its own separate "Show all parallels" toggle, on by
+ * default so results collapse to one row per base card), and sealed
  * products don't exist for sports cards at all.
  */
 function sportsFilterableFor(params: CatalogSearchParams): boolean {

@@ -193,16 +193,16 @@ export function SidebarFilters({
           <div className="flex items-center justify-between">
             <div>
               <Label htmlFor="base-only-toggle" className="text-sm font-medium">
-                Hide parallels
+                Show all parallels
               </Label>
               <p className="mt-0.5 text-xs text-muted-foreground">
-                Sports cards only — show just each card&apos;s base version.
+                Sports cards only — by default each card shows once; open it to see every parallel/refractor.
               </p>
             </div>
             <Switch
               id="base-only-toggle"
-              checked={filters.baseOnly}
-              onCheckedChange={(v) => onChange({ baseOnly: v, page: 1 })}
+              checked={!filters.baseOnly}
+              onCheckedChange={(v) => onChange({ baseOnly: !v, page: 1 })}
             />
           </div>
         </>

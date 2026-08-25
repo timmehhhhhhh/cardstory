@@ -11,7 +11,7 @@ export interface ExploreFilters {
   variant: string; // "all" | CatalogItem.variantKey, a card's priced finish, e.g. Pokémon's "reverseHolofoil" — no-op for sports cards and every non-Pokémon game
   artist: string; // "" | free-text artist name, matched case-insensitive "contains" — no-op for sports cards (no artist column)
   language: "all" | "EN" | "JP" | "CN" | "TW" | "KR"; // CatalogItem.language — no-op for sports cards
-  /** Sports cards only — hide every parallel, showing just each card's base version. */
+  /** Sports cards only — show just each card's base version, collapsing every parallel/refractor into it. Defaults to on. */
   baseOnly: boolean;
   status: "all" | "owned" | "not_owned";
   watchlistOnly: boolean;
@@ -31,7 +31,7 @@ export const DEFAULT_FILTERS: ExploreFilters = {
   variant: "all",
   artist: "",
   language: "all",
-  baseOnly: false,
+  baseOnly: true,
   status: "all",
   watchlistOnly: false,
   sort: "best_match",
@@ -51,7 +51,9 @@ export function filtersToSearchParams(f: ExploreFilters): URLSearchParams {
   if (f.variant !== "all") sp.set("variant", f.variant);
   if (f.artist) sp.set("artist", f.artist);
   if (f.language !== "all") sp.set("language", f.language);
-  if (f.baseOnly) sp.set("baseOnly", "1");
+  // Always written explicitly (never omitted) since the default flipped to
+  // true — an omitted param must not be ambiguous with "off".
+  sp.set("baseOnly", f.baseOnly ? "1" : "0");
   if (f.status !== "all") sp.set("status", f.status);
   if (f.watchlistOnly) sp.set("watchlist", "1");
   if (f.sort !== "best_match") sp.set("sort", f.sort);
@@ -77,7 +79,9 @@ export function filtersFromSearchParams(
     variant: get("variant") ?? DEFAULT_FILTERS.variant,
     artist: get("artist") ?? DEFAULT_FILTERS.artist,
     language: (get("language") as ExploreFilters["language"]) ?? DEFAULT_FILTERS.language,
-    baseOnly: get("baseOnly") === "1",
+    // A bare/shared link with no baseOnly param at all (not even "0") falls
+    // back to the default (on) rather than always reading as off.
+    baseOnly: get("baseOnly") == null ? DEFAULT_FILTERS.baseOnly : get("baseOnly") === "1",
     status: (get("status") as ExploreFilters["status"]) ?? DEFAULT_FILTERS.status,
     watchlistOnly: get("watchlist") === "1",
     sort: (get("sort") as ExploreFilters["sort"]) ?? DEFAULT_FILTERS.sort,

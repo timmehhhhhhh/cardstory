@@ -27,7 +27,7 @@ export interface ViewFilters {
   languages: ("EN" | "JP" | "CN" | "TW" | "KR")[];
   /** Free-text artist name chips, OR'd via case-insensitive "contains". No-op for sports rows (no artist column). */
   artists: string[];
-  /** Sports cards only — hide every parallel, showing just each card's base version. */
+  /** Sports cards only — show just each card's base version, collapsing every parallel/refractor into it. Defaults to on. */
   baseOnly: boolean;
   sort: CatalogSort;
 }
@@ -42,7 +42,7 @@ export const DEFAULT_VIEW_FILTERS: ViewFilters = {
   domains: [],
   languages: [],
   artists: [],
-  baseOnly: false,
+  baseOnly: true,
   sort: "best_match",
 };
 

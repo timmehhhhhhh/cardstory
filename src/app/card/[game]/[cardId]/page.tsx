@@ -15,6 +15,8 @@ import { RarityBadge } from "@/components/cards/rarity-badge";
 import { FinishBadge } from "@/components/cards/finish-badge";
 import { DomainIcon } from "@/components/cards/riftbound-icons";
 import { OtherVersionsPanel } from "@/app/card/[game]/[cardId]/_components/other-versions-panel";
+import { SportsParallelsPanel } from "@/app/card/[game]/[cardId]/_components/sports-parallels-panel";
+import { getSportsCardGroupVariants } from "@/lib/sportscards/manage";
 import { Badge } from "@/components/ui/badge";
 import { formatReleaseDate } from "@/lib/format/date";
 import { defaultFinishLabel } from "@/lib/games/pokemon/mapper";
@@ -83,6 +85,17 @@ const getSiblingVariants = unstable_cache(
   { tags: ["catalog-card"], revalidate: 86400 }
 );
 
+/**
+ * Every parallel/refractor of a sports card, base first then rarity order —
+ * see getSportsCardGroupVariants in lib/sportscards/manage.ts. Cached the
+ * same way as getSiblingVariants above.
+ */
+const getSportsCardVariants = unstable_cache(
+  (sportsCardItemId: string) => getSportsCardGroupVariants(sportsCardItemId),
+  ["card-detail-sports-variants"],
+  { tags: ["catalog-card"], revalidate: 86400 }
+);
+
 export async function generateMetadata({
   params,
 }: {
@@ -115,6 +128,7 @@ export default async function CardDetailPage({
     const priceRaw = item.latestPriceRaw != null ? Number(item.latestPriceRaw) : null;
     const cardName = item.parallelName ? `${item.playerName} — ${item.parallelName}` : item.playerName;
     const releaseDateLabel = formatReleaseDate(item.releaseDate);
+    const sportsVariants = await getSportsCardVariants(item.id);
 
     return (
       <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
@@ -140,6 +154,8 @@ export default async function CardDetailPage({
             </div>
           </div>
         </div>
+
+        <SportsParallelsPanel gameId={game} currentId={item.id} variants={sportsVariants} />
 
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-[260px_1fr_300px]">
           <div className="overflow-hidden rounded-xl border border-border bg-surface">

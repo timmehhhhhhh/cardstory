@@ -30,7 +30,7 @@ function summarizeViewFilters(f: ViewFilters): string {
   if (f.rarities.length > 0) parts.push(f.rarities.join(", "));
   if (f.languages.length > 0) parts.push(f.languages.join(", "));
   if (f.artists.length > 0) parts.push(f.artists.join(", "));
-  if (f.baseOnly) parts.push("No parallels");
+  if (!f.baseOnly) parts.push("All parallels");
   return parts.join(" · ");
 }
 
