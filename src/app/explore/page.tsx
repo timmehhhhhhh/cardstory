@@ -17,7 +17,7 @@ export default async function ExplorePage({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  await requireSession();
+  const session = await requireSession();
   const sp = await searchParams;
   const filters = filtersFromSearchParams(sp);
 
@@ -36,6 +36,7 @@ export default async function ExplorePage({
       baseOnly: filters.baseOnly,
       sort: filters.sort,
       page: filters.page,
+      randomFeedUserId: session.user.id,
     }),
     getDistinctCardTypes(filters.game !== "all" ? filters.game : undefined),
     getDistinctRarities(filters.game !== "all" ? filters.game : undefined),

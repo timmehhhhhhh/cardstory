@@ -89,6 +89,16 @@ export interface CatalogSearchParams {
   sort?: CatalogSort;
   page?: number;
   pageSize?: number;
+  /**
+   * Opt-in id of the signed-in user requesting this search. When set AND
+   * every other filter above is unset/default AND sort is "best_match" (i.e.
+   * this is Explore's bare, no-filters-no-search default view), searchCatalog
+   * serves a randomized, per-user, 10-minute-stable feed instead of the
+   * normal alphabetical listing — see getRandomExploreFeed below. Any
+   * explicit filter, search text, or sort choice falls through to the usual
+   * deterministic query untouched.
+   */
+  randomFeedUserId?: string;
 }
 
 export interface CatalogSearchItem {
@@ -710,10 +720,152 @@ async function searchMerged(
   return { items, total };
 }
 
+/**
+ * True when `params` carries no active filter/search — i.e. this is
+ * Explore's bare default view. Deliberately ignores `page`/`pageSize`/`sort`/
+ * `randomFeedUserId` (checked separately by callers) so pagination and the
+ * "best_match" default sort don't disqualify the random-feed path.
+ */
+function hasNoActiveFilters(params: CatalogSearchParams): boolean {
+  return (
+    !params.q &&
+    !params.gameId &&
+    !params.setId &&
+    !params.productType &&
+    !isFilterSet(params.cardType) &&
+    !isFilterSet(params.rarity) &&
+    !isFilterSet(params.language) &&
+    !isFilterSet(params.variant) &&
+    !isFilterSet(params.domain) &&
+    !isFilterSet(params.artist) &&
+    !params.onlyIds &&
+    !params.excludeIds &&
+    // baseOnly === false is an active choice ("show all parallels") — only
+    // true/undefined (both callers' actual default) qualify as "no filters".
+    params.baseOnly !== false
+  );
+}
+
+/** Bounds the eligible-candidate id fetch, same rationale as MERGE_FETCH_CAP. */
+const RANDOM_FEED_CANDIDATE_CAP = 1000;
+
+type RandomFeedCandidate = { id: string; source: "tcg" | "sports" };
+
+/**
+ * TCG eligibility for the randomized Explore default feed: must have an
+ * image, must be priced above $1, and — for non-English rows — must have a
+ * populated nameEn (see CatalogItem.nameEn's nullability convention above).
+ * English rows (or any row with no language concept) are trivially
+ * "properly translated".
+ */
+const RANDOM_FEED_TCG_WHERE: Prisma.CatalogItemWhereInput = {
+  gameId: { in: WIRED_TCG_GAME_IDS },
+  imageSmallUrl: { not: null },
+  latestPriceRaw: { gt: 1 },
+  OR: [{ language: "EN" }, { AND: [{ nameEn: { not: null } }, { nameEn: { not: "" } }] }],
+};
+
+/**
+ * Sports eligibility — no language/translation concept, so just image +
+ * price. `parallelName: null` mirrors sportsWhereFor's baseOnly handling:
+ * the random feed is only ever served when baseOnly is true/unset (see
+ * hasNoActiveFilters), so it collapses to base cards the same way the
+ * normal default view does.
+ */
+const RANDOM_FEED_SPORTS_WHERE: Prisma.SportsCardItemWhereInput = {
+  sport: { in: WIRED_SPORT_ENUMS },
+  imageUrl: { not: null },
+  latestPriceRaw: { gt: 1 },
+  parallelName: null,
+};
+
+/**
+ * Computes and shuffles the full eligible-candidate id list for the
+ * randomized Explore default feed. Cached per-user for 10 minutes
+ * (see getRandomExploreFeed) — each cache miss reshuffles, so a user's feed
+ * stays stable while the cache entry is warm and reshuffles once it expires.
+ */
+async function computeShuffledRandomFeedIds(): Promise<RandomFeedCandidate[]> {
+  const [tcgRows, sportsRows] = await Promise.all([
+    db.catalogItem.findMany({
+      where: RANDOM_FEED_TCG_WHERE,
+      select: { id: true },
+      take: RANDOM_FEED_CANDIDATE_CAP,
+    }),
+    WIRED_SPORT_ENUMS.length > 0
+      ? db.sportsCardItem.findMany({
+          where: RANDOM_FEED_SPORTS_WHERE,
+          select: { id: true },
+          take: RANDOM_FEED_CANDIDATE_CAP,
+        })
+      : Promise.resolve([]),
+  ]);
+
+  const candidates: RandomFeedCandidate[] = [
+    ...tcgRows.map((r) => ({ id: r.id, source: "tcg" as const })),
+    ...sportsRows.map((r) => ({ id: r.id, source: "sports" as const })),
+  ];
+
+  // Fisher-Yates shuffle.
+  for (let i = candidates.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
+  }
+  return candidates;
+}
+
+/**
+ * Randomized, per-user, 10-minute-stable Explore default feed — serves in
+ * place of the normal alphabetical listing when Explore has no active
+ * filter/search (see hasNoActiveFilters) and a signed-in userId is supplied.
+ * The shuffled id order is cached per-user (unstable_cache, revalidate 600s)
+ * so it stays put for 10 minutes and then reshuffles on the next request;
+ * only the ids are cached, so the actual rows (price, name, etc.) are always
+ * fetched fresh at read time.
+ */
+async function getRandomExploreFeed(userId: string, page: number, pageSize: number) {
+  const getShuffledIds = unstable_cache(computeShuffledRandomFeedIds, ["explore-random-feed", userId], {
+    revalidate: 600,
+  });
+  const allIds = await getShuffledIds();
+  const pageIds = allIds.slice((page - 1) * pageSize, page * pageSize);
+
+  const tcgIds = pageIds.filter((c) => c.source === "tcg").map((c) => c.id);
+  const sportsIds = pageIds.filter((c) => c.source === "sports").map((c) => c.id);
+
+  const [tcgRows, sportsRows] = await Promise.all([
+    tcgIds.length > 0
+      ? db.catalogItem.findMany({ where: { id: { in: tcgIds } }, select: TCG_SELECT })
+      : Promise.resolve([]),
+    sportsIds.length > 0
+      ? db.sportsCardItem.findMany({ where: { id: { in: sportsIds } }, select: SPORTS_SELECT })
+      : Promise.resolve([]),
+  ]);
+
+  const sportsGameId = WIRED_SPORTS_GAMES[0]?.id ?? "basketball-nba";
+  const itemsById = new Map<string, CatalogSearchItem>([
+    ...tcgRows.map((r) => [r.id, tcgItemToSearchItem(r)] as const),
+    ...sportsRows.map((r) => [r.id, sportsItemToSearchItem(r, sportsGameId)] as const),
+  ]);
+
+  // Re-sort fetched rows back into the cached shuffle order (findMany with
+  // `id: { in }` doesn't preserve the given order).
+  const items = pageIds
+    .map((c) => itemsById.get(c.id))
+    .filter((item): item is CatalogSearchItem => item != null);
+
+  return { items, total: allIds.length };
+}
+
 export async function searchCatalog(params: CatalogSearchParams) {
   const page = params.page && params.page > 0 ? params.page : 1;
   const pageSize = params.pageSize && params.pageSize > 0 ? Math.min(params.pageSize, 60) : 24;
   const sort = params.sort ?? "best_match";
+
+  if (params.randomFeedUserId && sort === "best_match" && hasNoActiveFilters(params)) {
+    const result = await getRandomExploreFeed(params.randomFeedUserId, page, pageSize);
+    return { items: result.items, total: result.total, page, pageSize };
+  }
 
   const requestedMeta = params.gameId ? getGameMeta(params.gameId) : undefined;
 
