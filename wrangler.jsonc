@@ -6,15 +6,37 @@
   // would make Cloudflare treat it as a different Worker.
   "name": "cardstory",
   // The Workers Builds git integration's dashboard "Build command" MUST be
-  // `npx opennextjs-cloudflare build` — that's what actually produces this
-  // file; plain `npm run build` only runs `next build` and stops (see the
-  // "build"/"preview"/"deploy" scripts in package.json). Left as `npm run
-  // build` for a while, which built the Next.js app fine but always failed
-  // at deploy with "entry-point file … was not found" once wrangler went
-  // looking for a worker.js that was never generated. After fixing that
-  // dashboard setting, the very next build still ran the old command —
-  // Workers Builds' "Build cache" toggle (Settings → Build) had to be
-  // cleared once for the corrected command to actually take effect.
+  // `npm run build:ci` — that script runs `prisma migrate deploy` (applying
+  // any pending schema migrations to prod) and `verify:schema` (an
+  // independent check against information_schema, since `migrate deploy`
+  // being green does not by itself prove the DDL actually ran — see the
+  // "Deploying" section of README.md) BEFORE `opennextjs-cloudflare build`,
+  // which is what actually produces this file. Do not point the dashboard
+  // at `npx opennextjs-cloudflare build` directly, and do not use plain
+  // `npm run build` (that only runs `next build` and stops — see the
+  // "build"/"preview"/"deploy" scripts in package.json).
+  //
+  // This dashboard setting is what actually deploys on every push to main —
+  // it does NOT go through package.json's `deploy`/`predeploy` npm scripts,
+  // since Workers Builds invokes the configured Build command directly
+  // rather than running `npm run deploy`, so npm's predeploy lifecycle hook
+  // never fires here. `build:ci` exists specifically so this real pipeline
+  // has its own equivalent safeguard baked directly into the command
+  // Workers Builds runs, instead of relying on a hook that only protects a
+  // manual local `npm run deploy`. Was left as `npm run build` for a while,
+  // which built the Next.js app fine but always failed at deploy with
+  // "entry-point file … was not found" once wrangler went looking for a
+  // worker.js that was never generated; later left as `npx opennextjs-
+  // cloudflare build` (produces this file, but skips migrations entirely —
+  // see README.md's "Deploying" section for the outages that caused).
+  // Whenever this dashboard command changes, Workers Builds' "Build cache"
+  // toggle (Settings → Build) may need clearing once for it to take effect.
+  //
+  // `prisma migrate deploy`/`verify:schema` need DATABASE_URL and
+  // DIRECT_URL available as *Build* environment variables in the dashboard
+  // (Settings → Build → Variables and secrets) — separate from the Worker
+  // *runtime* secrets below, which only apply once the Worker is deployed
+  // and are not visible during the build step.
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-08-22",
   // `.open-next/worker.js` is already a fully bundled, minified output from

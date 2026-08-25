@@ -16,8 +16,10 @@
     "snapshot:manual": "tsx scripts/run-snapshot.ts",
     "health-check": "tsx scripts/health-check.ts",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
-    "predeploy": "prisma migrate deploy",
+    "verify:schema": "tsx scripts/verify-schema-drift.ts",
+    "predeploy": "prisma migrate deploy && npm run verify:schema",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "build:ci": "prisma migrate deploy && npm run verify:schema && opennextjs-cloudflare build",
     "deploy:cron": "wrangler deploy --config workers/cron-snapshot/wrangler.jsonc",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },

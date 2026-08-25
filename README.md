@@ -95,16 +95,50 @@ In production, the `workers/cron-snapshot/` Worker schedules this daily via a Cl
 
 ## Deploying
 
-`npm run deploy` builds and deploys the Worker, but does **not** by itself touch the
-production database — Cloudflare Workers has no access to your local `prisma/migrations/`
-folder. `predeploy` (which npm runs automatically before `deploy`) runs
-`prisma migrate deploy` against whatever `DATABASE_URL`/`DIRECT_URL` are in your shell
-env at the time, so **export production's connection strings first** (the same values
-you set as Worker secrets below), otherwise `predeploy` fails fast with a clear
-"environment variable not found" error rather than silently deploying code with a
-schema the live DB doesn't actually have (this is exactly what caused a full login
-outage on 2026-08-25 — a migration was marked applied in `_prisma_migrations` but its
-`ALTER TABLE` never ran against prod):
+**Production actually deploys via Cloudflare Workers Builds' git integration** — every
+push/merge to `main` triggers a Cloudflare-hosted build using the "Build command"
+configured in the Cloudflare dashboard (Settings → Build), currently `npm run build:ci`,
+followed by Cloudflare's own `wrangler deploy`. This is a genuinely separate pipeline
+from anything in this repo's `git` history or `package.json`'s `deploy` script — **it
+does not run `npm run deploy`, and therefore does not run npm's `predeploy` lifecycle
+hook either.** That distinction caused two outages before it was understood:
+
+- **2026-08-25**: migration `20260824135211_add_hide_pricing` was recorded as applied in
+  `_prisma_migrations`, but its `ALTER TABLE` never ran against prod, so `authorize()`
+  (which selects `hidePricing` on every login) threw on 100% of sign-in attempts. The fix
+  at the time added a `predeploy` npm script (`prisma migrate deploy`) so that running
+  `npm run deploy` would apply pending migrations first and fail loudly if it couldn't.
+- **2026-08-26**: it happened again, to migration `20260826120000_add_holding_acquisition_fields`
+  (`holdings.acquiredFrom`/`acquisitionMethod`/`acquisitionNotes`), crashing
+  `GET /api/pc` for every signed-in user. The 2026-08-25 fix turned out not to have
+  protected production at all: **Cloudflare Workers Builds never invokes `npm run
+  deploy`**, so the `predeploy` hook added the day before had never once run in the
+  actual deploy path — pushing `c437344` to `main` auto-deployed the new Worker code via
+  Workers Builds immediately, completely decoupled from whether the migration's DDL had
+  been separately, manually applied against prod.
+
+The real fix has two parts:
+
+1. **The Cloudflare dashboard's "Build command" is now `npm run build:ci`** (see the
+   comment on `"main"` in `wrangler.jsonc`), which runs `prisma migrate deploy` and then
+   `verify:schema` *before* `opennextjs-cloudflare build` — so the actual auto-deploy
+   pipeline has the safeguard built directly into the command it runs, rather than
+   depending on an npm lifecycle hook that pipeline never triggers. This needs
+   `DATABASE_URL`/`DIRECT_URL` set as **Build** environment variables in the dashboard
+   (Settings → Build → Variables and secrets) — a separate list from the Worker
+   *runtime* secrets set below, which aren't visible during the build step.
+2. **`verify:schema` (`scripts/verify-schema-drift.ts`) is an independent check**: it
+   parses every `prisma/migrations/*/migration.sql` for the columns/tables it should
+   have created, then queries `information_schema.columns` directly and fails loudly if
+   any are missing — regardless of what `_prisma_migrations` claims. This is what
+   actually catches "marked applied but DDL didn't run", since `prisma migrate
+   status`/`deploy` both only ever consult that same bookkeeping table and will happily
+   report "up to date" in exactly the state that caused both outages above.
+
+`npm run deploy` (build + `wrangler deploy` from your own machine) still exists for
+manual/local deploys, and still runs `predeploy` (`prisma migrate deploy && npm run
+verify:schema`) first — same protection, applied against whatever `DATABASE_URL`/
+`DIRECT_URL` are in your shell env, so **export production's connection strings first**:
 
 ```bash
 DATABASE_URL="<neon pooled url>" DIRECT_URL="<neon direct url>" npm run deploy
@@ -115,5 +149,13 @@ If you're intentionally deploying with no pending schema changes and don't want 
 export prod DB creds for that one command, run `npx prisma migrate status` first to
 confirm there's nothing pending, or just skip straight to
 `opennextjs-cloudflare build && opennextjs-cloudflare deploy` directly.
+
+If either `verify:schema` or `prisma migrate deploy` ever does report drift, the
+recovery is the same as both past incidents: run the specific migration's SQL directly
+against prod, bypassing the (incorrectly) already-marked-applied migration history:
+
+```bash
+npx prisma db execute --file prisma/migrations/<dir>/migration.sql --schema prisma/schema.prisma
+```
 
 Set the env vars from `.env.example` as Worker secrets (`wrangler secret put <NAME>`, using your Neon connection strings) rather than in `wrangler.jsonc`, since that file is committed. `CRON_SECRET` must be set on both Workers with the same value — see `workers/cron-snapshot/wrangler.jsonc`.
