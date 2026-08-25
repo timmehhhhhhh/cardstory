@@ -53,9 +53,14 @@ function expectedColumns(): Map<string, Set<string>> {
     const file = path.join(MIGRATIONS_DIR, dir, "migration.sql");
     if (!existsSync(file)) continue;
     // Strip Prisma's `-- CreateTable` / `-- AlterTable` / etc. comment
-    // lines first, so each statement below starts directly with its SQL
-    // keyword rather than a comment line.
+    // lines, and its `/* Warnings: ... */` block comments (emitted before
+    // destructive statements like DROP COLUMN), so each statement below
+    // starts directly with its SQL keyword rather than a comment. Without
+    // stripping block comments too, a leading `/* Warnings: ... */` used to
+    // make the DROP COLUMN statement fail to match the ALTER TABLE regex
+    // below, leaving the dropped column incorrectly "expected" forever.
     const sql = readFileSync(file, "utf8")
+      .replace(/\/\*[\s\S]*?\*\//g, "")
       .split("\n")
       .filter((line) => !line.trim().startsWith("--"))
       .join("\n");
