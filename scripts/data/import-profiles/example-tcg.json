@@ -1,0 +1,28 @@
+{
+  "kind": "tcg",
+  "label": "EXAMPLE — copy this file, then edit every selector for your actual source page. Run `scan` first.",
+  "sourceUrls": ["https://example.com/card-games/example-set/checklist"],
+  "cardSelector": ".card-tile",
+  "fields": {
+    "name": { "selector": ".card-tile__name" },
+    "image": { "selector": ".card-tile__image img", "attr": "src" },
+    "number": { "selector": ".card-tile__number" },
+    "rarity": { "selector": ".card-tile__rarity" },
+    "artist": { "selector": ".card-tile__artist" },
+    "detailUrl": { "selector": "a.card-tile__link", "attr": "href" }
+  },
+  "pageFields": {
+    "releaseDate": { "selector": ".set-header__release-date" }
+  },
+  "game": {
+    "id": "example-tcg",
+    "name": "Example TCG",
+    "logoUrl": "EX",
+    "status": "COMING_SOON"
+  },
+  "set": {
+    "name": "Example Set",
+    "code": "EX01",
+    "releaseDate": "2026-01-01"
+  }
+}
