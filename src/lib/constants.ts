@@ -4,8 +4,8 @@ export const APP_NAME = "CardStory";
 
 export const NAV_LINKS = [
   { href: "/explore", label: "Explore" },
-  { href: "/watchlist", label: "Watchlist", icon: Star },
   { href: "/sets", label: "Sets" },
+  { href: "/watchlist", label: "Watchlist", icon: Star },
   { href: "/pc", label: "PC", icon: PackagePlus },
   { href: "/shortlist", label: "Shortlist", icon: ShoppingBag },
   { href: "/binder", label: "Binder Planner" },
