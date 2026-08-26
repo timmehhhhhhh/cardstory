@@ -9,6 +9,10 @@ export const curatedSetFiltersSchema = z.object({
   domains: z.array(z.string().min(1).max(40)).max(10).default([]),
   languages: z.array(z.enum(["EN", "JP", "CN", "TW", "KR"])).max(5).default([]),
   artists: z.array(z.string().min(1).max(100)).max(25).default([]),
+  cardNames: z
+    .array(z.object({ mode: z.enum(["is", "contains"]), value: z.string().min(1).max(200) }))
+    .max(25)
+    .default([]),
   variants: z.array(z.string().min(1).max(80)).max(50).default([]),
   baseOnly: z.boolean().default(true),
 });

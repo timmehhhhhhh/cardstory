@@ -78,6 +78,19 @@ export interface CatalogSearchParams {
    */
   artist?: string | string[];
   /**
+   * Card-name filter chips, OR'd together — CatalogItem.name/nameEn for TCG
+   * rows, SportsCardItem.playerName for sports rows (no nameEn equivalent
+   * there — sports rows have no translation concept). Unlike `q` (which
+   * also matches artist/number/set), this is scoped to name only, matching
+   * a "Card Name" filter label. Each chip is independently "contains"
+   * (substring, with the same nameSearchVariants/punctuationInsensitiveIds
+   * expansion as `q`'s name branches) or "is" (case-insensitive exact
+   * match, no variant expansion). A "contains"/"is" chip always also checks
+   * nameEn, so an English-name filter still matches a non-English row (e.g.
+   * a JP Pokémon card) whose translation is known.
+   */
+  cardNames?: { mode: "is" | "contains"; value: string }[];
+  /**
    * Sports cards only — restrict to rows with no parallelName (the
    * unparalleled base version of each card). No-op for TCG rows, which
    * have no parallel concept at all.
@@ -357,28 +370,55 @@ async function sportsWhereFor(
 ): Promise<Prisma.SportsCardItemWhereInput> {
   const decodedSet = decodeSportsSetId(params.setId);
   const punctuationIds = params.q ? await punctuationInsensitiveIds("SportsCardItem", params.q) : [];
+  const qGroup: Prisma.SportsCardItemWhereInput[] | undefined = params.q
+    ? [
+        // A hyphen/space split on the player's name (rare, but not
+        // unheard of — same class of inconsistency as TCG names below)
+        // shouldn't make the row unsearchable — see nameSearchVariants.
+        ...nameSearchVariants(params.q).map((term) => ({
+          playerName: { contains: term, mode: "insensitive" as const },
+        })),
+        // Apostrophe/hyphen/comma-agnostic match — see
+        // punctuationInsensitiveIds.
+        ...(punctuationIds.length > 0 ? [{ id: { in: punctuationIds } }] : []),
+        { setName: { contains: params.q, mode: "insensitive" } },
+        { parallelName: { contains: params.q, mode: "insensitive" } },
+        { cardNumber: { contains: params.q, mode: "insensitive" } },
+      ]
+    : undefined;
+
+  // Card-name chips — see CatalogSearchParams.cardNames. Matched against
+  // playerName only (no nameEn equivalent for sports rows).
+  const cardNameChips = params.cardNames ?? [];
+  const cardNameClauses = (
+    await Promise.all(
+      cardNameChips.map(async (chip): Promise<Prisma.SportsCardItemWhereInput[]> => {
+        if (chip.mode === "is") {
+          return [{ playerName: { equals: chip.value, mode: "insensitive" as const } }];
+        }
+        const terms = nameSearchVariants(chip.value);
+        const chipPunctuationIds = await punctuationInsensitiveIds("SportsCardItem", chip.value);
+        return [
+          ...terms.map((term) => ({ playerName: { contains: term, mode: "insensitive" as const } })),
+          ...(chipPunctuationIds.length > 0 ? [{ id: { in: chipPunctuationIds } }] : []),
+        ];
+      })
+    )
+  ).flat();
+  const cardNamesGroup: Prisma.SportsCardItemWhereInput[] | undefined =
+    cardNameClauses.length > 0 ? cardNameClauses : undefined;
+
+  const andClauses: Prisma.SportsCardItemWhereInput[] = [];
+  if (qGroup) andClauses.push({ OR: qGroup });
+  if (cardNamesGroup) andClauses.push({ OR: cardNamesGroup });
+
   return {
     sport: sportFilter,
     year: decodedSet ? decodedSet.year : undefined,
     distributor: decodedSet ? decodedSet.distributor : undefined,
     setName: decodedSet ? decodedSet.setName : undefined,
     parallelName: params.baseOnly ? null : undefined,
-    OR: params.q
-      ? [
-          // A hyphen/space split on the player's name (rare, but not
-          // unheard of — same class of inconsistency as TCG names below)
-          // shouldn't make the row unsearchable — see nameSearchVariants.
-          ...nameSearchVariants(params.q).map((term) => ({
-            playerName: { contains: term, mode: "insensitive" as const },
-          })),
-          // Apostrophe/hyphen/comma-agnostic match — see
-          // punctuationInsensitiveIds.
-          ...(punctuationIds.length > 0 ? [{ id: { in: punctuationIds } }] : []),
-          { setName: { contains: params.q, mode: "insensitive" } },
-          { parallelName: { contains: params.q, mode: "insensitive" } },
-          { cardNumber: { contains: params.q, mode: "insensitive" } },
-        ]
-      : undefined,
+    AND: andClauses.length > 0 ? andClauses : undefined,
     id: params.onlyIds
       ? { in: params.onlyIds }
       : params.excludeIds
@@ -454,9 +494,37 @@ async function tcgWhereFor(
         }))
       : undefined;
 
+  // Scoped name-only chips — see CatalogSearchParams.cardNames. Each chip
+  // contributes its own OR-branches (name-variant/punctuation expansion for
+  // "contains", exact for "is"), and always checks nameEn too so an
+  // English-name chip still matches a non-English row's known translation.
+  const cardNameChips = params.cardNames ?? [];
+  const cardNameClauses = (
+    await Promise.all(
+      cardNameChips.map(async (chip): Promise<Prisma.CatalogItemWhereInput[]> => {
+        if (chip.mode === "is") {
+          return [
+            { name: { equals: chip.value, mode: "insensitive" as const } },
+            { nameEn: { equals: chip.value, mode: "insensitive" as const } },
+          ];
+        }
+        const terms = nameSearchVariants(chip.value);
+        const punctuationIds = await punctuationInsensitiveIds("CatalogItem", chip.value);
+        return [
+          ...terms.map((term) => ({ name: { contains: term, mode: "insensitive" as const } })),
+          ...terms.map((term) => ({ nameEn: { contains: term, mode: "insensitive" as const } })),
+          ...(punctuationIds.length > 0 ? [{ id: { in: punctuationIds } }] : []),
+        ];
+      })
+    )
+  ).flat();
+  const cardNamesGroup: Prisma.CatalogItemWhereInput[] | undefined =
+    cardNameClauses.length > 0 ? cardNameClauses : undefined;
+
   const andClauses: Prisma.CatalogItemWhereInput[] = [];
   if (qGroup) andClauses.push({ OR: qGroup });
   if (artistGroup) andClauses.push({ OR: artistGroup });
+  if (cardNamesGroup) andClauses.push({ OR: cardNamesGroup });
 
   // domain is a string array, so it needs `has`/`hasSome` rather than the
   // scalar equalsOrIn helper (`has` for a single value — matches either
@@ -974,6 +1042,7 @@ export async function resolveCuratedSetMatches(
     language: filters.languages.length > 0 ? filters.languages : undefined,
     artist: filters.artists.length > 0 ? filters.artists : undefined,
     variant: filters.variants.length > 0 ? filters.variants : undefined,
+    cardNames: filters.cardNames.length > 0 ? filters.cardNames : undefined,
     baseOnly: filters.baseOnly,
   };
 

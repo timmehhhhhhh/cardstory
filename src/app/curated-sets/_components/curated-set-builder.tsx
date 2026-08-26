@@ -41,8 +41,9 @@ function toggleValue<T>(list: T[], value: T): T[] {
  * builder (src/app/views/_components/view-builder.tsx), with `game`/`set`
  * pluralized to checkbox multi-selects (a curated set can span several
  * games at once, e.g. "every Steve Argyle card across FAB & MTG"), a new
- * `variants` finish picker, and a `targetQuantity` field for playset-style
- * chases. No free-text search or sort — see CuratedSetFilters' doc comment.
+ * `variants` finish picker, a `cardNames` is/contains chip picker, and a
+ * `targetQuantity` field for playset-style chases. No live free-text `q` or
+ * sort — see CuratedSetFilters' doc comment.
  */
 export function CuratedSetBuilder({
   open,
@@ -63,6 +64,8 @@ export function CuratedSetBuilder({
   const [filters, setFilters] = React.useState<CuratedSetFilters>(initialFilters ?? DEFAULT_CURATED_SET_FILTERS);
   const [targetQuantity, setTargetQuantity] = React.useState(initialTargetQuantity ?? 1);
   const [artistDraft, setArtistDraft] = React.useState("");
+  const [cardNameDraft, setCardNameDraft] = React.useState("");
+  const [cardNameMode, setCardNameMode] = React.useState<"contains" | "is">("contains");
 
   // Reset local state whenever the sheet is (re)opened for a different
   // curated set (or a fresh create) — adjusted during render per
@@ -76,6 +79,8 @@ export function CuratedSetBuilder({
       setFilters(initialFilters ?? DEFAULT_CURATED_SET_FILTERS);
       setTargetQuantity(initialTargetQuantity ?? 1);
       setArtistDraft("");
+      setCardNameDraft("");
+      setCardNameMode("contains");
     }
   }
 
@@ -170,6 +175,17 @@ export function CuratedSetBuilder({
     if (!trimmed) return;
     setFilters((f) => ({ ...f, artists: Array.from(new Set([...f.artists, trimmed])) }));
     setArtistDraft("");
+  }
+
+  function addCardName() {
+    const trimmed = cardNameDraft.trim();
+    if (!trimmed) return;
+    setFilters((f) => {
+      const exists = f.cardNames.some((c) => c.mode === cardNameMode && c.value === trimmed);
+      if (exists) return f;
+      return { ...f, cardNames: [...f.cardNames, { mode: cardNameMode, value: trimmed }] };
+    });
+    setCardNameDraft("");
   }
 
   function toggleGame(gameId: string) {
@@ -281,6 +297,62 @@ export function CuratedSetBuilder({
               </div>
             </>
           )}
+
+          <Separator />
+
+          <div>
+            <h3 className="mb-2 text-sm font-semibold">Card Name</h3>
+            <p className="mb-2 text-xs text-muted-foreground">
+              Type a name and press Enter. Matches any of the names you add — a &quot;contains&quot; chip also
+              matches the card&apos;s English translation for non-English cards.
+            </p>
+            <RadioGroup
+              value={cardNameMode}
+              onValueChange={(v) => setCardNameMode(v as "contains" | "is")}
+              className="mb-2 flex-row gap-4"
+            >
+              <label className="flex items-center gap-1.5 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground">
+                <RadioGroupItem value="contains" /> Contains
+              </label>
+              <label className="flex items-center gap-1.5 text-sm text-muted-foreground has-[[data-state=checked]]:text-foreground">
+                <RadioGroupItem value="is" /> Is exactly
+              </label>
+            </RadioGroup>
+            <Input
+              value={cardNameDraft}
+              onChange={(e) => setCardNameDraft(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  addCardName();
+                }
+              }}
+              placeholder="e.g. Charizard"
+              className="bg-surface border-border"
+            />
+            {filters.cardNames.length > 0 && (
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {filters.cardNames.map((c, i) => (
+                  <Badge key={`${c.mode}:${c.value}:${i}`} variant="outline" className="gap-1 h-6">
+                    {c.mode === "is" ? "is" : "contains"}: {c.value}
+                    <button
+                      type="button"
+                      aria-label={`Remove ${c.value}`}
+                      onClick={() =>
+                        setFilters((f) => ({
+                          ...f,
+                          cardNames: f.cardNames.filter((x) => x !== c),
+                        }))
+                      }
+                      className="text-muted-foreground hover:text-foreground"
+                    >
+                      <X className="size-3" />
+                    </button>
+                  </Badge>
+                ))}
+              </div>
+            )}
+          </div>
 
           <Separator />
 

@@ -14,8 +14,10 @@
  *   means every variant/finish counts, matching "every Variant that exists"
  *   in the collect-by-artist use case; a non-empty list opts into specific
  *   finishes only.
- * - No free-text `q` or `sort` — a curated set is a chase definition, not a
- *   live search someone is actively browsing/re-sorting.
+ * - No `sort` — a curated set is a chase definition, not a live search
+ *   someone is actively re-sorting. `cardNames` is a structured stand-in for
+ *   free-text `q`: unlike `q` (which also matches artist/number/set), it's
+ *   scoped to just the card's own name, as multiple is/contains chips.
  */
 export interface CuratedSetFilters {
   /** [] = every wired game (TCG + sports). */
@@ -33,6 +35,15 @@ export interface CuratedSetFilters {
   languages: ("EN" | "JP" | "CN" | "TW" | "KR")[];
   /** Free-text artist name chips, OR'd via case-insensitive "contains". No-op for sports rows (no artist column). */
   artists: string[];
+  /**
+   * Card-name chips, OR'd together. Each independently "is" (exact) or
+   * "contains" (substring), case-insensitive, matched against
+   * CatalogItem.name (SportsCardItem.playerName for sports rows). Always
+   * also matches the English translation name (CatalogItem.nameEn) for a
+   * non-English card — no-op there for sports rows, which have no
+   * translation concept.
+   */
+  cardNames: { mode: "is" | "contains"; value: string }[];
   /** [] = every variant/finish. CatalogItem.variantKey values — see the doc comment above. */
   variants: string[];
   /** Sports cards only — show just each card's base version, collapsing every parallel/refractor into it. Defaults to on. */
@@ -48,6 +59,7 @@ export const DEFAULT_CURATED_SET_FILTERS: CuratedSetFilters = {
   domains: [],
   languages: [],
   artists: [],
+  cardNames: [],
   variants: [],
   baseOnly: true,
 };
