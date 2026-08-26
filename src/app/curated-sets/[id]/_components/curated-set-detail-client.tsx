@@ -2,23 +2,41 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { CardImage } from "@/components/cards/card-image";
 import { CardTile } from "@/components/cards/card-tile";
 import { usePCStore } from "@/lib/pc/store";
 import { useCuratedSetsQuery, useCuratedSetsMutations } from "@/hooks/use-curated-sets";
 import { computeCuratedSetProgress } from "@/lib/curated-sets/progress";
-import type { CuratedSetFilters } from "@/lib/curated-sets/types";
+import {
+  CURATED_SET_CARD_SORTS,
+  type CuratedSetCardSort,
+  type CuratedSetFilters,
+} from "@/lib/curated-sets/types";
 import type { CatalogSearchItem } from "@/lib/catalog/search";
 import { getGameMeta } from "@/lib/games/registry";
 import { cardDetailHref } from "@/lib/catalog/card-href";
 import { withEnglishName } from "@/lib/catalog/card-name";
 import { CuratedSetBuilder } from "@/app/curated-sets/_components/curated-set-builder";
+
+const ORDER_BY_LABELS: Record<CuratedSetCardSort, string> = {
+  release_asc: "Release date (oldest)",
+  release_desc: "Release date (newest)",
+  name_asc: "Card name (A-Z)",
+  number_asc: "Card number (lowest to highest)",
+};
 
 function ProgressBar({ pct }: { pct: number }) {
   return (
@@ -56,6 +74,7 @@ function MissingCardTile({ item }: { item: CatalogSearchItem }) {
 
 export function CuratedSetDetailClient({ curatedSetId }: { curatedSetId: string }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { status } = useSession();
   const { data: curatedSets = [], isLoading: setsLoading } = useCuratedSetsQuery({
     enabled: status === "authenticated",
@@ -65,11 +84,15 @@ export function CuratedSetDetailClient({ curatedSetId }: { curatedSetId: string 
   const [builderOpen, setBuilderOpen] = React.useState(false);
 
   const curatedSet = curatedSets.find((s) => s.id === curatedSetId);
+  const orderByParam = searchParams.get("orderBy");
+  const orderBy: CuratedSetCardSort = (CURATED_SET_CARD_SORTS as readonly string[]).includes(orderByParam ?? "")
+    ? (orderByParam as CuratedSetCardSort)
+    : "name_asc";
 
   const matchesQuery = useQuery<{ items: CatalogSearchItem[]; truncated: boolean }>({
-    queryKey: ["curated-set-matches", curatedSetId],
+    queryKey: ["curated-set-matches", curatedSetId, orderBy],
     queryFn: async () => {
-      const res = await fetch(`/api/curated-sets/${curatedSetId}/matches`);
+      const res = await fetch(`/api/curated-sets/${curatedSetId}/matches?orderBy=${orderBy}`);
       if (!res.ok) throw new Error("Failed to load matches");
       return res.json();
     },
@@ -106,6 +129,14 @@ export function CuratedSetDetailClient({ curatedSetId }: { curatedSetId: string 
     router.push("/curated-sets");
   }
 
+  function updateOrderBy(nextOrderBy: CuratedSetCardSort) {
+    const params = new URLSearchParams(searchParams.toString());
+    if (nextOrderBy === "name_asc") params.delete("orderBy");
+    else params.set("orderBy", nextOrderBy);
+    const query = params.toString();
+    router.push(query ? `?${query}` : "?", { scroll: false });
+  }
+
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-6 sm:px-6">
       <div className="flex flex-col gap-3">
@@ -122,7 +153,22 @@ export function CuratedSetDetailClient({ curatedSetId }: { curatedSetId: string 
               <p className="mt-0.5 text-sm text-muted-foreground">{curatedSet.targetQuantity}x playset</p>
             )}
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">Order by</span>
+              <Select value={orderBy} onValueChange={(v) => updateOrderBy(v as CuratedSetCardSort)}>
+                <SelectTrigger size="sm" className="w-[13.5rem] border-border bg-surface" aria-label="Order cards by">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent align="end">
+                  {CURATED_SET_CARD_SORTS.map((sort) => (
+                    <SelectItem key={sort} value={sort}>
+                      {ORDER_BY_LABELS[sort]}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
             <Button variant="outline" size="sm" onClick={() => setBuilderOpen(true)}>
               <Pencil className="size-3.5" /> Edit filters
             </Button>
