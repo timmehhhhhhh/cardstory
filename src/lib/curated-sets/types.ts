@@ -84,6 +84,14 @@ export const DEFAULT_CURATED_SET_FILTERS: CuratedSetFilters = {
   groupByNationalPokedexNumber: false,
 };
 
+export const CURATED_SET_CARD_SORTS = [
+  "release_asc",
+  "release_desc",
+  "name_asc",
+  "number_asc",
+] as const;
+export type CuratedSetCardSort = (typeof CURATED_SET_CARD_SORTS)[number];
+
 export interface CuratedSet {
   id: string;
   name: string;

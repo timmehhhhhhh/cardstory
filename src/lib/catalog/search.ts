@@ -2,7 +2,7 @@ import { unstable_cache } from "next/cache";
 import { Prisma, type Sport } from "@prisma/client";
 import { db } from "@/lib/db";
 import { GAMES, WIRED_SPORTS_GAMES, getGameMeta } from "@/lib/games/registry";
-import type { CuratedSetFilters } from "@/lib/curated-sets/types";
+import type { CuratedSetCardSort, CuratedSetFilters } from "@/lib/curated-sets/types";
 import { defaultFinishLabel } from "@/lib/games/pokemon/mapper";
 import { getFinishDisplayLabel } from "@/lib/games/pokemon/finish-patterns";
 import { RIFTBOUND_RARITY_ORDER } from "@/lib/games/riftbound/rarity";
@@ -1067,7 +1067,8 @@ const CURATED_SET_TOTAL_CAP = 5000;
  * drift from what Explore/Views would show for the same filters.
  */
 export async function resolveCuratedSetMatches(
-  filters: CuratedSetFilters
+  filters: CuratedSetFilters,
+  sort: CuratedSetCardSort = "name_asc"
 ): Promise<{ items: CatalogSearchItem[]; truncated: boolean }> {
   const gameMetas = (filters.games.length > 0 ? filters.games : GAMES.map((g) => g.id))
     .map((id) => getGameMeta(id))
@@ -1120,11 +1121,11 @@ export async function resolveCuratedSetMatches(
       const params: CatalogSearchParams = { ...baseParams, setId };
       if (isSports) {
         const sportFilter: Sport | { in: Sport[] } = meta.sport ?? { in: [] };
-        const result = await runSportsQuery(params, sportFilter, meta.id, 1, CURATED_SET_QUERY_CAP, "name_asc");
+        const result = await runSportsQuery(params, sportFilter, meta.id, 1, CURATED_SET_QUERY_CAP, sort);
         items.push(...result.items);
         if (result.items.length >= CURATED_SET_QUERY_CAP) truncated = true;
       } else {
-        const result = await runTcgQuery(params, meta.id, 1, CURATED_SET_QUERY_CAP, "name_asc");
+        const result = await runTcgQuery(params, meta.id, 1, CURATED_SET_QUERY_CAP, sort);
         items.push(...result.items);
         if (result.items.length >= CURATED_SET_QUERY_CAP) truncated = true;
       }
@@ -1136,7 +1137,7 @@ export async function resolveCuratedSetMatches(
     items.length = CURATED_SET_TOTAL_CAP;
   }
 
-  return { items, truncated };
+  return { items: items.sort((a, b) => compareSearchItems(a, b, sort)), truncated };
 }
 
 // Upper bound on rows fetched to build species groups below. Deliberately
@@ -1168,7 +1169,8 @@ const SPECIES_GROUP_QUERY_CAP = 20000;
  * closes itself automatically as the catalog fills in.
  */
 export async function resolveCuratedSetSpeciesMatches(
-  filters: CuratedSetFilters
+  filters: CuratedSetFilters,
+  sort: CuratedSetCardSort = "name_asc"
 ): Promise<{ items: CatalogSearchItem[]; truncated: boolean }> {
   if (filters.nationalPokedexNumbers.length === 0) return { items: [], truncated: false };
 
@@ -1208,7 +1210,7 @@ export async function resolveCuratedSetSpeciesMatches(
     items.push(representative);
   }
 
-  return { items, truncated };
+  return { items: items.sort((a, b) => compareSearchItems(a, b, sort)), truncated };
 }
 
 export interface CardTypeGroup {
