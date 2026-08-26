@@ -60,6 +60,8 @@ export interface ManualCatalogItemInput {
   rarity?: string;
   artist?: string;
   cardType?: string;
+  /** National Pokédex number(s) — see CatalogItem.nationalPokedexNumbers. Omitted for Trainer/Energy rows. */
+  nationalPokedexNumbers?: number[];
   imageSmallUrl?: string;
   imageLargeUrl?: string;
   productType?: ProductType;
@@ -86,6 +88,7 @@ export async function upsertManualCatalogItem(input: ManualCatalogItemInput): Pr
     rarity: input.rarity ?? null,
     artist: input.artist ?? null,
     cardType: input.cardType ?? null,
+    nationalPokedexNumbers: input.nationalPokedexNumbers ?? [],
     imageSmallUrl: input.imageSmallUrl ?? null,
     imageLargeUrl: input.imageLargeUrl ?? null,
     productType: input.productType ?? "CARD",
