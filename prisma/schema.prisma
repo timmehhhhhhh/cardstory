@@ -117,6 +117,12 @@ model CatalogItem {
   /// dual-domain Legend has two entries; every other game leaves this at
   /// its `[]` default (no domain concept).
   domain                 String[]                @default([])
+  /// National Pokédex number(s) for a Pokémon-supertype card, e.g. [6] for
+  /// Charizard, [133, 134] for a two-species combo/TAG TEAM card. Empty for
+  /// every non-Pokémon row (Trainer/Energy/Supporter/Item cards, and every
+  /// non-Pokémon game) — same "default-empty, not null" convention as
+  /// `domain` above, so filtering/joins never special-case NULL.
+  nationalPokedexNumbers Int[]                   @default([])
   imageSmallUrl          String?
   imageLargeUrl          String?
   productType            ProductType             @default(CARD)
@@ -150,6 +156,7 @@ model CatalogItem {
   @@index([cardType])
   @@index([rarity])
   @@index([domain])
+  @@index([nationalPokedexNumbers])
   @@index([latestPriceRaw])
   @@index([priceChangePct])
   @@map("catalog_items")
