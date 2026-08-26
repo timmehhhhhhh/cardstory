@@ -440,6 +440,7 @@ model User {
   watchlistEntries  WatchlistEntry[]
   shortlistItems    ShortlistItem[]
   savedViews        SavedView[]
+  curatedSets       CuratedSet[]
   decks             Deck[]
 
   @@map("users")
@@ -741,6 +742,30 @@ model SavedView {
 
   @@index([userId])
   @@map("saved_views")
+}
+
+/// A user's personal "chase list" — the Curated Sets feature
+/// (src/app/curated-sets). Like SavedView above, `filters` is opaque Json
+/// (CuratedSetFilters — src/lib/curated-sets/types.ts), validated against
+/// curatedSetFiltersSchema at the API boundary before every write. Unlike a
+/// View, a curated set isn't just a saved search: it's compared against the
+/// user's live PC holdings (client-side, the same way CardTile computes
+/// "owned" — see src/lib/curated-sets/progress.ts) to render a completion
+/// percentage, so it also carries `targetQuantity` (how many copies of each
+/// matching card count as "collected" — 1 for a single-copy chase, >1 for a
+/// playset).
+model CuratedSet {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name           String
+  filters        Json
+  targetQuantity Int      @default(1)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([userId])
+  @@map("curated_sets")
 }
 
 /// Server-backed deck ("Deck Crafting" — src/app/deck-crafting) for a
