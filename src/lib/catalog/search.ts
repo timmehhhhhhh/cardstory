@@ -373,15 +373,17 @@ async function punctuationInsensitiveIds(
   const normalizedQ = normalizeForPunctuationInsensitiveMatch(q);
   if (!normalizedQ) return [];
   if (table === "CatalogItem") {
+    // Raw SQL doesn't go through Prisma's @@map, so this must use the
+    // actual table name ("catalog_items"), not the Prisma model name.
     const rows = await db.$queryRaw<{ id: string }[]>`
-      SELECT id FROM "CatalogItem"
+      SELECT id FROM "catalog_items"
       WHERE strpos(regexp_replace(lower(name), '[^a-z0-9]', '', 'g'), ${normalizedQ}) > 0
          OR ("nameEn" IS NOT NULL AND strpos(regexp_replace(lower("nameEn"), '[^a-z0-9]', '', 'g'), ${normalizedQ}) > 0)
     `;
     return rows.map((r) => r.id);
   }
   const rows = await db.$queryRaw<{ id: string }[]>`
-    SELECT id FROM "SportsCardItem"
+    SELECT id FROM "sports_card_items"
     WHERE strpos(regexp_replace(lower("playerName"), '[^a-z0-9]', '', 'g'), ${normalizedQ}) > 0
   `;
   return rows.map((r) => r.id);
