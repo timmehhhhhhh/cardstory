@@ -2,6 +2,7 @@ import { unstable_cache } from "next/cache";
 import { Prisma, type Sport } from "@prisma/client";
 import { db } from "@/lib/db";
 import { GAMES, WIRED_SPORTS_GAMES, getGameMeta } from "@/lib/games/registry";
+import type { CuratedSetFilters } from "@/lib/curated-sets/types";
 import { defaultFinishLabel } from "@/lib/games/pokemon/mapper";
 import { getFinishDisplayLabel } from "@/lib/games/pokemon/finish-patterns";
 import { RIFTBOUND_RARITY_ORDER } from "@/lib/games/riftbound/rarity";
@@ -933,6 +934,100 @@ export async function searchCatalog(params: CatalogSearchParams) {
   }
 
   return { items: result.items, total: result.total, page, pageSize };
+}
+
+// Caps for resolveCuratedSetMatches below — bounds cost the same way
+// MERGE_FETCH_CAP/NUMBER_SORT_FETCH_CAP do elsewhere in this file, just
+// applied per-query (CURATED_SET_QUERY_CAP) and across the whole curated
+// set (CURATED_SET_TOTAL_CAP), since a set can span several games/sets.
+const CURATED_SET_QUERY_CAP = 1500;
+const CURATED_SET_TOTAL_CAP = 5000;
+
+/**
+ * Resolves a Curated Set's filters (src/lib/curated-sets/types.ts) into the
+ * full, non-paginated list of matching catalog items — used to compute
+ * "owned vs total" progress (src/lib/curated-sets/progress.ts) and to
+ * render a curated set's detail grid. Unlike searchCatalog, which always
+ * paginates (capped at pageSize 60 for the public /api/catalog/search
+ * route), this fetches everything a curated set matches, up to
+ * CURATED_SET_TOTAL_CAP — appropriate here because it's only ever called
+ * for a signed-in user's own small number of saved curated sets, not on
+ * every keystroke of a public search.
+ *
+ * Reuses the exact same per-game where-builders (tcgWhereFor/sportsWhereFor)
+ * and row mappers (tcgItemToSearchItem/sportsItemToSearchItem) as
+ * searchCatalog/searchMerged above, so a curated set's match list can never
+ * drift from what Explore/Views would show for the same filters.
+ */
+export async function resolveCuratedSetMatches(
+  filters: CuratedSetFilters
+): Promise<{ items: CatalogSearchItem[]; truncated: boolean }> {
+  const gameMetas = (filters.games.length > 0 ? filters.games : GAMES.map((g) => g.id))
+    .map((id) => getGameMeta(id))
+    .filter((g): g is NonNullable<ReturnType<typeof getGameMeta>> => g != null && g.status === "WIRED");
+
+  const baseParams: CatalogSearchParams = {
+    productType: filters.type !== "all" ? filters.type : undefined,
+    cardType: filters.cardTypes.length > 0 ? filters.cardTypes : undefined,
+    rarity: filters.rarities.length > 0 ? filters.rarities : undefined,
+    domain: filters.domains.length > 0 ? filters.domains : undefined,
+    language: filters.languages.length > 0 ? filters.languages : undefined,
+    artist: filters.artists.length > 0 ? filters.artists : undefined,
+    variant: filters.variants.length > 0 ? filters.variants : undefined,
+    baseOnly: filters.baseOnly,
+  };
+
+  const items: CatalogSearchItem[] = [];
+  let truncated = false;
+
+  for (const meta of gameMetas) {
+    if (items.length >= CURATED_SET_TOTAL_CAP) {
+      truncated = true;
+      break;
+    }
+    const isSports = meta.kind === "sports";
+    // Sports rows don't participate in the TCG-only facets (cardType/
+    // rarity/language/artist/variant/domain, or a SEALED filter) — same
+    // gate searchMerged uses via sportsFilterableFor.
+    if (isSports && !sportsFilterableFor(baseParams)) continue;
+
+    // Set.id is "<gameId>:<code>" (see scripts/seed-catalog.ts), so a
+    // curated set's flat `sets` list can be bucketed back to the games
+    // that own each entry. Sports set ids have no such game-scoping (see
+    // decodeSportsSetId) and no sets picker in the builder, so sports
+    // games are always queried unscoped by set — same "no sets concept"
+    // treatment sports already gets elsewhere (sportsFilterableFor above).
+    const setIdsForGame = isSports
+      ? []
+      : filters.sets.filter((setId) => setId.startsWith(`${meta.id}:`));
+
+    const setScopes: (string | undefined)[] = setIdsForGame.length > 0 ? setIdsForGame : [undefined];
+
+    for (const setId of setScopes) {
+      if (items.length >= CURATED_SET_TOTAL_CAP) {
+        truncated = true;
+        break;
+      }
+      const params: CatalogSearchParams = { ...baseParams, setId };
+      if (isSports) {
+        const sportFilter: Sport | { in: Sport[] } = meta.sport ?? { in: [] };
+        const result = await runSportsQuery(params, sportFilter, meta.id, 1, CURATED_SET_QUERY_CAP, "name_asc");
+        items.push(...result.items);
+        if (result.items.length >= CURATED_SET_QUERY_CAP) truncated = true;
+      } else {
+        const result = await runTcgQuery(params, meta.id, 1, CURATED_SET_QUERY_CAP, "name_asc");
+        items.push(...result.items);
+        if (result.items.length >= CURATED_SET_QUERY_CAP) truncated = true;
+      }
+    }
+  }
+
+  if (items.length > CURATED_SET_TOTAL_CAP) {
+    truncated = true;
+    items.length = CURATED_SET_TOTAL_CAP;
+  }
+
+  return { items, truncated };
 }
 
 export interface CardTypeGroup {
