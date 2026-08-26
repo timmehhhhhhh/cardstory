@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { curatedSetFiltersSchema } from "@/lib/curated-sets/api-schemas";
-import { resolveCuratedSetMatches } from "@/lib/catalog/search";
+import { resolveCuratedSetMatches, resolveCuratedSetSpeciesMatches } from "@/lib/catalog/search";
 
 /**
  * Live "≈N cards match" preview for the Curated Set builder, called on
@@ -17,6 +17,8 @@ export async function POST(req: NextRequest) {
   const parsed = curatedSetFiltersSchema.safeParse(body?.filters);
   if (!parsed.success) return NextResponse.json({ error: "Invalid filters" }, { status: 400 });
 
-  const { items, truncated } = await resolveCuratedSetMatches(parsed.data);
+  const { items, truncated } = parsed.data.groupByNationalPokedexNumber
+    ? await resolveCuratedSetSpeciesMatches(parsed.data)
+    : await resolveCuratedSetMatches(parsed.data);
   return NextResponse.json({ total: items.length, truncated });
 }

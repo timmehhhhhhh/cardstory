@@ -63,6 +63,7 @@ async function main() {
         rarity: entry.rarity,
         artist: entry.artist,
         cardType: entry.cardType,
+        nationalPokedexNumbers: entry.nationalPokedexNumbers,
         imageSmallUrl: entry.imageSmallUrl,
         imageLargeUrl: entry.imageLargeUrl,
         productType: entry.productType,

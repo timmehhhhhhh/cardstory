@@ -26,6 +26,8 @@ export interface ManualCatalogItemEntry {
   rarity?: string;
   artist?: string;
   cardType?: string;
+  /** National Pokédex number(s) — see CatalogItem.nationalPokedexNumbers. Omit for Trainer/Energy rows and for any row where it isn't verified. */
+  nationalPokedexNumbers?: number[];
   /**
    * Left undefined for hand-curated rows whose image isn't available.
    *

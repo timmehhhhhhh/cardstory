@@ -48,6 +48,24 @@ export interface CuratedSetFilters {
   variants: string[];
   /** Sports cards only — show just each card's base version, collapsing every parallel/refractor into it. Defaults to on. */
   baseOnly: boolean;
+  /**
+   * [] = no restriction. National Pokédex numbers (CatalogItem.
+   * nationalPokedexNumbers) to require a match belong to. Populated by the
+   * Pokémon quick-start templates in the builder (Living Dex/Eeveelutions/
+   * All Starters — see src/lib/games/pokemon/curated-collections.ts); empty
+   * for a plain, non-Pokémon-species curated set.
+   */
+  nationalPokedexNumbers: number[];
+  /**
+   * When true, matches are deduplicated to one slot per National Pokédex
+   * number instead of one per printed card (see
+   * resolveCuratedSetSpeciesMatches in src/lib/catalog/search.ts) — owning
+   * ANY printing of a species satisfies that species' slot. Only meaningful
+   * (and only ever set by the builder) alongside a non-empty
+   * `nationalPokedexNumbers`; a Living Dex tracks "one card per species,"
+   * not "one of every printing."
+   */
+  groupByNationalPokedexNumber: boolean;
 }
 
 export const DEFAULT_CURATED_SET_FILTERS: CuratedSetFilters = {
@@ -62,6 +80,8 @@ export const DEFAULT_CURATED_SET_FILTERS: CuratedSetFilters = {
   cardNames: [],
   variants: [],
   baseOnly: true,
+  nationalPokedexNumbers: [],
+  groupByNationalPokedexNumber: false,
 };
 
 export interface CuratedSet {

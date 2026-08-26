@@ -15,6 +15,8 @@ export const curatedSetFiltersSchema = z.object({
     .default([]),
   variants: z.array(z.string().min(1).max(80)).max(50).default([]),
   baseOnly: z.boolean().default(true),
+  nationalPokedexNumbers: z.array(z.number().int().min(1).max(2000)).max(1200).default([]),
+  groupByNationalPokedexNumber: z.boolean().default(false),
 });
 export type CuratedSetFiltersInput = z.infer<typeof curatedSetFiltersSchema>;
 

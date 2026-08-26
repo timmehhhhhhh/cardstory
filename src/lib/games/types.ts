@@ -28,6 +28,8 @@ export interface UnifiedCard {
   cardType?: string;
   /** Riftbound's domain(s) — see lib/games/riftbound/domain.ts. Undefined/omitted for every other game (CatalogItem.domain defaults to `[]`). */
   domain?: string[];
+  /** National Pokédex number(s), e.g. [6] for Charizard — see lib/games/pokemon/mapper.ts. Undefined/omitted for every non-Pokémon game and for non-Pokémon-species Pokémon cards (Trainer/Energy/etc). */
+  nationalPokedexNumbers?: number[];
   imageSmallUrl?: string;
   imageLargeUrl?: string;
   productType: ProductType;

@@ -69,6 +69,15 @@ export interface CatalogSearchParams {
    */
   domain?: string | string[];
   /**
+   * National Pokédex number(s) — see CatalogItem.nationalPokedexNumbers.
+   * `hasSome` across the given values (a card can carry more than one, e.g.
+   * a two-species combo/TAG TEAM card). No-op for every non-Pokémon row
+   * (their `nationalPokedexNumbers` column is always `[]`) — used by the
+   * Curated Sets Pokémon templates (Living Dex/Eeveelutions/Starters), see
+   * resolveCuratedSetSpeciesMatches.
+   */
+  nationalPokedexNumbers?: number[];
+  /**
    * Illustrator credit — see CatalogItem.artist. Unlike cardType/rarity/
    * language, this never matches by exact equality: each value is matched
    * via a case-insensitive "contains", OR'd across every value given (so a
@@ -129,6 +138,19 @@ export interface CatalogSearchItem {
   cardType: string | null;
   /** Riftbound's domain(s) — see lib/games/riftbound/domain.ts. Always `[]` for every other game and for sports rows. */
   domain: string[];
+  /** National Pokédex number(s) — see CatalogItem.nationalPokedexNumbers. Always `[]` for non-Pokémon rows and for every non-Pokémon-species card (Trainer/Energy/etc). */
+  nationalPokedexNumbers: number[];
+  /**
+   * Set only by resolveCuratedSetSpeciesMatches: every CatalogItem id whose
+   * `nationalPokedexNumbers` includes this item's species — i.e. every
+   * printing of the same species, not just this representative one.
+   * computeCuratedSetProgress's ownership check sums holdings across all of
+   * these ids (not just `id`) when present, so owning ANY printing of a
+   * species satisfies a Living Dex/Eeveelutions/Starters slot. `undefined`
+   * for a plain (non-species-grouped) match, where ownership is keyed on
+   * `id` alone as before.
+   */
+  groupedCatalogItemIds?: string[];
   /** CatalogItem.language, e.g. "EN"/"JP"/"CN"/"TW"/"KR". Null for sports rows (no language concept). */
   language: string | null;
   /** CatalogItem.variantKey (the raw provider finish key, e.g. "reverseHolofoil"). Null for rows with no finish concept — every sports row, and every TCG row where variantKey is "". */
@@ -298,6 +320,7 @@ function sportsItemToSearchItem(r: SportsRow, gameId: string): CatalogSearchItem
     variantLabel: null,
     cardType: titleCase(r.parallelName ?? r.cardType),
     domain: [],
+    nationalPokedexNumbers: [],
     imageSmallUrl: r.imageUrl,
     setName,
     setNameEn: null,
@@ -446,6 +469,7 @@ function sportsFilterableFor(params: CatalogSearchParams): boolean {
     !isFilterSet(params.artist) &&
     !isFilterSet(params.variant) &&
     !isFilterSet(params.domain) &&
+    !isFilterSet(params.nationalPokedexNumbers) &&
     params.productType !== "SEALED"
   );
 }
@@ -537,6 +561,16 @@ async function tcgWhereFor(
         ? { has: domainValues[0] }
         : { hasSome: domainValues };
 
+  // Same has/hasSome shape as domain above — a species-grouped Curated Set
+  // (Living Dex/Eeveelutions/Starters) queries with several numbers at once.
+  const dexValues = params.nationalPokedexNumbers ?? [];
+  const dexFilter: Prisma.CatalogItemWhereInput["nationalPokedexNumbers"] =
+    dexValues.length === 0
+      ? undefined
+      : dexValues.length === 1
+        ? { has: dexValues[0] }
+        : { hasSome: dexValues };
+
   return {
     gameId: gameIdFilter,
     setId: params.setId,
@@ -544,6 +578,7 @@ async function tcgWhereFor(
     cardType: equalsOrIn(params.cardType),
     rarity: equalsOrIn(params.rarity),
     domain: domainFilter,
+    nationalPokedexNumbers: dexFilter,
     language: equalsOrIn(params.language),
     variantKey: equalsOrIn(params.variant),
     id: params.onlyIds
@@ -567,6 +602,7 @@ const TCG_SELECT = {
   artist: true,
   cardType: true,
   domain: true,
+  nationalPokedexNumbers: true,
   language: true,
   imageSmallUrl: true,
   productType: true,
@@ -601,6 +637,7 @@ function tcgItemToSearchItem(r: TcgRow): CatalogSearchItem {
     artist: r.artist,
     cardType: r.cardType,
     domain: r.domain,
+    nationalPokedexNumbers: r.nationalPokedexNumbers,
     language: r.language,
     variantKey,
     variantLabel,
@@ -1039,6 +1076,7 @@ export async function resolveCuratedSetMatches(
     cardType: filters.cardTypes.length > 0 ? filters.cardTypes : undefined,
     rarity: filters.rarities.length > 0 ? filters.rarities : undefined,
     domain: filters.domains.length > 0 ? filters.domains : undefined,
+    nationalPokedexNumbers: filters.nationalPokedexNumbers.length > 0 ? filters.nationalPokedexNumbers : undefined,
     language: filters.languages.length > 0 ? filters.languages : undefined,
     artist: filters.artists.length > 0 ? filters.artists : undefined,
     variant: filters.variants.length > 0 ? filters.variants : undefined,
@@ -1094,6 +1132,78 @@ export async function resolveCuratedSetMatches(
   if (items.length > CURATED_SET_TOTAL_CAP) {
     truncated = true;
     items.length = CURATED_SET_TOTAL_CAP;
+  }
+
+  return { items, truncated };
+}
+
+// Upper bound on rows fetched to build species groups below. Deliberately
+// much higher than CURATED_SET_TOTAL_CAP: a Living Dex's `nationalPokedex
+// Numbers` list can legitimately span the entire Pokémon catalog (every
+// species that's ever been printed), so the row *count* here is expected to
+// be large — what's bounded is the number of distinct species groups
+// produced (filters.nationalPokedexNumbers.length, at most a few thousand
+// per curatedSetFiltersSchema), not the printings that get deduplicated
+// into them.
+const SPECIES_GROUP_QUERY_CAP = 20000;
+
+/**
+ * Species-grouped counterpart to resolveCuratedSetMatches above, used only
+ * when a Curated Set's `groupByNationalPokedexNumber` flag is set (the
+ * Pokémon "Living Dex"/Eeveelutions/All Starters quick-start templates in
+ * the builder — see src/lib/games/pokemon/curated-collections.ts). Instead
+ * of one match per printed card, this returns (at most) one match per
+ * requested National Pokédex number: a representative printing to display,
+ * decorated with `groupedCatalogItemIds` listing every printing of that
+ * species so computeCuratedSetProgress can count a species "owned" from ANY
+ * printing of it, not just the chosen representative — that's the whole
+ * point of a Living Dex ("one card per species," not "one of every
+ * printing").
+ *
+ * A species with zero matching rows seeded yet is simply omitted (there's
+ * no real CatalogItem to represent it) — a known, accepted gap: it under-
+ * counts `total` rather than ever showing a fake/placeholder tile, and
+ * closes itself automatically as the catalog fills in.
+ */
+export async function resolveCuratedSetSpeciesMatches(
+  filters: CuratedSetFilters
+): Promise<{ items: CatalogSearchItem[]; truncated: boolean }> {
+  if (filters.nationalPokedexNumbers.length === 0) return { items: [], truncated: false };
+
+  const where = await tcgWhereFor(
+    {
+      productType: filters.type !== "all" ? filters.type : undefined,
+      cardType: filters.cardTypes.length > 0 ? filters.cardTypes : undefined,
+      rarity: filters.rarities.length > 0 ? filters.rarities : undefined,
+      language: filters.languages.length > 0 ? filters.languages : undefined,
+      artist: filters.artists.length > 0 ? filters.artists : undefined,
+      variant: filters.variants.length > 0 ? filters.variants : undefined,
+      nationalPokedexNumbers: filters.nationalPokedexNumbers,
+    },
+    "pokemon"
+  );
+
+  const rows = await db.catalogItem.findMany({ where, select: TCG_SELECT, take: SPECIES_GROUP_QUERY_CAP });
+  const truncated = rows.length >= SPECIES_GROUP_QUERY_CAP;
+
+  const requested = new Set(filters.nationalPokedexNumbers);
+  const byNumber = new Map<number, TcgRow[]>();
+  for (const row of rows) {
+    for (const n of row.nationalPokedexNumbers) {
+      if (!requested.has(n)) continue;
+      const bucket = byNumber.get(n);
+      if (bucket) bucket.push(row);
+      else byNumber.set(n, [row]);
+    }
+  }
+
+  const items: CatalogSearchItem[] = [];
+  for (const n of filters.nationalPokedexNumbers) {
+    const bucket = byNumber.get(n);
+    if (!bucket || bucket.length === 0) continue; // not seeded yet — see doc comment above
+    const representative = tcgItemToSearchItem(bucket[0]);
+    representative.groupedCatalogItemIds = bucket.map((r) => r.id);
+    items.push(representative);
   }
 
   return { items, truncated };

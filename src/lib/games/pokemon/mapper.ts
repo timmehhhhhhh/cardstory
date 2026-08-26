@@ -26,6 +26,8 @@ export interface PokemonApiCard {
   supertype?: string;
   /** e.g. ["Basic"], ["Stage 1"], ["Item"], ["Basic"] (for Basic Energy) — see cardTypeFromSupertype below. */
   subtypes?: string[];
+  /** National Pokédex number(s), e.g. [6] for Charizard, [133, 134] for a two-species combo/TAG TEAM card. Absent for Trainer/Energy cards. */
+  nationalPokedexNumbers?: number[];
   images?: { small?: string; large?: string };
   tcgplayer?: {
     prices?: Record<
@@ -136,6 +138,7 @@ export function mapPokemonCardVariants(raw: PokemonApiCard, setExternalId: strin
     rarity: raw.rarity,
     artist: raw.artist,
     cardType: cardTypeFromSupertype(raw.supertype, raw.subtypes),
+    nationalPokedexNumbers: raw.nationalPokedexNumbers ?? [],
     imageSmallUrl: raw.images?.small,
     imageLargeUrl: raw.images?.large,
     productType: "CARD" as const,
@@ -224,7 +227,25 @@ export interface TcgdexCardmarketPricing {
 export interface TcgdexCardDetail extends TcgdexCardBrief {
   rarity?: string;
   illustrator?: string;
+  /** "Pokemon" | "Trainer" | "Energy" — confirmed present on the live API (e.g. `curl https://api.tcgdex.net/v2/en/cards/base1-4`) even though it went unused until now. */
+  category?: string;
+  /** National Pokédex number(s); absent for Trainer/Energy cards. */
+  dexId?: number[];
   pricing?: { cardmarket?: TcgdexCardmarketPricing };
+}
+
+/** tcgdex's "Pokemon" | "Trainer" | "Energy" -> this app's cardType convention — see cardTypeFromSupertype's doc comment. No "· Basic" suffix: tcgdex doesn't expose a subtypes equivalent, and no Deck Crafting format rule targets non-English cards. */
+function cardTypeFromTcgdexCategory(category: string | undefined): string | undefined {
+  switch (category) {
+    case "Pokemon":
+      return "Pokémon";
+    case "Trainer":
+      return "Trainer";
+    case "Energy":
+      return "Energy";
+    default:
+      return undefined;
+  }
 }
 
 /**
@@ -290,6 +311,8 @@ export function mapTcgdexCardVariants(
     number: raw.localId,
     rarity: raw.rarity,
     artist: raw.illustrator,
+    cardType: cardTypeFromTcgdexCategory(raw.category),
+    nationalPokedexNumbers: raw.dexId ?? [],
     // `undefined`, NOT `null`, is load-bearing: seed-catalog.ts passes these
     // straight into a Prisma `update`, where undefined means "leave alone".
     // Changing it to `?? null` would wipe every image backfilled from the

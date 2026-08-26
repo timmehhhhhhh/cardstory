@@ -22,6 +22,7 @@ import { GAMES } from "@/lib/games/registry";
 import { DEFAULT_CURATED_SET_FILTERS, type CuratedSetFilters } from "@/lib/curated-sets/types";
 import type { CardTypeGroup, VariantGroup } from "@/lib/catalog/search";
 import type { SetOption } from "@/app/api/catalog/sets/route";
+import type { PokemonCuratedTemplateOption } from "@/app/api/curated-sets/pokemon-templates/route";
 
 const WIRED_GAMES = GAMES.filter((g) => g.status === "WIRED");
 const LANGUAGE_OPTIONS: { value: CuratedSetFilters["languages"][number]; label: string }[] = [
@@ -141,6 +142,24 @@ export function CuratedSetBuilder({
     ).entries()
   );
 
+  const pokemonTemplatesQuery = useQuery<PokemonCuratedTemplateOption[]>({
+    queryKey: ["curated-sets-pokemon-templates"],
+    enabled: open,
+    queryFn: async () => {
+      const res = await fetch("/api/curated-sets/pokemon-templates");
+      if (!res.ok) throw new Error("Failed to load Pokémon templates");
+      const json = (await res.json()) as { templates: PokemonCuratedTemplateOption[] };
+      return json.templates;
+    },
+    staleTime: 60 * 60 * 1000,
+  });
+  const pokemonTemplates = pokemonTemplatesQuery.data ?? [];
+  const activePokemonTemplateId = filters.groupByNationalPokedexNumber
+    ? pokemonTemplates.find(
+        (t) => JSON.stringify(t.dexNumbers) === JSON.stringify(filters.nationalPokedexNumbers)
+      )?.id
+    : undefined;
+
   const setsQuery = useQuery<SetOption[]>({
     queryKey: ["catalog-sets", filters.games.join(",")],
     enabled: open && filters.games.length > 0,
@@ -192,6 +211,10 @@ export function CuratedSetBuilder({
     setFilters((f) => {
       const nextGames = toggleValue(f.games, gameId);
       const turnedOff = !nextGames.includes(gameId);
+      // Deselecting Pokémon (or adding a second game alongside it) leaves a
+      // species-grouped Living Dex/Eeveelutions/Starters selection nonsense
+      // — clear it rather than silently querying the wrong game(s).
+      const pokemonStillSoleGame = nextGames.length === 1 && nextGames[0] === "pokemon";
       return {
         ...f,
         games: nextGames,
@@ -203,8 +226,24 @@ export function CuratedSetBuilder({
         cardTypes: [],
         rarities: [],
         variants: [],
+        nationalPokedexNumbers: pokemonStillSoleGame ? f.nationalPokedexNumbers : [],
+        groupByNationalPokedexNumber: pokemonStillSoleGame ? f.groupByNationalPokedexNumber : false,
       };
     });
+  }
+
+  function applyPokemonTemplate(template: PokemonCuratedTemplateOption) {
+    setFilters((f) => ({
+      ...f,
+      games: ["pokemon"],
+      cardTypes: ["Pokémon", "Pokémon · Basic"],
+      nationalPokedexNumbers: template.dexNumbers,
+      groupByNationalPokedexNumber: true,
+    }));
+  }
+
+  function clearPokemonTemplate() {
+    setFilters((f) => ({ ...f, nationalPokedexNumbers: [], groupByNationalPokedexNumber: false }));
   }
 
   function handleSubmit() {
@@ -249,6 +288,34 @@ export function CuratedSetBuilder({
               className="bg-surface border-border w-24"
             />
             <p className="mt-1 text-xs text-muted-foreground">1 for a single-copy chase, 3 for a playset, etc.</p>
+          </div>
+
+          <Separator />
+
+          <div>
+            <h3 className="mb-2 text-sm font-semibold">Pokémon Collections</h3>
+            <p className="mb-2 text-xs text-muted-foreground">
+              Quick-start a species checklist — own any one card per Pokémon to check it off.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {pokemonTemplates.map((t) => (
+                <Button
+                  key={t.id}
+                  type="button"
+                  size="sm"
+                  variant={activePokemonTemplateId === t.id ? "default" : "outline"}
+                  title={t.description}
+                  onClick={() => applyPokemonTemplate(t)}
+                >
+                  {t.label} · {t.dexNumbers.length.toLocaleString()}
+                </Button>
+              ))}
+              {filters.groupByNationalPokedexNumber && (
+                <Button type="button" size="sm" variant="ghost" onClick={clearPokemonTemplate}>
+                  <X className="size-3.5" /> Clear
+                </Button>
+              )}
+            </div>
           </div>
 
           <Separator />

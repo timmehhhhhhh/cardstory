@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { getCuratedSet } from "@/lib/curated-sets/manage";
-import { resolveCuratedSetMatches } from "@/lib/catalog/search";
+import { resolveCuratedSetMatches, resolveCuratedSetSpeciesMatches } from "@/lib/catalog/search";
 
 /**
  * The full (non-paginated) set of catalog items a curated set's filters
@@ -23,6 +23,8 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     return NextResponse.json({ error: "Curated set not found" }, { status: 404 });
   }
 
-  const { items, truncated } = await resolveCuratedSetMatches(curatedSet.filters);
+  const { items, truncated } = curatedSet.filters.groupByNationalPokedexNumber
+    ? await resolveCuratedSetSpeciesMatches(curatedSet.filters)
+    : await resolveCuratedSetMatches(curatedSet.filters);
   return NextResponse.json({ items, truncated });
 }
