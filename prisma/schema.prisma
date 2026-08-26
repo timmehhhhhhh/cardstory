@@ -1,15 +1,13 @@
 // CardStory data model.
 //
-// This database holds the shared card catalog, its real price history, and
-// — for signed-in users — accounts and portfolios. Accounts are optional:
-// a logged-out visitor's portfolio still lives entirely in the browser's
-// localStorage (see src/lib/portfolio/local-store.ts). Signing in switches
-// portfolio reads/writes to the Portfolio/Holding tables below (see
-// src/lib/portfolio/store.ts, the switcher). ShowcaseSnapshot predates
-// accounts and keeps working the same way for anonymous publishers: a
-// deliberate, explicit "publish" action copies a point-in-time snapshot of
-// holdings into this DB so it can be shared via a public link, authorized
-// by a client-held ownerToken rather than a session.
+// This database holds the shared card catalog, its real price history,
+// accounts, and portfolios. The app now requires a signed-in session for
+// collection data, so portfolio reads/writes go through the Portfolio/Holding
+// tables below (see src/lib/pc/store.ts and remote-store.ts). ShowcaseSnapshot
+// keeps working as a public share surface: a deliberate, explicit "publish"
+// action copies a point-in-time snapshot of holdings into this DB so it can be
+// shared via a public link, authorized by a client-held ownerToken rather than
+// a session.
 
 // One client, generated to the default node_modules/.prisma/client. It emits
 // both a Node build (index.js, native engine — used by local dev) and a WASM
@@ -498,7 +496,7 @@ model Portfolio {
   /// validated at the API boundary" convention as Holding.kind below.
   /// "business" marks the single auto-created "Business Inventory" PC a
   /// vendor's Explore-area "Business mode" toggle adds to — see
-  /// ensureBusinessPC in src/lib/pc/local-store.ts / remote-store.ts.
+  /// ensureBusinessPC in src/lib/pc/remote-store.ts.
   /// Every portfolio created before this field existed is "personal" by
   /// the column default, same backfill-by-default approach as
   /// productType/language on CatalogItem above.
@@ -624,9 +622,7 @@ model Holding {
 
 /// A signed-in user's watchlist entry — an item they're tracking without
 /// (yet) owning, independent of any Holding. Server-backed so it follows
-/// the account across devices; anonymous users keep an equivalent shape in
-/// localStorage only (see src/lib/pc/local-store.ts) since there's no
-/// account to sync to.
+/// the account across devices.
 model WatchlistEntry {
   id     String @id @default(cuid())
   userId String
@@ -664,9 +660,7 @@ model WatchlistEntry {
 /// long-term watch: it exists for the length of a trip to a shop, and ends
 /// either deleted (passed on it) or checked out, which turns it into a real
 /// Holding in a PC of the user's choosing. Server-backed so it survives a
-/// phone dying at the counter; anonymous users keep an equivalent shape in
-/// localStorage only (see src/lib/shortlist/local-store.ts), the same
-/// dual-store split as WatchlistEntry above.
+/// phone dying at the counter.
 ///
 /// Which items the user is about to buy is NOT stored here — that's a
 /// decision made once, at the till, and immediately consumed by checkout,
@@ -776,11 +770,8 @@ model CuratedSet {
 }
 
 /// Server-backed deck ("Deck Crafting" — src/app/deck-crafting) for a
-/// signed-in user, the accounts equivalent of the local-only deck shape in
-/// src/lib/deck-crafting/types.ts. Mirrors the Portfolio/Holding dual-store
-/// split (see that model's comment): logged-out users keep decks entirely
-/// in localStorage (src/lib/deck-crafting/local-store.ts); signing in
-/// switches reads/writes to these tables (src/lib/deck-crafting/store.ts).
+/// signed-in user; reads/writes go through these tables via
+/// src/lib/deck-crafting/store.ts.
 /// Deliberately NOT following Binder's local-only-forever pattern — a deck
 /// is a discrete named entity a user builds up over time and expects to
 /// find again on another device, same shape as a Portfolio, not a single

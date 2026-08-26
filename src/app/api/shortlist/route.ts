@@ -5,7 +5,7 @@ import { shortlistItemSchema, shortlistRemoveSchema } from "@/lib/shortlist/api-
 
 export async function GET() {
   const session = await auth();
-  // Every route requires a signed-in session (see src/proxy.ts), so
+  // Every route requires a signed-in session (see src/middleware.ts), so
   // session?.user should always be set here — an empty list is still a
   // safe fallback rather than a 401, since this is a read not a mutation,
   // and a 401 would make useQuery throw while the session is still

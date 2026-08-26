@@ -4,7 +4,7 @@ import type { Deck, DeckCard, DeckStatus } from "@/lib/deck-crafting/types";
 
 /**
  * Server-backed Deck Crafting storage for signed-in users — the only
- * storage this app has for decks (see src/proxy.ts; there is no
+ * storage this app has for decks (see src/middleware.ts; there is no
  * anonymous/local mode anymore). Every function here
  * takes the requesting userId and re-checks row ownership itself (never
  * trusting that a valid session alone means the caller owns the deck/card

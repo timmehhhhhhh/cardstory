@@ -6,7 +6,7 @@ import type { ImportPC, LetGoDetails } from "@/lib/pc/api-schemas";
 
 /**
  * Server-backed PC storage for signed-in users — the only storage this app
- * has for PCs (see src/proxy.ts; there is no anonymous/local mode
+ * has for PCs (see src/middleware.ts; there is no anonymous/local mode
  * anymore). Every function here
  * takes the requesting userId and re-checks row ownership itself (never
  * trusting that a valid session alone means the caller owns the

@@ -24,7 +24,7 @@ async function fetchViews(): Promise<SavedView[]> {
 }
 
 /**
- * Views is account-only (no guest/localStorage mode, unlike PC — see
+ * Views is account-only (no guest/localStorage mode, same as PC — see
  * src/lib/pc/store.ts), so there's no local/remote split to switch between:
  * this is just React Query wrapping /api/views directly. Mutations
  * optimistically patch the query cache, fire the request, and invalidate

@@ -5,7 +5,7 @@ import { watchlistAddSchema, watchlistRemoveSchema } from "@/lib/pc/watchlist-sc
 
 export async function GET() {
   const session = await auth();
-  // Every route requires a signed-in session (see src/proxy.ts), so
+  // Every route requires a signed-in session (see src/middleware.ts), so
   // session?.user should always be set here — an empty list is still a
   // safe fallback rather than a 401, since this is a read not a mutation.
   if (!session?.user) return NextResponse.json({ entries: [] });

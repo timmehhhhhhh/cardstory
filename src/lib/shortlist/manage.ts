@@ -4,7 +4,7 @@ import type { ShortlistItemInput, ShortlistItemPatchInput } from "@/lib/shortlis
 
 /**
  * Server-backed In-Store Shortlist storage for signed-in users — the only
- * storage this app has for shortlists (see src/proxy.ts; there is no
+ * storage this app has for shortlists (see src/middleware.ts; there is no
  * anonymous/local mode anymore). Same "re-check ownership via userId,
  * never trust a bare id" posture as
  * src/lib/pc/manage.ts for the one mutation where it matters (update —
