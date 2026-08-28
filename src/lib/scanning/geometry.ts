@@ -184,6 +184,113 @@ export interface GridMappingResult {
  * upstream (a manual rotate control in the capture UI) before the image is
  * ever sent to a detector, not compensated for here.
  */
+/** Standard trading-card aspect ratio (width/height), e.g. a 2.5"x3.5" card. */
+const EXPECTED_CARD_ASPECT_RATIO = 2.5 / 3.5;
+/** A box's width/height ratio must fall within this fraction of EXPECTED_CARD_ASPECT_RATIO either way to not be flagged. Generous — sleeves, crops, and mild perspective all widen a card's apparent ratio somewhat. */
+const ASPECT_RATIO_TOLERANCE = 0.35;
+/**
+ * Coefficient of variation (stdDev/mean) above which a set of adjacent
+ * center-to-center gaps (within one row or one column) is considered
+ * "uneven" rather than normal photo/detector jitter. A cleanly aligned,
+ * flat-on page produces fairly uniform spacing; skew, rotation, and
+ * perspective distortion all stretch spacing unevenly across the page.
+ */
+const SPACING_UNEVENNESS_THRESHOLD = 0.35;
+
+export interface PageGeometryAssessment {
+  suspicious: boolean;
+  /** Human-readable reasons a reviewer can be shown — empty when not suspicious. */
+  reasons: string[];
+}
+
+function mean(values: number[]): number {
+  return values.reduce((a, b) => a + b, 0) / values.length;
+}
+
+function coefficientOfVariation(values: number[]): number {
+  if (values.length < 2) return 0;
+  const m = mean(values);
+  if (m <= 0) return 0;
+  const variance = mean(values.map((v) => (v - m) ** 2));
+  return Math.sqrt(variance) / m;
+}
+
+/** Sorted ascending gaps between consecutive values — e.g. adjacent column centers within one row. */
+function adjacentGaps(sortedValues: number[]): number[] {
+  const gaps: number[] = [];
+  for (let i = 1; i < sortedValues.length; i++) gaps.push(sortedValues[i] - sortedValues[i - 1]);
+  return gaps;
+}
+
+/**
+ * Deterministic, pure sanity check on one page's detected boxes against the
+ * binder's known rows x cols grid — the automated half of Binder Import's
+ * §3 "grid validation" requirement (the other half is the reviewer visually
+ * cross-checking DetectedCardsOverlay against the physical page; this never
+ * blocks a commit on its own, only flags the page for extra scrutiny).
+ *
+ * Three independent checks, any of which can flag the page:
+ * - box count clearly exceeds the number of pockets the layout has (a
+ *   detector false-positive storm, or a photo of the wrong page/layout)
+ * - a box's width/height ratio is far from a standard card's — a sign the
+ *   detector merged/split cards, or perspective distortion is severe
+ * - spacing between adjacent box centers (within a row, and within a
+ *   column) is markedly uneven — the signature of a skewed, rotated, or
+ *   perspective-distorted photo, since mapCardsToGrid's equal-band
+ *   quantization assumes a flat, evenly-spaced page (see its own doc
+ *   comment's calibration assumption)
+ *
+ * Never throws, never returns `suspicious` for a page with too few boxes to
+ * judge spacing (e.g. 0 or 1 detected card) — nothing to compare.
+ */
+export function assessPageGeometry(boxes: BoundingBox[], rows: number, cols: number): PageGeometryAssessment {
+  const reasons: string[] = [];
+  const slots = rows * cols;
+
+  if (boxes.length > slots) {
+    reasons.push(`Detected ${boxes.length} cards but this page only has ${slots} pockets.`);
+  }
+
+  const offAspectRatioCount = boxes.filter((box) => {
+    if (box.height <= 0) return true;
+    const ratio = box.width / box.height;
+    return Math.abs(ratio - EXPECTED_CARD_ASPECT_RATIO) / EXPECTED_CARD_ASPECT_RATIO > ASPECT_RATIO_TOLERANCE;
+  }).length;
+  if (offAspectRatioCount > 0) {
+    reasons.push(
+      `${offAspectRatioCount} detected card${offAspectRatioCount === 1 ? "" : "s"} ${offAspectRatioCount === 1 ? "has" : "have"} an unusual shape for a trading card.`
+    );
+  }
+
+  if (boxes.length >= 3) {
+    const mapping = mapCardsToGrid(boxes, rows, cols);
+    const rowGroups = new Map<number, number[]>();
+    const colGroups = new Map<number, number[]>();
+    mapping.cells.forEach((cell, i) => {
+      const box = boxes[i];
+      const byRow = rowGroups.get(cell.row) ?? [];
+      byRow.push(box.centerX);
+      rowGroups.set(cell.row, byRow);
+      const byCol = colGroups.get(cell.col) ?? [];
+      byCol.push(box.centerY);
+      colGroups.set(cell.col, byCol);
+    });
+
+    const rowGapCVs = Array.from(rowGroups.values())
+      .filter((xs) => xs.length >= 3)
+      .map((xs) => coefficientOfVariation(adjacentGaps([...xs].sort((a, b) => a - b))));
+    const colGapCVs = Array.from(colGroups.values())
+      .filter((ys) => ys.length >= 3)
+      .map((ys) => coefficientOfVariation(adjacentGaps([...ys].sort((a, b) => a - b))));
+    const uneven = [...rowGapCVs, ...colGapCVs].some((cv) => cv > SPACING_UNEVENNESS_THRESHOLD);
+    if (uneven) {
+      reasons.push("Card spacing looks uneven — the photo may be skewed, rotated, or taken at an angle.");
+    }
+  }
+
+  return { suspicious: reasons.length > 0, reasons };
+}
+
 export function mapCardsToGrid(boxes: BoundingBox[], rows: number, cols: number): GridMappingResult {
   const cells: GridCell[] = boxes.map((box) => {
     const row = Math.min(rows - 1, Math.max(0, Math.floor(box.centerY * rows)));

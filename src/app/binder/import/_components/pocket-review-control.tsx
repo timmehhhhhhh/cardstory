@@ -86,6 +86,13 @@ export function PocketReviewControl({
           </div>
         )}
 
+        {placement.status === "identified" && (
+          <p className="text-xs text-muted-foreground">
+            Matched by name, number, and set only — holo/reverse-holo, 1st Edition vs. Unlimited, language, and
+            promo variants aren&apos;t verified. Check the physical card matches before confirming.
+          </p>
+        )}
+
         <div className="flex flex-wrap gap-2 pt-2">
           {placement.card && (
             <Button variant="outline" size="sm" onClick={onChangeCard}>

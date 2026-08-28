@@ -75,4 +75,23 @@ describe("rankCatalogItems", () => {
     const ids = results.map((r) => r.catalogItemId);
     expect(new Set(ids).size).toBe(ids.length);
   });
+
+  // Audit finding (Physical Binder Import §1): the ranker has no signal for
+  // CatalogItem.variantKey (holofoil/reverseHolofoil/1stEditionHolofoil) —
+  // only name/number/setName are scored. That's only safe because it means
+  // two variant-sibling rows (same name+number+set, different variantKey)
+  // score identically here, which pipeline.ts's topCandidateSeparation then
+  // reads as "no real separation" and confidence.ts refuses to call HIGH —
+  // forcing manual review instead of silently auto-picking one variant over
+  // the other. This test locks in that structural safety net; see
+  // confidence.test.ts for the classifyConfidence half of the guarantee.
+  it("scores variant-sibling rows (same name/number/set, different id) identically — the ranker itself has no print-variant signal", () => {
+    const pool = [
+      item({ id: "pokemon:base1-4-holofoil", name: "Charizard", number: "4", setName: "Base Set" }),
+      item({ id: "pokemon:base1-4-1stEditionHolofoil", name: "Charizard", number: "4", setName: "Base Set" }),
+    ];
+    const results = rankCatalogItems(pool, { cardName: "Charizard", cardNumber: "4", setNameOrSymbol: "Base Set" });
+    expect(results).toHaveLength(2);
+    expect(results[0].score).toBe(results[1].score);
+  });
 });

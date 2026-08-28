@@ -81,6 +81,14 @@ export interface ImportPageResult {
   /** Always length === pocketCount(layoutIdAtScanTime), index-aligned to pocketIndex. */
   placements: PagePlacement[];
   confirmed: boolean;
+  /**
+   * Set by buildPagePlacements from scanning/geometry.ts's assessPageGeometry
+   * — a page-level sanity check (box count vs. pocket count, card aspect
+   * ratio, spacing evenness) run once per scanned page. Never blocks commit
+   * on its own; the review UI surfaces it as a banner asking the reviewer to
+   * double-check every pocket against the source photo before confirming.
+   */
+  geometryWarning: { suspicious: boolean; reasons: string[] };
 }
 
 export interface ImportSession {

@@ -24,7 +24,7 @@
  * why the session itself is never persisted).
  */
 import { computeNeedsReview } from "@/lib/scanning/confidence";
-import { mapCardsToGrid } from "@/lib/scanning/geometry";
+import { assessPageGeometry, mapCardsToGrid } from "@/lib/scanning/geometry";
 import type { CandidateMatch, DetectedCard, ScanResult } from "@/lib/scanning";
 import { BINDER_LAYOUTS, pocketCount, type BinderLayoutId } from "@/lib/binder/types";
 import type { NewHoldingInput } from "@/lib/pc/types";
@@ -130,6 +130,7 @@ export function buildPagePlacements(
     layoutIdAtScanTime: layoutId,
     placements,
     confirmed: false,
+    geometryWarning: assessPageGeometry(boxes, rows, cols),
   };
 }
 
@@ -239,9 +240,25 @@ export function resolveBinderConflict(page: ImportPageResult, pocketIndex: numbe
   return replacePlacement(page, pocketIndex, { ...placement, conflictResolution: resolution });
 }
 
-/** True while any pocket's binder-vs-existing conflict hasn't been explicitly resolved — blocks commit. */
+/**
+ * True while any pocket's binder-vs-existing conflict hasn't been explicitly
+ * resolved — blocks commit (see PocketConflictDialog in import-client.tsx).
+ *
+ * Deliberately scoped to *binder* conflicts (`existingHoldingId != null`)
+ * only — a grid-mapping ambiguity (two detected boxes -> one pocket) also
+ * reports `status: "conflict"` but is resolved via resolvePocketAmbiguity,
+ * not resolveBinderConflict, and PocketConflictDialog never lists it (it
+ * filters to `existingHoldingId !== undefined`). Treating an unresolved
+ * ambiguity as blocking here would open that dialog with nothing in it to
+ * resolve — a dead end. An unresolved ambiguity already stays excluded from
+ * isCommittable/readyToCommit on its own, exactly like an unidentified
+ * pocket, so leaving it out of this check only removes the incorrect block —
+ * it never lets an ambiguous pocket itself commit.
+ */
 export function hasUnresolvedConflicts(page: ImportPageResult): boolean {
-  return page.placements.some((p) => p.status === "conflict" && p.conflictResolution == null);
+  return page.placements.some(
+    (p) => p.status === "conflict" && p.existingHoldingId != null && p.conflictResolution == null
+  );
 }
 
 /** A placement that will actually produce a Holding write on commit: identified outright, or a conflict explicitly resolved to "replace". "keep" conflicts and every other status are excluded. */
@@ -249,6 +266,11 @@ function isCommittable(placement: PagePlacement): boolean {
   if (placement.status === "identified") return true;
   if (placement.status === "conflict" && placement.conflictResolution === "replace") return true;
   return false;
+}
+
+/** The pocketIndexes a commit would actually write to right now — same rule as isCommittable/toPlacementHoldingInputs, exposed for callers (e.g. the commit-ledger duplicate check) that need the indexes without generating Holding inputs. */
+export function committablePocketIndexes(page: ImportPageResult): number[] {
+  return page.placements.filter(isCommittable).map((p) => p.pocketIndex);
 }
 
 export interface HoldingDefaults {
@@ -310,6 +332,29 @@ export function placementsToApply(
 ): { holdingId: string; pocketIndex: number }[] {
   const succeededIds = new Set(results.filter((r) => r.status === "created").map((r) => r.id));
   return items.filter((item) => succeededIds.has(item.id)).map((item) => ({ holdingId: item.id, pocketIndex: item.pocketIndex }));
+}
+
+/**
+ * Splits a commit's {holdingId, pocketIndex} apply attempts (see
+ * placementsToApply) into ones that actually landed in the binder and ones
+ * that didn't — the reconciliation primitive for the case in commitPage
+ * where a Holding write succeeded server-side but the local placeCard() call
+ * itself threw. `placedPocketIndexes` is the set of pocketIndexes a caller
+ * confirmed placeCard succeeded for (build it by wrapping each placeCard
+ * call in its own try/catch, same as commitPage already does, and only
+ * adding the pocketIndex on success). Every apply attempt not in that set is
+ * `orphaned`: its Holding genuinely exists in the PC, but no pocket points
+ * at it — the caller should surface these distinctly from a failed-write
+ * banner, since retrying the batch endpoint again won't fix them (the write
+ * already succeeded; it's the local placement that failed).
+ */
+export function partitionApplyOutcomes(
+  toApply: { holdingId: string; pocketIndex: number }[],
+  placedPocketIndexes: Set<number>
+): { placed: { holdingId: string; pocketIndex: number }[]; orphaned: { holdingId: string; pocketIndex: number }[] } {
+  const placed = toApply.filter((a) => placedPocketIndexes.has(a.pocketIndex));
+  const orphaned = toApply.filter((a) => !placedPocketIndexes.has(a.pocketIndex));
+  return { placed, orphaned };
 }
 
 export function computePageSummary(page: ImportPageResult): PageSummary {

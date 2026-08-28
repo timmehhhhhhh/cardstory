@@ -11,6 +11,7 @@ import {
   markPocketEmpty,
   markPocketSkip,
   markPocketUnidentified,
+  partitionApplyOutcomes,
   placementsToApply,
   resolveBinderConflict,
   resolvePocketAmbiguity,
@@ -227,6 +228,34 @@ describe("detectBinderConflicts / resolveBinderConflict", () => {
       expect(withConflicts.placements[i]).toEqual(page.placements[i]);
     }
   });
+
+  // Regression for the audit finding: hasUnresolvedConflicts used to treat
+  // an unresolved *grid-mapping ambiguity* (two boxes -> one pocket) the
+  // same as an unresolved *binder* conflict, blocking handleConfirmPage —
+  // but PocketConflictDialog only ever lists existingHoldingId-based
+  // conflicts, so an ambiguity-only page could never be confirmed through
+  // the normal UI. An unresolved ambiguity must not block the page; it's
+  // already excluded from readyToCommit on its own, same as "unidentified".
+  it("an unresolved grid-mapping ambiguity does not count as an unresolved (binder) conflict", () => {
+    const cardA = makeCard({ boundingBox: box(0.1, 0.1) });
+    const cardB = makeCard({ boundingBox: box(0.15, 0.12) });
+    const page = buildPagePlacements(makeScanResult([cardA, cardB]), "9", 1, "preview-1");
+    expect(page.placements[0].status).toBe("conflict");
+    expect(page.placements[0].existingHoldingId).toBeUndefined();
+    expect(hasUnresolvedConflicts(page)).toBe(false);
+  });
+
+  it("still blocks when a real binder conflict is unresolved, even alongside an unresolved ambiguity elsewhere on the page", () => {
+    const cardA = makeCard({ boundingBox: box(0.1, 0.1) });
+    const cardB = makeCard({ boundingBox: box(0.12, 0.1) });
+    const identified = makeCard({ boundingBox: box(0.5, 0.5) });
+    const page = buildPagePlacements(makeScanResult([cardA, cardB, identified]), "9", 1, "preview-1");
+    const existingPockets = Array(9).fill(null);
+    existingPockets[4] = "holding-existing"; // pocketIndex 4 = center of a 3x3 grid, where `identified` lands
+    const withConflicts = detectBinderConflicts(page, existingPockets);
+    expect(withConflicts.placements[0].status).toBe("conflict"); // still-unresolved ambiguity
+    expect(hasUnresolvedConflicts(withConflicts)).toBe(true); // blocked by the real binder conflict, not the ambiguity
+  });
 });
 
 describe("toPlacementHoldingInputs", () => {
@@ -270,6 +299,28 @@ describe("placementsToApply (compensating-strategy primitive)", () => {
     const toApply = placementsToApply(items, retryResults);
     expect(toApply).toHaveLength(9);
     expect(new Set(toApply.map((p) => p.pocketIndex)).size).toBe(9);
+  });
+});
+
+describe("partitionApplyOutcomes (orphaned-holding reconciliation)", () => {
+  it("splits applies into placed vs. orphaned by which pocketIndexes the caller confirmed placeCard succeeded for", () => {
+    const toApply = [
+      { holdingId: "h-0", pocketIndex: 0 },
+      { holdingId: "h-1", pocketIndex: 1 },
+      { holdingId: "h-2", pocketIndex: 2 },
+    ];
+    // pocket 1's placeCard() call threw locally even though its Holding write succeeded.
+    const placedPocketIndexes = new Set([0, 2]);
+    const { placed, orphaned } = partitionApplyOutcomes(toApply, placedPocketIndexes);
+    expect(placed.map((p) => p.pocketIndex)).toEqual([0, 2]);
+    expect(orphaned).toEqual([{ holdingId: "h-1", pocketIndex: 1 }]);
+  });
+
+  it("reports nothing orphaned when every apply was placed", () => {
+    const toApply = [{ holdingId: "h-0", pocketIndex: 0 }];
+    const { placed, orphaned } = partitionApplyOutcomes(toApply, new Set([0]));
+    expect(placed).toEqual(toApply);
+    expect(orphaned).toEqual([]);
   });
 });
 
