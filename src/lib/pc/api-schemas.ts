@@ -37,6 +37,20 @@ export const holdingInputSchema = z.object({
 
 export const holdingPatchSchema = holdingInputSchema.omit({ id: true }).partial();
 
+/**
+ * One POST /api/pc/[id]/holdings/batch request — the Mass Card Scanner's
+ * batch commit. Capped at 50 rows (a single scan batch spans at most a
+ * handful of photos at `maxCards` detected cards each — see
+ * src/lib/scanning/pipeline.ts's DEFAULT_MAX_CARDS) so a single request
+ * can't grow unbounded. Each item carries its own client-generated `id`
+ * (already required by holdingInputSchema) so the write is idempotent on
+ * retry — see addHoldingsBatch in manage.ts.
+ */
+export const batchHoldingsSchema = z.object({
+  items: z.array(holdingInputSchema).min(1).max(50),
+});
+export type BatchHoldingsInput = z.infer<typeof batchHoldingsSchema>;
+
 /** Optional "how this card left the collection" details captured when archiving — see POST /api/pc/holdings/archive. */
 export const letGoDetailsSchema = z.object({
   letGoAt: z.string().nullable().optional(),

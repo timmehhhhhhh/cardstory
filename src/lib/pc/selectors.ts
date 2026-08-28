@@ -1,8 +1,10 @@
 import {
+  holdingIsArchived,
   holdingIsCustom,
   holdingKind,
   type Holding,
   type HoldingKind,
+  type PC,
   type SortDirection,
   type SortField,
 } from "@/lib/pc/types";
@@ -133,6 +135,33 @@ export function buildDisplay(
         : "Unknown",
     priceChangePct: catalogItem?.priceChangePct ?? null,
   };
+}
+
+/**
+ * Sums quantity across every non-archived holding, across every one of the
+ * user's PCs, matching a given catalog/sports item — the "already in
+ * collection: N" figure. Extracted from src/components/cards/card-tile.tsx's
+ * inline `ownedQuantity` reduce so a second call site (the Mass Card
+ * Scanner's review grid) doesn't reimplement the same sum; card-tile.tsx's
+ * own inline version is unchanged/still valid, just no longer the only copy
+ * of this logic.
+ */
+export function computeOwnedQuantity(
+  pcs: PC[],
+  item: { catalogItemId?: string; sportsCardItemId?: string; isSports: boolean }
+): number {
+  return pcs.reduce(
+    (total, pc) =>
+      total +
+      pc.holdings.reduce((sum, h) => {
+        if (holdingIsArchived(h)) return sum;
+        const matches = item.isSports
+          ? h.sportsCardItemId === item.sportsCardItemId
+          : h.catalogItemId === item.catalogItemId;
+        return matches ? sum + h.quantity : sum;
+      }, 0),
+    0
+  );
 }
 
 export function enrichHoldings(

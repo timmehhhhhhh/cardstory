@@ -316,6 +316,89 @@ export async function addHolding(
   });
 }
 
+export interface BatchHoldingResult {
+  id: string;
+  status: "created" | "failed";
+  error?: string;
+}
+
+/**
+ * Batch write backing the Mass Card Scanner's "Add N cards" commit — one
+ * `db.holding.upsert` per item, each in its own try/catch so one row's
+ * failure can't take down the rest of the batch (the "resilient to partial
+ * failure" requirement). Not wrapped in `db.$transaction` for the same
+ * reason archiveHoldings/transferHoldings above aren't: this app's
+ * production Prisma client talks to Neon over PrismaNeonHTTP, which can't
+ * support interactive transactions at all.
+ *
+ * Idempotent by construction: `upsert({ where: { id }, create, update: {} })`
+ * keyed on each item's own client-generated `id` means resending the exact
+ * same batch (e.g. after a client-side timeout that actually succeeded
+ * server-side) creates nothing new for rows that already landed — mirrors
+ * importLocalPC's upsert-by-client-id pattern above.
+ */
+export async function addHoldingsBatch(
+  userId: string,
+  pcId: string,
+  items: (NewHoldingInput & { id: string })[]
+): Promise<BatchHoldingResult[]> {
+  const pc = await assertOwnsPC(userId, pcId);
+
+  const results: BatchHoldingResult[] = [];
+  for (const input of items) {
+    try {
+      await db.holding.upsert({
+        where: { id: input.id },
+        create: {
+          id: input.id,
+          portfolioId: pcId,
+          kind: input.kind ?? "tcg",
+          catalogItemId: input.catalogItemId,
+          sportsCardItemId: input.sportsCardItemId,
+          quantity: input.quantity,
+          condition: input.condition,
+          gradeCompany: input.gradeCompany,
+          gradeValue: input.gradeValue,
+          rawCondition: input.rawCondition,
+          serialNumber: input.serialNumber,
+          language: input.language,
+          customName: input.customName,
+          costBasisTotal: input.costBasisTotal,
+          costBasisCurrency: input.costBasisCurrency,
+          priceAtAcquisition: input.priceAtAcquisition,
+          acquiredAt: input.acquiredAt ? new Date(input.acquiredAt) : null,
+          acquisitionMethod: input.acquisitionMethod,
+          acquiredFrom: input.acquiredFrom,
+          acquisitionNotes: input.acquisitionNotes,
+          notes: input.notes,
+          imageUrl: input.imageUrl,
+        },
+        update: {},
+      });
+      results.push({ id: input.id, status: "created" });
+    } catch (err) {
+      console.error("[addHoldingsBatch] one item failed", { pcId, itemId: input.id }, err);
+      results.push({
+        id: input.id,
+        status: "failed",
+        error: err instanceof Error ? err.message : "Something went wrong",
+      });
+    }
+  }
+
+  const createdCount = results.filter((r) => r.status === "created").length;
+  if (createdCount > 0) {
+    await logActivity(userId, {
+      action: "holding.added",
+      entityType: "holding",
+      summary: `Added ${createdCount} card${createdCount === 1 ? "" : "s"} via Scan Cards to ${pc.name}`,
+      metadata: { pcId, count: createdCount, failed: results.length - createdCount },
+    });
+  }
+
+  return results;
+}
+
 async function assertOwnsHolding(userId: string, holdingId: string) {
   const holding = await db.holding.findUnique({
     where: { id: holdingId },
