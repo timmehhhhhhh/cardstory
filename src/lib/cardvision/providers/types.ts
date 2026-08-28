@@ -24,10 +24,33 @@ export interface EmbeddingVector {
   model: string;
 }
 
+/**
+ * Which side of an (asymmetric) embedding model a call is for — most hosted
+ * multimodal embedding APIs (e.g. Voyage) encode a "this is something to be
+ * searched for" query differently from "this is something to be indexed"
+ * document/reference content, and produce measurably worse similarity
+ * scores if a caller doesn't distinguish them. Reference-image indexing
+ * (embedding-index.ts) always passes "document"; recognition at query time
+ * (recognizer.ts) always passes "query".
+ */
+export type EmbeddingRole = "document" | "query";
+
 export interface VisionEmbeddingProvider {
   readonly id: string;
-  /** Returns null when no embedding could be produced (no model configured, or the image failed to embed) — never throws for "not configured". */
-  embed(image: ImageRef): Promise<EmbeddingVector | null>;
+  /**
+   * Returns null ONLY when this provider is not configured at all (e.g. no
+   * API key set) — a deterministic, non-error "no embedding available"
+   * state threaded through the rest of the pipeline. Any other failure
+   * (network error, auth rejected, malformed image, rate limit exhausted,
+   * a response whose dimensionality doesn't match its own data) throws an
+   * `EmbeddingProviderError` (./embedding-error.ts) instead, so a caller
+   * generating embeddings in bulk (embedding-index.ts) can record *why* one
+   * item failed rather than treating every miss identically.
+   *
+   * `role` defaults to "query" (the recognizer.ts call site's use case) —
+   * see EmbeddingRole above.
+   */
+  embed(image: ImageRef, role?: EmbeddingRole): Promise<EmbeddingVector | null>;
 }
 
 export interface OCRProvider {

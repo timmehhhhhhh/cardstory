@@ -25,6 +25,12 @@ export { isCardVisionEnabled, isCardVisionDebug, getCardVisionProvider, getDefau
 export { catalogReferenceIndexer } from "./reference-index";
 export type { CardReferenceIndexer, CardReferenceRecord, IndexStatus, IndexRebuildResult } from "./reference-index";
 
+// Phase 3: the embedding generator (see embedding-index.ts) — exported for
+// the same reason, since scripts/generate-cardvision-embeddings.ts is its
+// first external caller.
+export { createCardEmbeddingIndexer } from "./embedding-index";
+export type { CardEmbeddingIndexer, EmbeddingGenerationResult } from "./embedding-index";
+
 export type {
   CardPosition,
   MultiCardRecognitionResult,
