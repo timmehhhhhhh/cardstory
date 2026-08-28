@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { boxOverlapRatio, normalizeBoundingBox, orderCardsReadingOrder } from "./geometry";
+import { boxOverlapRatio, mapCardsToGrid, normalizeBoundingBox, orderCardsReadingOrder } from "./geometry";
 import type { BoundingBox } from "./types";
 
 function box(x: number, y: number, width: number, height: number, rotation = 0): BoundingBox {
@@ -87,5 +87,65 @@ describe("orderCardsReadingOrder", () => {
   it("is deterministic for duplicate-position boxes via a stable original-index tie-break", () => {
     const boxes = [box(0.1, 0.1, 0.2, 0.2), box(0.1, 0.1, 0.2, 0.2)];
     expect(orderCardsReadingOrder(boxes)).toEqual([0, 1]);
+  });
+});
+
+/** Small helper: a box whose center sits at exactly (centerX, centerY). */
+function boxAt(centerX: number, centerY: number): BoundingBox {
+  return { x: centerX, y: centerY, width: 0, height: 0, centerX, centerY, rotation: 0 };
+}
+
+describe("mapCardsToGrid", () => {
+  it("maps a full 3x3 page (one box per cell) to all nine pockets with no conflicts or gaps", () => {
+    const boxes = [
+      boxAt(0.15, 0.15), boxAt(0.5, 0.15), boxAt(0.85, 0.15),
+      boxAt(0.15, 0.5), boxAt(0.5, 0.5), boxAt(0.85, 0.5),
+      boxAt(0.15, 0.85), boxAt(0.5, 0.85), boxAt(0.85, 0.85),
+    ];
+    const result = mapCardsToGrid(boxes, 3, 3);
+    expect(result.cells.map((c) => c.pocketIndex)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+    expect(result.conflicts).toEqual([]);
+    expect(result.unmappedPockets).toEqual([]);
+  });
+
+  it("reports every pocket unmapped for an empty page", () => {
+    const result = mapCardsToGrid([], 3, 3);
+    expect(result.cells).toEqual([]);
+    expect(result.unmappedPockets).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+  });
+
+  it("leaves gaps unmapped (not compacted) for a partially populated page", () => {
+    // Only pockets 0, 2, 4, 8 occupied.
+    const boxes = [boxAt(0.15, 0.15), boxAt(0.85, 0.15), boxAt(0.5, 0.5), boxAt(0.85, 0.85)];
+    const result = mapCardsToGrid(boxes, 3, 3);
+    expect(result.cells.map((c) => c.pocketIndex)).toEqual([0, 2, 4, 8]);
+    expect(result.unmappedPockets).toEqual([1, 3, 5, 6, 7]);
+  });
+
+  it("indexes a 3x4 layout row-major (pocketIndex = row*4 + col)", () => {
+    const boxes = [boxAt(0.9, 0.1), boxAt(0.1, 0.9)];
+    const result = mapCardsToGrid(boxes, 3, 4);
+    expect(result.cells[0]).toEqual({ row: 0, col: 3, pocketIndex: 3 });
+    expect(result.cells[1]).toEqual({ row: 2, col: 0, pocketIndex: 8 });
+  });
+
+  it("reports a conflict when two boxes land in the same pocket, without dropping either", () => {
+    const boxes = [boxAt(0.1, 0.1), boxAt(0.15, 0.12)];
+    const result = mapCardsToGrid(boxes, 3, 3);
+    expect(result.cells).toHaveLength(2);
+    expect(result.cells[0].pocketIndex).toBe(0);
+    expect(result.cells[1].pocketIndex).toBe(0);
+    expect(result.conflicts).toEqual([{ pocketIndex: 0, boxIndices: [0, 1] }]);
+  });
+
+  it("clamps an out-of-range/extreme center into the last row/col instead of dropping it", () => {
+    const result = mapCardsToGrid([boxAt(0.999, 0.999)], 3, 3);
+    expect(result.cells[0]).toEqual({ row: 2, col: 2, pocketIndex: 8 });
+  });
+
+  it("rounds a boundary-fraction center down to the lower-index cell (documented floor rule)", () => {
+    // centerX/centerY exactly on the 1/3 boundary between col/row 0 and 1.
+    const result = mapCardsToGrid([boxAt(1 / 3, 1 / 3)], 3, 3);
+    expect(result.cells[0]).toEqual({ row: 1, col: 1, pocketIndex: 4 });
   });
 });

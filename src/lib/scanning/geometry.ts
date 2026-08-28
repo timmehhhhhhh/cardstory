@@ -140,3 +140,72 @@ export function orderCardsReadingOrder(boxes: BoundingBox[], rowTolerance = 0.08
   });
   return result;
 }
+
+/** One box's assigned position within a fixed rows x cols binder-page grid. */
+export interface GridCell {
+  row: number;
+  col: number;
+  /** Row-major index — `row * cols + col` — matching BinderPage.pockets' own indexing (see src/lib/binder/types.ts). */
+  pocketIndex: number;
+}
+
+/**
+ * Result of mapping a set of detected boxes onto a known rows x cols binder
+ * grid. `cells[i]` corresponds to `boxes[i]`, always non-null (every box
+ * lands in some clamped cell) — conflicts and gaps are reported separately
+ * rather than by leaving entries null, so a caller never has to distinguish
+ * "didn't map" from "mapped but reported elsewhere".
+ */
+export interface GridMappingResult {
+  cells: GridCell[];
+  /** Two or more boxes landed in the same pocketIndex — not auto-resolved; a reviewer decides which one wins. */
+  conflicts: { pocketIndex: number; boxIndices: number[] }[];
+  /** pocketIndex values (0..rows*cols-1) no box landed in — these pockets must stay empty, never compacted. */
+  unmappedPockets: number[];
+}
+
+/**
+ * Maps detected card boxes onto a known rows x cols binder-page grid, using
+ * pure geometry (centerX/centerY, already normalized to [0,1] by
+ * normalizeBoundingBox) rather than detection order — the defining
+ * requirement for Binder Import's spatial mapping (see AGENTS.md's "DO NOT
+ * SORT ONLY BY DETECTION ORDER"). Each box's row/col is its normalized
+ * center's position within an equal-band quantization of the page: row =
+ * floor(centerY * rows), col = floor(centerX * cols), both clamped into
+ * range. A center exactly on a band boundary rounds down to the
+ * lower-index band (floor's own behavior) — deterministic, not a special
+ * case.
+ *
+ * Calibration assumption (documented limitation — see AGENTS.md's "Known
+ * limitations" in the final report): this assumes the photographed page
+ * fills the frame edge-to-edge with evenly spaced pockets. There is no
+ * separate page-boundary/perspective-corner detection step; whole-page
+ * rotation (portrait/landscape/upside-down) is expected to be corrected
+ * upstream (a manual rotate control in the capture UI) before the image is
+ * ever sent to a detector, not compensated for here.
+ */
+export function mapCardsToGrid(boxes: BoundingBox[], rows: number, cols: number): GridMappingResult {
+  const cells: GridCell[] = boxes.map((box) => {
+    const row = Math.min(rows - 1, Math.max(0, Math.floor(box.centerY * rows)));
+    const col = Math.min(cols - 1, Math.max(0, Math.floor(box.centerX * cols)));
+    return { row, col, pocketIndex: row * cols + col };
+  });
+
+  const boxIndicesByPocket = new Map<number, number[]>();
+  cells.forEach((cell, boxIndex) => {
+    const existing = boxIndicesByPocket.get(cell.pocketIndex);
+    if (existing) existing.push(boxIndex);
+    else boxIndicesByPocket.set(cell.pocketIndex, [boxIndex]);
+  });
+
+  const conflicts = Array.from(boxIndicesByPocket.entries())
+    .filter(([, boxIndices]) => boxIndices.length > 1)
+    .map(([pocketIndex, boxIndices]) => ({ pocketIndex, boxIndices }));
+
+  const unmappedPockets: number[] = [];
+  for (let pocketIndex = 0; pocketIndex < rows * cols; pocketIndex++) {
+    if (!boxIndicesByPocket.has(pocketIndex)) unmappedPockets.push(pocketIndex);
+  }
+
+  return { cells, conflicts, unmappedPockets };
+}
