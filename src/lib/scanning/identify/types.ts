@@ -3,7 +3,7 @@
  * detected/cropped card is kept behind this interface, layered as
  * visual/OCR evidence -> catalog metadata -> set/number relationships ->
  * candidate ranking -> confidence, per the concrete implementation in
- * ./gemini-identification.ts and ./rank-candidates.ts.
+ * ./claude-identification.ts and ./rank-candidates.ts.
  */
 import type { BoundingBox, CandidateMatch, Confidence, IdentificationStatus, ImageRef } from "../types";
 
@@ -22,7 +22,7 @@ export interface IdentificationInput {
    * server-image-processor.ts), `croppedImage` for every card in one photo
    * is byte-identical — this is the only per-card signal an identification
    * strategy has to tell cards in the same photo apart. A strategy that can
-   * use it (e.g. gemini-identification.ts, via RegionHint) should; one that
+   * use it (e.g. claude-identification.ts, via RegionHint) should; one that
    * can't is free to ignore it.
    */
   boundingBox?: BoundingBox;

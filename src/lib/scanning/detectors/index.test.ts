@@ -3,27 +3,27 @@ import { getDefaultCardDetector } from "./index";
 import { singleRegionDetector } from "./single-region-detector";
 
 describe("getDefaultCardDetector", () => {
-  const originalKey = process.env.GEMINI_API_KEY;
+  const originalKey = process.env.ANTHROPIC_API_KEY;
 
   beforeEach(() => {
-    delete process.env.GEMINI_API_KEY;
+    delete process.env.ANTHROPIC_API_KEY;
   });
 
   afterEach(() => {
     if (originalKey === undefined) {
-      delete process.env.GEMINI_API_KEY;
+      delete process.env.ANTHROPIC_API_KEY;
     } else {
-      process.env.GEMINI_API_KEY = originalKey;
+      process.env.ANTHROPIC_API_KEY = originalKey;
     }
   });
 
-  it("returns the Gemini detector's id when GEMINI_API_KEY is set", () => {
-    process.env.GEMINI_API_KEY = "test-key";
+  it("returns the Claude detector's id when ANTHROPIC_API_KEY is set", () => {
+    process.env.ANTHROPIC_API_KEY = "test-key";
     const detector = getDefaultCardDetector();
-    expect(detector.id).toBe("gemini-multi-region");
+    expect(detector.id).toBe("claude-multi-region");
   });
 
-  it("returns singleRegionDetector when GEMINI_API_KEY is unset", () => {
+  it("returns singleRegionDetector when ANTHROPIC_API_KEY is unset", () => {
     const detector = getDefaultCardDetector();
     expect(detector).toBe(singleRegionDetector);
   });

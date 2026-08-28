@@ -6,7 +6,7 @@
  * "@/lib/scanning" below is `import type` only, and `applyCandidateSelection`
  * is reimplemented here rather than imported from src/lib/scanning/
  * corrections.ts, because that file transitively pulls in
- * identify/gemini-identification.ts -> rank-candidates.ts ->
+ * identify/claude-identification.ts -> rank-candidates.ts ->
  * src/lib/catalog/search.ts -> src/lib/db.ts (Prisma's WASM query engine)
  * at module scope — weight this client bundle (imported by
  * src/app/binder/import/_components/import-client.tsx) can't carry. This

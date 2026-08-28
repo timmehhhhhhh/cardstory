@@ -133,7 +133,7 @@ export function MassScanCapture({
         </div>
         <p className="max-w-xs text-xs text-muted-foreground">
           Photograph a spread of cards or upload several at once — we&apos;ll try to identify every
-          card in each photo. Photos are sent to Google Gemini to identify cards; nothing is stored
+          card in each photo. Photos are sent to an AI service to identify cards; nothing is stored
           beyond this request.
         </p>
         {error && <p className="text-xs text-negative">{error}</p>}

@@ -2,7 +2,7 @@
  * Shared domain model for the card-scanning engine — the shape both the
  * (not-yet-built) Mass Card Scanner and Binder Import features consume.
  *
- * This file is intentionally logic-free: no Gemini/Prisma/catalog imports,
+ * This file is intentionally logic-free: no Claude/Prisma/catalog imports,
  * so a consumer can `import type { ... } from "@/lib/scanning"` without
  * pulling in the pipeline's runtime dependencies. See ./pipeline.ts for the
  * function that produces these values and ./corrections.ts for the pure

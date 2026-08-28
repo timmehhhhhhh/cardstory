@@ -1,6 +1,6 @@
 /**
  * Pure bounding-box math and deterministic card ordering for the scanning
- * engine. No Gemini/Prisma/catalog imports — fully unit-testable in
+ * engine. No Claude/Prisma/catalog imports — fully unit-testable in
  * isolation, and safe to call from any runtime (browser, Worker, Node).
  */
 import type { BoundingBox } from "./types";

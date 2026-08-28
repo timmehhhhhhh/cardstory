@@ -14,7 +14,7 @@
  * import) corrections.ts's applyManualCorrection/markCardSkipped/
  * unskipCard: those value-level exports come through
  * src/lib/scanning/index.ts, which also re-exports corrections.ts, whose
- * retryIdentification pulls in identify/gemini-identification.ts ->
+ * retryIdentification pulls in identify/claude-identification.ts ->
  * rank-candidates.ts -> src/lib/catalog/search.ts -> src/lib/db.ts
  * (Prisma's WASM query engine) at module scope — server-only weight this
  * client bundle can't carry. The three functions reimplemented below are
