@@ -15,6 +15,8 @@ import type { CandidateMatch } from "../types";
 export interface RankCandidatesInput {
   cardName: string;
   cardNumber?: string | null;
+  /** The set name or set symbol text Gemini read off the card, if any — see setNameBoost below. */
+  setNameOrSymbol?: string | null;
   gameId?: string | null;
   limit?: number;
 }
@@ -39,6 +41,16 @@ const FUSE_OPTIONS: IFuseOptions<CatalogSearchItem> = {
 const NUMBER_EXACT_MATCH_BOOST = 0.15;
 /** Added when the candidate's number contains the queried number as a substring (e.g. OCR dropped a leading zero) but isn't an exact match. */
 const NUMBER_PARTIAL_MATCH_BOOST = 0.05;
+/**
+ * Added when the candidate's set name matches the set name/symbol Gemini
+ * read off the card. Weighted below the number boosts — printed set text is
+ * noisier OCR than a short collector number — but this is the one signal
+ * this ranker has to disambiguate "same name, different set" (e.g. a
+ * Pikachu reprinted across many sets) and "similar artwork" cases, which
+ * name+number fuzzy matching alone can't tell apart.
+ */
+const SET_NAME_EXACT_MATCH_BOOST = 0.1;
+const SET_NAME_PARTIAL_MATCH_BOOST = 0.03;
 
 function numberBoost(itemNumber: string | null, queriedNumber: string | null | undefined): number {
   if (!itemNumber || !queriedNumber) return 0;
@@ -49,16 +61,38 @@ function numberBoost(itemNumber: string | null, queriedNumber: string | null | u
   return 0;
 }
 
+/** Lowercased, alphanumeric-only — tolerant of "Base Set" vs "base-set" vs a set symbol's OCR'd text. */
+function normalizeSetText(s: string): string {
+  return s.toLowerCase().replace(/[^a-z0-9]+/g, "");
+}
+
+function setNameBoost(itemSetName: string | null, queriedSetNameOrSymbol: string | null | undefined): number {
+  if (!itemSetName || !queriedSetNameOrSymbol) return 0;
+  const item = normalizeSetText(itemSetName);
+  const queried = normalizeSetText(queriedSetNameOrSymbol);
+  if (!item || !queried) return 0;
+  if (item === queried) return SET_NAME_EXACT_MATCH_BOOST;
+  if (item.includes(queried) || queried.includes(item)) return SET_NAME_PARTIAL_MATCH_BOOST;
+  return 0;
+}
+
 function toCandidateMatch(
   item: CatalogSearchItem,
   fuseScore: number | undefined,
-  queriedNumber: string | null | undefined
+  queriedNumber: string | null | undefined,
+  queriedSetNameOrSymbol: string | null | undefined
 ): CandidateMatch {
   // Fuse scores are 0 (perfect match) to 1 (worst); CandidateMatch.score is
   // the opposite convention (1 = best), so it reads naturally as "how good
   // is this match" for both display and confidence-scoring purposes.
   const nameScore = fuseScore == null ? 1 : Math.max(0, Math.min(1, 1 - fuseScore));
-  const score = Math.max(0, Math.min(1, nameScore + numberBoost(item.number, queriedNumber)));
+  const score = Math.max(
+    0,
+    Math.min(
+      1,
+      nameScore + numberBoost(item.number, queriedNumber) + setNameBoost(item.setName, queriedSetNameOrSymbol)
+    )
+  );
   return {
     catalogItemId: item.id,
     gameId: item.gameId,
@@ -79,7 +113,7 @@ function toCandidateMatch(
  */
 export function rankCatalogItems(
   pool: CatalogSearchItem[],
-  query: { cardName: string; cardNumber?: string | null },
+  query: { cardName: string; cardNumber?: string | null; setNameOrSymbol?: string | null },
   limit = DEFAULT_LIMIT
 ): CandidateMatch[] {
   const deduped = new Map<string, CatalogSearchItem>();
@@ -91,7 +125,7 @@ export function rankCatalogItems(
 
   return fuse
     .search(query.cardName)
-    .map((result) => toCandidateMatch(result.item, result.score, query.cardNumber))
+    .map((result) => toCandidateMatch(result.item, result.score, query.cardNumber, query.setNameOrSymbol))
     .sort((a, b) => b.score - a.score)
     .slice(0, limit);
 }
@@ -103,7 +137,7 @@ export function rankCatalogItems(
  * `CandidateMatch[]`.
  */
 export async function rankCandidates(input: RankCandidatesInput): Promise<CandidateMatch[]> {
-  const { cardName, cardNumber, gameId, limit = DEFAULT_LIMIT } = input;
+  const { cardName, cardNumber, setNameOrSymbol, gameId, limit = DEFAULT_LIMIT } = input;
   if (!cardName.trim()) return [];
 
   const variants = nameSearchVariants(cardName);
@@ -120,5 +154,5 @@ export async function rankCandidates(input: RankCandidatesInput): Promise<Candid
     }
   }
 
-  return rankCatalogItems([...pool.values()], { cardName, cardNumber }, limit);
+  return rankCatalogItems([...pool.values()], { cardName, cardNumber, setNameOrSymbol }, limit);
 }

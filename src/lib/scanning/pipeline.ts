@@ -8,7 +8,7 @@
  * future UI uses to mutate the result it gets back from here.
  */
 import { classifyConfidence, computeNeedsReview } from "./confidence";
-import { normalizeBoundingBox, orderCardsReadingOrder } from "./geometry";
+import { boxOverlapRatio, normalizeBoundingBox, orderCardsReadingOrder } from "./geometry";
 import { getDefaultCardDetector } from "./detectors";
 import type { CardDetector } from "./detectors/types";
 import { serverImageProcessor } from "./image-processing/server-image-processor";
@@ -36,6 +36,36 @@ export interface RunScanPipelineInput {
 }
 
 const DEFAULT_MAX_CARDS = 20;
+
+/**
+ * Boxes overlapping at least this much (see geometry.ts's boxOverlapRatio —
+ * intersection over the smaller box's area) are treated as the detector
+ * reporting the same physical card twice (e.g. a binder-edge artifact or
+ * glare splitting one card into two boxes), not two distinct cards. Picked
+ * conservatively high — well above a typical NMS IoU threshold — so two
+ * genuinely distinct cards placed close together in a tight grid are never
+ * merged; a false negative here just costs one extra reviewable card, while
+ * a false positive silently drops a real card entirely.
+ */
+const DUPLICATE_BOX_OVERLAP_THRESHOLD = 0.6;
+
+/**
+ * Greedy NMS-style pass: keeps the higher-`detectionConfidence` box whenever
+ * two boxes overlap past DUPLICATE_BOX_OVERLAP_THRESHOLD, dropping the rest.
+ * Returns the surviving indices in their original order.
+ */
+function suppressDuplicateBoxes(boxes: BoundingBox[], confidences: number[]): number[] {
+  const order = boxes.map((_, i) => i).sort((a, b) => confidences[b] - confidences[a]);
+  const suppressed = new Set<number>();
+  for (const i of order) {
+    if (suppressed.has(i)) continue;
+    for (const j of order) {
+      if (j === i || suppressed.has(j)) continue;
+      if (boxOverlapRatio(boxes[i], boxes[j]) >= DUPLICATE_BOX_OVERLAP_THRESHOLD) suppressed.add(j);
+    }
+  }
+  return boxes.map((_, i) => i).filter((i) => !suppressed.has(i));
+}
 
 function computeTopCandidateSeparation(candidates: { score: number }[]): number {
   if (candidates.length === 0) return 0;
@@ -85,7 +115,7 @@ async function buildDetectedCard(
 
   let output: IdentificationOutput;
   try {
-    output = await identificationStrategy.identify({ croppedImage, gameHint });
+    output = await identificationStrategy.identify({ croppedImage, gameHint, boundingBox: box });
   } catch (err) {
     output = {
       status: "error",
@@ -154,13 +184,24 @@ export async function runScanPipeline(input: RunScanPipelineInput): Promise<Scan
   const regions = await detector.detect({ image, imagePixelWidth, imagePixelHeight });
   const boundedRegions = regions.slice(0, maxCards);
 
-  const boxes = boundedRegions.map((region) =>
+  const allBoxes = boundedRegions.map((region) =>
     normalizeBoundingBox(region.box, imagePixelWidth, imagePixelHeight)
   );
+
+  // Drop the detector's duplicate/nested boxes for the same physical card
+  // (see DUPLICATE_BOX_OVERLAP_THRESHOLD) before spending an identification
+  // call on each one.
+  const survivorIndices = suppressDuplicateBoxes(
+    allBoxes,
+    boundedRegions.map((r) => r.confidence)
+  );
+  const survivorRegions = survivorIndices.map((i) => boundedRegions[i]);
+  const boxes = survivorIndices.map((i) => allBoxes[i]);
+
   const positionIndices = orderCardsReadingOrder(boxes);
 
   const cards = await Promise.all(
-    boundedRegions.map((region, i) =>
+    survivorRegions.map((region, i) =>
       buildDetectedCard(
         sourceImageId,
         boxes[i],

@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { createMemoizedIdentificationStrategy } from "./memoized-identification";
 import type { IdentificationInput, IdentificationOutput, IdentificationStrategy } from "@/lib/scanning/identify/types";
-import type { ImageRef } from "@/lib/scanning";
+import type { BoundingBox, ImageRef } from "@/lib/scanning";
+
+function box(x: number): BoundingBox {
+  return { x, y: 0.1, width: 0.2, height: 0.2, centerX: x + 0.1, centerY: 0.2, rotation: 0 };
+}
 
 function fakeStrategy(): { strategy: IdentificationStrategy; calls: IdentificationInput[] } {
   const calls: IdentificationInput[] = [];
@@ -47,6 +51,28 @@ describe("createMemoizedIdentificationStrategy", () => {
     ]);
 
     expect(calls).toHaveLength(2);
+  });
+
+  it("does not cache across different boundingBoxes for the same (byte-identical) image", async () => {
+    const { strategy, calls } = fakeStrategy();
+    const memoized = createMemoizedIdentificationStrategy(strategy);
+
+    await memoized.identify({ croppedImage: image, boundingBox: box(0.1) });
+    await memoized.identify({ croppedImage: image, boundingBox: box(0.6) });
+
+    expect(calls).toHaveLength(2);
+  });
+
+  it("still caches identical calls that share the same image and boundingBox", async () => {
+    const { strategy, calls } = fakeStrategy();
+    const memoized = createMemoizedIdentificationStrategy(strategy);
+
+    await Promise.all([
+      memoized.identify({ croppedImage: image, boundingBox: box(0.1) }),
+      memoized.identify({ croppedImage: image, boundingBox: box(0.1) }),
+    ]);
+
+    expect(calls).toHaveLength(1);
   });
 
   it("does not cache across different gameHints for the same image", async () => {

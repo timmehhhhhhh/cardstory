@@ -40,7 +40,7 @@ const responseSchema = {
   },
 };
 
-const PROMPT = `You are locating physical trading cards in a photo for a collector's cataloging app. Find every distinct physical trading card visible — cards may be loose, sleeved, in binder pockets, at a slight angle, or partially overlapping. For each one, return its bounding box and your confidence it is really a trading card (not a binder page, table, hand, or other object). If no cards are visible, return an empty array. Do not treat every rectangle in the photo as a card — reject binder pockets, phone/table edges, and other non-card rectangles.`;
+const PROMPT = `You are locating physical trading cards in a photo for a collector's cataloging app. Find every distinct physical trading card visible — cards may be loose, sleeved, in binder pockets, at a slight angle, or partially overlapping. For each one, return its bounding box and your confidence it is really a trading card (not a binder page, table, hand, or other object). If no cards are visible, return an empty array. Do not treat every rectangle in the photo as a card — reject binder pockets, phone/table edges, phone cases, shadows or glare reflections, and other non-card rectangles. A card shown back-side-up (no artwork or printed name/text visible, just a uniform pattern) is still a real card — include it, but give it a lower confidence than a card whose front is legible, since it can't be identified from the back alone.`;
 
 interface GenerateContentResponse {
   candidates?: { content?: { parts?: { text?: string }[] } }[];

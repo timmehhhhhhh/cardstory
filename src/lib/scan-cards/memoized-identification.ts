@@ -34,7 +34,14 @@ export function createMemoizedIdentificationStrategy(
     const image = input.croppedImage;
     if (!image) return null;
     const imageKey = image.kind === "inline" ? `inline:${image.mimeType}:${image.base64}` : `external:${image.url}`;
-    return `${imageKey}::${input.gameHint ?? ""}`;
+    // boundingBox must be part of the key: since croppedImage is
+    // byte-identical for every card in one photo (see this file's header
+    // comment), the boundingBox is the only thing distinguishing "the same
+    // card requested twice" from "two different cards sharing one photo" —
+    // rounded so float jitter can't create spurious cache misses.
+    const box = input.boundingBox;
+    const boxKey = box ? `${box.x.toFixed(4)},${box.y.toFixed(4)},${box.width.toFixed(4)},${box.height.toFixed(4)}` : "";
+    return `${imageKey}::${input.gameHint ?? ""}::${boxKey}`;
   }
 
   return {
