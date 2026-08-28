@@ -6,7 +6,10 @@
  * comparison, no new config framework). See .env.example for the
  * documented env vars.
  */
+import { embeddingSimilarityRetriever } from "./providers/embedding-similarity-retriever";
+import { createVoyageEmbeddingProvider } from "./providers/voyage-embedding-provider";
 import { createCardVisionRecognizer } from "./recognizer";
+import type { CardVisionRecognizerConfig } from "./recognizer";
 import type { CardVisionRecognizer } from "./recognizer";
 import { consoleTelemetryRecorder, noopTelemetryRecorder } from "./telemetry";
 
@@ -35,8 +38,22 @@ export function isCardVisionDebug(): boolean {
  */
 export function getDefaultCardVisionRecognizer(): CardVisionRecognizer | null {
   if (!isCardVisionEnabled()) return null;
-  return createCardVisionRecognizer({
-    providerId: `cardvision-${getCardVisionProvider()}`,
+
+  const providerSet = getCardVisionProvider();
+  const overrides: Partial<CardVisionRecognizerConfig> = {
+    providerId: `cardvision-${providerSet}`,
     telemetry: isCardVisionDebug() ? consoleTelemetryRecorder : noopTelemetryRecorder,
-  });
+  };
+
+  // Phase 3's real, opt-in provider set (docs/cardvision.md) — everything
+  // else (OCR, ranking) still comes from createCardVisionRecognizer's own
+  // scaffold defaults. Requires VOYAGE_API_KEY; without one,
+  // createVoyageEmbeddingProvider()'s embed() gracefully returns null per
+  // its own contract, same as the scaffold's nullEmbeddingProvider.
+  if (providerSet === "voyage-embedding") {
+    overrides.embeddingProvider = createVoyageEmbeddingProvider();
+    overrides.retriever = embeddingSimilarityRetriever;
+  }
+
+  return createCardVisionRecognizer(overrides);
 }

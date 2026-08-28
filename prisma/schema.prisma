@@ -908,3 +908,57 @@ model CardReferenceImageLink {
   @@index([imageId])
   @@map("cardvision_reference_image_links")
 }
+
+/// A generated vision embedding for one CatalogItem's reference image
+/// (Phase 3, docs/cardvision.md). Kept separate from CardReferenceImage —
+/// several CatalogItems/variantKeys can share one cached image but each
+/// still gets its own embedding row (a variant's card back/border can
+/// legitimately differ even when the art is identical), and re-generating
+/// with a different/upgraded embedding model must never destroy the
+/// previous model's row (the `provider` column is part of the unique key
+/// specifically so this never happens) — see
+/// src/lib/cardvision/embedding-index.ts.
+///
+/// No @relation to CatalogItem, same rationale as CardReferenceImageLink
+/// above: CardVision reads the catalog but never wants a schema-level
+/// FK/cascade silently deleting embedding rows out from under an
+/// in-progress generation run; an orphaned row (CatalogItem removed) is
+/// harmless dead weight rather than a correctness bug, and CardVision
+/// isn't yet in any code path where that matters.
+model CardReferenceEmbedding {
+  id            String @id @default(cuid())
+  /// Existing CatalogItem.id — always real catalog data, never a second identity scheme.
+  catalogItemId String
+  gameId        String
+  variantKey    String
+  /// The exact, deterministic provider+model identity that produced this
+  /// vector — e.g. "cardvision-voyage-voyage-multimodal-3.5" (matches
+  /// VisionEmbeddingProvider.id). A future CandidateRetriever must only
+  /// ever compare embeddings sharing this same value — see
+  /// src/lib/cardvision/providers/embedding-similarity-retriever.ts.
+  provider String
+  /// Vector dimensionality, denormalized from `vector`'s actual byte
+  /// length (dims * 4 bytes, Float32) so a caller can validate/filter
+  /// without decoding the vector itself.
+  dims Int
+  /// Float32-packed embedding bytes — see
+  /// src/lib/cardvision/providers/embedding-codec.ts. Bytes rather than a
+  /// Postgres array/vector type: this schema has no pgvector extension
+  /// installed (Phase 3 intentionally ships brute-force cosine similarity
+  /// in application code, not a vector index — see docs/cardvision.md).
+  vector Bytes
+  /// "ready" (vector is usable) or "failed" (embed() threw for this item —
+  /// see `error`). Never "pending": generation is synchronous per item in
+  /// this phase, so a row only exists once its outcome is known.
+  status String
+  /// Human-readable failure reason when status = "failed" — never a raw
+  /// provider stack trace, same convention as RecognitionResult.error.
+  error String?
+  generatedAt DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([catalogItemId, variantKey, provider])
+  @@index([provider])
+  @@index([gameId])
+  @@map("cardvision_reference_embeddings")
+}

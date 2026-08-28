@@ -17,6 +17,7 @@
     "import:card-set": "tsx scripts/import-card-set.ts",
     "snapshot:manual": "tsx scripts/run-snapshot.ts",
     "reindex:cardvision": "tsx scripts/reindex-cardvision-references.ts",
+    "embed:cardvision": "tsx scripts/generate-cardvision-embeddings.ts",
     "health-check": "tsx scripts/health-check.ts",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "verify:schema": "tsx scripts/verify-schema-drift.ts",
