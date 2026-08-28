@@ -1,25 +1,53 @@
 /**
  * Pure, feature-local state derivation for the Mass Card Scanner's review
- * grid. Wraps src/lib/scanning's ScanResult/DetectedCard/corrections.ts —
- * never forks their logic — with the review-grid-specific concerns the
- * shared engine deliberately doesn't own: which photo a card came from (for
- * the numbered overlay), whether it's checked for the batch write, and
- * mapping a confirmed selection into a PC Holding row.
+ * grid. Operates on src/lib/scanning's ScanResult/DetectedCard shapes, with
+ * the review-grid-specific concerns the shared engine deliberately doesn't
+ * own: which photo a card came from (for the numbered overlay), whether
+ * it's checked for the batch write, and mapping a confirmed selection into
+ * a PC Holding row.
  *
- * No React here — src/app/scan/_components/scan-client.tsx is the only
- * caller, and it's the one place these functions' results get held in
- * component state.
+ * This module is imported by a client component
+ * (src/app/scan/_components/scan-client.tsx) and so must stay
+ * client-bundle-safe — every import from "@/lib/scanning" below is
+ * `import type` only (erased at compile time, zero runtime footprint).
+ * setCandidate/skipItem/unskipItem intentionally reimplement (rather than
+ * import) corrections.ts's applyManualCorrection/markCardSkipped/
+ * unskipCard: those value-level exports come through
+ * src/lib/scanning/index.ts, which also re-exports corrections.ts, whose
+ * retryIdentification pulls in identify/gemini-identification.ts ->
+ * rank-candidates.ts -> src/lib/catalog/search.ts -> src/lib/db.ts
+ * (Prisma's WASM query engine) at module scope — server-only weight this
+ * client bundle can't carry. The three functions reimplemented below are
+ * each a few lines of pure object-spread logic; this duplicates their
+ * *behavior*, not the engine's actual detection/identification/ranking
+ * logic, which stays untouched and unforked in src/lib/scanning.
+ *
+ * No React here — scan-client.tsx is the only caller, and it's the one
+ * place these functions' results get held in component state.
  */
-import {
-  applyManualCorrection,
-  markCardSkipped,
-  unskipCard,
-  type CandidateMatch,
-  type DetectedCard,
-  type ScanResult,
-} from "@/lib/scanning";
+import type { CandidateMatch, DetectedCard, ScanResult } from "@/lib/scanning";
+import { computeNeedsReview } from "@/lib/scanning/confidence";
 import type { NewHoldingInput } from "@/lib/pc/types";
 import { getGameMeta } from "@/lib/games/registry";
+
+/** Client-safe reimplementation of corrections.ts's applyManualCorrection — see file header for why this isn't imported directly. */
+function applyCandidateSelection(card: DetectedCard, catalogItemId: string): DetectedCard {
+  const isOffered = card.candidates.some((c) => c.catalogItemId === catalogItemId);
+  if (!isOffered) {
+    throw new Error(`Candidate ${catalogItemId} was not among the offered candidates for card ${card.cardId}`);
+  }
+  return { ...card, selectedCandidateId: catalogItemId, needsReview: false };
+}
+
+/** Client-safe reimplementation of corrections.ts's markCardSkipped. */
+function markSkipped(card: DetectedCard): DetectedCard {
+  return { ...card, skipped: true, needsReview: false };
+}
+
+/** Client-safe reimplementation of corrections.ts's unskipCard. */
+function unskip(card: DetectedCard): DetectedCard {
+  return { ...card, skipped: false, needsReview: computeNeedsReview(card.confidenceLevel, card.identificationStatus) };
+}
 
 /** One reviewable card in the flat grid, tying a DetectedCard back to the photo it came from. */
 export interface ReviewItem {
@@ -63,17 +91,14 @@ function isAutoAcceptable(card: DetectedCard): boolean {
 export function buildReviewItems(photos: ScannedPhoto[]): ReviewItem[] {
   const items: ReviewItem[] = [];
   for (const photo of photos) {
-    let result = photo.result;
+    const { result } = photo;
     const orderedCards = [...result.cards].sort(
       (a, b) => a.detectedPosition.index - b.detectedPosition.index
     );
     for (const card of orderedCards) {
-      const cardIndex = result.cards.findIndex((c) => c.cardId === card.cardId);
-      let finalCard = card;
-      if (isAutoAcceptable(card)) {
-        result = applyManualCorrection(result, cardIndex, card.candidates[0].catalogItemId);
-        finalCard = result.cards[cardIndex];
-      }
+      const finalCard = isAutoAcceptable(card)
+        ? applyCandidateSelection(card, card.candidates[0].catalogItemId)
+        : card;
       items.push({
         key: `${result.scanResultId}:${finalCard.cardId}`,
         scanResultId: result.scanResultId,
@@ -96,36 +121,32 @@ export function toggleInclude(items: ReviewItem[], key: string): ReviewItem[] {
 /**
  * Applies a reviewer's manual pick. `candidate` need not be among the
  * card's originally offered candidates (e.g. a "Change card" search result)
- * — it's appended first so corrections.ts's applyManualCorrection (which
- * requires an offered candidate) still accepts it. Re-selecting always
- * re-checks the item for the batch: a human just confirmed this card.
+ * — it's appended first so the "must be an offered candidate" invariant
+ * (see applyCandidateSelection above, mirroring corrections.ts's
+ * applyManualCorrection) still holds. Re-selecting always re-checks the
+ * item for the batch: a human just confirmed this card.
  */
 export function setCandidate(items: ReviewItem[], key: string, candidate: CandidateMatch): ReviewItem[] {
   const { item, index } = requireItem(items, key);
-  const scanResult: ScanResult = { ...emptyScanResultShell(item), cards: [item.card] };
   const alreadyOffered = item.card.candidates.some((c) => c.catalogItemId === candidate.catalogItemId);
-  const withCandidate = alreadyOffered
-    ? scanResult
-    : { ...scanResult, cards: [{ ...item.card, candidates: [candidate, ...item.card.candidates] }] };
-
-  const corrected = applyManualCorrection(withCandidate, 0, candidate.catalogItemId);
-  const nextCard = corrected.cards[0];
+  const cardWithCandidate = alreadyOffered
+    ? item.card
+    : { ...item.card, candidates: [candidate, ...item.card.candidates] };
+  const nextCard = applyCandidateSelection(cardWithCandidate, candidate.catalogItemId);
   return items.map((it, i) => (i === index ? { ...it, card: nextCard, includeInBatch: true } : it));
 }
 
-/** Marks an item skipped (excluded from batch counts) — mirrors corrections.ts's markCardSkipped. */
+/** Marks an item skipped (excluded from batch counts). */
 export function skipItem(items: ReviewItem[], key: string): ReviewItem[] {
   const { item, index } = requireItem(items, key);
-  const scanResult: ScanResult = { ...emptyScanResultShell(item), cards: [item.card] };
-  const nextCard = markCardSkipped(scanResult, 0).cards[0];
+  const nextCard = markSkipped(item.card);
   return items.map((it, i) => (i === index ? { ...it, card: nextCard, includeInBatch: false } : it));
 }
 
-/** Reverses skipItem — mirrors corrections.ts's unskipCard. Does not re-check the item; a reviewer still opts back in explicitly. */
+/** Reverses skipItem. Does not re-check the item; a reviewer still opts back in explicitly. */
 export function unskipItem(items: ReviewItem[], key: string): ReviewItem[] {
   const { item, index } = requireItem(items, key);
-  const scanResult: ScanResult = { ...emptyScanResultShell(item), cards: [item.card] };
-  const nextCard = unskipCard(scanResult, 0).cards[0];
+  const nextCard = unskip(item.card);
   return items.map((it, i) => (i === index ? { ...it, card: nextCard } : it));
 }
 
@@ -133,11 +154,6 @@ export function unskipItem(items: ReviewItem[], key: string): ReviewItem[] {
 export function replaceCard(items: ReviewItem[], key: string, nextCard: DetectedCard): ReviewItem[] {
   const { index } = requireItem(items, key);
   return items.map((it, i) => (i === index ? { ...it, card: nextCard } : it));
-}
-
-/** A throwaway single-card ScanResult wrapper so corrections.ts's ScanResult-shaped pure functions can operate on one ReviewItem's card without the caller re-deriving scanResultId/createdAt. */
-function emptyScanResultShell(item: ReviewItem): Omit<ScanResult, "cards"> {
-  return { scanResultId: item.scanResultId, sourceImageId: item.sourceImageId, createdAt: "", error: null };
 }
 
 export interface BatchSummary {
