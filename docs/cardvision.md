@@ -1,6 +1,6 @@
 # CardVision
 
-CardVision is CardStory's specialised Pokémon trading-card image-recognition architecture: a provider-agnostic **retrieval** system (vision embeddings + vector search + OCR + multi-signal candidate ranking), as opposed to a single giant classifier or "ask an LLM and trust the answer." This document describes what exists today (Phase 1: architecture foundation) and what's planned.
+CardVision is CardStory's specialised Pokémon trading-card image-recognition architecture: a provider-agnostic **retrieval** system (vision embeddings + vector search + OCR + multi-signal candidate ranking), as opposed to a single giant classifier or "ask an LLM and trust the answer." This document describes what exists today (Phase 1: architecture foundation; Phase 2: reference-image indexing) and what's planned.
 
 ## Why CardVision exists
 
@@ -82,11 +82,13 @@ Four interfaces (`src/lib/cardvision/providers/types.ts`), each independently sw
 
 ## Reference indexing
 
-`src/lib/cardvision/reference-index.ts`'s `CardReferenceIndexer` is the abstraction for CardVision's future library of known card images/embeddings.
+`src/lib/cardvision/reference-index.ts`'s `CardReferenceIndexer` is CardVision's real, persistent library of downloaded reference-card images (Phase 2). It does not generate embeddings — see "Vision embeddings (Phase 3)" below.
 
-**The CardStory catalog (`CatalogItem` in `prisma/schema.prisma`) remains the sole source of truth.** `CardReferenceRecord.catalogItemId` is always an existing `CatalogItem.id` (`"<gameId>:<externalId>"`) — CardVision never creates a second card database. The default `catalogReferenceIndexer` sources indexable cards straight from `CatalogItem` rows that have a non-null `imageSmallUrl`, the same narrow-query style as `src/lib/catalog/images.ts`'s `applyCatalogImagePatches`.
+**The CardStory catalog (`CatalogItem` in `prisma/schema.prisma`) remains the sole source of truth.** `CardReferenceRecord.catalogItemId` is always an existing `CatalogItem.id` (`"<gameId>:<externalId>"`) — CardVision never creates a second card database. `catalogReferenceIndexer.rebuildIndex()` sources indexable cards straight from `CatalogItem` rows that have a non-null `imageSmallUrl` and/or `imageLargeUrl`, the same narrow-query style as `src/lib/catalog/images.ts`'s `applyCatalogImagePatches`. Nothing in the indexer reads a game-specific `CatalogItem` field — it works the same for Pokémon, MTG, sports cards, or any future game.
 
-Reference images live on external CDNs (pokemontcg.io / tcgdex — this app has no object storage binding), so a real indexer will need to fetch each image before embedding it. Phase 1's `rebuildIndex()` is an explicit no-op that reports how many cards *would* be indexed, per the "do not generate embeddings yet, do not introduce a vector database yet" constraint on this phase.
+Reference images live on external CDNs (pokemontcg.io / tcgdex), and this app has no R2/object-storage binding and no writable local filesystem at Cloudflare Workers runtime — so `rebuildIndex()` downloads each image and caches it in Postgres (`CardReferenceImage` / `CardReferenceImageLink` in `prisma/schema.prisma`) rather than a local cache directory, using the app's existing persistence instead of new infrastructure. `imageLargeUrl` is preferred over `imageSmallUrl`, with a same-run fallback to `imageSmallUrl` if the large URL fails. Images are cached by content hash, so CatalogItems sharing an identical source URL (or identical bytes) are fetched once and stored once. Repeat runs are incremental: unchanged items are cache hits (no re-fetch), a changed image URL triggers a re-fetch, and cache links for CatalogItems that are gone or have lost their image URL are swept. `getCachedReferenceImage(catalogItemId)` is the seam a future `VisionEmbeddingProvider` (Phase 3) reads cached bytes through.
+
+Run via `npm run reindex:cardvision` (optionally `-- --game=<gameId>` / `--since=<ISO date>`), see `scripts/reindex-cardvision-references.ts`. Nothing in the deployed app calls `rebuildIndex()` automatically yet — that's a natural, low-risk Phase 2.5-style follow-up (a cron route mirroring `src/app/api/cron/snapshot-prices/route.ts`), not part of this phase.
 
 ## Telemetry (future training loop)
 
@@ -120,8 +122,8 @@ with zero changes to the Mass Card Scanner or Binder Import UI/routes. This prov
 
 ## Future CardVision Implementation
 
-- **Phase 1 — Architecture** ✅ *(this document / this change)* — provider-agnostic interfaces, structured recognition results, candidate ranking scaffold, reference-index and telemetry abstractions, spatial-position preservation, feature flags. No model training, no embeddings, no vector database.
-- **Phase 2** — Reference-card image indexing: a real `CardReferenceIndexer` implementation that fetches and stores CatalogItem reference images at scale.
+- **Phase 1 — Architecture** ✅ — provider-agnostic interfaces, structured recognition results, candidate ranking scaffold, reference-index and telemetry abstractions, spatial-position preservation, feature flags. No model training, no embeddings, no vector database.
+- **Phase 2 — Reference-card image indexing** ✅ *(this change)* — a real `CardReferenceIndexer` (`src/lib/cardvision/reference-index.ts`) that downloads, hashes, and caches CatalogItem reference images in Postgres, incrementally and idempotently. Still no embeddings, no vector database, no ML dependency — see "Reference indexing" above.
 - **Phase 3** — Vision embedding + vector similarity search: a real `VisionEmbeddingProvider` and a vector-backed `CandidateRetriever`.
 - **Phase 4** — Specialised card detection: a purpose-built `CardDetector`/`ImageProcessor` (real cropping, perspective correction) beyond today's Claude-vision-based detector and pass-through crop.
 - **Phase 5** — OCR / collector-number recognition: a real `OCRProvider`.

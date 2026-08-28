@@ -16,6 +16,7 @@
     "seed:pokemon-manual": "tsx scripts/seed-pokemon-manual.ts",
     "import:card-set": "tsx scripts/import-card-set.ts",
     "snapshot:manual": "tsx scripts/run-snapshot.ts",
+    "reindex:cardvision": "tsx scripts/reindex-cardvision-references.ts",
     "health-check": "tsx scripts/health-check.ts",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "verify:schema": "tsx scripts/verify-schema-drift.ts",
