@@ -32,7 +32,8 @@ export function createGeminiIdentificationStrategy(): IdentificationStrategy {
       try {
         const identification = await identifyCardFromImage(
           input.croppedImage.base64,
-          input.croppedImage.mimeType
+          input.croppedImage.mimeType,
+          input.boundingBox
         );
 
         // Graceful degradation (no GEMINI_API_KEY configured) is not a
@@ -52,6 +53,7 @@ export function createGeminiIdentificationStrategy(): IdentificationStrategy {
         const candidates = await rankCandidates({
           cardName: identification.cardName,
           cardNumber: identification.cardNumber,
+          setNameOrSymbol: identification.setNameOrSymbol,
           gameId,
         });
 

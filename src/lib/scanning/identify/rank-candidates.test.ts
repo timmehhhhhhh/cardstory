@@ -59,6 +59,15 @@ describe("rankCatalogItems", () => {
     expect(results).toEqual([]);
   });
 
+  it("boosts a candidate whose set name matches the queried setNameOrSymbol, disambiguating a reprint across sets", () => {
+    const pool = [
+      item({ id: "pokemon:1", name: "Pikachu", setName: "Base Set" }),
+      item({ id: "pokemon:2", name: "Pikachu", setName: "Jungle" }),
+    ];
+    const results = rankCatalogItems(pool, { cardName: "Pikachu", setNameOrSymbol: "Jungle" });
+    expect(results[0]?.catalogItemId).toBe("pokemon:2");
+  });
+
   it("dedupes an item appearing twice in the input pool", () => {
     const duplicated = item({ id: "pokemon:1", name: "Charizard" });
     const pool = [duplicated, duplicated];

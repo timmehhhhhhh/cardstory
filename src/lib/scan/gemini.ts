@@ -52,7 +52,36 @@ const responseSchema = {
   required: ["game_guess", "card_name", "confidence"],
 };
 
-const PROMPT = `You are identifying a single physical Pokémon trading card from a photo for a collector's cataloging app. Read the exact printed card name, the set name or set symbol, and the collector number if visible. If the photo doesn't clearly show a single trading card, set card_name to null and confidence to 0.`;
+const BASE_PROMPT = `You are identifying a single physical Pokémon trading card from a photo for a collector's cataloging app. Read the exact printed card name, the set name or set symbol, and the collector number if visible. If the photo doesn't clearly show a single trading card, set card_name to null and confidence to 0.`;
+
+/**
+ * Normalized ([0,1], relative to the full photo) region a caller wants this
+ * read focused on — see `buildPrompt` below for why this exists.
+ */
+export interface RegionHint {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+/**
+ * Appends a focus clause when `regionHint` is given. This exists for the
+ * Mass Card Scanner (src/lib/scanning/identify/gemini-identification.ts):
+ * that engine's ImageProcessor doesn't actually crop yet (see
+ * server-image-processor.ts), so every detected card in one photo is
+ * identified from the *same* full, uncropped image — without a region hint,
+ * every card in a multi-card photo would read identically. The single-card
+ * manual Scan feature never passes a hint, so its prompt is unchanged.
+ */
+function buildPrompt(regionHint?: RegionHint): string {
+  if (!regionHint) return BASE_PROMPT;
+  const left = Math.round(regionHint.x * 100);
+  const top = Math.round(regionHint.y * 100);
+  const right = Math.round((regionHint.x + regionHint.width) * 100);
+  const bottom = Math.round((regionHint.y + regionHint.height) * 100);
+  return `${BASE_PROMPT} This photo may contain other trading cards outside the area of interest — focus only on the card located at approximately ${left}-${right}% of the image's width and ${top}-${bottom}% of its height, and ignore any other cards elsewhere in the frame.`;
+}
 
 interface GenerateContentResponse {
   candidates?: { content?: { parts?: { text?: string }[] } }[];
@@ -61,7 +90,8 @@ interface GenerateContentResponse {
 /** Returns null if no API key is configured — callers must fall back to manual search. */
 export async function identifyCardFromImage(
   base64Image: string,
-  mimeType: string
+  mimeType: string,
+  regionHint?: RegionHint
 ): Promise<ScanIdentification | null> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return null;
@@ -76,7 +106,7 @@ export async function identifyCardFromImage(
       contents: [
         {
           role: "user",
-          parts: [{ text: PROMPT }, { inlineData: { mimeType, data: base64Image } }],
+          parts: [{ text: buildPrompt(regionHint) }, { inlineData: { mimeType, data: base64Image } }],
         },
       ],
       generationConfig: {

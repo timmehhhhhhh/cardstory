@@ -178,6 +178,65 @@ describe("runScanPipeline", () => {
     expect(result.cards).toHaveLength(2);
     expect(identifyCalls).toBe(2);
   });
+
+  it("passes each card's own boundingBox to identify() so cards sharing a byte-identical crop can still be told apart", async () => {
+    const seenBoxes: { x: number; y: number }[] = [];
+    const strategy: IdentificationStrategy = {
+      id: "recording",
+      identify: async (input) => {
+        seenBoxes.push({ x: input.boundingBox?.x ?? -1, y: input.boundingBox?.y ?? -1 });
+        return identifiedOutput;
+      },
+    };
+    await runScanPipeline({
+      image: testImage,
+      detector: fixtureDetector([
+        { box: { x: 0.1, y: 0.1, width: 0.2, height: 0.2 }, confidence: 0.8 },
+        { box: { x: 0.6, y: 0.1, width: 0.2, height: 0.2 }, confidence: 0.8 },
+      ]),
+      imageProcessor: passthroughProcessor,
+      identificationStrategy: strategy,
+    });
+    expect(seenBoxes).toHaveLength(2);
+    expect(seenBoxes[0].x).not.toBeCloseTo(seenBoxes[1].x);
+  });
+
+  it("drops a detector's duplicate/nested box for the same physical card, keeping the higher-confidence one", async () => {
+    let identifyCalls = 0;
+    const strategy: IdentificationStrategy = {
+      id: "counting",
+      identify: async () => {
+        identifyCalls += 1;
+        return identifiedOutput;
+      },
+    };
+    const result = await runScanPipeline({
+      image: testImage,
+      detector: fixtureDetector([
+        { box: { x: 0.1, y: 0.1, width: 0.3, height: 0.3 }, confidence: 0.6 },
+        // Same physical card re-detected, slightly jittered, higher confidence.
+        { box: { x: 0.11, y: 0.11, width: 0.3, height: 0.3 }, confidence: 0.9 },
+      ]),
+      imageProcessor: passthroughProcessor,
+      identificationStrategy: strategy,
+    });
+    expect(result.cards).toHaveLength(1);
+    expect(identifyCalls).toBe(1);
+    expect(result.cards[0].detectionConfidence).toBe(0.9);
+  });
+
+  it("keeps two genuinely separate (non-overlapping) cards", async () => {
+    const result = await runScanPipeline({
+      image: testImage,
+      detector: fixtureDetector([
+        { box: { x: 0.05, y: 0.1, width: 0.2, height: 0.2 }, confidence: 0.8 },
+        { box: { x: 0.75, y: 0.1, width: 0.2, height: 0.2 }, confidence: 0.8 },
+      ]),
+      imageProcessor: passthroughProcessor,
+      identificationStrategy: fixtureStrategy(identifiedOutput),
+    });
+    expect(result.cards).toHaveLength(2);
+  });
 });
 
 describe("runScanPipelineSafe", () => {
