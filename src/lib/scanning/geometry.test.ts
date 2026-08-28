@@ -1,9 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { boxOverlapRatio, mapCardsToGrid, normalizeBoundingBox, orderCardsReadingOrder } from "./geometry";
+import { assessPageGeometry, boxOverlapRatio, mapCardsToGrid, normalizeBoundingBox, orderCardsReadingOrder } from "./geometry";
 import type { BoundingBox } from "./types";
 
 function box(x: number, y: number, width: number, height: number, rotation = 0): BoundingBox {
   return { x, y, width, height, centerX: x + width / 2, centerY: y + height / 2, rotation: rotation as 0 };
+}
+
+/** A box with a standard trading-card aspect ratio (~2.5:3.5), centered at (centerX, centerY). */
+function cardBox(centerX: number, centerY: number, width = 0.2): BoundingBox {
+  const height = width / (2.5 / 3.5);
+  return box(centerX - width / 2, centerY - height / 2, width, height);
 }
 
 describe("normalizeBoundingBox", () => {
@@ -147,5 +153,60 @@ describe("mapCardsToGrid", () => {
     // centerX/centerY exactly on the 1/3 boundary between col/row 0 and 1.
     const result = mapCardsToGrid([boxAt(1 / 3, 1 / 3)], 3, 3);
     expect(result.cells[0]).toEqual({ row: 1, col: 1, pocketIndex: 4 });
+  });
+});
+
+describe("assessPageGeometry", () => {
+  /** Nine evenly-spaced, standard-aspect-ratio boxes, one per 3x3 cell — a perfectly aligned page. */
+  function alignedGrid(): BoundingBox[] {
+    const centers = [0.15, 0.5, 0.85];
+    const boxes: BoundingBox[] = [];
+    for (const cy of centers) for (const cx of centers) boxes.push(cardBox(cx, cy));
+    return boxes;
+  }
+
+  it("is not suspicious for a perfectly aligned, evenly-spaced page", () => {
+    const result = assessPageGeometry(alignedGrid(), 3, 3);
+    expect(result).toEqual({ suspicious: false, reasons: [] });
+  });
+
+  it("flags more detected boxes than the layout has pockets", () => {
+    const boxes = [...alignedGrid(), cardBox(0.5, 0.5, 0.05)];
+    const result = assessPageGeometry(boxes, 3, 3);
+    expect(result.suspicious).toBe(true);
+    expect(result.reasons.some((r) => r.includes("10 cards"))).toBe(true);
+  });
+
+  it("flags boxes whose aspect ratio doesn't look like a trading card", () => {
+    // Square boxes, not the ~2.5:3.5 a real card has.
+    const centers = [0.15, 0.5, 0.85];
+    const boxes: BoundingBox[] = [];
+    for (const cy of centers) for (const cx of centers) boxes.push(box(cx - 0.1, cy - 0.1, 0.2, 0.2));
+    const result = assessPageGeometry(boxes, 3, 3);
+    expect(result.suspicious).toBe(true);
+    expect(result.reasons.some((r) => /unusual shape/.test(r))).toBe(true);
+  });
+
+  it("flags markedly uneven spacing within a row — the signature of a skewed/rotated/perspective photo", () => {
+    // Three rows, each with the same very-uneven x-spacing (one card
+    // crammed near the left edge, a big gap, then two closer together) —
+    // simulating a page photographed at an angle rather than flat-on.
+    const rowYs = [0.15, 0.5, 0.85];
+    const colXs = [0.05, 0.34, 0.95];
+    const boxes: BoundingBox[] = [];
+    for (const cy of rowYs) for (const cx of colXs) boxes.push(cardBox(cx, cy));
+    const result = assessPageGeometry(boxes, 3, 3);
+    expect(result.suspicious).toBe(true);
+    expect(result.reasons.some((r) => /uneven/.test(r))).toBe(true);
+  });
+
+  it("is not suspicious for too few boxes to judge spacing (nothing to compare)", () => {
+    expect(assessPageGeometry([], 3, 3)).toEqual({ suspicious: false, reasons: [] });
+    expect(assessPageGeometry([cardBox(0.5, 0.5)], 3, 3)).toEqual({ suspicious: false, reasons: [] });
+  });
+
+  it("never throws on a degenerate zero-height box", () => {
+    expect(() => assessPageGeometry([box(0.1, 0.1, 0.2, 0)], 3, 3)).not.toThrow();
+    expect(assessPageGeometry([box(0.1, 0.1, 0.2, 0)], 3, 3).suspicious).toBe(true);
   });
 });
