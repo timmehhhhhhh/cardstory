@@ -9,6 +9,8 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "seed:catalog": "tsx scripts/seed-catalog.ts",
     "seed:lamelo-ball": "tsx scripts/seed-lamelo-ball.ts",
     "seed:pokemon-manual": "tsx scripts/seed-pokemon-manual.ts",
@@ -60,6 +62,8 @@
     "tailwindcss": "^4",
     "tsx": "^4.23.12",
     "typescript": "^5",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.2.7",
     "wrangler": "^4.125.0"
   }
 }
