@@ -91,6 +91,8 @@ In production, the `workers/cron-snapshot/` Worker schedules this daily via a Cl
 - `src/lib/pc/` — the PC store: `remote-store.ts` is the server-backed implementation, and `store.ts` is the single hook every component imports. Handles both TCG and sports card holdings. The underlying database model/table is still named `Portfolio`/`portfolios` (see `prisma/schema.prisma`) — only the app-facing "PC" branding changed.
 - `src/auth.ts`, `src/app/api/auth/` — NextAuth (email/password, JWT sessions).
 - `src/lib/scan/` — Claude vision call + Fuse.js catalog matching.
+- `src/lib/scanning/` — the shared card-scanning engine (detect -> crop -> identify -> rank -> confidence) behind the Mass Card Scanner and Binder Import.
+- `src/lib/cardvision/` — CardVision, the provider-agnostic vision-retrieval recognition architecture Phase 1 of; not used by Scan/Binder Import yet — see `docs/cardvision.md`.
 - `prisma/schema.prisma` — the catalog, price-history, sports-card, and showcase-snapshot data model.
 
 ## Deploying
