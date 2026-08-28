@@ -1,8 +1,8 @@
 import type { IdentificationStrategy } from "./types";
-import { createGeminiIdentificationStrategy } from "./gemini-identification";
+import { createClaudeIdentificationStrategy } from "./claude-identification";
 
 export type { IdentificationInput, IdentificationOutput, IdentificationStrategy } from "./types";
-export { createGeminiIdentificationStrategy } from "./gemini-identification";
+export { createClaudeIdentificationStrategy } from "./claude-identification";
 export { rankCandidates, rankCatalogItems } from "./rank-candidates";
 
 /**
@@ -13,5 +13,5 @@ export { rankCandidates, rankCatalogItems } from "./rank-candidates";
  * pipeline failure needing a stand-in strategy.
  */
 export function getDefaultIdentificationStrategy(): IdentificationStrategy {
-  return createGeminiIdentificationStrategy();
+  return createClaudeIdentificationStrategy();
 }

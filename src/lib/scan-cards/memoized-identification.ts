@@ -11,7 +11,7 @@ import type { IdentificationInput, IdentificationOutput, IdentificationStrategy 
  * `crop`/`correctPerspective` are documented pass-through stubs — every
  * DetectedCard.croppedImage produced from one source photo is today
  * byte-identical to the whole original photo. Without this cache, a photo
- * with N detected cards would fire N duplicate Gemini-vision calls and N
+ * with N detected cards would fire N duplicate Claude-vision calls and N
  * duplicate catalog searches for what is, today, literally the same input
  * image — exactly the "don't hammer the catalog with duplicate searches"
  * failure mode. A future real per-card ImageProcessor would naturally

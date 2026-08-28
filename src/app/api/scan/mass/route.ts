@@ -29,10 +29,10 @@ const bodySchema = z.object({
  * uploaded/captured photo (see src/app/scan/_components/scan-client.tsx,
  * which fires these in parallel via Promise.allSettled). Thin: all the
  * actual work is `runScanPipelineSafe` from the shared scanning engine
- * (src/lib/scanning) — this route exists only to keep GEMINI_API_KEY
+ * (src/lib/scanning) — this route exists only to keep ANTHROPIC_API_KEY
  * server-side and to supply a request-scoped memoizing identification
  * strategy (see memoized-identification.ts) so a photo with several
- * detected cards doesn't fire duplicate Gemini/catalog lookups for what the
+ * detected cards doesn't fire duplicate Claude/catalog lookups for what the
  * current stub ImageProcessor makes byte-identical crops.
  */
 export async function POST(req: NextRequest) {

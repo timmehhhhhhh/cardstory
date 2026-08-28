@@ -86,7 +86,7 @@ export function unskipCard(scanResult: ScanResult, cardIndex: number): ScanResul
  * Re-runs identification only (via `strategy`, defaulting to
  * `getDefaultIdentificationStrategy()`) for `cards[cardIndex]`, using its
  * existing `croppedImage` — does NOT re-run detection/cropping. For "the
- * AI misread this, try again" or "try again now that GEMINI_API_KEY is
+ * AI misread this, try again" or "try again now that ANTHROPIC_API_KEY is
  * configured". Unlike the other corrections above, this is async (it calls
  * the strategy) and does not itself compute a new `confidenceLevel` —
  * callers wanting the pipeline's full confidence classification should

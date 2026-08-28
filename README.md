@@ -11,7 +11,7 @@ Built with Next.js (App Router) + TypeScript + Tailwind + Prisma/Postgres. See [
 - **Price history grows from launch day** — a daily snapshot job records one real price per card per day. There is no backfilled history; charts start short and get longer the longer the app runs.
 - **Only Pokémon is fully wired.** The Sets page shows all ~19 major TCGs for visual parity with the real app, but the other 18 are marked "Coming soon" — no free, ToS-safe pricing API exists for them yet.
 - **Accounts are required for the app.** PCs, watchlists, shortlists, decks, and saved views are server-backed so they follow you across browsers/devices. If your browser still has old anonymous `localStorage` holdings from before auth became required, the first signed-in visit offers a one-time import into the account.
-- **Scan** uses Google Gemini's vision API to read a photographed card, then fuzzy-matches it against the catalog above. If no `GEMINI_API_KEY` is set (or the call fails), it falls back to manual search — never a dead end.
+- **Scan** uses Anthropic's Claude vision API to read a photographed card, then fuzzy-matches it against the catalog above. If no `ANTHROPIC_API_KEY` is set (or the call fails), it falls back to manual search — never a dead end.
 - **Graded prices** (PSA/CGC/SGC/BGS tiers) come from [PriceCharting's official API](https://www.pricecharting.com/api-documentation) — real, documented, not scraping, but a paid product with no free tier. Fetched on-demand from the card detail page (not a bulk job — PriceCharting rate-limits to 1 request/sec, so syncing the whole catalog isn't practical) and cached for the day. Without `PRICECHARTING_API_KEY`, the panel just says so.
 - **Sports cards** (NBA, F1, UFC, Tennis) are added straight into the PC — there's no Explore/Sets browsing for them (no free browsable sports-card catalog exists). Adding one searches [SportsCardsPro](https://www.sportscardspro.com/api-documentation) (PriceCharting's sister site, same API/rate-limit family) to match the exact parallel and pull a real price, with full manual entry always available as a fallback/override. The serial number of the *specific copy you own* (e.g. "23" of a "/99") is always a manual field — no catalog can know that. **Not built**: 130point.com itself can't be cloned — it sits behind Cloudflare bot-protection and its own docs describe scanning multiple marketplaces (eBay, PWCC, Goldin, etc.), so replicating it would mean scraping a bot-protected aggregator for *pricing* — which this project doesn't do (see the card-images bullet above for the one, narrower, image-only exception).
 
@@ -42,9 +42,9 @@ npm run seed:catalog
 
 Safe to re-run — everything is an upsert.
 
-### 3. (Optional) Gemini API key for Scan
+### 3. (Optional) Claude API key for Scan
 
-Get a free key at [aistudio.google.com/apikey](https://aistudio.google.com/apikey) and set `GEMINI_API_KEY` in `.env.local`. Without it, the Scan page still works — it just skips straight to manual search.
+Get a key at [console.anthropic.com](https://console.anthropic.com) and set `ANTHROPIC_API_KEY` in `.env.local`. Without it, the Scan page still works — it just skips straight to manual search.
 
 ### 4. (Optional, paid) PriceCharting API key for graded prices
 
@@ -90,7 +90,7 @@ In production, the `workers/cron-snapshot/` Worker schedules this daily via a Cl
 - `src/lib/sportscards/` — sports card creation/lookup logic and best-effort product-name parsing.
 - `src/lib/pc/` — the PC store: `remote-store.ts` is the server-backed implementation, and `store.ts` is the single hook every component imports. Handles both TCG and sports card holdings. The underlying database model/table is still named `Portfolio`/`portfolios` (see `prisma/schema.prisma`) — only the app-facing "PC" branding changed.
 - `src/auth.ts`, `src/app/api/auth/` — NextAuth (email/password, JWT sessions).
-- `src/lib/scan/` — Gemini vision call + Fuse.js catalog matching.
+- `src/lib/scan/` — Claude vision call + Fuse.js catalog matching.
 - `prisma/schema.prisma` — the catalog, price-history, sports-card, and showcase-snapshot data model.
 
 ## Deploying

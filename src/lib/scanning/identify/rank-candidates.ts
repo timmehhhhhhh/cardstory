@@ -15,7 +15,7 @@ import type { CandidateMatch } from "../types";
 export interface RankCandidatesInput {
   cardName: string;
   cardNumber?: string | null;
-  /** The set name or set symbol text Gemini read off the card, if any — see setNameBoost below. */
+  /** The set name or set symbol text Claude read off the card, if any — see setNameBoost below. */
   setNameOrSymbol?: string | null;
   gameId?: string | null;
   limit?: number;
@@ -42,7 +42,7 @@ const NUMBER_EXACT_MATCH_BOOST = 0.15;
 /** Added when the candidate's number contains the queried number as a substring (e.g. OCR dropped a leading zero) but isn't an exact match. */
 const NUMBER_PARTIAL_MATCH_BOOST = 0.05;
 /**
- * Added when the candidate's set name matches the set name/symbol Gemini
+ * Added when the candidate's set name matches the set name/symbol Claude
  * read off the card. Weighted below the number boosts — printed set text is
  * noisier OCR than a short collector number — but this is the one signal
  * this ranker has to disambiguate "same name, different set" (e.g. a

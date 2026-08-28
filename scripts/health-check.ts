@@ -264,7 +264,7 @@ async function main() {
   await checkCronEndpointGuarded();
 
   console.log("\n-- Optional (features degrade gracefully if unset) --");
-  checkOptionalVar("GEMINI_API_KEY", "the Scan feature's camera card-ID (falls back to manual search)");
+  checkOptionalVar("ANTHROPIC_API_KEY", "the Scan feature's camera card-ID (falls back to manual search)");
   checkOptionalVar("PRICECHARTING_API_KEY", "the Graded Prices panel (paid, no free tier)");
   checkOptionalVar("SPORTSCARDSPRO_API_KEY", "sports card search/auto-match (paid; falls back to PRICECHARTING_API_KEY, then manual entry)");
   checkOptionalVar("POKEMONTCG_API_KEY", "a higher pokemontcg.io rate limit");

@@ -4,7 +4,7 @@
  *
  * No native/binary image-processing library (sharp, libvips, OpenCV, ...)
  * runs in Cloudflare Workers under this app's OpenNext deployment (see
- * wrangler.jsonc / the Workers size-cap comments in src/lib/scan/gemini.ts
+ * wrangler.jsonc / the Workers size-cap comments in src/lib/scan/ai-provider.ts
  * for the same constraint on a different dependency). Introducing one as a
  * hard dependency of this engine would make it unusable in production, so:
  *

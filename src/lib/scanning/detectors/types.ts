@@ -28,7 +28,7 @@ export interface DetectionInput {
 }
 
 export interface CardDetector {
-  /** Human-readable id for logging/telemetry, e.g. "gemini-multi-region" or "single-region-fallback". */
+  /** Human-readable id for logging/telemetry, e.g. "claude-multi-region" or "single-region-fallback". */
   readonly id: string;
   detect(input: DetectionInput): Promise<DetectionRegion[]>;
 }
