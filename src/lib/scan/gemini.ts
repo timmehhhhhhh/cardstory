@@ -87,6 +87,34 @@ interface GenerateContentResponse {
   candidates?: { content?: { parts?: { text?: string }[] } }[];
 }
 
+// Gemini's free tier occasionally returns these for reasons that have
+// nothing to do with the request itself (503 = model temporarily
+// overloaded, 429 = rate limited) — worth a couple of short retries before
+// giving up. Every other status (400 bad key/request, etc.) fails fast,
+// since retrying those just wastes time on an error that won't change.
+const RETRYABLE_STATUSES = new Set([429, 503]);
+const MAX_ATTEMPTS = 3;
+const BASE_DELAY_MS = 500;
+
+async function fetchGenerateContentWithRetry(body: string, apiKey: string): Promise<Response> {
+  for (let attempt = 1; ; attempt++) {
+    const res = await fetch(`${GEMINI_API_BASE}/models/${MODEL}:generateContent`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": apiKey,
+      },
+      body,
+    });
+
+    if (res.ok || !RETRYABLE_STATUSES.has(res.status) || attempt >= MAX_ATTEMPTS) return res;
+
+    // Exponential backoff with jitter: ~500ms, ~1000ms.
+    const delayMs = BASE_DELAY_MS * 2 ** (attempt - 1) + Math.random() * 250;
+    await new Promise((resolve) => setTimeout(resolve, delayMs));
+  }
+}
+
 /** Returns null if no API key is configured — callers must fall back to manual search. */
 export async function identifyCardFromImage(
   base64Image: string,
@@ -96,13 +124,8 @@ export async function identifyCardFromImage(
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return null;
 
-  const res = await fetch(`${GEMINI_API_BASE}/models/${MODEL}:generateContent`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-goog-api-key": apiKey,
-    },
-    body: JSON.stringify({
+  const res = await fetchGenerateContentWithRetry(
+    JSON.stringify({
       contents: [
         {
           role: "user",
@@ -114,7 +137,8 @@ export async function identifyCardFromImage(
         responseSchema,
       },
     }),
-  });
+    apiKey
+  );
 
   if (!res.ok) {
     console.error("Gemini generateContent failed:", res.status, await res.text());

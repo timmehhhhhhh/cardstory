@@ -51,6 +51,34 @@ interface RawDetection {
   confidence?: number;
 }
 
+// Gemini's free tier occasionally returns these for reasons that have
+// nothing to do with the request itself (503 = model temporarily
+// overloaded, 429 = rate limited) — worth a couple of short retries before
+// giving up. Every other status (400 bad key/request, etc.) fails fast,
+// since retrying those just wastes time on an error that won't change.
+const RETRYABLE_STATUSES = new Set([429, 503]);
+const MAX_ATTEMPTS = 3;
+const BASE_DELAY_MS = 500;
+
+async function fetchGenerateContentWithRetry(body: string, apiKey: string): Promise<Response> {
+  for (let attempt = 1; ; attempt++) {
+    const res = await fetch(`${GEMINI_API_BASE}/models/${MODEL}:generateContent`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": apiKey,
+      },
+      body,
+    });
+
+    if (res.ok || !RETRYABLE_STATUSES.has(res.status) || attempt >= MAX_ATTEMPTS) return res;
+
+    // Exponential backoff with jitter: ~500ms, ~1000ms.
+    const delayMs = BASE_DELAY_MS * 2 ** (attempt - 1) + Math.random() * 250;
+    await new Promise((resolve) => setTimeout(resolve, delayMs));
+  }
+}
+
 /**
  * Returns null (not an empty array) when GEMINI_API_KEY is unset — the
  * same graceful-degradation convention as identifyCardFromImage, so
@@ -72,13 +100,8 @@ export function createGeminiCardDetector(): CardDetector | null {
         throw new Error("gemini-multi-region detector requires an inline ImageRef");
       }
 
-      const res = await fetch(`${GEMINI_API_BASE}/models/${MODEL}:generateContent`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-goog-api-key": apiKey,
-        },
-        body: JSON.stringify({
+      const res = await fetchGenerateContentWithRetry(
+        JSON.stringify({
           contents: [
             {
               role: "user",
@@ -93,10 +116,22 @@ export function createGeminiCardDetector(): CardDetector | null {
             responseSchema,
           },
         }),
-      });
+        apiKey
+      );
 
       if (!res.ok) {
-        throw new Error(`Gemini generateContent failed: ${res.status} ${await res.text()}`);
+        const bodyText = await res.text();
+        // Full status/body goes to server logs for debugging — this error's
+        // `message` is what ends up shown directly in the UI (see
+        // pipeline.ts's runScanPipelineSafe, which surfaces a whole-run
+        // failure's message verbatim as ScanResult.error), so it needs to
+        // stay a short, human sentence rather than raw provider JSON.
+        console.error("Gemini generateContent failed:", res.status, bodyText);
+        throw new Error(
+          RETRYABLE_STATUSES.has(res.status)
+            ? "Card detection is busy right now — please try again in a moment."
+            : "Card detection failed. Please try again."
+        );
       }
 
       const json = (await res.json()) as GenerateContentResponse;
