@@ -832,3 +832,79 @@ model DeckCard {
   @@index([deckId])
   @@map("deck_cards")
 }
+
+/// CardVision Phase 2's persistent cache of downloaded reference-card
+/// images, keyed by (sourceUrl, contentHash) so identical bytes served
+/// from the same (or a coincidentally identical) URL are stored once no
+/// matter how many CatalogItems point at them — see
+/// src/lib/cardvision/reference-index.ts. Domain-agnostic by design:
+/// nothing here names a specific game, so it works the same for Pokémon,
+/// MTG, sports cards, or any future CatalogItem.
+///
+/// This app has no R2/object-storage binding (see wrangler.jsonc) and no
+/// writable local filesystem at Cloudflare Workers runtime, so this uses
+/// the existing Postgres/Prisma persistence rather than a cache
+/// directory. `data` is a `Bytes` (Postgres `bytea`) column — the first
+/// one in this schema; every query that doesn't need to serve the actual
+/// bytes should explicitly select the other columns to avoid pulling
+/// image blobs into unrelated reads.
+model CardReferenceImage {
+  id          String   @id @default(cuid())
+  /// The exact URL these bytes were fetched from. Not unique alone — see
+  /// the (sourceUrl, contentHash) constraint below: a URL whose served
+  /// image changes over time gets a NEW row rather than an update in
+  /// place, so a stale in-flight read never sees half-written bytes
+  /// (the Neon HTTP adapter this app uses has no interactive
+  /// transactions — see src/lib/db.ts).
+  sourceUrl   String
+  /// SHA-256 hex digest of `data` — the real content identity, and how a
+  /// second CatalogItem whose image URL happens to serve identical bytes
+  /// gets deduped onto this same row.
+  contentHash String
+  data        Bytes
+  contentType String
+  byteSize    Int
+  fetchedAt   DateTime @default(now())
+
+  links CardReferenceImageLink[]
+
+  @@unique([sourceUrl, contentHash])
+  @@index([contentHash])
+  @@map("cardvision_reference_images")
+}
+
+/// Maps one CatalogItem's reference image (large or small) to its cached
+/// CardReferenceImage row. Kept separate from CardReferenceImage so N
+/// CatalogItems sharing one source URL (e.g. priced-finish variants using
+/// the same art) share ONE cached image instead of N copies of the bytes.
+///
+/// No @relation to CatalogItem: CardVision reads the catalog but never
+/// wants a schema-level FK/cascade silently deleting cache rows out from
+/// under an in-progress indexing run — a removed or changed CatalogItem
+/// is instead detected and cleaned up explicitly by
+/// CardReferenceIndexer.rebuildIndex()'s orphan sweep.
+model CardReferenceImageLink {
+  id     String @id @default(cuid())
+  /// Existing CatalogItem.id ("<gameId>:<externalId>") — see
+  /// src/lib/catalog/by-ids.ts. Always references real catalog data;
+  /// never a second identity scheme.
+  catalogItemId String
+  gameId        String
+  /// Which CatalogItem image field this link represents — "large"
+  /// (preferred) or "small" (fallback), per CardReferenceIndexer's
+  /// image-selection rule.
+  size          String
+  image         CardReferenceImage @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  imageId       String
+  /// The CatalogItem.imageLargeUrl/imageSmallUrl value in effect the last
+  /// time this link was verified — compared against the CatalogItem's
+  /// current URL on each incremental rebuildIndex() run to detect "the
+  /// source URL changed since we last indexed" without re-hashing bytes.
+  sourceUrlAtSync String
+  lastCheckedAt   DateTime @default(now())
+
+  @@unique([catalogItemId, size])
+  @@index([gameId])
+  @@index([imageId])
+  @@map("cardvision_reference_image_links")
+}
