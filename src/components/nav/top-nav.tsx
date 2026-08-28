@@ -120,7 +120,7 @@ export function TopNav() {
           >
             <Link href="/scan">
               <Camera className="size-4" />
-              Scan
+              Scan Cards
             </Link>
           </Button>
           <SearchBox />
@@ -159,7 +159,7 @@ export function TopNav() {
                   className="mt-2 flex items-center gap-2 rounded-md border border-primary/40 px-3 py-2 text-sm font-medium text-primary"
                 >
                   <Camera className="size-4" />
-                  Scan a card
+                  Scan Cards
                 </Link>
                 <div className="mt-4 border-t border-border pt-4 sm:hidden">
                   {status === "authenticated" ? (
