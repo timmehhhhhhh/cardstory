@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowLeft, Check } from "lucide-react";
+import { ArrowLeft, Camera, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePCData } from "@/hooks/use-pc-data";
 import { useMediaQuery } from "@/hooks/use-media-query";
@@ -215,7 +215,14 @@ export function BinderClient({
               Mock up how your cards would look in a physical binder page.
             </p>
           </div>
-          <BinderSelector />
+          <div className="flex items-center gap-2">
+            <BinderSelector />
+            <Button asChild variant="outline" size="sm">
+              <Link href={`/binder/import?binderId=${binder.id}`}>
+                <Camera className="size-4" /> Import Physical Binder
+              </Link>
+            </Button>
+          </div>
         </div>
 
         <div className="flex flex-wrap items-center gap-3 rounded-xl border border-border bg-surface px-3 py-2.5">

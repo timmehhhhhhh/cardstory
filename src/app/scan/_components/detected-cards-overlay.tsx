@@ -14,10 +14,19 @@ export function DetectedCardsOverlay({
   previewUrl,
   cards,
   className,
+  labelFor,
 }: {
   previewUrl: string;
   cards: DetectedCard[];
   className?: string;
+  /**
+   * Overrides the default reading-order number (1, 2, 3…) shown on each
+   * box — Binder Import (src/app/binder/import) passes this to label boxes
+   * with their mapped pocket number instead, so the overlay reads as "this
+   * box is pocket 5" rather than "this was the 5th card detected". Falls
+   * back to `i + 1` when omitted, unchanged Mass Scanner behavior.
+   */
+  labelFor?: (card: DetectedCard, i: number) => string;
 }) {
   return (
     <div className={cn("relative w-full overflow-hidden rounded-xl border border-border bg-surface", className)}>
@@ -46,7 +55,7 @@ export function DetectedCardsOverlay({
             }}
           >
             <span className="absolute -left-1 -top-1 flex size-5 items-center justify-center rounded-full bg-background text-[11px] font-bold text-foreground shadow-sm">
-              {i + 1}
+              {labelFor ? labelFor(card, i) : i + 1}
             </span>
           </div>
         );

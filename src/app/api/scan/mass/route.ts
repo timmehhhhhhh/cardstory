@@ -11,6 +11,17 @@ const bodySchema = z.object({
   imagePixelWidth: z.number().positive().optional(),
   imagePixelHeight: z.number().positive().optional(),
   gameHint: z.string().optional(),
+  /**
+   * Additive, optional cap on how many detected regions get identified —
+   * defaults to runScanPipelineSafe's own DEFAULT_MAX_CARDS (20) when
+   * omitted. Physical Binder Import (src/app/binder/import) passes the
+   * target binder page's own pocketCount(layoutId) so a busy page never
+   * silently drops a card past the default cap; Mass Scanner leaves this
+   * unset. Capped at 20 here to match BINDER_LAYOUTS' current largest
+   * layout (see src/lib/binder/types.ts) and to keep one photo's
+   * identification cost bounded.
+   */
+  maxCards: z.number().int().positive().max(20).optional(),
 });
 
 /**
@@ -31,13 +42,14 @@ export async function POST(req: NextRequest) {
   const parsed = bodySchema.safeParse(await req.json());
   if (!parsed.success) return NextResponse.json({ error: "Invalid image" }, { status: 400 });
 
-  const { imageBase64, mimeType, imagePixelWidth, imagePixelHeight, gameHint } = parsed.data;
+  const { imageBase64, mimeType, imagePixelWidth, imagePixelHeight, gameHint, maxCards } = parsed.data;
 
   const result = await runScanPipelineSafe({
     image: { kind: "inline", base64: imageBase64, mimeType },
     imagePixelWidth,
     imagePixelHeight,
     gameHint,
+    maxCards,
     identificationStrategy: createMemoizedIdentificationStrategy(getDefaultIdentificationStrategy()),
   });
 
