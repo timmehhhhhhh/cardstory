@@ -146,6 +146,16 @@ model CatalogItem {
   /// request/second, so avoiding repeat searches is not optional.
   priceChartingId String?
 
+  /// Shared id linking every related printing of "the same card" into one
+  /// family — across sets/years (reprints) AND across languages (language
+  /// variants). Null until assigned, either by scripts/backfill-catalog-family.ts
+  /// (a name+artist+nationalPokedexNumbers heuristic, Pokémon-only, see that
+  /// script's doc comment for its known limitations) or by an admin manually
+  /// linking/unlinking two cards (src/app/api/admin/card-family/route.ts).
+  /// Two rows sharing a non-null cardFamilyId are one family; unlike
+  /// CatalogItem.id there is no format constraint on the value itself.
+  cardFamilyId String?
+
   @@unique([gameId, externalId, variantKey])
   @@index([gameId, externalId])
   @@index([setId])
@@ -157,6 +167,7 @@ model CatalogItem {
   @@index([nationalPokedexNumbers])
   @@index([latestPriceRaw])
   @@index([priceChangePct])
+  @@index([cardFamilyId])
   @@map("catalog_items")
 }
 
@@ -436,6 +447,12 @@ model User {
   /// src/lib/utils/use-pricing-visible.ts). Toggled from
   /// src/app/settings/_components/settings-client.tsx.
   hidePricing  Boolean  @default(false)
+  /// Grants access to admin-only tooling — currently just the card-family
+  /// linking UI/API (src/app/api/admin/card-family/route.ts), which lets an
+  /// admin link/unlink two CatalogItem rows as reprints/language variants
+  /// of each other. Unlike isVendor this is never self-service: it has no
+  /// toggle route and must be set directly in the database.
+  isAdmin      Boolean  @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -884,24 +901,24 @@ model CardReferenceImage {
 /// is instead detected and cleaned up explicitly by
 /// CardReferenceIndexer.rebuildIndex()'s orphan sweep.
 model CardReferenceImageLink {
-  id     String @id @default(cuid())
+  id              String             @id @default(cuid())
   /// Existing CatalogItem.id ("<gameId>:<externalId>") — see
   /// src/lib/catalog/by-ids.ts. Always references real catalog data;
   /// never a second identity scheme.
-  catalogItemId String
-  gameId        String
+  catalogItemId   String
+  gameId          String
   /// Which CatalogItem image field this link represents — "large"
   /// (preferred) or "small" (fallback), per CardReferenceIndexer's
   /// image-selection rule.
-  size          String
-  image         CardReferenceImage @relation(fields: [imageId], references: [id], onDelete: Cascade)
-  imageId       String
+  size            String
+  image           CardReferenceImage @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  imageId         String
   /// The CatalogItem.imageLargeUrl/imageSmallUrl value in effect the last
   /// time this link was verified — compared against the CatalogItem's
   /// current URL on each incremental rebuildIndex() run to detect "the
   /// source URL changed since we last indexed" without re-hashing bytes.
   sourceUrlAtSync String
-  lastCheckedAt   DateTime @default(now())
+  lastCheckedAt   DateTime           @default(now())
 
   @@unique([catalogItemId, size])
   @@index([gameId])
@@ -926,7 +943,7 @@ model CardReferenceImageLink {
 /// harmless dead weight rather than a correctness bug, and CardVision
 /// isn't yet in any code path where that matters.
 model CardReferenceEmbedding {
-  id            String @id @default(cuid())
+  id            String   @id @default(cuid())
   /// Existing CatalogItem.id — always real catalog data, never a second identity scheme.
   catalogItemId String
   gameId        String
@@ -936,26 +953,26 @@ model CardReferenceEmbedding {
   /// VisionEmbeddingProvider.id). A future CandidateRetriever must only
   /// ever compare embeddings sharing this same value — see
   /// src/lib/cardvision/providers/embedding-similarity-retriever.ts.
-  provider String
+  provider      String
   /// Vector dimensionality, denormalized from `vector`'s actual byte
   /// length (dims * 4 bytes, Float32) so a caller can validate/filter
   /// without decoding the vector itself.
-  dims Int
+  dims          Int
   /// Float32-packed embedding bytes — see
   /// src/lib/cardvision/providers/embedding-codec.ts. Bytes rather than a
   /// Postgres array/vector type: this schema has no pgvector extension
   /// installed (Phase 3 intentionally ships brute-force cosine similarity
   /// in application code, not a vector index — see docs/cardvision.md).
-  vector Bytes
+  vector        Bytes
   /// "ready" (vector is usable) or "failed" (embed() threw for this item —
   /// see `error`). Never "pending": generation is synchronous per item in
   /// this phase, so a row only exists once its outcome is known.
-  status String
+  status        String
   /// Human-readable failure reason when status = "failed" — never a raw
   /// provider stack trace, same convention as RecognitionResult.error.
-  error String?
-  generatedAt DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  error         String?
+  generatedAt   DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   @@unique([catalogItemId, variantKey, provider])
   @@index([provider])

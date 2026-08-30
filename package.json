@@ -15,6 +15,7 @@
     "seed:lamelo-ball": "tsx scripts/seed-lamelo-ball.ts",
     "seed:pokemon-manual": "tsx scripts/seed-pokemon-manual.ts",
     "import:card-set": "tsx scripts/import-card-set.ts",
+    "backfill:catalog-family": "tsx scripts/backfill-catalog-family.ts",
     "snapshot:manual": "tsx scripts/run-snapshot.ts",
     "reindex:cardvision": "tsx scripts/reindex-cardvision-references.ts",
     "embed:cardvision": "tsx scripts/generate-cardvision-embeddings.ts",

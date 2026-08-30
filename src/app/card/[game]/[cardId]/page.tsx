@@ -17,10 +17,14 @@ import { RarityBadge } from "@/components/cards/rarity-badge";
 import { FinishBadge } from "@/components/cards/finish-badge";
 import { DomainIcon } from "@/components/cards/riftbound-icons";
 import { OtherVersionsPanel } from "@/app/card/[game]/[cardId]/_components/other-versions-panel";
+import { LanguageVariantsPanel } from "@/app/card/[game]/[cardId]/_components/language-variants-panel";
+import { ReprintsPanel } from "@/app/card/[game]/[cardId]/_components/reprints-panel";
+import { AdminFamilyEditor } from "@/app/card/[game]/[cardId]/_components/admin-family-editor";
 import { SportsParallelsPanel } from "@/app/card/[game]/[cardId]/_components/sports-parallels-panel";
 import { getSportsCardGroupVariants } from "@/lib/sportscards/manage";
 import { Badge } from "@/components/ui/badge";
 import { formatReleaseDate } from "@/lib/format/date";
+import { languageLabel } from "@/lib/format/language";
 import { defaultFinishLabel } from "@/lib/games/pokemon/mapper";
 import { requireSession } from "@/lib/auth/require-session";
 import { getFinishDisplayLabel } from "@/lib/games/pokemon/finish-patterns";
@@ -98,6 +102,46 @@ const getSportsCardVariants = unstable_cache(
   { tags: ["catalog-card"], revalidate: 86400 }
 );
 
+/**
+ * Every other member of this card's cardFamilyId (see the field's doc
+ * comment in prisma/schema.prisma) — reprints across sets/years AND
+ * printings in other languages, all in one undifferentiated list; the page
+ * body below partitions this into the Language Variants / Reprints panels.
+ * Returns [] when the card has no family yet (cardFamilyId is null), same
+ * "naturally resolves to empty, no extra check needed" shape as
+ * getSiblingVariants above.
+ */
+const getFamilyMembers = unstable_cache(
+  async (item: { id: string; cardFamilyId: string | null }) => {
+    if (!item.cardFamilyId) return [];
+    const rows = await db.catalogItem.findMany({
+      where: { cardFamilyId: item.cardFamilyId, id: { not: item.id } },
+      select: {
+        id: true,
+        gameId: true,
+        name: true,
+        nameEn: true,
+        language: true,
+        latestPriceRaw: true,
+        variantKey: true,
+        set: { select: { code: true, releaseDate: true } },
+      },
+    });
+    return rows.map((r) => ({
+      id: r.id,
+      gameId: r.gameId,
+      name: r.name,
+      nameEn: r.nameEn,
+      language: r.language,
+      priceRaw: r.latestPriceRaw != null ? Number(r.latestPriceRaw) : null,
+      releaseDate: r.set.releaseDate,
+      label: getFinishDisplayLabel(r.set.code, r.variantKey, defaultFinishLabel(r.variantKey)),
+    }));
+  },
+  ["card-detail-family-members"],
+  { tags: ["catalog-card"], revalidate: 86400 }
+);
+
 export async function generateMetadata({
   params,
 }: {
@@ -118,7 +162,7 @@ export default async function CardDetailPage({
 }: {
   params: Promise<{ game: string; cardId: string }>;
 }) {
-  await requireSession();
+  const session = await requireSession();
   const { game, cardId } = await params;
   const card = await getCard(game, cardId);
   if (!card) notFound();
@@ -211,6 +255,34 @@ export default async function CardDetailPage({
     item.nameEn
   );
   const siblingVariants = await getSiblingVariants(item);
+  const familyMembers = await getFamilyMembers({ id: item.id, cardFamilyId: item.cardFamilyId });
+  // Members sharing the current card's own language are "the same
+  // language, a different printing" — i.e. reprints/original appearance,
+  // oldest first. Every other member is a different-language printing,
+  // bucketed by language with EN always first (even when the current card
+  // itself isn't English) then other languages alphabetically by display
+  // name. This partition means the current card's own language is never
+  // duplicated into the Language Variants panel — its own reprints already
+  // cover that language.
+  const reprints = familyMembers
+    .filter((m) => m.language === item.language)
+    .sort((a, b) => (a.releaseDate?.getTime() ?? 0) - (b.releaseDate?.getTime() ?? 0));
+  const languageBuckets = new Map<string, typeof familyMembers>();
+  for (const m of familyMembers) {
+    if (m.language === item.language) continue;
+    const arr = languageBuckets.get(m.language) ?? [];
+    arr.push(m);
+    languageBuckets.set(m.language, arr);
+  }
+  for (const arr of languageBuckets.values()) {
+    arr.sort((a, b) => (a.releaseDate?.getTime() ?? 0) - (b.releaseDate?.getTime() ?? 0));
+  }
+  const languageOrder = [...languageBuckets.keys()].sort((a, b) => {
+    if (a === "EN") return -1;
+    if (b === "EN") return 1;
+    return languageLabel(a).localeCompare(languageLabel(b));
+  });
+  const languageGroups = languageOrder.map((l) => ({ language: l, members: languageBuckets.get(l)! }));
   // Every price/graded-price/eBay-comps lookup below is keyed by the full
   // CatalogItem.id, not the bare externalId — see cardDetailHref for why:
   // one externalId can now back several rows (Pokémon finish variants), so
@@ -258,6 +330,16 @@ export default async function CardDetailPage({
         current={{ id: item.id, priceRaw, label: variantLabel ?? "This finish" }}
         siblings={siblingVariants}
       />
+
+      <LanguageVariantsPanel groups={languageGroups} />
+      <ReprintsPanel entries={reprints} />
+      {session.user.isAdmin && (
+        <AdminFamilyEditor
+          currentCardId={item.id}
+          currentCardName={displayName}
+          members={familyMembers.map((m) => ({ id: m.id, gameId: m.gameId, name: m.nameEn ?? m.name }))}
+        />
+      )}
 
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-[260px_1fr_300px]">
         <div className="overflow-hidden rounded-xl border border-border bg-surface">

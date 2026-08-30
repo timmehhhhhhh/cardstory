@@ -303,6 +303,7 @@ export function ItemGallery({
   onToggleSelect,
   activePCId,
   sourceLabel,
+  dense = false,
 }: {
   rows: EnrichedHolding[];
   bulkMode: boolean;
@@ -311,6 +312,8 @@ export function ItemGallery({
   activePCId: string;
   /** Where a shortlist add from this grid should be recorded as coming from — e.g. "PC · My Collection" or "Business Inventory". */
   sourceLabel: string;
+  /** ViewMode "grid3" — same tiles, a 3-per-row-minimum grid instead of the default 2-per-row-minimum. */
+  dense?: boolean;
 }) {
   const [editingHolding, setEditingHolding] = React.useState<EnrichedHolding | null>(null);
   const [storyStack, setStoryStack] = React.useState<{ faces: EnrichedHolding[]; index: number } | null>(null);
@@ -321,7 +324,13 @@ export function ItemGallery({
   const stacks = groupHoldingsIntoStacks(rows);
 
   return (
-    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+    <div
+      className={
+        dense
+          ? "grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6"
+          : "grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
+      }
+    >
       {stacks.map((stack) => (
         <CardStack
           key={stack.key}
