@@ -6,6 +6,7 @@ import { usePCStore } from "@/lib/pc/store";
 import { Money } from "@/components/ui/money";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
 import { CardImage } from "@/components/cards/card-image";
+import { primaryName, secondaryName } from "@/lib/catalog/card-name";
 
 export function MostValuable({ rows }: { rows: EnrichedHolding[] }) {
   const currency = usePCStore((s) => s.preferences.currency);
@@ -24,8 +25,11 @@ export function MostValuable({ rows }: { rows: EnrichedHolding[] }) {
                 <div className="relative size-8 flex-none overflow-hidden rounded bg-muted">
                   <CardImage src={r.display.imageUrl} alt="" className="object-contain" />
                 </div>
-                <span className="min-w-0 flex-1 truncate text-sm" title={r.display.nameEn ?? undefined}>
-                  {r.display.name}
+                <span
+                  className="min-w-0 flex-1 truncate text-sm"
+                  title={secondaryName(r.display.name, r.display.nameEn) ?? undefined}
+                >
+                  {primaryName(r.display.name, r.display.nameEn)}
                 </span>
                 <span className="num-tabular text-sm font-medium">
                   <Money amountUsd={r.marketValue} currency={currency} />
