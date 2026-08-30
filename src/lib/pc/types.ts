@@ -3,7 +3,14 @@ import type { LetGoDetails } from "@/lib/pc/api-schemas";
 
 export type CardCondition = "raw" | "graded";
 export type ItemLanguage = "EN" | "JP" | "CN" | "TW" | "KR";
-export type ViewMode = "grid" | "list";
+/**
+ * "grid" is the image-first gallery, at least 2 cards per row on the
+ * smallest breakpoint; "grid3" is the same tile/stack rendering (see
+ * ItemGallery) at a denser breakpoint set, at least 3 per row; "list" is
+ * ItemGrid, the detail-dense row layout — unaffected by either gallery
+ * density option.
+ */
+export type ViewMode = "grid" | "grid3" | "list";
 export type HoldingKind = "tcg" | "sports";
 
 /**

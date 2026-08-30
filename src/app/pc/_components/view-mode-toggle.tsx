@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutGrid, Rows3 } from "lucide-react";
+import { Grid3x3, LayoutGrid, Rows3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePCStore } from "@/lib/pc/store";
 import type { ViewMode } from "@/lib/pc/types";
@@ -20,6 +20,7 @@ export function ViewModeToggle() {
   const options: { value: ViewMode; label: string; icon: typeof Rows3 }[] = [
     { value: "list", label: "List", icon: Rows3 },
     { value: "grid", label: "Gallery", icon: LayoutGrid },
+    { value: "grid3", label: "Gallery 3-Wide", icon: Grid3x3 },
   ];
 
   return (

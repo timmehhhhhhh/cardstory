@@ -35,6 +35,10 @@ export const authConfig = {
       if (user) {
         token.uid = user.id;
         token.isVendor = (user as { isVendor?: boolean }).isVendor ?? false;
+        // No trigger === "update" branch for isAdmin below, unlike isVendor/
+        // hidePricing — there's no self-service toggle for it, so a session
+        // never needs to push an updated value back into the token.
+        token.isAdmin = (user as { isAdmin?: boolean }).isAdmin ?? false;
         token.hidePricing = (user as { hidePricing?: boolean }).hidePricing ?? false;
       }
       // See src/auth.ts's identical callback for why.
@@ -50,6 +54,7 @@ export const authConfig = {
       if (session.user && typeof token.uid === "string") {
         session.user.id = token.uid;
         session.user.isVendor = token.isVendor === true;
+        session.user.isAdmin = token.isAdmin === true;
         session.user.hidePricing = token.hidePricing === true;
       }
       return session;

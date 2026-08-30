@@ -25,9 +25,12 @@ import type { CatalogSearchItem } from "@/lib/catalog/search";
 export function CardTile({
   item,
   view = "grid",
+  dim = false,
 }: {
   item: CatalogSearchItem;
   view?: "grid" | "list";
+  /** Grayscales the card art only (text/badges/buttons stay full-color and interactive) — used to deprioritize a tile visually, e.g. Curated Sets' owned/missing focus toggle. */
+  dim?: boolean;
 }) {
   const currency = usePCStore((s) => s.preferences.currency);
   const pricingVisible = usePricingVisible();
@@ -282,7 +285,7 @@ export function CardTile({
             src={item.imageSmallUrl}
             alt=""
             sizes="40px"
-            className="object-contain"
+            className={cn("object-contain", dim && "grayscale")}
           />
         </div>
         <div className="pointer-events-none min-w-0 flex-1">
@@ -345,7 +348,7 @@ export function CardTile({
           src={item.imageSmallUrl}
           alt={item.name}
           sizes="(min-width:1280px) 220px, (min-width:768px) 25vw, 45vw"
-          className="object-contain p-2"
+          className={cn("object-contain p-2", dim && "grayscale")}
           fallbackVariant="icon-label"
         />
         <CardNumberBadge number={item.number} variant="overlay" />

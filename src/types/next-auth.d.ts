@@ -7,6 +7,7 @@ declare module "next-auth" {
     user: {
       id: string;
       isVendor: boolean;
+      isAdmin: boolean;
       hidePricing: boolean;
     } & DefaultSession["user"];
   }

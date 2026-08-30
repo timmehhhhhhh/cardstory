@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, Pencil, Trash2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -49,8 +50,14 @@ function ProgressBar({ pct }: { pct: number }) {
   );
 }
 
-/** A still-missing card — grayscaled, non-interactive (no add-to-PC affordance), still links to the card detail page. */
-function MissingCardTile({ item }: { item: CatalogSearchItem }) {
+/**
+ * A still-missing card — non-interactive (no add-to-PC affordance), still
+ * links to the card detail page. `dim` (default true, matching the
+ * always-grayscale look this had before the owned/missing focus toggle)
+ * grayscales just the art; false renders it full-color, used when the
+ * "Missing" focus is active and this section leads.
+ */
+function MissingCardTile({ item, dim = true }: { item: CatalogSearchItem; dim?: boolean }) {
   const isSports = getGameMeta(item.gameId)?.kind === "sports";
   const href = cardDetailHref(item.gameId, item.id, isSports);
   const displayName = withEnglishName(
@@ -59,7 +66,7 @@ function MissingCardTile({ item }: { item: CatalogSearchItem }) {
   );
   const inner = (
     <div className="relative aspect-[5/7] overflow-hidden rounded-xl border border-border bg-muted">
-      <CardImage src={item.imageSmallUrl} alt={displayName} className="grayscale object-cover" />
+      <CardImage src={item.imageSmallUrl} alt={displayName} className={cn("object-cover", dim && "grayscale")} />
     </div>
   );
   return (
@@ -82,6 +89,11 @@ export function CuratedSetDetailClient({ curatedSetId }: { curatedSetId: string 
   const { updateCuratedSet, deleteCuratedSet } = useCuratedSetsMutations();
   const pcs = usePCStore((s) => s.pcs);
   const [builderOpen, setBuilderOpen] = React.useState(false);
+  // Which section gets visual priority — full color, listed first — vs.
+  // grayscaled and pushed below. Page-scoped local state (no cross-page
+  // persistence precedent here, unlike PC's ViewMode preference); defaults
+  // to "owned" per spec.
+  const [focus, setFocus] = React.useState<"owned" | "missing">("owned");
 
   const curatedSet = curatedSets.find((s) => s.id === curatedSetId);
   const orderByParam = searchParams.get("orderBy");
@@ -154,6 +166,33 @@ export function CuratedSetDetailClient({ curatedSetId }: { curatedSetId: string 
             )}
           </div>
           <div className="flex flex-wrap gap-2">
+            <div
+              role="group"
+              aria-label="Focus"
+              className="flex items-center gap-0.5 rounded-lg border border-border bg-surface p-0.5"
+            >
+              {(["owned", "missing"] as const).map((f) => (
+                <button
+                  key={f}
+                  type="button"
+                  aria-pressed={focus === f}
+                  onClick={() => setFocus(f)}
+                  title={
+                    f === "owned"
+                      ? "Bring owned cards to the front, in color"
+                      : "Bring missing cards to the front, in color"
+                  }
+                  className={cn(
+                    "rounded-md px-2.5 py-1 text-sm",
+                    focus === f
+                      ? "bg-primary/10 text-primary"
+                      : "text-muted-foreground hover:bg-surface-elevated hover:text-foreground"
+                  )}
+                >
+                  {f === "owned" ? "Owned" : "Missing"}
+                </button>
+              ))}
+            </div>
             <div className="flex items-center gap-2">
               <span className="text-sm text-muted-foreground">Order by</span>
               <Select value={orderBy} onValueChange={(v) => updateOrderBy(v as CuratedSetCardSort)}>
@@ -201,35 +240,46 @@ export function CuratedSetDetailClient({ curatedSetId }: { curatedSetId: string 
         </div>
       ) : (
         <>
-          <section className="flex flex-col gap-3">
-            <h2 className="text-sm font-semibold text-muted-foreground">
-              Owned · {progress.owned.length.toLocaleString()}
-            </h2>
-            {progress.owned.length === 0 ? (
-              <p className="text-sm text-muted-foreground">None of these cards are in your PC yet.</p>
-            ) : (
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                {progress.owned.map((item) => (
-                  <CardTile key={item.id} item={item} />
-                ))}
-              </div>
-            )}
-          </section>
-
-          <section className="flex flex-col gap-3">
-            <h2 className="text-sm font-semibold text-muted-foreground">
-              Missing · {progress.missing.length.toLocaleString()}
-            </h2>
-            {progress.missing.length === 0 ? (
-              <p className="text-sm text-muted-foreground">Complete! You own every card in this set.</p>
-            ) : (
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                {progress.missing.map((item) => (
-                  <MissingCardTile key={item.id} item={item} />
-                ))}
-              </div>
-            )}
-          </section>
+          {(
+            [
+              {
+                key: "owned" as const,
+                label: "Owned",
+                items: progress.owned,
+                dimmed: focus === "missing",
+                emptyMessage: "None of these cards are in your PC yet.",
+              },
+              {
+                key: "missing" as const,
+                label: "Missing",
+                items: progress.missing,
+                dimmed: focus === "owned",
+                emptyMessage: "Complete! You own every card in this set.",
+              },
+            ]
+            // The focused section always leads — swap position, not just color.
+          )
+            .sort((a, b) => (a.key === focus ? -1 : b.key === focus ? 1 : 0))
+            .map((s) => (
+              <section key={s.key} className="flex flex-col gap-3">
+                <h2 className="text-sm font-semibold text-muted-foreground">
+                  {s.label} · {s.items.length.toLocaleString()}
+                </h2>
+                {s.items.length === 0 ? (
+                  <p className="text-sm text-muted-foreground">{s.emptyMessage}</p>
+                ) : (
+                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                    {s.items.map((item) =>
+                      s.key === "owned" ? (
+                        <CardTile key={item.id} item={item} dim={s.dimmed} />
+                      ) : (
+                        <MissingCardTile key={item.id} item={item} dim={s.dimmed} />
+                      )
+                    )}
+                  </div>
+                )}
+              </section>
+            ))}
         </>
       )}
 
