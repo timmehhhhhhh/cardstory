@@ -18,6 +18,8 @@ export interface CatalogItemDetail {
   productType: "CARD" | "SEALED";
   priceRaw: number | null;
   priceChangePct: number | null;
+  /** Set.releaseDate, as an ISO date string ("YYYY-MM-DD"). Null when no confidently-sourced date was captured for this set. */
+  releaseDate: string | null;
 }
 
 /** Batch lookup used to enrich local-only pc holdings (which only store catalogItemId). */
@@ -40,7 +42,7 @@ export async function getCatalogItemsByIds(ids: string[]): Promise<CatalogItemDe
       latestPriceRaw: true,
       priceChangePct: true,
       setId: true,
-      set: { select: { name: true } },
+      set: { select: { name: true, releaseDate: true } },
     },
   });
 
@@ -60,5 +62,6 @@ export async function getCatalogItemsByIds(ids: string[]): Promise<CatalogItemDe
     productType: r.productType,
     priceRaw: r.latestPriceRaw != null ? Number(r.latestPriceRaw) : null,
     priceChangePct: r.priceChangePct,
+    releaseDate: r.set.releaseDate ? r.set.releaseDate.toISOString().slice(0, 10) : null,
   }));
 }

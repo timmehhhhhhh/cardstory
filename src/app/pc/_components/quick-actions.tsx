@@ -3,8 +3,9 @@
 import { CheckSquare, Download } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
-import type { SortDirection, SortField } from "@/lib/pc/types";
+import type { GroupField, SortDirection, SortField } from "@/lib/pc/types";
 import { SortBySelect } from "@/app/pc/_components/sort-by";
+import { GroupBySelect } from "@/app/pc/_components/group-by";
 
 function exportCsv(rows: EnrichedHolding[]) {
   const header = [
@@ -61,6 +62,8 @@ export function QuickActions({
   sortDirection,
   onSortFieldChange,
   onSortDirectionChange,
+  groupField,
+  onGroupFieldChange,
 }: {
   rows: EnrichedHolding[];
   bulkMode: boolean;
@@ -69,6 +72,8 @@ export function QuickActions({
   sortDirection: SortDirection;
   onSortFieldChange: (field: SortField) => void;
   onSortDirectionChange: (direction: SortDirection) => void;
+  groupField: GroupField;
+  onGroupFieldChange: (field: GroupField) => void;
 }) {
   return (
     <div className="flex flex-wrap items-center gap-2">
@@ -82,6 +87,7 @@ export function QuickActions({
           onFieldChange={onSortFieldChange}
           onDirectionChange={onSortDirectionChange}
         />
+        <GroupBySelect field={groupField} onFieldChange={onGroupFieldChange} />
         <button
           type="button"
           role="switch"

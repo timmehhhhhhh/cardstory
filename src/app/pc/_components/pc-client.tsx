@@ -11,8 +11,7 @@ import { PCToolbar } from "@/app/pc/_components/pc-toolbar";
 import { MostValuable } from "@/app/pc/_components/most-valuable";
 import { TrendingToday } from "@/app/pc/_components/trending-today";
 import { CollectionsByGame } from "@/app/pc/_components/collections-by-game";
-import { ItemGrid } from "@/app/pc/_components/item-grid";
-import { ItemGallery } from "@/app/pc/_components/item-gallery";
+import { HoldingsList } from "@/app/pc/_components/holdings-list";
 import { BulkActionsBar } from "@/app/pc/_components/bulk-actions-bar";
 import { sortHoldings } from "@/lib/pc/selectors";
 import { matchesNameNumberQuery } from "@/lib/utils/name-match";
@@ -29,6 +28,8 @@ export function PCClient() {
   const sortDirection = usePCStore((s) => s.preferences.sortDirection);
   const setSortField = usePCStore((s) => s.setSortField);
   const setSortDirection = usePCStore((s) => s.setSortDirection);
+  const groupField = usePCStore((s) => s.preferences.groupField);
+  const setGroupField = usePCStore((s) => s.setGroupField);
   const setActivePC = usePCStore((s) => s.setActivePC);
   const filters = usePCStore((s) => s.preferences.holdingFilters);
   const setHoldingFilters = usePCStore((s) => s.setHoldingFilters);
@@ -113,6 +114,8 @@ export function PCClient() {
         sortDirection={sortDirection}
         onSortFieldChange={setSortField}
         onSortDirectionChange={setSortDirection}
+        groupField={groupField}
+        onGroupFieldChange={setGroupField}
         filters={filters}
         onFiltersChange={(patch) => setHoldingFilters({ ...filters, ...patch })}
       />
@@ -169,18 +172,11 @@ export function PCClient() {
       <div className="flex flex-col gap-3">
         {isLoading ? (
           <p className="text-sm text-muted-foreground">Loading your collection…</p>
-        ) : viewMode === "grid" ? (
-          <ItemGallery
-            rows={sortedRows}
-            bulkMode={bulkMode}
-            selected={selected}
-            onToggleSelect={toggleSelect}
-            activePCId={activePCId}
-            sourceLabel={`PC · ${activePC?.name ?? "My PC"}`}
-          />
         ) : (
-          <ItemGrid
+          <HoldingsList
             rows={sortedRows}
+            groupField={groupField}
+            viewMode={viewMode}
             bulkMode={bulkMode}
             selected={selected}
             onToggleSelect={toggleSelect}

@@ -13,8 +13,7 @@ import { MostValuable } from "@/app/pc/_components/most-valuable";
 import { TrendingToday } from "@/app/pc/_components/trending-today";
 import { CollectionsByGame } from "@/app/pc/_components/collections-by-game";
 import { SmartFilters } from "@/app/pc/_components/smart-filters";
-import { ItemGrid } from "@/app/pc/_components/item-grid";
-import { ItemGallery } from "@/app/pc/_components/item-gallery";
+import { HoldingsList } from "@/app/pc/_components/holdings-list";
 import { ViewModeToggle } from "@/app/pc/_components/view-mode-toggle";
 import { BulkActionsBar } from "@/app/pc/_components/bulk-actions-bar";
 import { sortHoldings } from "@/lib/pc/selectors";
@@ -53,6 +52,8 @@ export function BusinessClient() {
   const sortDirection = usePCStore((s) => s.preferences.sortDirection);
   const setSortField = usePCStore((s) => s.setSortField);
   const setSortDirection = usePCStore((s) => s.setSortDirection);
+  const groupField = usePCStore((s) => s.preferences.groupField);
+  const setGroupField = usePCStore((s) => s.setGroupField);
 
   const [filters, setFilters] = React.useState<HoldingFilters>(DEFAULT_HOLDING_FILTERS);
   const [bulkMode, setBulkMode] = React.useState(false);
@@ -133,6 +134,8 @@ export function BusinessClient() {
             sortDirection={sortDirection}
             onSortFieldChange={setSortField}
             onSortDirectionChange={setSortDirection}
+            groupField={groupField}
+            onGroupFieldChange={setGroupField}
           />
           <AddSportsCardDialog />
           <Button asChild variant="outline" size="sm">
@@ -189,18 +192,11 @@ export function BusinessClient() {
         </div>
         {isLoading ? (
           <p className="text-sm text-muted-foreground">Loading your inventory…</p>
-        ) : viewMode === "grid" ? (
-          <ItemGallery
-            rows={sortedRows}
-            bulkMode={bulkMode}
-            selected={selected}
-            onToggleSelect={toggleSelect}
-            activePCId={businessPCId}
-            sourceLabel="Business Inventory"
-          />
         ) : (
-          <ItemGrid
+          <HoldingsList
             rows={sortedRows}
+            groupField={groupField}
+            viewMode={viewMode}
             bulkMode={bulkMode}
             selected={selected}
             onToggleSelect={toggleSelect}

@@ -2,6 +2,7 @@ import {
   holdingIsArchived,
   holdingIsCustom,
   holdingKind,
+  type GroupField,
   type Holding,
   type HoldingKind,
   type PC,
@@ -270,6 +271,18 @@ export function topByChange(rows: EnrichedHolding[], n: number, direction: "up" 
 }
 
 /**
+ * A row's release date — the TCG set's release date when known, else a
+ * synthesized "YYYY-01-01" from the sports card's year, else null. Shared
+ * between sortHoldings' "releaseDate" case and groupRows' "releaseYear"
+ * case so the two stay consistent.
+ */
+export function resolveReleaseDate(row: EnrichedHolding): string | null {
+  if (row.catalogItem?.releaseDate) return row.catalogItem.releaseDate;
+  if (row.sportsCardItem?.year) return `${row.sportsCardItem.year}-01-01`;
+  return null;
+}
+
+/**
  * Orders holdings for the PC List/Gallery per the user-picked sort field and
  * direction (Preferences.sortField/sortDirection, src/lib/pc/types.ts). A
  * stable sort — ties keep their incoming order — so switching sort fields
@@ -302,8 +315,72 @@ export function sortHoldings(
       }
       case "value":
         return sign * (a.marketValue - b.marketValue);
+      case "releaseDate": {
+        // Same nulls-last convention as dateAcquired above — "unknown"
+        // isn't meaningfully older or newer than a known release date.
+        const aDate = resolveReleaseDate(a);
+        const bDate = resolveReleaseDate(b);
+        if (!aDate && !bDate) return 0;
+        if (!aDate) return 1;
+        if (!bDate) return -1;
+        return sign * aDate.localeCompare(bDate);
+      }
       default:
         return 0;
     }
   });
+}
+
+export interface HoldingGroup {
+  key: string;
+  /** Empty string for the single "none" group — see groupRows. */
+  label: string;
+  rows: EnrichedHolding[];
+}
+
+/**
+ * Sections already-sorted rows into labeled groups for the PC List/Gallery
+ * per the user-picked GroupField (Preferences.groupField, src/lib/pc/types.ts)
+ * — orthogonal to sortHoldings above, which decides each row's order both
+ * overall and within its group. "none" returns a single, unlabeled group so
+ * callers can render unconditionally.
+ */
+export function groupRows(rows: EnrichedHolding[], field: GroupField): HoldingGroup[] {
+  if (field === "none") return [{ key: "all", label: "", rows }];
+
+  const UNKNOWN = field === "releaseYear" ? "Unknown Year" : field === "set" ? "Unknown Set" : "Unknown";
+  const keyOf = (r: EnrichedHolding): string => {
+    switch (field) {
+      case "set":
+        return r.catalogItem?.setName ?? r.sportsCardItem?.setName ?? UNKNOWN;
+      case "cardName":
+        return r.display.name;
+      case "releaseYear": {
+        const date = resolveReleaseDate(r);
+        return date ? date.slice(0, 4) : UNKNOWN;
+      }
+      default:
+        return UNKNOWN;
+    }
+  };
+
+  const map = new Map<string, HoldingGroup>();
+  for (const r of rows) {
+    const key = keyOf(r);
+    const group = map.get(key);
+    if (group) group.rows.push(r);
+    else map.set(key, { key, label: key, rows: [r] });
+  }
+
+  const groups = Array.from(map.values());
+  groups.sort((a, b) => {
+    // Unknown always sorts last, regardless of field — same "unknown isn't
+    // meaningfully before/after a known value" reasoning as sortHoldings.
+    if (a.key === UNKNOWN && b.key === UNKNOWN) return 0;
+    if (a.key === UNKNOWN) return 1;
+    if (b.key === UNKNOWN) return -1;
+    // Newest year first; alphabetical for set/card name.
+    return field === "releaseYear" ? Number(b.key) - Number(a.key) : a.key.localeCompare(b.key);
+  });
+  return groups;
 }

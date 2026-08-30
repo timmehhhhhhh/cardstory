@@ -14,9 +14,21 @@ export type HoldingKind = "tcg" | "sports";
  * sort last regardless of direction. "name"/"setName" sort on the
  * resolved display name / set name. "value" sorts on the row's live
  * market value (EnrichedHolding.marketValue, see selectors.ts).
+ * "releaseDate" sorts on the card's set release date (TCG) or year
+ * (sports) — see resolveReleaseDate in selectors.ts; holdings with no
+ * known release date sort last regardless of direction, same convention
+ * as dateAcquired.
  */
-export type SortField = "dateAdded" | "dateAcquired" | "name" | "setName" | "value";
+export type SortField = "dateAdded" | "dateAcquired" | "name" | "setName" | "value" | "releaseDate";
 export type SortDirection = "asc" | "desc";
+
+/**
+ * How the PC List/Gallery is sectioned, independent of SortField/
+ * SortDirection above — grouping only chunks already-sorted rows into
+ * labeled sections, it doesn't change their order. "none" is the flat,
+ * ungrouped list. See groupRows in selectors.ts.
+ */
+export type GroupField = "none" | "set" | "cardName" | "releaseYear";
 
 /**
  * Filters applied to the PC List/Gallery — see SmartFilters
@@ -190,6 +202,8 @@ export interface Preferences {
   /** How the PC List/Gallery is ordered — see SortField/SortDirection above. */
   sortField: SortField;
   sortDirection: SortDirection;
+  /** How the PC List/Gallery is sectioned — see GroupField above. */
+  groupField: GroupField;
   /** Last currency picked in an Add-to-PC dialog — pre-fills the next one. */
   lastUsedCostBasisCurrency: SupportedCurrency;
   /**
@@ -266,6 +280,7 @@ export interface PCActions {
   setViewMode: (mode: ViewMode) => void;
   setSortField: (field: SortField) => void;
   setSortDirection: (direction: SortDirection) => void;
+  setGroupField: (field: GroupField) => void;
   setLastUsedCostBasisCurrency: (currency: SupportedCurrency) => void;
   setBusinessMode: (businessMode: boolean) => void;
   setQuickAdd: (quickAdd: boolean) => void;

@@ -3,8 +3,9 @@
 import { CheckSquare, Download } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
-import type { HoldingFilters, SortDirection, SortField } from "@/lib/pc/types";
+import type { GroupField, HoldingFilters, SortDirection, SortField } from "@/lib/pc/types";
 import { SortBySelect } from "@/app/pc/_components/sort-by";
+import { GroupBySelect } from "@/app/pc/_components/group-by";
 import { SmartFilters } from "@/app/pc/_components/smart-filters";
 import { ViewModeToggle } from "@/app/pc/_components/view-mode-toggle";
 
@@ -72,6 +73,8 @@ export function PCToolbar({
   sortDirection,
   onSortFieldChange,
   onSortDirectionChange,
+  groupField,
+  onGroupFieldChange,
   filters,
   onFiltersChange,
 }: {
@@ -82,6 +85,8 @@ export function PCToolbar({
   sortDirection: SortDirection;
   onSortFieldChange: (field: SortField) => void;
   onSortDirectionChange: (direction: SortDirection) => void;
+  groupField: GroupField;
+  onGroupFieldChange: (field: GroupField) => void;
   filters: HoldingFilters;
   onFiltersChange: (patch: Partial<HoldingFilters>) => void;
 }) {
@@ -96,6 +101,7 @@ export function PCToolbar({
           onFieldChange={onSortFieldChange}
           onDirectionChange={onSortDirectionChange}
         />
+        <GroupBySelect field={groupField} onFieldChange={onGroupFieldChange} />
         <ViewModeToggle />
         <button
           type="button"
