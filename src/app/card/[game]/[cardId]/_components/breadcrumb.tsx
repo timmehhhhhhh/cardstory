@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { withEnglishName } from "@/lib/catalog/card-name";
 
 export function CardBreadcrumb({
   gameId,
@@ -23,7 +24,7 @@ export function CardBreadcrumb({
       </Link>
       <ChevronRight className="size-3.5" />
       <Link href={`/explore?game=${gameId}&set=${encodeURIComponent(setId)}`} className="hover:text-foreground">
-        {setNameEn ? `${setName} (${setNameEn})` : setName}
+        {withEnglishName(setName, setNameEn)}
       </Link>
       <ChevronRight className="size-3.5" />
       <span className="text-foreground">{cardName}</span>

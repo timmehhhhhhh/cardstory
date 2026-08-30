@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { getGameMeta } from "@/lib/games/registry";
 import { CardBreadcrumb } from "@/app/card/[game]/[cardId]/_components/breadcrumb";
-import { withEnglishName } from "@/lib/catalog/card-name";
+import { withEnglishName, primaryName, secondaryName } from "@/lib/catalog/card-name";
 import { PriceHistoryPanel } from "@/app/card/[game]/[cardId]/_components/price-history-panel";
 import { CollectionPanel } from "@/app/card/[game]/[cardId]/_components/collection-panel";
 import { ShortlistPanel } from "@/app/card/[game]/[cardId]/_components/shortlist-panel";
@@ -154,7 +154,7 @@ export async function generateMetadata({
     const setLabel = [card.item.year, card.item.distributor, card.item.setName].filter(Boolean).join(" ");
     return { title: `${card.item.playerName} — ${setLabel}` };
   }
-  return { title: `${card.item.name} — ${card.item.set.name}` };
+  return { title: `${primaryName(card.item.name, card.item.nameEn)} — ${primaryName(card.item.set.name, card.item.set.nameEn)}` };
 }
 
 export default async function CardDetailPage({
@@ -303,16 +303,18 @@ export default async function CardDetailPage({
 
       <div className="mb-6 flex flex-wrap items-start justify-between gap-2">
         <div>
-          <h1 className="text-2xl font-bold">{item.name}</h1>
-          {item.nameEn && <p className="text-sm text-muted-foreground">{item.nameEn}</p>}
+          <h1 className="text-2xl font-bold">{primaryName(item.name, item.nameEn)}</h1>
+          {secondaryName(item.name, item.nameEn) && (
+            <p className="text-sm text-muted-foreground">{secondaryName(item.name, item.nameEn)}</p>
+          )}
           <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
-            <span>{item.set.nameEn ? `${item.set.name} (${item.set.nameEn})` : item.set.name}</span>
+            <span>{withEnglishName(item.set.name, item.set.nameEn)}</span>
             {item.number && <span>· {item.number}</span>}
             {item.cardType && <span>· {item.cardType}</span>}
             {releaseDateLabel && <span>· {releaseDateLabel}</span>}
             {item.artist && <span>· Illustrated by {item.artist}</span>}
             {item.language !== "EN" && <span>· {item.language}</span>}
-            <RarityBadge rarity={item.rarity} cardType={item.cardType} />
+            <RarityBadge gameId={game} rarity={item.rarity} cardType={item.cardType} />
             <FinishBadge variantKey={variantKey} label={variantLabel} />
             {item.domain.length > 0 && (
               <span className="flex items-center gap-1">

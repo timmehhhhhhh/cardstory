@@ -6,6 +6,7 @@ import { topByChange } from "@/lib/pc/selectors";
 import { formatPct } from "@/lib/utils/format";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
 import { CardImage } from "@/components/cards/card-image";
+import { primaryName, secondaryName } from "@/lib/catalog/card-name";
 
 export function TrendingToday({ rows }: { rows: EnrichedHolding[] }) {
   const top = topByChange(rows, 5, "up");
@@ -27,8 +28,11 @@ export function TrendingToday({ rows }: { rows: EnrichedHolding[] }) {
                 <div className="relative size-8 flex-none overflow-hidden rounded bg-muted">
                   <CardImage src={r.display.imageUrl} alt="" className="object-contain" />
                 </div>
-                <span className="min-w-0 flex-1 truncate text-sm" title={r.display.nameEn ?? undefined}>
-                  {r.display.name}
+                <span
+                  className="min-w-0 flex-1 truncate text-sm"
+                  title={secondaryName(r.display.name, r.display.nameEn) ?? undefined}
+                >
+                  {primaryName(r.display.name, r.display.nameEn)}
                 </span>
                 <span
                   className={

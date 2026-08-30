@@ -19,6 +19,7 @@ import { useAddToShortlist, useShortlistQuantity } from "@/lib/shortlist/use-add
 import { CardStack } from "@/components/cards/card-stack";
 import { CardStoryDialog } from "@/components/cards/card-story-dialog";
 import { groupHoldingsIntoStacks, holdingToStoryFace } from "@/lib/collections/stacks";
+import { primaryName, secondaryName } from "@/lib/catalog/card-name";
 
 /**
  * One row's worth of content for a single holding — the front (or only)
@@ -87,11 +88,15 @@ function HoldingRowFace({
   const details = (
     <div className="min-w-0 flex-1 py-0.5">
       <div className="flex flex-wrap items-center gap-1.5">
-        <p className="text-sm leading-snug font-medium sm:text-base">{r.display.name}</p>
+        <p className="text-sm leading-snug font-medium sm:text-base">
+          {primaryName(r.display.name, r.display.nameEn)}
+        </p>
         <CardNumberBadge number={r.display.number} />
       </div>
-      {r.display.nameEn && (
-        <p className="truncate text-xs leading-snug text-muted-foreground sm:text-sm">{r.display.nameEn}</p>
+      {secondaryName(r.display.name, r.display.nameEn) && (
+        <p className="truncate text-xs leading-snug text-muted-foreground sm:text-sm">
+          {secondaryName(r.display.name, r.display.nameEn)}
+        </p>
       )}
       <p className="mt-0.5 text-xs leading-snug text-muted-foreground sm:text-sm">{r.display.subtitle}</p>
       {(r.costBasisTotal > 0 || r.priceAtAcquisitionTotal != null) && (

@@ -18,7 +18,7 @@ import { formatMoney, formatPct } from "@/lib/utils/format";
 import { getGameMeta } from "@/lib/games/registry";
 import { isItemLanguage } from "@/lib/pc/language";
 import { cardDetailHref } from "@/lib/catalog/card-href";
-import { withEnglishName } from "@/lib/catalog/card-name";
+import { withEnglishName, primaryName, secondaryName } from "@/lib/catalog/card-name";
 import { holdingIsArchived } from "@/lib/pc/types";
 import type { CatalogSearchItem } from "@/lib/catalog/search";
 
@@ -290,7 +290,7 @@ export function CardTile({
         </div>
         <div className="pointer-events-none min-w-0 flex-1">
           <div className="flex items-center gap-1.5">
-            <p className="min-w-0 truncate text-sm font-medium">{item.name}</p>
+            <p className="min-w-0 truncate text-sm font-medium">{primaryName(item.name, item.nameEn)}</p>
             <FinishBadge variantKey={item.variantKey} label={item.variantLabel} className="flex-none" />
             <CardNumberBadge number={item.number} className="flex-none" />
             {item.domain.length > 0 && (
@@ -301,9 +301,11 @@ export function CardTile({
               </span>
             )}
           </div>
-          {item.nameEn && <p className="truncate text-xs text-muted-foreground">{item.nameEn}</p>}
+          {secondaryName(item.name, item.nameEn) && (
+            <p className="truncate text-xs text-muted-foreground">{secondaryName(item.name, item.nameEn)}</p>
+          )}
           <p className="truncate text-xs text-muted-foreground">
-            {item.setNameEn ? `${item.setName} (${item.setNameEn})` : item.setName}
+            {withEnglishName(item.setName, item.setNameEn)}
             {item.artist ? ` · ${item.artist}` : ""}
           </p>
         </div>
@@ -394,12 +396,16 @@ export function CardTile({
       </div>
       <div className="pointer-events-none flex flex-col gap-0.5 p-2.5">
         <div className="flex items-center gap-1.5">
-          <p className="min-w-0 truncate text-sm font-medium leading-tight">{item.name}</p>
+          <p className="min-w-0 truncate text-sm font-medium leading-tight">
+            {primaryName(item.name, item.nameEn)}
+          </p>
           {languageBadge}
         </div>
-        {item.nameEn && <p className="truncate text-[11px] text-muted-foreground">{item.nameEn}</p>}
+        {secondaryName(item.name, item.nameEn) && (
+          <p className="truncate text-[11px] text-muted-foreground">{secondaryName(item.name, item.nameEn)}</p>
+        )}
         <p className="truncate text-xs text-muted-foreground">
-          {item.setNameEn ? `${item.setName} (${item.setNameEn})` : item.setName}
+          {withEnglishName(item.setName, item.setNameEn)}
         </p>
         {item.cardType && <p className="truncate text-[11px] text-muted-foreground/80">{item.cardType}</p>}
         {item.artist && <p className="truncate text-[11px] text-muted-foreground/80">{item.artist}</p>}

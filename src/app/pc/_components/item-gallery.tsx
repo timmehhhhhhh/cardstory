@@ -19,6 +19,7 @@ import { useAddToShortlist, useShortlistQuantity } from "@/lib/shortlist/use-add
 import { CardStack } from "@/components/cards/card-stack";
 import { CardStoryDialog } from "@/components/cards/card-story-dialog";
 import { groupHoldingsIntoStacks, holdingToStoryFace } from "@/lib/collections/stacks";
+import { primaryName, secondaryName } from "@/lib/catalog/card-name";
 
 /**
  * One tile's worth of content for a single holding — the front (or only)
@@ -114,9 +115,13 @@ function HoldingGalleryFace({
 
   const caption = (
     <div className="flex min-w-0 flex-col gap-0.5 p-2.5">
-      <p className="truncate text-sm leading-tight font-medium">{r.display.name}</p>
-      {r.display.nameEn && (
-        <p className="truncate text-xs leading-snug text-muted-foreground">{r.display.nameEn}</p>
+      <p className="truncate text-sm leading-tight font-medium">
+        {primaryName(r.display.name, r.display.nameEn)}
+      </p>
+      {secondaryName(r.display.name, r.display.nameEn) && (
+        <p className="truncate text-xs leading-snug text-muted-foreground">
+          {secondaryName(r.display.name, r.display.nameEn)}
+        </p>
       )}
       {parallelLabel && (
         <p className="line-clamp-2 text-xs leading-snug font-semibold text-primary">{parallelLabel}</p>
