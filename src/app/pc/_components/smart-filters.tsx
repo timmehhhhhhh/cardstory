@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { GAMES } from "@/lib/games/registry";
 import { SPORTS } from "@/lib/sports/registry";
-import type { HoldingFilters } from "@/app/pc/_components/types";
+import type { HoldingFilters } from "@/lib/pc/types";
 
 const WIRED_GAMES = GAMES.filter((g) => g.status === "WIRED");
 
@@ -24,23 +24,23 @@ export function SmartFilters({
   filters: HoldingFilters;
   onChange: (patch: Partial<HoldingFilters>) => void;
 }) {
-  const [playerDraft, setPlayerDraft] = React.useState(filters.player);
-  // Reset the draft when filters.player changes from outside this component
-  // — adjusted during render (not in an effect) per
+  const [cardNameDraft, setCardNameDraft] = React.useState(filters.cardName);
+  // Reset the draft when filters.cardName changes from outside this
+  // component — adjusted during render (not in an effect) per
   // https://react.dev/learn/you-might-not-need-an-effect.
-  const [prevPlayer, setPrevPlayer] = React.useState(filters.player);
-  if (filters.player !== prevPlayer) {
-    setPrevPlayer(filters.player);
-    setPlayerDraft(filters.player);
+  const [prevCardName, setPrevCardName] = React.useState(filters.cardName);
+  if (filters.cardName !== prevCardName) {
+    setPrevCardName(filters.cardName);
+    setCardNameDraft(filters.cardName);
   }
 
   React.useEffect(() => {
     const t = setTimeout(() => {
-      if (playerDraft !== filters.player) onChange({ player: playerDraft });
+      if (cardNameDraft !== filters.cardName) onChange({ cardName: cardNameDraft });
     }, 300);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [playerDraft]);
+  }, [cardNameDraft]);
 
   return (
     <div className="flex flex-wrap items-center gap-2">
@@ -101,18 +101,18 @@ export function SmartFilters({
       <div className="relative">
         <Search className="pointer-events-none absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
         <Input
-          value={playerDraft}
-          onChange={(e) => setPlayerDraft(e.target.value)}
-          placeholder="Player"
+          value={cardNameDraft}
+          onChange={(e) => setCardNameDraft(e.target.value)}
+          placeholder="Card name"
           className="h-8 w-36 bg-surface border-border pl-7 pr-7 text-sm"
         />
-        {playerDraft && (
+        {cardNameDraft && (
           <button
             type="button"
-            aria-label="Clear player filter"
+            aria-label="Clear card name filter"
             onClick={() => {
-              setPlayerDraft("");
-              onChange({ player: "" });
+              setCardNameDraft("");
+              onChange({ cardName: "" });
             }}
             className="absolute right-1.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
           >

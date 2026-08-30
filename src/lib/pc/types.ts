@@ -12,10 +12,51 @@ export type HoldingKind = "tcg" | "sports";
  * sorts on the user-editable, optional `acquiredAt` (see Holding.acquiredAt
  * below for why the two are kept distinct) — holdings with no acquiredAt
  * sort last regardless of direction. "name"/"setName" sort on the
- * resolved display name / set name.
+ * resolved display name / set name. "value" sorts on the row's live
+ * market value (EnrichedHolding.marketValue, see selectors.ts).
  */
-export type SortField = "dateAdded" | "dateAcquired" | "name" | "setName";
+export type SortField = "dateAdded" | "dateAcquired" | "name" | "setName" | "value";
 export type SortDirection = "asc" | "desc";
+
+/**
+ * Filters applied to the PC List/Gallery — see SmartFilters
+ * (src/app/pc/_components/smart-filters.tsx). Lives here (not under
+ * app/pc/_components) so Preferences below can reference it without an
+ * app-layer import.
+ */
+export interface HoldingFilters {
+  watchlistOnly: boolean;
+  gameId: string; // "all" | gameId
+  sport: string; // "all" | Sport
+  /** Free-text, matches a holding's resolved display name (TCG card name or sports playerName) — and, per the app-wide name+number search convention, an optional trailing card number (see lib/utils/name-match.ts's parseNameNumberQuery). */
+  cardName: string;
+  productType: "all" | "CARD" | "SEALED";
+  condition: "all" | "raw" | "graded";
+  language: "all" | "EN" | "JP" | "CN" | "TW" | "KR";
+  /** Show only holdings whose catalog item is a promotional printing (CatalogItem.rarity === "Promo"). No-op for sports cards, which have no catalogItem. */
+  promoOnly: boolean;
+  /**
+   * Filters on the holding's immutable `createdAt` (when it was added to
+   * CardStory) — a static, server-set field with no UI to edit it.
+   * Deliberately distinct from Date Acquired (`acquiredAt`), which is a
+   * user-editable, optional physical-acquisition date. "" | "YYYY-MM-DD".
+   */
+  dateAddedFrom: string;
+  dateAddedTo: string;
+}
+
+export const DEFAULT_HOLDING_FILTERS: HoldingFilters = {
+  watchlistOnly: false,
+  gameId: "all",
+  sport: "all",
+  cardName: "",
+  productType: "all",
+  condition: "all",
+  language: "all",
+  promoOnly: false,
+  dateAddedFrom: "",
+  dateAddedTo: "",
+};
 
 /**
  * A single owned line-item in a local PC.
@@ -169,6 +210,13 @@ export interface Preferences {
    * stays local even for signed-in users (see remote-store.ts).
    */
   quickAdd: boolean;
+  /**
+   * PC List/Gallery filters — persisted so navigating away from /pc and
+   * back (or reloading) doesn't silently reset a picked game/card-name/
+   * condition/etc. back to "all". Same local-UI-state convention as the
+   * rest of Preferences (see setHoldingFilters below).
+   */
+  holdingFilters: HoldingFilters;
 }
 
 /**
@@ -221,6 +269,7 @@ export interface PCActions {
   setLastUsedCostBasisCurrency: (currency: SupportedCurrency) => void;
   setBusinessMode: (businessMode: boolean) => void;
   setQuickAdd: (quickAdd: boolean) => void;
+  setHoldingFilters: (filters: HoldingFilters) => void;
 
   createPC: (name: string) => string;
   renamePC: (pcId: string, name: string) => void;

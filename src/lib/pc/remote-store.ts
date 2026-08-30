@@ -141,6 +141,7 @@ export function useRemotePCStore<T>(
   );
   const setBusinessMode = usePCPreferencesStore((s) => s.setBusinessMode);
   const setQuickAdd = usePCPreferencesStore((s) => s.setQuickAdd);
+  const setHoldingFilters = usePCPreferencesStore((s) => s.setHoldingFilters);
 
   // The locally-remembered "active PC" may not exist in the server
   // list yet (first login, or it was deleted from another device) — fall
@@ -197,6 +198,7 @@ export function useRemotePCStore<T>(
       setLastUsedCostBasisCurrency,
       setBusinessMode,
       setQuickAdd,
+      setHoldingFilters,
       setActivePC: setLocalActivePC,
 
       toggleWatchlist: (itemId: string, kind: HoldingKind, priceAtAdd: number | null) => {
@@ -506,6 +508,7 @@ export function useRemotePCStore<T>(
       setLastUsedCostBasisCurrency,
       setBusinessMode,
       setQuickAdd,
+      setHoldingFilters,
       setLocalActivePC,
       patch,
       reconcile,

@@ -28,3 +28,59 @@ export function nameSearchVariants(q: string): string[] {
 export function normalizeForPunctuationInsensitiveMatch(q: string): string {
   return q.toLowerCase().replace(/[^a-z0-9]/g, "");
 }
+
+/**
+ * Splits a trailing card-number token off a query like "salamence 64/101"
+ * or "salamence 64" into `{ namePart: "salamence", numberPart: "64/101" }` —
+ * the app-wide "name + number" search convention (case-insensitive, matches
+ * either the full "64/101" or just the leading "64"). The trailing
+ * whitespace-separated token is treated as a number when it contains at
+ * least one digit and there's a non-empty token before it; otherwise the
+ * whole query is returned as `namePart` with `numberPart: null`, so a plain
+ * name-only or number-only query behaves exactly as before (single-field
+ * `contains` matching, unaffected by this split).
+ */
+export function parseNameNumberQuery(q: string): { namePart: string; numberPart: string | null } {
+  const trimmed = q.trim();
+  const lastSpace = trimmed.lastIndexOf(" ");
+  if (lastSpace <= 0) return { namePart: trimmed, numberPart: null };
+  const head = trimmed.slice(0, lastSpace).trim();
+  const tail = trimmed.slice(lastSpace + 1).trim();
+  if (head && /\d/.test(tail)) {
+    return { namePart: head, numberPart: tail };
+  }
+  return { namePart: trimmed, numberPart: null };
+}
+
+/**
+ * Client-side "does this card match this query" test, for the app's local
+ * (non-DB-backed) search filters — e.g. src/app/binder/_components/
+ * card-picker-sheet.tsx and PC's own Card Name filter (see
+ * src/app/pc/_components/smart-filters.tsx). Matches a plain query against
+ * name/nameEn/number individually (same as a single-field `contains`), and
+ * additionally accepts a combined "name + number" query per
+ * parseNameNumberQuery above (e.g. "salamence 64/101" or "salamence 64").
+ * Case-insensitive throughout. An empty query matches everything.
+ */
+export function matchesNameNumberQuery(
+  query: string,
+  card: { name: string; nameEn?: string | null; number?: string | null }
+): boolean {
+  const q = query.trim();
+  if (!q) return true;
+  const lowerQ = q.toLowerCase();
+  const includes = (s: string | null | undefined, needle: string) =>
+    !!s && s.toLowerCase().includes(needle.toLowerCase());
+
+  if (includes(card.name, lowerQ) || includes(card.nameEn, lowerQ) || includes(card.number, lowerQ)) {
+    return true;
+  }
+
+  const { namePart, numberPart } = parseNameNumberQuery(q);
+  if (numberPart) {
+    const nameOk = includes(card.name, namePart) || includes(card.nameEn, namePart);
+    const numberOk = includes(card.number, numberPart);
+    if (nameOk && numberOk) return true;
+  }
+  return false;
+}

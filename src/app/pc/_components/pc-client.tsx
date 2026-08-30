@@ -7,17 +7,15 @@ import { usePCData } from "@/hooks/use-pc-data";
 import { usePCStore } from "@/lib/pc/store";
 import { pcKind } from "@/lib/pc/types";
 import { ValueHeader } from "@/app/pc/_components/value-header";
-import { QuickActions } from "@/app/pc/_components/quick-actions";
+import { PCToolbar } from "@/app/pc/_components/pc-toolbar";
 import { MostValuable } from "@/app/pc/_components/most-valuable";
 import { TrendingToday } from "@/app/pc/_components/trending-today";
 import { CollectionsByGame } from "@/app/pc/_components/collections-by-game";
-import { SmartFilters } from "@/app/pc/_components/smart-filters";
 import { ItemGrid } from "@/app/pc/_components/item-grid";
 import { ItemGallery } from "@/app/pc/_components/item-gallery";
-import { ViewModeToggle } from "@/app/pc/_components/view-mode-toggle";
 import { BulkActionsBar } from "@/app/pc/_components/bulk-actions-bar";
-import { DEFAULT_HOLDING_FILTERS, type HoldingFilters } from "@/app/pc/_components/types";
 import { sortHoldings } from "@/lib/pc/selectors";
+import { matchesNameNumberQuery } from "@/lib/utils/name-match";
 import { PublishShowcaseDialog } from "@/components/pc/publish-showcase-dialog";
 import { Button } from "@/components/ui/button";
 import type { ShowcasePayload } from "@/lib/showcase/types";
@@ -32,6 +30,8 @@ export function PCClient() {
   const setSortField = usePCStore((s) => s.setSortField);
   const setSortDirection = usePCStore((s) => s.setSortDirection);
   const setActivePC = usePCStore((s) => s.setActivePC);
+  const filters = usePCStore((s) => s.preferences.holdingFilters);
+  const setHoldingFilters = usePCStore((s) => s.setHoldingFilters);
 
   // Business Inventory now lives on its own /business tab and is filtered
   // out of PCSelector — if a vendor's activePCId is still pointed at it
@@ -45,7 +45,6 @@ export function PCClient() {
     }
   }, [activePC, pcs, setActivePC]);
 
-  const [filters, setFilters] = React.useState<HoldingFilters>(DEFAULT_HOLDING_FILTERS);
   const [bulkMode, setBulkMode] = React.useState(false);
   const [selected, setSelected] = React.useState<Set<string>>(new Set());
   // Clear the selection when the active pc changes — adjusted during
@@ -62,12 +61,19 @@ export function PCClient() {
   const watchedIds = React.useMemo(() => new Set(watchlist.map((w) => w.itemId)), [watchlist]);
 
   const filteredRows = React.useMemo(() => {
-    const playerQuery = filters.player.trim().toLowerCase();
     return rows.filter((r) => {
       if (filters.watchlistOnly && !watchedIds.has(r.catalogItemId ?? r.sportsCardItemId ?? "")) return false;
       if (filters.gameId !== "all" && r.catalogItem?.gameId !== filters.gameId) return false;
       if (filters.sport !== "all" && r.sportsCardItem?.sport !== filters.sport) return false;
-      if (playerQuery && !r.sportsCardItem?.playerName?.toLowerCase().includes(playerQuery)) return false;
+      if (
+        filters.cardName.trim() &&
+        !matchesNameNumberQuery(filters.cardName, {
+          name: r.display.name,
+          nameEn: r.display.nameEn,
+          number: r.display.number,
+        })
+      )
+        return false;
       if (filters.productType !== "all" && r.catalogItem?.productType !== filters.productType) return false;
       if (filters.condition !== "all" && r.condition !== filters.condition) return false;
       if (filters.language !== "all" && r.language !== filters.language) return false;
@@ -96,20 +102,23 @@ export function PCClient() {
     <div className="mx-auto flex max-w-5xl flex-col gap-5 px-4 py-6 sm:px-6">
       <ValueHeader rows={rows} totals={totals} />
 
+      <PCToolbar
+        rows={filteredRows}
+        bulkMode={bulkMode}
+        onToggleBulkMode={() => {
+          setBulkMode((v) => !v);
+          setSelected(new Set());
+        }}
+        sortField={sortField}
+        sortDirection={sortDirection}
+        onSortFieldChange={setSortField}
+        onSortDirectionChange={setSortDirection}
+        filters={filters}
+        onFiltersChange={(patch) => setHoldingFilters({ ...filters, ...patch })}
+      />
+
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex flex-wrap items-center gap-2">
-          <QuickActions
-            rows={filteredRows}
-            bulkMode={bulkMode}
-            onToggleBulkMode={() => {
-              setBulkMode((v) => !v);
-              setSelected(new Set());
-            }}
-            sortField={sortField}
-            sortDirection={sortDirection}
-            onSortFieldChange={setSortField}
-            onSortDirectionChange={setSortDirection}
-          />
           <Button asChild variant="outline" size="sm">
             <Link href="/binder">
               <BookOpen className="size-4" />
@@ -158,10 +167,6 @@ export function PCClient() {
       </div>
 
       <div className="flex flex-col gap-3">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <SmartFilters filters={filters} onChange={(patch) => setFilters((f) => ({ ...f, ...patch }))} />
-          <ViewModeToggle />
-        </div>
         {isLoading ? (
           <p className="text-sm text-muted-foreground">Loading your collection…</p>
         ) : viewMode === "grid" ? (

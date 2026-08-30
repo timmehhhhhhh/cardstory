@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { CardNumberBadge } from "@/components/cards/card-number-badge";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
 import { CardImage } from "@/components/cards/card-image";
+import { matchesNameNumberQuery } from "@/lib/utils/name-match";
 
 export function CardPickerSheet({
   open,
@@ -26,10 +27,12 @@ export function CardPickerSheet({
   const [query, setQuery] = React.useState("");
 
   const filtered = React.useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const q = query.trim();
     if (!q) return rows;
     return rows.filter(
-      (r) => r.display.name.toLowerCase().includes(q) || r.display.subtitle.toLowerCase().includes(q)
+      (r) =>
+        matchesNameNumberQuery(q, { name: r.display.name, nameEn: r.display.nameEn, number: r.display.number }) ||
+        r.display.subtitle.toLowerCase().includes(q.toLowerCase())
     );
   }, [rows, query]);
 
