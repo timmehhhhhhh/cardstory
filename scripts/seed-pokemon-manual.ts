@@ -11,6 +11,18 @@
  * not yet verified against a primary/corroborating source are skipped
  * with a warning rather than seeded as a guess.
  *
+ * Source to check when researching a new entry, alongside Bulbapedia/JP
+ * retail listings/etc. per sourceNote's existing convention:
+ * https://github.com/PokemonTCG/pokemon-tcg-data — the raw JSON dataset
+ * pokemontcg.io itself is built from. Useful for two things: (1) reading
+ * its per-set JSON files directly when the live API is unreachable (it
+ * occasionally 502s on the full sets list — see seed-catalog.ts's retry
+ * comment), and (2) *ruling out* a bulk-API source before writing a
+ * manual entry — confirmed absent here from both the live API and this
+ * repo's `sets/en.json` is stronger evidence than checking the API alone
+ * that a set (e.g. "First Partner Series", checked and absent from both
+ * as of this writing) genuinely needs hand-curation.
+ *
  * Run with: npx tsx scripts/seed-pokemon-manual.ts
  */
 import { db } from "@/lib/db";
