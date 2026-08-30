@@ -123,7 +123,10 @@ export function TopNav() {
               Scan Cards
             </Link>
           </Button>
-          <SearchBox />
+          {/* Mobile search now lives in BottomNav's circular Search button. */}
+          <div className="hidden md:block">
+            <SearchBox />
+          </div>
 
           {status === "authenticated" ? (
             <AccountMenu />
@@ -150,13 +153,14 @@ export function TopNav() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-72 bg-background border-border">
-              <SheetTitle className="px-4 pt-4">{APP_NAME}</SheetTitle>
+              <SheetTitle className="px-4 pt-4">Account</SheetTitle>
               <div className="mt-2 flex flex-col gap-1 px-2">
-                <NavLinks className="flex-col items-stretch" onNavigate={() => setMobileOpen(false)} />
+                {/* Section links now live in BottomNav's scrollable tab bar
+                    on mobile — this drawer stays for account actions only. */}
                 <Link
                   href="/scan"
                   onClick={() => setMobileOpen(false)}
-                  className="mt-2 flex items-center gap-2 rounded-md border border-primary/40 px-3 py-2 text-sm font-medium text-primary"
+                  className="flex items-center gap-2 rounded-md border border-primary/40 px-3 py-2 text-sm font-medium text-primary"
                 >
                   <Camera className="size-4" />
                   Scan Cards
