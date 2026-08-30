@@ -2,7 +2,14 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { Preferences, SortDirection, SortField, ViewMode } from "@/lib/pc/types";
+import {
+  DEFAULT_HOLDING_FILTERS,
+  type HoldingFilters,
+  type Preferences,
+  type SortDirection,
+  type SortField,
+  type ViewMode,
+} from "@/lib/pc/types";
 import type { SupportedCurrency } from "@/lib/constants";
 
 // A new, dedicated key — deliberately not "cardstory:portfolio:v1" (the old
@@ -27,6 +34,7 @@ function defaultPreferences(): Preferences {
     lastUsedCostBasisCurrency: "USD",
     businessMode: false,
     quickAdd: false,
+    holdingFilters: DEFAULT_HOLDING_FILTERS,
   };
 }
 
@@ -47,6 +55,7 @@ export interface PCPreferencesState {
   setLastUsedCostBasisCurrency: (currency: SupportedCurrency) => void;
   setBusinessMode: (businessMode: boolean) => void;
   setQuickAdd: (quickAdd: boolean) => void;
+  setHoldingFilters: (holdingFilters: HoldingFilters) => void;
 }
 
 /**
@@ -78,6 +87,8 @@ export const usePCPreferencesStore = create<PCPreferencesState>()(
         set((s) => ({ preferences: { ...s.preferences, businessMode } })),
       setQuickAdd: (quickAdd) =>
         set((s) => ({ preferences: { ...s.preferences, quickAdd } })),
+      setHoldingFilters: (holdingFilters) =>
+        set((s) => ({ preferences: { ...s.preferences, holdingFilters } })),
     }),
     {
       name: STORAGE_KEY,

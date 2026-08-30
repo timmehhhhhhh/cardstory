@@ -6,7 +6,7 @@ import { Archive, BookOpen } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { usePCData } from "@/hooks/use-pc-data";
 import { usePCStore } from "@/lib/pc/store";
-import { pcKind } from "@/lib/pc/types";
+import { DEFAULT_HOLDING_FILTERS, pcKind, type HoldingFilters } from "@/lib/pc/types";
 import { ValueHeader } from "@/app/pc/_components/value-header";
 import { QuickActions } from "@/app/pc/_components/quick-actions";
 import { MostValuable } from "@/app/pc/_components/most-valuable";
@@ -17,8 +17,8 @@ import { ItemGrid } from "@/app/pc/_components/item-grid";
 import { ItemGallery } from "@/app/pc/_components/item-gallery";
 import { ViewModeToggle } from "@/app/pc/_components/view-mode-toggle";
 import { BulkActionsBar } from "@/app/pc/_components/bulk-actions-bar";
-import { DEFAULT_HOLDING_FILTERS, type HoldingFilters } from "@/app/pc/_components/types";
 import { sortHoldings } from "@/lib/pc/selectors";
+import { matchesNameNumberQuery } from "@/lib/utils/name-match";
 import { PublishShowcaseDialog } from "@/components/pc/publish-showcase-dialog";
 import { AddSportsCardDialog } from "@/components/sportscards/add-sports-card-dialog";
 import { Button } from "@/components/ui/button";
@@ -61,12 +61,19 @@ export function BusinessClient() {
   const watchedIds = React.useMemo(() => new Set(watchlist.map((w) => w.itemId)), [watchlist]);
 
   const filteredRows = React.useMemo(() => {
-    const playerQuery = filters.player.trim().toLowerCase();
     return rows.filter((r) => {
       if (filters.watchlistOnly && !watchedIds.has(r.catalogItemId ?? r.sportsCardItemId ?? "")) return false;
       if (filters.gameId !== "all" && r.catalogItem?.gameId !== filters.gameId) return false;
       if (filters.sport !== "all" && r.sportsCardItem?.sport !== filters.sport) return false;
-      if (playerQuery && !r.sportsCardItem?.playerName?.toLowerCase().includes(playerQuery)) return false;
+      if (
+        filters.cardName.trim() &&
+        !matchesNameNumberQuery(filters.cardName, {
+          name: r.display.name,
+          nameEn: r.display.nameEn,
+          number: r.display.number,
+        })
+      )
+        return false;
       if (filters.productType !== "all" && r.catalogItem?.productType !== filters.productType) return false;
       if (filters.condition !== "all" && r.condition !== filters.condition) return false;
       if (filters.language !== "all" && r.language !== filters.language) return false;

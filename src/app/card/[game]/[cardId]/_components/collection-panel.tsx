@@ -1,8 +1,23 @@
 "use client";
 
+import * as React from "react";
+import { Pencil, Trash2 } from "lucide-react";
 import { AddHoldingDialog } from "@/components/pc/add-holding-dialog";
+import { EditHoldingDialog } from "@/components/pc/edit-holding-dialog";
 import { usePCStore } from "@/lib/pc/store";
+import { usePCData } from "@/hooks/use-pc-data";
 import { isItemLanguage } from "@/lib/pc/language";
+import { CARD_CONDITION_LABELS } from "@/lib/constants";
+import type { EnrichedHolding } from "@/lib/pc/selectors";
+
+/** "1x Raw · Excellent · EN" / "2x Graded PSA 10 · JP" — a compact summary of one owned holding's identifying attributes. */
+function holdingSummary(h: EnrichedHolding): string {
+  const conditionBit =
+    h.condition === "graded"
+      ? `Graded${h.gradeCompany ? ` ${h.gradeCompany}` : ""}${h.gradeValue ? ` ${h.gradeValue}` : ""}`
+      : `Raw${h.rawCondition ? ` · ${CARD_CONDITION_LABELS[h.rawCondition]}` : ""}`;
+  return `${h.quantity}× ${conditionBit} · ${h.language}`;
+}
 
 export function CollectionPanel({
   catalogItemId,
@@ -18,16 +33,25 @@ export function CollectionPanel({
   /** CatalogItem.language, e.g. "JP" — pre-selects Add to PC's Language field. */
   language?: string;
 }) {
-  const ownedQuantity = usePCStore((s) => {
-    const active = s.pcs.find((p) => p.id === s.activePCId);
-    return active?.holdings
-      .filter(
+  const activePCId = usePCStore((s) => s.activePCId);
+  const archiveHoldings = usePCStore((s) => s.archiveHoldings);
+  // Same enrichment usePC's own list uses (see pc-client.tsx) — gives each
+  // matching holding its resolved display name/unitPrice/etc, which is what
+  // EditHoldingDialog needs, rather than a bare Holding row.
+  const { rows } = usePCData();
+
+  const ownedHoldings = React.useMemo(
+    () =>
+      rows.filter(
         (h) =>
           (catalogItemId && h.catalogItemId === catalogItemId) ||
           (sportsCardItemId && h.sportsCardItemId === sportsCardItemId)
-      )
-      .reduce((sum, h) => sum + h.quantity, 0);
-  });
+      ),
+    [rows, catalogItemId, sportsCardItemId]
+  );
+  const ownedQuantity = ownedHoldings.reduce((sum, h) => sum + h.quantity, 0);
+
+  const [editingHolding, setEditingHolding] = React.useState<EnrichedHolding | null>(null);
 
   return (
     <div className="rounded-xl border border-border bg-surface p-4">
@@ -35,12 +59,55 @@ export function CollectionPanel({
       <p className="mb-3 text-xs text-muted-foreground">
         {ownedQuantity ? `You own ${ownedQuantity} in your active pc.` : "Track this card in your collection."}
       </p>
+
+      {ownedHoldings.length > 0 && (
+        <ul className="mb-3 flex flex-col gap-1.5">
+          {ownedHoldings.map((h) => (
+            <li
+              key={h.id}
+              className="flex items-center justify-between gap-2 rounded-lg border border-border bg-background px-2.5 py-1.5 text-sm"
+            >
+              <span className="min-w-0 truncate">{holdingSummary(h)}</span>
+              <span className="flex shrink-0 items-center gap-1">
+                <button
+                  type="button"
+                  aria-label="Edit this holding"
+                  title="Edit"
+                  onClick={() => setEditingHolding(h)}
+                  className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground"
+                >
+                  <Pencil className="size-4" />
+                </button>
+                <button
+                  type="button"
+                  aria-label="Remove this holding from your PC"
+                  title="Remove from PC"
+                  onClick={() => archiveHoldings(activePCId, [h.id])}
+                  className="rounded-md p-1.5 text-muted-foreground hover:bg-destructive/10 hover:text-negative"
+                >
+                  <Trash2 className="size-4" />
+                </button>
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+
       <AddHoldingDialog
         catalogItemId={catalogItemId}
         sportsCardItemId={sportsCardItemId}
         cardName={cardName}
         suggestedPrice={suggestedPrice}
         defaultLanguage={isItemLanguage(language) ? language : undefined}
+      />
+
+      <EditHoldingDialog
+        holding={editingHolding}
+        pcId={activePCId}
+        open={editingHolding != null}
+        onOpenChange={(open) => {
+          if (!open) setEditingHolding(null);
+        }}
       />
     </div>
   );

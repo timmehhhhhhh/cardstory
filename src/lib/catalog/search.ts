@@ -7,7 +7,11 @@ import { defaultFinishLabel } from "@/lib/games/pokemon/mapper";
 import { getFinishDisplayLabel } from "@/lib/games/pokemon/finish-patterns";
 import { RIFTBOUND_RARITY_ORDER } from "@/lib/games/riftbound/rarity";
 import { RIFTBOUND_DOMAIN_ORDER } from "@/lib/games/riftbound/domain";
-import { nameSearchVariants, normalizeForPunctuationInsensitiveMatch } from "@/lib/utils/name-match";
+import {
+  nameSearchVariants,
+  normalizeForPunctuationInsensitiveMatch,
+  parseNameNumberQuery,
+} from "@/lib/utils/name-match";
 
 const WIRED_TCG_GAME_IDS = GAMES.filter((g) => g.status === "WIRED" && g.kind !== "sports").map(
   (g) => g.id
@@ -389,6 +393,32 @@ async function punctuationInsensitiveIds(
   return rows.map((r) => r.id);
 }
 
+/**
+ * Combined "name + number" branch for a sports free-text query — e.g.
+ * "curry 30" or "curry 30/99" matches a card whose playerName contains
+ * "curry" AND whose cardNumber contains "30"/"30/99". Returns `[]` (no extra
+ * branch) when the query has no trailing number-like token — see
+ * parseNameNumberQuery — so a plain name-only or number-only query is
+ * unaffected; this only ever *adds* matches on top of the existing
+ * single-field OR-branches above.
+ */
+function sportsNameNumberClause(q: string): Prisma.SportsCardItemWhereInput[] {
+  const { namePart, numberPart } = parseNameNumberQuery(q);
+  if (!numberPart) return [];
+  return [
+    {
+      AND: [
+        { cardNumber: { contains: numberPart, mode: "insensitive" } },
+        {
+          OR: nameSearchVariants(namePart).map((term) => ({
+            playerName: { contains: term, mode: "insensitive" as const },
+          })),
+        },
+      ],
+    },
+  ];
+}
+
 async function sportsWhereFor(
   params: CatalogSearchParams,
   sportFilter: Sport | { in: Sport[] }
@@ -409,6 +439,10 @@ async function sportsWhereFor(
         { setName: { contains: params.q, mode: "insensitive" } },
         { parallelName: { contains: params.q, mode: "insensitive" } },
         { cardNumber: { contains: params.q, mode: "insensitive" } },
+        // Combined "name + number" query, e.g. "curry 30" or "curry 30/99" —
+        // see parseNameNumberQuery. No-op (empty array, spread away) when the
+        // query has no trailing number-looking token.
+        ...sportsNameNumberClause(params.q),
       ]
     : undefined;
 
@@ -476,6 +510,31 @@ function sportsFilterableFor(params: CatalogSearchParams): boolean {
   );
 }
 
+/**
+ * TCG counterpart to sportsNameNumberClause above — "salamence 64/101" or
+ * "salamence 64" matches a card whose name/nameEn contains "salamence" AND
+ * whose number contains "64"/"64/101". Returns `[]` when the query has no
+ * trailing number-like token (see parseNameNumberQuery).
+ */
+function tcgNameNumberClause(q: string): Prisma.CatalogItemWhereInput[] {
+  const { namePart, numberPart } = parseNameNumberQuery(q);
+  if (!numberPart) return [];
+  const nameTerms = nameSearchVariants(namePart);
+  return [
+    {
+      AND: [
+        { number: { contains: numberPart, mode: "insensitive" } },
+        {
+          OR: [
+            ...nameTerms.map((term) => ({ name: { contains: term, mode: "insensitive" as const } })),
+            ...nameTerms.map((term) => ({ nameEn: { contains: term, mode: "insensitive" as const } })),
+          ],
+        },
+      ],
+    },
+  ];
+}
+
 async function tcgWhereFor(
   params: CatalogSearchParams,
   gameIdFilter: string | { in: string[] }
@@ -509,6 +568,8 @@ async function tcgWhereFor(
         ...(punctuationIds.length > 0 ? [{ id: { in: punctuationIds } }] : []),
         { artist: { contains: params.q, mode: "insensitive" } },
         { number: { contains: params.q, mode: "insensitive" } },
+        // Combined "name + number" query — see tcgNameNumberClause.
+        ...tcgNameNumberClause(params.q),
       ]
     : undefined;
 

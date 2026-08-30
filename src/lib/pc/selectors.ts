@@ -300,6 +300,8 @@ export function sortHoldings(
         const bSet = b.catalogItem?.setName ?? b.sportsCardItem?.setName ?? "";
         return sign * aSet.localeCompare(bSet);
       }
+      case "value":
+        return sign * (a.marketValue - b.marketValue);
       default:
         return 0;
     }

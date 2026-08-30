@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
-import { ListChecks, MoreVertical, Pencil, Plus, Trash2 } from "lucide-react";
+import { MoreVertical, Pencil, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -134,7 +134,6 @@ export function CuratedSetsClient() {
     return (
       <div className="mx-auto flex max-w-3xl flex-col gap-5 px-4 py-6 sm:px-6">
         <div className="flex items-center gap-2">
-          <ListChecks className="size-5 text-muted-foreground" />
           <h1 className="text-xl font-semibold">Curated Sets</h1>
         </div>
         <EmptyState
@@ -157,7 +156,6 @@ export function CuratedSetsClient() {
     <div className="mx-auto flex max-w-3xl flex-col gap-5 px-4 py-6 sm:px-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <ListChecks className="size-5 text-muted-foreground" />
           <h1 className="text-xl font-semibold">Curated Sets</h1>
         </div>
         <Button size="sm" onClick={openCreate}>

@@ -11,6 +11,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { CardImage } from "@/components/cards/card-image";
 import { usePCData } from "@/hooks/use-pc-data";
 import { cardMatchesSection } from "@/lib/deck-crafting/validate";
+import { matchesNameNumberQuery } from "@/lib/utils/name-match";
 import type { DeckSection } from "@/lib/deck-crafting/formats";
 
 interface ExploreSearchItem {
@@ -56,9 +57,11 @@ export function DeckCardPickerSheet({
     [pcRows, gameId, section]
   );
   const filteredPc = React.useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const q = query.trim();
     if (!q) return pcCandidates;
-    return pcCandidates.filter((r) => r.display.name.toLowerCase().includes(q));
+    return pcCandidates.filter((r) =>
+      matchesNameNumberQuery(q, { name: r.display.name, nameEn: r.display.nameEn, number: r.display.number })
+    );
   }, [pcCandidates, query]);
 
   const exploreQuery = useQuery<{ items: ExploreSearchItem[] }>({
