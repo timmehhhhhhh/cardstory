@@ -122,6 +122,12 @@ export function AddHoldingDialog({
   const defaultPCId =
     forcedPCId ?? (businessMode && businessPC ? businessPC.id : activePCId);
   const [pcId, setPCId] = React.useState(defaultPCId);
+  // Whichever pc is currently targeted (picker selection, or the forced/
+  // default one) — drives the "Add to PC" vs "Add to Business Inventory"
+  // button copy so it always matches where the card is actually landing.
+  const targetPC = pcs.find((p) => p.id === pcId);
+  const addButtonLabel =
+    targetPC && pcKind(targetPC) === "business" ? "Add to Business Inventory" : "Add to PC";
   const addHolding = usePCStore((s) => s.addHolding);
   const lastUsedCostBasisCurrency = usePCStore(
     (s) => s.preferences.lastUsedCostBasisCurrency
@@ -229,7 +235,7 @@ export function AddHoldingDialog({
         <DialogTrigger asChild>
           {trigger ?? (
             <Button className="w-full">
-              <PackagePlus className="size-4" /> Add to PC
+              <PackagePlus className="size-4" /> {addButtonLabel}
             </Button>
           )}
         </DialogTrigger>
@@ -450,7 +456,7 @@ export function AddHoldingDialog({
               </Select>
             </div>
             <div className="grid gap-1.5">
-              <Label htmlFor="acquiredFrom">Bought from</Label>
+              <Label htmlFor="acquiredFrom">Obtained from</Label>
               <Input
                 id="acquiredFrom"
                 placeholder="Seller, shop, or trade partner (optional)"
@@ -482,7 +488,7 @@ export function AddHoldingDialog({
             Cancel
           </Button>
           <Button onClick={handleAdd} disabled={submitting}>
-            {submitting ? "Adding…" : "Add to PC"}
+            {submitting ? "Adding…" : addButtonLabel}
           </Button>
         </DialogFooter>
       </DialogContent>
