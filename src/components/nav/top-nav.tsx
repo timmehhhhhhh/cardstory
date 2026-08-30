@@ -123,7 +123,9 @@ export function TopNav() {
               Scan Cards
             </Link>
           </Button>
-          <SearchBox />
+          <div className="hidden md:block">
+            <SearchBox />
+          </div>
 
           {status === "authenticated" ? (
             <AccountMenu />
