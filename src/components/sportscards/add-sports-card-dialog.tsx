@@ -631,7 +631,7 @@ export function AddSportsCardDialog() {
               </Select>
             </div>
             <div className="grid gap-1.5">
-              <Label htmlFor="sc-acquiredFrom">Bought from</Label>
+              <Label htmlFor="sc-acquiredFrom">Obtained from</Label>
               <Input
                 id="sc-acquiredFrom"
                 placeholder="Seller, shop, or trade partner (optional)"

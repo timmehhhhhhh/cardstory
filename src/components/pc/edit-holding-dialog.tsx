@@ -335,7 +335,7 @@ export function EditHoldingDialog({
               </Select>
             </div>
             <div className="grid gap-1.5">
-              <Label htmlFor="edit-acquiredFrom">Bought from</Label>
+              <Label htmlFor="edit-acquiredFrom">Obtained from</Label>
               <Input
                 id="edit-acquiredFrom"
                 placeholder="Seller, shop, or trade partner (optional)"

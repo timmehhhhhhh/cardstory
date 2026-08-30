@@ -4,6 +4,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { TopNav } from "@/components/nav/top-nav";
+import { MobileSearchBar } from "@/components/nav/mobile-search-bar";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -36,7 +37,8 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <Providers>
           <TopNav />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 pb-20 md:pb-0">{children}</main>
+          <MobileSearchBar />
         </Providers>
       </body>
     </html>
