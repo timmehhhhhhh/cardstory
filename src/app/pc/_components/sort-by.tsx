@@ -16,6 +16,7 @@ const FIELD_OPTIONS: { value: SortField; label: string }[] = [
   { value: "name", label: "Card Name" },
   { value: "setName", label: "Set Name" },
   { value: "value", label: "Value" },
+  { value: "releaseDate", label: "Release Date" },
 ];
 
 /**

@@ -4,6 +4,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import {
   DEFAULT_HOLDING_FILTERS,
+  type GroupField,
   type HoldingFilters,
   type Preferences,
   type SortDirection,
@@ -31,6 +32,10 @@ function defaultPreferences(): Preferences {
     // effectively appeared in, so this is a no-op default for existing users.
     sortField: "dateAdded",
     sortDirection: "desc",
+    // Flat, ungrouped list is the default read of a collection — matches
+    // the order holdings have always effectively appeared in, so this is a
+    // no-op default for existing users.
+    groupField: "none",
     lastUsedCostBasisCurrency: "USD",
     businessMode: false,
     quickAdd: false,
@@ -52,6 +57,7 @@ export interface PCPreferencesState {
   setViewMode: (mode: ViewMode) => void;
   setSortField: (field: SortField) => void;
   setSortDirection: (direction: SortDirection) => void;
+  setGroupField: (field: GroupField) => void;
   setLastUsedCostBasisCurrency: (currency: SupportedCurrency) => void;
   setBusinessMode: (businessMode: boolean) => void;
   setQuickAdd: (quickAdd: boolean) => void;
@@ -81,6 +87,8 @@ export const usePCPreferencesStore = create<PCPreferencesState>()(
         set((s) => ({ preferences: { ...s.preferences, sortField } })),
       setSortDirection: (sortDirection) =>
         set((s) => ({ preferences: { ...s.preferences, sortDirection } })),
+      setGroupField: (groupField) =>
+        set((s) => ({ preferences: { ...s.preferences, groupField } })),
       setLastUsedCostBasisCurrency: (lastUsedCostBasisCurrency) =>
         set((s) => ({ preferences: { ...s.preferences, lastUsedCostBasisCurrency } })),
       setBusinessMode: (businessMode) =>

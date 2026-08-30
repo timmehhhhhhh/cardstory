@@ -8,6 +8,8 @@ import { CardBreadcrumb } from "@/app/card/[game]/[cardId]/_components/breadcrum
 import { withEnglishName } from "@/lib/catalog/card-name";
 import { PriceHistoryPanel } from "@/app/card/[game]/[cardId]/_components/price-history-panel";
 import { CollectionPanel } from "@/app/card/[game]/[cardId]/_components/collection-panel";
+import { ShortlistPanel } from "@/app/card/[game]/[cardId]/_components/shortlist-panel";
+import { BusinessHoldingsPanel } from "@/app/card/[game]/[cardId]/_components/business-holdings-panel";
 import { ShopPanel } from "@/app/card/[game]/[cardId]/_components/shop-panel";
 import { GradedPricesPanel } from "@/app/card/[game]/[cardId]/_components/graded-prices-panel";
 import { EbaySoldCompsPanel } from "@/app/card/[game]/[cardId]/_components/ebay-sold-comps-panel";
@@ -186,6 +188,8 @@ export default async function CardDetailPage({
 
           <div className="flex flex-col gap-4">
             <CollectionPanel sportsCardItemId={item.id} cardName={cardName} suggestedPrice={priceRaw} />
+            <ShortlistPanel sportsCardItemId={item.id} cardName={cardName} />
+            <BusinessHoldingsPanel sportsCardItemId={item.id} cardName={cardName} suggestedPrice={priceRaw} />
             <GradedPricesPanel gameId={game} cardExternalId={item.id} />
             <EbaySoldCompsPanel gameId={game} cardExternalId={item.id} cardName={cardName} />
             <ShopPanel cardName={cardName} gameId={game} />
@@ -277,6 +281,13 @@ export default async function CardDetailPage({
 
         <div className="flex flex-col gap-4">
           <CollectionPanel
+            catalogItemId={item.id}
+            cardName={displayName}
+            suggestedPrice={priceRaw}
+            language={item.language}
+          />
+          <ShortlistPanel catalogItemId={item.id} cardName={displayName} />
+          <BusinessHoldingsPanel
             catalogItemId={item.id}
             cardName={displayName}
             suggestedPrice={priceRaw}

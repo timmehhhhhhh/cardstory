@@ -1,4 +1,4 @@
-import { ListChecks, PackagePlus, ShoppingBag, Star, Store } from "lucide-react";
+import { PackagePlus, ShoppingBag, Star, Store } from "lucide-react";
 
 export const APP_NAME = "CardStory";
 
@@ -8,7 +8,7 @@ export const NAV_LINKS = [
   { href: "/watchlist", label: "Watchlist", icon: Star },
   { href: "/pc", label: "PC", icon: PackagePlus },
   { href: "/shortlist", label: "Shortlist", icon: ShoppingBag },
-  { href: "/curated-sets", label: "Curated Sets", icon: ListChecks },
+  { href: "/curated-sets", label: "Curated Sets" },
   { href: "/binder", label: "Binder Planner" },
   { href: "/deck-crafting", label: "Deck Crafting" },
   { href: "/business", label: "Business", vendorOnly: true, icon: Store },
