@@ -4,6 +4,7 @@ import { FX_RATES_TO_USD } from "@/lib/constants";
 // (alongside scripts/data/pokemon-manual/), outside the "@/*" -> "./src/*"
 // alias's reach.
 import { POKEMON_SET_TRANSLATIONS } from "../../../../scripts/data/pokemon-set-translations";
+import { POKEMON_SET_LOGOS } from "../../../../scripts/data/pokemon-set-logos";
 import { resolvePokemonCardNameEn } from "@/lib/games/pokemon/card-name-en";
 
 export interface PokemonApiSet {
@@ -258,8 +259,11 @@ function cardTypeFromTcgdexCategory(category: string | undefined): string | unde
  * reconstructed for JA/ZH/KO sets even though their own API response is
  * silent on it. Logos DO vary by language (translated wordmark) and tcgdex
  * only actually hosts the English one, so there's no equivalent
- * reconstruction for logoUrl here — non-English sets simply fall back to
- * this (now real, rather than always-missing) symbol icon in the UI.
+ * reconstruction for logoUrl here — it instead falls back to
+ * scripts/data/pokemon-set-logos.ts, a hand-curated table of hotlinked
+ * third-party logo URLs (see that file's header comment for provenance and
+ * scope). Any non-English set with no table entry falls back further still,
+ * to the reconstructed symbol icon in the UI.
  */
 function tcgdexUnivSymbolUrl(raw: TcgdexSetDetail): string | undefined {
   if (!raw.serie?.id) return undefined;
@@ -279,7 +283,7 @@ export function mapTcgdexSet(raw: TcgdexSetDetail, lang: TcgdexLang): UnifiedSet
     code,
     releaseDate: raw.releaseDate ? new Date(raw.releaseDate) : undefined,
     symbolUrl: raw.symbol ?? tcgdexUnivSymbolUrl(raw),
-    logoUrl: raw.logo,
+    logoUrl: raw.logo ?? POKEMON_SET_LOGOS[code],
     cardCount: raw.cardCount?.official ?? raw.cardCount?.total,
   };
 }
