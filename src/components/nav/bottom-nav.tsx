@@ -40,10 +40,10 @@ export function BottomNav() {
     <>
       <nav
         className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-1 border-t border-border bg-background/85 pl-1 backdrop-blur supports-backdrop-blur:bg-background/60 md:hidden"
-        style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+        style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 6px)" }}
         aria-label="Sections"
       >
-        <div className="flex flex-1 items-center gap-1 overflow-x-auto scroll-smooth py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex flex-1 items-center gap-1 overflow-x-auto scroll-smooth py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {links.map((link) => {
             const active = pathname === link.href || pathname?.startsWith(link.href + "/");
             return (

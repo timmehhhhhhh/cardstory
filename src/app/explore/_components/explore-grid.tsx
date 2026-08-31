@@ -42,7 +42,7 @@ export function ExploreGrid({
       <div
         className={
           view === "grid"
-            ? "grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+            ? "grid grid-cols-3 gap-2 sm:gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6"
             : "flex flex-col gap-2"
         }
       >
@@ -68,7 +68,7 @@ export function ExploreGrid({
       <div
         className={
           view === "grid"
-            ? "grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+            ? "grid grid-cols-3 gap-2 sm:gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6"
             : "flex flex-col gap-2"
         }
       >

@@ -29,19 +29,19 @@ import { cn } from "@/lib/utils";
 // with same-hue tinted backgrounds, which read as illegible on holo/foil art
 // of a similar hue (e.g. pink Cosmos Holo text vanishing on pink card art).
 const FINISH_FAMILY_COLOR: Record<string, string> = {
-  holofoil: "bg-[#5a3fe0]/92 text-white border-white/15 backdrop-blur",
-  unlimitedHolofoil: "bg-[#5a3fe0]/92 text-white border-white/15 backdrop-blur",
-  reverseHolofoil: "bg-[#2fb5c9]/92 text-[#0d2b30] border-black/15 backdrop-blur",
-  "1stEdition": "bg-[#d9a441]/92 text-[#2c1d05] border-black/15 backdrop-blur",
-  "1stEditionNormal": "bg-[#d9a441]/92 text-[#2c1d05] border-black/15 backdrop-blur",
-  "1stEditionHolofoil": "bg-[#d9a441]/92 text-[#2c1d05] border-black/15 backdrop-blur",
-  "1stEditionUnlimited": "bg-[#d9a441]/92 text-[#2c1d05] border-black/15 backdrop-blur",
+  holofoil: "bg-[#5a3fe0]/55 text-white border-white/15 backdrop-blur",
+  unlimitedHolofoil: "bg-[#5a3fe0]/55 text-white border-white/15 backdrop-blur",
+  reverseHolofoil: "bg-[#2fb5c9]/55 text-[#0d2b30] border-black/15 backdrop-blur",
+  "1stEdition": "bg-[#d9a441]/55 text-[#2c1d05] border-black/15 backdrop-blur",
+  "1stEditionNormal": "bg-[#d9a441]/55 text-[#2c1d05] border-black/15 backdrop-blur",
+  "1stEditionHolofoil": "bg-[#d9a441]/55 text-[#2c1d05] border-black/15 backdrop-blur",
+  "1stEditionUnlimited": "bg-[#d9a441]/55 text-[#2c1d05] border-black/15 backdrop-blur",
   // Its own color, distinct from reverseHolofoil's teal above — see
   // FINISH_LABELS.cosmosHolo in lib/games/pokemon/mapper.ts for why this is
   // a separate variantKey rather than a reverseHolofoil display overlay.
-  cosmosHolo: "bg-[#9c3f74]/92 text-white border-white/15 backdrop-blur",
+  cosmosHolo: "bg-[#9c3f74]/55 text-white border-white/15 backdrop-blur",
 };
-const DEFAULT_FINISH_COLOR = "bg-surface-elevated text-muted-foreground border-border";
+const DEFAULT_FINISH_COLOR = "bg-surface-elevated/60 text-muted-foreground border-border";
 
 export function FinishBadge({
   variantKey,

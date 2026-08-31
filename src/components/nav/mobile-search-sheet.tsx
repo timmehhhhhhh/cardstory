@@ -230,7 +230,7 @@ export function MobileSearchSheet({
 
           <div
             className="flex flex-col gap-1.5 border-t border-border px-3 py-2"
-            style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 0.5rem)" }}
+            style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 1rem)" }}
           >
             {dictation.listening && (
               <p className="px-1 text-xs text-primary">Listening… tap a suggestion above to confirm, or the mic to stop.</p>
