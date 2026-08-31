@@ -1,0 +1,505 @@
+{
+  "gameId": "pokemon",
+  "note": "pokellector.com/jp set buttons with no matching pokemon:ja:<code> Set row (or code mismatch). Never seeded.",
+  "generatedAt": "2026-08-31T19:56:57.513Z",
+  "entries": [
+    {
+      "sourceCode": "M6A",
+      "sourceUrl": "https://jp.pokellector.com/30th-Celebration-Japanese-Expansion/",
+      "sourceName": "30th Celebration (Japanese)",
+      "logoUrl": "https://den-media.pokellector.com/logos/30th-Celebration-Japanese.logo.435.png"
+    },
+    {
+      "sourceCode": "SVP",
+      "sourceUrl": "https://jp.pokellector.com/Scarlet-Violet-Japanese-Promos-Expansion/",
+      "sourceName": "Scarlet & Violet Promos",
+      "logoUrl": "https://den-media.pokellector.com/logos/Scarlet-Violet-Promos.logo.360.png"
+    },
+    {
+      "sourceCode": "SI",
+      "sourceUrl": "https://jp.pokellector.com/Start-Deck-100-Expansion/",
+      "sourceName": "Start Deck 100",
+      "logoUrl": "https://den-media.pokellector.com/logos/Start-Deck-100.logo.337.png"
+    },
+    {
+      "sourceCode": "S8AP",
+      "sourceUrl": "https://jp.pokellector.com/25th-Anniversary-Promo-Pack-Expansion/",
+      "sourceName": "25th Anniversary Promo Pack",
+      "logoUrl": "https://den-media.pokellector.com/logos/25th-Anniversary-Promo-Pack.logo.328.png"
+    },
+    {
+      "sourceCode": "SP",
+      "sourceUrl": "https://jp.pokellector.com/Japanese-Sword-Shield-Promos-Expansion/",
+      "sourceName": "Sword & Shield Promos",
+      "logoUrl": "https://den-media.pokellector.com/logos/Sword-Shield-Promos.logo.289.png"
+    },
+    {
+      "sourceCode": "SP4",
+      "sourceUrl": "https://jp.pokellector.com/Eevee-Heroes-VMAX-Special-Set-Expansion/",
+      "sourceName": "Eevee Heroes VMAX Special Set",
+      "logoUrl": "https://den-media.pokellector.com/logos/Eevee-Heroes-VMAX-Special-Set.logo.330.png"
+    },
+    {
+      "sourceCode": "SP3",
+      "sourceUrl": "https://jp.pokellector.com/Silver-Lance-Jet-Black-Spirit-Promo-Set-Expansion/",
+      "sourceName": "Silver Lance & Jet-Black Spirit Promo Set",
+      "logoUrl": "https://den-media.pokellector.com/logos/Silver-Lance-Jet-Black-Poltergeist-Promo-Set.logo.321.png"
+    },
+    {
+      "sourceCode": "SP2",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Special-Set-Expansion/",
+      "sourceName": "VMAX Special Set",
+      "logoUrl": "https://den-media.pokellector.com/logos/VMAX-Special-Set.logo.302.png"
+    },
+    {
+      "sourceCode": "SMP",
+      "sourceUrl": "https://jp.pokellector.com/Japanese-Sun-Moon-Promos-Expansion/",
+      "sourceName": "Sun & Moon Promos",
+      "logoUrl": "https://den-media.pokellector.com/logos/Sun-Moon-Promos.logo.203.png"
+    },
+    {
+      "sourceCode": "SMD",
+      "sourceUrl": "https://jp.pokellector.com/Ash-vs-Team-Rocket-Battle-Set-Expansion/",
+      "sourceName": "Ash vs Team Rocket Battle Set",
+      "logoUrl": "https://den-media.pokellector.com/logos/Ash-vs-Team-Rocket-Battle-Set.logo.221.png"
+    },
+    {
+      "sourceCode": "SMC",
+      "sourceUrl": "https://jp.pokellector.com/Tapu-Bulu-GX-Enhanced-Starter-Set-Expansion/",
+      "sourceName": "Tapu Bulu GX Enhanced Starter Set",
+      "logoUrl": "https://den-media.pokellector.com/logos/Starter-Set-Tapu-Bulu-GX.logo.222.png"
+    },
+    {
+      "sourceCode": "SMP1",
+      "sourceUrl": "https://jp.pokellector.com/Rockruff-Full-Power-Deck-Expansion/",
+      "sourceName": "Rockruff Full Power Deck",
+      "logoUrl": "https://den-media.pokellector.com/logos/Rockruff-Full-Power-Deck.logo.206.png"
+    },
+    {
+      "sourceCode": "SMA",
+      "sourceUrl": "https://jp.pokellector.com/Starter-Set-Decks-Expansion/",
+      "sourceName": "Starter Set Decks",
+      "logoUrl": "https://den-media.pokellector.com/logos/Starter-Set-Decks.logo.208.png"
+    },
+    {
+      "sourceCode": "SMB",
+      "sourceUrl": "https://jp.pokellector.com/Premium-Trainer-Box-Expansion/",
+      "sourceName": "Premium Trainer Box",
+      "logoUrl": "https://den-media.pokellector.com/logos/Premium-Trainer-Box.logo.213.png"
+    },
+    {
+      "sourceCode": "XY",
+      "sourceUrl": "https://jp.pokellector.com/The-Best-of-XY-Expansion/",
+      "sourceName": "The Best of XY",
+      "logoUrl": "https://den-media.pokellector.com/logos/The-Best-of-XY.logo.223.png"
+    },
+    {
+      "sourceCode": "XY11",
+      "sourceUrl": "https://jp.pokellector.com/Explosive-Warrior-Expansion/",
+      "sourceName": "Explosive Warrior",
+      "logoUrl": "https://den-media.pokellector.com/logos/Explosive-Warrior.logo.194.png"
+    },
+    {
+      "sourceCode": "XY11",
+      "sourceUrl": "https://jp.pokellector.com/Ruthless-Rebel-Expansion/",
+      "sourceName": "Ruthless Rebel",
+      "logoUrl": "https://den-media.pokellector.com/logos/Ruthless-Rebel.logo.193.png"
+    },
+    {
+      "sourceCode": "XYH",
+      "sourceUrl": "https://jp.pokellector.com/Mega-Audino-EX-Mega-Battle-Deck-Expansion/",
+      "sourceName": "Mega Audino EX Mega Battle Deck",
+      "logoUrl": "https://den-media.pokellector.com/logos/Mega-Audino-EX-Mega-Battle-Deck.logo.190.png"
+    },
+    {
+      "sourceCode": "XYG",
+      "sourceUrl": "https://jp.pokellector.com/Zygarde-EX-Perfect-Battle-Deck-Expansion/",
+      "sourceName": "Zygarde EX Perfect Battle Deck",
+      "logoUrl": "https://den-media.pokellector.com/logos/Zygarde-EX-Perfect-Battle-Deck.logo.191.png"
+    },
+    {
+      "sourceCode": "20TH",
+      "sourceUrl": "https://jp.pokellector.com/Pokemon-Card-Game-Starter-Pack-Expansion/",
+      "sourceName": "Pokemon Card Game Starter Pack",
+      "logoUrl": "https://den-media.pokellector.com/logos/Pokemon-Card-Game-Starter-Pack.logo.189.png"
+    },
+    {
+      "sourceCode": "XYF",
+      "sourceUrl": "https://jp.pokellector.com/Golduck-BREAK-Palkia-EX-Combo-Deck-Expansion/",
+      "sourceName": "Golduck BREAK & Palkia EX Combo Deck",
+      "logoUrl": "https://den-media.pokellector.com/logos/Golduck-Palkia-EX-BREAK-Combo-Deck.logo.178.png"
+    },
+    {
+      "sourceCode": "SNP",
+      "sourceUrl": "https://jp.pokellector.com/Noivern-BREAK-Evolution-Pack-Expansion/",
+      "sourceName": "Noivern BREAK Evolution Pack",
+      "logoUrl": "https://den-media.pokellector.com/logos/Noivern-BREAK-Evolution-Pack.logo.181.png"
+    },
+    {
+      "sourceCode": "SNP",
+      "sourceUrl": "https://jp.pokellector.com/Raichu-BREAK-Evolution-Pack-Expansion/",
+      "sourceName": "Raichu BREAK Evolution Pack",
+      "logoUrl": "https://den-media.pokellector.com/logos/Raichu-BREAK-Deck.logo.180.png"
+    },
+    {
+      "sourceCode": "XY8",
+      "sourceUrl": "https://jp.pokellector.com/Blue-Impact-Expansion/",
+      "sourceName": "Blue Impact",
+      "logoUrl": "https://den-media.pokellector.com/logos/Blue-Impact.logo.176.png"
+    },
+    {
+      "sourceCode": "XY8",
+      "sourceUrl": "https://jp.pokellector.com/Red-Flash-Expansion/",
+      "sourceName": "Red Flash",
+      "logoUrl": "https://den-media.pokellector.com/logos/Red-Flash.logo.175.png"
+    },
+    {
+      "sourceCode": "XYD",
+      "sourceUrl": "https://jp.pokellector.com/Mega-Rayquaza-EX-Battle-Deck-Expansion/",
+      "sourceName": "Mega Rayquaza EX Battle Deck",
+      "logoUrl": "https://den-media.pokellector.com/logos/Mega-Rayquaza-EX-Battle-Deck.logo.170.png"
+    },
+    {
+      "sourceCode": "XY5",
+      "sourceUrl": "https://jp.pokellector.com/Gaia-Volcano-Expansion/",
+      "sourceName": "Gaia Volcano",
+      "logoUrl": "https://den-media.pokellector.com/logos/Gaia-Volcano.logo.165.png"
+    },
+    {
+      "sourceCode": "XY5",
+      "sourceUrl": "https://jp.pokellector.com/Tidal-Storm-Expansion/",
+      "sourceName": "Tidal Storm",
+      "logoUrl": "https://den-media.pokellector.com/logos/Tidal-Storm.logo.164.png"
+    },
+    {
+      "sourceCode": "XYB",
+      "sourceUrl": "https://jp.pokellector.com/Hyper-Metal-Chain-Deck-Expansion/",
+      "sourceName": "Hyper Metal Chain Deck",
+      "logoUrl": "https://den-media.pokellector.com/logos/Hyper-Metal-Chain-Deck.logo.163.png"
+    },
+    {
+      "sourceCode": "XYA",
+      "sourceUrl": "https://jp.pokellector.com/M-Charizard-EX-Mega-Battle-Deck-Expansion/",
+      "sourceName": "M Charizard EX Mega Battle Deck",
+      "logoUrl": "https://den-media.pokellector.com/logos/M-Charizard-EX-Mega-Battle-Deck.logo.156.png"
+    },
+    {
+      "sourceCode": "X30",
+      "sourceUrl": "https://jp.pokellector.com/Xerneas-Half-Deck-Expansion/",
+      "sourceName": "Xerneas Half Deck",
+      "logoUrl": "https://den-media.pokellector.com/logos/Xerneas-Half-Deck.logo.154.png"
+    },
+    {
+      "sourceCode": "Y30",
+      "sourceUrl": "https://jp.pokellector.com/Yveltal-Half-Deck-Expansion/",
+      "sourceName": "Yveltal Half Deck",
+      "logoUrl": "https://den-media.pokellector.com/logos/Yveltal-Half-Deck.logo.153.png"
+    },
+    {
+      "sourceCode": "XY1",
+      "sourceUrl": "https://jp.pokellector.com/Collection-Y-Expansion/",
+      "sourceName": "Collection Y",
+      "logoUrl": "https://den-media.pokellector.com/logos/Collection-Y.logo.140.png"
+    },
+    {
+      "sourceCode": "XY1",
+      "sourceUrl": "https://jp.pokellector.com/Collection-X-Expansion/",
+      "sourceName": "Collection X",
+      "logoUrl": "https://den-media.pokellector.com/logos/Collection-X.logo.139.png"
+    },
+    {
+      "sourceCode": "HXY",
+      "sourceUrl": "https://jp.pokellector.com/XY-Beginning-Set-Expansion/",
+      "sourceName": "XY Beginning Set",
+      "logoUrl": "https://den-media.pokellector.com/logos/XY-Beginning-Set.logo.146.png"
+    },
+    {
+      "sourceCode": "XYP",
+      "sourceUrl": "https://jp.pokellector.com/Japanese-XY-Promos-Expansion/",
+      "sourceName": "XY Promos",
+      "logoUrl": "https://den-media.pokellector.com/logos/XY-Promos.logo.141.png"
+    },
+    {
+      "sourceCode": "MG",
+      "sourceUrl": "https://jp.pokellector.com/Mewtwo-Vs-Genesect-Genesect-Expansion/",
+      "sourceName": "Mewtwo Vs Genesect: Genesect",
+      "logoUrl": "https://den-media.pokellector.com/logos/Mewtwo-Vs-Genesect-Genesect.logo.145.png"
+    },
+    {
+      "sourceCode": "MG",
+      "sourceUrl": "https://jp.pokellector.com/Mewtwo-Vs-Genesect-Mewtwo-Expansion/",
+      "sourceName": "Mewtwo Vs Genesect: Mewtwo",
+      "logoUrl": "https://den-media.pokellector.com/logos/Mewtwo-Vs-Genesect-Mewtwo.logo.144.png"
+    },
+    {
+      "sourceCode": "KK",
+      "sourceUrl": "https://jp.pokellector.com/Blastoise-Kyurem-Combo-Deck-Expansion/",
+      "sourceName": "Blastoise & Kyurem Combo Deck",
+      "logoUrl": "https://den-media.pokellector.com/logos/Blastoise-Kyurem-Combo-Deck.logo.126.png"
+    },
+    {
+      "sourceCode": "SC",
+      "sourceUrl": "https://jp.pokellector.com/Shiny-Collection-Expansion/",
+      "sourceName": "Shiny Collection",
+      "logoUrl": "https://den-media.pokellector.com/logos/Shiny-Collection.logo.32.png"
+    },
+    {
+      "sourceCode": "WAK",
+      "sourceUrl": "https://jp.pokellector.com/Exciting-Battle-for-Everyone-Expansion/",
+      "sourceName": "Exciting Battle for Everyone",
+      "logoUrl": "https://den-media.pokellector.com/logos/Exciting-Battle-for-Everyone.logo.30.png"
+    },
+    {
+      "sourceCode": "PBG",
+      "sourceUrl": "https://jp.pokellector.com/Team-Plasma-Battle-Gift-Set-Expansion/",
+      "sourceName": "Team Plasma Battle Gift Set",
+      "logoUrl": "https://den-media.pokellector.com/logos/Team-Plasma-Battle-Gift-Set.logo.31.png"
+    },
+    {
+      "sourceCode": "KLD",
+      "sourceUrl": "https://jp.pokellector.com/Keldeo-Battle-Strength-Deck-Expansion/",
+      "sourceName": "Keldeo Battle Strength Deck",
+      "logoUrl": "https://den-media.pokellector.com/logos/Keldeo-Battle-Strength-Deck.logo.133.png"
+    },
+    {
+      "sourceCode": "GBR",
+      "sourceUrl": "https://jp.pokellector.com/Garchomp-Half-Deck-Expansion/",
+      "sourceName": "Garchomp Half Deck",
+      "logoUrl": "https://den-media.pokellector.com/logos/Garchomp-Half-Deck.logo.134.png"
+    },
+    {
+      "sourceCode": "SZD",
+      "sourceUrl": "https://jp.pokellector.com/Hydreigon-Half-Deck-Expansion/",
+      "sourceName": "Hydreigon Half Deck",
+      "logoUrl": "https://den-media.pokellector.com/logos/Hydreigon-Half-Deck.logo.135.png"
+    },
+    {
+      "sourceCode": "DS",
+      "sourceUrl": "https://jp.pokellector.com/Dragon-Selection-Expansion/",
+      "sourceName": "Dragon Selection",
+      "logoUrl": "https://den-media.pokellector.com/logos/Dragon-Selection.logo.16.png"
+    },
+    {
+      "sourceCode": "BWP",
+      "sourceUrl": "https://jp.pokellector.com/Japanese-Black-White-Promos-Expansion/",
+      "sourceName": "Black & White Promos",
+      "logoUrl": "https://den-media.pokellector.com/logos/Black-White-Promos.logo.25.png"
+    },
+    {
+      "sourceCode": "EBB",
+      "sourceUrl": "https://jp.pokellector.com/EX-Battle-Boost-Expansion/",
+      "sourceName": "EX Battle Boost",
+      "logoUrl": "https://den-media.pokellector.com/logos/EX-Battle-Boost.logo.129.png"
+    },
+    {
+      "sourceCode": "BW9",
+      "sourceUrl": "https://jp.pokellector.com/Megalo-Cannon-Expansion/",
+      "sourceName": "Megalo Cannon",
+      "logoUrl": "https://den-media.pokellector.com/logos/Megalo-Cannon.logo.29.png"
+    },
+    {
+      "sourceCode": "BW8",
+      "sourceUrl": "https://jp.pokellector.com/Thunder-Knuckle-Expansion/",
+      "sourceName": "Thunder Knuckle",
+      "logoUrl": "https://den-media.pokellector.com/logos/Thunder-Knuckle.logo.28.png"
+    },
+    {
+      "sourceCode": "BW8",
+      "sourceUrl": "https://jp.pokellector.com/Spiral-Force-Expansion/",
+      "sourceName": "Spiral Force",
+      "logoUrl": "https://den-media.pokellector.com/logos/Spiral-Force.logo.27.png"
+    },
+    {
+      "sourceCode": "BW7",
+      "sourceUrl": "https://jp.pokellector.com/Plasma-Gale-Expansion/",
+      "sourceName": "Plasma Gale",
+      "logoUrl": "https://den-media.pokellector.com/logos/Plasma-Gale.logo.12.png"
+    },
+    {
+      "sourceCode": "BW6",
+      "sourceUrl": "https://jp.pokellector.com/Freeze-Bolt-Expansion/",
+      "sourceName": "Freeze Bolt",
+      "logoUrl": "https://den-media.pokellector.com/logos/Freeze-Bolt.logo.24.png"
+    },
+    {
+      "sourceCode": "BW6",
+      "sourceUrl": "https://jp.pokellector.com/Cold-Flare-Expansion/",
+      "sourceName": "Cold Flare",
+      "logoUrl": "https://den-media.pokellector.com/logos/Cold-Flare.logo.23.png"
+    },
+    {
+      "sourceCode": "BW5",
+      "sourceUrl": "https://jp.pokellector.com/Dragon-Blade-Expansion/",
+      "sourceName": "Dragon Blade",
+      "logoUrl": "https://den-media.pokellector.com/logos/Dragon-Blade.logo.21.png"
+    },
+    {
+      "sourceCode": "BW5",
+      "sourceUrl": "https://jp.pokellector.com/Dragon-Blast-Expansion/",
+      "sourceName": "Dragon Blast",
+      "logoUrl": "https://den-media.pokellector.com/logos/Dragon-Blast.logo.22.png"
+    },
+    {
+      "sourceCode": "BW4",
+      "sourceUrl": "https://jp.pokellector.com/Dark-Rush-Expansion/",
+      "sourceName": "Dark Rush",
+      "logoUrl": "https://den-media.pokellector.com/logos/Dark-Rush.logo.20.png"
+    },
+    {
+      "sourceCode": "BW3",
+      "sourceUrl": "https://jp.pokellector.com/Hail-Blizzard-Expansion/",
+      "sourceName": "Hail Blizzard",
+      "logoUrl": "https://den-media.pokellector.com/logos/Hail-Blizzard.logo.18.png"
+    },
+    {
+      "sourceCode": "BW3",
+      "sourceUrl": "https://jp.pokellector.com/Psycho-Drive-Expansion/",
+      "sourceName": "Psycho Drive",
+      "logoUrl": "https://den-media.pokellector.com/logos/Psycho-Drive.logo.19.png"
+    },
+    {
+      "sourceCode": "BW2",
+      "sourceUrl": "https://jp.pokellector.com/Red-Collection-Expansion/",
+      "sourceName": "Red Collection",
+      "logoUrl": "https://den-media.pokellector.com/logos/Red-Collection.logo.17.png"
+    },
+    {
+      "sourceCode": "BW1",
+      "sourceUrl": "https://jp.pokellector.com/White-Collection-Expansion/",
+      "sourceName": "White Collection",
+      "logoUrl": "https://den-media.pokellector.com/logos/White-Collection.logo.15.png"
+    },
+    {
+      "sourceCode": "BW1",
+      "sourceUrl": "https://jp.pokellector.com/Black-Collection-Expansion/",
+      "sourceName": "Black Collection",
+      "logoUrl": "https://den-media.pokellector.com/logos/Black-Collection.logo.14.png"
+    },
+    {
+      "sourceCode": "L1HG",
+      "sourceUrl": "https://jp.pokellector.com/HeartGold-Collection-Expansion/",
+      "sourceName": "HeartGold Collection",
+      "logoUrl": "https://den-media.pokellector.com/logos/HeartGold-Collection.logo.247.png"
+    },
+    {
+      "sourceCode": "L1SS",
+      "sourceUrl": "https://jp.pokellector.com/SoulSilver-Collection-Expansion/",
+      "sourceName": "SoulSilver Collection",
+      "logoUrl": "https://den-media.pokellector.com/logos/SoulSilver-Collection.logo.248.png"
+    },
+    {
+      "sourceCode": "PT4",
+      "sourceUrl": "https://jp.pokellector.com/Advent-of-Arceus-Expansion/",
+      "sourceName": "Advent of Arceus",
+      "logoUrl": "https://den-media.pokellector.com/logos/Advent-of-Arceus.logo.256.png"
+    },
+    {
+      "sourceCode": "PTS",
+      "sourceUrl": "https://jp.pokellector.com/Shaymin-LVX-Collection-Pack-Expansion/",
+      "sourceName": "Shaymin LV.X Collection Pack",
+      "logoUrl": "https://den-media.pokellector.com/logos/Shaymin-LVX-Collection-Pack.logo.151.png"
+    },
+    {
+      "sourceCode": "PT3",
+      "sourceUrl": "https://jp.pokellector.com/Beat-of-the-Frontier-Expansion/",
+      "sourceName": "Beat of the Frontier",
+      "logoUrl": "https://den-media.pokellector.com/logos/Beat-of-the-Frontier.logo.255.png"
+    },
+    {
+      "sourceCode": "PT2",
+      "sourceUrl": "https://jp.pokellector.com/Bonds-to-the-End-of-Time-Expansion/",
+      "sourceName": "Bonds to the End of Time",
+      "logoUrl": "https://den-media.pokellector.com/logos/Bonds-to-the-End-of-Time.logo.254.png"
+    },
+    {
+      "sourceCode": "PT1",
+      "sourceUrl": "https://jp.pokellector.com/Galactics-Conquest-Expansion/",
+      "sourceName": "Galactic's Conquest",
+      "logoUrl": "https://den-media.pokellector.com/logos/Galactics-Conquest.logo.253.png"
+    },
+    {
+      "sourceCode": "DPTP",
+      "sourceUrl": "https://jp.pokellector.com/DPt-Promos-Expansion/",
+      "sourceName": "DPt Promos",
+      "logoUrl": "https://den-media.pokellector.com/logos/DPt-Promos.logo.136.png"
+    },
+    {
+      "sourceCode": "PPP",
+      "sourceUrl": "https://jp.pokellector.com/PPP-Promos-Expansion/",
+      "sourceName": "PPP Promos",
+      "logoUrl": "https://den-media.pokellector.com/logos/PPP-Promos.logo.128.png"
+    },
+    {
+      "sourceCode": "DPP",
+      "sourceUrl": "https://jp.pokellector.com/DP-Promos-Expansion/",
+      "sourceName": "DP Promos",
+      "logoUrl": "https://den-media.pokellector.com/logos/DP-Promos.logo.274.png"
+    },
+    {
+      "sourceCode": "EC1",
+      "sourceUrl": "https://jp.pokellector.com/The-Town-on-No-Map-Expansion/",
+      "sourceName": "The Town on No Map",
+      "logoUrl": "https://den-media.pokellector.com/logos/The-Town-on-No-Map.logo.390.png"
+    },
+    {
+      "sourceCode": "VS",
+      "sourceUrl": "https://jp.pokellector.com/Pokemon-VS-Expansion/",
+      "sourceName": "Pokemon VS",
+      "logoUrl": "https://den-media.pokellector.com/logos/Pokemon-VS.logo.276.png"
+    },
+    {
+      "sourceCode": "B06",
+      "sourceUrl": "https://jp.pokellector.com/Challenge-from-the-Darkness-Expansion/",
+      "sourceName": "Challenge from the Darkness",
+      "logoUrl": "https://den-media.pokellector.com/logos/Challenge-from-the-Darkness.logo.317.png"
+    },
+    {
+      "sourceCode": "B05",
+      "sourceUrl": "https://jp.pokellector.com/Leaders-Stadium-Expansion/",
+      "sourceName": "Leader's Stadium",
+      "logoUrl": "https://den-media.pokellector.com/logos/Leaders-Stadium.logo.316.png"
+    },
+    {
+      "sourceCode": "B04",
+      "sourceUrl": "https://jp.pokellector.com/Rocket-Gang-Expansion/",
+      "sourceName": "Rocket Gang",
+      "logoUrl": "https://den-media.pokellector.com/logos/Rocket-Gang.logo.315.png"
+    },
+    {
+      "sourceCode": "B03",
+      "sourceUrl": "https://jp.pokellector.com/Mystery-of-the-Fossils-Expansion/",
+      "sourceName": "Mystery of the Fossils",
+      "logoUrl": "https://den-media.pokellector.com/logos/Mystery-of-the-Fossils.logo.314.png"
+    },
+    {
+      "sourceCode": "B02",
+      "sourceUrl": "https://jp.pokellector.com/Pokemon-Jungle-Expansion/",
+      "sourceName": "Pokemon Jungle",
+      "logoUrl": "https://den-media.pokellector.com/logos/Pokemon-Jungle.logo.313.png"
+    },
+    {
+      "sourceCode": "EXP",
+      "sourceUrl": "https://jp.pokellector.com/Expansion-Pack-Expansion/",
+      "sourceName": "Expansion Pack",
+      "logoUrl": "https://den-media.pokellector.com/logos/Expansion-Pack.logo.311.png"
+    },
+    {
+      "sourceCode": "VEN3",
+      "sourceUrl": "https://jp.pokellector.com/Vending-Series-3-Green-Expansion/",
+      "sourceName": "Vending Series 3 (Green)",
+      "logoUrl": "https://den-media.pokellector.com/logos/Vending-Series-3-Green.logo.397.png"
+    },
+    {
+      "sourceCode": "VEN2",
+      "sourceUrl": "https://jp.pokellector.com/Vending-Series-2-Red-Expansion/",
+      "sourceName": "Vending Series 2 (Red)",
+      "logoUrl": "https://den-media.pokellector.com/logos/Vending-Series-2-Red.logo.396.png"
+    },
+    {
+      "sourceCode": "VEN1",
+      "sourceUrl": "https://jp.pokellector.com/Vending-Series-Blue-Expansion/",
+      "sourceName": "Vending Series 1 (Blue)",
+      "logoUrl": "https://den-media.pokellector.com/logos/Vending-Series-1-Blue.logo.395.png"
+    }
+  ]
+}

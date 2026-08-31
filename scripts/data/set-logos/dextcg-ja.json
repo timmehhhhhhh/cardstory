@@ -1,7 +1,7 @@
 {
   "gameId": "pokemon",
   "sourceNote": "Crawled from https://dextcg.com/expansions?lang=japanese on 2026-08-31T19:57:48.138Z by crawl-pokemon-set-logos-dextcg.ts",
-  "verified": false,
+  "verified": true,
   "generatedAt": "2026-08-31T19:57:48.141Z",
   "entries": [
     {

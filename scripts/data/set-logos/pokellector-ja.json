@@ -1,0 +1,855 @@
+{
+  "gameId": "pokemon",
+  "sourceNote": "Crawled from https://jp.pokellector.com/sets on 2026-08-31T19:56:57.511Z by crawl-pokemon-set-logos-pokellector.ts",
+  "verified": true,
+  "generatedAt": "2026-08-31T19:56:57.512Z",
+  "entries": [
+    {
+      "setId": "pokemon:ja:M6",
+      "logoUrl": "https://den-media.pokellector.com/logos/Storm-Emeralda.logo.437.png",
+      "nameEn": "Storm Emeralda",
+      "sourceUrl": "https://jp.pokellector.com/Storm-Emeralda-Expansion/",
+      "sourceName": "Storm Emeralda"
+    },
+    {
+      "setId": "pokemon:ja:M5",
+      "logoUrl": "https://den-media.pokellector.com/logos/Abyss-Eye.logo.433.png",
+      "nameEn": "Abyss Eye",
+      "sourceUrl": "https://jp.pokellector.com/Abyss-Eye-Expansion/",
+      "sourceName": "Abyss Eye"
+    },
+    {
+      "setId": "pokemon:ja:M4",
+      "logoUrl": "https://den-media.pokellector.com/logos/Ninja-Spinner.logo.430.png",
+      "nameEn": "Ninja Spinner",
+      "sourceUrl": "https://jp.pokellector.com/Ninja-Spinner-Expansion/",
+      "sourceName": "Ninja Spinner"
+    },
+    {
+      "setId": "pokemon:ja:M3",
+      "logoUrl": "https://den-media.pokellector.com/logos/Munikis-Zero.logo.428.png",
+      "nameEn": "Munikis Zero",
+      "sourceUrl": "https://jp.pokellector.com/Munikis-Zero-Expansion/",
+      "sourceName": "Munikis Zero"
+    },
+    {
+      "setId": "pokemon:ja:M2a",
+      "logoUrl": "https://den-media.pokellector.com/logos/MEGA-Dream-ex.logo.427.png",
+      "nameEn": "MEGA Dream ex",
+      "sourceUrl": "https://jp.pokellector.com/MEGA-Dream-ex-Expansion/",
+      "sourceName": "MEGA Dream ex"
+    },
+    {
+      "setId": "pokemon:ja:M2",
+      "logoUrl": "https://den-media.pokellector.com/logos/Inferno-X.logo.425.png",
+      "nameEn": "Inferno X",
+      "sourceUrl": "https://jp.pokellector.com/Inferno-X-Expansion/",
+      "sourceName": "Inferno X"
+    },
+    {
+      "setId": "pokemon:ja:M1S",
+      "logoUrl": "https://den-media.pokellector.com/logos/Mega-Symphonia.logo.417.png",
+      "nameEn": "Mega Symphonia",
+      "sourceUrl": "https://jp.pokellector.com/Mega-Symphonia-Expansion/",
+      "sourceName": "Mega Symphonia"
+    },
+    {
+      "setId": "pokemon:ja:M1L",
+      "logoUrl": "https://den-media.pokellector.com/logos/Mega-Brave.logo.416.png",
+      "nameEn": "Mega Brave",
+      "sourceUrl": "https://jp.pokellector.com/Mega-Brave-Expansion/",
+      "sourceName": "Mega Brave"
+    },
+    {
+      "setId": "pokemon:ja:M-P",
+      "logoUrl": "https://den-media.pokellector.com/logos/Mega-Series-Promos.logo.419.png",
+      "nameEn": "Mega Series Promos",
+      "sourceUrl": "https://jp.pokellector.com/Mega-Series-Promos-Expansion/",
+      "sourceName": "Mega Series Promos"
+    },
+    {
+      "setId": "pokemon:ja:SV11W",
+      "logoUrl": "https://den-media.pokellector.com/logos/White-Flare.logo.415.png",
+      "nameEn": "White Flare",
+      "sourceUrl": "https://jp.pokellector.com/White-Flare-Expansion/",
+      "sourceName": "White Flare"
+    },
+    {
+      "setId": "pokemon:ja:SV11B",
+      "logoUrl": "https://den-media.pokellector.com/logos/Black-Bolt.logo.414.png",
+      "nameEn": "Black Bolt",
+      "sourceUrl": "https://jp.pokellector.com/Black-Bolt-Expansion/",
+      "sourceName": "Black Bolt"
+    },
+    {
+      "setId": "pokemon:ja:SV10",
+      "logoUrl": "https://den-media.pokellector.com/logos/Glory-of-Team-Rocket.logo.413.png",
+      "nameEn": "Glory of Team Rocket",
+      "sourceUrl": "https://jp.pokellector.com/Glory-of-Team-Rocket-Expansion/",
+      "sourceName": "Glory of Team Rocket"
+    },
+    {
+      "setId": "pokemon:ja:SV9a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Hot-Air-Arena.logo.411.png",
+      "nameEn": "Hot Air Arena",
+      "sourceUrl": "https://jp.pokellector.com/Hot-Air-Arena-Expansion/",
+      "sourceName": "Hot Air Arena"
+    },
+    {
+      "setId": "pokemon:ja:SV9",
+      "logoUrl": "https://den-media.pokellector.com/logos/Battle-Partners.logo.408.png",
+      "nameEn": "Battle Partners",
+      "sourceUrl": "https://jp.pokellector.com/Battle-Partners-Expansion/",
+      "sourceName": "Battle Partners"
+    },
+    {
+      "setId": "pokemon:ja:SV8a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Terastal-Festival-ex.logo.406.png",
+      "nameEn": "Terastal Festival ex",
+      "sourceUrl": "https://jp.pokellector.com/Terastal-Festival-ex-Expansion/",
+      "sourceName": "Terastal Festival ex"
+    },
+    {
+      "setId": "pokemon:ja:SV8",
+      "logoUrl": "https://den-media.pokellector.com/logos/Super-Electric-Breaker.logo.405.png",
+      "nameEn": "Super Electric Breaker",
+      "sourceUrl": "https://jp.pokellector.com/Super-Electric-Breaker-Expansion/",
+      "sourceName": "Super Electric Breaker"
+    },
+    {
+      "setId": "pokemon:ja:SV7a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Paradise-Dragona.logo.403.png",
+      "nameEn": "Paradise Dragona",
+      "sourceUrl": "https://jp.pokellector.com/Paradise-Dragona-Expansion/",
+      "sourceName": "Paradise Dragona"
+    },
+    {
+      "setId": "pokemon:ja:SV7",
+      "logoUrl": "https://den-media.pokellector.com/logos/Stella-Miracle.logo.401.png",
+      "nameEn": "Stella Miracle",
+      "sourceUrl": "https://jp.pokellector.com/Stella-Miracle-Expansion/",
+      "sourceName": "Stella Miracle"
+    },
+    {
+      "setId": "pokemon:ja:SV6a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Night-Wanderer.logo.398.png",
+      "nameEn": "Night Wanderer",
+      "sourceUrl": "https://jp.pokellector.com/Night-Wanderer-Expansion/",
+      "sourceName": "Night Wanderer"
+    },
+    {
+      "setId": "pokemon:ja:SV6",
+      "logoUrl": "https://den-media.pokellector.com/logos/Mask-of-Change.logo.393.png",
+      "nameEn": "Mask of Change",
+      "sourceUrl": "https://jp.pokellector.com/Mask-of-Change-Expansion/",
+      "sourceName": "Mask of Change"
+    },
+    {
+      "setId": "pokemon:ja:SV5a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Crimson-Haze.logo.391.png",
+      "nameEn": "Crimson Haze",
+      "sourceUrl": "https://jp.pokellector.com/Crimson-Haze-Expansion/",
+      "sourceName": "Crimson Haze"
+    },
+    {
+      "setId": "pokemon:ja:SV5M",
+      "logoUrl": "https://den-media.pokellector.com/logos/Cyber-Judge.logo.387.png",
+      "nameEn": "Cyber Judge",
+      "sourceUrl": "https://jp.pokellector.com/Cyber-Judge-Expansion/",
+      "sourceName": "Cyber Judge"
+    },
+    {
+      "setId": "pokemon:ja:SV5K",
+      "logoUrl": "https://den-media.pokellector.com/logos/Wild-Force.logo.386.png",
+      "nameEn": "Wild Force",
+      "sourceUrl": "https://jp.pokellector.com/Wild-Force-Expansion/",
+      "sourceName": "Wild Force"
+    },
+    {
+      "setId": "pokemon:ja:SV4a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Shiny-Treasure-ex.logo.375.png",
+      "nameEn": "Shiny Treasure ex",
+      "sourceUrl": "https://jp.pokellector.com/Shiny-Treasures-ex-Expansion/",
+      "sourceName": "Shiny Treasure ex"
+    },
+    {
+      "setId": "pokemon:ja:SV4K",
+      "logoUrl": "https://den-media.pokellector.com/logos/Future-Flash.logo.382.png",
+      "nameEn": "Future Flash",
+      "sourceUrl": "https://jp.pokellector.com/Future-Flash-Expansion/",
+      "sourceName": "Future Flash"
+    },
+    {
+      "setId": "pokemon:ja:SV4K",
+      "logoUrl": "https://den-media.pokellector.com/logos/Ancient-Roar.logo.381.png",
+      "nameEn": "Ancient Roar",
+      "sourceUrl": "https://jp.pokellector.com/Ancient-Roar-Expansion/",
+      "sourceName": "Ancient Roar"
+    },
+    {
+      "setId": "pokemon:ja:SV3a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Raging-Surf.logo.376.png",
+      "nameEn": "Raging Surf",
+      "sourceUrl": "https://jp.pokellector.com/Ragins-Surf-Expansion/",
+      "sourceName": "Raging Surf"
+    },
+    {
+      "setId": "pokemon:ja:SV3",
+      "logoUrl": "https://den-media.pokellector.com/logos/Ruler-of-the-Black-Flame.logo.368.png",
+      "nameEn": "Ruler of the Black Flame",
+      "sourceUrl": "https://jp.pokellector.com/Ruler-of-the-Black-Flame-Expansion/",
+      "sourceName": "Ruler of the Black Flame"
+    },
+    {
+      "setId": "pokemon:ja:SV2a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Pokemon-151.logo.371.png",
+      "nameEn": "Pokemon 151",
+      "sourceUrl": "https://jp.pokellector.com/Pokemon-151-Expansion/",
+      "sourceName": "Pokemon 151"
+    },
+    {
+      "setId": "pokemon:ja:SV2P",
+      "logoUrl": "https://den-media.pokellector.com/logos/Snow-Hazard.logo.369.png",
+      "nameEn": "Snow Hazard",
+      "sourceUrl": "https://jp.pokellector.com/Snow-Hazard-Expansion/",
+      "sourceName": "Snow Hazard"
+    },
+    {
+      "setId": "pokemon:ja:SV2D",
+      "logoUrl": "https://den-media.pokellector.com/logos/Clay-Burst.logo.370.png",
+      "nameEn": "Clay Burst",
+      "sourceUrl": "https://jp.pokellector.com/Clay-Burst-Expansion/",
+      "sourceName": "Clay Burst"
+    },
+    {
+      "setId": "pokemon:ja:SV1a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Triple-Beat.logo.366.png",
+      "nameEn": "Triplet Beat",
+      "sourceUrl": "https://jp.pokellector.com/Triple-Beat-Expansion/",
+      "sourceName": "Triplet Beat"
+    },
+    {
+      "setId": "pokemon:ja:SV1V",
+      "logoUrl": "https://den-media.pokellector.com/logos/Violet-ex.logo.362.png",
+      "nameEn": "Violet ex",
+      "sourceUrl": "https://jp.pokellector.com/Violet-ex-Expansion/",
+      "sourceName": "Violet ex"
+    },
+    {
+      "setId": "pokemon:ja:SV1S",
+      "logoUrl": "https://den-media.pokellector.com/logos/Scarlet-ex.logo.361.png",
+      "nameEn": "Scarlet ex",
+      "sourceUrl": "https://jp.pokellector.com/Scarlet-ex-Expansion/",
+      "sourceName": "Scarlet ex"
+    },
+    {
+      "setId": "pokemon:ja:S12a",
+      "logoUrl": "https://den-media.pokellector.com/logos/VSTAR-Universe.logo.357.png",
+      "nameEn": "VSTAR Universe",
+      "sourceUrl": "https://jp.pokellector.com/VSTAR-Universe-Expansion/",
+      "sourceName": "VSTAR Universe"
+    },
+    {
+      "setId": "pokemon:ja:S12",
+      "logoUrl": "https://den-media.pokellector.com/logos/Paradigm-Trigger.logo.351.png",
+      "nameEn": "Paradigm Trigger",
+      "sourceUrl": "https://jp.pokellector.com/Paradigm-Trigger-Expansion/",
+      "sourceName": "Paradigm Trigger"
+    },
+    {
+      "setId": "pokemon:ja:S11a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Incandescent-Arcana.logo.352.png",
+      "nameEn": "Incandescent Arcana",
+      "sourceUrl": "https://jp.pokellector.com/Incandescent-Arcana-Expansion/",
+      "sourceName": "Incandescent Arcana"
+    },
+    {
+      "setId": "pokemon:ja:S12",
+      "logoUrl": "https://den-media.pokellector.com/logos/Lost-Abyss.logo.344.png",
+      "nameEn": "Lost Abyss",
+      "sourceUrl": "https://jp.pokellector.com/Lost-Abyss-Expansion/",
+      "sourceName": "Lost Abyss"
+    },
+    {
+      "setId": "pokemon:ja:S10b",
+      "logoUrl": "https://den-media.pokellector.com/logos/Pokmon-GO.logo.347.png",
+      "nameEn": "Pokemon GO",
+      "sourceUrl": "https://jp.pokellector.com/Japanese-Pokemon-GO-Expansion/",
+      "sourceName": "Pokemon GO"
+    },
+    {
+      "setId": "pokemon:ja:S10a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Dark-Phantasma.logo.343.png",
+      "nameEn": "Dark Phantasma",
+      "sourceUrl": "https://jp.pokellector.com/Dark-Phantasma-Expansion/",
+      "sourceName": "Dark Phantasma"
+    },
+    {
+      "setId": "pokemon:ja:S10D",
+      "logoUrl": "https://den-media.pokellector.com/logos/Time-Gazer.logo.341.png",
+      "nameEn": "Time Gazer",
+      "sourceUrl": "https://jp.pokellector.com/Time-Gazer-Expansion/",
+      "sourceName": "Time Gazer"
+    },
+    {
+      "setId": "pokemon:ja:S10P",
+      "logoUrl": "https://den-media.pokellector.com/logos/Space-Juggler.logo.342.png",
+      "nameEn": "Space Juggler",
+      "sourceUrl": "https://jp.pokellector.com/Space-Juggler-Expansion/",
+      "sourceName": "Space Juggler"
+    },
+    {
+      "setId": "pokemon:ja:S9a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Battle-Region.logo.339.png",
+      "nameEn": "Battle Region",
+      "sourceUrl": "https://jp.pokellector.com/Battle-Region-Expansion/",
+      "sourceName": "Battle Region"
+    },
+    {
+      "setId": "pokemon:ja:S9",
+      "logoUrl": "https://den-media.pokellector.com/logos/Star-Birth.logo.336.png",
+      "nameEn": "Star Birth",
+      "sourceUrl": "https://jp.pokellector.com/Star-Birth-Expansion/",
+      "sourceName": "Star Birth"
+    },
+    {
+      "setId": "pokemon:ja:S8b",
+      "logoUrl": "https://den-media.pokellector.com/logos/VMAX-Climax.logo.338.png",
+      "nameEn": "VMAX Climax",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Climax-Expansion/",
+      "sourceName": "VMAX Climax"
+    },
+    {
+      "setId": "pokemon:ja:S8a",
+      "logoUrl": "https://den-media.pokellector.com/logos/25th-Anniversary-Collection.logo.327.png",
+      "nameEn": "25th Anniversary Collection",
+      "sourceUrl": "https://jp.pokellector.com/25th-Anniversary-Collection-Expansion/",
+      "sourceName": "25th Anniversary Collection"
+    },
+    {
+      "setId": "pokemon:ja:S8",
+      "logoUrl": "https://den-media.pokellector.com/logos/Fusion-ARTS.logo.326.png",
+      "nameEn": "Fusion ARTS",
+      "sourceUrl": "https://jp.pokellector.com/Fusion-ARTS-Expansion/",
+      "sourceName": "Fusion ARTS"
+    },
+    {
+      "setId": "pokemon:ja:S7R",
+      "logoUrl": "https://den-media.pokellector.com/logos/Blue-Sky-Stream.logo.319.png",
+      "nameEn": "Blue Sky Stream",
+      "sourceUrl": "https://jp.pokellector.com/Blue-Sky-Stream-Expansion/",
+      "sourceName": "Blue Sky Stream"
+    },
+    {
+      "setId": "pokemon:ja:S7D",
+      "logoUrl": "https://den-media.pokellector.com/logos/Perfect-Skyscraper.logo.318.png",
+      "nameEn": "Towering Perfection",
+      "sourceUrl": "https://jp.pokellector.com/Towering-Perfection-Expansion/",
+      "sourceName": "Towering Perfection"
+    },
+    {
+      "setId": "pokemon:ja:S6a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Eevee-Heroes.logo.322.png",
+      "nameEn": "Eevee Heroes",
+      "sourceUrl": "https://jp.pokellector.com/Eevee-Heroes-Expansion/",
+      "sourceName": "Eevee Heroes"
+    },
+    {
+      "setId": "pokemon:ja:S6K",
+      "logoUrl": "https://den-media.pokellector.com/logos/Jet-Black-Poltergeist.logo.310.png",
+      "nameEn": "Jet Black Spirit",
+      "sourceUrl": "https://jp.pokellector.com/Jet-Black-Spirit-Expansion/",
+      "sourceName": "Jet Black Spirit"
+    },
+    {
+      "setId": "pokemon:ja:S6H",
+      "logoUrl": "https://den-media.pokellector.com/logos/Silver-Lance.logo.309.png",
+      "nameEn": "Silver Lance",
+      "sourceUrl": "https://jp.pokellector.com/Silver-Lance-Expansion/",
+      "sourceName": "Silver Lance"
+    },
+    {
+      "setId": "pokemon:ja:S5a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Matchless-Fighter.logo.308.png",
+      "nameEn": "Matchless Fighter",
+      "sourceUrl": "https://jp.pokellector.com/Matchless-Fighter-Expansion/",
+      "sourceName": "Matchless Fighter"
+    },
+    {
+      "setId": "pokemon:ja:S5R",
+      "logoUrl": "https://den-media.pokellector.com/logos/Rapid-Strike-Master.logo.307.png",
+      "nameEn": "Rapid Strike Master",
+      "sourceUrl": "https://jp.pokellector.com/Rapid-Strike-Master-Expansion/",
+      "sourceName": "Rapid Strike Master"
+    },
+    {
+      "setId": "pokemon:ja:S5I",
+      "logoUrl": "https://den-media.pokellector.com/logos/Single-Strike-Master.logo.306.png",
+      "nameEn": "Single Strike Master",
+      "sourceUrl": "https://jp.pokellector.com/Single-Strike-Master-Expansion/",
+      "sourceName": "Single Strike Master"
+    },
+    {
+      "setId": "pokemon:ja:S4a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Shiny-Star-V.logo.301.png",
+      "nameEn": "Shiny Star V",
+      "sourceUrl": "https://jp.pokellector.com/Shiny-Star-V-Expansion/",
+      "sourceName": "Shiny Star V"
+    },
+    {
+      "setId": "pokemon:ja:S4",
+      "logoUrl": "https://den-media.pokellector.com/logos/Electrifying-Tackle.logo.297.png",
+      "nameEn": "Electrifying Tackle",
+      "sourceUrl": "https://jp.pokellector.com/Electrifying-Tackle-Expansion/",
+      "sourceName": "Electrifying Tackle"
+    },
+    {
+      "setId": "pokemon:ja:S3a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Legendary-Pulse.logo.294.png",
+      "nameEn": "Legendary Pulse",
+      "sourceUrl": "https://jp.pokellector.com/Legendary-Pulse-Expansion/",
+      "sourceName": "Legendary Pulse"
+    },
+    {
+      "setId": "pokemon:ja:S3",
+      "logoUrl": "https://den-media.pokellector.com/logos/Infinity-Zone.logo.293.png",
+      "nameEn": "Infinity Zone",
+      "sourceUrl": "https://jp.pokellector.com/Infinity-Zone-Expansion/",
+      "sourceName": "Infinity Zone"
+    },
+    {
+      "setId": "pokemon:ja:S2a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Explosive-Flame-Walker.logo.295.png",
+      "nameEn": "Explosive Flame Walker",
+      "sourceUrl": "https://jp.pokellector.com/Explosive-Flame-Walker-Expansion/",
+      "sourceName": "Explosive Flame Walker"
+    },
+    {
+      "setId": "pokemon:ja:S2",
+      "logoUrl": "https://den-media.pokellector.com/logos/Rebellion-Crash.logo.291.png",
+      "nameEn": "Rebellion Crash",
+      "sourceUrl": "https://jp.pokellector.com/Rebellion-Crash-Expansion/",
+      "sourceName": "Rebellion Crash"
+    },
+    {
+      "setId": "pokemon:ja:S1a",
+      "logoUrl": "https://den-media.pokellector.com/logos/VMAX-Rising.logo.285.png",
+      "nameEn": "VMAX Rising",
+      "sourceUrl": "https://jp.pokellector.com/VMAX-Rising-Expansion/",
+      "sourceName": "VMAX Rising"
+    },
+    {
+      "setId": "pokemon:ja:S1W",
+      "logoUrl": "https://den-media.pokellector.com/logos/Sword.logo.283.png",
+      "nameEn": "Sword",
+      "sourceUrl": "https://jp.pokellector.com/Sword-Expansion/",
+      "sourceName": "Sword"
+    },
+    {
+      "setId": "pokemon:ja:S1H",
+      "logoUrl": "https://den-media.pokellector.com/logos/Shield.logo.284.png",
+      "nameEn": "Shield",
+      "sourceUrl": "https://jp.pokellector.com/Shield-Expansion/",
+      "sourceName": "Shield"
+    },
+    {
+      "setId": "pokemon:ja:SM12a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Tag-Team-GX-All-Stars.logo.288.png",
+      "nameEn": "Tag Team GX All Stars",
+      "sourceUrl": "https://jp.pokellector.com/Tag-Team-GX-All-Stars-Expansion/",
+      "sourceName": "Tag Team GX All Stars"
+    },
+    {
+      "setId": "pokemon:ja:SM12",
+      "logoUrl": "https://den-media.pokellector.com/logos/Alter-Genesis.logo.281.png",
+      "nameEn": "Alter Genesis",
+      "sourceUrl": "https://jp.pokellector.com/Alter-Genesis-Expansion/",
+      "sourceName": "Alter Genesis"
+    },
+    {
+      "setId": "pokemon:ja:SM11b",
+      "logoUrl": "https://den-media.pokellector.com/logos/Dream-League.logo.278.png",
+      "nameEn": "Dream League",
+      "sourceUrl": "https://jp.pokellector.com/Dream-League-Expansion/",
+      "sourceName": "Dream League"
+    },
+    {
+      "setId": "pokemon:ja:SM11a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Remix-Bout.logo.272.png",
+      "nameEn": "Remix Bout",
+      "sourceUrl": "https://jp.pokellector.com/Remix-Bout-Expansion/",
+      "sourceName": "Remix Bout"
+    },
+    {
+      "setId": "pokemon:ja:SM11",
+      "logoUrl": "https://den-media.pokellector.com/logos/Miracle-Twins.logo.277.png",
+      "nameEn": "Miracle Twins",
+      "sourceUrl": "https://jp.pokellector.com/Miracle-Twins-Expansion/",
+      "sourceName": "Miracle Twins"
+    },
+    {
+      "setId": "pokemon:ja:SM10b",
+      "logoUrl": "https://den-media.pokellector.com/logos/Sky-Legends.logo.268.png",
+      "nameEn": "Sky Legend",
+      "sourceUrl": "https://jp.pokellector.com/Sky-Legend-Expansion/",
+      "sourceName": "Sky Legend"
+    },
+    {
+      "setId": "pokemon:ja:SMP2",
+      "logoUrl": "https://den-media.pokellector.com/logos/Detective-Pikachu.logo.271.png",
+      "nameEn": "Detective Pikachu",
+      "sourceUrl": "https://jp.pokellector.com/Japanese-Detective-Pikachu-Expansion/",
+      "sourceName": "Detective Pikachu"
+    },
+    {
+      "setId": "pokemon:ja:SM10a",
+      "logoUrl": "https://den-media.pokellector.com/logos/GG-End.logo.267.png",
+      "nameEn": "GG End",
+      "sourceUrl": "https://jp.pokellector.com/GG-End-Expansion/",
+      "sourceName": "GG End"
+    },
+    {
+      "setId": "pokemon:ja:SM10",
+      "logoUrl": "https://den-media.pokellector.com/logos/Double-Blaze.logo.266.png",
+      "nameEn": "Double Blaze",
+      "sourceUrl": "https://jp.pokellector.com/Double-Blaze-Expansion/",
+      "sourceName": "Double Blaze"
+    },
+    {
+      "setId": "pokemon:ja:SM9b",
+      "logoUrl": "https://den-media.pokellector.com/logos/Full-Metal-Wall.logo.263.png",
+      "nameEn": "Full Metal Wall",
+      "sourceUrl": "https://jp.pokellector.com/Full-Metal-Wall-Expansion/",
+      "sourceName": "Full Metal Wall"
+    },
+    {
+      "setId": "pokemon:ja:SM9a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Night-Unison.logo.262.png",
+      "nameEn": "Night Unison",
+      "sourceUrl": "https://jp.pokellector.com/Night-Unison-Expansion/",
+      "sourceName": "Night Unison"
+    },
+    {
+      "setId": "pokemon:ja:SM9",
+      "logoUrl": "https://den-media.pokellector.com/logos/Tag-Bolt.logo.260.png",
+      "nameEn": "Tag Bolt",
+      "sourceUrl": "https://jp.pokellector.com/Tag-Bolt-Expansion/",
+      "sourceName": "Tag Bolt"
+    },
+    {
+      "setId": "pokemon:ja:SM8b",
+      "logoUrl": "https://den-media.pokellector.com/logos/Ultra-Shiny-GX.logo.241.png",
+      "nameEn": "Ultra Shiny GX",
+      "sourceUrl": "https://jp.pokellector.com/Ultra-Shiny-GX-Expansion/",
+      "sourceName": "Ultra Shiny GX"
+    },
+    {
+      "setId": "pokemon:ja:SM8a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Dark-Order.logo.245.png",
+      "nameEn": "Dark Order",
+      "sourceUrl": "https://jp.pokellector.com/Dark-Order-Expansion/",
+      "sourceName": "Dark Order"
+    },
+    {
+      "setId": "pokemon:ja:SM8",
+      "logoUrl": "https://den-media.pokellector.com/logos/Explosive-Impact.logo.258.png",
+      "nameEn": "Explosive Impact",
+      "sourceUrl": "https://jp.pokellector.com/Explosive-Impact-Expansion/",
+      "sourceName": "Explosive Impact"
+    },
+    {
+      "setId": "pokemon:ja:SM7b",
+      "logoUrl": "https://den-media.pokellector.com/logos/Fairy-Rise.logo.240.png",
+      "nameEn": "Fairy Rise",
+      "sourceUrl": "https://jp.pokellector.com/Fairy-Rise-Expansion/",
+      "sourceName": "Fairy Rise"
+    },
+    {
+      "setId": "pokemon:ja:SM7a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Thunderclap-Spark.logo.243.png",
+      "nameEn": "Thunderclap Spark",
+      "sourceUrl": "https://jp.pokellector.com/Thunderclap-Spark-Expansion/",
+      "sourceName": "Thunderclap Spark"
+    },
+    {
+      "setId": "pokemon:ja:SM7",
+      "logoUrl": "https://den-media.pokellector.com/logos/Charisma-of-the-Cracked-Sky.logo.242.png",
+      "nameEn": "Charisma of the Cracked Sky",
+      "sourceUrl": "https://jp.pokellector.com/Charisma-of-the-Cracked-Sky-Expansion/",
+      "sourceName": "Charisma of the Cracked Sky"
+    },
+    {
+      "setId": "pokemon:ja:SM6",
+      "logoUrl": "https://den-media.pokellector.com/logos/Forbidden-Light.logo.235.png",
+      "nameEn": "Forbidden Light",
+      "sourceUrl": "https://jp.pokellector.com/Japanese-Forbidden-Light-Expansion/",
+      "sourceName": "Forbidden Light"
+    },
+    {
+      "setId": "pokemon:ja:SM5+",
+      "logoUrl": "https://den-media.pokellector.com/logos/Ultra-Force.logo.238.png",
+      "nameEn": "Ultra Force",
+      "sourceUrl": "https://jp.pokellector.com/Ultra-Force-Expansion/",
+      "sourceName": "Ultra Force"
+    },
+    {
+      "setId": "pokemon:ja:SM5S",
+      "logoUrl": "https://den-media.pokellector.com/logos/Ultra-Sun.logo.232.png",
+      "nameEn": "Ultra Sun",
+      "sourceUrl": "https://jp.pokellector.com/Ultra-Sun-Expansion/",
+      "sourceName": "Ultra Sun"
+    },
+    {
+      "setId": "pokemon:ja:SM5M",
+      "logoUrl": "https://den-media.pokellector.com/logos/Ultra-Moon.logo.233.png",
+      "nameEn": "Ultra Moon",
+      "sourceUrl": "https://jp.pokellector.com/Ultra-Moon-Expansion/",
+      "sourceName": "Ultra Moon"
+    },
+    {
+      "setId": "pokemon:ja:SM4+",
+      "logoUrl": "https://den-media.pokellector.com/logos/GX-Battle-Boost.logo.228.png",
+      "nameEn": "GX Battle Boost",
+      "sourceUrl": "https://jp.pokellector.com/GX-Battle-Boost-Expansion/",
+      "sourceName": "GX Battle Boost"
+    },
+    {
+      "setId": "pokemon:ja:SM4A",
+      "logoUrl": "https://den-media.pokellector.com/logos/The-Transdimensional-Beast.logo.227.png",
+      "nameEn": "The Transdimensional Beast",
+      "sourceUrl": "https://jp.pokellector.com/The-Transdimensional-Beast-Expansion/",
+      "sourceName": "The Transdimensional Beast"
+    },
+    {
+      "setId": "pokemon:ja:SM4S",
+      "logoUrl": "https://den-media.pokellector.com/logos/The-Awoken-Hero.logo.226.png",
+      "nameEn": "The Awoken Hero",
+      "sourceUrl": "https://jp.pokellector.com/The-Awoken-Hero-Expansion/",
+      "sourceName": "The Awoken Hero"
+    },
+    {
+      "setId": "pokemon:ja:SM3+",
+      "logoUrl": "https://den-media.pokellector.com/logos/Strengthening-Expansion-Pack-Shining-Legends.logo.224.png",
+      "nameEn": "Strengthening Expansion: Shining Legends",
+      "sourceUrl": "https://jp.pokellector.com/Strengthening-Expansion-Shining-Legends-Expansion/",
+      "sourceName": "Strengthening Expansion: Shining Legends"
+    },
+    {
+      "setId": "pokemon:ja:SM3N",
+      "logoUrl": "https://den-media.pokellector.com/logos/Light-Consuming-Darkness.logo.218.png",
+      "nameEn": "Light-Consuming Darkness",
+      "sourceUrl": "https://jp.pokellector.com/Light-Consuming-Darkness-Expansion/",
+      "sourceName": "Light-Consuming Darkness"
+    },
+    {
+      "setId": "pokemon:ja:SM3H",
+      "logoUrl": "https://den-media.pokellector.com/logos/Seen-the-Rainbow-Battle.logo.219.png",
+      "nameEn": "Seen the Rainbow Battle",
+      "sourceUrl": "https://jp.pokellector.com/Seen-the-Rainbow-Battle-Expansion/",
+      "sourceName": "Seen the Rainbow Battle"
+    },
+    {
+      "setId": "pokemon:ja:sm2+",
+      "logoUrl": "https://den-media.pokellector.com/logos/Strengthening-Expansion-Pack-Beyond-A-New-Challenge.logo.212.png",
+      "nameEn": "Strengthening Expansion Pack: Beyond A New Challenge",
+      "sourceUrl": "https://jp.pokellector.com/Strengthening-Expansion-Pack-Beyond-A-New-Challeng-Expansion/",
+      "sourceName": "Strengthening Expansion Pack: Beyond A New Challenge"
+    },
+    {
+      "setId": "pokemon:ja:SM2L",
+      "logoUrl": "https://den-media.pokellector.com/logos/Alola-Moonlight.logo.210.png",
+      "nameEn": "Alola Moonlight",
+      "sourceUrl": "https://jp.pokellector.com/Alola-Moonlight-Expansion/",
+      "sourceName": "Alola Moonlight"
+    },
+    {
+      "setId": "pokemon:ja:SM2K",
+      "logoUrl": "https://den-media.pokellector.com/logos/Islands-Awaiting-You.logo.211.png",
+      "nameEn": "Islands Awaiting You",
+      "sourceUrl": "https://jp.pokellector.com/Islands-Awaiting-You-Expansion/",
+      "sourceName": "Islands Awaiting You"
+    },
+    {
+      "setId": "pokemon:ja:SM1+",
+      "logoUrl": "https://den-media.pokellector.com/logos/Sun-Moon-Strengthening-Expansion.logo.200.png",
+      "nameEn": "Sun & Moon Strengthening Expansion",
+      "sourceUrl": "https://jp.pokellector.com/Sun-Moon-Strengthening-Expansion-Expansion/",
+      "sourceName": "Sun & Moon Strengthening Expansion"
+    },
+    {
+      "setId": "pokemon:ja:SM1S",
+      "logoUrl": "https://den-media.pokellector.com/logos/Collection-Sun.logo.201.png",
+      "nameEn": "Collection Sun",
+      "sourceUrl": "https://jp.pokellector.com/Collection-Sun-Expansion/",
+      "sourceName": "Collection Sun"
+    },
+    {
+      "setId": "pokemon:ja:SM1M",
+      "logoUrl": "https://den-media.pokellector.com/logos/Collection-Moon.logo.202.png",
+      "nameEn": "Collection Moon",
+      "sourceUrl": "https://jp.pokellector.com/Collection-Moon-Expansion/",
+      "sourceName": "Collection Moon"
+    },
+    {
+      "setId": "pokemon:ja:SM6b",
+      "logoUrl": "https://den-media.pokellector.com/logos/Champion-Road.logo.237.png",
+      "nameEn": "Champion Road",
+      "sourceUrl": "https://jp.pokellector.com/Champion-Road-Expansion/",
+      "sourceName": "Champion Road"
+    },
+    {
+      "setId": "pokemon:ja:SM6a",
+      "logoUrl": "https://den-media.pokellector.com/logos/Dragon-Storm.logo.236.png",
+      "nameEn": "Dragon Storm",
+      "sourceUrl": "https://jp.pokellector.com/Dragon-Storm-Expansion/",
+      "sourceName": "Dragon Storm"
+    },
+    {
+      "setId": "pokemon:ja:SM0",
+      "logoUrl": "https://den-media.pokellector.com/logos/Pikachu-New-Friends.logo.204.png",
+      "nameEn": "Pikachu & New Friends",
+      "sourceUrl": "https://jp.pokellector.com/Pikachu-New-Friends-Expansion/",
+      "sourceName": "Pikachu & New Friends"
+    },
+    {
+      "setId": "pokemon:ja:CP6",
+      "logoUrl": "https://den-media.pokellector.com/logos/20th-Anniversary-Collection.logo.198.png",
+      "nameEn": "20th Anniversary Collection",
+      "sourceUrl": "https://jp.pokellector.com/20th-Anniversary-Collection-Expansion/",
+      "sourceName": "20th Anniversary Collection"
+    },
+    {
+      "setId": "pokemon:ja:CP5",
+      "logoUrl": "https://den-media.pokellector.com/logos/Mythical-Legendary-Dream-Holo-Collection.logo.195.png",
+      "nameEn": "Mythical / Legendary Dream Holo Collection",
+      "sourceUrl": "https://jp.pokellector.com/Mythical-Legendary-Dream-Holo-Collection-Expansion/",
+      "sourceName": "Mythical / Legendary Dream Holo Collection"
+    },
+    {
+      "setId": "pokemon:ja:CP4",
+      "logoUrl": "https://den-media.pokellector.com/logos/Premium-Champion-Pack-EX-x-M-x-BREAK.logo.185.png",
+      "nameEn": "Premium Champion Pack: EX x M x BREAK",
+      "sourceUrl": "https://jp.pokellector.com/Premium-Champion-Pack-EX-x-M-x-BREAK-Expansion/",
+      "sourceName": "Premium Champion Pack: EX x M x BREAK"
+    },
+    {
+      "setId": "pokemon:ja:XY10",
+      "logoUrl": "https://den-media.pokellector.com/logos/Awakening-of-Psychic-Kings.logo.184.png",
+      "nameEn": "Awakening of Psychic Kings",
+      "sourceUrl": "https://jp.pokellector.com/Awakening-of-Psychic-Kings-Expansion/",
+      "sourceName": "Awakening of Psychic Kings"
+    },
+    {
+      "setId": "pokemon:ja:CP3",
+      "logoUrl": "https://den-media.pokellector.com/logos/Pokekyun-Collection.logo.186.png",
+      "nameEn": "Pokekyun Collection",
+      "sourceUrl": "https://jp.pokellector.com/Pokekyun-Collection-Expansion/",
+      "sourceName": "Pokekyun Collection"
+    },
+    {
+      "setId": "pokemon:ja:XY9",
+      "logoUrl": "https://den-media.pokellector.com/logos/Rage-of-the-Broken-Sky.logo.177.png",
+      "nameEn": "Rage of the Broken Sky",
+      "sourceUrl": "https://jp.pokellector.com/Rage-of-the-Broken-Sky-Expansion/",
+      "sourceName": "Rage of the Broken Sky"
+    },
+    {
+      "setId": "pokemon:ja:CP2",
+      "logoUrl": "https://den-media.pokellector.com/logos/Legendary-Holo-Collection.logo.173.png",
+      "nameEn": "Legendary Holo Collection",
+      "sourceUrl": "https://jp.pokellector.com/Legendary-Holo-Collection-Expansion/",
+      "sourceName": "Legendary Holo Collection"
+    },
+    {
+      "setId": "pokemon:ja:XY7",
+      "logoUrl": "https://den-media.pokellector.com/logos/Bandit-Ring.logo.171.png",
+      "nameEn": "Bandit Ring",
+      "sourceUrl": "https://jp.pokellector.com/Bandit-Ring-Expansion/",
+      "sourceName": "Bandit Ring"
+    },
+    {
+      "setId": "pokemon:ja:XY6",
+      "logoUrl": "https://den-media.pokellector.com/logos/Emerald-Break.logo.167.png",
+      "nameEn": "Emerald Break",
+      "sourceUrl": "https://jp.pokellector.com/Emerald-Break-Expansion/",
+      "sourceName": "Emerald Break"
+    },
+    {
+      "setId": "pokemon:ja:CP1",
+      "logoUrl": "https://den-media.pokellector.com/logos/Team-Magma-vs-Team-Aqua-Double-Crisis.logo.168.png",
+      "nameEn": "Magma Gang vs Aqua Gang: Double Crisis",
+      "sourceUrl": "https://jp.pokellector.com/Magma-Gang-vs-Aqua-Gang-Double-Crisis-Expansion/",
+      "sourceName": "Magma Gang vs Aqua Gang: Double Crisis"
+    },
+    {
+      "setId": "pokemon:ja:XY4",
+      "logoUrl": "https://den-media.pokellector.com/logos/Phantom-Gate.logo.160.png",
+      "nameEn": "Phantom Gate",
+      "sourceUrl": "https://jp.pokellector.com/Phantom-Gate-Expansion/",
+      "sourceName": "Phantom Gate"
+    },
+    {
+      "setId": "pokemon:ja:XY3",
+      "logoUrl": "https://den-media.pokellector.com/logos/Rising-Fist.logo.157.png",
+      "nameEn": "Rising Fist",
+      "sourceUrl": "https://jp.pokellector.com/Rising-Fist-Expansion/",
+      "sourceName": "Rising Fist"
+    },
+    {
+      "setId": "pokemon:ja:XY2",
+      "logoUrl": "https://den-media.pokellector.com/logos/Wild-Blaze.logo.152.png",
+      "nameEn": "Wild Blaze",
+      "sourceUrl": "https://jp.pokellector.com/Wild-Blaze-Expansion/",
+      "sourceName": "Wild Blaze"
+    },
+    {
+      "setId": "pokemon:ja:L3",
+      "logoUrl": "https://den-media.pokellector.com/logos/Clash-at-the-Summit.logo.250.png",
+      "nameEn": "Clash at the Summit",
+      "sourceUrl": "https://jp.pokellector.com/Clash-at-the-Summit-Expansion/",
+      "sourceName": "Clash at the Summit"
+    },
+    {
+      "setId": "pokemon:ja:L2",
+      "logoUrl": "https://den-media.pokellector.com/logos/Reviving-Legends.logo.249.png",
+      "nameEn": "Reviving Legends",
+      "sourceUrl": "https://jp.pokellector.com/Reviving-Legends-Expansion/",
+      "sourceName": "Reviving Legends"
+    },
+    {
+      "setId": "pokemon:ja:LL",
+      "logoUrl": "https://den-media.pokellector.com/logos/Lost-Link.logo.251.png",
+      "nameEn": "Lost Link",
+      "sourceUrl": "https://jp.pokellector.com/Lost-Link-Expansion/",
+      "sourceName": "Lost Link"
+    },
+    {
+      "setId": "pokemon:ja:neo4",
+      "logoUrl": "https://den-media.pokellector.com/logos/Darkness-and-to-Light.logo.333.png",
+      "nameEn": "Darkness and to Light",
+      "sourceUrl": "https://jp.pokellector.com/Darkness-and-to-Light-Expansion/",
+      "sourceName": "Darkness and to Light"
+    },
+    {
+      "setId": "pokemon:ja:neo3",
+      "logoUrl": "https://den-media.pokellector.com/logos/Awakening-Legends.logo.332.png",
+      "nameEn": "Awakening Legends",
+      "sourceUrl": "https://jp.pokellector.com/Awakening-Legends-Expansion/",
+      "sourceName": "Awakening Legends"
+    },
+    {
+      "setId": "pokemon:ja:neo2",
+      "logoUrl": "https://den-media.pokellector.com/logos/Crossing-the-Ruins.logo.331.png",
+      "nameEn": "Crossing the Ruins",
+      "sourceUrl": "https://jp.pokellector.com/Crossing-the-Ruins-Expansion/",
+      "sourceName": "Crossing the Ruins"
+    },
+    {
+      "setId": "pokemon:ja:neo1",
+      "logoUrl": "https://den-media.pokellector.com/logos/Gold-Silver-to-a-New-World.logo.324.png",
+      "nameEn": "Gold, Silver, to a New World...",
+      "sourceUrl": "https://jp.pokellector.com/Gold-Silver-to-a-New-World-Expansion/",
+      "sourceName": "Gold, Silver, to a New World..."
+    }
+  ]
+}
