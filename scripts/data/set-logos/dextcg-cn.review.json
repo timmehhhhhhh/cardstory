@@ -1,0 +1,625 @@
+{
+  "gameId": "pokemon",
+  "note": "dextcg.com (chs) set cards with no confidently-matching pokemon:zh-cn:<code> Set row. Never seeded.",
+  "generatedAt": "2026-08-31T19:57:49.415Z",
+  "entries": [
+    {
+      "sourceCode": "scn_30th",
+      "sourceUrl": "https://dextcg.com/expansions/scn_30th",
+      "sourceName": "30th Celebration",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_30th.png"
+    },
+    {
+      "sourceCode": "scn_30thp",
+      "sourceUrl": "https://dextcg.com/expansions/scn_30thp",
+      "sourceName": "30th Celebration Promos",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_30thp.png"
+    },
+    {
+      "sourceCode": "scn_mp",
+      "sourceUrl": "https://dextcg.com/expansions/scn_mp",
+      "sourceName": "Mega Evolution Promos",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_mp.png"
+    },
+    {
+      "sourceCode": "scn_cbb6",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cbb6",
+      "sourceName": "Gem Pack Vol. 6",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cbb6.png"
+    },
+    {
+      "sourceCode": "scn_csvh5e",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvh5e",
+      "sourceName": "Happy Set 5 — Happy Pack",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvh5e.png"
+    },
+    {
+      "sourceCode": "scn_csvh5p",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvh5p",
+      "sourceName": "Happy Set 5 — Reward Pack",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvh5p.png"
+    },
+    {
+      "sourceCode": "scn_csvh5a",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvh5a",
+      "sourceName": "Happy Set 5 — Modification Pack",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvh5a.png"
+    },
+    {
+      "sourceCode": "scn_csvh5",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvh5",
+      "sourceName": "Happy Set 5: Dragonite & Mewtwo & Camerupt & Sinistcha",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvh5.png"
+    },
+    {
+      "sourceCode": "scn_csvm2c",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvm2c",
+      "sourceName": "Master Strategy Deck Building Set: Gholdengo ex",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvm2c.png"
+    },
+    {
+      "sourceCode": "scn_csvm2b",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvm2b",
+      "sourceName": "Master Strategy Deck Building Set: Dragapult ex",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvm2b.png"
+    },
+    {
+      "sourceCode": "scn_csvm2a",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvm2a",
+      "sourceName": "Master Strategy Deck Building Set: Raging Bolt ex",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvm2a.png"
+    },
+    {
+      "sourceCode": "scn_csv10",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csv10",
+      "sourceName": "Chasing Glory Together",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csv10.png"
+    },
+    {
+      "sourceCode": "scn_csv95",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csv95",
+      "sourceName": "Terastal Gathering",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csv95.png"
+    },
+    {
+      "sourceCode": "scn_csvn",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvn",
+      "sourceName": "Kitakami Theme Pack",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvn.png"
+    },
+    {
+      "sourceCode": "scn_csv9",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csv9",
+      "sourceName": "Stellar Crystal (card-count mismatch: dextcg 266 vs DB 208 for matched set pokemon:zh-cn:CSV9C)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csv9.png"
+    },
+    {
+      "sourceCode": "scn_cbb5",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cbb5",
+      "sourceName": "Gem Pack Vol. 5 (card-count mismatch: dextcg 196 vs DB 7 for matched set pokemon:zh-cn:CBB5C)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cbb5.png"
+    },
+    {
+      "sourceCode": "scn_csvh4e",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvh4e",
+      "sourceName": "Happy Set 4 — Happy Pack",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvh4e.png"
+    },
+    {
+      "sourceCode": "scn_csvh4p",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvh4p",
+      "sourceName": "Happy Set 4 — Reward Pack",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvh4p.png"
+    },
+    {
+      "sourceCode": "scn_csvh4a",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvh4a",
+      "sourceName": "Happy Set 4 — Modification Pack",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvh4a.png"
+    },
+    {
+      "sourceCode": "scn_csvh4",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvh4",
+      "sourceName": "Happy Set 4: Decidueye & Melmetal & Koraidon & Miraidon",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvh4.png"
+    },
+    {
+      "sourceCode": "scn_csv8",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csv8",
+      "sourceName": "Sparkling Fable (card-count mismatch: dextcg 264 vs DB 207 for matched set pokemon:zh-cn:CSV8C)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csv8.png"
+    },
+    {
+      "sourceCode": "scn_cbb4",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cbb4",
+      "sourceName": "Gem Pack Vol. 4 (card-count mismatch: dextcg 196 vs DB 7 for matched set pokemon:zh-cn:CBB4C)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cbb4.png"
+    },
+    {
+      "sourceCode": "scn_csvs",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvs",
+      "sourceName": "Pokémon Card Game Battle Academy",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvs.png"
+    },
+    {
+      "sourceCode": "scn_csvm1c",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvm1c",
+      "sourceName": "Master Strategy Deck Building Set: Miraidon ex",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvm1c.png"
+    },
+    {
+      "sourceCode": "scn_csvm1b",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvm1b",
+      "sourceName": "Master Strategy Deck Building Set: Gardevoir ex",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvm1b.png"
+    },
+    {
+      "sourceCode": "scn_csvm1a",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvm1a",
+      "sourceName": "Master Strategy Deck Building Set: Charizard ex",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvm1a.png"
+    },
+    {
+      "sourceCode": "scn_csv7",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csv7",
+      "sourceName": "Blade Awakening (card-count mismatch: dextcg 259 vs DB 204 for matched set pokemon:zh-cn:CSV7C)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csv7.png"
+    },
+    {
+      "sourceCode": "scn_csvl2",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvl2",
+      "sourceName": "Travel Theme Pack",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvl2.png"
+    },
+    {
+      "sourceCode": "scn_csv6",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csv6",
+      "sourceName": "Arcane Truth (card-count mismatch: dextcg 163 vs DB 128 for matched set pokemon:zh-cn:CSV6C)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csv6.png"
+    },
+    {
+      "sourceCode": "scn_cbb3",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cbb3",
+      "sourceName": "Gem Pack Vol. 3 (card-count mismatch: dextcg 136 vs DB 7 for matched set pokemon:zh-cn:CBB3C)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cbb3.png"
+    },
+    {
+      "sourceCode": "scn_csvh3p",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvh3p",
+      "sourceName": "Happy Set 3 — Reward Pack",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvh3p.png"
+    },
+    {
+      "sourceCode": "scn_csvh3a",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvh3a",
+      "sourceName": "Happy Set 3 — Modification Pack",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvh3a.png"
+    },
+    {
+      "sourceCode": "scn_csvh3",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvh3",
+      "sourceName": "Happy Set 3: Altaria & Latios & Infernape & Maushold",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvh3.png"
+    },
+    {
+      "sourceCode": "scn_csv5",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csv5",
+      "sourceName": "Ardent Obsidian (card-count mismatch: dextcg 164 vs DB 129 for matched set pokemon:zh-cn:CSV5C)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csv5.png"
+    },
+    {
+      "sourceCode": "scn_csve2p",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csve2p",
+      "sourceName": "Battle Party: Shining Dream — King Reward Pack",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csve2p.png"
+    },
+    {
+      "sourceCode": "scn_csve2",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csve2",
+      "sourceName": "Battle Party: Shining Dream",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csve2.png"
+    },
+    {
+      "sourceCode": "scn_csv4",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csv4",
+      "sourceName": "Bonus Round (card-count mismatch: dextcg 165 vs DB 129 for matched set pokemon:zh-cn:CSV4C)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csv4.png"
+    },
+    {
+      "sourceCode": "scn_csvh2p",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvh2p",
+      "sourceName": "Happy Set 2 — Reward Pack",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvh2p.png"
+    },
+    {
+      "sourceCode": "scn_csvh2a",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvh2a",
+      "sourceName": "Happy Set 2 — Modification Pack",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvh2a.png"
+    },
+    {
+      "sourceCode": "scn_csvh2",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvh2",
+      "sourceName": "Happy Set 2: Lucario & Greninja & Zamazenta & Mabosstiff",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvh2.png"
+    },
+    {
+      "sourceCode": "scn_cbb2",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cbb2",
+      "sourceName": "Gem Pack Vol. 2 (card-count mismatch: dextcg 140 vs DB 15 for matched set pokemon:zh-cn:CBB2C)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cbb2.png"
+    },
+    {
+      "sourceCode": "scn_csv3",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csv3",
+      "sourceName": "Fearless Terastal (card-count mismatch: dextcg 165 vs DB 130 for matched set pokemon:zh-cn:CSV3C)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csv3.png"
+    },
+    {
+      "sourceCode": "scn_csv2",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csv2",
+      "sourceName": "Miracle Journey (card-count mismatch: dextcg 163 vs DB 128 for matched set pokemon:zh-cn:CSV2C)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csv2.png"
+    },
+    {
+      "sourceCode": "scn_csve1p",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csve1p",
+      "sourceName": "Battle Party: Shared Dream — King Reward Pack",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csve1p.png"
+    },
+    {
+      "sourceCode": "scn_csve1",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csve1",
+      "sourceName": "Battle Party: Shared Dream",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csve1.png"
+    },
+    {
+      "sourceCode": "scn_csvh1p",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvh1p",
+      "sourceName": "Happy Set — Reward Pack",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvh1p.png"
+    },
+    {
+      "sourceCode": "scn_csvh1a",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvh1a",
+      "sourceName": "Happy Set — Modification Pack",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvh1a.png"
+    },
+    {
+      "sourceCode": "scn_csvh1",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csvh1",
+      "sourceName": "Happy Set: Pikachu & Clefairy & Turtwig & Gimmighoul",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csvh1.png"
+    },
+    {
+      "sourceCode": "scn_cbb1",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cbb1",
+      "sourceName": "Gem Pack Vol. 1",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cbb1.png"
+    },
+    {
+      "sourceCode": "scn_151",
+      "sourceUrl": "https://dextcg.com/expansions/scn_151",
+      "sourceName": "Collection 151",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_151.png"
+    },
+    {
+      "sourceCode": "scn_csv1",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csv1",
+      "sourceName": "Ancient Times, Future Progress (card-count mismatch: dextcg 167 vs DB 9 for matched set pokemon:zh-cn:CSV1C)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csv1.png"
+    },
+    {
+      "sourceCode": "scn_svp",
+      "sourceUrl": "https://dextcg.com/expansions/scn_svp",
+      "sourceName": "Scarlet & Violet Promos",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_svp.png"
+    },
+    {
+      "sourceCode": "scn_svpunp",
+      "sourceUrl": "https://dextcg.com/expansions/scn_svpunp",
+      "sourceName": "Scarlet & Violet Unnumbered Promos",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_svpunp.png"
+    },
+    {
+      "sourceCode": "scn_csx",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csx",
+      "sourceName": "Giratina VSTAR Advanced Deck Building Gift Box",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csx.png"
+    },
+    {
+      "sourceCode": "scn_csz",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csz",
+      "sourceName": "Variety Treasure Box Collection",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csz.png"
+    },
+    {
+      "sourceCode": "scn_cs65",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs65",
+      "sourceName": "Victory Lodestar",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs65.png"
+    },
+    {
+      "sourceCode": "scn_cs61",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs61",
+      "sourceName": "Radiant Energy Vol. 3",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs61.png"
+    },
+    {
+      "sourceCode": "scn_cs6b",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs6b",
+      "sourceName": "Marine Shadow: Banish (card-count mismatch: dextcg 172 vs DB 131 for matched set pokemon:zh-cn:CS6bC)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs6b.png"
+    },
+    {
+      "sourceCode": "scn_cs6a",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs6a",
+      "sourceName": "Marine Shadow: Roar (card-count mismatch: dextcg 169 vs DB 131 for matched set pokemon:zh-cn:CS6aC)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs6a.png"
+    },
+    {
+      "sourceCode": "scn_cs51",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs51",
+      "sourceName": "Radiant Energy Vol. 2",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs51.png"
+    },
+    {
+      "sourceCode": "scn_cso",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cso",
+      "sourceName": "Mew Advanced Deck Building Gift Box",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cso.png"
+    },
+    {
+      "sourceCode": "scn_cs55",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs55",
+      "sourceName": "Overshadowed Radiance",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs55.png"
+    },
+    {
+      "sourceCode": "scn_cs5d",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs5d",
+      "sourceName": "Gallant Galaxy V Starter Deck",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs5d.png"
+    },
+    {
+      "sourceCode": "scn_csn",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csn",
+      "sourceName": "Gallant Galaxy Deck Building Gift Box",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csn.png"
+    },
+    {
+      "sourceCode": "scn_cs5b",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs5b",
+      "sourceName": "Gallant Galaxy: Brave (card-count mismatch: dextcg 178 vs DB 128 for matched set pokemon:zh-cn:CS5bC)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs5b.png"
+    },
+    {
+      "sourceCode": "scn_cs5a",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs5a",
+      "sourceName": "Gallant Galaxy: Charm (card-count mismatch: dextcg 176 vs DB 127 for matched set pokemon:zh-cn:CS5aC)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs5a.png"
+    },
+    {
+      "sourceCode": "scn_cs41",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs41",
+      "sourceName": "Radiant Energy Vol. 1",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs41.png"
+    },
+    {
+      "sourceCode": "scn_cs4da",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs4da",
+      "sourceName": "Start Deck 100",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs4da.png"
+    },
+    {
+      "sourceCode": "scn_csh",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csh",
+      "sourceName": "Eevee Advanced Gift Boxes",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csh.png"
+    },
+    {
+      "sourceCode": "scn_cs45",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs45",
+      "sourceName": "Flame Dance of the End",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs45.png"
+    },
+    {
+      "sourceCode": "scn_cs4b",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs4b",
+      "sourceName": "Polychromatic Gathering: Origin (card-count mismatch: dextcg 177 vs DB 132 for matched set pokemon:zh-cn:CS4bC)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs4b.png"
+    },
+    {
+      "sourceCode": "scn_cs4a",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs4a",
+      "sourceName": "Polychromatic Gathering: Friend (card-count mismatch: dextcg 184 vs DB 132 for matched set pokemon:zh-cn:CS4aC)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs4a.png"
+    },
+    {
+      "sourceCode": "scn_cse",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cse",
+      "sourceName": "Quadrilateral Connection Series Gift Boxes",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cse.png"
+    },
+    {
+      "sourceCode": "scn_cs35",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs35",
+      "sourceName": "Scorching Skies",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs35.png"
+    },
+    {
+      "sourceCode": "scn_csd",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csd",
+      "sourceName": "Poké Ball Gift Box: Legendary Pikachu Celebration",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csd.png"
+    },
+    {
+      "sourceCode": "scn_cs2da",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs2da",
+      "sourceName": "Sword & Shield Family Pokémon Card Game",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs2da.png"
+    },
+    {
+      "sourceCode": "scn_cs21",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs21",
+      "sourceName": "Meowth's Slick Trick",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs21.png"
+    },
+    {
+      "sourceCode": "scn_cs3d",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs3d",
+      "sourceName": "Primordial Arts V Starter Deck",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs3d.png"
+    },
+    {
+      "sourceCode": "scn_csc",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csc",
+      "sourceName": "Primordial Arts: Torrent Deck Building Box",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csc.png"
+    },
+    {
+      "sourceCode": "scn_csb",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csb",
+      "sourceName": "Primordial Arts: Overgrow Deck Building Box",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csb.png"
+    },
+    {
+      "sourceCode": "scn_cs3b",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs3b",
+      "sourceName": "Primordial Arts: Torrent (card-count mismatch: dextcg 179 vs DB 122 for matched set pokemon:zh-cn:CS3bC)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs3b.png"
+    },
+    {
+      "sourceCode": "scn_cs3a",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs3a",
+      "sourceName": "Primordial Arts: Overgrow (card-count mismatch: dextcg 184 vs DB 125 for matched set pokemon:zh-cn:CS3aC)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs3a.png"
+    },
+    {
+      "sourceCode": "scn_cs25",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs25",
+      "sourceName": "Brilliant Counterattack",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs25.png"
+    },
+    {
+      "sourceCode": "scn_cs2b",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs2b",
+      "sourceName": "Vivid Portrayals: Indigo (card-count mismatch: dextcg 143 vs DB 115 for matched set pokemon:zh-cn:CS2bC)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs2b.png"
+    },
+    {
+      "sourceCode": "scn_cs2a",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs2a",
+      "sourceName": "Vivid Portrayals: Obsidian (card-count mismatch: dextcg 143 vs DB 115 for matched set pokemon:zh-cn:CS2aC)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs2a.png"
+    },
+    {
+      "sourceCode": "scn_cs15",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs15",
+      "sourceName": "Dynamax Tactics",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs15.png"
+    },
+    {
+      "sourceCode": "scn_cs1d",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs1d",
+      "sourceName": "Dynamax Clash Deck V Starter Deck",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs1d.png"
+    },
+    {
+      "sourceCode": "scn_csa",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csa",
+      "sourceName": "Dynamax Clash Deck Building Box",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csa.png"
+    },
+    {
+      "sourceCode": "scn_cs1b",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs1b",
+      "sourceName": "Dynamax Clash: Flame (card-count mismatch: dextcg 199 vs DB 136 for matched set pokemon:zh-cn:CS1bC)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs1b.png"
+    },
+    {
+      "sourceCode": "scn_cs1a",
+      "sourceUrl": "https://dextcg.com/expansions/scn_cs1a",
+      "sourceName": "Dynamax Clash: Thunder (card-count mismatch: dextcg 217 vs DB 135 for matched set pokemon:zh-cn:CS1aC)",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_cs1a.png"
+    },
+    {
+      "sourceCode": "scn_swshp",
+      "sourceUrl": "https://dextcg.com/expansions/scn_swshp",
+      "sourceName": "Sword & Shield Promos",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_swshp.png"
+    },
+    {
+      "sourceCode": "scn_swshpunp",
+      "sourceUrl": "https://dextcg.com/expansions/scn_swshpunp",
+      "sourceName": "Sword & Shield Unnumbered Promos",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_swshpunp.png"
+    },
+    {
+      "sourceCode": "scn_csm21",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csm21",
+      "sourceName": "Golden Energy",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csm21.png"
+    },
+    {
+      "sourceCode": "scn_csm25",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csm25",
+      "sourceName": "Striking Competition",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csm25.png"
+    },
+    {
+      "sourceCode": "scn_csm2d",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csm2d",
+      "sourceName": "Shining Synergy GX Starter Deck",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csm2d.png"
+    },
+    {
+      "sourceCode": "scn_csm15",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csm15",
+      "sourceName": "Battle Elite",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csm15.png"
+    },
+    {
+      "sourceCode": "scn_csm1d",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csm1d",
+      "sourceName": "Storming Emergence GX Starter Deck",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csm1d.png"
+    },
+    {
+      "sourceCode": "scn_smp",
+      "sourceUrl": "https://dextcg.com/expansions/scn_smp",
+      "sourceName": "Sun & Moon Promos",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_smp.png"
+    },
+    {
+      "sourceCode": "scn_smpunp",
+      "sourceUrl": "https://dextcg.com/expansions/scn_smpunp",
+      "sourceName": "Sun & Moon Unnumbered Promos",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_smpunp.png"
+    },
+    {
+      "sourceCode": "scn_uen25",
+      "sourceUrl": "https://dextcg.com/expansions/scn_uen25",
+      "sourceName": "Energies 2025",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_uen25.png"
+    },
+    {
+      "sourceCode": "scn_uen24",
+      "sourceUrl": "https://dextcg.com/expansions/scn_uen24",
+      "sourceName": "Energies 2024",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_uen24.png"
+    },
+    {
+      "sourceCode": "scn_uen23",
+      "sourceUrl": "https://dextcg.com/expansions/scn_uen23",
+      "sourceName": "Energies 2023",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_uen23.png"
+    },
+    {
+      "sourceCode": "scn_uen22",
+      "sourceUrl": "https://dextcg.com/expansions/scn_uen22",
+      "sourceName": "Energies 2022",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_uen22.png"
+    }
+  ]
+}

@@ -32,6 +32,16 @@ const CRAWLED_LOGO_FILES = ["pokellector-ja.json", "dextcg-ja.json", "dextcg-cn.
 
 function loadCrawledLogos(): Map<string, string> {
   const bySetId = new Map<string, string>();
+  // Defense in depth against a source site itself being internally
+  // inconsistent (confirmed live: jp.pokellector.com has two different
+  // buttons both claiming set code "S12" — see
+  // crawl-pokemon-set-logos-pokellector.ts's guard against that). Even
+  // though the crawlers now route such ambiguity to their own review file
+  // rather than the main output, a duplicate setId within one file (or the
+  // same setId disagreeing across two files) is still trusted less than a
+  // clean single match — drop it rather than let last-write-wins silently
+  // pick one.
+  const conflicted = new Set<string>();
   for (const name of CRAWLED_LOGO_FILES) {
     const file = path.join(process.cwd(), "scripts", "data", "set-logos", name);
     if (!fs.existsSync(file)) continue;
@@ -40,7 +50,17 @@ function loadCrawledLogos(): Map<string, string> {
       console.log(`- ${name}: not verified yet, skipping (see its header comment).`);
       continue;
     }
-    for (const entry of parsed.entries) bySetId.set(entry.setId, entry.logoUrl);
+    for (const entry of parsed.entries) {
+      if (conflicted.has(entry.setId)) continue;
+      const existing = bySetId.get(entry.setId);
+      if (existing !== undefined && existing !== entry.logoUrl) {
+        console.warn(`- ${entry.setId}: conflicting logoUrl across crawled sources, dropping.`);
+        bySetId.delete(entry.setId);
+        conflicted.add(entry.setId);
+        continue;
+      }
+      bySetId.set(entry.setId, entry.logoUrl);
+    }
   }
   return bySetId;
 }

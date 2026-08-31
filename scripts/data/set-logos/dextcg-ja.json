@@ -1,0 +1,897 @@
+{
+  "gameId": "pokemon",
+  "sourceNote": "Crawled from https://dextcg.com/expansions?lang=japanese on 2026-08-31T19:57:48.138Z by crawl-pokemon-set-logos-dextcg.ts",
+  "verified": false,
+  "generatedAt": "2026-08-31T19:57:48.141Z",
+  "entries": [
+    {
+      "setId": "pokemon:ja:M6",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_m6.png",
+      "nameEn": "Storm Emeralda",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_m6",
+      "sourceName": "Storm Emeralda"
+    },
+    {
+      "setId": "pokemon:ja:M5",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_m5.png",
+      "nameEn": "Abyss Eye",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_m5",
+      "sourceName": "Abyss Eye"
+    },
+    {
+      "setId": "pokemon:ja:M4",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_m4.png",
+      "nameEn": "Ninja Spinner",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_m4",
+      "sourceName": "Ninja Spinner"
+    },
+    {
+      "setId": "pokemon:ja:M3",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_m3.png",
+      "nameEn": "Nihil Zero",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_m3",
+      "sourceName": "Nihil Zero"
+    },
+    {
+      "setId": "pokemon:ja:MC",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_mc.png",
+      "nameEn": "Start Deck 100 Battle Collection",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_mc",
+      "sourceName": "Start Deck 100 Battle Collection"
+    },
+    {
+      "setId": "pokemon:ja:M2a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_m2a.png",
+      "nameEn": "MEGA Dream ex",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_m2a",
+      "sourceName": "MEGA Dream ex"
+    },
+    {
+      "setId": "pokemon:ja:M2",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_m2.png",
+      "nameEn": "Inferno X",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_m2",
+      "sourceName": "Inferno X"
+    },
+    {
+      "setId": "pokemon:ja:M1S",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_m1s.png",
+      "nameEn": "Mega Symphonia",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_m1s",
+      "sourceName": "Mega Symphonia"
+    },
+    {
+      "setId": "pokemon:ja:M1L",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_m1l.png",
+      "nameEn": "Mega Brave",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_m1l",
+      "sourceName": "Mega Brave"
+    },
+    {
+      "setId": "pokemon:ja:SV11W",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv11w.png",
+      "nameEn": "White Flare",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv11w",
+      "sourceName": "White Flare"
+    },
+    {
+      "setId": "pokemon:ja:SV11B",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv11b.png",
+      "nameEn": "Black Bolt",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv11b",
+      "sourceName": "Black Bolt"
+    },
+    {
+      "setId": "pokemon:ja:SV10",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv10.png",
+      "nameEn": "Glory of Team Rocket",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv10",
+      "sourceName": "Glory of Team Rocket"
+    },
+    {
+      "setId": "pokemon:ja:SV9a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv9a.png",
+      "nameEn": "Heat Wave Arena",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv9a",
+      "sourceName": "Heat Wave Arena"
+    },
+    {
+      "setId": "pokemon:ja:SV9",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv9.png",
+      "nameEn": "Battle Partners",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv9",
+      "sourceName": "Battle Partners"
+    },
+    {
+      "setId": "pokemon:ja:SV8a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv8a.png",
+      "nameEn": "Terastal Festival ex",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv8a",
+      "sourceName": "Terastal Festival ex"
+    },
+    {
+      "setId": "pokemon:ja:SV8",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv8.png",
+      "nameEn": "Super Electric Breaker",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv8",
+      "sourceName": "Super Electric Breaker"
+    },
+    {
+      "setId": "pokemon:ja:SV7a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv7a.png",
+      "nameEn": "Paradise Dragona",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv7a",
+      "sourceName": "Paradise Dragona"
+    },
+    {
+      "setId": "pokemon:ja:SVLS",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_svls.png",
+      "nameEn": "Stellar Tera Type Starter Set: Ceruledge ex",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_svls",
+      "sourceName": "Stellar Tera Type Starter Set: Ceruledge ex"
+    },
+    {
+      "setId": "pokemon:ja:SVLN",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_svln.png",
+      "nameEn": "Stellar Tera Type Starter Set: Sylveon ex",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_svln",
+      "sourceName": "Stellar Tera Type Starter Set: Sylveon ex"
+    },
+    {
+      "setId": "pokemon:ja:SVK",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_svk.png",
+      "nameEn": "Stellar Miracle Deck Build Box",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_svk",
+      "sourceName": "Stellar Miracle Deck Build Box"
+    },
+    {
+      "setId": "pokemon:ja:SV7",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv7.png",
+      "nameEn": "Stellar Miracle",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv7",
+      "sourceName": "Stellar Miracle"
+    },
+    {
+      "setId": "pokemon:ja:SV6a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv6a.png",
+      "nameEn": "Night Wanderer",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv6a",
+      "sourceName": "Night Wanderer"
+    },
+    {
+      "setId": "pokemon:ja:SV6",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv6.png",
+      "nameEn": "Mask of Change",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv6",
+      "sourceName": "Mask of Change"
+    },
+    {
+      "setId": "pokemon:ja:SV5a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv5a.png",
+      "nameEn": "Crimson Haze",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv5a",
+      "sourceName": "Crimson Haze"
+    },
+    {
+      "setId": "pokemon:ja:SV5M",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv5m.png",
+      "nameEn": "Cyber Judge",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv5m",
+      "sourceName": "Cyber Judge"
+    },
+    {
+      "setId": "pokemon:ja:SV5K",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv5k.png",
+      "nameEn": "Wild Force",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv5k",
+      "sourceName": "Wild Force"
+    },
+    {
+      "setId": "pokemon:ja:SV4a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv4a.png",
+      "nameEn": "Shiny Treasure ex",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv4a",
+      "sourceName": "Shiny Treasure ex"
+    },
+    {
+      "setId": "pokemon:ja:SV4M",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv4m.png",
+      "nameEn": "Future Flash",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv4m",
+      "sourceName": "Future Flash"
+    },
+    {
+      "setId": "pokemon:ja:SV4K",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv4k.png",
+      "nameEn": "Ancient Roar",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv4k",
+      "sourceName": "Ancient Roar"
+    },
+    {
+      "setId": "pokemon:ja:SV3a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv3a.png",
+      "nameEn": "Raging Surf",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv3a",
+      "sourceName": "Raging Surf"
+    },
+    {
+      "setId": "pokemon:ja:SV3",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv3.png",
+      "nameEn": "Ruler of the Black Flame",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv3",
+      "sourceName": "Ruler of the Black Flame"
+    },
+    {
+      "setId": "pokemon:ja:SV2a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv2a.png",
+      "nameEn": "Pokémon Card 151",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv2a",
+      "sourceName": "Pokémon Card 151"
+    },
+    {
+      "setId": "pokemon:ja:SV2D",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv2d.png",
+      "nameEn": "Clay Burst",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv2d",
+      "sourceName": "Clay Burst"
+    },
+    {
+      "setId": "pokemon:ja:SV2P",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv2p.png",
+      "nameEn": "Snow Hazard",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv2p",
+      "sourceName": "Snow Hazard"
+    },
+    {
+      "setId": "pokemon:ja:SV1a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv1a.png",
+      "nameEn": "Triplet Beat",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv1a",
+      "sourceName": "Triplet Beat"
+    },
+    {
+      "setId": "pokemon:ja:SV1V",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv1v.png",
+      "nameEn": "Violet ex",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv1v",
+      "sourceName": "Violet ex"
+    },
+    {
+      "setId": "pokemon:ja:SV1S",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sv1s.png",
+      "nameEn": "Scarlet ex",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sv1s",
+      "sourceName": "Scarlet ex"
+    },
+    {
+      "setId": "pokemon:ja:S12a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s12a.png",
+      "nameEn": "VSTAR Universe",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s12a",
+      "sourceName": "VSTAR Universe"
+    },
+    {
+      "setId": "pokemon:ja:S12",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s12.png",
+      "nameEn": "Paradigm Trigger",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s12",
+      "sourceName": "Paradigm Trigger"
+    },
+    {
+      "setId": "pokemon:ja:S11a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s11a.png",
+      "nameEn": "Incandescent Arcana",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s11a",
+      "sourceName": "Incandescent Arcana"
+    },
+    {
+      "setId": "pokemon:ja:S11",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s11.png",
+      "nameEn": "Lost Abyss",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s11",
+      "sourceName": "Lost Abyss"
+    },
+    {
+      "setId": "pokemon:ja:S10b",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s10b.png",
+      "nameEn": "Pokémon GO",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s10b",
+      "sourceName": "Pokémon GO"
+    },
+    {
+      "setId": "pokemon:ja:S10a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s10a.png",
+      "nameEn": "Dark Phantasma",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s10a",
+      "sourceName": "Dark Phantasma"
+    },
+    {
+      "setId": "pokemon:ja:S9a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s9a.png",
+      "nameEn": "Battle Region",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s9a",
+      "sourceName": "Battle Region"
+    },
+    {
+      "setId": "pokemon:ja:S9",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s9.png",
+      "nameEn": "Star Birth",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s9",
+      "sourceName": "Star Birth"
+    },
+    {
+      "setId": "pokemon:ja:S8b",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s8b.png",
+      "nameEn": "VMAX Climax",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s8b",
+      "sourceName": "VMAX Climax"
+    },
+    {
+      "setId": "pokemon:ja:S8a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s8a.png",
+      "nameEn": "25th Anniversary Collection",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s8a",
+      "sourceName": "25th Anniversary Collection"
+    },
+    {
+      "setId": "pokemon:ja:S8",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s8.png",
+      "nameEn": "Fusion Arts",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s8",
+      "sourceName": "Fusion Arts"
+    },
+    {
+      "setId": "pokemon:ja:S7R",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s7r.png",
+      "nameEn": "Blue Sky Stream",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s7r",
+      "sourceName": "Blue Sky Stream"
+    },
+    {
+      "setId": "pokemon:ja:S7D",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s7d.png",
+      "nameEn": "Skyscraping Perfection",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s7d",
+      "sourceName": "Skyscraping Perfection"
+    },
+    {
+      "setId": "pokemon:ja:S6a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s6a.png",
+      "nameEn": "Eevee Heroes",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s6a",
+      "sourceName": "Eevee Heroes"
+    },
+    {
+      "setId": "pokemon:ja:S6K",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s6k.png",
+      "nameEn": "Jet-Black Spirit",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s6k",
+      "sourceName": "Jet-Black Spirit"
+    },
+    {
+      "setId": "pokemon:ja:S6H",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s6h.png",
+      "nameEn": "Silver Lance",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s6h",
+      "sourceName": "Silver Lance"
+    },
+    {
+      "setId": "pokemon:ja:S5a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s5a.png",
+      "nameEn": "Peerless Fighters",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s5a",
+      "sourceName": "Peerless Fighters"
+    },
+    {
+      "setId": "pokemon:ja:S5R",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s5r.png",
+      "nameEn": "Rapid Strike Master",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s5r",
+      "sourceName": "Rapid Strike Master"
+    },
+    {
+      "setId": "pokemon:ja:S5I",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s5i.png",
+      "nameEn": "Single Strike Master",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s5i",
+      "sourceName": "Single Strike Master"
+    },
+    {
+      "setId": "pokemon:ja:S4a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s4a.png",
+      "nameEn": "Shiny Star V",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s4a",
+      "sourceName": "Shiny Star V"
+    },
+    {
+      "setId": "pokemon:ja:S4",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s4.png",
+      "nameEn": "Amazing Volt Tackle",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s4",
+      "sourceName": "Amazing Volt Tackle"
+    },
+    {
+      "setId": "pokemon:ja:S3a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s3a.png",
+      "nameEn": "Legendary Heartbeat",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s3a",
+      "sourceName": "Legendary Heartbeat"
+    },
+    {
+      "setId": "pokemon:ja:S3",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s3.png",
+      "nameEn": "Infinity Zone",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s3",
+      "sourceName": "Infinity Zone"
+    },
+    {
+      "setId": "pokemon:ja:S2a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s2a.png",
+      "nameEn": "Explosive Walker",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s2a",
+      "sourceName": "Explosive Walker"
+    },
+    {
+      "setId": "pokemon:ja:S2",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s2.png",
+      "nameEn": "Rebellion Clash",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s2",
+      "sourceName": "Rebellion Clash"
+    },
+    {
+      "setId": "pokemon:ja:S1a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s1a.png",
+      "nameEn": "VMAX Rising",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s1a",
+      "sourceName": "VMAX Rising"
+    },
+    {
+      "setId": "pokemon:ja:S1H",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s1h.png",
+      "nameEn": "Shield",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s1h",
+      "sourceName": "Shield"
+    },
+    {
+      "setId": "pokemon:ja:S1W",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_s1w.png",
+      "nameEn": "Sword",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_s1w",
+      "sourceName": "Sword"
+    },
+    {
+      "setId": "pokemon:ja:SM12a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm12a.png",
+      "nameEn": "Tag All Stars",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm12a",
+      "sourceName": "Tag All Stars"
+    },
+    {
+      "setId": "pokemon:ja:SM12",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm12.png",
+      "nameEn": "Alter Genesis",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm12",
+      "sourceName": "Alter Genesis"
+    },
+    {
+      "setId": "pokemon:ja:SM11b",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm11b.png",
+      "nameEn": "Dream League",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm11b",
+      "sourceName": "Dream League"
+    },
+    {
+      "setId": "pokemon:ja:SM11a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm11a.png",
+      "nameEn": "Remix Bout",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm11a",
+      "sourceName": "Remix Bout"
+    },
+    {
+      "setId": "pokemon:ja:SM11",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm11.png",
+      "nameEn": "Miracle Twin",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm11",
+      "sourceName": "Miracle Twin"
+    },
+    {
+      "setId": "pokemon:ja:SMP2",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_smp2.png",
+      "nameEn": "Great Detective Pikachu",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_smp2",
+      "sourceName": "Great Detective Pikachu"
+    },
+    {
+      "setId": "pokemon:ja:SM10b",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm10b.png",
+      "nameEn": "Sky Legend",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm10b",
+      "sourceName": "Sky Legend"
+    },
+    {
+      "setId": "pokemon:ja:SM10a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm10a.png",
+      "nameEn": "GG End",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm10a",
+      "sourceName": "GG End"
+    },
+    {
+      "setId": "pokemon:ja:SM10",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm10.png",
+      "nameEn": "Double Blaze",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm10",
+      "sourceName": "Double Blaze"
+    },
+    {
+      "setId": "pokemon:ja:SM9b",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm9b.png",
+      "nameEn": "Full Metal Wall",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm9b",
+      "sourceName": "Full Metal Wall"
+    },
+    {
+      "setId": "pokemon:ja:SM9a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm9a.png",
+      "nameEn": "Night Unison",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm9a",
+      "sourceName": "Night Unison"
+    },
+    {
+      "setId": "pokemon:ja:SM9",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm9.png",
+      "nameEn": "Tag Bolt",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm9",
+      "sourceName": "Tag Bolt"
+    },
+    {
+      "setId": "pokemon:ja:SM8b",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm8b.png",
+      "nameEn": "GX Ultra Shiny",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm8b",
+      "sourceName": "GX Ultra Shiny"
+    },
+    {
+      "setId": "pokemon:ja:SM8a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm8a.png",
+      "nameEn": "Dark Order",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm8a",
+      "sourceName": "Dark Order"
+    },
+    {
+      "setId": "pokemon:ja:SM8",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm8.png",
+      "nameEn": "Super-Burst Impact",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm8",
+      "sourceName": "Super-Burst Impact"
+    },
+    {
+      "setId": "pokemon:ja:SM7b",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm7b.png",
+      "nameEn": "Fairy Rise",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm7b",
+      "sourceName": "Fairy Rise"
+    },
+    {
+      "setId": "pokemon:ja:SM7a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm7a.png",
+      "nameEn": "Thunderclap Spark",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm7a",
+      "sourceName": "Thunderclap Spark"
+    },
+    {
+      "setId": "pokemon:ja:SM7",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm7.png",
+      "nameEn": "Sky-Splitting Charisma",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm7",
+      "sourceName": "Sky-Splitting Charisma"
+    },
+    {
+      "setId": "pokemon:ja:SM6b",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm6b.png",
+      "nameEn": "Champion Road",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm6b",
+      "sourceName": "Champion Road"
+    },
+    {
+      "setId": "pokemon:ja:SM6a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm6a.png",
+      "nameEn": "Dragon Storm",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm6a",
+      "sourceName": "Dragon Storm"
+    },
+    {
+      "setId": "pokemon:ja:SM6",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm6.png",
+      "nameEn": "Forbidden Light",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm6",
+      "sourceName": "Forbidden Light"
+    },
+    {
+      "setId": "pokemon:ja:SM5M",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm5m.png",
+      "nameEn": "Ultra Moon",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm5m",
+      "sourceName": "Ultra Moon"
+    },
+    {
+      "setId": "pokemon:ja:SM5S",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm5s.png",
+      "nameEn": "Ultra Sun",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm5s",
+      "sourceName": "Ultra Sun"
+    },
+    {
+      "setId": "pokemon:ja:SM4A",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm4a.png",
+      "nameEn": "Ultradimensional Beasts",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm4a",
+      "sourceName": "Ultradimensional Beasts"
+    },
+    {
+      "setId": "pokemon:ja:SM4S",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm4s.png",
+      "nameEn": "Awakened Heroes",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm4s",
+      "sourceName": "Awakened Heroes"
+    },
+    {
+      "setId": "pokemon:ja:SM3N",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm3n.png",
+      "nameEn": "Darkness that Consumes Light",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm3n",
+      "sourceName": "Darkness that Consumes Light"
+    },
+    {
+      "setId": "pokemon:ja:SM3H",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm3h.png",
+      "nameEn": "To Have Seen the Battle Rainbow",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm3h",
+      "sourceName": "To Have Seen the Battle Rainbow"
+    },
+    {
+      "setId": "pokemon:ja:SM2L",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm2l.png",
+      "nameEn": "Alolan Moonlight",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm2l",
+      "sourceName": "Alolan Moonlight"
+    },
+    {
+      "setId": "pokemon:ja:SM2K",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm2k.png",
+      "nameEn": "Islands Await You",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm2k",
+      "sourceName": "Islands Await You"
+    },
+    {
+      "setId": "pokemon:ja:SM0",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm0.png",
+      "nameEn": "Sun & Moon Starter Set",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm0",
+      "sourceName": "Sun & Moon Starter Set"
+    },
+    {
+      "setId": "pokemon:ja:SM1M",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm1m.png",
+      "nameEn": "Collection Moon",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm1m",
+      "sourceName": "Collection Moon"
+    },
+    {
+      "setId": "pokemon:ja:SM1S",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_sm1s.png",
+      "nameEn": "Collection Sun",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_sm1s",
+      "sourceName": "Collection Sun"
+    },
+    {
+      "setId": "pokemon:ja:XY10",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_xy10.png",
+      "nameEn": "Awakening Psychic King",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_xy10",
+      "sourceName": "Awakening Psychic King"
+    },
+    {
+      "setId": "pokemon:ja:XY9",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_xy9.png",
+      "nameEn": "Rage of the Broken Heavens",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_xy9",
+      "sourceName": "Rage of the Broken Heavens"
+    },
+    {
+      "setId": "pokemon:ja:XY8b",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_xy8b.png",
+      "nameEn": "Blue Shock",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_xy8b",
+      "sourceName": "Blue Shock"
+    },
+    {
+      "setId": "pokemon:ja:XY7",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_xy7.png",
+      "nameEn": "Bandit Ring",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_xy7",
+      "sourceName": "Bandit Ring"
+    },
+    {
+      "setId": "pokemon:ja:XY6",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_xy6.png",
+      "nameEn": "Emerald Break",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_xy6",
+      "sourceName": "Emerald Break"
+    },
+    {
+      "setId": "pokemon:ja:XY4",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_xy4.png",
+      "nameEn": "Phantom Gate",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_xy4",
+      "sourceName": "Phantom Gate"
+    },
+    {
+      "setId": "pokemon:ja:XY3",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_xy3.png",
+      "nameEn": "Rising Fist",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_xy3",
+      "sourceName": "Rising Fist"
+    },
+    {
+      "setId": "pokemon:ja:XY2",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_xy2.png",
+      "nameEn": "Wild Blaze",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_xy2",
+      "sourceName": "Wild Blaze"
+    },
+    {
+      "setId": "pokemon:ja:L3",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_l3.png",
+      "nameEn": "Clash at the Summit",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_l3",
+      "sourceName": "Clash at the Summit"
+    },
+    {
+      "setId": "pokemon:ja:L2",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_l2.png",
+      "nameEn": "Reviving Legends",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_l2",
+      "sourceName": "Reviving Legends"
+    },
+    {
+      "setId": "pokemon:ja:PCG10",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_pcg10.png",
+      "nameEn": "World Champions Pack",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_pcg10",
+      "sourceName": "World Champions Pack"
+    },
+    {
+      "setId": "pokemon:ja:PCG9",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_pcg9.png",
+      "nameEn": "Offense and Defense of the Furthest Ends",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_pcg9",
+      "sourceName": "Offense and Defense of the Furthest Ends"
+    },
+    {
+      "setId": "pokemon:ja:PCG8",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_pcg8.png",
+      "nameEn": "Miracle Crystal",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_pcg8",
+      "sourceName": "Miracle Crystal"
+    },
+    {
+      "setId": "pokemon:ja:PCG7",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_pcg7.png",
+      "nameEn": "Holon Phantom",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_pcg7",
+      "sourceName": "Holon Phantom"
+    },
+    {
+      "setId": "pokemon:ja:PCG6",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_pcg6.png",
+      "nameEn": "Holon Research Tower",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_pcg6",
+      "sourceName": "Holon Research Tower"
+    },
+    {
+      "setId": "pokemon:ja:PCG5",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_pcg5.png",
+      "nameEn": "Mirage Forest",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_pcg5",
+      "sourceName": "Mirage Forest"
+    },
+    {
+      "setId": "pokemon:ja:PCG4",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_pcg4.png",
+      "nameEn": "Golden Sky, Silvery Ocean",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_pcg4",
+      "sourceName": "Golden Sky, Silvery Ocean"
+    },
+    {
+      "setId": "pokemon:ja:PCG3",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_pcg3.png",
+      "nameEn": "Rocket Gang Strikes Back",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_pcg3",
+      "sourceName": "Rocket Gang Strikes Back"
+    },
+    {
+      "setId": "pokemon:ja:PCG2",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_pcg2.png",
+      "nameEn": "Clash of the Blue Sky",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_pcg2",
+      "sourceName": "Clash of the Blue Sky"
+    },
+    {
+      "setId": "pokemon:ja:PCG1",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_pcg1.png",
+      "nameEn": "Flight of Legends",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_pcg1",
+      "sourceName": "Flight of Legends"
+    },
+    {
+      "setId": "pokemon:ja:ADV5",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_adv5.png",
+      "nameEn": "Undone Seal",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_adv5",
+      "sourceName": "Undone Seal"
+    },
+    {
+      "setId": "pokemon:ja:ADV4",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_adv4.png",
+      "nameEn": "Magma VS Aqua: Two Ambitions",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_adv4",
+      "sourceName": "Magma VS Aqua: Two Ambitions"
+    },
+    {
+      "setId": "pokemon:ja:ADV3",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_adv3.png",
+      "nameEn": "Rulers of the Heavens",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_adv3",
+      "sourceName": "Rulers of the Heavens"
+    },
+    {
+      "setId": "pokemon:ja:ADV2",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_adv2.png",
+      "nameEn": "Miracle of the Desert",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_adv2",
+      "sourceName": "Miracle of the Desert"
+    },
+    {
+      "setId": "pokemon:ja:ADV1",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_adv1.png",
+      "nameEn": "ADV Expansion Pack",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_adv1",
+      "sourceName": "ADV Expansion Pack"
+    },
+    {
+      "setId": "pokemon:ja:web1",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_web1.png",
+      "nameEn": "Pokémon Web",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_web1",
+      "sourceName": "Pokémon Web"
+    },
+    {
+      "setId": "pokemon:ja:neo4",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_neo4.png",
+      "nameEn": "Darkness, and to Light...",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_neo4",
+      "sourceName": "Darkness, and to Light..."
+    },
+    {
+      "setId": "pokemon:ja:neo3",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_neo3.png",
+      "nameEn": "Awakening Legends",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_neo3",
+      "sourceName": "Awakening Legends"
+    },
+    {
+      "setId": "pokemon:ja:neo2",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_neo2.png",
+      "nameEn": "Crossing the Ruins...",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_neo2",
+      "sourceName": "Crossing the Ruins..."
+    },
+    {
+      "setId": "pokemon:ja:neo1",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/jpn_neo1.png",
+      "nameEn": "Gold, Silver, to a New World...",
+      "sourceUrl": "https://dextcg.com/expansions/jpn_neo1",
+      "sourceName": "Gold, Silver, to a New World..."
+    }
+  ]
+}
