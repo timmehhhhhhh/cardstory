@@ -326,7 +326,7 @@ export function CardTile({
         </div>
 
         <div className="relative z-10 ml-auto flex flex-none items-center gap-1">
-          <div className="pointer-events-none w-16 flex-none text-right sm:w-24">
+          <div className="pointer-events-none flex-none whitespace-nowrap text-right">
             <p className="num-tabular text-sm font-semibold">
               <Money amountUsd={item.priceRaw} currency={currency} />
             </p>
@@ -367,13 +367,13 @@ export function CardTile({
           className={cn("object-contain p-2", dim && "grayscale")}
           fallbackVariant="icon-label"
         />
-        <CardNumberBadge number={item.number} variant="overlay" />
         <FinishBadge
           variantKey={item.variantKey}
           label={item.variantLabel}
           variant="overlay"
-          className="left-1.5 top-[26px]"
+          className="left-1.5 top-1.5"
         />
+        <CardNumberBadge number={item.number} variant="overlay" className="left-1.5 top-[26px]" />
         <div className="pointer-events-auto absolute right-1.5 top-1.5 z-10 flex flex-col gap-1">
           {addToCollectionTrigger(
             "rounded-full bg-background/70 p-1.5 text-muted-foreground backdrop-blur transition-colors hover:text-primary"
