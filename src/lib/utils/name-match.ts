@@ -73,6 +73,26 @@ export function parseNumberSlashTotal(
 }
 
 /**
+ * Sibling to parseNumberSlashTotal, for promo sets printed as "173/SV-P"
+ * instead of "185/181" — the denominator on a promo card is the set's own
+ * code (as collectors write it, e.g. "SV-P", "SWSH", "BW-P"), not a numeric
+ * printed total, so `CatalogItem.number`'s counterpart to check against is
+ * `Set.code` rather than `Set.cardCount`. Requires the denominator to start
+ * with a letter (never all-digit) so a genuine numeric-total query like
+ * "185/181" keeps resolving via parseNumberSlashTotal instead of this
+ * function — the two are mutually exclusive on any real input. Returns null
+ * for anything else, including a bare number with no slash.
+ */
+export function parseNumberSlashCode(
+  numberPart: string | null
+): { cardNumber: string; setCode: string } | null {
+  if (!numberPart) return null;
+  const match = /^(\d+)\/([A-Za-z][A-Za-z0-9-]*)$/.exec(numberPart.trim());
+  if (!match) return null;
+  return { cardNumber: match[1], setCode: match[2] };
+}
+
+/**
  * Client-side "does this card match this query" test, for the app's local
  * (non-DB-backed) search filters — e.g. src/app/binder/_components/
  * card-picker-sheet.tsx and PC's own Card Name filter (see

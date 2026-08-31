@@ -17,6 +17,7 @@ import {
   nameSearchVariants,
   normalizeForPunctuationInsensitiveMatch,
   parseNameNumberQuery,
+  parseNumberSlashCode,
   parseNumberSlashTotal,
 } from "@/lib/utils/name-match";
 
@@ -530,6 +531,10 @@ function sportsFilterableFor(params: CatalogSearchParams): boolean {
  * shape, match the card number against the numerator AND the related Set's
  * cardCount against the denominator instead — e.g. "Ampharos GX 185/181"
  * matches any card named Ampharos GX, numbered 185, in a 181-card set.
+ * Promo sets instead print their card number over the set's own code (e.g.
+ * "Ditto 173/SV-P") — see parseNumberSlashCode — so that shape checks the
+ * denominator against `Set.code` (a `contains`, since a non-English set's
+ * code is prefixed, e.g. "ko:SV-P") instead of `Set.cardCount`.
  */
 function tcgNameNumberClause(q: string): Prisma.CatalogItemWhereInput[] {
   const { namePart, numberPart } = parseNameNumberQuery(q);
@@ -542,13 +547,15 @@ function tcgNameNumberClause(q: string): Prisma.CatalogItemWhereInput[] {
     ],
   };
   const slashTotal = parseNumberSlashTotal(numberPart);
+  const slashCode = slashTotal ? null : parseNumberSlashCode(numberPart);
   return [
     {
       AND: [
-        slashTotal
-          ? { number: { contains: slashTotal.cardNumber, mode: "insensitive" } }
+        slashTotal || slashCode
+          ? { number: { contains: (slashTotal ?? slashCode)!.cardNumber, mode: "insensitive" } }
           : { number: { contains: numberPart, mode: "insensitive" } },
         ...(slashTotal ? [{ set: { cardCount: slashTotal.setTotal } }] : []),
+        ...(slashCode ? [{ set: { code: { contains: slashCode.setCode, mode: "insensitive" as const } } }] : []),
         nameGroup,
       ],
     },
@@ -578,6 +585,10 @@ async function tcgWhereFor(
   // Matches every card numbered 185 in any 181-card set, not just one name,
   // since the pair alone doesn't identify a single card.
   const bareSlashTotal = params.q ? parseNumberSlashTotal(params.q) : null;
+  // Same idea for a bare "173/SV-P" (a promo card's number over its set's
+  // own code, not a numeric total) — see parseNumberSlashCode and
+  // tcgNameNumberClause's doc comment.
+  const bareSlashCode = params.q && !bareSlashTotal ? parseNumberSlashCode(params.q) : null;
   const qGroup: Prisma.CatalogItemWhereInput[] | undefined = params.q
     ? [
         ...qTerms.map((term) => ({ name: { contains: term, mode: "insensitive" as const } })),
@@ -601,6 +612,16 @@ async function tcgWhereFor(
                 AND: [
                   { number: { contains: bareSlashTotal.cardNumber, mode: "insensitive" as const } },
                   { set: { cardCount: bareSlashTotal.setTotal } },
+                ],
+              },
+            ]
+          : []),
+        ...(bareSlashCode
+          ? [
+              {
+                AND: [
+                  { number: { contains: bareSlashCode.cardNumber, mode: "insensitive" as const } },
+                  { set: { code: { contains: bareSlashCode.setCode, mode: "insensitive" as const } } },
                 ],
               },
             ]
