@@ -8,6 +8,8 @@ import { toast } from "sonner";
 import { CurrencySelector } from "@/components/nav/currency-selector";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { AdminAddCard } from "@/app/settings/_components/admin-add-card";
+import type { GameMeta } from "@/lib/games/registry";
 
 function SettingRow({
   icon,
@@ -64,7 +66,7 @@ function ThemeRow() {
   );
 }
 
-export function SettingsClient() {
+export function SettingsClient({ adminAddCardGames }: { adminAddCardGames: GameMeta[] }) {
   const { data: session, status, update } = useSession();
   const [vendorPending, setVendorPending] = React.useState(false);
   const [pricingPending, setPricingPending] = React.useState(false);
@@ -156,6 +158,12 @@ export function SettingsClient() {
             control={<CurrencySelector />}
           />
           <ThemeRow />
+
+          {session.user.isAdmin && (
+            <div className="mt-2 border-t border-border pt-5">
+              <AdminAddCard games={adminAddCardGames} />
+            </div>
+          )}
         </div>
       )}
     </div>
