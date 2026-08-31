@@ -1,19 +1,31 @@
-import { PackagePlus, ShoppingBag, Star, Store } from "lucide-react";
+import {
+  ArrowLeftRight,
+  BookOpen,
+  Compass,
+  Eye,
+  Layers,
+  PackagePlus,
+  ShoppingBag,
+  Sparkles,
+  Star,
+  Store,
+  Swords,
+} from "lucide-react";
 
 export const APP_NAME = "CardStory";
 
 export const NAV_LINKS = [
-  { href: "/explore", label: "Explore" },
-  { href: "/sets", label: "Sets" },
+  { href: "/explore", label: "Explore", icon: Compass },
+  { href: "/sets", label: "Sets", icon: Layers },
   { href: "/watchlist", label: "Watchlist", icon: Star },
   { href: "/pc", label: "PC", icon: PackagePlus },
   { href: "/shortlist", label: "Shortlist", icon: ShoppingBag },
-  { href: "/curated-sets", label: "Curated Sets" },
-  { href: "/binder", label: "Binder Planner" },
-  { href: "/deck-crafting", label: "Deck Crafting" },
+  { href: "/curated-sets", label: "Curated Sets", icon: Sparkles },
+  { href: "/binder", label: "Binder Planner", icon: BookOpen },
+  { href: "/deck-crafting", label: "Deck Crafting", icon: Swords },
   { href: "/business", label: "Business", vendorOnly: true, icon: Store },
-  { href: "/views", label: "Views" },
-  { href: "/trade-analyzer", label: "Trade Analyzer" },
+  { href: "/views", label: "Views", icon: Eye },
+  { href: "/trade-analyzer", label: "Trade Analyzer", icon: ArrowLeftRight },
 ] as const;
 
 export const SUPPORTED_CURRENCIES = ["USD", "CAD", "EUR", "GBP", "JPY", "AUD", "NZD"] as const;

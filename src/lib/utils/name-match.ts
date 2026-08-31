@@ -53,6 +53,26 @@ export function parseNameNumberQuery(q: string): { namePart: string; numberPart:
 }
 
 /**
+ * Splits a `numberPart` like `"185/181"` (a card's local number over its
+ * set's total printed card count, as collectors write it — see
+ * parseNameNumberQuery) into its two halves. Returns null for a plain
+ * number with no slash (e.g. `"185"`), so existing "name + number" callers
+ * that don't care about set size are unaffected. Used by
+ * lib/catalog/search.ts's tcgNameNumberClause/tcgWhereFor to also constrain
+ * the match to CatalogItem rows whose Set.cardCount equals the total, since
+ * `CatalogItem.number` itself only ever stores the bare local number (e.g.
+ * "185", not "185/181") — the printed total lives on the Set, not the card.
+ */
+export function parseNumberSlashTotal(
+  numberPart: string | null
+): { cardNumber: string; setTotal: number } | null {
+  if (!numberPart) return null;
+  const match = /^(\d+)\/(\d+)$/.exec(numberPart.trim());
+  if (!match) return null;
+  return { cardNumber: match[1], setTotal: Number(match[2]) };
+}
+
+/**
  * Client-side "does this card match this query" test, for the app's local
  * (non-DB-backed) search filters — e.g. src/app/binder/_components/
  * card-picker-sheet.tsx and PC's own Card Name filter (see
