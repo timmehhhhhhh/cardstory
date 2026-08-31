@@ -31,6 +31,7 @@ export function SidebarFilters({
   rarityOptions = [],
   domainOptions = [],
   variantGroups = [],
+  showSearch = true,
 }: {
   filters: ExploreFilters;
   onChange: (patch: Partial<ExploreFilters>) => void;
@@ -38,6 +39,10 @@ export function SidebarFilters({
   rarityOptions?: string[];
   domainOptions?: string[];
   variantGroups?: VariantGroup[];
+  /** Desktop now has a persistent search bar in the nav rail, so the
+   * mobile filter sheet keeps this field but the desktop instance of this
+   * same component hides it to avoid two search boxes side by side. */
+  showSearch?: boolean;
 }) {
   const [qDraft, setQDraft] = React.useState(filters.q);
   // Reset the draft when filters.q changes from outside this component
@@ -75,32 +80,36 @@ export function SidebarFilters({
 
   return (
     <aside className="w-full flex-none space-y-5 lg:w-64">
-      <div>
-        <div className="relative">
-          <Search className="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            value={qDraft}
-            onChange={(e) => setQDraft(e.target.value)}
-            placeholder="Search any card or sealed product…"
-            className="bg-surface border-border pl-8 pr-8"
-          />
-          {qDraft && (
-            <button
-              type="button"
-              aria-label="Clear search"
-              onClick={() => {
-                setQDraft("");
-                onChange({ q: "", page: 1 });
-              }}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            >
-              <X className="size-4" />
-            </button>
-          )}
-        </div>
-      </div>
+      {showSearch && (
+        <>
+          <div>
+            <div className="relative">
+              <Search className="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                value={qDraft}
+                onChange={(e) => setQDraft(e.target.value)}
+                placeholder="Search any card or sealed product…"
+                className="bg-surface border-border pl-8 pr-8"
+              />
+              {qDraft && (
+                <button
+                  type="button"
+                  aria-label="Clear search"
+                  onClick={() => {
+                    setQDraft("");
+                    onChange({ q: "", page: 1 });
+                  }}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  <X className="size-4" />
+                </button>
+              )}
+            </div>
+          </div>
 
-      <Separator />
+          <Separator />
+        </>
+      )}
 
       <div className="flex items-center justify-between">
         <Label htmlFor="watchlist-toggle" className="text-sm font-medium">

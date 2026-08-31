@@ -32,8 +32,12 @@ export function SideNav() {
       className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-border bg-background/85 backdrop-blur supports-backdrop-blur:bg-background/60 md:flex"
       aria-label="Primary"
     >
-      <div className="px-4 pt-4 pb-2">
+      <div className="px-4 pt-4 pb-3">
         <Logo />
+      </div>
+
+      <div className="px-3 pb-3">
+        <SearchBox variant="inline" />
       </div>
 
       <nav className="flex-1 overflow-y-auto px-2 py-2">
@@ -58,8 +62,6 @@ export function SideNav() {
       </nav>
 
       <div className="flex flex-col gap-2 border-t border-border px-3 py-3">
-        <SearchBox inputClassName="w-full" triggerClassName="w-full justify-start px-3" />
-
         <Button
           asChild
           variant="outline"

@@ -237,6 +237,7 @@ export function ExploreClient({
           rarityOptions={resolvedRarityOptions}
           domainOptions={resolvedDomainOptions}
           variantGroups={resolvedVariantGroups}
+          showSearch={false}
         />
       </div>
 
