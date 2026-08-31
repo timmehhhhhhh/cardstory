@@ -35,7 +35,8 @@ export function SortControls() {
   const searchParams = useSearchParams();
   const sortBy: SetSortField = searchParams.get("sortBy") === "name" ? "name" : "date";
   const direction: SetSortDirection = searchParams.get("sort") === "asc" ? "asc" : "desc";
-  const grouped = searchParams.get("group") === "language";
+  // Grouped by language is now the default — ?group=off is the opt-out.
+  const grouped = searchParams.get("group") !== "off";
 
   function update(next: { sortBy?: SetSortField; sort?: SetSortDirection; group?: boolean }) {
     const params = new URLSearchParams(searchParams.toString());
@@ -49,8 +50,9 @@ export function SortControls() {
       else params.set("sort", next.sort);
     }
     if (next.group !== undefined) {
-      if (!next.group) params.delete("group");
-      else params.set("group", "language");
+      // Default — omit from the URL so it stays clean.
+      if (next.group) params.delete("group");
+      else params.set("group", "off");
     }
     const query = params.toString();
     router.push(query ? `?${query}` : "?", { scroll: false });

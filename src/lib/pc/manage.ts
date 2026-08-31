@@ -206,6 +206,46 @@ export async function createPC(
   });
 }
 
+/**
+ * Finds or creates the user's one "Business Inventory" PC. Same
+ * check-then-act-under-concurrency problem as ensureDefaultPC above (and the
+ * same fix): a deterministic id so two racing calls collide on the primary
+ * key instead of each inserting their own row, with the loser re-reading the
+ * winner on P2002. Previously this find-or-create only happened client-side
+ * (ensureBusinessPC in src/lib/pc/remote-store.ts) against a React Query
+ * cache that hadn't necessarily settled between calls — several near-
+ * simultaneous triggers (e.g. quick-add clicks across many CardTiles, or
+ * several business-mode panels mounting close together) could each decide
+ * "no business PC exists yet" and POST their own, leaving a user with many
+ * duplicate "Business Inventory" rows (see the 2026-08-31 duplicate-PC
+ * report). POST /api/pc now routes kind: "business" through here instead of
+ * the plain createPC path above, so the server — not just the client cache
+ * — is the source of truth for "does this user already have one."
+ */
+export async function ensureBusinessPC(userId: string): Promise<PC> {
+  const existing = await db.portfolio.findFirst({ where: { userId, kind: "business" } });
+  if (existing) return toEmptyPC(existing);
+
+  try {
+    const created = await db.portfolio.create({
+      data: { id: `business-${userId}`, userId, name: "Business Inventory", kind: "business" },
+    });
+    await logActivity(userId, {
+      action: "pc.created",
+      entityType: "pc",
+      entityId: created.id,
+      summary: `Created PC "${created.name}"`,
+    });
+    return toEmptyPC(created);
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002") {
+      const winner = await db.portfolio.findFirst({ where: { userId, kind: "business" } });
+      if (winner) return toEmptyPC(winner);
+    }
+    throw err;
+  }
+}
+
 async function assertOwnsPC(
   userId: string,
   pcId: string

@@ -1,8 +1,12 @@
 "use client";
 
+import * as React from "react";
 import { Star } from "lucide-react";
 import { useWatchlistData } from "@/hooks/use-watchlist-data";
 import { WatchlistRow } from "@/app/watchlist/_components/watchlist-row";
+import { WatchlistToolbar } from "@/app/watchlist/_components/watchlist-toolbar";
+import { useWatchlistControls } from "@/app/watchlist/_components/use-watchlist-controls";
+import { filterWatchlist, groupWatchlist, sortWatchlist } from "@/lib/watchlist/selectors";
 
 function EmptyState() {
   return (
@@ -16,8 +20,22 @@ function EmptyState() {
   );
 }
 
+function NoMatchesState() {
+  return (
+    <div className="flex flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-border py-16 text-center">
+      <p className="font-medium">No cards match these filters</p>
+      <p className="max-w-xs text-sm text-muted-foreground">Try clearing a filter or two.</p>
+    </div>
+  );
+}
+
 export function WatchlistClient() {
   const { rows, isLoading } = useWatchlistData();
+  const { filters, sort, group } = useWatchlistControls();
+
+  const filtered = React.useMemo(() => filterWatchlist(rows, filters), [rows, filters]);
+  const sorted = React.useMemo(() => sortWatchlist(filtered, sort), [filtered, sort]);
+  const groups = React.useMemo(() => groupWatchlist(sorted, group), [sorted, group]);
 
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-5 px-4 py-6 sm:px-6">
@@ -33,13 +51,35 @@ export function WatchlistClient() {
       ) : rows.length === 0 ? (
         <EmptyState />
       ) : (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-3">
+          <WatchlistToolbar rows={rows} />
           <span className="px-1 text-xs text-muted-foreground">
-            {rows.length} card{rows.length === 1 ? "" : "s"}
+            {sorted.length} card{sorted.length === 1 ? "" : "s"}
+            {sorted.length !== rows.length ? ` (of ${rows.length})` : ""}
           </span>
-          {rows.map((row) => (
-            <WatchlistRow key={row.itemId} row={row} />
-          ))}
+          {sorted.length === 0 ? (
+            <NoMatchesState />
+          ) : (
+            <div className="flex flex-col gap-6">
+              {groups.map((g) => (
+                <div key={g.key}>
+                  {g.label && (
+                    <h2 className="mb-2 px-1 text-sm font-semibold text-muted-foreground">
+                      {g.label}{" "}
+                      <span className="font-normal">
+                        ({g.rows.length} card{g.rows.length === 1 ? "" : "s"})
+                      </span>
+                    </h2>
+                  )}
+                  <div className="flex flex-col gap-2">
+                    {g.rows.map((row) => (
+                      <WatchlistRow key={row.itemId} row={row} />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
