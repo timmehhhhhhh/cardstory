@@ -38,6 +38,11 @@ yarn-error.log*
 # scripts/data/card-images/ are what actually get reviewed and committed
 scripts/.cache/
 
+# live-DB snapshot from scripts/report-missing-content.ts — regenerate on
+# demand, goes stale the moment the catalog changes, not curated data like
+# scripts/data/card-images/ or scripts/data/set-logos/
+scripts/data/missing-content-report.json
+
 # vercel
 .vercel
 

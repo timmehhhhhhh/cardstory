@@ -1,0 +1,50 @@
+{
+  "gameId": "pokemon",
+  "sourceNote": "Crawled from https://dextcg.com/expansions?lang=chinese on 2026-08-31T19:57:49.414Z by crawl-pokemon-set-logos-dextcg.ts",
+  "verified": false,
+  "generatedAt": "2026-08-31T19:57:49.415Z",
+  "entries": [
+    {
+      "setId": "pokemon:zh-cn:csm2c",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csm2c.png",
+      "nameEn": "Shining Synergy: Summon",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csm2c",
+      "sourceName": "Shining Synergy: Summon"
+    },
+    {
+      "setId": "pokemon:zh-cn:csm2b",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csm2b.png",
+      "nameEn": "Shining Synergy: Supreme",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csm2b",
+      "sourceName": "Shining Synergy: Supreme"
+    },
+    {
+      "setId": "pokemon:zh-cn:csm2a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csm2a.png",
+      "nameEn": "Shining Synergy: Shower",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csm2a",
+      "sourceName": "Shining Synergy: Shower"
+    },
+    {
+      "setId": "pokemon:zh-cn:csm1c",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csm1c.png",
+      "nameEn": "Storming Emergence: Abundant",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csm1c",
+      "sourceName": "Storming Emergence: Abundant"
+    },
+    {
+      "setId": "pokemon:zh-cn:csm1b",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csm1b.png",
+      "nameEn": "Storming Emergence: Verdant",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csm1b",
+      "sourceName": "Storming Emergence: Verdant"
+    },
+    {
+      "setId": "pokemon:zh-cn:csm1a",
+      "logoUrl": "https://static.dextcg.com/content/sets/logos/scn_csm1a.png",
+      "nameEn": "Storming Emergence: Radiant",
+      "sourceUrl": "https://dextcg.com/expansions/scn_csm1a",
+      "sourceName": "Storming Emergence: Radiant"
+    }
+  ]
+}

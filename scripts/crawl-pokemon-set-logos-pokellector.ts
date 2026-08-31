@@ -94,6 +94,20 @@ async function main() {
   const buttons = parseSetButtons(res.body);
   console.log(`Parsed ${buttons.length} set buttons from the listing page.`);
 
+  // pokellector's own listing page is not internally consistent: confirmed
+  // live, it has TWO buttons both with name="S12" (one correctly linking to
+  // Paradigm-Trigger, one — a real error on pokellector's side — linking to
+  // Lost-Abyss, which is actually S11). Matching either blind would silently
+  // pair the wrong logo/name with pokemon:ja:S12 depending on iteration
+  // order. Guard against this generally: any code that appears on more than
+  // one button is ambiguous and goes to the review file for a human to sort
+  // out, never auto-matched.
+  const codeOccurrences = new Map<string, number>();
+  for (const button of buttons) {
+    const code = button.code.toUpperCase();
+    codeOccurrences.set(code, (codeOccurrences.get(code) ?? 0) + 1);
+  }
+
   const dbSets = await db.set.findMany({
     where: { id: { startsWith: "pokemon:ja:" } },
     select: { id: true, code: true, name: true, logoUrl: true, nameEn: true },
@@ -103,9 +117,21 @@ async function main() {
   const entries: SetLogoEntry[] = [];
   const review: SetLogoReviewEntry[] = [];
   let alreadySet = 0;
+  let ambiguous = 0;
 
   for (const button of buttons) {
-    const dbSet = byCode.get(button.code.toUpperCase());
+    const code = button.code.toUpperCase();
+    if ((codeOccurrences.get(code) ?? 0) > 1) {
+      ambiguous += 1;
+      review.push({
+        sourceCode: button.code,
+        sourceUrl: `${ORIGIN}${button.slug}`,
+        sourceName: `${button.nameEn} (ambiguous: "${button.code}" appears on more than one pokellector.com button)`,
+        logoUrl: button.logoUrl,
+      });
+      continue;
+    }
+    const dbSet = byCode.get(code);
     if (!dbSet) {
       review.push({
         sourceCode: button.code,
@@ -149,7 +175,7 @@ async function main() {
 
   console.log(`\nMatched (logoUrl currently null): ${entries.length}`);
   console.log(`Already had a logoUrl (left alone): ${alreadySet}`);
-  console.log(`No matching DB set (see review file): ${review.length}`);
+  console.log(`No matching DB set / ambiguous code (see review file): ${review.length} (of which ${ambiguous} ambiguous)`);
   console.log(`\nWrote ${path.relative(process.cwd(), OUT_FILE)}`);
   console.log(`Wrote ${path.relative(process.cwd(), REVIEW_FILE)}`);
   console.log(
