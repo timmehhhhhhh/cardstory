@@ -10,7 +10,13 @@
  * could each conclude "no business PC exists yet" and insert their own row.
  * This script cleans up whatever that left behind; the code fix + the
  * partial unique index in migration
- * 20260831114112_add_one_business_pc_per_user_index stop it recurring.
+ * 20260831114112_add_one_business_pc_per_user_index stop it recurring. That
+ * migration now also runs the same merge inline before creating its index
+ * (added after a production `prisma migrate deploy` hit exactly this
+ * 23505-unique-violation-on-existing-duplicates case), so running this
+ * script by hand is no longer required to deploy safely — it's kept as the
+ * dry-run/audit tool: `--dry-run` reports what a merge would do without the
+ * migration's silent, un-logged version doing it for you.
  *
  * For each user with more than one "business" portfolio:
  *   1. Picks a winner (earliest createdAt).
@@ -28,11 +34,6 @@
  * ensureDefaultPC fix — that path already guards against new ones, so
  * finding any here would be surprising and worth investigating by hand
  * rather than silently merging.
- *
- * IMPORTANT: run this BEFORE deploying the
- * add_one_business_pc_per_user_index migration on any database that may
- * already have duplicates — that migration's CREATE UNIQUE INDEX will fail
- * outright if duplicates still exist.
  *
  * Safe to re-run: a second run finds zero users with >1 business portfolio.
  *
