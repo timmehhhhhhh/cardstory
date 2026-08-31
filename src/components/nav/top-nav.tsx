@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Camera, History, Menu, Settings } from "lucide-react";
+import { Camera, History, Menu, Mic, Settings } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
@@ -63,6 +63,17 @@ export function TopNav() {
               Scan Cards
             </Link>
           </Button>
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className="hidden sm:inline-flex border-primary/40 text-primary hover:bg-primary/10 hover:text-primary"
+          >
+            <Link href="/quick-import">
+              <Mic className="size-4" />
+              Quick Import
+            </Link>
+          </Button>
           {/* Search now lives in BottomNav's circular Search button (mobile)
               and SideNav (desktop) — TopNav itself is mobile-only. */}
 
@@ -102,6 +113,14 @@ export function TopNav() {
                 >
                   <Camera className="size-4" />
                   Scan Cards
+                </Link>
+                <Link
+                  href="/quick-import"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2 rounded-md border border-primary/40 px-3 py-2 text-sm font-medium text-primary"
+                >
+                  <Mic className="size-4" />
+                  Quick Import
                 </Link>
                 <div className="mt-4 border-t border-border pt-4 sm:hidden">
                   {status === "authenticated" ? (

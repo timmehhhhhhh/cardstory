@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Camera, History, LogOut, Settings } from "lucide-react";
+import { Camera, History, LogOut, Mic, Settings } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -71,6 +71,18 @@ export function SideNav() {
           <Link href="/scan">
             <Camera className="size-4" />
             Scan Cards
+          </Link>
+        </Button>
+
+        <Button
+          asChild
+          variant="outline"
+          size="sm"
+          className="justify-start border-primary/40 text-primary hover:bg-primary/10 hover:text-primary"
+        >
+          <Link href="/quick-import">
+            <Mic className="size-4" />
+            Quick Import
           </Link>
         </Button>
 
