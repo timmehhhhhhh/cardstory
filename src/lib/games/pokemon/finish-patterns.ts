@@ -38,6 +38,12 @@ const FINISH_PATTERNS: Record<string, Record<string, string>> = {
   // uses the distinctive crackled-glass "Cracked Ice Holo" foil pattern,
   // unique to this set at the time. Source: pokemontcg.io set id "base6".
   base6: { reverseHolofoil: "Cracked Ice Holo" },
+  // Plasma Storm (2013, Black & White era) — every reverseHolofoil print in
+  // this set uses the same crackled-glass "Cracked Ice Holo" foil pattern.
+  // Source: pokemontcg.io set id "bw8"; verified against PriceCharting's own
+  // listing (pricecharting.com/game/pokemon-plasma-storm/giratina-cracked-ice-holo-62)
+  // and matching eBay listings, both naming this exact print "Cracked Ice Holo".
+  bw8: { reverseHolofoil: "Cracked Ice Holo" },
 };
 
 /**
