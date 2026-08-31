@@ -5,6 +5,7 @@ import "./globals.css";
 import { Providers } from "@/components/providers";
 import { TopNav } from "@/components/nav/top-nav";
 import { BottomNav } from "@/components/nav/bottom-nav";
+import { SideNav } from "@/components/nav/side-nav";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -37,7 +38,8 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <Providers>
           <TopNav />
-          <main className="flex-1 pb-20 md:pb-0">{children}</main>
+          <SideNav />
+          <main className="flex-1 pb-20 md:pb-0 md:pl-64">{children}</main>
           <BottomNav />
         </Providers>
       </body>
