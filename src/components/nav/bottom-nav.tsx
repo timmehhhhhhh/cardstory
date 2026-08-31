@@ -67,7 +67,7 @@ export function BottomNav() {
           })}
         </div>
 
-        <div className="flex shrink-0 items-center pr-2">
+        <div className="flex shrink-0 items-center pr-4">
           <Button
             variant="ghost"
             size="icon-lg"
