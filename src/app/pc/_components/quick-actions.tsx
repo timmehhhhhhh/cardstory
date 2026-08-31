@@ -80,7 +80,7 @@ export function QuickActions({
       {/* Sticky group: Sort By + Bulk Actions stay reachable while scrolling
           a long collection — everything else in QuickActions scrolls away
           normally. */}
-      <div className="sticky top-14 z-30 flex items-center gap-2 bg-background/95 py-0.5 backdrop-blur supports-backdrop-blur:bg-background/60">
+      <div className="sticky top-14 md:top-0 z-30 flex items-center gap-2 bg-background/95 py-0.5 backdrop-blur supports-backdrop-blur:bg-background/60">
         <SortBySelect
           field={sortField}
           direction={sortDirection}

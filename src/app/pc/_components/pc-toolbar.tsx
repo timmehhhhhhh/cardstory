@@ -94,7 +94,7 @@ export function PCToolbar({
     <div className="flex flex-col gap-3 rounded-xl border border-border bg-surface p-3">
       {/* Sticky action row: stays reachable while scrolling a long
           collection — everything below it scrolls away normally. */}
-      <div className="sticky top-14 z-30 flex flex-wrap items-center gap-2 bg-surface/95 py-0.5 backdrop-blur supports-backdrop-blur:bg-surface/60">
+      <div className="sticky top-14 md:top-0 z-30 flex flex-wrap items-center gap-2 bg-surface/95 py-0.5 backdrop-blur supports-backdrop-blur:bg-surface/60">
         <SortBySelect
           field={sortField}
           direction={sortDirection}

@@ -102,9 +102,13 @@ export function HoldingsList({
         // /business, which has no equivalent sticky row above this list,
         // it just reads as a slightly larger gap under the global nav —
         // this component doesn't know which page it's on, so one offset
-        // has to work for both. z-20 keeps it behind PCToolbar's z-30 row
-        // if the two ever overlap during a fast scroll.
-        <div className="sticky top-24 z-20 -mt-4 flex justify-end">
+        // has to work for both. On md: and up the global nav is a left
+        // sidebar (no fixed header), so PCToolbar's row sticks at top-0
+        // instead of top-14 — md:top-10 preserves the same ~40px
+        // clearance below it without the header's 56px. z-20 keeps it
+        // behind PCToolbar's z-30 row if the two ever overlap during a
+        // fast scroll.
+        <div className="sticky top-24 md:top-10 z-20 -mt-4 flex justify-end">
           <button
             type="button"
             role="switch"

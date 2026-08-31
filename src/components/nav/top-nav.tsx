@@ -2,70 +2,12 @@
 
 import * as React from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
 import { Camera, History, Menu, Settings } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
-import { APP_NAME, NAV_LINKS } from "@/lib/constants";
-import { SearchBox } from "@/components/nav/search-box";
 import { AccountMenu } from "@/components/nav/account-menu";
-
-function Logo() {
-  return (
-    <Link href="/explore" className="flex items-center shrink-0">
-      <Image
-        src="/brand/cardstory-wordmark.png"
-        alt={APP_NAME}
-        width={900}
-        height={325}
-        priority
-        unoptimized
-        className="h-8 w-auto sm:h-9 dark:hidden"
-      />
-      <Image
-        src="/brand/cardstory-wordmark-dark.png"
-        alt={APP_NAME}
-        width={900}
-        height={325}
-        priority
-        unoptimized
-        className="hidden h-8 w-auto sm:h-9 dark:block"
-      />
-    </Link>
-  );
-}
-
-function NavLinks({ className, onNavigate }: { className?: string; onNavigate?: () => void }) {
-  const pathname = usePathname();
-  const { data: session } = useSession();
-  const links = NAV_LINKS.filter((link) => !("vendorOnly" in link && link.vendorOnly) || session?.user?.isVendor);
-  return (
-    <nav className={cn("flex items-center gap-1", className)}>
-      {links.map((link) => {
-        const active = pathname === link.href || pathname?.startsWith(link.href + "/");
-        return (
-          <Link
-            key={link.href}
-            href={link.href}
-            onClick={onNavigate}
-            className={cn(
-              "inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-              active
-                ? "text-foreground"
-                : "text-muted-foreground hover:text-foreground hover:bg-surface-elevated"
-            )}
-          >
-            {"icon" in link && link.icon ? <link.icon className="size-4" /> : null}
-            {link.label}
-          </Link>
-        );
-      })}
-    </nav>
-  );
-}
+import { Logo } from "@/components/nav/logo";
 
 function MobileAccountSection({ onNavigate }: { onNavigate: () => void }) {
   const { data: session } = useSession();
@@ -105,11 +47,9 @@ export function TopNav() {
   const { status } = useSession();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur supports-backdrop-blur:bg-background/60">
+    <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur supports-backdrop-blur:bg-background/60 md:hidden">
       <div className="mx-auto flex h-14 max-w-7xl items-center gap-3 px-4 sm:px-6">
         <Logo />
-
-        <NavLinks className="ml-2 hidden md:flex" />
 
         <div className="ml-auto flex items-center gap-1 sm:gap-2">
           <Button
@@ -123,10 +63,8 @@ export function TopNav() {
               Scan Cards
             </Link>
           </Button>
-          {/* Mobile search now lives in BottomNav's circular Search button. */}
-          <div className="hidden md:block">
-            <SearchBox />
-          </div>
+          {/* Search now lives in BottomNav's circular Search button (mobile)
+              and SideNav (desktop) — TopNav itself is mobile-only. */}
 
           {status === "authenticated" ? (
             <AccountMenu />
