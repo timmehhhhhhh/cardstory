@@ -6,6 +6,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { CardTile } from "@/components/cards/card-tile";
 import type { CatalogSearchItem } from "@/lib/catalog/search";
 
+// Both grid densities scale up by one column at each wider breakpoint so
+// "2 per row" and "3 per row" stay a consistent one-column offset from each
+// other all the way up to desktop, rather than converging.
+const GRID_CLASSES: Record<"grid2" | "grid3", string> = {
+  grid2: "grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5",
+  grid3: "grid grid-cols-3 gap-2 sm:gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6",
+};
+
 export function ExploreGrid({
   items,
   view,
@@ -17,7 +25,7 @@ export function ExploreGrid({
   onPageChange,
 }: {
   items: CatalogSearchItem[];
-  view: "grid" | "list";
+  view: "grid2" | "grid3" | "list";
   isLoading: boolean;
   isError: boolean;
   page: number;
@@ -26,6 +34,8 @@ export function ExploreGrid({
   onPageChange: (page: number) => void;
 }) {
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  const isGrid = view !== "list";
+  const containerClass = isGrid ? GRID_CLASSES[view] : "flex flex-col gap-2";
 
   if (isError) {
     return (
@@ -39,15 +49,9 @@ export function ExploreGrid({
 
   if (isLoading) {
     return (
-      <div
-        className={
-          view === "grid"
-            ? "grid grid-cols-3 gap-2 sm:gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6"
-            : "flex flex-col gap-2"
-        }
-      >
-        {Array.from({ length: view === "grid" ? 10 : 6 }).map((_, i) => (
-          <Skeleton key={i} className={view === "grid" ? "aspect-[5/7] rounded-xl" : "h-16 rounded-lg"} />
+      <div className={containerClass}>
+        {Array.from({ length: isGrid ? 10 : 6 }).map((_, i) => (
+          <Skeleton key={i} className={isGrid ? "aspect-[5/7] rounded-xl" : "h-16 rounded-lg"} />
         ))}
       </div>
     );
@@ -65,15 +69,9 @@ export function ExploreGrid({
 
   return (
     <div className="flex flex-col gap-4">
-      <div
-        className={
-          view === "grid"
-            ? "grid grid-cols-3 gap-2 sm:gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6"
-            : "flex flex-col gap-2"
-        }
-      >
+      <div className={containerClass}>
         {items.map((item) => (
-          <CardTile key={item.id} item={item} view={view} />
+          <CardTile key={item.id} item={item} view={isGrid ? "grid" : "list"} />
         ))}
       </div>
 

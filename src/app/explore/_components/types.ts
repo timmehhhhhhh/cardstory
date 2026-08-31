@@ -16,7 +16,8 @@ export interface ExploreFilters {
   status: "all" | "owned" | "not_owned";
   watchlistOnly: boolean;
   sort: CatalogSort;
-  view: "grid" | "list";
+  /** "grid2"/"grid3" = card grid at 2 or 3 columns per row on mobile (scaling up at wider breakpoints); "list" = compact row list. */
+  view: "grid2" | "grid3" | "list";
   page: number;
 }
 
@@ -35,7 +36,7 @@ export const DEFAULT_FILTERS: ExploreFilters = {
   status: "all",
   watchlistOnly: false,
   sort: "best_match",
-  view: "grid",
+  view: "grid2",
   page: 1,
 };
 
@@ -57,7 +58,7 @@ export function filtersToSearchParams(f: ExploreFilters): URLSearchParams {
   if (f.status !== "all") sp.set("status", f.status);
   if (f.watchlistOnly) sp.set("watchlist", "1");
   if (f.sort !== "best_match") sp.set("sort", f.sort);
-  if (f.view !== "grid") sp.set("view", f.view);
+  if (f.view !== "grid2") sp.set("view", f.view);
   if (f.page > 1) sp.set("page", String(f.page));
   return sp;
 }
@@ -85,7 +86,13 @@ export function filtersFromSearchParams(
     status: (get("status") as ExploreFilters["status"]) ?? DEFAULT_FILTERS.status,
     watchlistOnly: get("watchlist") === "1",
     sort: (get("sort") as ExploreFilters["sort"]) ?? DEFAULT_FILTERS.sort,
-    view: (get("view") as ExploreFilters["view"]) ?? DEFAULT_FILTERS.view,
+    // "grid" is a stale value from before the 2/3-column split (persisted in
+    // old URLs, bookmarks, and sessionStorage) — treat it as the new default
+    // rather than letting an unrecognized value fall through at runtime.
+    view: (() => {
+      const v = get("view");
+      return v === "grid2" || v === "grid3" || v === "list" ? v : DEFAULT_FILTERS.view;
+    })(),
     page: Number(get("page") ?? 1) || 1,
   };
 }

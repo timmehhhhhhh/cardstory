@@ -274,7 +274,12 @@ export function ExploreClient({
             <BusinessModeToggle />
             <QuickAddToggle />
           </div>
-          <div className="flex items-center gap-2">
+          {/* flex-wrap + justify-end of its own accord: Save as View + Sort +
+              the now 3-button ViewToggle no longer reliably fit on one line
+              next to the results count on narrow mobile widths, so this
+              group wraps onto its own second line (right-aligned) instead
+              of overflowing the sticky bar horizontally. */}
+          <div className="flex flex-wrap items-center justify-end gap-2">
             <span className="hidden text-sm text-muted-foreground sm:inline">
               {data.total.toLocaleString()} results
             </span>

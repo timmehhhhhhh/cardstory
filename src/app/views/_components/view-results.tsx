@@ -46,7 +46,7 @@ export function ViewResults({ view }: { view: SavedView }) {
       <p className="text-sm text-muted-foreground">{data.total.toLocaleString()} results</p>
       <ExploreGrid
         items={data.items}
-        view="grid"
+        view="grid3"
         isLoading={query.isLoading}
         isError={query.isError}
         page={data.page}

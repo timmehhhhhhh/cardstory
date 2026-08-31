@@ -278,66 +278,80 @@ export function CardTile({
 
   if (view === "list") {
     return (
-      <div className="relative flex items-center gap-3 rounded-lg border border-border bg-surface px-3 py-2 transition-colors hover:bg-surface-elevated">
+      // A flex-wrap row rather than a single flex line: the thumbnail+name
+      // group has flex-1 with a real basis so it always gets full,
+      // untruncated width to lay out in, and the price+actions group is
+      // pushed to the far edge with ml-auto. On narrow (mobile) widths the
+      // two groups don't both fit on one line, so the price+actions group
+      // wraps to its own line below instead of squeezing the card name down
+      // to a sliver — on wider rows there's room for both on one line, same
+      // as before.
+      <div className="relative flex flex-wrap items-center gap-x-3 gap-y-2 rounded-lg border border-border bg-surface px-3 py-2.5 transition-colors hover:bg-surface-elevated">
         <Link href={href} aria-label={item.name} className="absolute inset-0 z-0" />
-        <div className="pointer-events-none relative h-14 w-10 flex-none overflow-hidden rounded bg-muted">
-          <CardImage
-            src={item.imageSmallUrl}
-            alt=""
-            sizes="40px"
-            className={cn("object-contain", dim && "grayscale")}
-          />
-        </div>
-        <div className="pointer-events-none min-w-0 flex-1">
-          <div className="flex items-center gap-1.5">
-            <p className="min-w-0 truncate text-sm font-medium">{primaryName(item.name, item.nameEn)}</p>
-            <FinishBadge variantKey={item.variantKey} label={item.variantLabel} className="flex-none" />
-            <CardNumberBadge number={item.number} className="flex-none" />
-            {item.domain.length > 0 && (
-              <span className="flex flex-none items-center gap-0.5">
-                {item.domain.map((d) => (
-                  <DomainIcon key={d} domain={d} />
-                ))}
-              </span>
-            )}
+        <div className="flex min-w-0 flex-1 basis-52 items-center gap-3">
+          <div className="pointer-events-none relative h-14 w-10 flex-none overflow-hidden rounded bg-muted">
+            <CardImage
+              src={item.imageSmallUrl}
+              alt=""
+              sizes="40px"
+              className={cn("object-contain", dim && "grayscale")}
+            />
           </div>
-          {secondaryName(item.name, item.nameEn) && (
-            <p className="truncate text-xs text-muted-foreground">{secondaryName(item.name, item.nameEn)}</p>
-          )}
-          <p className="truncate text-xs text-muted-foreground">
-            {withEnglishName(item.setName, item.setNameEn)}
-            {item.artist ? ` · ${item.artist}` : ""}
-          </p>
+          <div className="pointer-events-none min-w-0 flex-1">
+            <p className="truncate text-sm font-medium">{primaryName(item.name, item.nameEn)}</p>
+            {secondaryName(item.name, item.nameEn) && (
+              <p className="truncate text-xs text-muted-foreground">{secondaryName(item.name, item.nameEn)}</p>
+            )}
+            <div className="mt-0.5 flex flex-wrap items-center gap-1">
+              <FinishBadge variantKey={item.variantKey} label={item.variantLabel} className="flex-none" />
+              <CardNumberBadge number={item.number} className="flex-none" />
+              {item.domain.length > 0 && (
+                <span className="flex flex-none items-center gap-0.5">
+                  {item.domain.map((d) => (
+                    <DomainIcon key={d} domain={d} />
+                  ))}
+                </span>
+              )}
+              <span className="min-w-0 truncate text-xs text-muted-foreground">
+                {withEnglishName(item.setName, item.setNameEn)}
+                {item.artist ? ` · ${item.artist}` : ""}
+              </span>
+            </div>
+          </div>
         </div>
+
         <div className="pointer-events-none hidden items-center gap-1 sm:flex">
           <GameBadge gameId={item.gameId} />
           {languageBadge}
         </div>
-        <div className="pointer-events-none w-24 flex-none text-right">
-          <p className="num-tabular text-sm font-semibold">
-            <Money amountUsd={item.priceRaw} currency={currency} />
-          </p>
-          {item.priceChangePct != null && (
-            <p className={cn("num-tabular text-xs", positive ? "text-positive" : "text-negative")}>
-              {formatPct(item.priceChangePct)}
+
+        <div className="relative z-10 ml-auto flex flex-none items-center gap-1">
+          <div className="pointer-events-none w-16 flex-none text-right sm:w-24">
+            <p className="num-tabular text-sm font-semibold">
+              <Money amountUsd={item.priceRaw} currency={currency} />
             </p>
+            {item.priceChangePct != null && (
+              <p className={cn("num-tabular text-xs", positive ? "text-positive" : "text-negative")}>
+                {formatPct(item.priceChangePct)}
+              </p>
+            )}
+          </div>
+          {addToCollectionTrigger(
+            "flex-none rounded-md p-1.5 text-muted-foreground hover:bg-surface-elevated hover:text-primary"
+          )}
+          {businessMode &&
+            addToBusinessInventoryTrigger(
+              "flex-none rounded-md p-1.5 text-muted-foreground hover:bg-surface-elevated hover:text-primary"
+            )}
+          {shortlistTrigger(
+            "flex-none rounded-md p-1.5 text-muted-foreground hover:bg-surface-elevated hover:text-primary"
+          )}
+          {watchlistTrigger(
+            "flex-none rounded-md p-1.5 text-muted-foreground hover:bg-surface-elevated hover:text-watchlist"
           )}
         </div>
-        {addToCollectionTrigger(
-          "relative z-10 flex-none rounded-md p-1.5 text-muted-foreground hover:bg-surface-elevated hover:text-primary"
-        )}
-        {businessMode &&
-          addToBusinessInventoryTrigger(
-            "relative z-10 flex-none rounded-md p-1.5 text-muted-foreground hover:bg-surface-elevated hover:text-primary"
-          )}
         {dialog}
         {businessDialog}
-        {shortlistTrigger(
-          "relative z-10 flex-none rounded-md p-1.5 text-muted-foreground hover:bg-surface-elevated hover:text-primary"
-        )}
-        {watchlistTrigger(
-          "relative z-10 flex-none rounded-md p-1.5 text-muted-foreground hover:bg-surface-elevated hover:text-watchlist"
-        )}
       </div>
     );
   }
