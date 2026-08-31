@@ -65,6 +65,31 @@ export function MobileSearchSheet({
   const inputRef = React.useRef<HTMLInputElement>(null);
   const dictation = useSpeechDictation();
 
+  // The sheet is `fixed`, which anchors to the *layout* viewport — on iOS
+  // that stays full-height even once the keyboard opens, while the mobile
+  // browser only scrolls/resizes the *visual* viewport to keep the focused
+  // input on screen. Left alone, that desyncs the fixed sheet from what's
+  // actually visible: the header and "Recent searches" list can end up
+  // scrolled out of view above the visible area, or the input bar pushed
+  // below it. Tracking `visualViewport` and applying its offset/height
+  // directly keeps the whole sheet matched to the visible area at all times.
+  const [viewport, setViewport] = React.useState<{ top: number; height: number } | null>(null);
+  React.useEffect(() => {
+    const vv = window.visualViewport;
+    // No reset-to-null on close: the sheet is unmounted/hidden while
+    // closed, so a stale value just gets overwritten by `update()` the
+    // next time it opens — nothing to clean up in the meantime.
+    if (!open || !vv) return;
+    const update = () => setViewport({ top: vv.offsetTop, height: vv.height });
+    update();
+    vv.addEventListener("resize", update);
+    vv.addEventListener("scroll", update);
+    return () => {
+      vv.removeEventListener("resize", update);
+      vv.removeEventListener("scroll", update);
+    };
+  }, [open]);
+
   React.useEffect(() => {
     if (open) {
       // Deferred (not called synchronously in the effect body) — matches
@@ -143,9 +168,10 @@ export function MobileSearchSheet({
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-background md:hidden" />
+        <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-background md:hidden data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
         <DialogPrimitive.Content
-          className="fixed inset-0 z-50 flex flex-col bg-background outline-none md:hidden"
+          className="fixed inset-x-0 top-0 z-50 flex h-dvh flex-col bg-background outline-none md:hidden data-open:animate-in data-open:slide-in-from-bottom-10 data-closed:animate-out data-closed:slide-out-to-bottom-10"
+          style={viewport ? { top: viewport.top, height: viewport.height } : undefined}
           onOpenAutoFocus={(e) => e.preventDefault()}
         >
           <DialogPrimitive.Title className="sr-only">Search</DialogPrimitive.Title>
@@ -204,7 +230,7 @@ export function MobileSearchSheet({
 
           <div
             className="flex flex-col gap-1.5 border-t border-border px-3 py-2"
-            style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+            style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 0.5rem)" }}
           >
             {dictation.listening && (
               <p className="px-1 text-xs text-primary">Listening… tap a suggestion above to confirm, or the mic to stop.</p>

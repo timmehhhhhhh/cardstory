@@ -43,7 +43,7 @@ export function BottomNav() {
         style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
         aria-label="Sections"
       >
-        <div className="flex flex-1 items-center gap-1 overflow-x-auto scroll-smooth py-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="flex flex-1 items-center gap-1 overflow-x-auto scroll-smooth py-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {links.map((link) => {
             const active = pathname === link.href || pathname?.startsWith(link.href + "/");
             return (

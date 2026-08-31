@@ -11,6 +11,7 @@ import {
   nameSearchVariants,
   normalizeForPunctuationInsensitiveMatch,
   parseNameNumberQuery,
+  parseNumberSlashTotal,
 } from "@/lib/utils/name-match";
 
 const WIRED_TCG_GAME_IDS = GAMES.filter((g) => g.status === "WIRED" && g.kind !== "sports").map(
@@ -515,21 +516,34 @@ function sportsFilterableFor(params: CatalogSearchParams): boolean {
  * "salamence 64" matches a card whose name/nameEn contains "salamence" AND
  * whose number contains "64"/"64/101". Returns `[]` when the query has no
  * trailing number-like token (see parseNameNumberQuery).
+ *
+ * `CatalogItem.number` only ever stores the bare local number (e.g. "185",
+ * never "185/181" — the printed total lives on `Set.cardCount`, not the
+ * card), so a "185/181"-shaped numberPart can't match via plain `contains`
+ * against `number` at all. When parseNumberSlashTotal recognizes that
+ * shape, match the card number against the numerator AND the related Set's
+ * cardCount against the denominator instead — e.g. "Ampharos GX 185/181"
+ * matches any card named Ampharos GX, numbered 185, in a 181-card set.
  */
 function tcgNameNumberClause(q: string): Prisma.CatalogItemWhereInput[] {
   const { namePart, numberPart } = parseNameNumberQuery(q);
   if (!numberPart) return [];
   const nameTerms = nameSearchVariants(namePart);
+  const nameGroup: Prisma.CatalogItemWhereInput = {
+    OR: [
+      ...nameTerms.map((term) => ({ name: { contains: term, mode: "insensitive" as const } })),
+      ...nameTerms.map((term) => ({ nameEn: { contains: term, mode: "insensitive" as const } })),
+    ],
+  };
+  const slashTotal = parseNumberSlashTotal(numberPart);
   return [
     {
       AND: [
-        { number: { contains: numberPart, mode: "insensitive" } },
-        {
-          OR: [
-            ...nameTerms.map((term) => ({ name: { contains: term, mode: "insensitive" as const } })),
-            ...nameTerms.map((term) => ({ nameEn: { contains: term, mode: "insensitive" as const } })),
-          ],
-        },
+        slashTotal
+          ? { number: { contains: slashTotal.cardNumber, mode: "insensitive" } }
+          : { number: { contains: numberPart, mode: "insensitive" } },
+        ...(slashTotal ? [{ set: { cardCount: slashTotal.setTotal } }] : []),
+        nameGroup,
       ],
     },
   ];
@@ -553,6 +567,11 @@ async function tcgWhereFor(
   // (or vice versa) unsearchable. See nameSearchVariants.
   const qTerms = params.q ? nameSearchVariants(params.q) : [];
   const punctuationIds = params.q ? await punctuationInsensitiveIds("CatalogItem", params.q) : [];
+  // A bare "185/181" (no name) — see parseNumberSlashTotal's doc comment on
+  // why plain `number.contains(q)` below can never match this shape.
+  // Matches every card numbered 185 in any 181-card set, not just one name,
+  // since the pair alone doesn't identify a single card.
+  const bareSlashTotal = params.q ? parseNumberSlashTotal(params.q) : null;
   const qGroup: Prisma.CatalogItemWhereInput[] | undefined = params.q
     ? [
         ...qTerms.map((term) => ({ name: { contains: term, mode: "insensitive" as const } })),
@@ -570,6 +589,16 @@ async function tcgWhereFor(
         { number: { contains: params.q, mode: "insensitive" } },
         // Combined "name + number" query — see tcgNameNumberClause.
         ...tcgNameNumberClause(params.q),
+        ...(bareSlashTotal
+          ? [
+              {
+                AND: [
+                  { number: { contains: bareSlashTotal.cardNumber, mode: "insensitive" as const } },
+                  { set: { cardCount: bareSlashTotal.setTotal } },
+                ],
+              },
+            ]
+          : []),
       ]
     : undefined;
 

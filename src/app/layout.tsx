@@ -37,7 +37,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <Providers>
           <TopNav />
-          <main className="flex-1 pb-16 md:pb-0">{children}</main>
+          <main className="flex-1 pb-20 md:pb-0">{children}</main>
           <BottomNav />
         </Providers>
       </body>
