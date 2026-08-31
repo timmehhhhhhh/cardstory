@@ -113,6 +113,18 @@ export const WIRED_SPORTS_GAMES: GameMeta[] = GAMES.filter(
   (g) => g.kind === "sports" && g.status === "WIRED"
 );
 
+/**
+ * WIRED, CatalogItem/Set-backed TCGs — the games the admin "add missing
+ * card" tool (src/app/settings/_components/admin-add-card.tsx,
+ * src/app/api/admin/add-card/route.ts) offers. Scoped to WIRED because a
+ * COMING_SOON game has no browsing UI to reach a hand-added card through,
+ * and to non-sports because those are backed by SportsCardItem, not
+ * CatalogItem/Set.
+ */
+export const ADMIN_MANUAL_ADD_GAMES: GameMeta[] = GAMES.filter(
+  (g) => g.status === "WIRED" && g.kind !== "sports"
+);
+
 export function isWiredGame(gameId: string): boolean {
   return GAMES.find((g) => g.id === gameId)?.status === "WIRED";
 }
