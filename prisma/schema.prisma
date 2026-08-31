@@ -523,6 +523,14 @@ model Portfolio {
   holdings  Holding[]
 
   @@index([userId])
+  // A raw-SQL partial unique index — `CREATE UNIQUE INDEX ... ON
+  // portfolios ("userId") WHERE kind = 'business'` — also enforces at most
+  // one kind: "business" row per user at the DB level. Not expressible as a
+  // Prisma @@unique (that would wrongly cap "personal" PCs at one per user
+  // too), so it only exists in
+  // prisma/migrations/20260831114112_add_one_business_pc_per_user_index —
+  // see ensureBusinessPC in src/lib/pc/manage.ts for the app-level half of
+  // this fix.
   @@map("portfolios")
 }
 

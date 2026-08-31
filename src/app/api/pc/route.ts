@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { auth } from "@/auth";
-import { listPCs, createPC, ensureDefaultPC } from "@/lib/pc/manage";
+import { listPCs, createPC, ensureDefaultPC, ensureBusinessPC } from "@/lib/pc/manage";
 import { isStaleSessionUserError, staleSessionResponse } from "@/lib/pc/route-errors";
 
 const createSchema = z.object({
@@ -57,7 +57,17 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    await createPC(session.user.id, parsed.data.id, parsed.data.name, parsed.data.kind);
+    // "business" is a singleton per user — route it through the same
+    // find-or-create-with-deterministic-id path as ensureDefaultPC instead
+    // of a plain insert, so racing calls (see ensureBusinessPC's doc
+    // comment) can't each create their own duplicate "Business Inventory"
+    // row. The client-supplied id/name are ignored for this case; the
+    // server is the source of truth for "does this user already have one."
+    if (parsed.data.kind === "business") {
+      await ensureBusinessPC(session.user.id);
+    } else {
+      await createPC(session.user.id, parsed.data.id, parsed.data.name, parsed.data.kind);
+    }
   } catch (err) {
     if (isStaleSessionUserError(err)) {
       console.error("[POST /api/pc] stale session (userId has no users row)", {

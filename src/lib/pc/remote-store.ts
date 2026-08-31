@@ -12,6 +12,27 @@ import type { LetGoDetails } from "@/lib/pc/api-schemas";
 const QUERY_KEY = ["pc"] as const;
 const WATCHLIST_QUERY_KEY = ["watchlist"] as const;
 
+/**
+ * Module-scoped (one per browser tab) in-flight guard for ensureBusinessPC.
+ * Several independent call sites (business-holdings-panel, business-binder,
+ * business-client, business-mode-toggle, and every CardTile's quick-add
+ * handler) can each call ensureBusinessPC() in the same tick, before any of
+ * them has had a chance to re-render with an updated `pcs` cache — without
+ * this, each would independently see "no business PC yet" and create its
+ * own duplicate. ensureBusinessPC's return type is a synchronous `string`
+ * (callers use the id immediately, e.g. card-tile.tsx's quick-add), so this
+ * can't be a shared in-flight Promise the way an async dedup guard normally
+ * would be — instead it's the id of the optimistic PC the *first* caller in
+ * a batch created, which every later caller in the same window reuses
+ * instead of minting its own. Cleared once that request settles, by which
+ * point the optimistic patch has already updated the query cache and the
+ * `existing` lookup below will find it on its own. This only closes the
+ * race within one tab; the server-side deterministic id + P2002 handling
+ * (ensureBusinessPC in src/lib/pc/manage.ts) is what closes it across
+ * tabs/devices.
+ */
+let businessPCPendingId: string | null = null;
+
 async function fetchPCs(): Promise<PC[]> {
   const res = await fetch("/api/pc");
   if (!res.ok) throw new Error("Failed to load pcs");
@@ -260,7 +281,12 @@ export function useRemotePCStore<T>(
       ensureBusinessPC: () => {
         const existing = pcs.find((p) => pcKind(p) === "business");
         if (existing) return existing.id;
+        // A sibling call already kicked off the find-or-create this tick
+        // (see businessPCPendingId's doc comment) — reuse its id instead of
+        // minting another.
+        if (businessPCPendingId) return businessPCPendingId;
         const newId = id();
+        businessPCPendingId = newId;
         const p: PC = {
           id: newId,
           name: "Business Inventory",
@@ -283,6 +309,9 @@ export function useRemotePCStore<T>(
           .catch((err) => {
             logMutationFailure("ensureBusinessPC", null, err);
             reconcile();
+          })
+          .finally(() => {
+            if (businessPCPendingId === newId) businessPCPendingId = null;
           });
         return newId;
       },

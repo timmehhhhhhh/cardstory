@@ -7,6 +7,7 @@ import { ArrowLeft } from "lucide-react";
 import { db } from "@/lib/db";
 import { getGameMeta } from "@/lib/games/registry";
 import { SetTile } from "@/app/sets/[game]/_components/set-tile";
+import { LanguageTabs } from "@/app/sets/[game]/_components/language-tabs";
 import { SortControls, type SetSortField } from "@/app/sets/[game]/_components/sort-controls";
 import { formatReleaseMonthYear } from "@/lib/format/date";
 import { languageFromSetCode, languageLabel } from "@/lib/format/language";
@@ -133,7 +134,7 @@ export default async function GameSetsPage({
   searchParams,
 }: {
   params: Promise<{ game: string }>;
-  searchParams: Promise<{ sort?: string; sortBy?: string; group?: string }>;
+  searchParams: Promise<{ sort?: string; sortBy?: string; group?: string; lang?: string }>;
 }) {
   await requireSession();
   const { game } = await params;
@@ -143,7 +144,10 @@ export default async function GameSetsPage({
 
   const direction: "asc" | "desc" = sort === "asc" ? "asc" : "desc";
   const sortBy: SetSortField = sortByParam === "name" ? "name" : "date";
-  const grouped = group === "language";
+  // Grouped by language is the default now — explicitly opt out with
+  // ?group=off (see SortControls' matching "default, so omit from the URL"
+  // convention, inverted here since the default flipped).
+  const grouped = group !== "off";
   const sets =
     meta.kind === "sports"
       ? await loadSportsSets(meta.sport, direction, sortBy)
@@ -181,36 +185,26 @@ export default async function GameSetsPage({
         <SortControls />
       </div>
 
-      <div className="space-y-6">
-        {groups.map((g) => (
-          <div key={g.language || "all"}>
-            {grouped && (
-              <h2 className="mb-2 text-sm font-semibold text-muted-foreground">
-                {languageLabel(g.language)}{" "}
-                <span className="font-normal">
-                  ({g.sets.length} set{g.sets.length === 1 ? "" : "s"})
-                </span>
-              </h2>
-            )}
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              {g.sets.map((s) => (
-                <SetTile
-                  key={s.id}
-                  gameId={game}
-                  setId={s.setId}
-                  name={s.name}
-                  nameEn={s.nameEn}
-                  code={s.code}
-                  cardCount={s.cardCount}
-                  symbolUrl={s.symbolUrl}
-                  logoUrl={s.logoUrl}
-                  releaseDate={s.releaseDate}
-                />
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
+      {grouped ? (
+        <LanguageTabs gameId={game} groups={groups} />
+      ) : (
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {sets.map((s) => (
+            <SetTile
+              key={s.id}
+              gameId={game}
+              setId={s.setId}
+              name={s.name}
+              nameEn={s.nameEn}
+              code={s.code}
+              cardCount={s.cardCount}
+              symbolUrl={s.symbolUrl}
+              logoUrl={s.logoUrl}
+              releaseDate={s.releaseDate}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
