@@ -7,7 +7,7 @@
 -- Inventory" PC bug — see that function's doc comment — so the invariant
 -- holds even if some future code path inserts a portfolio directly.
 --
--- Run scripts/data/merge-duplicate-business-pcs.ts BEFORE this migration on
+-- Run scripts/merge-duplicate-business-pcs.ts BEFORE this migration on
 -- any database that may already have duplicates, or this CREATE UNIQUE
 -- INDEX will fail outright.
 CREATE UNIQUE INDEX "portfolios_one_business_pc_per_user"
