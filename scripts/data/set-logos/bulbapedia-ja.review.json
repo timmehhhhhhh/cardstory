@@ -1,0 +1,799 @@
+{
+  "gameId": "pokemon",
+  "note": "Bulbapedia (ja) set pages that did NOT produce a confident match. Never seeded.",
+  "generatedAt": "2026-09-01T11:35:56.783Z",
+  "entries": [
+    {
+      "sourceCode": "151 (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/151_(TCG)",
+      "sourceName": "Enhanced Expansion Pack: Pokémon Card 151 (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Ancient Origins (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Ancient_Origins_(TCG)",
+      "sourceName": "Bandit Ring (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Ancient Times, Future Progress (ATCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Ancient_Times%2C_Future_Progress_(ATCG)",
+      "sourceName": "Ancient Times, Future Progress (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/6/6a/CSV1_Logo_SC.png"
+    },
+    {
+      "sourceCode": "Aquapolis (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Aquapolis_(TCG)",
+      "sourceName": "The Town on No Map • Wind from the Sea (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Arcane Truth (ATCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Arcane_Truth_(ATCG)",
+      "sourceName": "Arcane Truth (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/b/ba/CSV6_Logo_SC.png"
+    },
+    {
+      "sourceCode": "Ardent Obsidian (ATCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Ardent_Obsidian_(ATCG)",
+      "sourceName": "Ardent Obsidian (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/7/76/CSV5_Logo_SC.png"
+    },
+    {
+      "sourceCode": "Astral Radiance (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Astral_Radiance_(TCG)",
+      "sourceName": "Time Gazer • Space Juggler (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Aura Seeker (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Aura_Seeker_(TCG)",
+      "sourceName": "Aura Seeker (logo file \"None<!--M7 Logo JP-->.png\" did not resolve to a URL)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Base Set (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Base_Set_(TCG)",
+      "sourceName": "Expansion Pack (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Battle Styles (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Battle_Styles_(TCG)",
+      "sourceName": "Single Strike Master • Rapid Strike Master (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Black & White (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Black_%26_White_(TCG)",
+      "sourceName": "Black Collection • White Collection (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Black Bolt/White Flare (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Black_Bolt%2FWhite_Flare_(TCG)",
+      "sourceName": "Black Bolt•White Flare (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/f/f4/SV11_Logo_JP.png"
+    },
+    {
+      "sourceCode": "Blade Awakening (ATCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Blade_Awakening_(ATCG)",
+      "sourceName": "Blade Awakening (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/c/c1/CSV7_Logo_SC.png"
+    },
+    {
+      "sourceCode": "Bonus Round (ATCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Bonus_Round_(ATCG)",
+      "sourceName": "Reward Round (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/e/e9/CSV4_Logo_SC.png"
+    },
+    {
+      "sourceCode": "Boundaries Crossed (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Boundaries_Crossed_(TCG)",
+      "sourceName": "Freeze Bolt • Cold Flare (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "BREAKpoint (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/BREAKpoint_(TCG)",
+      "sourceName": "Rage of the Broken Heavens (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "BREAKthrough (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/BREAKthrough_(TCG)",
+      "sourceName": "Blue Shock • Red Flash (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Brilliant Stars (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Brilliant_Stars_(TCG)",
+      "sourceName": "Star Birth (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Burning Shadows (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Burning_Shadows_(TCG)",
+      "sourceName": "To Have Seen the Battle Rainbow • Darkness that Consumes Light (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Celebrations (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Celebrations_(TCG)",
+      "sourceName": "25th Anniversary Collection (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Celestial Storm (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Celestial_Storm_(TCG)",
+      "sourceName": "Sky-Splitting Charisma (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Chilling Reign (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Chilling_Reign_(TCG)",
+      "sourceName": "Silver Lance • Jet-Black Spirit (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Cosmic Eclipse (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Cosmic_Eclipse_(TCG)",
+      "sourceName": "Alter Genesis (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Crimson Invasion (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Crimson_Invasion_(TCG)",
+      "sourceName": "Awakened Heroes • Ultradimensional Beasts (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Crown Zenith (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Crown_Zenith_(TCG)",
+      "sourceName": "High Class Pack VSTAR Universe (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Dark Explorers (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Dark_Explorers_(TCG)",
+      "sourceName": "Dark Rush (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Darkness Ablaze (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Darkness_Ablaze_(TCG)",
+      "sourceName": "Infinity Zone (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Detective Pikachu (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Detective_Pikachu_(TCG)",
+      "sourceName": "Great Detective Pikachu (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Diamond & Pearl (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Diamond_%26_Pearl_(TCG)",
+      "sourceName": "Space-Time Creation (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Double Crisis (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Double_Crisis_(TCG)",
+      "sourceName": "Magma Gang VS Aqua Gang: Double Crisis (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Dragon Majesty (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Dragon_Majesty_(TCG)",
+      "sourceName": "Dragon Storm (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Dragon Vault (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Dragon_Vault_(TCG)",
+      "sourceName": "Dragon Selection (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Dragons Exalted (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Dragons_Exalted_(TCG)",
+      "sourceName": "Dragon Blast • Dragon Blade (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Evolutions (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Evolutions_(TCG)",
+      "sourceName": "Expansion Pack 20th Anniversary (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Evolving Skies (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Evolving_Skies_(TCG)",
+      "sourceName": "Skyscraping Perfection • Blue Sky Stream (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "EX Crystal Guardians (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/EX_Crystal_Guardians_(TCG)",
+      "sourceName": "Miracle Crystal (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "EX Delta Species (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/EX_Delta_Species_(TCG)",
+      "sourceName": "Holon Research Tower (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "EX Deoxys (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/EX_Deoxys_(TCG)",
+      "sourceName": "Clash of the Blue Sky (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "EX Dragon (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/EX_Dragon_(TCG)",
+      "sourceName": "Rulers of the Heavens (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "EX Dragon Frontiers (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/EX_Dragon_Frontiers_(TCG)",
+      "sourceName": "Offense and Defense of the Furthest Ends (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "EX FireRed & LeafGreen (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/EX_FireRed_%26_LeafGreen_(TCG)",
+      "sourceName": "Flight of Legends (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "EX Hidden Legends (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/EX_Hidden_Legends_(TCG)",
+      "sourceName": "Undone Seal (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "EX Holon Phantoms (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/EX_Holon_Phantoms_(TCG)",
+      "sourceName": "Holon Phantom (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "EX Legend Maker (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/EX_Legend_Maker_(TCG)",
+      "sourceName": "Mirage Forest (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "EX Power Keepers (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/EX_Power_Keepers_(TCG)",
+      "sourceName": "World Champions Pack (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "EX Ruby & Sapphire (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/EX_Ruby_%26_Sapphire_(TCG)",
+      "sourceName": "Expansion Pack (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "EX Sandstorm (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/EX_Sandstorm_(TCG)",
+      "sourceName": "Miracle of the Desert (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "EX Team Magma vs Team Aqua (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/EX_Team_Magma_vs_Team_Aqua_(TCG)",
+      "sourceName": "Magma VS Aqua: Two Ambitions (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "EX Team Rocket Returns (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/EX_Team_Rocket_Returns_(TCG)",
+      "sourceName": "Rocket Gang Strikes Back (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "EX Unseen Forces (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/EX_Unseen_Forces_(TCG)",
+      "sourceName": "Golden Sky, Silvery Ocean (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Expedition Base Set (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Expedition_Base_Set_(TCG)",
+      "sourceName": "Base Expansion Pack (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Fates Collide (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Fates_Collide_(TCG)",
+      "sourceName": "Awakening Psychic King (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Fearless Terastal (ATCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Fearless_Terastal_(ATCG)",
+      "sourceName": "Fearless Terastal (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/0/08/CSV3_Logo_SC.png"
+    },
+    {
+      "sourceCode": "Flashfire (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Flashfire_(TCG)",
+      "sourceName": "Wild Blaze (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Forbidden Light (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Forbidden_Light_(TCG)",
+      "sourceName": "Forbidden Light (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Fossil (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Fossil_(TCG)",
+      "sourceName": "Mystery of the Fossils (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Furious Fists (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Furious_Fists_(TCG)",
+      "sourceName": "Rising Fist (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Fusion Strike (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Fusion_Strike_(TCG)",
+      "sourceName": "Fusion Arts (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Gem Pack Vol. 1 (ATCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Gem_Pack_Vol._1_(ATCG)",
+      "sourceName": "Gem Pack Vol. 1 (logo file \"CBB1 Logo.png\" did not resolve to a URL)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Gem Pack Vol. 2 (ATCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Gem_Pack_Vol._2_(ATCG)",
+      "sourceName": "Gem Pack Vol. 2 (logo file \"CBB2 Logo.png\" did not resolve to a URL)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Gem Pack Vol. 3 (ATCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Gem_Pack_Vol._3_(ATCG)",
+      "sourceName": "Gem Pack Vol. 3 (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/4/49/CBB3_Logo.png"
+    },
+    {
+      "sourceCode": "Gem Pack Vol. 4 (ATCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Gem_Pack_Vol._4_(ATCG)",
+      "sourceName": "Gem Pack Vol. 4 (logo file \"CBB4 Logo.png\" did not resolve to a URL)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Gem Pack Vol. 5 (ATCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Gem_Pack_Vol._5_(ATCG)",
+      "sourceName": "Gem Pack Vol. 5 (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/3/31/CBB5_Logo.png"
+    },
+    {
+      "sourceCode": "Gem Pack Vol. 6 (ATCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Gem_Pack_Vol._6_(ATCG)",
+      "sourceName": "Gem Pack Vol. 6 (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/2/28/CBB6_Logo.png"
+    },
+    {
+      "sourceCode": "Generations (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Generations_(TCG)",
+      "sourceName": "Starter Pack (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Guardians Rising (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Guardians_Rising_(TCG)",
+      "sourceName": "Islands Await You • Alolan Moonlight (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Gym Challenge (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Gym_Challenge_(TCG)",
+      "sourceName": "Challenge from the Darkness (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Gym Heroes (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Gym_Heroes_(TCG)",
+      "sourceName": "Leaders' Stadium (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "HeartGold & SoulSilver (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/HeartGold_%26_SoulSilver_(TCG)",
+      "sourceName": "HeartGold Collection • SoulSilver Collection (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Hidden Fates (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Hidden_Fates_(TCG)",
+      "sourceName": "GX Ultra Shiny (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Journey Theme Pack (ATCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Journey_Theme_Pack_(ATCG)",
+      "sourceName": "Journey Theme Pack (logo file \"CSVL1 Logo.png\" did not resolve to a URL)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Jungle (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Jungle_(TCG)",
+      "sourceName": "Pokémon Jungle (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Kalos Starter Set (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Kalos_Starter_Set_(TCG)",
+      "sourceName": "Beginning Set/Beginning Set for Girls (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Kitakami Theme Pack (ATCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Kitakami_Theme_Pack_(ATCG)",
+      "sourceName": "Kitakami Theme Pack (logo file \"CSVN Logo.png\" did not resolve to a URL)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Legendary Treasures (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Legendary_Treasures_(TCG)",
+      "sourceName": "EX Battle Boost (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Legends Awakened (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Legends_Awakened_(TCG)",
+      "sourceName": "Cry from the Mysterious • Temple of Anger (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Lost Origin (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Lost_Origin_(TCG)",
+      "sourceName": "Lost Abyss (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Lost Thunder (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Lost_Thunder_(TCG)",
+      "sourceName": "Super-Burst Impact (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Mega Brave/Mega Symphonia (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Mega_Brave%2FMega_Symphonia_(TCG)",
+      "sourceName": "Mega Brave • Mega Symphonia (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/a/ab/M1_Logo_JP.png"
+    },
+    {
+      "sourceCode": "Miracle Journey (ATCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Miracle_Journey_(ATCG)",
+      "sourceName": "Miracle Journey (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/c/cf/CSV2_Logo_SC.png"
+    },
+    {
+      "sourceCode": "Mysterious Treasures (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Mysterious_Treasures_(TCG)",
+      "sourceName": "Secret of the Lakes (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Neo Destiny (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Neo_Destiny_(TCG)",
+      "sourceName": "Darkness, and to Light... (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Neo Discovery (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Neo_Discovery_(TCG)",
+      "sourceName": "Crossing the Ruins... (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Neo Genesis (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Neo_Genesis_(TCG)",
+      "sourceName": "Gold, Silver, to a New World... (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Neo Revelation (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Neo_Revelation_(TCG)",
+      "sourceName": "Awakening Legends (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Next Destinies (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Next_Destinies_(TCG)",
+      "sourceName": "Psycho Drive • Hail Blizzard (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Noble Victories (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Noble_Victories_(TCG)",
+      "sourceName": "Red Collection (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Obsidian Flames (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Obsidian_Flames_(TCG)",
+      "sourceName": "Ruler of the Black Flame (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Paldea Evolved (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Paldea_Evolved_(TCG)",
+      "sourceName": "Snow Hazard • Clay Burst (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Paldean Fates (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Paldean_Fates_(TCG)",
+      "sourceName": "High Class Pack: Shiny Treasure ex (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Paradox Rift (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Paradox_Rift_(TCG)",
+      "sourceName": "Ancient Roar • Future Flash (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Phantom Forces (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Phantom_Forces_(TCG)",
+      "sourceName": "Phantom Gate (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Plasma Blast (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Plasma_Blast_(TCG)",
+      "sourceName": "Megalo Cannon (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Plasma Freeze (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Plasma_Freeze_(TCG)",
+      "sourceName": "Spiral Force • Thunder Knuckle (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Plasma Storm (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Plasma_Storm_(TCG)",
+      "sourceName": "Plasma Gale (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Platinum (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Platinum_(TCG)",
+      "sourceName": "Galactic's Conquest (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Platinum: Arceus (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Platinum%3A_Arceus_(TCG)",
+      "sourceName": "Advent of Arceus (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Pokémon GO (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9mon_GO_(TCG)",
+      "sourceName": "Enhanced Expansion Pack: Pokémon GO (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Primal Clash (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Primal_Clash_(TCG)",
+      "sourceName": "Gaia Volcano • Tidal Storm (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Rebel Clash (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Rebel_Clash_(TCG)",
+      "sourceName": "Rebellion Crash (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Rising Rivals (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Rising_Rivals_(TCG)",
+      "sourceName": "Bonds to the End of Time (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Roaring Skies (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Roaring_Skies_(TCG)",
+      "sourceName": "Emerald Break (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Scarlet & Violet (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Scarlet_%26_Violet_(TCG)",
+      "sourceName": "Scarlet ex • Violet ex (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Secret Wonders (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Secret_Wonders_(TCG)",
+      "sourceName": "Shining Darkness (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Shining Fates (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Shining_Fates_(TCG)",
+      "sourceName": "High Class Pack Shiny Star V (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Shining Legends (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Shining_Legends_(TCG)",
+      "sourceName": "Shining Legends (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Shrouded Fable (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Shrouded_Fable_(TCG)",
+      "sourceName": "Enhanced Expansion Pack: Night Wanderer (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Silver Tempest (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Silver_Tempest_(TCG)",
+      "sourceName": "Paradigm Trigger (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Skyridge (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Skyridge_(TCG)",
+      "sourceName": "Split Earth • Mysterious Mountains (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Sparkling Fable (ATCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Sparkling_Fable_(ATCG)",
+      "sourceName": "Sparkling Fable (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/8/8d/CSV8_Logo_SC.png"
+    },
+    {
+      "sourceCode": "Steam Siege (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Steam_Siege_(TCG)",
+      "sourceName": "Fever-Burst Fighter • Cruel Traitor (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Stellar Crown (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Stellar_Crown_(TCG)",
+      "sourceName": "Stellar Miracle (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Stellar Crystal (ATCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Stellar_Crystal_(ATCG)",
+      "sourceName": "Stellar Crystal (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/4/45/CSV9_Logo_SC.png"
+    },
+    {
+      "sourceCode": "Storm Emeralda (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Storm_Emeralda_(TCG)",
+      "sourceName": "Storm Emeralda (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/1/10/M6_Logo_JP.png"
+    },
+    {
+      "sourceCode": "Stormfront (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Stormfront_(TCG)",
+      "sourceName": "Intense Fight in the Destroyed Sky (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Sun & Moon (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Sun_%26_Moon_(TCG)",
+      "sourceName": "Collection Sun • Collection Moon (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Supreme Victors (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Supreme_Victors_(TCG)",
+      "sourceName": "Beat of the Frontier (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Sword & Shield (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Sword_%26_Shield_(TCG)",
+      "sourceName": "Sword • Shield (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Team Rocket (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Team_Rocket_(TCG)",
+      "sourceName": "Rocket Gang (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Team Up (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Team_Up_(TCG)",
+      "sourceName": "Tag Bolt (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Temporal Forces (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Temporal_Forces_(TCG)",
+      "sourceName": "Wild Force • Cyber Judge (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Terastal Gathering (ATCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Terastal_Gathering_(ATCG)",
+      "sourceName": "Terastal Gathering (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/c/c4/CSV9.5_Logo_SC.png"
+    },
+    {
+      "sourceCode": "Together in Pursuit of Glory (ATCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Together_in_Pursuit_of_Glory_(ATCG)",
+      "sourceName": "Together in Pursuit of Glory (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/d/de/CSV10_Logo_SC.png"
+    },
+    {
+      "sourceCode": "Travel Theme Pack (ATCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Travel_Theme_Pack_(ATCG)",
+      "sourceName": "Travel Theme Pack (logo file \"CSVL2 Logo.png\" did not resolve to a URL)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Triumphant (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Triumphant_(TCG)",
+      "sourceName": "Clash at the Summit (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Twilight Masquerade (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Twilight_Masquerade_(TCG)",
+      "sourceName": "Transformation Mask (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Ultra Prism (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Ultra_Prism_(TCG)",
+      "sourceName": "Ultra Sun • Ultra Moon (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Unbroken Bonds (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Unbroken_Bonds_(TCG)",
+      "sourceName": "Double Blaze (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Undaunted (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Undaunted_(TCG)",
+      "sourceName": "Reviving Legends (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Unified Minds (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Unified_Minds_(TCG)",
+      "sourceName": "Miracle Twin (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "Vivid Voltage (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Vivid_Voltage_(TCG)",
+      "sourceName": "Amazing Volt Tackle (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    },
+    {
+      "sourceCode": "XY (TCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/XY_(TCG)",
+      "sourceName": "Collection X • Collection Y (no logo image on this Bulbapedia page)",
+      "logoUrl": ""
+    }
+  ]
+}

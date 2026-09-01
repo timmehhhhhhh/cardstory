@@ -28,7 +28,21 @@ import { POKEMON_SET_LOGOS } from "./data/pokemon-set-logos";
 import type { SetLogoFile } from "./data/set-logos/types";
 
 /** Verified crawler-output files to fall back to, keyed by Set.id. */
-const CRAWLED_LOGO_FILES = ["pokellector-ja.json", "dextcg-ja.json", "dextcg-cn.json"];
+const CRAWLED_LOGO_FILES = [
+  "pokellector-ja.json",
+  "dextcg-ja.json",
+  "dextcg-cn.json",
+  // scripts/crawl-pokemon-set-logos-bulbapedia.ts — the only source with any
+  // zh-tw/ko set-logo coverage at all. bulbapedia-ja.json is deliberately
+  // NOT included: every JA set it matched (confirmed live) was already
+  // covered by pokellector-ja.json/dextcg-ja.json, so it adds zero net
+  // coverage, and for the newer SV-era sets its `setlogo` file is a
+  // photographic booster-pack image rather than a clean isolated logo —
+  // lower quality than what's already here. Keep it out until it's
+  // resolving a real gap, not just re-deriving sets these two already have.
+  "bulbapedia-zh-tw.json",
+  "bulbapedia-ko.json",
+];
 
 function loadCrawledLogos(): Map<string, string> {
   const bySetId = new Map<string, string>();
