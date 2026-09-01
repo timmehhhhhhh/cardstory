@@ -1,8 +1,8 @@
 {
   "gameId": "pokemon",
-  "sourceNote": "Crawled from https://jp.pokellector.com/sets on 2026-08-31T20:18:17.028Z by crawl-pokemon-set-logos-pokellector.ts",
+  "sourceNote": "Crawled from https://jp.pokellector.com/sets on 2026-08-31T19:56:57.511Z by crawl-pokemon-set-logos-pokellector.ts",
   "verified": true,
-  "generatedAt": "2026-08-31T20:18:17.031Z",
+  "generatedAt": "2026-08-31T19:56:57.512Z",
   "entries": [
     {
       "setId": "pokemon:ja:M6",
@@ -173,6 +173,20 @@
       "sourceName": "Shiny Treasure ex"
     },
     {
+      "setId": "pokemon:ja:SV4K",
+      "logoUrl": "https://den-media.pokellector.com/logos/Future-Flash.logo.382.png",
+      "nameEn": "Future Flash",
+      "sourceUrl": "https://jp.pokellector.com/Future-Flash-Expansion/",
+      "sourceName": "Future Flash"
+    },
+    {
+      "setId": "pokemon:ja:SV4K",
+      "logoUrl": "https://den-media.pokellector.com/logos/Ancient-Roar.logo.381.png",
+      "nameEn": "Ancient Roar",
+      "sourceUrl": "https://jp.pokellector.com/Ancient-Roar-Expansion/",
+      "sourceName": "Ancient Roar"
+    },
+    {
       "setId": "pokemon:ja:SV3a",
       "logoUrl": "https://den-media.pokellector.com/logos/Raging-Surf.logo.376.png",
       "nameEn": "Raging Surf",
@@ -236,11 +250,25 @@
       "sourceName": "VSTAR Universe"
     },
     {
+      "setId": "pokemon:ja:S12",
+      "logoUrl": "https://den-media.pokellector.com/logos/Paradigm-Trigger.logo.351.png",
+      "nameEn": "Paradigm Trigger",
+      "sourceUrl": "https://jp.pokellector.com/Paradigm-Trigger-Expansion/",
+      "sourceName": "Paradigm Trigger"
+    },
+    {
       "setId": "pokemon:ja:S11a",
       "logoUrl": "https://den-media.pokellector.com/logos/Incandescent-Arcana.logo.352.png",
       "nameEn": "Incandescent Arcana",
       "sourceUrl": "https://jp.pokellector.com/Incandescent-Arcana-Expansion/",
       "sourceName": "Incandescent Arcana"
+    },
+    {
+      "setId": "pokemon:ja:S12",
+      "logoUrl": "https://den-media.pokellector.com/logos/Lost-Abyss.logo.344.png",
+      "nameEn": "Lost Abyss",
+      "sourceUrl": "https://jp.pokellector.com/Lost-Abyss-Expansion/",
+      "sourceName": "Lost Abyss"
     },
     {
       "setId": "pokemon:ja:S10b",
@@ -644,9 +672,9 @@
     {
       "setId": "pokemon:ja:SM1+",
       "logoUrl": "https://den-media.pokellector.com/logos/Sun-Moon-Strengthening-Expansion.logo.200.png",
-      "nameEn": "Sun &amp; Moon Strengthening Expansion",
+      "nameEn": "Sun & Moon Strengthening Expansion",
       "sourceUrl": "https://jp.pokellector.com/Sun-Moon-Strengthening-Expansion-Expansion/",
-      "sourceName": "Sun &amp; Moon Strengthening Expansion"
+      "sourceName": "Sun & Moon Strengthening Expansion"
     },
     {
       "setId": "pokemon:ja:SM1S",
@@ -679,9 +707,9 @@
     {
       "setId": "pokemon:ja:SM0",
       "logoUrl": "https://den-media.pokellector.com/logos/Pikachu-New-Friends.logo.204.png",
-      "nameEn": "Pikachu &amp; New Friends",
+      "nameEn": "Pikachu & New Friends",
       "sourceUrl": "https://jp.pokellector.com/Pikachu-New-Friends-Expansion/",
-      "sourceName": "Pikachu &amp; New Friends"
+      "sourceName": "Pikachu & New Friends"
     },
     {
       "setId": "pokemon:ja:CP6",

@@ -74,14 +74,29 @@ interface PokellectorSetButton {
  * markup here is simple/repetitive enough that a scoped regex is less code
  * and avoids a full DOM parse of a 200+ node listing page).
  */
+/**
+ * The `title` attribute is HTML-entity-encoded (pokellector has set names
+ * with literal "&", e.g. "Sun & Moon Strengthening Expansion" and "Pikachu &
+ * New Friends" — confirmed live, both render as "&amp;" in the raw markup).
+ * Decoded here so Set.nameEn never ends up with a literal "&amp;" in it.
+ */
+function decodeHtmlEntities(text: string): string {
+  return text
+    .replace(/&amp;/g, "&")
+    .replace(/&#x27;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">");
+}
+
 function parseSetButtons(html: string): PokellectorSetButton[] {
   const pattern =
     /<a class="button" name="([^"]*)" href="(\/[^"]+)" title="([^"]*) Set"><img src="(https:\/\/den-media\.pokellector\.com\/logos\/[^"]+)">/g;
   const out: PokellectorSetButton[] = [];
   for (const m of html.matchAll(pattern)) {
-    const [, code, slug, nameEn, logoUrl] = m;
+    const [, code, slug, rawNameEn, logoUrl] = m;
     if (!code) continue; // header rows (series groupings) have no `name` attr
-    out.push({ code, slug, nameEn, logoUrl });
+    out.push({ code, slug, nameEn: decodeHtmlEntities(rawNameEn), logoUrl });
   }
   return out;
 }

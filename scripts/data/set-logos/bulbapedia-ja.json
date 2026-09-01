@@ -1,0 +1,57 @@
+{
+  "gameId": "pokemon",
+  "sourceNote": "Crawled from Bulbapedia (Category:Pokémon Trading Card Game expansions) on 2026-09-01T11:35:56.781Z by crawl-pokemon-set-logos-bulbapedia.ts. Matched to Set rows by, in order: exact native-script name equality; a combined-article \"SET A\"/\"SET B\" name split; normalized Set.nameEn equality corroborated by card count.",
+  "verified": true,
+  "generatedAt": "2026-09-01T11:35:56.782Z",
+  "entries": [
+    {
+      "setId": "pokemon:ja:M5",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/7/71/M5_Logo_JP.png",
+      "nameEn": "Abyss Eye",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Abyss_Eye_(TCG)",
+      "sourceName": "Abyss Eye (TCG)"
+    },
+    {
+      "setId": "pokemon:ja:SV9",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/7/7b/SV9_Battle_Partners_pack.png",
+      "nameEn": "Battle Partners",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Battle_Partners_(TCG)",
+      "sourceName": "Battle Partners (TCG)"
+    },
+    {
+      "setId": "pokemon:ja:SV10",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/0/0f/SV10_Glory_of_the_Rocket_Gang_pack.png",
+      "nameEn": "Glory of the Rocket Gang",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Glory_of_the_Rocket_Gang_(TCG)",
+      "sourceName": "Glory of the Rocket Gang (TCG)"
+    },
+    {
+      "setId": "pokemon:ja:M2",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/c/c7/M2_Logo_JP.png",
+      "nameEn": "Inferno X",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Inferno_X_(TCG)",
+      "sourceName": "Inferno X (TCG)"
+    },
+    {
+      "setId": "pokemon:ja:M3",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/7/70/M3_Logo_JP.png",
+      "nameEn": "Munikisu Zero",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Nihil_Zero_(TCG)",
+      "sourceName": "Nihil Zero (TCG)"
+    },
+    {
+      "setId": "pokemon:ja:M4",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/a/ae/M4_Logo_JP.png",
+      "nameEn": "Ninja Spinner",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Ninja_Spinner_(TCG)",
+      "sourceName": "Ninja Spinner (TCG)"
+    },
+    {
+      "setId": "pokemon:ja:SV8",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/f/f3/SV8_Logo_JP.png",
+      "nameEn": "Super Electric Breaker",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Super_Electric_Breaker_(TCG)",
+      "sourceName": "Super Electric Breaker (TCG)"
+    }
+  ]
+}

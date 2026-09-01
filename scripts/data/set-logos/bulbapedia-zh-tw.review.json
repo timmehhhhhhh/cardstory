@@ -1,0 +1,19 @@
+{
+  "gameId": "pokemon",
+  "note": "Bulbapedia (zh-tw) set pages that did NOT produce a confident match. Never seeded.",
+  "generatedAt": "2026-09-01T11:35:56.783Z",
+  "entries": [
+    {
+      "sourceCode": "Double Burst (ATCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Double_Burst_(ATCG)",
+      "sourceName": "Double Burst (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/f/f2/Double_Burst_Logo_Chinese.png"
+    },
+    {
+      "sourceCode": "Legendary Clash (ATCG)",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Legendary_Clash_(ATCG)",
+      "sourceName": "Legendary Clash (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/e/ed/Legendary_Clash_Logo_Chinese.png"
+    }
+  ]
+}
