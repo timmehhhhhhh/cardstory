@@ -11,13 +11,14 @@ import type { BaseCardEntry } from "./types";
  * separately verified against sportscardspro.com's priced checklist for
  * card #1 and #2.
  *
- * No imageUrl here -- images come from a separate module,
- * ./tcdb-images.ts, keyed by cardNumber, since TCDB's own per-card scans
- * (front only) turned out to be the available source once a premium
- * sportscardspro.com account wasn't; see that file's header for how the
- * card ids/slugs were sourced and seed-topps-chrome-2025.ts for how they're
- * applied. Safe to re-run scripts/seed-topps-chrome-2025.ts after adding
- * images or corrections; upserts are keyed by externalKey.
+ * No imageUrl here -- images come from a separate module, ./card-images.ts,
+ * keyed by cardNumber, sourced from sportscardspro.com's own product photos
+ * (TCDB's scans looked like the obvious source but its image host blocks
+ * cross-origin embeds entirely -- see card-images.ts's header). See that
+ * file's header for how the ids/slugs were sourced and
+ * seed-topps-chrome-2025.ts for how they're applied. Safe to re-run
+ * scripts/seed-topps-chrome-2025.ts after adding images or corrections;
+ * upserts are keyed by externalKey.
  */
 export const BASE_SET: BaseCardEntry[] = [
   { cardNumber: "1", playerName: "Pascal Siakam", teamName: "Indiana Pacers", isRookie: false, hasImageVariation: false },

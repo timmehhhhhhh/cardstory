@@ -12,22 +12,17 @@
  * across every base card except the conditional Image Variation tier (see
  * BaseCardEntry.hasImageVariation in scripts/data/topps-chrome-2025/types.ts).
  *
- * imageUrl/sourceUrl are backfilled from TCDB scans via
- * ./data/topps-chrome-2025/tcdb-images.ts (see that file's header for how
- * those were sourced) — a base card gets its own scan, and every
- * BASE_PARALLELS row inherits it (imageIsInherited: true); a card with
- * hasImageVariation gets a second, distinct scan for its "Image Variation"
- * tier, which the plain "Image Variation" parallel owns for real and its
- * colored siblings ("Green Image Variation", etc.) inherit in turn. No
- * per-parallel scan otherwise exists, still, no prices are seeded.
- *
- * TCDB's image host doesn't tolerate many hotlinked embeds loading on one
- * page at once (see scripts/data/lamelo-ball/2022-23.ts's header comment,
- * which is why LaMelo Ball's checklist has no imageUrl at all) — this is
- * fine today only because no checklist-grid page exists yet for this set.
- * Whoever builds one should test with referrerPolicy="no-referrer" and/or
- * lazy-loading first, and be ready to swap image hosts if TCDB rate-limits
- * it once many of these load on one page.
+ * imageUrl/sourceUrl are backfilled from SportsCardsPro product photos via
+ * ./data/topps-chrome-2025/card-images.ts (see that file's header for how
+ * those were sourced, and why SportsCardsPro rather than TCDB — TCDB's scans
+ * looked like the obvious source but its image host sends a
+ * Cross-Origin-Resource-Policy header that Chrome blocks any cross-origin
+ * embed of, confirmed live in this app) — a base card gets its own photo,
+ * and every BASE_PARALLELS row inherits it (imageIsInherited: true); a card
+ * with hasImageVariation gets a second, distinct photo for its "Image
+ * Variation" tier, which the plain "Image Variation" parallel owns for real
+ * and its colored siblings ("Green Image Variation", etc.) inherit in turn.
+ * No per-parallel scan otherwise exists, still, no prices are seeded.
  *
  * Run with: npx tsx scripts/seed-topps-chrome-2025.ts
  * Re-run any time — everything here is an upsert keyed by externalKey, so
@@ -37,7 +32,12 @@ import { PrismaClient } from "@prisma/client";
 import { upsertChecklistSportsCardItem, computeExternalKey } from "@/lib/sportscards/manage";
 import { BASE_SET } from "./data/topps-chrome-2025/base-set";
 import { BASE_PARALLELS, IMAGE_VARIATION_PARALLELS } from "./data/topps-chrome-2025/parallels";
-import { BASE_CARD_TCDB, IMAGE_VARIATION_TCDB, tcdbImageUrl, tcdbSourceUrl } from "./data/topps-chrome-2025/tcdb-images";
+import {
+  BASE_CARD_IMAGES,
+  IMAGE_VARIATION_IMAGES,
+  sportsCardsProImageUrl,
+  sportsCardsProSourceUrl,
+} from "./data/topps-chrome-2025/card-images";
 
 const YEAR = 2025;
 const DISTRIBUTOR = "Topps";
@@ -45,18 +45,18 @@ const SET_NAME = "Chrome";
 // tcdb.com/ViewSet.cfm/sid/574514/2025-26-Topps-Chrome — "Release Date: December 18, 2025"
 const RELEASE_DATE = new Date("2025-12-18T00:00:00.000Z");
 
-// tcdb-images.ts is hand-maintained separately from base-set.ts's
+// card-images.ts is hand-maintained separately from base-set.ts's
 // hasImageVariation flags — catch the two drifting apart before seeding
 // anything, rather than silently seeding some Image Variation cards
-// without their real scan.
+// without their real photo.
 function checkImageVariationCoverage() {
   const flagged = new Set(BASE_SET.filter((c) => c.hasImageVariation).map((c) => c.cardNumber));
-  const covered = new Set(Object.keys(IMAGE_VARIATION_TCDB));
+  const covered = new Set(Object.keys(IMAGE_VARIATION_IMAGES));
   const missing = [...flagged].filter((n) => !covered.has(n));
   const extra = [...covered].filter((n) => !flagged.has(n));
   if (missing.length || extra.length) {
     throw new Error(
-      `IMAGE_VARIATION_TCDB out of sync with base-set.ts's hasImageVariation flags — ` +
+      `IMAGE_VARIATION_IMAGES out of sync with base-set.ts's hasImageVariation flags — ` +
         `missing: [${missing.join(", ")}], extra: [${extra.join(", ")}]`
     );
   }
@@ -70,8 +70,8 @@ async function main() {
   const seenKeys = new Set<string>();
 
   for (const card of BASE_SET) {
-    const tcdbRef = BASE_CARD_TCDB[card.cardNumber];
-    if (!tcdbRef) throw new Error(`No TCDB reference for card #${card.cardNumber} ${card.playerName}`);
+    const imageRef = BASE_CARD_IMAGES[card.cardNumber];
+    if (!imageRef) throw new Error(`No SportsCardsPro reference for card #${card.cardNumber} ${card.playerName}`);
 
     const base = {
       sport: "NBA" as const,
@@ -83,8 +83,8 @@ async function main() {
       cardNumber: card.cardNumber,
       cardType: "base" as const,
       releaseDate: RELEASE_DATE,
-      imageUrl: tcdbImageUrl(tcdbRef),
-      sourceUrl: tcdbSourceUrl(tcdbRef),
+      imageUrl: sportsCardsProImageUrl(imageRef),
+      sourceUrl: sportsCardsProSourceUrl(imageRef),
     };
 
     // Catch accidental duplicate card numbers in base-set.ts before they
@@ -113,9 +113,9 @@ async function main() {
     }
 
     if (card.hasImageVariation) {
-      const variationRef = IMAGE_VARIATION_TCDB[card.cardNumber];
-      const variationImageUrl = tcdbImageUrl(variationRef);
-      const variationSourceUrl = tcdbSourceUrl(variationRef);
+      const variationRef = IMAGE_VARIATION_IMAGES[card.cardNumber];
+      const variationImageUrl = sportsCardsProImageUrl(variationRef);
+      const variationSourceUrl = sportsCardsProSourceUrl(variationRef);
 
       for (const parallel of IMAGE_VARIATION_PARALLELS) {
         await upsertChecklistSportsCardItem({
