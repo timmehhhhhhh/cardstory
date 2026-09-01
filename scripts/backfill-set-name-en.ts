@@ -29,7 +29,17 @@ import { POKEMON_SET_TRANSLATIONS } from "./data/pokemon-set-translations";
 import type { SetLogoFile } from "./data/set-logos/types";
 
 /** Verified crawler-output files to fall back to, keyed by Set.id. */
-const CRAWLED_NAME_FILES = ["pokellector-ja.json", "dextcg-ja.json", "dextcg-cn.json"];
+const CRAWLED_NAME_FILES = [
+  "pokellector-ja.json",
+  "dextcg-ja.json",
+  "dextcg-cn.json",
+  // scripts/crawl-pokemon-set-logos-bulbapedia.ts — zh-tw/ko coverage.
+  // bulbapedia-ja.json deliberately excluded, same reasoning as
+  // scripts/backfill-set-logo-url.ts's CRAWLED_LOGO_FILES: every JA set it
+  // matched was already covered by pokellector-ja.json/dextcg-ja.json.
+  "bulbapedia-zh-tw.json",
+  "bulbapedia-ko.json",
+];
 
 function loadCrawledNames(): Map<string, string> {
   const bySetId = new Map<string, string>();

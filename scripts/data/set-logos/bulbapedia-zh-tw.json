@@ -1,0 +1,22 @@
+{
+  "gameId": "pokemon",
+  "sourceNote": "Crawled from Bulbapedia (Category:Pokémon Trading Card Game expansions) on 2026-09-01T11:35:56.783Z by crawl-pokemon-set-logos-bulbapedia.ts. Matched to Set rows by, in order: exact native-script name equality; a combined-article \"SET A\"/\"SET B\" name split; normalized Set.nameEn equality corroborated by card count.",
+  "verified": true,
+  "generatedAt": "2026-09-01T11:35:56.783Z",
+  "entries": [
+    {
+      "setId": "pokemon:zh-tw:SC1a",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/1/15/Sword_Shield_Logo_Chinese.png",
+      "nameEn": "Sword & Shield",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Sword_%26_Shield_(ATCG)",
+      "sourceName": "Sword & Shield (ATCG)"
+    },
+    {
+      "setId": "pokemon:zh-tw:SC1b",
+      "logoUrl": "https://archives.bulbagarden.net/media/upload/1/15/Sword_Shield_Logo_Chinese.png",
+      "nameEn": "Sword & Shield",
+      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Sword_%26_Shield_(ATCG)",
+      "sourceName": "Sword & Shield (ATCG)"
+    }
+  ]
+}
