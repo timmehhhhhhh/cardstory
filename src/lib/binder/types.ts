@@ -39,28 +39,45 @@ export function coverColorValue(id: BinderCoverColorId): string {
   return BINDER_COVER_COLORS.find((c) => c.id === id)?.value ?? BINDER_COVER_COLORS[0].value;
 }
 
+/**
+ * What a pocket holds: either a real pc holding the user owns, or a bare
+ * catalog reference for a card they've placed to plan around but don't
+ * actually have yet (added from the card picker's "Not Owned" tab — see
+ * card-picker-sheet.tsx). Only the "holding" kind ever gets cleaned up by
+ * removeHoldingEverywhere; a "catalog" pocket has no Holding to go stale.
+ */
+export type BinderPocketRef =
+  | { kind: "holding"; holdingId: string }
+  | { kind: "catalog"; catalogItemId: string };
+
 export interface BinderPage {
   id: string;
-  /** holdingId per pocket, in row-major order (top-left to bottom-right); null = empty pocket. */
-  pockets: (string | null)[];
+  /** Pocket reference per slot, in row-major order (top-left to bottom-right); null = empty pocket. */
+  pockets: (BinderPocketRef | null)[];
 }
+
+/** A plain, user-set label — never auto-derived from whether every card in the binder is owned. Same convention as Deck.status. */
+export type BinderStatus = "wip" | "live";
 
 export interface Binder {
   id: string;
   name: string;
   layoutId: BinderLayoutId;
   coverColor: BinderCoverColorId;
+  status: BinderStatus;
   pages: BinderPage[];
   createdAt: string;
   updatedAt: string;
 }
 
-export interface BinderStoreDataV1 {
-  schemaVersion: 1;
+export interface BinderStoreDataV2 {
+  schemaVersion: 2;
   activeBinderId: string;
   binders: Binder[];
   /** Whether each pocket's card-number tag (top-left overlay) is shown. Defaults to on. */
   showNumberTags: boolean;
+  /** Whether the "Not owned" tag is shown on catalog-only pockets. Defaults to on. */
+  showNotOwnedTags: boolean;
 }
 
 /** A pocket currently targeted for placement, identified by page + slot index. */

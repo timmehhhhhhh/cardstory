@@ -3,15 +3,26 @@
 import { GripVertical, Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CardNumberBadge } from "@/components/cards/card-number-badge";
-import type { EnrichedHolding } from "@/lib/pc/selectors";
+import { Badge } from "@/components/ui/badge";
 import { CardImage } from "@/components/cards/card-image";
 import { withEnglishName } from "@/lib/catalog/card-name";
+
+/** A pocket's resolved display data — built by BinderPageView from either an owned holding or a catalog-only ("not owned") reference, so BinderPocket itself never needs to know which. */
+export interface PocketCard {
+  name: string;
+  nameEn: string | null;
+  number: string | null;
+  imageUrl: string | null;
+  /** True when this card was placed from the picker's "Not Owned" tab, i.e. there's no backing Holding in the pc. */
+  notOwned: boolean;
+}
 
 export function BinderPocket({
   card,
   selected,
   draggedOver,
   showNumberTag,
+  showNotOwnedTag,
   onSelect,
   onClear,
   onDragStart,
@@ -20,11 +31,13 @@ export function BinderPocket({
   onDrop,
   onDragEnd,
 }: {
-  card: EnrichedHolding | undefined;
+  card: PocketCard | undefined;
   selected: boolean;
   draggedOver: boolean;
   /** Whether to show the card-number overlay tag in the top-left corner. */
   showNumberTag: boolean;
+  /** Whether to show the "Not owned" tag on catalog-only pockets. */
+  showNotOwnedTag: boolean;
   onSelect: () => void;
   onClear: () => void;
   onDragStart: (e: React.DragEvent) => void;
@@ -53,16 +66,16 @@ export function BinderPocket({
           onDragStart={onDragStart}
           onDragEnd={onDragEnd}
           onClick={onSelect}
-          aria-label={`${withEnglishName(card.display.name, card.display.nameEn)} — click to swap`}
+          aria-label={`${withEnglishName(card.name, card.nameEn)} — click to swap`}
           className="absolute inset-0 flex size-full cursor-grab flex-col items-stretch justify-center active:cursor-grabbing"
         >
           <CardImage
-            src={card.display.imageUrl}
+            src={card.imageUrl}
             alt=""
             className="object-contain p-0.5"
             fallback={
               <span className="flex size-full items-center justify-center px-1.5 text-center text-[10px] leading-tight text-muted-foreground">
-                {card.display.name}
+                {card.name}
               </span>
             }
           />
@@ -84,7 +97,16 @@ export function BinderPocket({
         </button>
       )}
 
-      {filled && showNumberTag && <CardNumberBadge number={card.display.number} variant="overlay" />}
+      {filled && showNumberTag && <CardNumberBadge number={card.number} variant="overlay" />}
+
+      {filled && card.notOwned && showNotOwnedTag && (
+        <Badge
+          variant="destructive"
+          className="absolute bottom-0.5 left-0.5 z-10 h-auto px-1 py-0 text-[9px] leading-tight"
+        >
+          Not owned
+        </Badge>
+      )}
 
       {filled && (
         <button
@@ -93,7 +115,7 @@ export function BinderPocket({
             e.stopPropagation();
             onClear();
           }}
-          aria-label={`Remove ${withEnglishName(card.display.name, card.display.nameEn)} from this pocket`}
+          aria-label={`Remove ${withEnglishName(card.name, card.nameEn)} from this pocket`}
           className="absolute top-0.5 right-0.5 z-10 flex size-5 items-center justify-center rounded-full bg-black/60 text-white opacity-80 transition-opacity hover:opacity-100 focus-visible:opacity-100 sm:size-4"
         >
           <X className="size-3" />

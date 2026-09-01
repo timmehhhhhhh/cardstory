@@ -4,6 +4,7 @@ import * as React from "react";
 import { BinderPageView } from "@/app/binder/_components/binder-page-view";
 import type { BinderPage, PocketRef } from "@/lib/binder/types";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
+import type { CatalogItemDetail } from "@/lib/catalog/by-ids";
 
 export interface VisiblePage {
   page: BinderPage;
@@ -17,10 +18,12 @@ export function BinderSpread({
   rows,
   cols,
   cardsById,
+  catalogItemsById,
   selectedPocket,
   dragSourcePageId,
   dragOverPocket,
   showNumberTags,
+  showNotOwnedTags,
   onSelectPocket,
   onClearPocket,
   onDragStartSlot,
@@ -35,10 +38,12 @@ export function BinderSpread({
   rows: number;
   cols: number;
   cardsById: Map<string, EnrichedHolding>;
+  catalogItemsById: Map<string, CatalogItemDetail>;
   selectedPocket: PocketRef | null;
   dragSourcePageId: string | null;
   dragOverPocket: PocketRef | null;
   showNumberTags: boolean;
+  showNotOwnedTags: boolean;
   onSelectPocket: (pageId: string, slotIndex: number) => void;
   onClearPocket: (pageId: string, slotIndex: number) => void;
   onDragStartSlot: (pageId: string, slotIndex: number) => void;
@@ -71,10 +76,12 @@ export function BinderSpread({
             cols={cols}
             side={side}
             cardsById={cardsById}
+            catalogItemsById={catalogItemsById}
             selectedPocket={selectedPocket}
             dragSourcePageId={dragSourcePageId}
             dragOverSlot={dragOverPocket?.pageId === page.id ? dragOverPocket.slotIndex : null}
             showNumberTags={showNumberTags}
+            showNotOwnedTags={showNotOwnedTags}
             onSelectPocket={(slotIndex) => onSelectPocket(page.id, slotIndex)}
             onClearPocket={(slotIndex) => onClearPocket(page.id, slotIndex)}
             onDragStartSlot={(slotIndex) => onDragStartSlot(page.id, slotIndex)}

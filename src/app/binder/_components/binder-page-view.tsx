@@ -2,9 +2,39 @@
 
 import { Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { BinderPocket } from "@/app/binder/_components/binder-pocket";
+import { BinderPocket, type PocketCard } from "@/app/binder/_components/binder-pocket";
 import type { BinderPage, PocketRef } from "@/lib/binder/types";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
+import type { CatalogItemDetail } from "@/lib/catalog/by-ids";
+
+/** Resolves a pocket's stored reference into display data, whichever kind it is — the one place holding-vs-catalog is branched on for rendering. */
+function resolvePocketCard(
+  ref: BinderPage["pockets"][number],
+  cardsById: Map<string, EnrichedHolding>,
+  catalogItemsById: Map<string, CatalogItemDetail>
+): PocketCard | undefined {
+  if (!ref) return undefined;
+  if (ref.kind === "holding") {
+    const holding = cardsById.get(ref.holdingId);
+    if (!holding) return undefined;
+    return {
+      name: holding.display.name,
+      nameEn: holding.display.nameEn,
+      number: holding.display.number,
+      imageUrl: holding.display.imageUrl,
+      notOwned: false,
+    };
+  }
+  const item = catalogItemsById.get(ref.catalogItemId);
+  if (!item) return undefined;
+  return {
+    name: item.name,
+    nameEn: item.nameEn,
+    number: item.number,
+    imageUrl: item.imageSmallUrl,
+    notOwned: true,
+  };
+}
 
 /** `edge` is the page edge the holes sit against (the spine side). */
 function PunchHoles({ edge }: { edge: "left" | "right" }) {
@@ -32,10 +62,12 @@ export function BinderPageView({
   cols,
   side,
   cardsById,
+  catalogItemsById,
   selectedPocket,
   dragSourcePageId,
   dragOverSlot,
   showNumberTags,
+  showNotOwnedTags,
   onSelectPocket,
   onClearPocket,
   onDragStartSlot,
@@ -51,10 +83,12 @@ export function BinderPageView({
   cols: number;
   side: "left" | "right" | "single";
   cardsById: Map<string, EnrichedHolding>;
+  catalogItemsById: Map<string, CatalogItemDetail>;
   selectedPocket: PocketRef | null;
   dragSourcePageId: string | null;
   dragOverSlot: number | null;
   showNumberTags: boolean;
+  showNotOwnedTags: boolean;
   onSelectPocket: (slotIndex: number) => void;
   onClearPocket: (slotIndex: number) => void;
   onDragStartSlot: (slotIndex: number) => void;
@@ -86,13 +120,14 @@ export function BinderPageView({
           gridTemplateRows: `repeat(${rows}, minmax(0, 1fr))`,
         }}
       >
-        {page.pockets.map((holdingId, slotIndex) => (
+        {page.pockets.map((ref, slotIndex) => (
           <BinderPocket
             key={slotIndex}
-            card={holdingId ? cardsById.get(holdingId) : undefined}
+            card={resolvePocketCard(ref, cardsById, catalogItemsById)}
             selected={selectedPocket?.pageId === page.id && selectedPocket.slotIndex === slotIndex}
             draggedOver={dragSourcePageId != null && dragOverSlot === slotIndex}
             showNumberTag={showNumberTags}
+            showNotOwnedTag={showNotOwnedTags}
             onSelect={() => onSelectPocket(slotIndex)}
             onClear={() => onClearPocket(slotIndex)}
             onDragStart={() => onDragStartSlot(slotIndex)}
