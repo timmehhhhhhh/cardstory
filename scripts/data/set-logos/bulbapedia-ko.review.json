@@ -1,19 +1,13 @@
 {
   "gameId": "pokemon",
   "note": "Bulbapedia (ko) set pages that did NOT produce a confident match. Never seeded.",
-  "generatedAt": "2026-09-01T11:35:56.783Z",
+  "generatedAt": "2026-09-01T14:38:15.550Z",
   "entries": [
     {
       "sourceCode": "Another World (KTCG)",
       "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Another_World_(KTCG)",
       "sourceName": "Another World (no logo image on this Bulbapedia page)",
       "logoUrl": ""
-    },
-    {
-      "sourceCode": "Burning Confrontation (KTCG)",
-      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Burning_Confrontation_(KTCG)",
-      "sourceName": "Burning Confrontation (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)",
-      "logoUrl": "https://archives.bulbagarden.net/media/upload/c/c8/Burning_Confrontation_Logo.png"
     },
     {
       "sourceCode": "Colorful Legends (KTCG)",
@@ -50,18 +44,6 @@
       "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Mystical_Seven_(KTCG)",
       "sourceName": "Mystical Seven (no logo image on this Bulbapedia page)",
       "logoUrl": ""
-    },
-    {
-      "sourceCode": "Space-Time Clash (KTCG)",
-      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Space-Time_Clash_(KTCG)",
-      "sourceName": "Space-Time Clash (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)",
-      "logoUrl": "https://archives.bulbagarden.net/media/upload/c/cf/Space-Time_Clash_Logo.png"
-    },
-    {
-      "sourceCode": "Start of an Adventure (KTCG)",
-      "sourceUrl": "https://bulbapedia.bulbagarden.net/wiki/Start_of_an_Adventure_(KTCG)",
-      "sourceName": "Start of an Adventure (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)",
-      "logoUrl": "https://archives.bulbagarden.net/media/upload/7/74/Start_of_an_Adventure_Logo.png"
     }
   ]
 }
