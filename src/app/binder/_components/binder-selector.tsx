@@ -18,6 +18,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 import { useBinderStore } from "@/lib/binder/store";
 import { LayoutPicker } from "@/app/binder/_components/layout-picker";
 import type { BinderLayoutId } from "@/lib/binder/types";
@@ -30,6 +32,7 @@ export function BinderSelector() {
   const createBinder = useBinderStore((s) => s.createBinder);
   const renameBinder = useBinderStore((s) => s.renameBinder);
   const deleteBinder = useBinderStore((s) => s.deleteBinder);
+  const setStatus = useBinderStore((s) => s.setStatus);
 
   const [creating, setCreating] = React.useState(false);
   const [renaming, setRenaming] = React.useState(false);
@@ -83,6 +86,29 @@ export function BinderSelector() {
           ))}
         </SelectContent>
       </Select>
+
+      {activeBinder && (
+        <button
+          type="button"
+          aria-pressed={activeBinder.status === "live"}
+          title={
+            activeBinder.status === "live"
+              ? "LIVE — this binder matches your physical binder right now. Click to mark as WIP."
+              : "WIP — you're still arranging this binder. Click to mark as LIVE."
+          }
+          onClick={() => setStatus(activeBinder.id, activeBinder.status === "live" ? "wip" : "live")}
+        >
+          <Badge
+            variant={activeBinder.status === "live" ? "default" : "outline"}
+            className={cn(
+              "cursor-pointer",
+              activeBinder.status === "live" && "bg-positive text-white border-transparent"
+            )}
+          >
+            {activeBinder.status === "live" ? "LIVE" : "WIP"}
+          </Badge>
+        </button>
+      )}
 
       <Button variant="outline" size="icon" aria-label="New binder" onClick={openCreate}>
         <Plus className="size-4" />

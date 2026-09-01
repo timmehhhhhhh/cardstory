@@ -181,7 +181,13 @@ export function ImportClient({ binderId }: { binderId: string }) {
     const pageIndex = session.currentPageIndex;
     const targetIndex = currentPage.physicalPageNumber - 1;
     const binderPage = ensureBinderPageAt(binder!.id, targetIndex);
-    const withConflicts = detectBinderConflicts(currentPage, binderPage.pockets);
+    // detectBinderConflicts only needs a non-null flag per pocket — pass a
+    // stand-in id for catalog ("not owned") pockets too, since those still
+    // occupy the pocket and must block an overwrite the same as a holding.
+    const existingPockets = binderPage.pockets.map((ref) =>
+      ref == null ? null : ref.kind === "holding" ? ref.holdingId : ref.catalogItemId
+    );
+    const withConflicts = detectBinderConflicts(currentPage, existingPockets);
     updateCurrentPage(() => withConflicts);
 
     if (hasUnresolvedConflicts(withConflicts)) {
@@ -239,7 +245,7 @@ export function ImportClient({ binderId }: { binderId: string }) {
       const placedPocketIndexes = new Set<number>();
       for (const { holdingId, pocketIndex } of toApply) {
         try {
-          placeCard(binder!.id, binderPage.id, pocketIndex, holdingId);
+          placeCard(binder!.id, binderPage.id, pocketIndex, { kind: "holding", holdingId });
           placedPocketIndexes.add(pocketIndex);
           if (typeof window !== "undefined") {
             recordCommittedPocket(window.localStorage, binder!.id, page.physicalPageNumber, pocketIndex, holdingId);
@@ -299,7 +305,7 @@ export function ImportClient({ binderId }: { binderId: string }) {
       const placedPocketIndexes = new Set<number>();
       for (const { holdingId, pocketIndex } of toApply) {
         try {
-          placeCard(binder!.id, binderPage.id, pocketIndex, holdingId);
+          placeCard(binder!.id, binderPage.id, pocketIndex, { kind: "holding", holdingId });
           placedPocketIndexes.add(pocketIndex);
           if (typeof window !== "undefined") {
             recordCommittedPocket(window.localStorage, binder!.id, currentPage.physicalPageNumber, pocketIndex, holdingId);

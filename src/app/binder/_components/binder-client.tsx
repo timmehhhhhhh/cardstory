@@ -6,13 +6,21 @@ import { ArrowLeft, Camera, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePCData } from "@/hooks/use-pc-data";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { useBinderCatalogItems } from "@/hooks/use-binder-catalog-items";
 import { useBinderStore } from "@/lib/binder/store";
-import { BINDER_COVER_COLORS, BINDER_LAYOUTS, coverColorValue, type PocketRef } from "@/lib/binder/types";
+import {
+  BINDER_COVER_COLORS,
+  BINDER_LAYOUTS,
+  coverColorValue,
+  type BinderPocketRef,
+  type PocketRef,
+} from "@/lib/binder/types";
 import { PCSelector } from "@/app/pc/_components/pc-selector";
 import { BinderSelector } from "@/app/binder/_components/binder-selector";
 import { LayoutPicker } from "@/app/binder/_components/layout-picker";
 import { BinderSpread, type VisiblePage } from "@/app/binder/_components/binder-spread";
 import { BinderPageNav } from "@/app/binder/_components/binder-page-nav";
+import { BinderCardList } from "@/app/binder/_components/binder-card-list";
 import { CardPickerSheet } from "@/app/binder/_components/card-picker-sheet";
 import {
   DropdownMenu,
@@ -50,6 +58,8 @@ export function BinderClient({
   const placeCard = useBinderStore((s) => s.placeCard);
   const showNumberTags = useBinderStore((s) => s.showNumberTags);
   const setShowNumberTags = useBinderStore((s) => s.setShowNumberTags);
+  const showNotOwnedTags = useBinderStore((s) => s.showNotOwnedTags);
+  const setShowNotOwnedTags = useBinderStore((s) => s.setShowNotOwnedTags);
 
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const step: 1 | 2 = isDesktop ? 2 : 1;
@@ -102,13 +112,28 @@ export function BinderClient({
 
   const cardsById = React.useMemo(() => new Map(rows.map((r) => [r.id, r])), [rows]);
 
+  const ownedCatalogItemIds = React.useMemo(
+    () => new Set(rows.map((r) => r.catalogItemId).filter((id): id is string => !!id)),
+    [rows]
+  );
+
+  const catalogItemIdsInBinder = React.useMemo(
+    () =>
+      binder.pages.flatMap((page) =>
+        page.pockets.filter((ref): ref is Extract<BinderPocketRef, { kind: "catalog" }> => ref?.kind === "catalog")
+          .map((ref) => ref.catalogItemId)
+      ),
+    [binder.pages]
+  );
+  const { itemsById: catalogItemsById } = useBinderCatalogItems(catalogItemIdsInBinder);
+
   const usedCounts = React.useMemo(() => {
     const map = new Map<string, number>();
     for (const page of binder.pages) {
-      page.pockets.forEach((holdingId, slotIndex) => {
-        if (!holdingId) return;
+      page.pockets.forEach((ref, slotIndex) => {
+        if (!ref || ref.kind !== "holding") return;
         if (selectedPocket?.pageId === page.id && selectedPocket.slotIndex === slotIndex) return;
-        map.set(holdingId, (map.get(holdingId) ?? 0) + 1);
+        map.set(ref.holdingId, (map.get(ref.holdingId) ?? 0) + 1);
       });
     }
     return map;
@@ -149,9 +174,9 @@ export function BinderClient({
     }
   }
 
-  function handlePick(holdingId: string) {
+  function handlePick(ref: BinderPocketRef) {
     if (!selectedPocket) return;
-    placeCard(binder.id, selectedPocket.pageId, selectedPocket.slotIndex, holdingId);
+    placeCard(binder.id, selectedPocket.pageId, selectedPocket.slotIndex, ref);
     const next = findNextEmptyPocket(selectedPocket);
     if (next) {
       setSelectedPocket(next);
@@ -264,6 +289,13 @@ export function BinderClient({
 
           <div className="h-4 w-px bg-border" />
 
+          <label className="flex items-center gap-2">
+            <span className="text-xs font-medium text-muted-foreground">Not owned tags</span>
+            <Switch size="sm" checked={showNotOwnedTags} onCheckedChange={setShowNotOwnedTags} />
+          </label>
+
+          <div className="h-4 w-px bg-border" />
+
           <div className="flex items-center gap-1.5">
             <span className="text-xs font-medium text-muted-foreground">Cover</span>
             {BINDER_COVER_COLORS.map((c) => (
@@ -289,10 +321,12 @@ export function BinderClient({
         rows={layout.rows}
         cols={layout.cols}
         cardsById={cardsById}
+        catalogItemsById={catalogItemsById}
         selectedPocket={selectedPocket}
         dragSourcePageId={dragSource?.pageId ?? null}
         dragOverPocket={dragOverPocket}
         showNumberTags={showNumberTags}
+        showNotOwnedTags={showNotOwnedTags}
         onSelectPocket={handleSelectPocket}
         onClearPocket={handleClearPocket}
         onDragStartSlot={(pageId, slotIndex) => setDragSource({ pageId, slotIndex })}
@@ -331,6 +365,8 @@ export function BinderClient({
         first, then come back to fill your binder.
       </p>
 
+      <BinderCardList binder={binder} cols={layout.cols} cardsById={cardsById} catalogItemsById={catalogItemsById} />
+
       <CardPickerSheet
         open={pickerOpen}
         onOpenChange={(open) => {
@@ -339,6 +375,7 @@ export function BinderClient({
         }}
         rows={rows}
         usedCounts={usedCounts}
+        ownedCatalogItemIds={ownedCatalogItemIds}
         onPick={handlePick}
       />
     </div>

@@ -8,7 +8,9 @@ import {
   type BinderCoverColorId,
   type BinderLayoutId,
   type BinderPage,
-  type BinderStoreDataV1,
+  type BinderPocketRef,
+  type BinderStatus,
+  type BinderStoreDataV2,
 } from "@/lib/binder/types";
 
 const STORAGE_KEY = "cardstory:binder:v1";
@@ -33,15 +35,22 @@ function defaultBinder(): Binder {
     name: "My Binder",
     layoutId: "9",
     coverColor: "espresso",
+    status: "wip",
     pages: [emptyPage(pocketCount("9"))],
     createdAt: nowIso(),
     updatedAt: nowIso(),
   };
 }
 
-function defaultState(): BinderStoreDataV1 {
+function defaultState(): BinderStoreDataV2 {
   const main = defaultBinder();
-  return { schemaVersion: 1, activeBinderId: main.id, binders: [main], showNumberTags: true };
+  return {
+    schemaVersion: 2,
+    activeBinderId: main.id,
+    binders: [main],
+    showNumberTags: true,
+    showNotOwnedTags: true,
+  };
 }
 
 /**
@@ -51,7 +60,7 @@ function defaultState(): BinderStoreDataV1 {
  * the new layout has fewer pockets per page than the old one.
  */
 function reflowPages(pages: BinderPage[], slots: number): BinderPage[] {
-  const cards = pages.flatMap((p) => p.pockets).filter((h): h is string => h != null);
+  const cards = pages.flatMap((p) => p.pockets).filter((ref): ref is BinderPocketRef => ref != null);
   const pageCount = Math.max(pages.length, Math.ceil(cards.length / slots) || 1);
   return Array.from({ length: pageCount }, (_, i) => {
     const slice = cards.slice(i * slots, (i + 1) * slots);
@@ -69,17 +78,19 @@ export interface BinderActions {
   setActiveBinder: (binderId: string) => void;
   setCoverColor: (binderId: string, color: BinderCoverColorId) => void;
   setLayout: (binderId: string, layoutId: BinderLayoutId) => void;
+  setStatus: (binderId: string, status: BinderStatus) => void;
   setShowNumberTags: (show: boolean) => void;
+  setShowNotOwnedTags: (show: boolean) => void;
 
   addPage: (binderId: string) => void;
   removePage: (binderId: string, pageId: string) => void;
 
-  placeCard: (binderId: string, pageId: string, slotIndex: number, holdingId: string | null) => void;
-  /** Removes every placement referencing a holding — call when a holding is deleted from the pc. */
+  placeCard: (binderId: string, pageId: string, slotIndex: number, ref: BinderPocketRef | null) => void;
+  /** Removes every placement referencing a holding — call when a holding is deleted from the pc. Catalog-kind pockets are untouched (no Holding backs them). */
   removeHoldingEverywhere: (holdingId: string) => void;
 }
 
-export type BinderState = BinderStoreDataV1 & BinderActions;
+export type BinderState = BinderStoreDataV2 & BinderActions;
 
 function updateBinder(
   set: (fn: (s: BinderState) => Partial<BinderState>) => void,
@@ -102,6 +113,7 @@ export const useBinderStore = create<BinderState>()(
           name,
           layoutId,
           coverColor: "espresso",
+          status: "wip",
           pages: [emptyPage(pocketCount(layoutId))],
           createdAt: nowIso(),
           updatedAt: nowIso(),
@@ -124,7 +136,11 @@ export const useBinderStore = create<BinderState>()(
 
       setShowNumberTags: (show) => set({ showNumberTags: show }),
 
+      setShowNotOwnedTags: (show) => set({ showNotOwnedTags: show }),
+
       setCoverColor: (binderId, color) => updateBinder(set, binderId, (b) => ({ ...b, coverColor: color })),
+
+      setStatus: (binderId, status) => updateBinder(set, binderId, (b) => ({ ...b, status })),
 
       setLayout: (binderId, layoutId) =>
         updateBinder(set, binderId, (b) => ({
@@ -145,13 +161,13 @@ export const useBinderStore = create<BinderState>()(
           return { ...b, pages: pages.length > 0 ? pages : [emptyPage(pocketCount(b.layoutId))] };
         }),
 
-      placeCard: (binderId, pageId, slotIndex, holdingId) =>
+      placeCard: (binderId, pageId, slotIndex, ref) =>
         updateBinder(set, binderId, (b) => ({
           ...b,
           pages: b.pages.map((p) =>
             p.id !== pageId
               ? p
-              : { ...p, pockets: p.pockets.map((h, i) => (i === slotIndex ? holdingId : h)) }
+              : { ...p, pockets: p.pockets.map((r, i) => (i === slotIndex ? ref : r)) }
           ),
         })),
 
@@ -161,17 +177,51 @@ export const useBinderStore = create<BinderState>()(
             ...b,
             pages: b.pages.map((p) => ({
               ...p,
-              pockets: p.pockets.map((h) => (h === holdingId ? null : h)),
+              pockets: p.pockets.map((r) => (r?.kind === "holding" && r.holdingId === holdingId ? null : r)),
             })),
           })),
         })),
     }),
     {
       name: STORAGE_KEY,
-      version: 1,
+      version: 2,
       migrate: (persisted) => {
         if (!persisted || typeof persisted !== "object") return defaultState();
-        return { showNumberTags: true, ...persisted } as BinderState;
+        const p = persisted as Record<string, unknown>;
+        const schemaVersion = typeof p.schemaVersion === "number" ? p.schemaVersion : 1;
+
+        // v1 pockets were bare `holdingId | null`; v2 wraps them in a
+        // discriminated ref so a pocket can also point at a bare catalog
+        // item the user doesn't own yet (see types.ts's BinderPocketRef).
+        const binders = Array.isArray(p.binders)
+          ? (p.binders as Record<string, unknown>[]).map((b) => ({
+              ...b,
+              status: (b.status as BinderStatus | undefined) ?? "wip",
+              pages: Array.isArray(b.pages)
+                ? (b.pages as Record<string, unknown>[]).map((page) => ({
+                    ...page,
+                    pockets: Array.isArray(page.pockets)
+                      ? (page.pockets as unknown[]).map((slot) =>
+                          schemaVersion >= 2
+                            ? (slot as BinderPocketRef | null)
+                            : typeof slot === "string"
+                              ? ({ kind: "holding", holdingId: slot } satisfies BinderPocketRef)
+                              : null
+                        )
+                      : [],
+                  }))
+                : [],
+            }))
+          : defaultState().binders;
+
+        return {
+          schemaVersion: 2,
+          activeBinderId:
+            (p.activeBinderId as string | undefined) ?? (binders[0] as Binder | undefined)?.id ?? defaultState().activeBinderId,
+          binders: binders as Binder[],
+          showNumberTags: (p.showNumberTags as boolean | undefined) ?? true,
+          showNotOwnedTags: (p.showNotOwnedTags as boolean | undefined) ?? true,
+        } as BinderState;
       },
     }
   )
