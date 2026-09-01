@@ -11,11 +11,13 @@ import type { BaseCardEntry } from "./types";
  * separately verified against sportscardspro.com's priced checklist for
  * card #1 and #2.
  *
- * No imageUrl per entry yet -- following the same precedent as
- * scripts/data/lamelo-ball/2020-21.ts (seeded without images, backfilled
- * later), since per-card scans weren't available without a premium
- * sportscardspro.com account. Safe to re-run scripts/seed-topps-chrome-2025.ts
- * after adding images or corrections; upserts are keyed by externalKey.
+ * No imageUrl here -- images come from a separate module,
+ * ./tcdb-images.ts, keyed by cardNumber, since TCDB's own per-card scans
+ * (front only) turned out to be the available source once a premium
+ * sportscardspro.com account wasn't; see that file's header for how the
+ * card ids/slugs were sourced and seed-topps-chrome-2025.ts for how they're
+ * applied. Safe to re-run scripts/seed-topps-chrome-2025.ts after adding
+ * images or corrections; upserts are keyed by externalKey.
  */
 export const BASE_SET: BaseCardEntry[] = [
   { cardNumber: "1", playerName: "Pascal Siakam", teamName: "Indiana Pacers", isRookie: false, hasImageVariation: false },
