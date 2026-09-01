@@ -7,6 +7,7 @@ import { DictateStep } from "@/app/quick-import/_components/dictate-step";
 import { SetPickerStep } from "@/app/quick-import/_components/set-picker-step";
 import { ResultsStep } from "@/app/quick-import/_components/results-step";
 import { isConfidentMatch, rankSetCandidates, type SetMatchCandidate } from "@/lib/quick-import/match-set";
+import { normalizeSpokenNumbers } from "@/lib/quick-import/normalize-spoken-numbers";
 import { parseNameNumberQuery } from "@/lib/utils/name-match";
 import type { QuickImportSetOption } from "@/app/api/quick-import/sets/route";
 
@@ -59,7 +60,7 @@ export function QuickImportClient() {
 
   function handleDictateSubmit(raw: string) {
     setDictateError(null);
-    const { namePart, numberPart: parsedNumber } = parseNameNumberQuery(raw);
+    const { namePart, numberPart: parsedNumber } = parseNameNumberQuery(normalizeSpokenNumbers(raw));
     if (!parsedNumber) {
       setDictateError('Say (or type) a set name and the card’s number, e.g. "fossil 45".');
       return;
