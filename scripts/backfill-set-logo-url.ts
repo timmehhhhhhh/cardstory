@@ -6,7 +6,11 @@
  * from crawl-pokemon-set-logos-pokellector.ts, and dextcg-ja.json /
  * dextcg-cn.json from crawl-pokemon-set-logos-dextcg.ts) for codes the hand
  * table has no entry for. The hand table wins on overlap since it's
- * been individually checked; the crawler file only fills gaps. Cheaper than
+ * been individually checked; the crawler files only fill gaps, and when
+ * more than one crawler file has an entry for the same Set.id, the earlier
+ * file in CRAWLED_LOGO_FILES wins (see its comment) rather than the row
+ * being dropped — spot-checks show these are mirror-CDN differences, not
+ * real data disagreements. Cheaper than
  * a full `npm run seed:catalog` re-run (which re-pulls Pokémon's entire
  * multi-hundred-set history over the network — see seed-catalog.ts's header
  * comment) since this only needs the Set table, not a live provider fetch.
@@ -27,7 +31,20 @@ import { db } from "@/lib/db";
 import { POKEMON_SET_LOGOS } from "./data/pokemon-set-logos";
 import type { SetLogoFile } from "./data/set-logos/types";
 
-/** Verified crawler-output files to fall back to, keyed by Set.id. */
+/**
+ * Verified crawler-output files to fall back to, keyed by Set.id, in
+ * priority order: when two files both have an entry for the same Set.id,
+ * the earlier file in this list wins rather than either being dropped.
+ * pokellector-ja is listed first because pokellector is already the
+ * codebase's trusted JP source for card art (see
+ * crawl-pokemon-jp-pokellector-images.ts); dextcg-ja is the fallback for
+ * whatever pokellector doesn't cover, and dextcg-cn covers a disjoint
+ * locale so in practice never competes with either JA file. Spot-checking
+ * confirmed disagreements between pokellector-ja and dextcg-ja here are
+ * NOT data errors — both sides show the correct official logo for the set,
+ * just mirrored from different CDNs (den-media.pokellector.com vs
+ * static.dextcg.com) — so picking one deterministically is safe.
+ */
 const CRAWLED_LOGO_FILES = [
   "pokellector-ja.json",
   "dextcg-ja.json",
@@ -46,16 +63,14 @@ const CRAWLED_LOGO_FILES = [
 
 function loadCrawledLogos(): Map<string, string> {
   const bySetId = new Map<string, string>();
-  // Defense in depth against a source site itself being internally
-  // inconsistent (confirmed live: jp.pokellector.com has two different
-  // buttons both claiming set code "S12" — see
-  // crawl-pokemon-set-logos-pokellector.ts's guard against that). Even
-  // though the crawlers now route such ambiguity to their own review file
-  // rather than the main output, a duplicate setId within one file (or the
-  // same setId disagreeing across two files) is still trusted less than a
-  // clean single match — drop it rather than let last-write-wins silently
-  // pick one.
-  const conflicted = new Set<string>();
+  // Within a single file, a duplicate setId is still a real ambiguity (not
+  // a cross-source mirror difference) — confirmed live: jp.pokellector.com
+  // has had two different buttons both claiming the same set code (see
+  // crawl-pokemon-set-logos-pokellector.ts's guard against that). The
+  // crawlers now route that case to their own review file instead of the
+  // main output, but if one ever slips through, drop it here rather than
+  // let last-write-wins silently pick one.
+  const droppedWithinFile = new Set<string>();
   for (const name of CRAWLED_LOGO_FILES) {
     const file = path.join(process.cwd(), "scripts", "data", "set-logos", name);
     if (!fs.existsSync(file)) continue;
@@ -64,15 +79,20 @@ function loadCrawledLogos(): Map<string, string> {
       console.log(`- ${name}: not verified yet, skipping (see its header comment).`);
       continue;
     }
+    const seenInThisFile = new Map<string, string>();
     for (const entry of parsed.entries) {
-      if (conflicted.has(entry.setId)) continue;
-      const existing = bySetId.get(entry.setId);
-      if (existing !== undefined && existing !== entry.logoUrl) {
-        console.warn(`- ${entry.setId}: conflicting logoUrl across crawled sources, dropping.`);
+      if (droppedWithinFile.has(entry.setId)) continue;
+      const dupe = seenInThisFile.get(entry.setId);
+      if (dupe !== undefined && dupe !== entry.logoUrl) {
+        console.warn(`- ${entry.setId}: conflicting logoUrl within ${name}, dropping.`);
         bySetId.delete(entry.setId);
-        conflicted.add(entry.setId);
+        droppedWithinFile.add(entry.setId);
         continue;
       }
+      seenInThisFile.set(entry.setId, entry.logoUrl);
+      // A higher-priority file (earlier in CRAWLED_LOGO_FILES) has already
+      // claimed this setId — keep its value rather than overwriting.
+      if (bySetId.has(entry.setId)) continue;
       bySetId.set(entry.setId, entry.logoUrl);
     }
   }
