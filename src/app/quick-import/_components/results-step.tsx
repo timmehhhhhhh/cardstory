@@ -65,7 +65,7 @@ export function ResultsStep({
         <QuickAddToggle />
       </div>
 
-      <Button onClick={onNextCard} className="h-11 self-start">
+      <Button onClick={onNextCard} className="h-11 self-center">
         Next card
         <ArrowRight className="size-4" />
       </Button>
@@ -90,13 +90,6 @@ export function ResultsStep({
           <CardTile key={item.id} item={item} />
         ))}
       </div>
-
-      {items.length > 0 && (
-        <Button onClick={onNextCard} className="h-11 self-center">
-          Next card
-          <ArrowRight className="size-4" />
-        </Button>
-      )}
     </div>
   );
 }
