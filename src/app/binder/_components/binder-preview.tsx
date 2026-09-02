@@ -9,7 +9,7 @@ import { containedBoxStyle, containerStyle } from "@/lib/binder/fit-style";
 import { BinderPageView } from "@/app/binder/_components/binder-page-view";
 import { POCKET_ASPECT_RATIO } from "@/app/binder/_components/binder-pocket";
 import { bookSpreads } from "@/lib/binder/spreads";
-import type { Binder } from "@/lib/binder/types";
+import type { Binder, BinderPage } from "@/lib/binder/types";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
 import type { CatalogItemDetail } from "@/lib/catalog/by-ids";
 
