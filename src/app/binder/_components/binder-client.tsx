@@ -12,7 +12,9 @@ import {
   BINDER_COVER_COLORS,
   BINDER_LAYOUTS,
   coverColorValue,
+  pocketCount,
   resolvedPageBackgroundColor,
+  type Binder,
   type BinderLayoutId,
   type BinderPocketRef,
   type PageBackground,
@@ -41,6 +43,27 @@ const PAGE_BACKGROUND_OPTIONS: { id: PageBackground; label: string }[] = [
   { id: "white", label: "White" },
 ];
 
+/**
+ * Stand-in rendered for the brief window before GET /api/binder resolves
+ * (binders is server-fetched now, so it's `[]` on first paint instead of
+ * always having the local store's synchronous default). A stable
+ * module-level constant — not recreated per render — so it's safe to sit
+ * in useMemo dependency arrays below without invalidating them every
+ * render. The server always ensures a real binder exists once loaded, so
+ * this is only ever visible for one query round trip.
+ */
+const EMPTY_BINDER: Binder = {
+  id: "",
+  name: "",
+  layoutId: "9",
+  coverColor: "black",
+  pageBackground: "match-cover",
+  status: "wip",
+  pages: [{ id: "", pockets: Array.from({ length: pocketCount("9") }, () => null) }],
+  createdAt: "",
+  updatedAt: "",
+};
+
 export function BinderClient({
   pcIdOverride,
   showPcSelector = true,
@@ -61,7 +84,7 @@ export function BinderClient({
 
   const binders = useBinderStore((s) => s.binders);
   const activeBinderId = useBinderStore((s) => s.activeBinderId);
-  const binder = binders.find((b) => b.id === activeBinderId) ?? binders[0];
+  const binder = binders.find((b) => b.id === activeBinderId) ?? binders[0] ?? EMPTY_BINDER;
   const setLayout = useBinderStore((s) => s.setLayout);
   const setCoverColor = useBinderStore((s) => s.setCoverColor);
   const setPageBackground = useBinderStore((s) => s.setPageBackground);
