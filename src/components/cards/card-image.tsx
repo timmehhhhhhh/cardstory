@@ -21,6 +21,20 @@ import { cn } from "@/lib/utils";
  * rot is a question of when, not if.
  */
 
+/**
+ * How long a `src` is given to actually finish loading before this falls
+ * back to the "no image" state — a slow/overloaded third-party host can
+ * leave the browser's request hanging far longer than a normal 404 takes
+ * to fail (confirmed against a real rotted URL: a raw TCP connect to the
+ * origin sometimes succeeded, sometimes hung past a minute, with no clean
+ * error either way), which otherwise left the pocket sitting blank
+ * indefinitely instead of showing the onError fallback. The <Image> keeps
+ * loading in the background even after this fires (see the `invisible`
+ * class below, not `display:none`) — if it does eventually succeed, onLoad
+ * still clears the stall and swaps the real image back in.
+ */
+const LOAD_STALL_MS = 6_000;
+
 export type CardImageFallbackVariant = "icon" | "icon-label" | "text";
 
 export function CardImageFallback({
@@ -99,6 +113,18 @@ export function CardImage({
   const [failedSrc, setFailedSrc] = React.useState<string | null>(null);
   const failed = !!src && failedSrc === src;
 
+  // Same "track which src, not a bare boolean" reasoning as failedSrc above
+  // — comparing against the current `src` below means a src change (new
+  // card, re-sorted grid) is inherently "not stalled" with no reset effect
+  // needed, exactly like failedSrc never resets itself either.
+  const [stalledSrc, setStalledSrc] = React.useState<string | null>(null);
+  React.useEffect(() => {
+    if (!src) return;
+    const timer = setTimeout(() => setStalledSrc(src), LOAD_STALL_MS);
+    return () => clearTimeout(timer);
+  }, [src]);
+  const stalled = !!src && stalledSrc === src;
+
   if (!src || failed) {
     return <>{fallback ?? <CardImageFallback variant={fallbackVariant} />}</>;
   }
@@ -115,14 +141,22 @@ export function CardImage({
         // keeping it means next.config.ts remotePatterns is never consulted.
         unoptimized
         referrerPolicy="no-referrer"
+        onLoad={() => setStalledSrc((s) => (s === src ? null : s))}
         onError={() => {
           if (process.env.NODE_ENV === "development") {
             console.warn("[CardImage] failed to load:", src);
           }
           setFailedSrc(src);
         }}
-        className={className}
+        // `invisible` (not conditionally unmounting) keeps the underlying
+        // <img> request alive while stalled, so a late success still swaps
+        // it back in via onLoad above instead of being stuck showing the
+        // fallback forever once the real image was actually reachable.
+        className={cn(className, stalled && "invisible")}
       />
+      {stalled && (
+        <div className="absolute inset-0">{fallback ?? <CardImageFallback variant={fallbackVariant} />}</div>
+      )}
       {overlay}
     </>
   );
