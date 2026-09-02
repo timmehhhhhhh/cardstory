@@ -182,11 +182,16 @@ export function ImportClient({ binderId }: { binderId: string }) {
     const targetIndex = currentPage.physicalPageNumber - 1;
     const binderPage = ensureBinderPageAt(binder!.id, targetIndex);
     // detectBinderConflicts only needs a non-null flag per pocket — pass a
-    // stand-in id for catalog ("not owned") pockets too, since those still
-    // occupy the pocket and must block an overwrite the same as a holding.
-    const existingPockets = binderPage.pockets.map((ref) =>
-      ref == null ? null : ref.kind === "holding" ? ref.holdingId : ref.catalogItemId
-    );
+    // stand-in id for catalog ("not owned")/custom-image pockets too, since
+    // those still occupy the pocket and must block an overwrite the same as
+    // a holding.
+    const existingPockets = binderPage.pockets.map((ref) => {
+      if (ref == null) return null;
+      if (ref.kind === "holding") return ref.holdingId;
+      if (ref.kind === "catalog") return ref.catalogItemId;
+      if (ref.kind === "custom") return "custom";
+      return "custom-covered";
+    });
     const withConflicts = detectBinderConflicts(currentPage, existingPockets);
     updateCurrentPage(() => withConflicts);
 

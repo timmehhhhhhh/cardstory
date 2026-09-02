@@ -11,9 +11,11 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { CardNumberBadge } from "@/components/cards/card-number-badge";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
 import type { CatalogSearchItem } from "@/lib/catalog/search";
-import type { BinderPocketRef } from "@/lib/binder/types";
+import type { BinderPage, BinderPocketRef } from "@/lib/binder/types";
 import { CardImage } from "@/components/cards/card-image";
 import { matchesNameNumberQuery } from "@/lib/utils/name-match";
+import { CustomImageTab } from "@/app/binder/_components/custom-image-upload";
+import type { PlaceCustomImageResult } from "@/lib/binder/store";
 
 interface CatalogSearchResponse {
   items: CatalogSearchItem[];
@@ -115,6 +117,11 @@ export function CardPickerSheet({
   usedCounts,
   ownedCatalogItemIds,
   onPick,
+  targetPage,
+  layoutCols,
+  layoutRows,
+  anchorSlotIndex,
+  onPlaceCustomImage,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -123,7 +130,19 @@ export function CardPickerSheet({
   /** catalogItemIds already owned via this binder's card source — excluded from the "Not Owned" tab's results. */
   ownedCatalogItemIds: Set<string>;
   onPick: (ref: BinderPocketRef) => void;
+  /** The page/pocket the "Custom Image" tab is placing into — undefined hides that tab (e.g. before a pocket is selected). */
+  targetPage?: BinderPage;
+  layoutCols?: number;
+  layoutRows?: number;
+  anchorSlotIndex?: number;
+  onPlaceCustomImage?: (dataUrl: string, spanCols: number, spanRows: number) => PlaceCustomImageResult;
 }) {
+  // Ternary (rather than a separate boolean) so TS narrows every field together — spreading a `canPlaceCustom`
+  // flag wouldn't carry the non-undefined-ness of each prop through to where it's actually used below.
+  const customTarget =
+    targetPage && layoutCols != null && layoutRows != null && anchorSlotIndex != null && onPlaceCustomImage
+      ? { page: targetPage, cols: layoutCols, rows: layoutRows, anchorSlotIndex, onPlace: onPlaceCustomImage }
+      : null;
   const [query, setQuery] = React.useState("");
 
   const filtered = React.useMemo(() => {
@@ -153,6 +172,11 @@ export function CardPickerSheet({
               <TabsTrigger value="not-owned" className="flex-1">
                 Not Owned
               </TabsTrigger>
+              {customTarget && (
+                <TabsTrigger value="custom" className="flex-1">
+                  Custom Image
+                </TabsTrigger>
+              )}
             </TabsList>
           </div>
 
@@ -218,6 +242,18 @@ export function CardPickerSheet({
           <TabsContent value="not-owned" className="flex min-h-0 flex-1 flex-col gap-0">
             <NotOwnedTab ownedCatalogItemIds={ownedCatalogItemIds} onPick={onPick} />
           </TabsContent>
+
+          {customTarget && (
+            <TabsContent value="custom" className="flex min-h-0 flex-1 flex-col gap-0">
+              <CustomImageTab
+                page={customTarget.page}
+                cols={customTarget.cols}
+                rows={customTarget.rows}
+                anchorSlotIndex={customTarget.anchorSlotIndex}
+                onPlace={customTarget.onPlace}
+              />
+            </TabsContent>
+          )}
         </Tabs>
       </SheetContent>
     </Sheet>
