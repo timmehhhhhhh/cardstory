@@ -4,7 +4,13 @@ import { useSession } from "next-auth/react";
 import { useRemoteBinderStore } from "@/lib/binder/remote-store";
 import type { BinderState } from "@/lib/binder/remote-store";
 
-export type { BinderState, SetLayoutResult, PlaceCustomImageResult } from "@/lib/binder/remote-store";
+export type {
+  BinderState,
+  SetLayoutResult,
+  PlaceCustomImageResult,
+  MoveCustomImageResult,
+  ResizeCustomImageResult,
+} from "@/lib/binder/remote-store";
 export { getBindersSnapshot } from "@/lib/binder/remote-store";
 
 /**

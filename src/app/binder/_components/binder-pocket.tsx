@@ -1,6 +1,6 @@
 "use client";
 
-import { GripVertical, Plus, X } from "lucide-react";
+import { GripVertical, Maximize2, Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CardNumberBadge } from "@/components/cards/card-number-badge";
 import { CardImage } from "@/components/cards/card-image";
@@ -38,10 +38,11 @@ export function BinderPocket({
   draggedOver,
   showNumberTag,
   showNotOwnedTag,
-  gridSpan,
+  gridPlacement,
   interactive = true,
   onSelect,
   onClear,
+  onResize,
   onDragStart,
   onDragOver,
   onDragLeave,
@@ -55,12 +56,24 @@ export function BinderPocket({
   showNumberTag: boolean;
   /** Whether to show the "Not owned" watermark on catalog-only pockets. */
   showNotOwnedTag: boolean;
-  /** Set on a custom-image anchor pocket so it visually merges with the cells its span covers. */
-  gridSpan?: { cols: number; rows: number };
+  /**
+   * Every pocket's explicit CSS Grid position, derived from its flat
+   * slotIndex (1-based, matching CSS Grid's own line-numbering convention).
+   * A custom-image anchor gets colSpan/rowSpan > 1 so it visually merges
+   * with the cells its span covers. Explicit on every pocket (not just
+   * spanning anchors) — relying on the browser's auto-placement here was
+   * the root cause of a past bug: an unstyled placeholder for a spanned
+   * cell has no position, so auto-flow's next-free-cell cursor skipped
+   * past it and silently shifted every later pocket in DOM order into the
+   * wrong visual cell. See binder-page-view.tsx.
+   */
+  gridPlacement: { colStart: number; rowStart: number; colSpan: number; rowSpan: number };
   /** False in read-only contexts (the fullscreen preview) — suppresses click/drag/remove affordances entirely. */
   interactive?: boolean;
   onSelect?: () => void;
   onClear?: () => void;
+  /** Custom-image anchors only — opens the resize dialog. Wired to both the main image click (via `onSelect`, routed by the parent for anchor pockets) and this pocket's dedicated resize icon button. */
+  onResize?: () => void;
   onDragStart?: (e: React.DragEvent) => void;
   onDragOver?: (e: React.DragEvent) => void;
   onDragLeave?: () => void;
@@ -75,8 +88,8 @@ export function BinderPocket({
       onDragLeave={interactive ? onDragLeave : undefined}
       onDrop={interactive ? onDrop : undefined}
       style={{
-        gridColumn: gridSpan ? `span ${gridSpan.cols}` : undefined,
-        gridRow: gridSpan ? `span ${gridSpan.rows}` : undefined,
+        gridColumn: `${gridPlacement.colStart} / span ${gridPlacement.colSpan}`,
+        gridRow: `${gridPlacement.rowStart} / span ${gridPlacement.rowSpan}`,
       }}
       className={cn(
         "group/pocket relative aspect-[5/7] w-full overflow-hidden rounded-[3px] bg-black/10 ring-1 ring-inset ring-black/10 transition-shadow dark:bg-white/5",
@@ -87,14 +100,14 @@ export function BinderPocket({
       {filled ? (
         <button
           type="button"
-          draggable={interactive && !card.isCustom}
+          draggable={interactive}
           onDragStart={interactive ? onDragStart : undefined}
           onDragEnd={interactive ? onDragEnd : undefined}
           onClick={interactive ? onSelect : undefined}
           disabled={!interactive}
           aria-label={
             card.isCustom
-              ? "Custom image — click to change"
+              ? "Custom image — click to resize, drag to reposition"
               : `${withEnglishName(card.name, card.nameEn)} — click to swap`
           }
           className={cn(
@@ -139,6 +152,20 @@ export function BinderPocket({
       )}
 
       {filled && !card.isCustom && showNumberTag && <CardNumberBadge number={card.number} variant="overlay" />}
+
+      {filled && interactive && card.isCustom && (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onResize?.();
+          }}
+          aria-label="Resize this custom image"
+          className="absolute top-0.5 left-0.5 z-10 flex size-5 items-center justify-center rounded-full bg-black/60 text-white opacity-80 transition-opacity hover:opacity-100 focus-visible:opacity-100 sm:size-4"
+        >
+          <Maximize2 className="size-3" />
+        </button>
+      )}
 
       {filled && interactive && (
         <button

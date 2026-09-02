@@ -84,6 +84,7 @@ export function BinderPageView({
   interactive = true,
   onSelectPocket,
   onClearPocket,
+  onResizeCustomImage,
   onDragStartSlot,
   onDragOverSlot,
   onDragLeaveSlot,
@@ -109,6 +110,8 @@ export function BinderPageView({
   interactive?: boolean;
   onSelectPocket?: (slotIndex: number) => void;
   onClearPocket?: (slotIndex: number) => void;
+  /** Opens the resize dialog for a custom-image anchor at this slot. */
+  onResizeCustomImage?: (slotIndex: number) => void;
   onDragStartSlot?: (slotIndex: number) => void;
   onDragOverSlot?: (slotIndex: number) => void;
   onDragLeaveSlot?: () => void;
@@ -141,11 +144,24 @@ export function BinderPageView({
       >
         {page.pockets.map((ref, slotIndex) => {
           // A slot covered by another anchor's span isn't its own pocket —
-          // render an invisible spacer so the grid still reserves the cell
-          // without drawing an empty "+" add-button underneath the span.
-          if (ref?.kind === "custom-covered") return <div key={slotIndex} aria-hidden />;
+          // nothing renders here at all. The anchor below gets an explicit
+          // colSpan/rowSpan > 1 (via gridPlacement) that already reserves
+          // this cell, so no placeholder is needed. (An earlier version
+          // rendered an unstyled spacer div here to "reserve" the cell for
+          // the browser's auto-placement — that's exactly what corrupted
+          // every later pocket's position whenever a span existed, since
+          // auto-flow's next-free-cell cursor has no idea a styled sibling
+          // already claimed this cell. Every pocket now gets an explicit
+          // position below instead of relying on auto-flow at all.)
+          if (ref?.kind === "custom-covered") return null;
 
           const isAnchor = ref?.kind === "custom";
+          const gridPlacement = {
+            colStart: (slotIndex % cols) + 1,
+            rowStart: Math.floor(slotIndex / cols) + 1,
+            colSpan: isAnchor && ref.kind === "custom" ? ref.spanCols : 1,
+            rowSpan: isAnchor && ref.kind === "custom" ? ref.spanRows : 1,
+          };
           return (
             <BinderPocket
               key={slotIndex}
@@ -154,10 +170,15 @@ export function BinderPageView({
               draggedOver={dragSourcePageId != null && dragOverSlot === slotIndex}
               showNumberTag={showNumberTags}
               showNotOwnedTag={showNotOwnedTags}
-              gridSpan={isAnchor && ref.kind === "custom" ? { cols: ref.spanCols, rows: ref.spanRows } : undefined}
+              gridPlacement={gridPlacement}
               interactive={interactive}
-              onSelect={() => onSelectPocket?.(slotIndex)}
+              // A custom-image anchor's click opens the resize dialog instead
+              // of the normal card picker — mirrors a plain card's click =
+              // swap / drag = move by making a custom image's click = resize
+              // / drag = reposition (see BinderClient's handleDrop).
+              onSelect={() => (isAnchor ? onResizeCustomImage?.(slotIndex) : onSelectPocket?.(slotIndex))}
               onClear={() => onClearPocket?.(slotIndex)}
+              onResize={() => onResizeCustomImage?.(slotIndex)}
               onDragStart={() => onDragStartSlot?.(slotIndex)}
               onDragOver={(e) => {
                 e.preventDefault();

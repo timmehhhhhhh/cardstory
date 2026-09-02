@@ -1,12 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { Loader2, Minus, Plus, Upload } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Loader2, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { resizeImageToDataUrl } from "@/lib/utils/image";
 import { customSpanCells, type BinderPage } from "@/lib/binder/types";
 import type { PlaceCustomImageResult } from "@/lib/binder/store";
+import { SpanStepper } from "@/app/binder/_components/span-stepper";
+import { SpanPreviewGrid } from "@/app/binder/_components/span-preview-grid";
 
 /**
  * "Michi Method" custom-image placement: upload a photo, then size the
@@ -119,26 +120,12 @@ export function CustomImageTab({
 
       <div className="grid gap-1.5">
         <p className="text-xs font-medium text-muted-foreground">Preview</p>
-        <div
-          className="mx-auto grid w-full max-w-40 gap-0.5"
-          style={{ gridTemplateColumns: `repeat(${cols}, 1fr)`, gridTemplateRows: `repeat(${rows}, 1fr)` }}
-        >
-          {Array.from({ length: rows * cols }, (_, i) => {
-            const inSpan = spanCells.has(i);
-            const occupied = page.pockets[i] != null && i !== anchorSlotIndex;
-            return (
-              <div
-                key={i}
-                className={cn(
-                  "aspect-[5/7] rounded-[2px] ring-1 ring-inset ring-black/10",
-                  inSpan && occupied && "bg-destructive/60",
-                  inSpan && !occupied && "bg-primary/60",
-                  !inSpan && "bg-black/10"
-                )}
-              />
-            );
-          })}
-        </div>
+        <SpanPreviewGrid
+          cols={cols}
+          rows={rows}
+          spanCells={spanCells}
+          isCellBlocked={(i) => page.pockets[i] != null && i !== anchorSlotIndex}
+        />
         {overlapsExisting && (
           <p className="text-center text-xs text-destructive">This span overlaps a card or image already placed.</p>
         )}
@@ -149,47 +136,6 @@ export function CustomImageTab({
       <Button type="button" onClick={handlePlace} disabled={!dataUrl || overlapsExisting}>
         Place image
       </Button>
-    </div>
-  );
-}
-
-function SpanStepper({
-  label,
-  value,
-  max,
-  onChange,
-}: {
-  label: string;
-  value: number;
-  max: number;
-  onChange: (value: number) => void;
-}) {
-  return (
-    <div className="grid gap-1.5">
-      <p className="text-xs font-medium text-muted-foreground">{label}</p>
-      <div className="flex items-center gap-1">
-        <Button
-          type="button"
-          variant="outline"
-          size="icon-sm"
-          aria-label={`Decrease ${label.toLowerCase()}`}
-          disabled={value <= 1}
-          onClick={() => onChange(Math.max(1, value - 1))}
-        >
-          <Minus className="size-3.5" />
-        </Button>
-        <span className="num-tabular w-6 text-center text-sm">{value}</span>
-        <Button
-          type="button"
-          variant="outline"
-          size="icon-sm"
-          aria-label={`Increase ${label.toLowerCase()}`}
-          disabled={value >= max}
-          onClick={() => onChange(Math.min(max, value + 1))}
-        >
-          <Plus className="size-3.5" />
-        </Button>
-      </div>
     </div>
   );
 }

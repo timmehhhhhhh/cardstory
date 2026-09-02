@@ -3,6 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { ArrowLeft, BookOpen, Camera, Check } from "lucide-react";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { usePCData } from "@/hooks/use-pc-data";
 import { useMediaQuery } from "@/hooks/use-media-query";
@@ -28,7 +29,9 @@ import { BinderSpread, type VisiblePage } from "@/app/binder/_components/binder-
 import { BinderPageNav } from "@/app/binder/_components/binder-page-nav";
 import { BinderCardList } from "@/app/binder/_components/binder-card-list";
 import { CardPickerSheet } from "@/app/binder/_components/card-picker-sheet";
+import { CustomImageResizeDialog } from "@/app/binder/_components/custom-image-resize-dialog";
 import { BinderPreview } from "@/app/binder/_components/binder-preview";
+import { BinderPlacementSearch, type PlacementJumpTarget } from "@/app/binder/_components/binder-placement-search";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -88,10 +91,13 @@ export function BinderClient({
   const setLayout = useBinderStore((s) => s.setLayout);
   const setCoverColor = useBinderStore((s) => s.setCoverColor);
   const setPageBackground = useBinderStore((s) => s.setPageBackground);
+  const setActiveBinder = useBinderStore((s) => s.setActiveBinder);
   const addPage = useBinderStore((s) => s.addPage);
   const removePage = useBinderStore((s) => s.removePage);
   const placeCard = useBinderStore((s) => s.placeCard);
   const placeCustomImage = useBinderStore((s) => s.placeCustomImage);
+  const moveCustomImage = useBinderStore((s) => s.moveCustomImage);
+  const resizeCustomImage = useBinderStore((s) => s.resizeCustomImage);
   const showNumberTags = useBinderStore((s) => s.showNumberTags);
   const setShowNumberTags = useBinderStore((s) => s.setShowNumberTags);
   const showNotOwnedTags = useBinderStore((s) => s.showNotOwnedTags);
@@ -108,6 +114,12 @@ export function BinderClient({
   const [layoutMenuOpen, setLayoutMenuOpen] = React.useState(false);
   const [layoutBlockedMessage, setLayoutBlockedMessage] = React.useState<string | null>(null);
   const [previewOpen, setPreviewOpen] = React.useState(false);
+  const [resizeTarget, setResizeTarget] = React.useState<PocketRef | null>(null);
+  // Set by a search-result click on a card placed in a *different* binder —
+  // consumed by the binder-switch reset below once that switch lands, so the
+  // view jumps straight to the found page/pocket instead of resetting to
+  // page 1. See handleJumpToResult.
+  const [pendingJump, setPendingJump] = React.useState<PlacementJumpTarget | null>(null);
 
   const pageCount = binder.pages.length;
 
@@ -131,8 +143,18 @@ export function BinderClient({
   if (activeBinderId !== prevBinderId) {
     setPrevBinderId(activeBinderId);
     setPrevClampKey(clampKey);
-    setCursor(0);
-    setSelectedPocket(null);
+    // A search-result click on a card in this now-newly-active binder wants
+    // to land on ITS page/pocket, not reset to page 1 — see
+    // handleJumpToResult, which sets pendingJump right before switching.
+    if (pendingJump && pendingJump.binderId === activeBinderId) {
+      const idx = binder.pages.findIndex((p) => p.id === pendingJump.pageId);
+      setCursor(idx === -1 ? 0 : step === 2 ? spreadIndexForPage(idx) : idx);
+      setSelectedPocket(idx === -1 ? null : { pageId: pendingJump.pageId, slotIndex: pendingJump.slotIndex });
+      setPendingJump(null);
+    } else {
+      setCursor(0);
+      setSelectedPocket(null);
+    }
     setPickerOpen(false);
   } else if (clampKey !== prevClampKey) {
     setPrevClampKey(clampKey);
@@ -267,16 +289,28 @@ export function BinderClient({
     const targetPage = binder.pages.find((p) => p.id === pageId);
     const sourceHolding = sourcePage?.pockets[dragSource.slotIndex] ?? null;
     const targetHolding = targetPage?.pockets[slotIndex] ?? null;
-    // Custom images are repositioned by delete + re-place, not drag — a
-    // group spans multiple slots and can't be swapped as one via placeCard.
-    // BinderPocket already refuses to make a custom pocket draggable, but
-    // guard here too since dragSource/target come from state, not a type.
-    if (
-      sourceHolding?.kind === "custom" ||
-      sourceHolding?.kind === "custom-covered" ||
-      targetHolding?.kind === "custom" ||
-      targetHolding?.kind === "custom-covered"
-    ) {
+
+    // Dragging a custom-image anchor repositions the whole group — a
+    // multi-slot span can't be swapped like a single-slot card via
+    // placeCard, so it goes through the dedicated move action instead.
+    // (Only anchors are ever draggable; a "custom-covered" slot never
+    // renders as an interactive pocket, so it can never be a drag source.)
+    if (sourceHolding?.kind === "custom") {
+      const result = moveCustomImage(binder.id, dragSource.pageId, dragSource.slotIndex, pageId, slotIndex);
+      if (!result.ok) {
+        toast.error(
+          result.reason === "out-of-bounds"
+            ? "That image doesn't fit there."
+            : "That spot overlaps another card or image."
+        );
+      }
+      setDragSource(null);
+      setDragOverPocket(null);
+      return;
+    }
+    // Dropping a plain card onto a cell a custom image occupies (its anchor
+    // or any cell its span covers) doesn't make sense — stays a no-op.
+    if (targetHolding?.kind === "custom" || targetHolding?.kind === "custom-covered") {
       setDragSource(null);
       setDragOverPocket(null);
       return;
@@ -285,6 +319,25 @@ export function BinderClient({
     placeCard(binder.id, dragSource.pageId, dragSource.slotIndex, targetHolding);
     setDragSource(null);
     setDragOverPocket(null);
+  }
+
+  function handleResizeCustomImage(pageId: string, slotIndex: number) {
+    setResizeTarget({ pageId, slotIndex });
+  }
+
+  function handleJumpToResult(target: PlacementJumpTarget) {
+    setPickerOpen(false);
+    setResizeTarget(null);
+    if (target.binderId === binder.id) {
+      const idx = binder.pages.findIndex((p) => p.id === target.pageId);
+      if (idx === -1) return;
+      const cursorTarget = step === 2 ? spreadIndexForPage(idx) : idx;
+      if (cursorTarget !== cursor) setCursor(cursorTarget);
+      setSelectedPocket({ pageId: target.pageId, slotIndex: target.slotIndex });
+    } else {
+      setPendingJump(target);
+      setActiveBinder(target.binderId);
+    }
   }
 
   function handlePlaceCustomImage(dataUrl: string, spanCols: number, spanRows: number) {
@@ -312,6 +365,16 @@ export function BinderClient({
 
   const pageBackground = resolvedPageBackgroundColor(binder.pageBackground, binder.coverColor);
   const selectedPage = selectedPocket ? binder.pages.find((p) => p.id === selectedPocket.pageId) : undefined;
+
+  const resizePage = resizeTarget ? binder.pages.find((p) => p.id === resizeTarget.pageId) : undefined;
+  const resizeRef = resizePage && resizeTarget ? resizePage.pockets[resizeTarget.slotIndex] : undefined;
+  // Only ever open the dialog for a live "custom" anchor — a stale target
+  // (the image was cleared/moved elsewhere between opening and re-render)
+  // just means the dialog doesn't render, rather than crashing on it.
+  const resizeInfo =
+    resizeTarget && resizePage && resizeRef?.kind === "custom"
+      ? { page: resizePage, slotIndex: resizeTarget.slotIndex, spanCols: resizeRef.spanCols, spanRows: resizeRef.spanRows }
+      : null;
 
   return (
     <div className="mx-auto flex min-h-dvh w-full max-w-5xl flex-col gap-4 px-4 py-4 sm:gap-5 sm:px-6 sm:py-6">
@@ -429,6 +492,8 @@ export function BinderClient({
         {layoutBlockedMessage && (
           <p className="rounded-lg bg-destructive/10 px-3 py-2 text-xs text-destructive">{layoutBlockedMessage}</p>
         )}
+
+        <BinderPlacementSearch cardsById={cardsById} onJump={handleJumpToResult} />
       </div>
 
       <BinderSpread
@@ -446,6 +511,7 @@ export function BinderClient({
         showNotOwnedTags={showNotOwnedTags}
         onSelectPocket={handleSelectPocket}
         onClearPocket={handleClearPocket}
+        onResizeCustomImage={handleResizeCustomImage}
         onDragStartSlot={(pageId, slotIndex) => setDragSource({ pageId, slotIndex })}
         onDragOverSlot={(pageId, slotIndex) => setDragOverPocket({ pageId, slotIndex })}
         onDragLeaveSlot={() => setDragOverPocket(null)}
@@ -510,6 +576,24 @@ export function BinderClient({
         anchorSlotIndex={selectedPocket?.slotIndex}
         onPlaceCustomImage={handlePlaceCustomImage}
       />
+
+      {resizeInfo && (
+        <CustomImageResizeDialog
+          open
+          onOpenChange={(open) => {
+            if (!open) setResizeTarget(null);
+          }}
+          page={resizeInfo.page}
+          cols={layout.cols}
+          rows={layout.rows}
+          anchorSlotIndex={resizeInfo.slotIndex}
+          currentSpanCols={resizeInfo.spanCols}
+          currentSpanRows={resizeInfo.spanRows}
+          onResize={(spanCols, spanRows) =>
+            resizeCustomImage(binder.id, resizeInfo.page.id, resizeInfo.slotIndex, spanCols, spanRows)
+          }
+        />
+      )}
 
       <BinderPreview
         open={previewOpen}

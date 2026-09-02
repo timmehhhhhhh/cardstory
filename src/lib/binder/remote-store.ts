@@ -91,6 +91,10 @@ function clearCustomGroup(page: BinderPage, slotIndex: number, cols: number): Bi
 
 export type SetLayoutResult = { ok: true } | { ok: false; blockedBy: { pageNumber: number }[] };
 export type PlaceCustomImageResult = { ok: true } | { ok: false; reason: "out-of-bounds" | "overlap" };
+/** Same shape as PlaceCustomImageResult — a move is just a validated re-placement of an existing group. */
+export type MoveCustomImageResult = PlaceCustomImageResult;
+/** Same shape as PlaceCustomImageResult — a resize is just a validated re-span of an existing group at a fixed anchor. */
+export type ResizeCustomImageResult = PlaceCustomImageResult;
 
 /**
  * Re-chunks every placed card into pages sized for the new `rows` × `cols`
@@ -165,6 +169,113 @@ function reflowPages(
   return { ok: true, pages: resultPages };
 }
 
+export type MoveCustomImagePlan =
+  | { ok: true; pageUpdates: Record<string, (BinderPocketRef | null)[]> }
+  | { ok: false; reason: "out-of-bounds" | "overlap" };
+
+/**
+ * Pure computation behind moveCustomImage — validates the destination
+ * (fits the layout, doesn't overlap anything other than the group's own
+ * current cells when staying on the same page) and builds the resulting
+ * pockets array(s). No React/network side effects, so it's directly
+ * unit-testable without rendering the store hook — see
+ * remote-store.test.ts.
+ */
+export function computeMoveCustomImage(
+  binder: Binder,
+  sourcePageId: string,
+  sourceAnchorSlotIndex: number,
+  destPageId: string,
+  destAnchorSlotIndex: number
+): MoveCustomImagePlan {
+  const sourcePage = binder.pages.find((p) => p.id === sourcePageId);
+  const destPage = binder.pages.find((p) => p.id === destPageId);
+  if (!sourcePage || !destPage) return { ok: false, reason: "out-of-bounds" };
+  const anchor = sourcePage.pockets[sourceAnchorSlotIndex];
+  if (!isCustomAnchor(anchor)) return { ok: false, reason: "out-of-bounds" };
+
+  const { rows, cols } = BINDER_LAYOUTS[binder.layoutId];
+  const destAnchorRow = Math.floor(destAnchorSlotIndex / cols);
+  const destAnchorCol = destAnchorSlotIndex % cols;
+  if (destAnchorCol + anchor.spanCols > cols || destAnchorRow + anchor.spanRows > rows) {
+    return { ok: false, reason: "out-of-bounds" };
+  }
+
+  const samePage = sourcePageId === destPageId;
+  const sourceCells = new Set(customSpanCells(sourceAnchorSlotIndex, anchor.spanCols, anchor.spanRows, cols));
+  const destCells = customSpanCells(destAnchorSlotIndex, anchor.spanCols, anchor.spanRows, cols);
+  const overlaps = destCells.some((cell) => {
+    // A same-page move drops the group's own current cells first — finding
+    // it "occupied" by itself there isn't a real overlap.
+    if (samePage && sourceCells.has(cell)) return false;
+    return destPage.pockets[cell] != null;
+  });
+  if (overlaps) return { ok: false, reason: "overlap" };
+
+  const nextSourcePockets = clearCustomGroup(sourcePage, sourceAnchorSlotIndex, cols).pockets;
+  const nextDestPockets = samePage ? [...nextSourcePockets] : [...destPage.pockets];
+  for (const cell of destCells) {
+    nextDestPockets[cell] =
+      cell === destAnchorSlotIndex
+        ? { kind: "custom", dataUrl: anchor.dataUrl, spanCols: anchor.spanCols, spanRows: anchor.spanRows }
+        : { kind: "custom-covered", anchorSlotIndex: destAnchorSlotIndex };
+  }
+  // On the same page, nextDestPockets IS the page's next array (it started
+  // as a copy of nextSourcePockets); on different pages they're two
+  // independent arrays for two independent pages.
+  const pageUpdates: Record<string, (BinderPocketRef | null)[]> = samePage
+    ? { [sourcePageId]: nextDestPockets }
+    : { [sourcePageId]: nextSourcePockets, [destPageId]: nextDestPockets };
+
+  return { ok: true, pageUpdates };
+}
+
+export type ResizeCustomImagePlan =
+  | { ok: true; pockets: (BinderPocketRef | null)[] }
+  | { ok: false; reason: "out-of-bounds" | "overlap" };
+
+/**
+ * Pure computation behind resizeCustomImage — validates the new span fits
+ * the page from the fixed anchor and doesn't overlap anything outside the
+ * group's own current cells, and builds the resulting pockets array. No
+ * React/network side effects — see remote-store.test.ts.
+ */
+export function computeResizeCustomImage(
+  binder: Binder,
+  pageId: string,
+  anchorSlotIndex: number,
+  spanCols: number,
+  spanRows: number
+): ResizeCustomImagePlan {
+  const page = binder.pages.find((p) => p.id === pageId);
+  if (!page) return { ok: false, reason: "out-of-bounds" };
+  const anchor = page.pockets[anchorSlotIndex];
+  if (!isCustomAnchor(anchor)) return { ok: false, reason: "out-of-bounds" };
+
+  const { rows, cols } = BINDER_LAYOUTS[binder.layoutId];
+  const anchorRow = Math.floor(anchorSlotIndex / cols);
+  const anchorCol = anchorSlotIndex % cols;
+  if (anchorCol + spanCols > cols || anchorRow + spanRows > rows) {
+    return { ok: false, reason: "out-of-bounds" };
+  }
+
+  const oldCells = new Set(customSpanCells(anchorSlotIndex, anchor.spanCols, anchor.spanRows, cols));
+  const newCells = customSpanCells(anchorSlotIndex, spanCols, spanRows, cols);
+  if (newCells.some((cell) => !oldCells.has(cell) && page.pockets[cell] != null)) {
+    return { ok: false, reason: "overlap" };
+  }
+
+  const nextPockets = [...page.pockets];
+  for (const cell of oldCells) nextPockets[cell] = null;
+  for (const cell of newCells) {
+    nextPockets[cell] =
+      cell === anchorSlotIndex
+        ? { kind: "custom", dataUrl: anchor.dataUrl, spanCols, spanRows }
+        : { kind: "custom-covered", anchorSlotIndex };
+  }
+  return { ok: true, pockets: nextPockets };
+}
+
 /** User-facing message for each mutation's failure toast — same convention as src/lib/pc/remote-store.ts's table. */
 const MUTATION_FAILURE_MESSAGES: Record<string, string> = {
   createBinder: "Couldn't create the binder.",
@@ -178,6 +289,8 @@ const MUTATION_FAILURE_MESSAGES: Record<string, string> = {
   removePage: "Couldn't remove that page.",
   placeCard: "Couldn't update that pocket.",
   placeCustomImage: "Couldn't place that image.",
+  moveCustomImage: "Couldn't move that image.",
+  resizeCustomImage: "Couldn't resize that image.",
   removeHoldingEverywhere: "Couldn't sync that removal to your binders.",
   setActiveBinder: "Couldn't remember which binder you had open.",
   setShowNumberTags: "Couldn't save that setting.",
@@ -241,6 +354,23 @@ export interface BinderState {
   ) => PlaceCustomImageResult;
   /** Removes every placement referencing a holding — call when a holding is deleted from the pc. Catalog-kind pockets are untouched (no Holding backs them). */
   removeHoldingEverywhere: (holdingId: string) => void;
+
+  /** Relocates an existing custom-image group (same dataUrl/span) to a new anchor, within the same binder — same page or a different one. Validates the destination fits and doesn't overlap anything (excluding the group's own current cells when staying on the same page) before moving it atomically. */
+  moveCustomImage: (
+    binderId: string,
+    sourcePageId: string,
+    sourceAnchorSlotIndex: number,
+    destPageId: string,
+    destAnchorSlotIndex: number
+  ) => MoveCustomImageResult;
+  /** Re-spans an existing custom-image group at its current (fixed) anchor. Validates the new span fits the page and doesn't overlap anything outside the group's own current cells. */
+  resizeCustomImage: (
+    binderId: string,
+    pageId: string,
+    anchorSlotIndex: number,
+    spanCols: number,
+    spanRows: number
+  ) => ResizeCustomImageResult;
 }
 
 /**
@@ -635,6 +765,83 @@ export function useRemoteBinderStore<T>(selector: (s: BinderState) => T, opts: {
           })
           .catch((err) => {
             logMutationFailure("placeCustomImage", null, err);
+            reconcile();
+          });
+        return { ok: true };
+      },
+
+      moveCustomImage: (binderId, sourcePageId, sourceAnchorSlotIndex, destPageId, destAnchorSlotIndex) => {
+        const binder = binders.find((b) => b.id === binderId);
+        if (!binder) return { ok: false, reason: "out-of-bounds" };
+        const plan = computeMoveCustomImage(binder, sourcePageId, sourceAnchorSlotIndex, destPageId, destAnchorSlotIndex);
+        if (!plan.ok) return plan;
+        const { pageUpdates } = plan;
+
+        patch((bs) =>
+          bs.map((b) =>
+            b.id !== binderId
+              ? b
+              : {
+                  ...b,
+                  updatedAt: nowIso(),
+                  pages: b.pages.map((p) => (pageUpdates[p.id] ? { ...p, pockets: pageUpdates[p.id] } : p)),
+                }
+          )
+        );
+        // Non-atomic on purpose (matches handleDrop's existing cross-page swap
+        // convention): the DB has no interactive transactions, so a cross-page
+        // move fires one independent PATCH per affected page.
+        for (const [pid, pockets] of Object.entries(pageUpdates)) {
+          fetch(`/api/binder/${binderId}/pages/${pid}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ pockets }),
+          })
+            .then((res) => {
+              if (!res.ok) {
+                logMutationFailure("moveCustomImage", res);
+                reconcile();
+              }
+            })
+            .catch((err) => {
+              logMutationFailure("moveCustomImage", null, err);
+              reconcile();
+            });
+        }
+        return { ok: true };
+      },
+
+      resizeCustomImage: (binderId, pageId, anchorSlotIndex, spanCols, spanRows) => {
+        const binder = binders.find((b) => b.id === binderId);
+        if (!binder) return { ok: false, reason: "out-of-bounds" };
+        const plan = computeResizeCustomImage(binder, pageId, anchorSlotIndex, spanCols, spanRows);
+        if (!plan.ok) return plan;
+        const nextPockets = plan.pockets;
+
+        patch((bs) =>
+          bs.map((b) =>
+            b.id !== binderId
+              ? b
+              : {
+                  ...b,
+                  updatedAt: nowIso(),
+                  pages: b.pages.map((p) => (p.id !== pageId ? p : { ...p, pockets: nextPockets })),
+                }
+          )
+        );
+        fetch(`/api/binder/${binderId}/pages/${pageId}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ pockets: nextPockets }),
+        })
+          .then((res) => {
+            if (!res.ok) {
+              logMutationFailure("resizeCustomImage", res);
+              reconcile();
+            }
+          })
+          .catch((err) => {
+            logMutationFailure("resizeCustomImage", null, err);
             reconcile();
           });
         return { ok: true };
