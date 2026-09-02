@@ -47,10 +47,10 @@ export function coverColorValue(id: BinderCoverColorId): string {
   return BINDER_COVER_COLORS.find((c) => c.id === id)?.value ?? BINDER_COVER_COLORS[0].value;
 }
 
-/** What the pocket grid is filled with behind/around the cards. "match-cover" follows the binder's own coverColor. */
-export type PocketBackground = "match-cover" | "black" | "white";
+/** What fills the page surface behind/around the pockets. "match-cover" follows the binder's own coverColor. */
+export type PageBackground = "match-cover" | "black" | "white";
 
-export function resolvedPocketBackgroundColor(bg: PocketBackground, coverColorId: BinderCoverColorId): string {
+export function resolvedPageBackgroundColor(bg: PageBackground, coverColorId: BinderCoverColorId): string {
   if (bg === "black") return "#0a0a0a";
   if (bg === "white") return "#ffffff";
   return coverColorValue(coverColorId);
@@ -105,7 +105,7 @@ export interface Binder {
   layoutId: BinderLayoutId;
   coverColor: BinderCoverColorId;
   /** Fill behind the pocket grid — defaults to following coverColor. */
-  pocketBackground: PocketBackground;
+  pageBackground: PageBackground;
   status: BinderStatus;
   pages: BinderPage[];
   createdAt: string;
