@@ -140,6 +140,74 @@ async function checkPriceSnapshotFreshness() {
   }
 }
 
+/**
+ * Mirrors checkPriceSnapshotFreshness() above, for the five
+ * workers/cron-image-automation/ jobs (see prisma/schema.prisma's
+ * CronJobState doc comment). Reads all five rows and flags any that are
+ * stale (no run in ~2 days) or whose last run didn't report "ok" —
+ * "sports-image-backfill" is exempt from the staleness check when the
+ * scraper is off (its route returns `{ skipped: true }` without touching
+ * CronJobState at all, so "no row yet" there is the expected steady state,
+ * not a stalled job).
+ */
+async function checkCronJobFreshness() {
+  if (!process.env.DATABASE_URL) {
+    report("Cron job freshness", "info", "skipped — no DATABASE_URL");
+    return;
+  }
+
+  const JOB_NAMES = [
+    "pokemon-catalog-sync",
+    "pokemon-image-backfill",
+    "pokemon-set-logo-backfill",
+    "pokemon-name-en-backfill",
+    "sports-image-backfill",
+  ];
+  const STALE_AFTER_MS = 2 * 24 * 60 * 60 * 1000;
+
+  try {
+    const { PrismaClient } = await import("@prisma/client");
+    const prisma = new PrismaClient();
+    const rows = await prisma.cronJobState.findMany({ where: { name: { in: JOB_NAMES } } });
+    await prisma.$disconnect();
+
+    const byName = new Map(rows.map((r) => [r.name, r]));
+    for (const name of JOB_NAMES) {
+      const row = byName.get(name);
+      if (!row) {
+        if (name === "sports-image-backfill") {
+          report(`Cron job: ${name}`, "info", "no run recorded yet — expected while SPORTS_IMAGE_SCRAPE_ENABLED is off");
+        } else {
+          report(`Cron job: ${name}`, "warn", "no run recorded yet", "Deploy workers/cron-image-automation/ (`npm run deploy:cron-images`) and either wait for its schedule or trigger it manually from the Cloudflare dashboard's \"Trigger Cron\" button.");
+        }
+        continue;
+      }
+
+      const ageMs = row.lastRunAt ? Date.now() - row.lastRunAt.getTime() : Infinity;
+      const stale = ageMs > STALE_AFTER_MS;
+      if (row.lastStatus !== "ok") {
+        report(
+          `Cron job: ${name}`,
+          "warn",
+          `last status "${row.lastStatus}"${row.lastError ? ` — ${row.lastError}` : ""} (ran ${row.lastRunAt?.toISOString() ?? "never"})`,
+          "Check the Cloudflare dashboard's cardstory-cron-image-automation Worker logs, and this route's own error in Cloudflare's Cron Trigger failure log."
+        );
+      } else if (stale) {
+        report(
+          `Cron job: ${name}`,
+          "warn",
+          `last run ${row.lastRunAt?.toISOString()} — looks stalled`,
+          "Cloudflare dashboard → Workers → cardstory-cron-image-automation → Triggers tab — check the last cron run succeeded, and that CRON_SECRET matches on both Workers."
+        );
+      } else {
+        report(`Cron job: ${name}`, "ok", `last run ${row.lastRunAt?.toISOString()}, status "${row.lastStatus}"`);
+      }
+    }
+  } catch (err) {
+    report("Cron job freshness", "fail", `couldn't query — ${(err as Error).message.split("\n")[0]}`);
+  }
+}
+
 async function checkSiteReachable() {
   const url = process.env.NEXT_PUBLIC_APP_URL || "https://cardstory.app";
   try {
@@ -260,6 +328,7 @@ async function main() {
 
   await checkDatabase();
   await checkPriceSnapshotFreshness();
+  await checkCronJobFreshness();
   await checkSiteReachable();
   await checkCronEndpointGuarded();
 

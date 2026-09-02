@@ -7,7 +7,7 @@ Built with Next.js (App Router) + TypeScript + Tailwind + Prisma/Postgres. See [
 ## What's real vs. what's a deliberate limitation
 
 - **Card data & prices are real** — pulled from [pokemontcg.io](https://pokemontcg.io) (Pokémon), free and ToS-safe. Prices are never scraped and never fabricated.
-- **Card images are a documented exception.** English Pokémon images come from pokemontcg.io and most non-English ones from [TCGdex](https://tcgdex.net), but ~15k JP/zh-TW cards have no image in either. Those are backfilled by a one-off, offline, heavily rate-limited crawl of the *official publisher* card databases (`pokemon-card.com`, `asia.pokemon-card.com`) — see `scripts/crawl-pokemon-ja-images.ts`. Only the URL is stored; images are hotlinked from the publisher's own CDN and never re-hosted, and every backfilled row is identifiable by hostname so the whole set can be dropped with one statement. Note that pokemon-card.com's footer asks that its images not be reproduced without permission; hotlinking is a deliberate compromise, not a claim of permission. Sports card images are attached per-card by the owner or hand-curated with a verified source.
+- **Card images are a documented exception.** English Pokémon images come from pokemontcg.io and most non-English ones from [TCGdex](https://tcgdex.net), but ~15k JP/zh-TW cards have no image in either. Those are backfilled from the *official publisher* card databases (`pokemon-card.com`, `asia.pokemon-card.com`) plus a couple of fan sites (`jp.pokellector.com`, `dextcg.com`, `bulbapedia.bulbagarden.net`) — see `scripts/crawl-pokemon-ja-images.ts` and "Pokémon catalog/image/logo/translation sync" below. Only the URL is stored; images are hotlinked from the publisher's own CDN and never re-hosted, and every backfilled row is identifiable by hostname so the whole set can be dropped with one statement. Note that pokemon-card.com's footer asks that its images not be reproduced without permission; hotlinking is a deliberate compromise, not a claim of permission. Sports card images are attached per-card by the owner or hand-curated with a verified source — there is no automated bulk sourcing for them by default (see below).
 - **Price history grows from launch day** — a daily snapshot job records one real price per card per day. There is no backfilled history; charts start short and get longer the longer the app runs.
 - **Only Pokémon is fully wired.** The Sets page shows all ~19 major TCGs for visual parity with the real app, but the other 18 are marked "Coming soon" — no free, ToS-safe pricing API exists for them yet.
 - **Accounts are required for the app.** PCs, watchlists, shortlists, decks, and saved views are server-backed so they follow you across browsers/devices. If your browser still has old anonymous `localStorage` holdings from before auth became required, the first signed-in visit offers a one-time import into the account.
@@ -82,6 +82,22 @@ npm run snapshot:manual
 
 In production, the `workers/cron-snapshot/` Worker schedules this daily via a Cloudflare Cron Trigger against `POST /api/cron/snapshot-prices`, authenticated with the `CRON_SECRET` env var (must match on both Workers — see `workers/cron-snapshot/wrangler.jsonc`).
 
+## Keeping the catalog, images, logos and translations fresh
+
+Pokémon catalog sync, card-image backfill, set-logo backfill, and English-name (`nameEn`) backfill for non-English sets/cards now run nightly and unattended via `workers/cron-image-automation/` (five Cloudflare Cron Triggers → `POST /api/cron/pokemon-catalog-sync|pokemon-image-backfill|pokemon-set-logo-backfill|pokemon-name-en-backfill|sports-image-backfill`, same auth/deploy pattern as `workers/cron-snapshot/` above — `npm run deploy:cron-images`). Each job is bounded and cursor-based (`CronJobState`, `src/lib/automation/`), so a run picks up where the last one left off instead of re-scanning everything every night; set `IMAGE_AUTOMATION_ENABLED=false` to pause all four Pokémon legs without undeploying the Worker.
+
+Card-image and set-logo matches are staged into `CrawledImageCandidate` (status `"pending"`) rather than written straight to the catalog — review and apply/reject them with:
+
+```bash
+npx tsx scripts/review-image-candidates.ts list
+npx tsx scripts/review-image-candidates.ts apply <id> [<id> ...]
+npx tsx scripts/review-image-candidates.ts reject <id> [<id> ...]
+```
+
+`npm run report:missing-content` shows current gaps (Pokémon card/set images, `nameEn`, and — new — a `sports` section for non-parallel sports-card images/set logos) to prioritize against, and `npm run health-check` reports each cron job's freshness/last status.
+
+**Sports card images/logos remain hand-curated by default** — there's no free, ToS-safe bulk source for NBA/F1/UFC/Tennis checklist images the way pokemontcg.io/TCGdex cover Pokémon. An optional scraper (`src/lib/automation/sports/image-scrape.ts`, candidate sources in `src/lib/automation/sports/profiles.ts`) exists behind `SPORTS_IMAGE_SCRAPE_ENABLED` (default off, same posture as `EBAY_SOLD_COMPS_ENABLED`) — every match it finds is staged for review, never auto-applied, and the flag must stay off until a human has confirmed the chosen source's robots.txt/Terms of Service actually allow this.
+
 ## Project structure
 
 - `src/app/` — routes (`explore`, `sets`, `card/[game]/[cardId]`, `pc`, `trade-analyzer`, `showcase/[shareId]`, `scan`) and API routes under `api/`.
@@ -93,7 +109,8 @@ In production, the `workers/cron-snapshot/` Worker schedules this daily via a Cl
 - `src/lib/scan/` — Claude vision call + Fuse.js catalog matching.
 - `src/lib/scanning/` — the shared card-scanning engine (detect -> crop -> identify -> rank -> confidence) behind the Mass Card Scanner and Binder Import.
 - `src/lib/cardvision/` — CardVision, the provider-agnostic vision-retrieval recognition architecture Phase 1 of; not used by Scan/Binder Import yet — see `docs/cardvision.md`.
-- `prisma/schema.prisma` — the catalog, price-history, sports-card, and showcase-snapshot data model.
+- `src/lib/automation/` — the recurring catalog/image/set-logo/nameEn sync jobs behind `workers/cron-image-automation/` — see "Keeping the catalog, images, logos and translations fresh" above.
+- `prisma/schema.prisma` — the catalog, price-history, sports-card, showcase-snapshot, and cron-automation data model.
 
 ## Deploying
 
@@ -144,7 +161,8 @@ verify:schema`) first — same protection, applied against whatever `DATABASE_UR
 
 ```bash
 DATABASE_URL="<neon pooled url>" DIRECT_URL="<neon direct url>" npm run deploy
-npm run deploy:cron  # deploys the daily price-snapshot cron Worker (no DB migration needed)
+npm run deploy:cron         # deploys the daily price-snapshot cron Worker (no DB migration needed)
+npm run deploy:cron-images  # deploys the catalog/image/logo/nameEn automation cron Worker
 ```
 
 If you're intentionally deploying with no pending schema changes and don't want to
@@ -160,4 +178,4 @@ against prod, bypassing the (incorrectly) already-marked-applied migration histo
 npx prisma db execute --file prisma/migrations/<dir>/migration.sql --schema prisma/schema.prisma
 ```
 
-Set the env vars from `.env.example` as Worker secrets (`wrangler secret put <NAME>`, using your Neon connection strings) rather than in `wrangler.jsonc`, since that file is committed. `CRON_SECRET` must be set on both Workers with the same value — see `workers/cron-snapshot/wrangler.jsonc`.
+Set the env vars from `.env.example` as Worker secrets (`wrangler secret put <NAME>`, using your Neon connection strings) rather than in `wrangler.jsonc`, since that file is committed. `CRON_SECRET` must be set with the same value on the main `cardstory` Worker AND both cron Workers (`workers/cron-snapshot/wrangler.jsonc`, `workers/cron-image-automation/wrangler.jsonc`).

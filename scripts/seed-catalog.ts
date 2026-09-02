@@ -16,6 +16,18 @@
  * handy for iterating without re-pulling Pokémon's entire multi-hundred-set
  * history every time. Re-run any time — everything here is an upsert, so
  * it's safe to repeat.
+ *
+ * NOT a thin wrapper around src/lib/automation/pokemon/catalog-sync.ts
+ * (the nightly-cron incremental version of this same idea) — deliberately.
+ * That module always processes every set the provider returns (no per-game
+ * SETS_CAP_OVERRIDE) and fetches sets for a caller-supplied gameId list, not
+ * this script's "one arbitrary gameId, or every wired game" CLI ergonomics;
+ * reshaping this script around it risked changing its manual full-reseed
+ * behavior (SETS_CAP_OVERRIDE's per-game set cap, single-gameId scoping) for
+ * a ~40-line saving. The two share every Prisma upsert shape by construction
+ * (both were extracted from the same original logic) — kept as deliberate,
+ * narrow duplication rather than a wrapper that risks the primary manual
+ * reseed tool.
  */
 import { PrismaClient } from "@prisma/client";
 import { GAMES, GAME_PROVIDERS } from "@/lib/games/registry";
