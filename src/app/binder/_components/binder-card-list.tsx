@@ -20,11 +20,13 @@ function buildRows(binder: Binder, cols: number, cardsById: Map<string, Enriched
   const rows: CardListRow[] = [];
   binder.pages.forEach((page, pageIdx) => {
     page.pockets.forEach((ref, slotIndex) => {
-      if (!ref) return;
+      if (!ref || ref.kind === "custom-covered") return;
       const name =
         ref.kind === "holding"
           ? (cardsById.get(ref.holdingId)?.display.name ?? "Unknown card")
-          : (catalogItemsById.get(ref.catalogItemId)?.name ?? "Unknown card");
+          : ref.kind === "catalog"
+            ? (catalogItemsById.get(ref.catalogItemId)?.name ?? "Unknown card")
+            : "Custom image";
       rows.push({
         index: rows.length + 1,
         name,

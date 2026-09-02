@@ -7,13 +7,13 @@ import type { BinderPage, PocketRef } from "@/lib/binder/types";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
 import type { CatalogItemDetail } from "@/lib/catalog/by-ids";
 
-/** Resolves a pocket's stored reference into display data, whichever kind it is — the one place holding-vs-catalog is branched on for rendering. */
+/** Resolves a pocket's stored reference into display data, whichever kind it is — the one place holding/catalog/custom is branched on for rendering. Returns undefined for an empty slot AND for a "custom-covered" slot (rendered as a spacer, never a pocket of its own — see the render loop below). */
 function resolvePocketCard(
   ref: BinderPage["pockets"][number],
   cardsById: Map<string, EnrichedHolding>,
   catalogItemsById: Map<string, CatalogItemDetail>
 ): PocketCard | undefined {
-  if (!ref) return undefined;
+  if (!ref || ref.kind === "custom-covered") return undefined;
   if (ref.kind === "holding") {
     const holding = cardsById.get(ref.holdingId);
     if (!holding) return undefined;
@@ -23,6 +23,17 @@ function resolvePocketCard(
       number: holding.display.number,
       imageUrl: holding.display.imageUrl,
       notOwned: false,
+      isCustom: false,
+    };
+  }
+  if (ref.kind === "custom") {
+    return {
+      name: "Custom image",
+      nameEn: null,
+      number: null,
+      imageUrl: ref.dataUrl,
+      notOwned: false,
+      isCustom: true,
     };
   }
   const item = catalogItemsById.get(ref.catalogItemId);
@@ -33,6 +44,7 @@ function resolvePocketCard(
     number: item.number,
     imageUrl: item.imageSmallUrl,
     notOwned: true,
+    isCustom: false,
   };
 }
 
@@ -68,6 +80,8 @@ export function BinderPageView({
   dragOverSlot,
   showNumberTags,
   showNotOwnedTags,
+  background,
+  interactive = true,
   onSelectPocket,
   onClearPocket,
   onDragStartSlot,
@@ -89,14 +103,18 @@ export function BinderPageView({
   dragOverSlot: number | null;
   showNumberTags: boolean;
   showNotOwnedTags: boolean;
-  onSelectPocket: (slotIndex: number) => void;
-  onClearPocket: (slotIndex: number) => void;
-  onDragStartSlot: (slotIndex: number) => void;
-  onDragOverSlot: (slotIndex: number) => void;
-  onDragLeaveSlot: () => void;
-  onDropSlot: (slotIndex: number) => void;
-  onDragEndSlot: () => void;
-  onRemovePage: () => void;
+  /** Resolved CSS color behind every pocket on this page (see resolvedPocketBackgroundColor). */
+  background: string;
+  /** False in the fullscreen preview — hides editing chrome (remove-page, add/remove pocket controls, drag) entirely. */
+  interactive?: boolean;
+  onSelectPocket?: (slotIndex: number) => void;
+  onClearPocket?: (slotIndex: number) => void;
+  onDragStartSlot?: (slotIndex: number) => void;
+  onDragOverSlot?: (slotIndex: number) => void;
+  onDragLeaveSlot?: () => void;
+  onDropSlot?: (slotIndex: number) => void;
+  onDragEndSlot?: () => void;
+  onRemovePage?: () => void;
 }) {
   // Pages are punched on the spine-side edge: left pages hinge on their
   // right, right/single pages hinge on their left.
@@ -120,42 +138,55 @@ export function BinderPageView({
           gridTemplateRows: `repeat(${rows}, minmax(0, 1fr))`,
         }}
       >
-        {page.pockets.map((ref, slotIndex) => (
-          <BinderPocket
-            key={slotIndex}
-            card={resolvePocketCard(ref, cardsById, catalogItemsById)}
-            selected={selectedPocket?.pageId === page.id && selectedPocket.slotIndex === slotIndex}
-            draggedOver={dragSourcePageId != null && dragOverSlot === slotIndex}
-            showNumberTag={showNumberTags}
-            showNotOwnedTag={showNotOwnedTags}
-            onSelect={() => onSelectPocket(slotIndex)}
-            onClear={() => onClearPocket(slotIndex)}
-            onDragStart={() => onDragStartSlot(slotIndex)}
-            onDragOver={(e) => {
-              e.preventDefault();
-              onDragOverSlot(slotIndex);
-            }}
-            onDragLeave={onDragLeaveSlot}
-            onDrop={(e) => {
-              e.preventDefault();
-              onDropSlot(slotIndex);
-            }}
-            onDragEnd={onDragEndSlot}
-          />
-        ))}
+        {page.pockets.map((ref, slotIndex) => {
+          // A slot covered by another anchor's span isn't its own pocket —
+          // render an invisible spacer so the grid still reserves the cell
+          // without drawing an empty "+" add-button underneath the span.
+          if (ref?.kind === "custom-covered") return <div key={slotIndex} aria-hidden />;
+
+          const isAnchor = ref?.kind === "custom";
+          return (
+            <BinderPocket
+              key={slotIndex}
+              card={resolvePocketCard(ref, cardsById, catalogItemsById)}
+              selected={selectedPocket?.pageId === page.id && selectedPocket.slotIndex === slotIndex}
+              draggedOver={dragSourcePageId != null && dragOverSlot === slotIndex}
+              showNumberTag={showNumberTags}
+              showNotOwnedTag={showNotOwnedTags}
+              background={background}
+              gridSpan={isAnchor && ref.kind === "custom" ? { cols: ref.spanCols, rows: ref.spanRows } : undefined}
+              interactive={interactive}
+              onSelect={() => onSelectPocket?.(slotIndex)}
+              onClear={() => onClearPocket?.(slotIndex)}
+              onDragStart={() => onDragStartSlot?.(slotIndex)}
+              onDragOver={(e) => {
+                e.preventDefault();
+                onDragOverSlot?.(slotIndex);
+              }}
+              onDragLeave={onDragLeaveSlot}
+              onDrop={(e) => {
+                e.preventDefault();
+                onDropSlot?.(slotIndex);
+              }}
+              onDragEnd={onDragEndSlot}
+            />
+          );
+        })}
       </div>
 
-      <div className="mt-2 flex items-center justify-center gap-1.5">
-        <p className="text-[11px] text-muted-foreground/70">Page {pageNumber}</p>
-        <button
-          type="button"
-          onClick={onRemovePage}
-          aria-label={`Remove page ${pageNumber}`}
-          className="rounded p-0.5 text-muted-foreground/50 transition-colors hover:bg-black/10 hover:text-negative dark:hover:bg-white/10"
-        >
-          <Trash2 className="size-3" />
-        </button>
-      </div>
+      {interactive && (
+        <div className="mt-2 flex items-center justify-center gap-1.5">
+          <p className="text-[11px] text-muted-foreground/70">Page {pageNumber}</p>
+          <button
+            type="button"
+            onClick={onRemovePage}
+            aria-label={`Remove page ${pageNumber}`}
+            className="rounded p-0.5 text-muted-foreground/50 transition-colors hover:bg-black/10 hover:text-negative dark:hover:bg-white/10"
+          >
+            <Trash2 className="size-3" />
+          </button>
+        </div>
+      )}
     </div>
   );
 }

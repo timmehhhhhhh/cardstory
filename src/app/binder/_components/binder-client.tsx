@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowLeft, Camera, Check } from "lucide-react";
+import { ArrowLeft, BookOpen, Camera, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePCData } from "@/hooks/use-pc-data";
 import { useMediaQuery } from "@/hooks/use-media-query";
@@ -12,7 +12,10 @@ import {
   BINDER_COVER_COLORS,
   BINDER_LAYOUTS,
   coverColorValue,
+  resolvedPocketBackgroundColor,
+  type BinderLayoutId,
   type BinderPocketRef,
+  type PocketBackground,
   type PocketRef,
 } from "@/lib/binder/types";
 import { PCSelector } from "@/app/pc/_components/pc-selector";
@@ -22,6 +25,7 @@ import { BinderSpread, type VisiblePage } from "@/app/binder/_components/binder-
 import { BinderPageNav } from "@/app/binder/_components/binder-page-nav";
 import { BinderCardList } from "@/app/binder/_components/binder-card-list";
 import { CardPickerSheet } from "@/app/binder/_components/card-picker-sheet";
+import { BinderPreview } from "@/app/binder/_components/binder-preview";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,6 +33,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
+
+const POCKET_BACKGROUND_OPTIONS: { id: PocketBackground; label: string }[] = [
+  { id: "match-cover", label: "Match binder" },
+  { id: "black", label: "Black" },
+  { id: "white", label: "White" },
+];
 
 export function BinderClient({
   pcIdOverride,
@@ -53,9 +63,11 @@ export function BinderClient({
   const binder = binders.find((b) => b.id === activeBinderId) ?? binders[0];
   const setLayout = useBinderStore((s) => s.setLayout);
   const setCoverColor = useBinderStore((s) => s.setCoverColor);
+  const setPocketBackground = useBinderStore((s) => s.setPocketBackground);
   const addPage = useBinderStore((s) => s.addPage);
   const removePage = useBinderStore((s) => s.removePage);
   const placeCard = useBinderStore((s) => s.placeCard);
+  const placeCustomImage = useBinderStore((s) => s.placeCustomImage);
   const showNumberTags = useBinderStore((s) => s.showNumberTags);
   const setShowNumberTags = useBinderStore((s) => s.setShowNumberTags);
   const showNotOwnedTags = useBinderStore((s) => s.showNotOwnedTags);
@@ -70,6 +82,8 @@ export function BinderClient({
   const [dragSource, setDragSource] = React.useState<PocketRef | null>(null);
   const [dragOverPocket, setDragOverPocket] = React.useState<PocketRef | null>(null);
   const [layoutMenuOpen, setLayoutMenuOpen] = React.useState(false);
+  const [layoutBlockedMessage, setLayoutBlockedMessage] = React.useState<string | null>(null);
+  const [previewOpen, setPreviewOpen] = React.useState(false);
 
   const pageCount = binder.pages.length;
 
@@ -216,15 +230,55 @@ export function BinderClient({
     const targetPage = binder.pages.find((p) => p.id === pageId);
     const sourceHolding = sourcePage?.pockets[dragSource.slotIndex] ?? null;
     const targetHolding = targetPage?.pockets[slotIndex] ?? null;
+    // Custom images are repositioned by delete + re-place, not drag — a
+    // group spans multiple slots and can't be swapped as one via placeCard.
+    // BinderPocket already refuses to make a custom pocket draggable, but
+    // guard here too since dragSource/target come from state, not a type.
+    if (
+      sourceHolding?.kind === "custom" ||
+      sourceHolding?.kind === "custom-covered" ||
+      targetHolding?.kind === "custom" ||
+      targetHolding?.kind === "custom-covered"
+    ) {
+      setDragSource(null);
+      setDragOverPocket(null);
+      return;
+    }
     placeCard(binder.id, pageId, slotIndex, sourceHolding);
     placeCard(binder.id, dragSource.pageId, dragSource.slotIndex, targetHolding);
     setDragSource(null);
     setDragOverPocket(null);
   }
 
+  function handlePlaceCustomImage(dataUrl: string, spanCols: number, spanRows: number) {
+    if (!selectedPocket) return { ok: false as const, reason: "out-of-bounds" as const };
+    const result = placeCustomImage(binder.id, selectedPocket.pageId, selectedPocket.slotIndex, dataUrl, spanCols, spanRows);
+    if (result.ok) {
+      setSelectedPocket(null);
+      setPickerOpen(false);
+    }
+    return result;
+  }
+
+  function handleLayoutChange(layoutId: BinderLayoutId) {
+    const result = setLayout(binder.id, layoutId);
+    if (!result.ok) {
+      const pages = result.blockedBy.map((b) => b.pageNumber).join(", ");
+      setLayoutBlockedMessage(
+        `Remove the custom image${result.blockedBy.length > 1 ? "s" : ""} on page${result.blockedBy.length > 1 ? "s" : ""} ${pages} before shrinking this layout.`
+      );
+    } else {
+      setLayoutBlockedMessage(null);
+      setLayoutMenuOpen(false);
+    }
+  }
+
+  const pocketBackground = resolvedPocketBackgroundColor(binder.pocketBackground, binder.coverColor);
+  const selectedPage = selectedPocket ? binder.pages.find((p) => p.id === selectedPocket.pageId) : undefined;
+
   return (
-    <div className="mx-auto flex max-w-5xl flex-col gap-5 px-4 py-6 sm:px-6">
-      <div className="flex flex-col gap-3">
+    <div className="mx-auto flex h-dvh max-h-dvh w-full max-w-5xl flex-col gap-4 px-4 py-4 sm:gap-5 sm:px-6 sm:py-6">
+      <div className="flex flex-none flex-col gap-3">
         <Link
           href={backHref}
           className="inline-flex w-fit items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
@@ -240,8 +294,11 @@ export function BinderClient({
               Mock up how your cards would look in a physical binder page.
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <BinderSelector />
+            <Button variant="outline" size="sm" onClick={() => setPreviewOpen(true)}>
+              <BookOpen className="size-4" /> Preview
+            </Button>
             <Button asChild variant="outline" size="sm">
               <Link href={`/binder/import?binderId=${binder.id}`}>
                 <Camera className="size-4" /> Import Physical Binder
@@ -270,13 +327,7 @@ export function BinderClient({
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-64 p-3" align="start">
               <p className="mb-2 text-xs font-medium text-muted-foreground">Pocket layout</p>
-              <LayoutPicker
-                value={binder.layoutId}
-                onChange={(layoutId) => {
-                  setLayout(binder.id, layoutId);
-                  setLayoutMenuOpen(false);
-                }}
-              />
+              <LayoutPicker value={binder.layoutId} onChange={handleLayoutChange} />
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -312,12 +363,41 @@ export function BinderClient({
               </button>
             ))}
           </div>
+
+          <div className="h-4 w-px bg-border" />
+
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs font-medium text-muted-foreground">Pockets</span>
+            {POCKET_BACKGROUND_OPTIONS.map((opt) => (
+              <button
+                key={opt.id}
+                type="button"
+                aria-label={`${opt.label} pocket background`}
+                aria-pressed={binder.pocketBackground === opt.id}
+                onClick={() => setPocketBackground(binder.id, opt.id)}
+                className="flex size-6 items-center justify-center rounded-full ring-1 ring-black/15"
+                style={{
+                  background:
+                    opt.id === "match-cover" ? coverColorValue(binder.coverColor) : opt.id === "black" ? "#0a0a0a" : "#ffffff",
+                }}
+              >
+                {binder.pocketBackground === opt.id && (
+                  <Check className={cn("size-3.5", opt.id === "white" ? "text-black/70" : "text-white/90")} />
+                )}
+              </button>
+            ))}
+          </div>
         </div>
+
+        {layoutBlockedMessage && (
+          <p className="rounded-lg bg-destructive/10 px-3 py-2 text-xs text-destructive">{layoutBlockedMessage}</p>
+        )}
       </div>
 
       <BinderSpread
         visiblePages={visiblePages}
         coverColor={coverColorValue(binder.coverColor)}
+        pocketBackground={pocketBackground}
         rows={layout.rows}
         cols={layout.cols}
         cardsById={cardsById}
@@ -340,7 +420,7 @@ export function BinderClient({
         onRemovePage={handleRemovePage}
       />
 
-      <div className="flex justify-center">
+      <div className="flex flex-none justify-center">
         <BinderPageNav
           pages={binder.pages}
           cursor={cursor}
@@ -357,7 +437,7 @@ export function BinderClient({
         />
       </div>
 
-      <p className={cn("text-center text-xs text-muted-foreground", rows.length > 0 && "hidden")}>
+      <p className={cn("flex-none text-center text-xs text-muted-foreground", rows.length > 0 && "hidden")}>
         Your pc is empty — add cards from{" "}
         <Link href="/explore" className="text-primary hover:underline">
           Explore
@@ -365,7 +445,9 @@ export function BinderClient({
         first, then come back to fill your binder.
       </p>
 
-      <BinderCardList binder={binder} cols={layout.cols} cardsById={cardsById} catalogItemsById={catalogItemsById} />
+      <div className="flex-none">
+        <BinderCardList binder={binder} cols={layout.cols} cardsById={cardsById} catalogItemsById={catalogItemsById} />
+      </div>
 
       <CardPickerSheet
         open={pickerOpen}
@@ -377,6 +459,24 @@ export function BinderClient({
         usedCounts={usedCounts}
         ownedCatalogItemIds={ownedCatalogItemIds}
         onPick={handlePick}
+        targetPage={selectedPage}
+        layoutCols={layout.cols}
+        layoutRows={layout.rows}
+        anchorSlotIndex={selectedPocket?.slotIndex}
+        onPlaceCustomImage={handlePlaceCustomImage}
+      />
+
+      <BinderPreview
+        open={previewOpen}
+        onOpenChange={setPreviewOpen}
+        binder={binder}
+        layout={layout}
+        coverColor={coverColorValue(binder.coverColor)}
+        pocketBackground={pocketBackground}
+        cardsById={cardsById}
+        catalogItemsById={catalogItemsById}
+        showNumberTags={showNumberTags}
+        showNotOwnedTags={showNotOwnedTags}
       />
     </div>
   );
