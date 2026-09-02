@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { usePCStore } from "@/lib/pc/store";
-import { useBinderStore } from "@/lib/binder/store";
+import { useBinderStore, getBindersSnapshot } from "@/lib/binder/store";
 import { BINDER_LAYOUTS, pocketCount } from "@/lib/binder/types";
 import { id as makeId } from "@/lib/pc/id";
 import type { CandidateMatch, ScanResult } from "@/lib/scanning";
@@ -78,29 +78,32 @@ async function scanPage(page: CapturedPage, maxCards: number): Promise<ScanResul
   }
 }
 
-/**
- * Ensures the binder has a page at `targetIndex` (0-based), creating pages
- * as needed via the existing store action — reads/writes the *live* store
- * state directly (useBinderStore.getState()) rather than a stale React
- * closure, since this runs inside an imperative commit flow, not render.
- */
-function ensureBinderPageAt(binderId: string, targetIndex: number) {
-  let binder = useBinderStore.getState().binders.find((b) => b.id === binderId);
-  if (!binder) throw new Error("Binder not found");
-  while (binder.pages.length <= targetIndex) {
-    useBinderStore.getState().addPage(binderId);
-    binder = useBinderStore.getState().binders.find((b) => b.id === binderId)!;
-  }
-  return binder.pages[targetIndex];
-}
-
 export function ImportClient({ binderId }: { binderId: string }) {
   const router = useRouter();
   const queryClient = useQueryClient();
 
   const binders = useBinderStore((s) => s.binders);
+  const addPage = useBinderStore((s) => s.addPage);
   const placeCard = useBinderStore((s) => s.placeCard);
   const binder = binders.find((b) => b.id === binderId);
+
+  /**
+   * Ensures the binder has a page at `targetIndex` (0-based), creating
+   * pages as needed via the store's addPage action — reads the *live*
+   * query-cache snapshot (getBindersSnapshot) rather than the `binders`
+   * captured in this render's closure, since this runs inside an
+   * imperative commit flow, not render, and addPage's optimistic patch
+   * lands in the cache synchronously (see remote-store.ts).
+   */
+  function ensureBinderPageAt(targetBinderId: string, targetIndex: number) {
+    let b = getBindersSnapshot(queryClient).find((x) => x.id === targetBinderId);
+    if (!b) throw new Error("Binder not found");
+    while (b.pages.length <= targetIndex) {
+      addPage(targetBinderId);
+      b = getBindersSnapshot(queryClient).find((x) => x.id === targetBinderId)!;
+    }
+    return b.pages[targetIndex];
+  }
 
   const pcs = usePCStore((s) => s.pcs);
   const activePCId = usePCStore((s) => s.activePCId);
@@ -125,11 +128,11 @@ export function ImportClient({ binderId }: { binderId: string }) {
   // "Import anyway", so a refresh can never silently duplicate Holdings.
   const [duplicateWarning, setDuplicateWarning] = React.useState<{ pockets: number[] } | null>(null);
 
-  // Creates the session the first time `binder` becomes available (it's
-  // hydrated client-side from localStorage — see src/lib/binder/store.ts —
-  // so it may be briefly undefined on first render). Derived during render
-  // rather than an effect, matching src/app/binder/_components/
-  // binder-client.tsx's own active-binder-reset pattern per
+  // Creates the session the first time `binder` becomes available (binders
+  // are server-fetched now — see src/lib/binder/store.ts — so `binders` is
+  // briefly `[]` on first render until GET /api/binder resolves). Derived
+  // during render rather than an effect, matching src/app/binder/
+  // _components/binder-client.tsx's own active-binder-reset pattern per
   // https://react.dev/learn/you-might-not-need-an-effect.
   const [sessionBinderId, setSessionBinderId] = React.useState<string | null>(null);
   if (binder && binder.id !== sessionBinderId) {

@@ -384,7 +384,7 @@ model SportsCardItem {
   /// backfill (src/lib/automation/sports/image-scrape.ts, off by default —
   /// see SPORTS_IMAGE_SCRAPE_ENABLED) and by upsertChecklistSportsCardItem
   /// for future seeds.
-  setLogoUrl       String?
+  setLogoUrl String?
 
   /// SportsCardsPro's product id, cached once resolved via search so later
   /// refreshes go straight to id lookup — same rate-limit reasoning as
@@ -485,34 +485,45 @@ model ShowcaseSnapshot {
 /// there's no Account/Session/VerificationToken adapter tables — NextAuth
 /// is configured with JWT sessions, which need no DB-backed session state.
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  passwordHash String
+  id               String   @id @default(cuid())
+  email            String   @unique
+  passwordHash     String
   /// Self-designated seller status, toggled from the account menu (see
   /// src/app/api/account/vendor/route.ts) — no admin approval flow exists
   /// today. Gates the Explore-area "Business mode" toggle
   /// (src/app/explore/_components/business-mode-toggle.tsx), which is the
   /// only thing this flag controls.
-  isVendor     Boolean  @default(false)
+  isVendor         Boolean  @default(false)
   /// Per-account display preference: when true, all monetary values and
   /// pricing charts are masked app-wide for this user (see
   /// src/lib/utils/use-pricing-visible.ts). Toggled from
   /// src/app/settings/_components/settings-client.tsx.
-  hidePricing  Boolean  @default(false)
+  hidePricing      Boolean  @default(false)
   /// Grants access to admin-only tooling — currently just the card-family
   /// linking UI/API (src/app/api/admin/card-family/route.ts), which lets an
   /// admin link/unlink two CatalogItem rows as reprints/language variants
   /// of each other. Unlike isVendor this is never self-service: it has no
   /// toggle route and must be set directly in the database.
-  isAdmin      Boolean  @default(false)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  isAdmin          Boolean  @default(false)
+  /// Binder Planner's per-user UI state — which binder is currently open
+  /// and the two pocket-tag display toggles. Plain columns (like
+  /// hidePricing above), not their own table, since there's exactly one of
+  /// each per user. The binders themselves are a separate model below;
+  /// this is only the "what was I looking at" state that used to live
+  /// alongside them in the old localStorage blob (see Binder's doc
+  /// comment). Nullable since a brand-new user has no binder yet.
+  activeBinderId   String?
+  showNumberTags   Boolean  @default(true)
+  showNotOwnedTags Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   portfolios        Portfolio[]
   showcaseSnapshots ShowcaseSnapshot[]
   activityLogs      ActivityLog[]
   watchlistEntries  WatchlistEntry[]
   shortlistItems    ShortlistItem[]
+  binders           Binder[]
   savedViews        SavedView[]
   curatedSets       CuratedSet[]
   decks             Deck[]
@@ -848,11 +859,8 @@ model CuratedSet {
 
 /// Server-backed deck ("Deck Crafting" — src/app/deck-crafting) for a
 /// signed-in user; reads/writes go through these tables via
-/// src/lib/deck-crafting/store.ts.
-/// Deliberately NOT following Binder's local-only-forever pattern — a deck
-/// is a discrete named entity a user builds up over time and expects to
-/// find again on another device, same shape as a Portfolio, not a single
-/// per-browser planning tool.
+/// src/lib/deck-crafting/store.ts. Same "discrete named entity the user
+/// expects to find again on another device" shape as Binder below.
 model Deck {
   id        String     @id @default(cuid())
   userId    String
@@ -908,6 +916,60 @@ model DeckCard {
 
   @@index([deckId])
   @@map("deck_cards")
+}
+
+/// Server-backed Binder Planner mockup for a signed-in user — was a
+/// per-browser localStorage-only feature (see the "cardstory:binder:v1"
+/// key its old zustand store used) until it was given real tables so a
+/// binder started on one device is still there on the next. Reads/writes
+/// go through src/lib/binder/manage.ts, same seam every other server-
+/// backed feature funnels through.
+model Binder {
+  id             String       @id @default(cuid())
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name           String
+  /// A BinderLayoutId ("4" | "6" | "9" | "12" | "16" | "20" — see
+  /// src/lib/binder/types.ts's BINDER_LAYOUTS), validated by zod at the
+  /// API boundary rather than a Prisma enum, same convention as
+  /// Holding.condition/Deck.gameId.
+  layoutId       String       @default("9")
+  /// A BinderCoverColorId (see BINDER_COVER_COLORS in types.ts).
+  coverColor     String       @default("black")
+  /// A PageBackground ("match-cover" | "black" | "white").
+  pageBackground String       @default("match-cover")
+  /// "wip" | "live" — a plain user-set label, same convention as
+  /// Deck.status/Holding.kind: never derived from whether every pocket is
+  /// filled or every card is owned.
+  status         String       @default("wip")
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  pages          BinderPage[]
+
+  @@index([userId])
+  @@map("binders")
+}
+
+/// One page of a Binder, in reading order (`sortOrder`). `pockets` is the
+/// page's full `(BinderPocketRef | null)[]` array (see types.ts) stored
+/// verbatim as one JSON blob rather than exploded into per-pocket rows: a
+/// "custom"-kind pocket's multi-cell image span must stay atomic with the
+/// "custom-covered" sentinels it covers, and the client's reflow/placement
+/// logic (reflowPages, placeCustomImage) already operates on the whole
+/// array at once. A "custom" ref's uploaded image `dataUrl` is embedded
+/// inline here, same as it was in localStorage — this app has no blob
+/// storage to offload it to.
+model BinderPage {
+  id        String   @id @default(cuid())
+  binderId  String
+  binder    Binder   @relation(fields: [binderId], references: [id], onDelete: Cascade)
+  sortOrder Int      @default(0)
+  pockets   Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([binderId, sortOrder])
+  @@map("binder_pages")
 }
 
 /// CardVision Phase 2's persistent cache of downloaded reference-card

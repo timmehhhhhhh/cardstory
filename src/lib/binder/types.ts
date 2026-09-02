@@ -1,8 +1,9 @@
 /**
  * Virtual binder — a per-page grid of "pockets" the user assigns pc
  * holdings to, purely to preview how a physical binder page would look.
- * Lives entirely in localStorage (see store.ts); it references holdings by
- * id but never mutates the pc itself.
+ * Server-backed per signed-in user (see store.ts/remote-store.ts and the
+ * Binder/BinderPage models in prisma/schema.prisma); it references
+ * holdings by id but never mutates the pc itself.
  */
 
 export const BINDER_LAYOUTS = {

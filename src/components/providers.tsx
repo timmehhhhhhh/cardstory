@@ -7,6 +7,7 @@ import { SessionProvider } from "next-auth/react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 import { PCImportPrompt } from "@/components/auth/pc-import-prompt";
+import { BinderImportPrompt } from "@/components/auth/binder-import-prompt";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = React.useState(
@@ -33,6 +34,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           <TooltipProvider delayDuration={150}>
             {children}
             <PCImportPrompt />
+            <BinderImportPrompt />
             <Toaster position="bottom-right" richColors />
           </TooltipProvider>
         </ThemeProvider>
