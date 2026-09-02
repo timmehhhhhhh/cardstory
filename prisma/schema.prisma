@@ -24,6 +24,51 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+/// One row per named scheduled job. Cloudflare Cron Triggers give each run
+/// a fresh, short-lived invocation with no persistent process and no
+/// writable filesystem, so this Postgres row replaces the fs-based
+/// scripts/lib/crawl-cache.ts (scripts/.cache/*.jsonl) used by today's
+/// manual one-off crawlers — same resumability idea, one DB row instead of
+/// one file per job. See src/lib/automation/cron-job-state.ts.
+model CronJobState {
+  name        String    @id
+  cursor      Json?
+  lastRunAt   DateTime?
+  lastStatus  String? // "ok" | "circuit-broken" | "error"
+  lastError   String?
+  lastSummary Json?
+  updatedAt   DateTime  @updatedAt
+
+  @@map("cron_job_states")
+}
+
+/// Staged image/logo discovery pending human review before being written to
+/// CatalogItem/Set/SportsCardItem. Postgres-backed replacement for the
+/// existing crawl -> verified:false JSON -> human review -> flip -> apply
+/// pipeline (scripts/crawl-pokemon-ja-images.ts, scripts/seed-card-images.ts),
+/// which has no filesystem to write review JSON to under Cloudflare Workers.
+model CrawledImageCandidate {
+  id                    String    @id @default(cuid())
+  source                String // e.g. "pokemon-card.com-ja", "cardboardconnection-nba"
+  targetType            String // "catalogItem" | "set" | "sportsCardItem"
+  catalogItemGameId     String?
+  catalogItemExternalId String?
+  setId                 String?
+  sportsCardItemId      String?
+  imageUrl              String?
+  imageBackUrl          String?
+  logoUrl               String?
+  sourceUrl             String
+  status                String    @default("pending") // "pending" | "auto-applied" | "applied" | "rejected"
+  discoveredAt          DateTime  @default(now())
+  reviewedAt            DateTime?
+  reviewNote            String?
+
+  @@index([source, status])
+  @@index([targetType, status])
+  @@map("crawled_image_candidates")
+}
+
 enum GameStatus {
   WIRED
   COMING_SOON
@@ -333,6 +378,13 @@ model SportsCardItem {
   /// Null for ad hoc user-added cards, which have no such key.
   externalKey      String?   @unique
   createdAt        DateTime  @default(now())
+
+  /// Product-line logo (e.g. Panini Prizm), denormalized per row like
+  /// year/distributor/setName already are. Filled by the sports image
+  /// backfill (src/lib/automation/sports/image-scrape.ts, off by default —
+  /// see SPORTS_IMAGE_SCRAPE_ENABLED) and by upsertChecklistSportsCardItem
+  /// for future seeds.
+  setLogoUrl       String?
 
   /// SportsCardsPro's product id, cached once resolved via search so later
   /// refreshes go straight to id lookup — same rate-limit reasoning as

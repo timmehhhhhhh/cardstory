@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  // Standalone Worker whose only job is to fire the Pokémon catalog/image/
+  // set-logo/name-en backfill jobs and the (off-by-default) sports-image
+  // backfill on schedule — same reasoning as workers/cron-snapshot/: the
+  // OpenNext-generated Worker only exports a `fetch` handler and is
+  // regenerated on every `npm run deploy`, so a `scheduled` handler added
+  // there wouldn't survive a rebuild. One Worker with several cron legs
+  // (rather than one Worker per job) to keep secrets/deploy management in
+  // one place — see the plan this implements (§2).
+  "name": "cardstory-cron-image-automation",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-22",
+  "triggers": {
+    "crons": [
+      "0 3 * * *", // pokemon-catalog-sync — daily, detect new sets/cards
+      "15 3 * * *", // pokemon-image-backfill — daily, bounded chunk
+      "30 3 * * *", // pokemon-set-logo-backfill — daily, bounded chunk
+      "45 3 * * *", // pokemon-name-en-backfill — daily, bounded chunk (cheap, no network fetch)
+      "0 4 * * 7" // sports-image-backfill — weekly (Sun); gated off by default (SPORTS_IMAGE_SCRAPE_ENABLED).
+      // Note: Cloudflare's cron parser wants Sunday as day-of-week "7", not
+      // the more common Unix "0" — "0" is rejected outright ([code: 10100]).
+    ]
+  },
+  "vars": {
+    // Non-sensitive. The main site this Worker calls on each schedule.
+    "TARGET_BASE_URL": "https://cardstory.app"
+  }
+  // CRON_SECRET must be set as a Worker secret (must match the main site's
+  // CRON_SECRET env var):
+  //   wrangler secret put CRON_SECRET --config workers/cron-image-automation/wrangler.jsonc
+}

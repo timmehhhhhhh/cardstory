@@ -168,6 +168,8 @@ export interface ChecklistRowInput extends SportsCardItemInput {
   releaseDate?: Date;
   /** True when imageUrl is inherited from this group's base card rather than a scan of this exact parallel — see the same-named column on SportsCardItem. Defaults to false (an explicit scan) when omitted. */
   imageIsInherited?: boolean;
+  /** Product-line logo, e.g. Panini Prizm's — see the same-named column on SportsCardItem. */
+  setLogoUrl?: string;
 }
 
 /**
@@ -236,6 +238,7 @@ export async function upsertChecklistSportsCardItem(input: ChecklistRowInput): P
     imageIsInherited: input.imageIsInherited ?? false,
     cardType: input.cardType,
     releaseDate: input.releaseDate ?? null,
+    setLogoUrl: input.setLogoUrl ?? null,
     externalKey,
   };
   const row = await db.sportsCardItem.upsert({ where: { externalKey }, create: data, update: data });
