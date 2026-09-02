@@ -31,6 +31,7 @@ export function BinderSpread({
   interactive = true,
   onSelectPocket,
   onClearPocket,
+  onResizeCustomImage,
   onDragStartSlot,
   onDragOverSlot,
   onDragLeaveSlot,
@@ -55,6 +56,7 @@ export function BinderSpread({
   interactive?: boolean;
   onSelectPocket?: (pageId: string, slotIndex: number) => void;
   onClearPocket?: (pageId: string, slotIndex: number) => void;
+  onResizeCustomImage?: (pageId: string, slotIndex: number) => void;
   onDragStartSlot?: (pageId: string, slotIndex: number) => void;
   onDragOverSlot?: (pageId: string, slotIndex: number) => void;
   onDragLeaveSlot?: () => void;
@@ -114,6 +116,7 @@ export function BinderSpread({
                 interactive={interactive}
                 onSelectPocket={(slotIndex) => onSelectPocket?.(page.id, slotIndex)}
                 onClearPocket={(slotIndex) => onClearPocket?.(page.id, slotIndex)}
+                onResizeCustomImage={(slotIndex) => onResizeCustomImage?.(page.id, slotIndex)}
                 onDragStartSlot={(slotIndex) => onDragStartSlot?.(page.id, slotIndex)}
                 onDragOverSlot={(slotIndex) => onDragOverSlot?.(page.id, slotIndex)}
                 onDragLeaveSlot={onDragLeaveSlot}
