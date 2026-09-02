@@ -7,41 +7,40 @@ import type { BinderPage } from "@/lib/binder/types";
 
 export function BinderPageNav({
   pages,
-  cursor,
-  step,
-  onJump,
+  visiblePageNumbers,
+  canPrev,
+  canNext,
+  onPrev,
+  onNext,
+  onJumpToPage,
   onAddPage,
 }: {
   pages: BinderPage[];
-  cursor: number;
-  step: 1 | 2;
-  onJump: (pageIndex: number) => void;
+  /** 1-based page numbers currently shown (e.g. [1] or [2, 3]) — drives which thumbnail(s) highlight. Pairing-agnostic on purpose: the caller decides how pages group into spreads (see bookSpreads). */
+  visiblePageNumbers: number[];
+  canPrev: boolean;
+  canNext: boolean;
+  onPrev: () => void;
+  onNext: () => void;
+  onJumpToPage: (pageNumber: number) => void;
   onAddPage: () => void;
 }) {
-  const canPrev = cursor > 0;
-  const canNext = cursor + step < pages.length;
-
   return (
     <div className="flex items-center gap-2">
-      <Button
-        variant="outline"
-        size="icon-sm"
-        aria-label="Previous page"
-        disabled={!canPrev}
-        onClick={() => onJump(Math.max(0, cursor - step))}
-      >
+      <Button variant="outline" size="icon-sm" aria-label="Previous page" disabled={!canPrev} onClick={onPrev}>
         <ChevronLeft className="size-4" />
       </Button>
 
       <div className="flex max-w-[min(60vw,20rem)] items-center gap-1 overflow-x-auto no-scrollbar">
         {pages.map((page, i) => {
-          const active = i === cursor || (step === 2 && i === cursor + 1);
+          const pageNumber = i + 1;
+          const active = visiblePageNumbers.includes(pageNumber);
           return (
             <button
               key={page.id}
               type="button"
-              onClick={() => onJump(step === 2 ? i - (i % 2) : i)}
-              aria-label={`Go to page ${i + 1}`}
+              onClick={() => onJumpToPage(pageNumber)}
+              aria-label={`Go to page ${pageNumber}`}
               aria-current={active}
               className={cn(
                 "flex size-7 flex-none items-center justify-center rounded-md text-xs font-medium transition-colors",
@@ -50,19 +49,13 @@ export function BinderPageNav({
                   : "bg-surface text-muted-foreground hover:bg-surface-elevated hover:text-foreground"
               )}
             >
-              {i + 1}
+              {pageNumber}
             </button>
           );
         })}
       </div>
 
-      <Button
-        variant="outline"
-        size="icon-sm"
-        aria-label="Next page"
-        disabled={!canNext}
-        onClick={() => onJump(Math.min(pages.length - step, cursor + step))}
-      >
+      <Button variant="outline" size="icon-sm" aria-label="Next page" disabled={!canNext} onClick={onNext}>
         <ChevronRight className="size-4" />
       </Button>
 

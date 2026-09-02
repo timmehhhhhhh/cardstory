@@ -6,6 +6,9 @@ import { CardNumberBadge } from "@/components/cards/card-number-badge";
 import { CardImage } from "@/components/cards/card-image";
 import { withEnglishName } from "@/lib/catalog/card-name";
 
+/** Card aspect ratio (width/height) every pocket is drawn at — keep in sync with the `aspect-[5/7]` Tailwind class below; page/spread fit-sizing math (fit-style.ts callers) uses this same ratio so the outer container's proportions actually match the grid it contains. */
+export const POCKET_ASPECT_RATIO = 5 / 7;
+
 /** A pocket's resolved display data — built by BinderPageView from a holding, a catalog-only ("not owned") reference, or a user-uploaded custom image, so BinderPocket itself never needs to branch on which. */
 export interface PocketCard {
   name: string;
@@ -35,7 +38,6 @@ export function BinderPocket({
   draggedOver,
   showNumberTag,
   showNotOwnedTag,
-  background,
   gridSpan,
   interactive = true,
   onSelect,
@@ -53,8 +55,6 @@ export function BinderPocket({
   showNumberTag: boolean;
   /** Whether to show the "Not owned" watermark on catalog-only pockets. */
   showNotOwnedTag: boolean;
-  /** Resolved CSS color behind the pocket (binder cover color, black, or white — see resolvedPocketBackgroundColor). */
-  background: string;
   /** Set on a custom-image anchor pocket so it visually merges with the cells its span covers. */
   gridSpan?: { cols: number; rows: number };
   /** False in read-only contexts (the fullscreen preview) — suppresses click/drag/remove affordances entirely. */
@@ -75,12 +75,11 @@ export function BinderPocket({
       onDragLeave={interactive ? onDragLeave : undefined}
       onDrop={interactive ? onDrop : undefined}
       style={{
-        background,
         gridColumn: gridSpan ? `span ${gridSpan.cols}` : undefined,
         gridRow: gridSpan ? `span ${gridSpan.rows}` : undefined,
       }}
       className={cn(
-        "group/pocket relative aspect-[5/7] w-full overflow-hidden rounded-[3px] ring-1 ring-inset ring-black/10 transition-shadow",
+        "group/pocket relative aspect-[5/7] w-full overflow-hidden rounded-[3px] bg-black/10 ring-1 ring-inset ring-black/10 transition-shadow dark:bg-white/5",
         interactive && selected && "ring-2 ring-primary ring-offset-1 ring-offset-surface-elevated",
         interactive && draggedOver && "ring-2 ring-primary/70"
       )}

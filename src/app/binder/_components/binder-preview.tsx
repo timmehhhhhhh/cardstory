@@ -7,24 +7,11 @@ import { cn } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { containedBoxStyle, containerStyle } from "@/lib/binder/fit-style";
 import { BinderPageView } from "@/app/binder/_components/binder-page-view";
-import type { Binder, BinderPage } from "@/lib/binder/types";
+import { POCKET_ASPECT_RATIO } from "@/app/binder/_components/binder-pocket";
+import { bookSpreads } from "@/lib/binder/spreads";
+import type { Binder } from "@/lib/binder/types";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
 import type { CatalogItemDetail } from "@/lib/catalog/by-ids";
-
-/**
- * [null, page1], [page2, page3], [page4, page5], ... — mirrors how a real
- * book opens: the first page sits alone against the inside front cover (no
- * page 0 to pair with), then every following spread pairs two consecutive
- * pages, same as flipping through a physical binder.
- */
-function bookSpreads(pages: BinderPage[]): (BinderPage | null)[][] {
-  if (pages.length === 0) return [];
-  const spreads: (BinderPage | null)[][] = [[null, pages[0]]];
-  for (let i = 1; i < pages.length; i += 2) {
-    spreads.push([pages[i], pages[i + 1] ?? null]);
-  }
-  return spreads;
-}
 
 const SWIPE_THRESHOLD_PX = 50;
 
@@ -34,7 +21,7 @@ export function BinderPreview({
   binder,
   layout,
   coverColor,
-  pocketBackground,
+  pageBackground,
   cardsById,
   catalogItemsById,
   showNumberTags,
@@ -45,7 +32,7 @@ export function BinderPreview({
   binder: Binder;
   layout: { rows: number; cols: number };
   coverColor: string;
-  pocketBackground: string;
+  pageBackground: string;
   cardsById: Map<string, EnrichedHolding>;
   catalogItemsById: Map<string, CatalogItemDetail>;
   showNumberTags: boolean;
@@ -111,11 +98,15 @@ export function BinderPreview({
     dragOverSlot: null,
     showNumberTags,
     showNotOwnedTags,
-    background: pocketBackground,
+    pageBackground,
     interactive: false as const,
   };
 
-  const pageAspectRatio = isLandscape ? (layout.cols * 2) / layout.rows : layout.cols / layout.rows;
+  // Match the box's proportions to the actual card-shaped pockets it
+  // contains (not a square cols/rows guess) — see binder-spread.tsx for the
+  // same fix and rationale.
+  const pageWidthUnits = layout.cols * (isLandscape ? 2 : 1);
+  const pageAspectRatio = (pageWidthUnits * POCKET_ASPECT_RATIO) / layout.rows;
 
   const transitionClass = reducedMotion
     ? ""
@@ -132,7 +123,7 @@ export function BinderPreview({
           onPointerDownOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={() => onOpenChange(false)}
           className="fixed inset-0 z-50 flex flex-col outline-none"
-          style={{ background: pocketBackground }}
+          style={{ background: pageBackground }}
         >
           <DialogPrimitive.Title className="sr-only">{binder.name} — fullscreen preview</DialogPrimitive.Title>
           <DialogPrimitive.Description className="sr-only">

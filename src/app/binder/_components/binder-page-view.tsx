@@ -80,7 +80,7 @@ export function BinderPageView({
   dragOverSlot,
   showNumberTags,
   showNotOwnedTags,
-  background,
+  pageBackground,
   interactive = true,
   onSelectPocket,
   onClearPocket,
@@ -103,8 +103,8 @@ export function BinderPageView({
   dragOverSlot: number | null;
   showNumberTags: boolean;
   showNotOwnedTags: boolean;
-  /** Resolved CSS color behind every pocket on this page (see resolvedPocketBackgroundColor). */
-  background: string;
+  /** Resolved CSS color behind/around the pockets on this page (see resolvedPageBackgroundColor). */
+  pageBackground: string;
   /** False in the fullscreen preview — hides editing chrome (remove-page, add/remove pocket controls, drag) entirely. */
   interactive?: boolean;
   onSelectPocket?: (slotIndex: number) => void;
@@ -122,8 +122,9 @@ export function BinderPageView({
 
   return (
     <div
+      style={{ background: pageBackground }}
       className={cn(
-        "relative flex min-w-0 flex-1 flex-col bg-surface-elevated p-3 shadow-lg ring-1 ring-black/10 sm:p-4",
+        "relative flex min-w-0 flex-1 flex-col p-3 shadow-lg ring-1 ring-black/10 sm:p-4",
         side === "left" && "rounded-l-xl pr-4",
         side === "right" && "rounded-r-xl pl-4",
         side === "single" && "rounded-xl pl-4"
@@ -153,7 +154,6 @@ export function BinderPageView({
               draggedOver={dragSourcePageId != null && dragOverSlot === slotIndex}
               showNumberTag={showNumberTags}
               showNotOwnedTag={showNotOwnedTags}
-              background={background}
               gridSpan={isAnchor && ref.kind === "custom" ? { cols: ref.spanCols, rows: ref.spanRows } : undefined}
               interactive={interactive}
               onSelect={() => onSelectPocket?.(slotIndex)}

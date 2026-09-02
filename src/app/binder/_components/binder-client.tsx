@@ -12,12 +12,13 @@ import {
   BINDER_COVER_COLORS,
   BINDER_LAYOUTS,
   coverColorValue,
-  resolvedPocketBackgroundColor,
+  resolvedPageBackgroundColor,
   type BinderLayoutId,
   type BinderPocketRef,
-  type PocketBackground,
+  type PageBackground,
   type PocketRef,
 } from "@/lib/binder/types";
+import { bookSpreads, spreadIndexForPage } from "@/lib/binder/spreads";
 import { PCSelector } from "@/app/pc/_components/pc-selector";
 import { BinderSelector } from "@/app/binder/_components/binder-selector";
 import { LayoutPicker } from "@/app/binder/_components/layout-picker";
@@ -34,7 +35,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 
-const POCKET_BACKGROUND_OPTIONS: { id: PocketBackground; label: string }[] = [
+const PAGE_BACKGROUND_OPTIONS: { id: PageBackground; label: string }[] = [
   { id: "match-cover", label: "Match binder" },
   { id: "black", label: "Black" },
   { id: "white", label: "White" },
@@ -63,7 +64,7 @@ export function BinderClient({
   const binder = binders.find((b) => b.id === activeBinderId) ?? binders[0];
   const setLayout = useBinderStore((s) => s.setLayout);
   const setCoverColor = useBinderStore((s) => s.setCoverColor);
-  const setPocketBackground = useBinderStore((s) => s.setPocketBackground);
+  const setPageBackground = useBinderStore((s) => s.setPageBackground);
   const addPage = useBinderStore((s) => s.addPage);
   const removePage = useBinderStore((s) => s.removePage);
   const placeCard = useBinderStore((s) => s.placeCard);
@@ -87,6 +88,14 @@ export function BinderClient({
 
   const pageCount = binder.pages.length;
 
+  // Book-style spreads: page 1 sits alone against the blank inside front
+  // cover, then pages pair up (2&3, 4&5, ...) — same offset a physical
+  // binder opens with, shared with the fullscreen Preview (see spreads.ts).
+  // On desktop (step === 2) `cursor` indexes into this array (a "spread
+  // index"); on mobile (step === 1) it's a plain page-array index, same as
+  // before — there's nothing to pair when only one page is shown at a time.
+  const spreads = React.useMemo(() => bookSpreads(binder.pages), [binder.pages]);
+
   // Reset view state when switching binders, and re-clamp `cursor` into
   // range whenever the page count or spread width (`step`) changes — e.g.
   // after a layout reflow or crossing the desktop breakpoint. Both are
@@ -104,25 +113,31 @@ export function BinderClient({
     setPickerOpen(false);
   } else if (clampKey !== prevClampKey) {
     setPrevClampKey(clampKey);
-    const max = Math.max(0, pageCount - step);
-    let next = Math.min(cursor, max);
-    if (step === 2) next -= next % 2;
-    next = Math.max(0, next);
+    const maxCursor = step === 2 ? Math.max(0, spreads.length - 1) : Math.max(0, pageCount - 1);
+    const next = Math.max(0, Math.min(cursor, maxCursor));
     if (next !== cursor) setCursor(next);
   }
 
   const layout = BINDER_LAYOUTS[binder.layoutId];
 
   const visiblePages: VisiblePage[] = React.useMemo(() => {
-    const slice = binder.pages.slice(cursor, cursor + step);
-    // A lone trailing page (odd page count on desktop) reads as a single
-    // page, not a left-hand page missing its partner.
-    return slice.map((page, i) => ({
+    if (step === 1) {
+      const page = binder.pages[cursor];
+      return page ? [{ page, pageNumber: cursor + 1, side: "single" as const }] : [];
+    }
+    const spread = spreads[cursor] ?? [];
+    return spread.map((page, i) => ({
       page,
-      pageNumber: cursor + i + 1,
-      side: slice.length === 1 ? "single" : i === 0 ? "left" : "right",
+      pageNumber: page ? binder.pages.findIndex((p) => p.id === page.id) + 1 : null,
+      side: (i === 0 ? "left" : "right") as "left" | "right",
     }));
-  }, [binder.pages, cursor, step]);
+  }, [binder.pages, spreads, cursor, step]);
+
+  const visiblePageNumbers = visiblePages
+    .map((vp) => vp.pageNumber)
+    .filter((n): n is number => n != null);
+  const canGoPrev = cursor > 0;
+  const canGoNext = step === 1 ? cursor < pageCount - 1 : cursor < spreads.length - 1;
 
   const cardsById = React.useMemo(() => new Map(rows.map((r) => [r.id, r])), [rows]);
 
@@ -171,9 +186,8 @@ export function BinderClient({
   function ensureVisible(ref: PocketRef) {
     const idx = binder.pages.findIndex((p) => p.id === ref.pageId);
     if (idx === -1) return;
-    if (idx < cursor || idx >= cursor + step) {
-      setCursor(step === 2 ? idx - (idx % 2) : idx);
-    }
+    const target = step === 2 ? spreadIndexForPage(idx) : idx;
+    if (target !== cursor) setCursor(target);
   }
 
   function handleSelectPocket(pageId: string, slotIndex: number) {
@@ -273,11 +287,11 @@ export function BinderClient({
     }
   }
 
-  const pocketBackground = resolvedPocketBackgroundColor(binder.pocketBackground, binder.coverColor);
+  const pageBackground = resolvedPageBackgroundColor(binder.pageBackground, binder.coverColor);
   const selectedPage = selectedPocket ? binder.pages.find((p) => p.id === selectedPocket.pageId) : undefined;
 
   return (
-    <div className="mx-auto flex h-dvh max-h-dvh w-full max-w-5xl flex-col gap-4 px-4 py-4 sm:gap-5 sm:px-6 sm:py-6">
+    <div className="mx-auto flex min-h-dvh w-full max-w-5xl flex-col gap-4 px-4 py-4 sm:gap-5 sm:px-6 sm:py-6">
       <div className="flex flex-none flex-col gap-3">
         <Link
           href={backHref}
@@ -367,21 +381,21 @@ export function BinderClient({
           <div className="h-4 w-px bg-border" />
 
           <div className="flex items-center gap-1.5">
-            <span className="text-xs font-medium text-muted-foreground">Pockets</span>
-            {POCKET_BACKGROUND_OPTIONS.map((opt) => (
+            <span className="text-xs font-medium text-muted-foreground">Page background</span>
+            {PAGE_BACKGROUND_OPTIONS.map((opt) => (
               <button
                 key={opt.id}
                 type="button"
-                aria-label={`${opt.label} pocket background`}
-                aria-pressed={binder.pocketBackground === opt.id}
-                onClick={() => setPocketBackground(binder.id, opt.id)}
+                aria-label={`${opt.label} page background`}
+                aria-pressed={binder.pageBackground === opt.id}
+                onClick={() => setPageBackground(binder.id, opt.id)}
                 className="flex size-6 items-center justify-center rounded-full ring-1 ring-black/15"
                 style={{
                   background:
                     opt.id === "match-cover" ? coverColorValue(binder.coverColor) : opt.id === "black" ? "#0a0a0a" : "#ffffff",
                 }}
               >
-                {binder.pocketBackground === opt.id && (
+                {binder.pageBackground === opt.id && (
                   <Check className={cn("size-3.5", opt.id === "white" ? "text-black/70" : "text-white/90")} />
                 )}
               </button>
@@ -397,7 +411,7 @@ export function BinderClient({
       <BinderSpread
         visiblePages={visiblePages}
         coverColor={coverColorValue(binder.coverColor)}
-        pocketBackground={pocketBackground}
+        pageBackground={pageBackground}
         rows={layout.rows}
         cols={layout.cols}
         cardsById={cardsById}
@@ -423,16 +437,24 @@ export function BinderClient({
       <div className="flex flex-none justify-center">
         <BinderPageNav
           pages={binder.pages}
-          cursor={cursor}
-          step={step}
-          onJump={setCursor}
+          visiblePageNumbers={visiblePageNumbers}
+          canPrev={canGoPrev}
+          canNext={canGoNext}
+          onPrev={() => setCursor((c) => Math.max(0, c - 1))}
+          onNext={() =>
+            setCursor((c) => Math.min(step === 1 ? pageCount - 1 : spreads.length - 1, c + 1))
+          }
+          onJumpToPage={(pageNumber) => {
+            const idx = pageNumber - 1;
+            setCursor(step === 2 ? spreadIndexForPage(idx) : idx);
+          }}
           onAddPage={() => {
             addPage(binder.id);
             // The new page lands at index `pageCount` (0-based) since
             // addPage always appends exactly one — jump there immediately
             // rather than waiting a render to detect the length change.
             const lastIdx = pageCount;
-            setCursor(step === 2 ? lastIdx - (lastIdx % 2) : lastIdx);
+            setCursor(step === 2 ? spreadIndexForPage(lastIdx) : lastIdx);
           }}
         />
       </div>
@@ -472,7 +494,7 @@ export function BinderClient({
         binder={binder}
         layout={layout}
         coverColor={coverColorValue(binder.coverColor)}
-        pocketBackground={pocketBackground}
+        pageBackground={pageBackground}
         cardsById={cardsById}
         catalogItemsById={catalogItemsById}
         showNumberTags={showNumberTags}

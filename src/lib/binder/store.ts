@@ -13,7 +13,7 @@ import {
   type BinderPocketRef,
   type BinderStatus,
   type BinderStoreDataV3,
-  type PocketBackground,
+  type PageBackground,
 } from "@/lib/binder/types";
 
 const STORAGE_KEY = "cardstory:binder:v1";
@@ -38,7 +38,7 @@ function defaultBinder(): Binder {
     name: "My Binder",
     layoutId: "9",
     coverColor: "black",
-    pocketBackground: "match-cover",
+    pageBackground: "match-cover",
     status: "wip",
     pages: [emptyPage(pocketCount("9"))],
     createdAt: nowIso(),
@@ -163,7 +163,7 @@ export interface BinderActions {
   deleteBinder: (binderId: string) => void;
   setActiveBinder: (binderId: string) => void;
   setCoverColor: (binderId: string, color: BinderCoverColorId) => void;
-  setPocketBackground: (binderId: string, value: PocketBackground) => void;
+  setPageBackground: (binderId: string, value: PageBackground) => void;
   /** Returns `{ ok: false }` (without applying anything) when shrinking the layout would strand a custom image's span — see reflowPages. */
   setLayout: (binderId: string, layoutId: BinderLayoutId) => SetLayoutResult;
   setStatus: (binderId: string, status: BinderStatus) => void;
@@ -211,7 +211,7 @@ export const useBinderStore = create<BinderState>()(
           name,
           layoutId,
           coverColor: "black",
-          pocketBackground: "match-cover",
+          pageBackground: "match-cover",
           status: "wip",
           pages: [emptyPage(pocketCount(layoutId))],
           createdAt: nowIso(),
@@ -239,8 +239,8 @@ export const useBinderStore = create<BinderState>()(
 
       setCoverColor: (binderId, color) => updateBinder(set, binderId, (b) => ({ ...b, coverColor: color })),
 
-      setPocketBackground: (binderId, value) =>
-        updateBinder(set, binderId, (b) => ({ ...b, pocketBackground: value })),
+      setPageBackground: (binderId, value) =>
+        updateBinder(set, binderId, (b) => ({ ...b, pageBackground: value })),
 
       setStatus: (binderId, status) => updateBinder(set, binderId, (b) => ({ ...b, status })),
 
@@ -340,10 +340,16 @@ export const useBinderStore = create<BinderState>()(
         // through unchanged and a missing coverColor id (from the old
         // espresso/camel/... palette) is left as-is: coverColorValue()
         // already falls back to the first palette entry for unknown ids.
+        // pocketBackground was later renamed pageBackground (it colors the
+        // page surface, not the pockets) — fall back to the old key so
+        // existing users' choice carries over instead of silently resetting.
         const binders = Array.isArray(p.binders)
           ? (p.binders as Record<string, unknown>[]).map((b) => ({
               ...b,
-              pocketBackground: (b.pocketBackground as PocketBackground | undefined) ?? "match-cover",
+              pageBackground:
+                (b.pageBackground as PageBackground | undefined) ??
+                (b.pocketBackground as PageBackground | undefined) ??
+                "match-cover",
               status: (b.status as BinderStatus | undefined) ?? "wip",
               pages: Array.isArray(b.pages)
                 ? (b.pages as Record<string, unknown>[]).map((page) => ({
