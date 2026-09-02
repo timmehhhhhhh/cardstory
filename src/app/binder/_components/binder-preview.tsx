@@ -219,9 +219,14 @@ export function BinderPreview({
 
           <p className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 text-xs text-white/60">
             {isLandscape
-              ? index === 0
-                ? `Page 1 of ${pageCount}`
-                : `Pages ${Math.min(index * 2, pageCount - 1) + 1}–${Math.min(index * 2 + 2, pageCount)} of ${pageCount}`
+              ? (() => {
+                  const spreadPageNumbers = spreads[index]
+                    .filter((page): page is BinderPage => page !== null)
+                    .map((page) => binder.pages.indexOf(page) + 1);
+                  return spreadPageNumbers.length === 1
+                    ? `Page ${spreadPageNumbers[0]} of ${pageCount}`
+                    : `Pages ${spreadPageNumbers[0]}–${spreadPageNumbers[spreadPageNumbers.length - 1]} of ${pageCount}`;
+                })()
               : `Page ${index + 1} of ${pageCount}`}
           </p>
         </DialogPrimitive.Content>
