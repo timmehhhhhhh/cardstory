@@ -32,6 +32,7 @@ const JSON_FILES = [
   "pokemon-cn.json",
   "pokemon-jp-pokellector.json",
   "pokemon-jp-uk.json",
+  "pokemon-jp-pricecharting.json",
   "pokemon-kr.json",
 ];
 
