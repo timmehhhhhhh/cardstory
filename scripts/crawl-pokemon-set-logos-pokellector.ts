@@ -35,29 +35,35 @@
  * TW/ZH-CN/KO are NOT covered: there is no tw./cn./kr.pokellector.com (DNS
  * fails on all three, confirmed) — pokellector only mirrors EN and JA.
  *
+ * One request and no per-card guard chain, so this does not use
+ * lib/source-pipeline.ts (that runner is for the card-image crawlers); it
+ * shares the smaller primitives — entity decoding, file writing and the
+ * verified gate — instead.
+ *
  *   npx tsx scripts/crawl-pokemon-set-logos-pokellector.ts
  *
  * Always writes scripts/data/set-logos/pokellector-ja.json with
- * verified:false — flip it only after reading the summary below and
- * spot-checking a few rows against the live jp.pokellector.com pages, same
- * gate scripts/seed-card-images.ts already enforces on its own inputs.
- * Unmatched pokellector buttons (sets pokellector has that our DB doesn't,
- * or a code that doesn't line up) go to pockellector-ja.review.json instead
- * of being silently dropped.
+ * verified:false — spot-check it, flip the flag, then run the backfills.
  */
-import * as fs from "node:fs";
 import * as path from "node:path";
 import { db } from "@/lib/db";
+import { bareSetCode } from "@/lib/content-gaps";
 import { createPoliteFetcher } from "./lib/polite-fetch";
-import type { SetLogoEntry, SetLogoFile, SetLogoReviewEntry, SetLogoReviewFile } from "./data/set-logos/types";
+import { decodeHtmlEntities } from "./lib/normalize";
+import { runScript } from "./lib/cli";
+import { dataDir, writeMappingFile, writeReviewFile } from "./lib/source-output";
+import type {
+  SetLogoEntry,
+  SetLogoFile,
+  SetLogoReviewEntry,
+  SetLogoReviewFile,
+} from "./data/set-logos/types";
 
 const ORIGIN = "https://jp.pokellector.com";
 const SETS_URL = `${ORIGIN}/sets`;
-const OUT_DIR = path.join(process.cwd(), "scripts", "data", "set-logos");
-const OUT_FILE = path.join(OUT_DIR, "pokellector-ja.json");
-const REVIEW_FILE = path.join(OUT_DIR, "pokellector-ja.review.json");
-
-const politeGet = createPoliteFetcher();
+const OUT_DIR = dataDir("set-logos");
+const OUT_NAME = "pokellector-ja.json";
+const REVIEW_NAME = "pokellector-ja.review.json";
 
 interface PokellectorSetButton {
   code: string;
@@ -66,28 +72,7 @@ interface PokellectorSetButton {
   logoUrl: string;
 }
 
-/**
- * Parses `<a class="button" name="CODE" href="/slug/" title="Name Set">
- * <img src="https://den-media.pokellector.com/logos/....png">` buttons off
- * the /sets listing markup. Deliberately regex-based like the sibling JP
- * image crawler (cheerio is used elsewhere in this repo's crawlers, but the
- * markup here is simple/repetitive enough that a scoped regex is less code
- * and avoids a full DOM parse of a 200+ node listing page).
- */
-/**
- * The `title` attribute is HTML-entity-encoded (pokellector has set names
- * with literal "&", e.g. "Sun & Moon Strengthening Expansion" and "Pikachu &
- * New Friends" — confirmed live, both render as "&amp;" in the raw markup).
- * Decoded here so Set.nameEn never ends up with a literal "&amp;" in it.
- */
-function decodeHtmlEntities(text: string): string {
-  return text
-    .replace(/&amp;/g, "&")
-    .replace(/&#x27;/g, "'")
-    .replace(/&quot;/g, '"')
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">");
-}
+const politeGet = createPoliteFetcher();
 
 function parseSetButtons(html: string): PokellectorSetButton[] {
   const pattern =
@@ -96,6 +81,9 @@ function parseSetButtons(html: string): PokellectorSetButton[] {
   for (const m of html.matchAll(pattern)) {
     const [, code, slug, rawNameEn, logoUrl] = m;
     if (!code) continue; // header rows (series groupings) have no `name` attr
+    // pokellector has set names with a literal "&" (e.g. "Sun & Moon
+    // Strengthening Expansion") which render as "&amp;" in the raw markup —
+    // decoded so Set.nameEn never ends up with a literal "&amp;" in it.
     out.push({ code, slug, nameEn: decodeHtmlEntities(rawNameEn), logoUrl });
   }
   return out;
@@ -127,7 +115,7 @@ async function main() {
     where: { id: { startsWith: "pokemon:ja:" } },
     select: { id: true, code: true, name: true, logoUrl: true, nameEn: true },
   });
-  const byCode = new Map(dbSets.map((s) => [s.code.replace(/^ja:/, "").toUpperCase(), s]));
+  const byCode = new Map(dbSets.map((s) => [bareSetCode(s.code).toUpperCase(), s]));
 
   const entries: SetLogoEntry[] = [];
   const review: SetLogoReviewEntry[] = [];
@@ -136,23 +124,28 @@ async function main() {
 
   for (const button of buttons) {
     const code = button.code.toUpperCase();
+    const sourceUrl = `${ORIGIN}${button.slug}`;
+
     if ((codeOccurrences.get(code) ?? 0) > 1) {
       ambiguous += 1;
       review.push({
         sourceCode: button.code,
-        sourceUrl: `${ORIGIN}${button.slug}`,
+        sourceUrl,
         sourceName: `${button.nameEn} (ambiguous: "${button.code}" appears on more than one pokellector.com button)`,
         logoUrl: button.logoUrl,
+        reason: "ambiguous-source-code",
       });
       continue;
     }
+
     const dbSet = byCode.get(code);
     if (!dbSet) {
       review.push({
         sourceCode: button.code,
-        sourceUrl: `${ORIGIN}${button.slug}`,
+        sourceUrl,
         sourceName: button.nameEn,
         logoUrl: button.logoUrl,
+        reason: "no-set-row",
       });
       continue;
     }
@@ -164,45 +157,30 @@ async function main() {
       setId: dbSet.id,
       logoUrl: button.logoUrl,
       nameEn: button.nameEn,
-      sourceUrl: `${ORIGIN}${button.slug}`,
+      sourceUrl,
       sourceName: button.nameEn,
     });
   }
 
-  fs.mkdirSync(OUT_DIR, { recursive: true });
-
-  const outFile: SetLogoFile = {
+  writeMappingFile<SetLogoFile>(OUT_DIR, OUT_NAME, {
     gameId: "pokemon",
     sourceNote: `Crawled from ${SETS_URL} on ${new Date().toISOString()} by crawl-pokemon-set-logos-pokellector.ts`,
-    verified: false,
-    generatedAt: new Date().toISOString(),
     entries,
-  };
-  fs.writeFileSync(OUT_FILE, JSON.stringify(outFile, null, 2));
-
-  const reviewFile: SetLogoReviewFile = {
+  });
+  writeReviewFile<SetLogoReviewFile>(OUT_DIR, REVIEW_NAME, {
     gameId: "pokemon",
     note: "pokellector.com/jp set buttons with no matching pokemon:ja:<code> Set row (or code mismatch). Never seeded.",
-    generatedAt: new Date().toISOString(),
     entries: review,
-  };
-  fs.writeFileSync(REVIEW_FILE, JSON.stringify(reviewFile, null, 2));
+  });
 
   console.log(`\nMatched (logoUrl currently null): ${entries.length}`);
   console.log(`Already had a logoUrl (left alone): ${alreadySet}`);
   console.log(`No matching DB set / ambiguous code (see review file): ${review.length} (of which ${ambiguous} ambiguous)`);
-  console.log(`\nWrote ${path.relative(process.cwd(), OUT_FILE)}`);
-  console.log(`Wrote ${path.relative(process.cwd(), REVIEW_FILE)}`);
+  console.log(`\nWrote ${path.join("scripts", "data", "set-logos", OUT_NAME)}`);
+  console.log(`Wrote ${path.join("scripts", "data", "set-logos", REVIEW_NAME)}`);
   console.log(
     `\nverified:false — spot-check a few entries against ${SETS_URL} before flipping it, then run:\n  npx tsx scripts/backfill-set-logo-url.ts\n  npx tsx scripts/backfill-set-name-en.ts`
   );
 }
 
-main()
-  .catch((err) => {
-    console.error(err);
-    process.exitCode = 1;
-  })
-  .finally(async () => {
-    await db.$disconnect();
-  });
+void runScript(main, () => db.$disconnect());

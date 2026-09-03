@@ -42,18 +42,20 @@
  *   npx tsx scripts/crawl-pokemon-jp-uk-images.ts crawl
  *   npx tsx scripts/crawl-pokemon-jp-uk-images.ts derive
  */
-import * as fs from "node:fs";
 import * as path from "node:path";
-import { db } from "../src/lib/db";
-import { resolvePokemonCardNameEn } from "../src/lib/games/pokemon/card-name-en";
-import { createPoliteFetcher, CrawlAbortedError } from "./lib/polite-fetch";
-import { openCrawlCache, type CrawlRecord } from "./lib/crawl-cache";
-import type {
-  CardImageEntry,
-  CardImageFile,
-  CardImageReviewEntry,
-  CardImageReviewFile,
-} from "./data/card-images/types";
+import { db } from "@/lib/db";
+import { resolvePokemonCardNameEn } from "@/lib/games/pokemon/card-name-en";
+import { createPoliteFetcher } from "./lib/polite-fetch";
+import { type CrawlRecord } from "./lib/crawl-cache";
+import { decodeHtmlEntities, normalizeNameAsciiEn } from "./lib/normalize";
+import { runScript, usage, verb } from "./lib/cli";
+import {
+  deriveFromCache,
+  withResumableCache,
+  writeDeriveOutput,
+  type CardImageSource,
+  type CatalogRow,
+} from "./lib/source-pipeline";
 
 const ORIGIN = "https://japanesepokemoncards.uk";
 const LANG = "ja";
@@ -110,17 +112,6 @@ function parseImageFilename(imgPath: string): { setCode: string; number: string 
   return m ? { setCode: m[1], number: m[2] } : null;
 }
 
-/** The only entities this source's alt text actually uses (apostrophes in names like Farfetch'd). */
-const HTML_ENTITIES: Record<string, string> = {
-  "&#x27;": "'",
-  "&#39;": "'",
-  "&quot;": '"',
-  "&amp;": "&",
-};
-function decodeEntities(s: string): string {
-  return s.replace(/&(#x27|#39|quot|amp);/g, (m) => HTML_ENTITIES[m] ?? m);
-}
-
 function parseListing(slug: string, dbSetCode: string, htmlBody: string): JpUkCardFields[] {
   const out: JpUkCardFields[] = [];
   // <a ... href="/base-set/charizard" ...> ... <img alt="Charizard" src="..."> ... </a>
@@ -131,7 +122,7 @@ function parseListing(slug: string, dbSetCode: string, htmlBody: string): JpUkCa
     const imgTag = /<img\b[^>]*>/.exec(inner)?.[0];
     if (!imgTag) continue; // "No image" placeholder card — nothing to crawl
     const rawAlt = /\balt="([^"]*)"/.exec(imgTag)?.[1];
-    const nameEn = rawAlt ? decodeEntities(rawAlt) : null;
+    const nameEn = rawAlt ? decodeHtmlEntities(rawAlt) : null;
     const src = /\bsrc="([^"]*)"/.exec(imgTag)?.[1] ?? null;
     if (!src) continue;
 
@@ -151,7 +142,6 @@ function parseListing(slug: string, dbSetCode: string, htmlBody: string): JpUkCa
 }
 
 async function crawl() {
-  const cache = openCrawlCache<JpUkRecord>(CACHE_NAME);
   // No numeric id from the source — mint one per href, stable across reruns
   // as long as the same hrefs keep appearing (order-independent, keyed by
   // string then hashed to an int for CrawlRecord's `id: number` contract).
@@ -161,7 +151,7 @@ async function crawl() {
     return h;
   };
 
-  try {
+  await withResumableCache<JpUkRecord>(CACHE_NAME, async (cache) => {
     for (const { slug, dbSetCode } of SETS) {
       const res = await politeGet(`${ORIGIN}/${slug}`);
       if (res.status !== 200) {
@@ -174,152 +164,76 @@ async function crawl() {
         cache.append({ id: idFor(card.href), status: 200, ...card });
       }
     }
-  } catch (err) {
-    if (err instanceof CrawlAbortedError) {
-      console.error(`\n${err.message}\nProgress is cached — rerun to resume.`);
-    } else throw err;
-  } finally {
-    cache.close();
-  }
-  console.log(`Cached ${cache.seen.size} cards total.`);
+  });
 }
 
-/** Case/punctuation-insensitive English-name compare — apostrophes, hyphens and ♂/♀ vary in printed casing/spacing across sources.
- *  Also drops a leading "Basic " — resolvePokemonCardNameEn's energy-card translations say "Basic Grass Energy",
- *  this source's alt text just says "Grass Energy"; both name the same card, so this isn't a guard-loosening,
- *  it's normalizing a known, systematic naming-convention difference between the two sources. */
-function normalizeNameEn(s: string): string {
-  return s
-    .normalize("NFKC")
-    .replace(/^basic\s+/i, "")
-    .replace(/[\s]/g, "")
-    .replace(/['’"“”\-–—.,]/g, "")
-    .toLowerCase();
-}
+const source: CardImageSource<JpUkRecord> = {
+  name: "pokemon-jp-uk",
+  cacheName: CACHE_NAME,
+  lang: LANG,
+  outDir: OUT_DIR,
+  sourceNote:
+    "Japanese card images (Base Set through Neo Destiny only) from japanesepokemoncards.uk, a UK " +
+    "reseller of vintage Japanese singles, crawled offline by scripts/crawl-pokemon-jp-uk-images.ts. " +
+    "Image URLs are hotlinked from the seller's own site, never re-hosted — note these are per-listing " +
+    "condition photos, not a stable reference database, so a URL can go stale if that card sells. Every " +
+    "entry passed a set-code/number match against our catalog plus an English-name guard (resolved from " +
+    "the catalog's Japanese name via resolvePokemonCardNameEn, since this source's own Japanese text is " +
+    "machine-transliterated and untrustworthy).",
+  reviewNote: "Crawled japanesepokemoncards.uk cards that did NOT pass the mapping guards. Never seeded.",
+  // This source has no detail-page fetch and only ever caches status 200, so
+  // unlike the id-sweep crawlers there is no non-200 tier to filter out.
+  isFetched: () => true,
+  isParseable: (r) => Boolean(r.number && r.fileSetCode && r.nameEn),
+  sourceUrl: (r) => `${ORIGIN}${r.href}`,
+  provenance: (r) => ({
+    sourceName: r.nameEn ?? "",
+    sourceSetLabel: r.fileSetCode ?? r.dbSetCode,
+    sourceNumber: r.number ?? "",
+  }),
+  // dbSetCode is our own code, carried through the crawl from the hardcoded
+  // SETS table, so a lookup miss is never an unknown set.
+  sourceSetCode: () => null,
+  // The image filename's own set code should equal the DB set code we
+  // fetched this listing under — cheap independent check that the
+  // filename-parsing regex isn't drifting.
+  preCheck: (r) => (r.fileSetCode !== r.dbSetCode ? { reason: "ambiguous-set" } : null),
+  // The filename is already zero-padded, so unlike the other crawlers there
+  // is no padding variant to try.
+  candidates: (r) => [`${LANG}:${r.dbSetCode}-${r.number}`],
+  // Name guard — see the module doc for why this compares resolved English
+  // names rather than native Japanese text like the other crawlers. Never
+  // loosen it to raise the fill rate.
+  nameGuard: (rec, row) => {
+    const expectedNameEn = resolvePokemonCardNameEn(row.name, "JP");
+    if (!expectedNameEn) {
+      return { ok: false, reason: "unresolved-name-guard", catalogName: row.name };
+    }
+    return normalizeNameAsciiEn(expectedNameEn) === normalizeNameAsciiEn(rec.nameEn!)
+      ? { ok: true }
+      : { ok: false, reason: "name-mismatch", catalogName: row.name };
+  },
+  imageUrls: (r) => {
+    const url = `${ORIGIN}/images/${r.slug}/${r.fileSetCode}-${r.number}.jpg`;
+    return { small: url, large: url };
+  },
+};
 
 async function derive() {
-  const cache = openCrawlCache<JpUkRecord>(CACHE_NAME);
-  const all = cache.all();
-  cache.close();
-
   const catalog = await db.catalogItem.findMany({
     where: { gameId: "pokemon", externalId: { startsWith: `${LANG}:` } },
     select: { externalId: true, name: true, imageSmallUrl: true },
   });
-  const byExternalId = new Map(catalog.map((c) => [c.externalId, c]));
+  const byExternalId = new Map<string, CatalogRow>(catalog.map((c) => [c.externalId, c]));
 
-  let alreadyHadImage = 0;
-  const entries: CardImageEntry[] = [];
-  const review: CardImageReviewEntry[] = [];
-
-  for (const rec of all) {
-    const base = {
-      sourceId: rec.id,
-      sourceUrl: `${ORIGIN}${rec.href}`,
-      sourceName: rec.nameEn ?? "",
-      sourceSetLabel: rec.fileSetCode ?? rec.dbSetCode,
-      sourceNumber: rec.number ?? "",
-    };
-
-    if (!rec.number || !rec.fileSetCode || !rec.nameEn) {
-      review.push({ ...base, reason: "missing-page-fields" });
-      continue;
-    }
-
-    // The image filename's own set code should equal the DB set code we
-    // fetched this listing under — cheap independent check that the
-    // filename-parsing regex isn't drifting.
-    if (rec.fileSetCode !== rec.dbSetCode) {
-      review.push({ ...base, reason: "ambiguous-set" });
-      continue;
-    }
-
-    const externalId = `${LANG}:${rec.dbSetCode}-${rec.number}`;
-    const row = byExternalId.get(externalId);
-    if (!row) {
-      review.push({ ...base, reason: "no-catalog-row", candidateExternalId: externalId });
-      continue;
-    }
-
-    // Name guard — see the module doc for why this compares resolved
-    // English names rather than native Japanese text like the other
-    // crawlers. Never loosen it to raise the fill rate.
-    const expectedNameEn = resolvePokemonCardNameEn(row.name, "JP");
-    if (!expectedNameEn) {
-      review.push({ ...base, reason: "unresolved-name-guard", candidateExternalId: externalId, catalogName: row.name });
-      continue;
-    }
-    if (normalizeNameEn(expectedNameEn) !== normalizeNameEn(rec.nameEn)) {
-      review.push({ ...base, reason: "name-mismatch", candidateExternalId: externalId, catalogName: row.name });
-      continue;
-    }
-
-    if (row.imageSmallUrl) {
-      alreadyHadImage += 1; // provider already supplied art; leave it alone
-      continue;
-    }
-
-    const url = `${ORIGIN}/images/${rec.slug}/${rec.fileSetCode}-${rec.number}.jpg`;
-    entries.push({
-      externalId,
-      imageSmallUrl: url,
-      imageLargeUrl: url,
-      sourceUrl: base.sourceUrl,
-      // The site's Japanese text is machine-transliterated, not the real
-      // native name (see module doc) — its English name is what actually
-      // gated this row, so that's recorded here instead.
-      sourceName: rec.nameEn,
-    });
-  }
-
-  fs.mkdirSync(OUT_DIR, { recursive: true });
-  const out: CardImageFile = {
-    gameId: "pokemon",
-    sourceNote:
-      "Japanese card images (Base Set through Neo Destiny only) from japanesepokemoncards.uk, a UK " +
-      "reseller of vintage Japanese singles, crawled offline by scripts/crawl-pokemon-jp-uk-images.ts. " +
-      "Image URLs are hotlinked from the seller's own site, never re-hosted — note these are per-listing " +
-      "condition photos, not a stable reference database, so a URL can go stale if that card sells. Every " +
-      "entry passed a set-code/number match against our catalog plus an English-name guard (resolved from " +
-      "the catalog's Japanese name via resolvePokemonCardNameEn, since this source's own Japanese text is " +
-      "machine-transliterated and untrustworthy).",
-    verified: false,
-    generatedAt: new Date().toISOString(),
-    entries,
-  };
-  fs.writeFileSync(path.join(OUT_DIR, "pokemon-jp-uk.json"), JSON.stringify(out, null, 2));
-
-  const reviewOut: CardImageReviewFile = {
-    gameId: "pokemon",
-    note: "Crawled japanesepokemoncards.uk cards that did NOT pass the mapping guards. Never seeded.",
-    generatedAt: new Date().toISOString(),
-    entries: review,
-  };
-  fs.writeFileSync(path.join(OUT_DIR, "pokemon-jp-uk.review.json"), JSON.stringify(reviewOut, null, 2));
-
-  const byReason = review.reduce<Record<string, number>>((acc, r) => {
-    acc[r.reason] = (acc[r.reason] ?? 0) + 1;
-    return acc;
-  }, {});
-  console.log(`\nMapped:   ${entries.length}`);
-  console.log(`Had art:  ${alreadyHadImage} (already sourced from the provider — untouched)`);
-  console.log(`Review:   ${review.length}`, byReason);
-  console.log(`\nWrote pokemon-jp-uk.json (verified: false — review, then flip it).`);
+  writeDeriveOutput(source, deriveFromCache({ source, byExternalId }));
 }
 
 async function main() {
-  const cmd = process.argv[2];
+  const cmd = verb();
   if (cmd === "crawl") await crawl();
   else if (cmd === "derive") await derive();
-  else {
-    console.error("Usage: crawl-pokemon-jp-uk-images.ts <crawl|derive>");
-    process.exit(1);
-  }
-  await db.$disconnect();
+  else usage("Usage: crawl-pokemon-jp-uk-images.ts <crawl|derive>");
 }
 
-main().catch(async (e) => {
-  console.error(e);
-  await db.$disconnect();
-  process.exit(1);
-});
+void runScript(main, () => db.$disconnect());

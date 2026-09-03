@@ -18,21 +18,26 @@
  * Only the URL is stored; images are hotlinked from the publisher's CDN and
  * never re-hosted. Run from a dev machine, never from a request or a cron.
  *
+ * The guard chain and file writing live in scripts/lib/source-pipeline.ts.
+ *
  *   npx tsx scripts/crawl-pokemon-tw-images.ts crawl [--sets=S12a,SV4a]
  *   npx tsx scripts/crawl-pokemon-tw-images.ts derive
  */
-import * as fs from "node:fs";
 import * as path from "node:path";
 import * as cheerio from "cheerio";
-import { db } from "../src/lib/db";
-import { createPoliteFetcher, CrawlAbortedError } from "./lib/polite-fetch";
-import { openCrawlCache, type CrawlRecord } from "./lib/crawl-cache";
-import type {
-  CardImageEntry,
-  CardImageFile,
-  CardImageReviewEntry,
-  CardImageReviewFile,
-} from "./data/card-images/types";
+import { db } from "@/lib/db";
+import { bareSetCode, setCodesWithMissingCardImages } from "@/lib/content-gaps";
+import { createPoliteFetcher } from "./lib/polite-fetch";
+import { type CrawlRecord } from "./lib/crawl-cache";
+import { normalizeNameCjk } from "./lib/normalize";
+import { argList, runScript, usage, verb } from "./lib/cli";
+import {
+  deriveFromCache,
+  withResumableCache,
+  writeDeriveOutput,
+  type CardImageSource,
+  type CatalogRow,
+} from "./lib/source-pipeline";
 
 const ORIGIN = "https://asia.pokemon-card.com";
 const LANG = "zh-tw";
@@ -55,15 +60,6 @@ function imageUrlForId(id: number): string {
 
 function detailUrlForId(id: number): string {
   return `${ORIGIN}/tw/card-search/detail/${id}/`;
-}
-
-/** Set codes that still have cards without an image. */
-async function targetSetCodes(): Promise<string[]> {
-  const rows = await db.set.findMany({
-    where: { id: { startsWith: `pokemon:${LANG}:` }, items: { some: { imageSmallUrl: null } } },
-    select: { code: true },
-  });
-  return rows.map((r) => r.code.replace(/^zh-tw:/, "")).filter(Boolean);
 }
 
 async function enumerateSet(code: string): Promise<number[]> {
@@ -106,18 +102,55 @@ function parseDetail(htmlBody: string): { setCode: string | null; collector: str
   return { setCode, collector, name };
 }
 
+/** "001/076" -> "001". The catalog stores the left half only. */
+function rawNumber(rec: TwRecord): string {
+  return (rec.collector ?? "").split("/")[0]?.trim() ?? "";
+}
+
+const source: CardImageSource<TwRecord> = {
+  name: "pokemon-tw",
+  cacheName: CACHE_NAME,
+  lang: LANG,
+  outDir: OUT_DIR,
+  sourceNote:
+    "Traditional Chinese card images from the official Pokémon Asia card database " +
+    "(asia.pokemon-card.com), crawled offline by scripts/crawl-pokemon-tw-images.ts. " +
+    "Image URLs are derived from each card's internal id and hotlinked, never re-hosted. " +
+    "Every entry passed a set-code, catalog-row and card-name match against our catalog.",
+  reviewNote: "Crawled zh-tw cards that did NOT pass the mapping guards. Never seeded.",
+  isParseable: (r) => Boolean(r.setCode && r.collector),
+  sourceUrl: (r) => detailUrlForId(r.id),
+  provenance: (r) => ({
+    sourceName: r.name ?? "",
+    sourceSetLabel: r.setCode ?? "",
+    sourceNumber: r.collector ?? "",
+  }),
+  sourceSetCode: (r) => r.setCode,
+  // Numbers are stored zero-padded to 3 (zh-tw:S10a-001), with a rare
+  // unpadded promo — try both rather than guessing.
+  candidates: (r) => [
+    `${LANG}:${r.setCode}-${rawNumber(r).padStart(3, "0")}`,
+    `${LANG}:${r.setCode}-${rawNumber(r)}`,
+  ],
+  // The name on the page must be the name in our catalog. This is the check
+  // that independently catches a wrong set code, a bad number, or the page
+  // structure drifting — never loosen it to raise the fill rate.
+  nameGuard: (r, row) =>
+    r.name && normalizeNameCjk(r.name) === normalizeNameCjk(row.name)
+      ? { ok: true }
+      : { ok: false, reason: "name-mismatch", catalogName: row.name },
+  imageUrls: (r) => ({ small: imageUrlForId(r.id), large: imageUrlForId(r.id) }),
+};
+
 async function crawl(only?: string[]) {
-  const cache = openCrawlCache<TwRecord>(CACHE_NAME);
-  const codes = only?.length ? only : await targetSetCodes();
+  const codes = only?.length ? only : await setCodesWithMissingCardImages(LANG);
   console.log(`Sets to enumerate: ${codes.length}`);
 
-  try {
+  await withResumableCache<TwRecord>(CACHE_NAME, async (cache) => {
     for (const [i, code] of codes.entries()) {
       const ids = await enumerateSet(code);
       const todo = ids.filter((id) => !cache.seen.has(id));
-      console.log(
-        `[${i + 1}/${codes.length}] ${code}: ${ids.length} cards, ${todo.length} to fetch`
-      );
+      console.log(`[${i + 1}/${codes.length}] ${code}: ${ids.length} cards, ${todo.length} to fetch`);
 
       for (const id of todo) {
         const res = await politeGet(detailUrlForId(id));
@@ -125,161 +158,33 @@ async function crawl(only?: string[]) {
           cache.append({ id, status: res.status, setCode: null, collector: null, name: null });
           continue;
         }
-        const parsed = parseDetail(res.body);
-        cache.append({ id, status: 200, ...parsed });
+        cache.append({ id, status: 200, ...parseDetail(res.body) });
       }
     }
-  } catch (err) {
-    if (err instanceof CrawlAbortedError) {
-      console.error(`\n${err.message}\nProgress is cached — rerun to resume.`);
-    } else throw err;
-  } finally {
-    cache.close();
-  }
-  console.log(`Cached ${cache.seen.size} ids total.`);
-}
-
-/** NFKC + strip whitespace/punctuation, so formatting variants don't fail the name guard. */
-function normalizeName(s: string): string {
-  return s
-    .normalize("NFKC")
-    .replace(/[\s　]/g, "")
-    .replace(/[·・.,'’"“”\-—–~〜!?！？:：;；()（）「」『』【】[\]]/g, "")
-    .toLowerCase();
+  });
 }
 
 async function derive() {
-  const cache = openCrawlCache<TwRecord>(CACHE_NAME);
-  const found = cache.all().filter((r) => r.status === 200);
-  // See crawl-pokemon-ja-images.ts — unparseable pages go to review, not the bin.
-  const records = found.filter((r) => r.setCode && r.collector);
-  const unparseable = found.filter((r) => !(r.setCode && r.collector));
-  cache.close();
-  console.log(`Cards found: ${found.length} (${records.length} parseable, ${unparseable.length} not)`);
-
   const catalog = await db.catalogItem.findMany({
     where: { gameId: "pokemon", externalId: { startsWith: `${LANG}:` } },
     select: { externalId: true, name: true, imageSmallUrl: true },
   });
-  const byExternalId = new Map(catalog.map((c) => [c.externalId, c]));
+  const byExternalId = new Map<string, CatalogRow>(catalog.map((c) => [c.externalId, c]));
 
-  let alreadyHadImage = 0;
-  const entries: CardImageEntry[] = [];
-  const review: CardImageReviewEntry[] = unparseable.map((r) => ({
-    reason: "missing-page-fields" as const,
-    sourceId: r.id,
-    sourceUrl: detailUrlForId(r.id),
-    sourceName: r.name ?? "",
-    sourceSetLabel: r.setCode ?? "",
-    sourceNumber: r.collector ?? "",
-  }));
+  const sets = await db.set.findMany({
+    where: { id: { startsWith: `pokemon:${LANG}:` } },
+    select: { code: true },
+  });
+  const knownSetCodes = new Set(sets.map((s) => bareSetCode(s.code)));
 
-  for (const rec of records) {
-    const sourceUrl = detailUrlForId(rec.id);
-    const rawNumber = (rec.collector ?? "").split("/")[0]?.trim() ?? "";
-    const base = {
-      sourceId: rec.id,
-      sourceUrl,
-      sourceName: rec.name ?? "",
-      sourceSetLabel: rec.setCode ?? "",
-      sourceNumber: rec.collector ?? "",
-    };
-
-    // Numbers are stored zero-padded to 3 (zh-tw:S10a-001), with a rare
-    // unpadded promo — try both rather than guessing.
-    const candidates = [
-      `${LANG}:${rec.setCode}-${rawNumber.padStart(3, "0")}`,
-      `${LANG}:${rec.setCode}-${rawNumber}`,
-    ];
-    const externalId = candidates.find((c) => byExternalId.has(c));
-
-    if (!externalId) {
-      review.push({
-        ...base,
-        reason: byExternalId.size ? "no-catalog-row" : "unknown-set-code",
-        candidateExternalId: candidates[0],
-      });
-      continue;
-    }
-
-    const row = byExternalId.get(externalId)!;
-
-    // Guard: the name on the page must be the name in our catalog. This is the
-    // check that independently catches a wrong set code, a bad number, or the
-    // page structure drifting — never loosen it to raise the fill rate.
-    if (!rec.name || normalizeName(rec.name) !== normalizeName(row.name)) {
-      review.push({
-        ...base,
-        reason: "name-mismatch",
-        candidateExternalId: externalId,
-        catalogName: row.name,
-      });
-      continue;
-    }
-
-    if (row.imageSmallUrl) {
-      alreadyHadImage += 1; // provider already supplied art; leave it alone
-      continue;
-    }
-
-    const url = imageUrlForId(rec.id);
-    entries.push({
-      externalId,
-      imageSmallUrl: url,
-      imageLargeUrl: url,
-      sourceUrl,
-      sourceName: rec.name,
-    });
-  }
-
-  fs.mkdirSync(OUT_DIR, { recursive: true });
-  const out: CardImageFile = {
-    gameId: "pokemon",
-    sourceNote:
-      "Traditional Chinese card images from the official Pokémon Asia card database " +
-      "(asia.pokemon-card.com), crawled offline by scripts/crawl-pokemon-tw-images.ts. " +
-      "Image URLs are derived from each card's internal id and hotlinked, never re-hosted. " +
-      "Every entry passed a set-code, catalog-row and card-name match against our catalog.",
-    verified: false,
-    generatedAt: new Date().toISOString(),
-    entries,
-  };
-  fs.writeFileSync(path.join(OUT_DIR, "pokemon-tw.json"), JSON.stringify(out, null, 2));
-
-  const reviewOut: CardImageReviewFile = {
-    gameId: "pokemon",
-    note: "Crawled zh-tw cards that did NOT pass the mapping guards. Never seeded.",
-    generatedAt: new Date().toISOString(),
-    entries: review,
-  };
-  fs.writeFileSync(path.join(OUT_DIR, "pokemon-tw.review.json"), JSON.stringify(reviewOut, null, 2));
-
-  const byReason = review.reduce<Record<string, number>>((acc, r) => {
-    acc[r.reason] = (acc[r.reason] ?? 0) + 1;
-    return acc;
-  }, {});
-  console.log(`\nMapped:   ${entries.length}`);
-  console.log(`Had art:  ${alreadyHadImage} (already sourced from the provider — untouched)`);
-  console.log(`Review:   ${review.length}`, byReason);
-  console.log(`\nWrote pokemon-tw.json (verified: false — review, then flip it).`);
+  writeDeriveOutput(source, deriveFromCache({ source, byExternalId, knownSetCodes }));
 }
 
 async function main() {
-  const cmd = process.argv[2];
-  const setsArg = process.argv.find((a) => a.startsWith("--sets="));
-  const only = setsArg?.slice("--sets=".length).split(",").filter(Boolean);
-
-  if (cmd === "crawl") await crawl(only);
+  const cmd = verb();
+  if (cmd === "crawl") await crawl(argList("sets"));
   else if (cmd === "derive") await derive();
-  else {
-    console.error("Usage: crawl-pokemon-tw-images.ts <crawl|derive> [--sets=S12a,SV4a]");
-    process.exit(1);
-  }
-  await db.$disconnect();
+  else usage("Usage: crawl-pokemon-tw-images.ts <crawl|derive> [--sets=S12a,SV4a]");
 }
 
-main().catch(async (e) => {
-  console.error(e);
-  await db.$disconnect();
-  process.exit(1);
-});
+void runScript(main, () => db.$disconnect());

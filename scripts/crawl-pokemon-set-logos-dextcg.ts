@@ -38,6 +38,11 @@
  * Only the logo URL is stored; images stay hotlinked from dextcg's own CDN
  * (static.dextcg.com), never re-hosted.
  *
+ * One request per language and no per-card guard chain, so this does not use
+ * lib/source-pipeline.ts (that runner is for the card-image crawlers); it
+ * shares the smaller primitives — entity decoding, file writing and the
+ * verified gate — instead.
+ *
  *   npx tsx scripts/crawl-pokemon-set-logos-dextcg.ts jpn
  *   npx tsx scripts/crawl-pokemon-set-logos-dextcg.ts chs
  *
@@ -45,10 +50,13 @@
  * verified:false — flip it only after reading the summary below and
  * spot-checking a few rows against the live dextcg.com pages.
  */
-import * as fs from "node:fs";
 import * as path from "node:path";
 import { db } from "@/lib/db";
+import { bareSetCode } from "@/lib/content-gaps";
 import { createPoliteFetcher } from "./lib/polite-fetch";
+import { decodeHtmlEntities } from "./lib/normalize";
+import { runScript, usage, verb } from "./lib/cli";
+import { dataDir, writeMappingFile, writeReviewFile } from "./lib/source-output";
 import type { SetLogoEntry, SetLogoFile, SetLogoReviewEntry, SetLogoReviewFile } from "./data/set-logos/types";
 
 const LANG_CONFIG = {
@@ -58,7 +66,7 @@ const LANG_CONFIG = {
 type DextcgLang = keyof typeof LANG_CONFIG;
 
 const ORIGIN = "https://dextcg.com";
-const OUT_DIR = path.join(process.cwd(), "scripts", "data", "set-logos");
+const OUT_DIR = dataDir("set-logos");
 
 const politeGet = createPoliteFetcher();
 
@@ -79,7 +87,7 @@ function parseSetCards(html: string): DextcgSetCard[] {
     out.push({
       slug,
       logoUrl: `https://static.dextcg.com/content/sets/logos/${slug}.png`,
-      nameEn: nameEn.replace(/&amp;/g, "&").replace(/&#x27;/g, "'"),
+      nameEn: decodeHtmlEntities(nameEn),
       releaseDate,
       cardCountText,
     });
@@ -93,10 +101,9 @@ function parseCardCount(text: string): number | null {
 }
 
 async function main() {
-  const lang = process.argv[2] as DextcgLang | undefined;
+  const lang = verb() as DextcgLang | undefined;
   if (!lang || !(lang in LANG_CONFIG)) {
-    console.error(`Usage: npx tsx scripts/crawl-pokemon-set-logos-dextcg.ts <${Object.keys(LANG_CONFIG).join("|")}>`);
-    process.exit(1);
+    usage(`Usage: npx tsx scripts/crawl-pokemon-set-logos-dextcg.ts <${Object.keys(LANG_CONFIG).join("|")}>`);
     return;
   }
   const { dbPrefix, slugPrefix, requireExactCode } = LANG_CONFIG[lang];
@@ -113,7 +120,7 @@ async function main() {
     where: { id: { startsWith: `pokemon:${dbPrefix}:` } },
     select: { id: true, code: true, name: true, logoUrl: true, nameEn: true, cardCount: true },
   });
-  const byCode = new Map(dbSets.map((s) => [s.code.replace(new RegExp(`^${dbPrefix}:`), "").toUpperCase(), s]));
+  const byCode = new Map(dbSets.map((s) => [bareSetCode(s.code).toUpperCase(), s]));
 
   const entries: SetLogoEntry[] = [];
   const review: SetLogoReviewEntry[] = [];
@@ -132,6 +139,7 @@ async function main() {
         sourceUrl: `${ORIGIN}/expansions/${card.slug}`,
         sourceName: card.nameEn,
         logoUrl: card.logoUrl,
+        reason: "no-set-row",
       });
       continue;
     }
@@ -150,6 +158,7 @@ async function main() {
         sourceUrl: `${ORIGIN}/expansions/${card.slug}`,
         sourceName: `${card.nameEn} (card-count mismatch: dextcg ${dextcgCardCount} vs DB ${dbSet.cardCount} for matched set ${dbSet.id})`,
         logoUrl: card.logoUrl,
+        reason: "card-count-mismatch",
       });
       continue;
     }
@@ -166,38 +175,25 @@ async function main() {
     });
   }
 
-  fs.mkdirSync(OUT_DIR, { recursive: true });
-  const outFile: SetLogoFile = {
+  const outName = `dextcg-${lang === "jpn" ? "ja" : "cn"}.json`;
+  const reviewName = `dextcg-${lang === "jpn" ? "ja" : "cn"}.review.json`;
+
+  writeMappingFile<SetLogoFile>(OUT_DIR, outName, {
     gameId: "pokemon",
     sourceNote: `Crawled from ${url} on ${new Date().toISOString()} by crawl-pokemon-set-logos-dextcg.ts`,
-    verified: false,
-    generatedAt: new Date().toISOString(),
     entries,
-  };
-  const outPath = path.join(OUT_DIR, `dextcg-${lang === "jpn" ? "ja" : "cn"}.json`);
-  fs.writeFileSync(outPath, JSON.stringify(outFile, null, 2));
-
-  const reviewFile: SetLogoReviewFile = {
+  });
+  writeReviewFile<SetLogoReviewFile>(OUT_DIR, reviewName, {
     gameId: "pokemon",
     note: `dextcg.com (${lang}) set cards with no confidently-matching pokemon:${dbPrefix}:<code> Set row. Never seeded.`,
-    generatedAt: new Date().toISOString(),
     entries: review,
-  };
-  const reviewPath = path.join(OUT_DIR, `dextcg-${lang === "jpn" ? "ja" : "cn"}.review.json`);
-  fs.writeFileSync(reviewPath, JSON.stringify(reviewFile, null, 2));
+  });
 
   console.log(`\nMatched (logoUrl currently null): ${entries.length}`);
   console.log(`Already had a logoUrl (left alone): ${alreadySet}`);
   console.log(`No confident match (see review file): ${review.length}`);
-  console.log(`\nWrote ${path.relative(process.cwd(), outPath)}`);
-  console.log(`Wrote ${path.relative(process.cwd(), reviewPath)}`);
+  console.log(`\nWrote ${path.join("scripts", "data", "set-logos", outName)}`);
+  console.log(`Wrote ${path.join("scripts", "data", "set-logos", reviewName)}`);
 }
 
-main()
-  .catch((err) => {
-    console.error(err);
-    process.exitCode = 1;
-  })
-  .finally(async () => {
-    await db.$disconnect();
-  });
+void runScript(main, () => db.$disconnect());
