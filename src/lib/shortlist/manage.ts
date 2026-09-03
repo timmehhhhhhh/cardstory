@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import type { RawCardCondition } from "@/lib/constants";
 import type { ShortlistItem, ShortlistItemKind } from "@/lib/shortlist/types";
 import type { ShortlistItemInput, ShortlistItemPatchInput } from "@/lib/shortlist/api-schemas";
 
@@ -30,6 +31,7 @@ function toShortlistItem(row: {
   quantity: number;
   askingPrice: unknown;
   askingCurrency: string;
+  rawCondition: string | null;
   notes: string | null;
   source: string | null;
   addedAt: Date;
@@ -45,6 +47,7 @@ function toShortlistItem(row: {
     quantity: row.quantity,
     askingPrice: Number(row.askingPrice),
     askingCurrency: row.askingCurrency as ShortlistItem["askingCurrency"],
+    rawCondition: (row.rawCondition as RawCardCondition | null) ?? undefined,
     notes: row.notes ?? undefined,
     source: row.source ?? undefined,
     addedAt: row.addedAt.toISOString(),
@@ -73,6 +76,7 @@ export async function addShortlistItem(userId: string, input: ShortlistItemInput
       quantity: input.quantity,
       askingPrice: input.askingPrice,
       askingCurrency: input.askingCurrency,
+      rawCondition: input.rawCondition,
       notes: input.notes,
       source: input.source,
     },
@@ -98,6 +102,7 @@ export async function upsertShortlistItem(userId: string, input: ShortlistItemIn
       quantity: input.quantity,
       askingPrice: input.askingPrice,
       askingCurrency: input.askingCurrency,
+      rawCondition: input.rawCondition,
       notes: input.notes,
       source: input.source,
     },

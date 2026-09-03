@@ -9,6 +9,7 @@ import { CurrencySelector } from "@/components/nav/currency-selector";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { AdminAddCard } from "@/app/settings/_components/admin-add-card";
+import { ConditionPricingSection } from "@/app/settings/_components/condition-pricing-section";
 import type { GameMeta } from "@/lib/games/registry";
 
 function SettingRow({
@@ -157,6 +158,7 @@ export function SettingsClient({ adminAddCardGames }: { adminAddCardGames: GameM
             description="Currency used to display card values across CardStory."
             control={<CurrencySelector />}
           />
+          <ConditionPricingSection />
           <ThemeRow />
 
           {session.user.isAdmin && (

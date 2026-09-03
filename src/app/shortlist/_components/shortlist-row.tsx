@@ -14,13 +14,27 @@ import {
 } from "@/components/ui/select";
 import { CardImage } from "@/components/cards/card-image";
 import { CardNumberBadge } from "@/components/cards/card-number-badge";
-import { SUPPORTED_CURRENCIES, type SupportedCurrency } from "@/lib/constants";
+import {
+  CARD_CONDITIONS,
+  CARD_CONDITION_LABELS,
+  SUPPORTED_CURRENCIES,
+  type RawCardCondition,
+  type SupportedCurrency,
+} from "@/lib/constants";
 import { formatMoneyIn } from "@/lib/utils/format";
 import { useShortlistStore } from "@/lib/shortlist/store";
+import { useConditionPricing } from "@/lib/condition-pricing/use-condition-pricing";
 import type { EnrichedShortlistItem } from "@/lib/shortlist/selectors";
 import { CardStack } from "@/components/cards/card-stack";
 import { CardStoryDialog } from "@/components/cards/card-story-dialog";
 import { groupShortlistIntoStacks, shortlistToStoryFace } from "@/lib/collections/stacks";
+
+/**
+ * Radix's SelectItem can't take "" as a value, so "no condition set" needs
+ * a sentinel to be a pickable option rather than only a placeholder — the
+ * user has to be able to go back to "Not set" after mis-tapping a grade.
+ */
+const NO_CONDITION = "__none";
 
 /**
  * One row's worth of content for a single shortlist item — the front (or
@@ -46,6 +60,7 @@ function ShortlistRowFace({
 }) {
   const updateShortlistItem = useShortlistStore((s) => s.updateShortlistItem);
   const removeShortlistItems = useShortlistStore((s) => s.removeShortlistItems);
+  const conditionPricing = useConditionPricing();
 
   // The price field keeps its own draft string and only commits on blur.
   // Committing per keystroke would be a PATCH per character once the store
@@ -68,6 +83,7 @@ function ShortlistRowFace({
   }
 
   const marketHint = row.marketUnitPriceInAskingCurrency;
+  const condition = row.rawCondition ?? null;
 
   return (
     <div className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-xl border border-border bg-surface px-3 py-2.5">
@@ -116,6 +132,16 @@ function ShortlistRowFace({
             Market ~{formatMoneyIn(marketHint, row.askingCurrency)} ea
           </span>
         )}
+        {/* What the copy in front of you is worth, as opposed to what a Near
+            Mint one is worth — market prices are quoted for NM. Approximate
+            twice over (a static FX table, and the user's own percentages),
+            hence the ~. */}
+        {row.conditionUnitValue != null && condition != null && (
+          <span className="num-tabular text-xs font-medium text-foreground/80">
+            At {condition} ({conditionPricing[condition]}%) ~
+            {formatMoneyIn(row.conditionUnitValue, row.askingCurrency)} ea
+          </span>
+        )}
       </div>
 
       <div className="flex items-center gap-1" onPointerDown={(e) => e.stopPropagation()}>
@@ -136,6 +162,38 @@ function ShortlistRowFace({
         >
           <Plus className="size-3.5" />
         </button>
+      </div>
+
+      <div onPointerDown={(e) => e.stopPropagation()}>
+        <Select
+          value={condition ?? NO_CONDITION}
+          onValueChange={(v) =>
+            updateShortlistItem(row.id, {
+              rawCondition: v === NO_CONDITION ? null : (v as RawCardCondition),
+            })
+          }
+        >
+          <SelectTrigger
+            size="sm"
+            className="w-[92px] shrink-0 bg-background"
+            aria-label={`Condition for ${row.display.name}`}
+          >
+            {/* Children override what Radix mirrors out of the selected
+                item, so the collapsed trigger stays at just the code even
+                though the open list carries the full name too — which is
+                what a first-time user actually needs to see. */}
+            <SelectValue>{condition ?? "Not set"}</SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={NO_CONDITION}>Not set</SelectItem>
+            {CARD_CONDITIONS.map((c) => (
+              <SelectItem key={c} value={c} textValue={c}>
+                <span className="font-medium">{c}</span>
+                <span className="text-muted-foreground">{CARD_CONDITION_LABELS[c]}</span>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       <div className="flex items-center gap-1.5" onPointerDown={(e) => e.stopPropagation()}>
