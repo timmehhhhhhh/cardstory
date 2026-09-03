@@ -189,16 +189,6 @@
       "catalogName": "バブル水エネルギー"
     },
     {
-      "sourceId": 13841458,
-      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/pokemon-catcher-98",
-      "sourceName": "Pokemon Catcher",
-      "sourceSetLabel": "M6",
-      "sourceNumber": "98",
-      "reason": "unresolved-name-guard",
-      "candidateExternalId": "ja:M6-098",
-      "catalogName": "とくちゅうチョッキ"
-    },
-    {
       "sourceId": 13841397,
       "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/heat-rotom-ex-15",
       "sourceName": "Heat Rotom ex",
@@ -207,26 +197,6 @@
       "reason": "unresolved-name-guard",
       "candidateExternalId": "ja:M6-015",
       "catalogName": "ヒートロトムex"
-    },
-    {
-      "sourceId": 13848879,
-      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/custom-vest-99",
-      "sourceName": "Custom Vest",
-      "sourceSetLabel": "M6",
-      "sourceNumber": "99",
-      "reason": "name-mismatch",
-      "candidateExternalId": "ja:M6-099",
-      "catalogName": "ポケモンキャッチャー"
-    },
-    {
-      "sourceId": 13841425,
-      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/nidoran-41",
-      "sourceName": "Nidoran",
-      "sourceSetLabel": "M6",
-      "sourceNumber": "41",
-      "reason": "name-mismatch",
-      "candidateExternalId": "ja:M6-041",
-      "catalogName": "ニドラン♀"
     },
     {
       "sourceId": 13841446,
@@ -297,17 +267,7 @@
       "reason": "unresolved-name-guard",
       "candidateExternalId": "ja:M6-063",
       "catalogName": "おいしいおむすび"
-    },
-    {
-      "sourceId": 13841465,
-      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/custom-vest-65",
-      "sourceName": "Custom Vest",
-      "sourceSetLabel": "M6",
-      "sourceNumber": "65",
-      "reason": "unresolved-name-guard",
-      "candidateExternalId": "ja:M6-065",
-      "catalogName": "とくちゅうチョッキ"
     }
   ],
-  "generatedAt": "2026-09-03T12:33:15.493Z"
+  "generatedAt": "2026-09-03T16:25:02.334Z"
 }

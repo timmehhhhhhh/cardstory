@@ -31,25 +31,32 @@ export function normalizeNameCjk(s: string): string {
 }
 
 /**
- * Case/punctuation-insensitive ENGLISH-name compare — apostrophes, hyphens and
- * ♂/♀ vary in printed casing/spacing across sources. Also drops a leading
- * "Basic ": resolvePokemonCardNameEn's energy-card translations say "Basic
- * Grass Energy" where japanesepokemoncards.uk's alt text says "Grass Energy".
- * Both name the same card, so this isn't a guard-loosening — it's normalizing
- * a known, systematic naming-convention difference between two sources.
+ * Case/punctuation-insensitive ENGLISH-name compare — apostrophes, hyphens,
+ * ♂/♀ and accents (e.g. "Pokémon" vs a source's plain-ASCII "Pokemon") vary
+ * in printed casing/spelling across sources. Also drops a leading "Basic ":
+ * resolvePokemonCardNameEn's energy-card translations say "Basic Grass
+ * Energy" where japanesepokemoncards.uk's alt text says "Grass Energy". Both
+ * name the same card, so this isn't a guard-loosening — it's normalizing a
+ * known, systematic naming-convention difference between two sources.
+ *
+ * NFKD (not NFKC) decomposes accented letters into base + combining mark,
+ * which the diacritic strip below then removes — confirmed against
+ * crawl-pokemon-jp-pricecharting-images.ts's "Pokémon Catcher" (the curated
+ * translation) vs PriceCharting's plain "Pokemon Catcher".
  *
  * Differs from normalizeNameCjk in two ways that matter: the "basic" strip,
  * and an ASCII-only punctuation class (it never sees CJK punctuation, because
  * both sides of its comparison are already English).
  *
- * Used by the jp-uk image crawler.
+ * Used by the jp-uk and jp-pricecharting image crawlers.
  */
 export function normalizeNameAsciiEn(s: string): string {
   return s
-    .normalize("NFKC")
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "") // combining diacritical marks
     .replace(/^basic\s+/i, "")
     .replace(/[\s]/g, "")
-    .replace(/['’"“”\-–—.,]/g, "")
+    .replace(/['’"“”\-–—.,♂♀]/g, "")
     .toLowerCase();
 }
 

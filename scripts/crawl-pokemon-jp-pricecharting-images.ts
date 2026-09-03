@@ -207,6 +207,21 @@ function toSizedUrl(thumbUrl: string, size: number): string {
   return thumbUrl.replace(/\/\d+\.jpg$/, `/${size}.jpg`);
 }
 
+/**
+ * Verified PriceCharting printed-number errors: "<dbSetCode>:<PriceCharting
+ * number>" -> the actual tcgdex collector number. So far just Storm
+ * Emeralda's #98/#99 pair, confirmed independently of the name guard (which
+ * can't see this — it only compares within one already-chosen candidate):
+ * PriceCharting's "#98 Pokemon Catcher" and "#99 Custom Vest" are transposed
+ * against tcgdex's numbering — trainerType only lines up when swapped
+ * (Pokémon Catcher is an Item, matching tcgdex M6-099; とくちゅうチョッキ
+ * "Custom Vest" is a Tool, matching tcgdex M6-098).
+ */
+const NUMBER_OVERRIDES: Record<string, string> = {
+  "M6:98": "99",
+  "M6:99": "98",
+};
+
 const source: CardImageSource<PriceChartingRecord> = {
   name: "pokemon-jp-pricecharting",
   cacheName: CACHE_NAME,
@@ -219,7 +234,9 @@ const source: CardImageSource<PriceChartingRecord> = {
     "(japanesepokemoncards.uk). Image URLs are hotlinked from PriceCharting's own CDN " +
     "(storage.googleapis.com/images.pricecharting.com), never re-hosted. PriceCharting prints English " +
     "names, not the real Japanese text, so every entry passed a set-code/number match plus an " +
-    "English-name guard (resolved from the catalog's Japanese name via resolvePokemonCardNameEn).",
+    "English-name guard (resolved from the catalog's Japanese name via resolvePokemonCardNameEn). " +
+    "NUMBER_OVERRIDES in this file corrects a small number of confirmed PriceCharting-side printed-" +
+    "number errors, found via manual review of the review file's rejections.",
   reviewNote: "Crawled pricecharting.com JP Pokémon console listings that did NOT pass the mapping guards. Never seeded.",
   isParseable: (r) => Boolean(r.name && r.number && r.thumbUrl && r.href),
   sourceUrl: (r) => (r.href ? `${ORIGIN}${r.href}` : `${ORIGIN} (id ${r.id}, no href captured)`),
@@ -233,8 +250,12 @@ const source: CardImageSource<PriceChartingRecord> = {
   // an unknown set — it is always a missing card row.
   sourceSetCode: () => null,
   // Numbers are stored zero-padded to 3 (ja:M6-004), with a rare unpadded
-  // promo — try both rather than guessing.
-  candidates: (r) => [`${LANG}:${r.dbSetCode}-${r.number!.padStart(3, "0")}`, `${LANG}:${r.dbSetCode}-${r.number}`],
+  // promo — try both rather than guessing. NUMBER_OVERRIDES corrects a
+  // handful of confirmed PriceCharting-side printed-number errors first.
+  candidates: (r) => {
+    const number = NUMBER_OVERRIDES[`${r.dbSetCode}:${r.number}`] ?? r.number!;
+    return [`${LANG}:${r.dbSetCode}-${number.padStart(3, "0")}`, `${LANG}:${r.dbSetCode}-${number}`];
+  },
   // See the module doc for why this compares resolved English names rather
   // than a native-script compare: PriceCharting's own text is English.
   // Never loosen it to raise the fill rate.

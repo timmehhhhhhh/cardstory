@@ -115,6 +115,12 @@ export const POKEMON_CARD_TRANSLATIONS: Record<string, string> = {
   "JP:オーロラエネルギー": "Aurora Energy",
   "JP:ルミナスエネルギー": "Luminous Energy",
   "JP:頂への雪道": "Path to the Peak",
+  // Literal translation (no English printing exists yet — Storm Emeralda/M6
+  // is JP-exclusive as of this writing); corroborated by a third party,
+  // PriceCharting, independently using this exact English name for its
+  // listing of the same card (see crawl-pokemon-jp-pricecharting-images.ts's
+  // NUMBER_OVERRIDES comment for how that match was confirmed by trainerType).
+  "JP:とくちゅうチョッキ": "Custom Vest",
 
   // Character/Supporter names (JP).
   "JP:リーリエ": "Lillie",
