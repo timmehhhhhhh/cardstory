@@ -9,6 +9,7 @@ import { CardImage } from "@/components/cards/card-image";
 import { CardNumberBadge } from "@/components/cards/card-number-badge";
 import { getGameMeta } from "@/lib/games/registry";
 import { formatMoney } from "@/lib/utils/format";
+import { usePricingVisible } from "@/lib/utils/use-pricing-visible";
 import { usePCStore } from "@/lib/pc/store";
 import { useShortlistStore } from "@/lib/shortlist/store";
 import { CustomItemDialog } from "@/app/shortlist/_components/custom-item-dialog";
@@ -20,6 +21,7 @@ import type { CatalogSearchItem } from "@/lib/catalog/search";
  */
 export function ShortlistAddBar({ onAdded }: { onAdded: (itemId: string) => void }) {
   const currency = usePCStore((s) => s.preferences.currency);
+  const pricingVisible = usePricingVisible();
   const lastUsedCostBasisCurrency = usePCStore((s) => s.preferences.lastUsedCostBasisCurrency);
   const addShortlistItem = useShortlistStore((s) => s.addShortlistItem);
 
@@ -105,9 +107,11 @@ export function ShortlistAddBar({ onAdded }: { onAdded: (itemId: string) => void
                 {item.name}
               </span>
               <CardNumberBadge number={item.number} className="flex-none" />
-              <span className="num-tabular text-xs text-muted-foreground">
-                {formatMoney(item.priceRaw, currency)}
-              </span>
+              {pricingVisible && (
+                <span className="num-tabular text-xs text-muted-foreground">
+                  {formatMoney(item.priceRaw, currency)}
+                </span>
+              )}
             </button>
           ))}
           {/* Offered whatever the results look like — this is exactly where

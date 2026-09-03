@@ -499,6 +499,22 @@ model User {
   /// src/lib/utils/use-pricing-visible.ts). Toggled from
   /// src/app/settings/_components/settings-client.tsx.
   hidePricing      Boolean  @default(false)
+  /// Per-account catalog-language filter: card languages (CatalogItem.language
+  /// values, e.g. "EN"/"JP") the user wants to see while browsing/searching/
+  /// adding cards (Explore, /sets, the binder card picker, the search bar's
+  /// set-name lookup). Empty array means "no restriction — show every
+  /// language", the default and the state of every existing account. Never
+  /// filters the PC/holdings list: a card the user already owns stays visible
+  /// there even in a language they've since hidden from browsing. See
+  /// src/lib/utils/use-visible-languages.ts.
+  visibleLanguages String[] @default([])
+  /// Per-account game/TCG visibility filter — the inverse of
+  /// visibleLanguages above (stores what's *hidden*, not what's visible), so
+  /// a newly wired-up game in src/lib/games/registry.ts defaults to visible
+  /// for existing accounts without a migration. Same browsing-only scope as
+  /// visibleLanguages: a game hidden here still shows an already-owned
+  /// holding in the PC. See src/lib/utils/use-visible-games.ts.
+  hiddenGameIds    String[] @default([])
   /// Per-account condition -> percentage-of-market map, used to value a
   /// shortlisted card at the shape it is actually in (see
   /// src/lib/condition-pricing). Opaque Json validated by zod at the API
@@ -965,6 +981,10 @@ model Binder {
   /// Deck.status/Holding.kind: never derived from whether every pocket is
   /// filled or every card is owned.
   status         String       @default("wip")
+  /// A GameMeta id (see src/lib/games/registry.ts) restricting the card
+  /// picker to that one game — null means no restriction. See the
+  /// gameFilter comment on Binder in src/lib/binder/types.ts.
+  gameFilter     String?
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   pages          BinderPage[]

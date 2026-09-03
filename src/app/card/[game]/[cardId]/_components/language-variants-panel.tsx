@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePCStore } from "@/lib/pc/store";
-import { formatMoney } from "@/lib/utils/format";
+import { Money } from "@/components/ui/money";
 import { cardDetailHref } from "@/lib/catalog/card-href";
 import { languageLabel } from "@/lib/format/language";
 
@@ -47,7 +47,7 @@ export function LanguageVariantsPanel({
               >
                 {m.nameEn ?? m.name}
                 {m.priceRaw != null && (
-                  <span className="num-tabular text-muted-foreground">{formatMoney(m.priceRaw, currency)}</span>
+                  <Money amountUsd={m.priceRaw} currency={currency} className="num-tabular text-muted-foreground" />
                 )}
               </Link>
             ))}

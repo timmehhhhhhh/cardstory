@@ -284,6 +284,7 @@ const MUTATION_FAILURE_MESSAGES: Record<string, string> = {
   setCoverColor: "Couldn't update the cover color.",
   setPageBackground: "Couldn't update the page background.",
   setStatus: "Couldn't update the binder status.",
+  setGameFilter: "Couldn't update the binder's game filter.",
   setLayout: "Couldn't change the layout.",
   addPage: "Couldn't add a page.",
   removePage: "Couldn't remove that page.",
@@ -335,6 +336,8 @@ export interface BinderState {
   /** Returns `{ ok: false }` (without applying anything) when shrinking the layout would strand a custom image's span — see reflowPages. */
   setLayout: (binderId: string, layoutId: BinderLayoutId) => SetLayoutResult;
   setStatus: (binderId: string, status: BinderStatus) => void;
+  /** Restricts (or, with null, un-restricts) this binder's card picker to one game/TCG — see the gameFilter comment on Binder in src/lib/binder/types.ts. */
+  setGameFilter: (binderId: string, gameFilter: string | null) => void;
   setShowNumberTags: (show: boolean) => void;
   setShowNotOwnedTags: (show: boolean) => void;
 
@@ -440,6 +443,7 @@ export function useRemoteBinderStore<T>(selector: (s: BinderState) => T, opts: {
           coverColor: "black",
           pageBackground: "match-cover",
           status: "wip",
+          gameFilter: null,
           pages: [page],
           createdAt: nowIso(),
           updatedAt: nowIso(),
@@ -575,6 +579,25 @@ export function useRemoteBinderStore<T>(selector: (s: BinderState) => T, opts: {
           })
           .catch((err) => {
             logMutationFailure("setStatus", null, err);
+            reconcile();
+          });
+      },
+
+      setGameFilter: (binderId, gameFilter) => {
+        patch((bs) => bs.map((b) => (b.id === binderId ? { ...b, gameFilter, updatedAt: nowIso() } : b)));
+        fetch(`/api/binder/${binderId}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ gameFilter }),
+        })
+          .then((res) => {
+            if (!res.ok) {
+              logMutationFailure("setGameFilter", res);
+              reconcile();
+            }
+          })
+          .catch((err) => {
+            logMutationFailure("setGameFilter", null, err);
             reconcile();
           });
       },

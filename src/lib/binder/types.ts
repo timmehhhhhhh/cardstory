@@ -108,6 +108,15 @@ export interface Binder {
   /** Fill behind the pocket grid — defaults to following coverColor. */
   pageBackground: PageBackground;
   status: BinderStatus;
+  /**
+   * Restricts the card picker (card-picker-sheet.tsx, both its "My
+   * Collection" and "Not Owned" tabs) to a single game/TCG — most binders
+   * are collected for one game, so this saves scrolling past every other
+   * game's cards while adding. `null` (the default) means "no restriction —
+   * full catalog across every game", still fully supported for a binder
+   * someone wants to mix games in.
+   */
+  gameFilter: string | null;
   pages: BinderPage[];
   createdAt: string;
   updatedAt: string;

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePCStore } from "@/lib/pc/store";
-import { formatMoney } from "@/lib/utils/format";
+import { Money } from "@/components/ui/money";
 import { formatReleaseDate } from "@/lib/format/date";
 import { cardDetailHref } from "@/lib/catalog/card-href";
 import { Badge } from "@/components/ui/badge";
@@ -49,7 +49,7 @@ export function ReprintsPanel({ entries }: { entries: ReprintEntry[] }) {
               {e.nameEn ?? e.name}
               {releaseLabel && <span className="text-muted-foreground">{releaseLabel}</span>}
               {e.priceRaw != null && (
-                <span className="num-tabular text-muted-foreground">{formatMoney(e.priceRaw, currency)}</span>
+                <Money amountUsd={e.priceRaw} currency={currency} className="num-tabular text-muted-foreground" />
               )}
             </Link>
           );

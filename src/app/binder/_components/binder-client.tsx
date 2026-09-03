@@ -39,6 +39,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { GAMES } from "@/lib/games/registry";
+
+const ALL_GAMES_VALUE = "__all";
+const BINDER_GAME_OPTIONS = GAMES.filter((g) => g.status === "WIRED");
 
 const PAGE_BACKGROUND_OPTIONS: { id: PageBackground; label: string }[] = [
   { id: "match-cover", label: "Match binder" },
@@ -62,6 +73,7 @@ const EMPTY_BINDER: Binder = {
   coverColor: "black",
   pageBackground: "match-cover",
   status: "wip",
+  gameFilter: null,
   pages: [{ id: "", pockets: Array.from({ length: pocketCount("9") }, () => null) }],
   createdAt: "",
   updatedAt: "",
@@ -91,6 +103,7 @@ export function BinderClient({
   const setLayout = useBinderStore((s) => s.setLayout);
   const setCoverColor = useBinderStore((s) => s.setCoverColor);
   const setPageBackground = useBinderStore((s) => s.setPageBackground);
+  const setGameFilter = useBinderStore((s) => s.setGameFilter);
   const setActiveBinder = useBinderStore((s) => s.setActiveBinder);
   const addPage = useBinderStore((s) => s.addPage);
   const removePage = useBinderStore((s) => s.removePage);
@@ -489,6 +502,28 @@ export function BinderClient({
           </div>
         </div>
 
+        <div className="flex flex-wrap items-center gap-3 rounded-xl border border-border bg-surface px-3 py-2.5">
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-medium text-muted-foreground">Add cards from</span>
+            <Select
+              value={binder.gameFilter ?? ALL_GAMES_VALUE}
+              onValueChange={(v) => setGameFilter(binder.id, v === ALL_GAMES_VALUE ? null : v)}
+            >
+              <SelectTrigger size="sm" className="w-44 bg-background" aria-label="Card game filter for this binder">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value={ALL_GAMES_VALUE}>All games</SelectItem>
+                {BINDER_GAME_OPTIONS.map((g) => (
+                  <SelectItem key={g.id} value={g.id}>
+                    {g.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
         {layoutBlockedMessage && (
           <p className="rounded-lg bg-destructive/10 px-3 py-2 text-xs text-destructive">{layoutBlockedMessage}</p>
         )}
@@ -557,7 +592,14 @@ export function BinderClient({
       </p>
 
       <div className="flex-none">
-        <BinderCardList binder={binder} cols={layout.cols} cardsById={cardsById} catalogItemsById={catalogItemsById} />
+        <BinderCardList
+          binder={binder}
+          cols={layout.cols}
+          cardsById={cardsById}
+          catalogItemsById={catalogItemsById}
+          onJump={handleJumpToResult}
+          onRemove={handleClearPocket}
+        />
       </div>
 
       <CardPickerSheet
@@ -567,6 +609,7 @@ export function BinderClient({
           if (!open) setSelectedPocket(null);
         }}
         rows={rows}
+        gameFilter={binder.gameFilter}
         usedCounts={usedCounts}
         ownedCatalogItemIds={ownedCatalogItemIds}
         onPick={handlePick}

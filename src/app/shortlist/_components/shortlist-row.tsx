@@ -22,6 +22,7 @@ import {
   type SupportedCurrency,
 } from "@/lib/constants";
 import { formatMoneyIn } from "@/lib/utils/format";
+import { usePricingVisible } from "@/lib/utils/use-pricing-visible";
 import { useShortlistStore } from "@/lib/shortlist/store";
 import { useConditionPricing } from "@/lib/condition-pricing/use-condition-pricing";
 import type { EnrichedShortlistItem } from "@/lib/shortlist/selectors";
@@ -61,6 +62,11 @@ function ShortlistRowFace({
   const updateShortlistItem = useShortlistStore((s) => s.updateShortlistItem);
   const removeShortlistItems = useShortlistStore((s) => s.removeShortlistItems);
   const conditionPricing = useConditionPricing();
+  // Only gates the catalog-derived "Market ~"/condition-value hints below —
+  // the asking price is the user's own manually-entered number for their
+  // shopping list, not app-provided market data, so it stays visible and
+  // editable regardless of this setting.
+  const pricingVisible = usePricingVisible();
 
   // The price field keeps its own draft string and only commits on blur.
   // Committing per keystroke would be a PATCH per character once the store
@@ -127,7 +133,7 @@ function ShortlistRowFace({
           {stackBadge ? `${stackBadge} · ` : ""}
           {row.source ?? "Added manually"}
         </span>
-        {marketHint != null && (
+        {pricingVisible && marketHint != null && (
           <span className="num-tabular text-xs text-muted-foreground">
             Market ~{formatMoneyIn(marketHint, row.askingCurrency)} ea
           </span>
@@ -136,7 +142,7 @@ function ShortlistRowFace({
             Mint one is worth — market prices are quoted for NM. Approximate
             twice over (a static FX table, and the user's own percentages),
             hence the ~. */}
-        {row.conditionUnitValue != null && condition != null && (
+        {pricingVisible && row.conditionUnitValue != null && condition != null && (
           <span className="num-tabular text-xs font-medium text-foreground/80">
             At {condition} ({conditionPricing[condition]}%) ~
             {formatMoneyIn(row.conditionUnitValue, row.askingCurrency)} ea

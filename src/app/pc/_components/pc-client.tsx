@@ -30,6 +30,8 @@ export function PCClient() {
   const setSortDirection = usePCStore((s) => s.setSortDirection);
   const groupField = usePCStore((s) => s.preferences.groupField);
   const setGroupField = usePCStore((s) => s.setGroupField);
+  const groupDateGranularity = usePCStore((s) => s.preferences.groupDateGranularity);
+  const setGroupDateGranularity = usePCStore((s) => s.setGroupDateGranularity);
   const setActivePC = usePCStore((s) => s.setActivePC);
   const filters = usePCStore((s) => s.preferences.holdingFilters);
   const setHoldingFilters = usePCStore((s) => s.setHoldingFilters);
@@ -120,6 +122,8 @@ export function PCClient() {
         onSortDirectionChange={setSortDirection}
         groupField={groupField}
         onGroupFieldChange={setGroupField}
+        groupDateGranularity={groupDateGranularity}
+        onGroupDateGranularityChange={setGroupDateGranularity}
         filters={filters}
         onFiltersChange={(patch) => setHoldingFilters({ ...filters, ...patch })}
       />
@@ -180,6 +184,8 @@ export function PCClient() {
           <HoldingsList
             rows={sortedRows}
             groupField={groupField}
+            groupDateGranularity={groupDateGranularity}
+            sortDirection={sortDirection}
             viewMode={viewMode}
             bulkMode={bulkMode}
             selected={selected}

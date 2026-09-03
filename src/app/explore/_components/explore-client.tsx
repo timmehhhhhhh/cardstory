@@ -18,15 +18,9 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import type { CardTypeGroup, CatalogSearchItem, VariantGroup } from "@/lib/catalog/search";
 import type { Holding } from "@/lib/pc/types";
+import { LAST_QUERY_STORAGE_KEY } from "@/lib/explore/set-search-href";
 
 const EMPTY_HOLDINGS: Holding[] = [];
-
-// Explore's search/filters state is normally seeded from the URL, but the
-// top-nav "Explore" link is a plain `/explore` href with no query string, and
-// this route has no shared layout — so navigating away and back fully
-// unmounts ExploreClient and resets everything. Session-storing the last
-// query string lets a bare landing restore it instead of defaulting.
-const LAST_QUERY_STORAGE_KEY = "cardstory:explore:last-query";
 
 interface SearchResponse {
   items: CatalogSearchItem[];

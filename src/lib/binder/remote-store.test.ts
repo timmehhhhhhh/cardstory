@@ -11,6 +11,7 @@ function makeBinder(pockets: (BinderPocketRef | null)[] = Array.from({ length: 9
     coverColor: "black",
     pageBackground: "match-cover",
     status: "wip",
+    gameFilter: null,
     pages: [{ id: "page-1", pockets }],
     createdAt: "",
     updatedAt: "",

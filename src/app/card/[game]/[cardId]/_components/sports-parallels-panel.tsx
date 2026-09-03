@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePCStore } from "@/lib/pc/store";
-import { formatMoney } from "@/lib/utils/format";
+import { Money } from "@/components/ui/money";
 import { cardDetailHref } from "@/lib/catalog/card-href";
 import type { SportsCardVariant } from "@/lib/sportscards/manage";
 
@@ -49,7 +49,7 @@ export function SportsParallelsPanel({
             >
               {label}
               {v.priceRaw != null && (
-                <span className="num-tabular text-muted-foreground">{formatMoney(v.priceRaw, currency)}</span>
+                <Money amountUsd={v.priceRaw} currency={currency} className="num-tabular text-muted-foreground" />
               )}
             </Link>
           );

@@ -3,7 +3,7 @@
 import { CheckSquare, Download } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
-import type { GroupField, SortDirection, SortField } from "@/lib/pc/types";
+import type { GroupDateGranularity, GroupField, SortDirection, SortField } from "@/lib/pc/types";
 import { SortBySelect } from "@/app/pc/_components/sort-by";
 import { GroupBySelect } from "@/app/pc/_components/group-by";
 
@@ -64,6 +64,8 @@ export function QuickActions({
   onSortDirectionChange,
   groupField,
   onGroupFieldChange,
+  groupDateGranularity,
+  onGroupDateGranularityChange,
 }: {
   rows: EnrichedHolding[];
   bulkMode: boolean;
@@ -74,6 +76,8 @@ export function QuickActions({
   onSortDirectionChange: (direction: SortDirection) => void;
   groupField: GroupField;
   onGroupFieldChange: (field: GroupField) => void;
+  groupDateGranularity: GroupDateGranularity;
+  onGroupDateGranularityChange: (granularity: GroupDateGranularity) => void;
 }) {
   return (
     <div className="flex flex-wrap items-center gap-2">
@@ -87,7 +91,12 @@ export function QuickActions({
           onFieldChange={onSortFieldChange}
           onDirectionChange={onSortDirectionChange}
         />
-        <GroupBySelect field={groupField} onFieldChange={onGroupFieldChange} />
+        <GroupBySelect
+          field={groupField}
+          onFieldChange={onGroupFieldChange}
+          dateGranularity={groupDateGranularity}
+          onDateGranularityChange={onGroupDateGranularityChange}
+        />
         <button
           type="button"
           role="switch"

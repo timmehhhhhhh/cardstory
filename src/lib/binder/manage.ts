@@ -42,6 +42,7 @@ function toBinder(row: {
   coverColor: string;
   pageBackground: string;
   status: string;
+  gameFilter: string | null;
   createdAt: Date;
   updatedAt: Date;
   pages: { id: string; sortOrder: number; pockets: unknown }[];
@@ -53,6 +54,7 @@ function toBinder(row: {
     coverColor: row.coverColor as BinderCoverColorId,
     pageBackground: row.pageBackground as PageBackground,
     status: row.status as BinderStatus,
+    gameFilter: row.gameFilter,
     pages: row.pages.map(toBinderPage),
     createdAt: row.createdAt.toISOString(),
     updatedAt: row.updatedAt.toISOString(),
@@ -116,6 +118,7 @@ export async function createBinder(
     coverColor?: BinderCoverColorId;
     pageBackground?: PageBackground;
     status?: BinderStatus;
+    gameFilter?: string | null;
     pages: { id: string; pockets: (BinderPocketRef | null)[] }[];
   }
 ): Promise<void> {
@@ -131,6 +134,7 @@ export async function createBinder(
       coverColor: binder.coverColor,
       pageBackground: binder.pageBackground,
       status: binder.status,
+      gameFilter: binder.gameFilter,
     },
   });
   await Promise.all(
@@ -189,6 +193,11 @@ export async function setPageBackground(userId: string, binderId: string, pageBa
 export async function setStatus(userId: string, binderId: string, status: BinderStatus): Promise<void> {
   await assertOwnsBinder(userId, binderId);
   await db.binder.update({ where: { id: binderId }, data: { status } });
+}
+
+export async function setGameFilter(userId: string, binderId: string, gameFilter: string | null): Promise<void> {
+  await assertOwnsBinder(userId, binderId);
+  await db.binder.update({ where: { id: binderId }, data: { gameFilter } });
 }
 
 /**

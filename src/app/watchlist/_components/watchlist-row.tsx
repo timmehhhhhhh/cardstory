@@ -50,12 +50,14 @@ export function WatchlistRow({ row }: { row: EnrichedWatchlistItem }) {
       </div>
 
       <div className="flex flex-col items-end gap-0.5 text-right">
-        <span className="num-tabular text-sm font-semibold">
-          <Money amountUsd={row.marketPrice} currency={currency} />
-        </span>
-        {row.priceAtAdd != null && (
+        {pricingVisible && (
+          <span className="num-tabular text-sm font-semibold">
+            <Money amountUsd={row.marketPrice} currency={currency} />
+          </span>
+        )}
+        {pricingVisible && row.priceAtAdd != null && (
           <span className="text-[11px] text-muted-foreground">
-            {pricingVisible ? `${formatMoney(row.priceAtAdd, currency)} at add` : "•••• at add"}
+            {formatMoney(row.priceAtAdd, currency)} at add
           </span>
         )}
         {priceChangePct != null && pricingVisible && (

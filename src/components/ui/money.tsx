@@ -2,23 +2,20 @@
 
 import { formatCompactMoney, formatMoney, formatMoneyIn } from "@/lib/utils/format";
 import { usePricingVisible } from "@/lib/utils/use-pricing-visible";
-import { cn } from "@/lib/utils";
 import type { SupportedCurrency } from "@/lib/constants";
 
 /**
- * Renders formatted currency text, masked with a placeholder when the
- * signed-in user has turned on "Hide pricing & values" in
- * /settings (see src/lib/utils/use-pricing-visible.ts). Drop-in
- * replacement for calling the formatMoney* helpers directly in JSX.
+ * When the signed-in user has turned on "Hide pricing & values" in
+ * /settings (see src/lib/utils/use-pricing-visible.ts), Money/MoneyIn/
+ * CompactMoney render nothing at all rather than a "••••" placeholder —
+ * the point of the setting is that pricing should look like it was never
+ * in the UI to begin with, not visibly redacted (which just invites a
+ * curious viewer to flip the setting off). Rendering `null` lets the
+ * surrounding flex/grid layout collapse the space naturally; callers whose
+ * layout would otherwise leave a lopsided gap (e.g. a "label: amount" row)
+ * should conditionally skip the label too via usePricingVisible(), the same
+ * hook this reads.
  */
-function Masked({ className }: { className?: string }) {
-  return (
-    <span aria-label="Pricing hidden" className={cn("select-none tracking-wider", className)}>
-      <span aria-hidden="true">••••</span>
-    </span>
-  );
-}
-
 export function Money({
   amountUsd,
   currency = "USD",
@@ -29,7 +26,7 @@ export function Money({
   className?: string;
 }) {
   const visible = usePricingVisible();
-  if (!visible) return <Masked className={className} />;
+  if (!visible) return null;
   return <span className={className}>{formatMoney(amountUsd, currency)}</span>;
 }
 
@@ -44,7 +41,7 @@ export function MoneyIn({
   className?: string;
 }) {
   const visible = usePricingVisible();
-  if (!visible) return <Masked className={className} />;
+  if (!visible) return null;
   return <span className={className}>{formatMoneyIn(amount, currency)}</span>;
 }
 
@@ -58,6 +55,6 @@ export function CompactMoney({
   className?: string;
 }) {
   const visible = usePricingVisible();
-  if (!visible) return <Masked className={className} />;
+  if (!visible) return null;
   return <span className={className}>{formatCompactMoney(amountUsd, currency)}</span>;
 }

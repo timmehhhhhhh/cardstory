@@ -51,6 +51,14 @@ export type CatalogSort = (typeof CATALOG_SORTS)[number];
 export interface CatalogSearchParams {
   q?: string;
   gameId?: string;
+  /**
+   * Games/TCGs to leave out of the "all games" merged view (searchMerged)
+   * — the signed-in user's Settings-configured hidden-games filter (see
+   * hiddenGameIds on the User model). No-op whenever `gameId` is set: an
+   * explicit deep link to a specific game (a /sets tile, a shared /explore
+   * URL) always wins over the browsing-only hidden-games preference.
+   */
+  excludeGameIds?: string[];
   setId?: string;
   productType?: "CARD" | "SEALED";
   /**
@@ -615,6 +623,44 @@ async function matchingSetIdsForAlphaCode(
     .map((s) => s.id);
 }
 
+export interface SetNameMatch {
+  setId: string;
+  gameId: string;
+  gameName: string;
+  setName: string;
+}
+
+/**
+ * Resolves a typed string (e.g. from the global search bar) against set
+ * names across every wired game — used to route a set-name search straight
+ * to that set's cards on Explore instead of falling through to the generic
+ * free-text `q` matcher, which (unlike sports' setName clause) never matches
+ * `Set.name`/`nameEn` for TCG rows. Matches on a contains/insensitive basis
+ * against both `name` and `nameEn` so a JP set's English translation also
+ * resolves. Returns every match (same name can exist across multiple games)
+ * so the caller can disambiguate.
+ */
+export async function findSetsByName(query: string): Promise<SetNameMatch[]> {
+  const q = query.trim();
+  if (!q) return [];
+  const sets = await db.set.findMany({
+    where: {
+      OR: [
+        { name: { contains: q, mode: "insensitive" } },
+        { nameEn: { contains: q, mode: "insensitive" } },
+      ],
+    },
+    select: { id: true, gameId: true, name: true, nameEn: true },
+    take: 25,
+  });
+  return sets.map((s) => ({
+    setId: s.id,
+    gameId: s.gameId,
+    gameName: getGameMeta(s.gameId)?.name ?? s.gameId,
+    setName: s.name,
+  }));
+}
+
 /**
  * Short-form "set code + card number" query — see parseCodeNumberQuery.
  * Handles every spacing/casing/"EN"-marker combination collectors type
@@ -1066,11 +1112,15 @@ async function searchMerged(
       ? MERGE_FETCH_CAP
       : Math.min(page * pageSize, MERGE_FETCH_CAP);
 
-  const tcgWhere = await tcgWhereFor(params, { in: WIRED_TCG_GAME_IDS });
-  const sportsGameId = WIRED_SPORTS_GAMES[0]?.id ?? "basketball-nba";
-  const sportsWhere = includeSports
-    ? await sportsWhereFor(params, { in: WIRED_SPORT_ENUMS })
-    : undefined;
+  const exclude = new Set(params.excludeGameIds ?? []);
+  const tcgGameIds = exclude.size > 0 ? WIRED_TCG_GAME_IDS.filter((id) => !exclude.has(id)) : WIRED_TCG_GAME_IDS;
+  const sportsGames = exclude.size > 0 ? WIRED_SPORTS_GAMES.filter((g) => !exclude.has(g.id)) : WIRED_SPORTS_GAMES;
+  const sportEnums = sportsGames.map((g) => g.sport).filter((s): s is Sport => s != null);
+
+  const tcgWhere = await tcgWhereFor(params, { in: tcgGameIds });
+  const sportsGameId = sportsGames[0]?.id ?? "basketball-nba";
+  const sportsWhere =
+    includeSports && sportEnums.length > 0 ? await sportsWhereFor(params, { in: sportEnums }) : undefined;
 
   const [tcgRows, sportsRows, tcgTotal, sportsTotal] = await Promise.all([
     db.catalogItem.findMany({
@@ -1111,6 +1161,7 @@ function hasNoActiveFilters(params: CatalogSearchParams): boolean {
   return (
     !params.q &&
     !params.gameId &&
+    !params.excludeGameIds?.length &&
     !params.setId &&
     !params.productType &&
     !isFilterSet(params.cardType) &&

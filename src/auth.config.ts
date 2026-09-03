@@ -40,6 +40,8 @@ export const authConfig = {
         // never needs to push an updated value back into the token.
         token.isAdmin = (user as { isAdmin?: boolean }).isAdmin ?? false;
         token.hidePricing = (user as { hidePricing?: boolean }).hidePricing ?? false;
+        token.visibleLanguages = (user as { visibleLanguages?: string[] }).visibleLanguages ?? [];
+        token.hiddenGameIds = (user as { hiddenGameIds?: string[] }).hiddenGameIds ?? [];
       }
       // See src/auth.ts's identical callback for why.
       if (trigger === "update" && session && typeof session.isVendor === "boolean") {
@@ -47,6 +49,12 @@ export const authConfig = {
       }
       if (trigger === "update" && session && typeof session.hidePricing === "boolean") {
         token.hidePricing = session.hidePricing;
+      }
+      if (trigger === "update" && session && Array.isArray(session.visibleLanguages)) {
+        token.visibleLanguages = session.visibleLanguages;
+      }
+      if (trigger === "update" && session && Array.isArray(session.hiddenGameIds)) {
+        token.hiddenGameIds = session.hiddenGameIds;
       }
       return token;
     },
@@ -56,6 +64,12 @@ export const authConfig = {
         session.user.isVendor = token.isVendor === true;
         session.user.isAdmin = token.isAdmin === true;
         session.user.hidePricing = token.hidePricing === true;
+        session.user.visibleLanguages = Array.isArray(token.visibleLanguages)
+          ? (token.visibleLanguages as string[])
+          : [];
+        session.user.hiddenGameIds = Array.isArray(token.hiddenGameIds)
+          ? (token.hiddenGameIds as string[])
+          : [];
       }
       return session;
     },

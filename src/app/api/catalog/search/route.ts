@@ -39,14 +39,29 @@ export async function GET(req: NextRequest) {
   // randomized default-feed path also needs the signed-in user's id.
   const session = await auth();
 
+  const gameId = sp.get("game") ?? undefined;
+  const explicitLanguage = parseMulti(sp.get("language"));
+  // Settings' browsing-only language/game visibility filters (see
+  // visibleLanguages/hiddenGameIds on the User model) default every caller
+  // of this route — Explore's client-side re-fetches, the binder card
+  // picker, the mobile search sheet's suggestions, trade-analyzer/shortlist
+  // add bars — the same "explicit choice wins" precedent as Explore's own
+  // page.tsx SSR fetch: an explicit `language`/`game` query param always
+  // overrides these defaults rather than being combined with them.
+  const excludeGameIds = gameId ? undefined : (session?.user?.hiddenGameIds ?? undefined);
+  const language =
+    explicitLanguage ??
+    (session?.user?.visibleLanguages?.length ? session.user.visibleLanguages : undefined);
+
   const result = await searchCatalog({
     q,
-    gameId: sp.get("game") ?? undefined,
+    gameId,
+    excludeGameIds,
     setId: sp.get("set") ?? undefined,
     productType,
     cardType: parseMulti(sp.get("cardType")),
     rarity: parseMulti(sp.get("rarity")),
-    language: parseMulti(sp.get("language")),
+    language,
     variant: parseMulti(sp.get("variant")),
     domain: parseMulti(sp.get("domain")),
     artist: parseMulti(sp.get("artist")),

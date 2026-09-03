@@ -50,6 +50,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           isVendor: user.isVendor,
           isAdmin: user.isAdmin,
           hidePricing: user.hidePricing,
+          visibleLanguages: user.visibleLanguages,
+          hiddenGameIds: user.hiddenGameIds,
         };
       },
     }),

@@ -4,10 +4,12 @@ import Link from "next/link";
 import { groupByGame } from "@/lib/pc/selectors";
 import { usePCStore } from "@/lib/pc/store";
 import { formatMoney } from "@/lib/utils/format";
+import { usePricingVisible } from "@/lib/utils/use-pricing-visible";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
 
 export function CollectionsByGame({ rows }: { rows: EnrichedHolding[] }) {
   const currency = usePCStore((s) => s.preferences.currency);
+  const pricingVisible = usePricingVisible();
   const groups = groupByGame(rows);
 
   return (
@@ -24,7 +26,9 @@ export function CollectionsByGame({ rows }: { rows: EnrichedHolding[] }) {
                 <span>
                   {g.groupLabel} <span className="text-muted-foreground">· {g.itemCount}</span>
                 </span>
-                <span className="num-tabular font-medium">{formatMoney(g.value, currency)}</span>
+                {pricingVisible && (
+                  <span className="num-tabular font-medium">{formatMoney(g.value, currency)}</span>
+                )}
               </>
             );
             return (

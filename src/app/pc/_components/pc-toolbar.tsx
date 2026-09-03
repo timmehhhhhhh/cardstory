@@ -3,7 +3,13 @@
 import { CheckSquare, Download } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
-import type { GroupField, HoldingFilters, SortDirection, SortField } from "@/lib/pc/types";
+import type {
+  GroupDateGranularity,
+  GroupField,
+  HoldingFilters,
+  SortDirection,
+  SortField,
+} from "@/lib/pc/types";
 import { SortBySelect } from "@/app/pc/_components/sort-by";
 import { GroupBySelect } from "@/app/pc/_components/group-by";
 import { SmartFilters } from "@/app/pc/_components/smart-filters";
@@ -75,6 +81,8 @@ export function PCToolbar({
   onSortDirectionChange,
   groupField,
   onGroupFieldChange,
+  groupDateGranularity,
+  onGroupDateGranularityChange,
   filters,
   onFiltersChange,
 }: {
@@ -87,6 +95,8 @@ export function PCToolbar({
   onSortDirectionChange: (direction: SortDirection) => void;
   groupField: GroupField;
   onGroupFieldChange: (field: GroupField) => void;
+  groupDateGranularity: GroupDateGranularity;
+  onGroupDateGranularityChange: (granularity: GroupDateGranularity) => void;
   filters: HoldingFilters;
   onFiltersChange: (patch: Partial<HoldingFilters>) => void;
 }) {
@@ -101,7 +111,12 @@ export function PCToolbar({
           onFieldChange={onSortFieldChange}
           onDirectionChange={onSortDirectionChange}
         />
-        <GroupBySelect field={groupField} onFieldChange={onGroupFieldChange} />
+        <GroupBySelect
+          field={groupField}
+          onFieldChange={onGroupFieldChange}
+          dateGranularity={groupDateGranularity}
+          onDateGranularityChange={onGroupDateGranularityChange}
+        />
         <ViewModeToggle />
         <button
           type="button"

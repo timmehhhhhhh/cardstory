@@ -2,10 +2,11 @@ import Link from "next/link";
 import { Clock } from "lucide-react";
 import { GAMES } from "@/lib/games/registry";
 
-export function GameLogoGrid() {
+export function GameLogoGrid({ hiddenGameIds = [] }: { hiddenGameIds?: string[] }) {
+  const visibleGames = GAMES.filter((g) => !hiddenGameIds.includes(g.id));
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-      {GAMES.map((g) => {
+      {visibleGames.map((g) => {
         const wired = g.status === "WIRED";
         const tile = (
           <div

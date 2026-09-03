@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { CardNumberBadge } from "@/components/cards/card-number-badge";
 import { usePCStore } from "@/lib/pc/store";
 import { formatMoney, formatPct } from "@/lib/utils/format";
+import { usePricingVisible } from "@/lib/utils/use-pricing-visible";
 import { SportsCardImageDialog } from "@/components/sportscards/sports-card-image-dialog";
 import { EditHoldingDialog } from "@/components/pc/edit-holding-dialog";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
@@ -56,6 +57,7 @@ function HoldingGalleryFace({
   suppressLink?: boolean;
 }) {
   const currency = usePCStore((s) => s.preferences.currency);
+  const pricingVisible = usePricingVisible();
   const addToShortlist = useAddToShortlist();
   const shortlistQuantity = useShortlistQuantity(r.catalogItemId, r.sportsCardItemId);
   const [justShortlisted, setJustShortlisted] = React.useState(false);
@@ -132,20 +134,22 @@ function HoldingGalleryFace({
           itself (never mind the parallel/serial after it). Two lines
           covers the vast majority of real set names. */}
       <p className="line-clamp-2 text-xs leading-snug text-muted-foreground">{r.display.subtitle}</p>
-      <div className="mt-1 flex items-baseline justify-between gap-1.5">
-        <span className="num-tabular text-sm font-semibold">{formatMoney(r.marketValue, currency)}</span>
-        {r.gainLossPct != null && (
-          <span
-            className={cn(
-              "num-tabular flex flex-none items-center gap-0.5 text-[11px]",
-              positive ? "text-positive" : "text-negative"
-            )}
-          >
-            {positive ? <TrendingUp className="size-3" /> : <TrendingDown className="size-3" />}
-            {formatPct(r.gainLossPct)}
-          </span>
-        )}
-      </div>
+      {pricingVisible && (
+        <div className="mt-1 flex items-baseline justify-between gap-1.5">
+          <span className="num-tabular text-sm font-semibold">{formatMoney(r.marketValue, currency)}</span>
+          {r.gainLossPct != null && (
+            <span
+              className={cn(
+                "num-tabular flex flex-none items-center gap-0.5 text-[11px]",
+                positive ? "text-positive" : "text-negative"
+              )}
+            >
+              {positive ? <TrendingUp className="size-3" /> : <TrendingDown className="size-3" />}
+              {formatPct(r.gainLossPct)}
+            </span>
+          )}
+        </div>
+      )}
       <div className="mt-1 flex flex-wrap items-center gap-1">
         <Badge variant="outline" className="font-normal text-muted-foreground">
           {stackBadge ?? `Qty ${r.quantity}`}

@@ -2,6 +2,7 @@ import {
   holdingIsArchived,
   holdingIsCustom,
   holdingKind,
+  type GroupDateGranularity,
   type GroupField,
   type Holding,
   type HoldingKind,
@@ -354,38 +355,92 @@ export interface HoldingGroup {
   rows: EnrichedHolding[];
 }
 
+const MONTH_LABEL_FORMAT = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" });
+
+/**
+ * "YYYY-MM"/"YYYY" bucket key plus a human label ("September 2026"/"2026")
+ * for a dateAdded/dateAcquired group — null date (no acquiredAt) is handled
+ * by the caller via UNKNOWN, this is only for a known ISO date string.
+ */
+function dateGroupKeyAndLabel(
+  iso: string,
+  granularity: GroupDateGranularity
+): { key: string; label: string } {
+  if (granularity === "year") {
+    const year = iso.slice(0, 4);
+    return { key: year, label: year };
+  }
+  const key = iso.slice(0, 7); // "YYYY-MM"
+  const label = MONTH_LABEL_FORMAT.format(new Date(`${key}-01T00:00:00Z`));
+  return { key, label };
+}
+
 /**
  * Sections already-sorted rows into labeled groups for the PC List/Gallery
  * per the user-picked GroupField (Preferences.groupField, src/lib/pc/types.ts)
- * — orthogonal to sortHoldings above, which decides each row's order both
- * overall and within its group. "none" returns a single, unlabeled group so
+ * — orthogonal to sortHoldings above, which decides each row's order
+ * overall. For every field except "dateAdded"/"dateAcquired", grouping is a
+ * pure bucketing pass that preserves each row's already-sorted order within
+ * its group. "dateAdded"/"dateAcquired" instead re-sort both the groups
+ * *and* each group's rows on that same date field, following `direction` —
+ * this makes "most recent first, flip to reverse" hold for both the section
+ * order and the cards inside each section, regardless of whatever SortField
+ * happens to otherwise be selected. `direction`/`granularity` are ignored
+ * for every other field. "none" returns a single, unlabeled group so
  * callers can render unconditionally.
  */
-export function groupRows(rows: EnrichedHolding[], field: GroupField): HoldingGroup[] {
+export function groupRows(
+  rows: EnrichedHolding[],
+  field: GroupField,
+  direction: SortDirection = "desc",
+  granularity: GroupDateGranularity = "month"
+): HoldingGroup[] {
   if (field === "none") return [{ key: "all", label: "", rows }];
 
-  const UNKNOWN = field === "releaseYear" ? "Unknown Year" : field === "set" ? "Unknown Set" : "Unknown";
-  const keyOf = (r: EnrichedHolding): string => {
+  const isDateField = field === "dateAdded" || field === "dateAcquired";
+  const UNKNOWN =
+    field === "releaseYear" ? "Unknown Year" : field === "set" ? "Unknown Set" : "Unknown";
+
+  const dateOf = (r: EnrichedHolding): string | null =>
+    field === "dateAdded" ? r.createdAt : field === "dateAcquired" ? r.acquiredAt : null;
+
+  const keyAndLabelOf = (r: EnrichedHolding): { key: string; label: string } => {
     switch (field) {
-      case "set":
-        return r.catalogItem?.setName ?? r.sportsCardItem?.setName ?? UNKNOWN;
+      case "set": {
+        const v = r.catalogItem?.setName ?? r.sportsCardItem?.setName ?? UNKNOWN;
+        return { key: v, label: v };
+      }
       case "cardName":
-        return r.display.name;
+        return { key: r.display.name, label: r.display.name };
       case "releaseYear": {
         const date = resolveReleaseDate(r);
-        return date ? date.slice(0, 4) : UNKNOWN;
+        const v = date ? date.slice(0, 4) : UNKNOWN;
+        return { key: v, label: v };
+      }
+      case "dateAdded":
+      case "dateAcquired": {
+        const date = dateOf(r);
+        return date ? dateGroupKeyAndLabel(date, granularity) : { key: UNKNOWN, label: UNKNOWN };
       }
       default:
-        return UNKNOWN;
+        return { key: UNKNOWN, label: UNKNOWN };
     }
   };
 
   const map = new Map<string, HoldingGroup>();
   for (const r of rows) {
-    const key = keyOf(r);
+    const { key, label } = keyAndLabelOf(r);
     const group = map.get(key);
     if (group) group.rows.push(r);
-    else map.set(key, { key, label: key, rows: [r] });
+    else map.set(key, { key, label, rows: [r] });
+  }
+
+  if (isDateField) {
+    const sign = direction === "asc" ? 1 : -1;
+    for (const group of map.values()) {
+      if (group.key === UNKNOWN) continue;
+      group.rows.sort((a, b) => sign * (dateOf(a) ?? "").localeCompare(dateOf(b) ?? ""));
+    }
   }
 
   const groups = Array.from(map.values());
@@ -395,6 +450,7 @@ export function groupRows(rows: EnrichedHolding[], field: GroupField): HoldingGr
     if (a.key === UNKNOWN && b.key === UNKNOWN) return 0;
     if (a.key === UNKNOWN) return 1;
     if (b.key === UNKNOWN) return -1;
+    if (isDateField) return (direction === "asc" ? 1 : -1) * a.key.localeCompare(b.key);
     // Newest year first; alphabetical for set/card name.
     return field === "releaseYear" ? Number(b.key) - Number(a.key) : a.key.localeCompare(b.key);
   });

@@ -54,6 +54,8 @@ export function BusinessClient() {
   const setSortDirection = usePCStore((s) => s.setSortDirection);
   const groupField = usePCStore((s) => s.preferences.groupField);
   const setGroupField = usePCStore((s) => s.setGroupField);
+  const groupDateGranularity = usePCStore((s) => s.preferences.groupDateGranularity);
+  const setGroupDateGranularity = usePCStore((s) => s.setGroupDateGranularity);
 
   const [filters, setFilters] = React.useState<HoldingFilters>(DEFAULT_HOLDING_FILTERS);
   const [bulkMode, setBulkMode] = React.useState(false);
@@ -136,6 +138,8 @@ export function BusinessClient() {
             onSortDirectionChange={setSortDirection}
             groupField={groupField}
             onGroupFieldChange={setGroupField}
+            groupDateGranularity={groupDateGranularity}
+            onGroupDateGranularityChange={setGroupDateGranularity}
           />
           <AddSportsCardDialog />
           <Button asChild variant="outline" size="sm">
@@ -196,6 +200,8 @@ export function BusinessClient() {
           <HoldingsList
             rows={sortedRows}
             groupField={groupField}
+            groupDateGranularity={groupDateGranularity}
+            sortDirection={sortDirection}
             viewMode={viewMode}
             bulkMode={bulkMode}
             selected={selected}
