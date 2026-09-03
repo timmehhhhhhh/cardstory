@@ -222,6 +222,27 @@ const NUMBER_OVERRIDES: Record<string, string> = {
   "M6:99": "98",
 };
 
+/**
+ * A small number of confirmed cases where PriceCharting's own printed name
+ * differs from resolvePokemonCardNameEn's output but is still verified to be
+ * the same card — never a guess, always cross-checked against Delta Reign
+ * (the official upcoming English printing of this exact set) via multiple
+ * independent sources. Keyed by the catalog's own (Japanese) name, so it's
+ * reusable if the same card is crawled again from another PriceCharting set
+ * page. Two entries so far, both Stadium cards where PriceCharting's own
+ * fan-style translation is close but not the real official Delta Reign name
+ * (see pokemon-card-translations.ts's "Storm Emeralda (M6)" section, which
+ * carries the correct name instead):
+ *   - 伝説の海溝 -> official "Legendary Ocean Trench", PriceCharting prints
+ *     "Legendary Marine Trench"
+ *   - 伝説の溶岩洞 -> official "Legendary Lava Lake", PriceCharting prints
+ *     "Legendary Lava Tube"
+ */
+const KNOWN_SOURCE_NAME_QUIRKS: Record<string, string> = {
+  "伝説の海溝": "Legendary Marine Trench",
+  "伝説の溶岩洞": "Legendary Lava Tube",
+};
+
 const source: CardImageSource<PriceChartingRecord> = {
   name: "pokemon-jp-pricecharting",
   cacheName: CACHE_NAME,
@@ -258,15 +279,18 @@ const source: CardImageSource<PriceChartingRecord> = {
   },
   // See the module doc for why this compares resolved English names rather
   // than a native-script compare: PriceCharting's own text is English.
-  // Never loosen it to raise the fill rate.
+  // Never loosen it to raise the fill rate — KNOWN_SOURCE_NAME_QUIRKS is the
+  // one sanctioned exception, and only for hand-verified rows.
   nameGuard: (rec, row) => {
     const expectedNameEn = resolvePokemonCardNameEn(row.name, "JP");
     if (!expectedNameEn) {
       return { ok: false, reason: "unresolved-name-guard", catalogName: row.name };
     }
-    return normalizeNameAsciiEn(expectedNameEn) === normalizeNameAsciiEn(rec.name!)
-      ? { ok: true }
-      : { ok: false, reason: "name-mismatch", catalogName: row.name };
+    const actual = normalizeNameAsciiEn(rec.name!);
+    if (normalizeNameAsciiEn(expectedNameEn) === actual) return { ok: true };
+    const quirk = KNOWN_SOURCE_NAME_QUIRKS[row.name];
+    if (quirk && normalizeNameAsciiEn(quirk) === actual) return { ok: true };
+    return { ok: false, reason: "name-mismatch", catalogName: row.name };
   },
   imageUrls: (r) => ({ small: toSizedUrl(r.thumbUrl!, 240), large: toSizedUrl(r.thumbUrl!, 1600) }),
 };

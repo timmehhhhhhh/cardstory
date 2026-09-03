@@ -3,34 +3,181 @@
   "sourceNote": "Japanese card images from pricecharting.com, crawled offline by scripts/crawl-pokemon-jp-pricecharting-images.ts. A fifth JP source alongside pokemon-ja.json (pokemon-card.com), pokemon-jp-pokellector.json (jp.pokellector.com) and pokemon-jp-uk.json (japanesepokemoncards.uk). Image URLs are hotlinked from PriceCharting's own CDN (storage.googleapis.com/images.pricecharting.com), never re-hosted. PriceCharting prints English names, not the real Japanese text, so every entry passed a set-code/number match plus an English-name guard (resolved from the catalog's Japanese name via resolvePokemonCardNameEn). NUMBER_OVERRIDES in this file corrects a small number of confirmed PriceCharting-side printed-number errors, found via manual review of the review file's rejections.",
   "entries": [
     {
-      "externalId": "ja:M6-099",
-      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corriqc74vuhnkfkhcm2/240.jpg",
-      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corriqc74vuhnkfkhcm2/1600.jpg",
-      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/pokemon-catcher-98",
-      "sourceName": "Pokemon Catcher"
+      "externalId": "ja:M6-112",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corr6i6m5d66fhs37fte/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corr6i6m5d66fhs37fte/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/zinnia%27s-trust-112",
+      "sourceName": "Zinnia's Trust"
     },
     {
-      "externalId": "ja:M6-098",
-      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corrqy2lijzr36uitxs6/240.jpg",
-      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corrqy2lijzr36uitxs6/1600.jpg",
-      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/custom-vest-99",
-      "sourceName": "Custom Vest"
+      "externalId": "ja:M6-111",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corrbmmmuq64bjywy3t2/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corrbmmmuq64bjywy3t2/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/aarune-111",
+      "sourceName": "Aarune"
     },
     {
-      "externalId": "ja:M6-041",
-      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corrw27sumxjzgkx4fjq/240.jpg",
-      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corrw27sumxjzgkx4fjq/1600.jpg",
-      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/nidoran-41",
-      "sourceName": "Nidoran"
+      "externalId": "ja:M6-102",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corruikzrxb2kpwcu3kg/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corruikzrxb2kpwcu3kg/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/zinnia%27s-trust-102",
+      "sourceName": "Zinnia's Trust"
     },
     {
-      "externalId": "ja:M6-065",
-      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/k7myo3q3qnytsxqf/240.jpg",
-      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/k7myo3q3qnytsxqf/1600.jpg",
-      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/custom-vest-65",
-      "sourceName": "Custom Vest"
+      "externalId": "ja:M6-076",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corrucxfefbyd44k4ilf/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corrucxfefbyd44k4ilf/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/legendary-lava-tube-76",
+      "sourceName": "Legendary Lava Tube"
+    },
+    {
+      "externalId": "ja:M6-074",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corr5siglf2nrqxnsua5/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corr5siglf2nrqxnsua5/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/legendary-summit-74",
+      "sourceName": "Legendary Summit"
+    },
+    {
+      "externalId": "ja:M6-100",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corrzcj6q4ttlxavtimh/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corrzcj6q4ttlxavtimh/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/emcee%27s-hype-100",
+      "sourceName": "Emcee's Hype"
+    },
+    {
+      "externalId": "ja:M6-071",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/correufhmoxvjvcbnhqo/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/correufhmoxvjvcbnhqo/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/legendary-marine-trench-71",
+      "sourceName": "Legendary Marine Trench"
+    },
+    {
+      "externalId": "ja:M6-103",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/correylbanph2nh3l4yg/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/correylbanph2nh3l4yg/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/tate-&-liza%27s-training-103",
+      "sourceName": "Tate & Liza's Training"
+    },
+    {
+      "externalId": "ja:M6-072",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corr57mwlpao2vil2bai/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corr57mwlpao2vil2bai/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/legendary-marine-trench-72",
+      "sourceName": "Legendary Marine Trench"
+    },
+    {
+      "externalId": "ja:M6-090",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corr2hqfmxk3a3pmdiqo/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corr2hqfmxk3a3pmdiqo/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/heat-rotom-ex-90",
+      "sourceName": "Heat Rotom ex"
+    },
+    {
+      "externalId": "ja:M6-075",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corrbt5dhexfjksko4zk/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corrbt5dhexfjksko4zk/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/legendary-lava-tube-75",
+      "sourceName": "Legendary Lava Tube"
+    },
+    {
+      "externalId": "ja:M6-073",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corrqke3f4u74xofc4u7/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corrqke3f4u74xofc4u7/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/legendary-summit-73",
+      "sourceName": "Legendary Summit"
+    },
+    {
+      "externalId": "ja:M6-101",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corrvm327mcstfnlxotl/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corrvm327mcstfnlxotl/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/aarune-101",
+      "sourceName": "Aarune"
+    },
+    {
+      "externalId": "ja:M6-105",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corrwfwnc45l6733hu57/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corrwfwnc45l6733hu57/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/nitro-fire-energy-105",
+      "sourceName": "Nitro Fire Energy"
+    },
+    {
+      "externalId": "ja:M6-066",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corrur5jks2mnuwon5w2/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corrur5jks2mnuwon5w2/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/mega-rayquaza-cap-66",
+      "sourceName": "Mega Rayquaza Cap"
+    },
+    {
+      "externalId": "ja:M6-104",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corrdhytbguio2ovqomb/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corrdhytbguio2ovqomb/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/growing-grass-energy-104",
+      "sourceName": "Growing Grass Energy"
+    },
+    {
+      "externalId": "ja:M6-106",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corrkzt7hhzgp2bd64ma/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corrkzt7hhzgp2bd64ma/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/bubbly-water-energy-106",
+      "sourceName": "Bubbly Water Energy"
+    },
+    {
+      "externalId": "ja:M6-015",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/a4taadfq2f2aw2dx/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/a4taadfq2f2aw2dx/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/heat-rotom-ex-15",
+      "sourceName": "Heat Rotom ex"
+    },
+    {
+      "externalId": "ja:M6-070",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corrxi7p3jjmlz34qiq2/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corrxi7p3jjmlz34qiq2/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/tate-&-liza%27s-training-70",
+      "sourceName": "Tate & Liza's Training"
+    },
+    {
+      "externalId": "ja:M6-097",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corr2jmuvfdpt4xkj7yb/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corr2jmuvfdpt4xkj7yb/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/adventuring-lantern-97",
+      "sourceName": "Adventuring Lantern"
+    },
+    {
+      "externalId": "ja:M6-064",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corr4s6cxhu4tlai62cn/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corr4s6cxhu4tlai62cn/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/adventuring-lantern-64",
+      "sourceName": "Adventuring Lantern"
+    },
+    {
+      "externalId": "ja:M6-069",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corrmr5gskqlgzlrjkrw/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corrmr5gskqlgzlrjkrw/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/zinnia%27s-trust-69",
+      "sourceName": "Zinnia's Trust"
+    },
+    {
+      "externalId": "ja:M6-068",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corrwlycusykq6t7sxub/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corrwlycusykq6t7sxub/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/aarune-68",
+      "sourceName": "Aarune"
+    },
+    {
+      "externalId": "ja:M6-067",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/zvcwv5vnzp2xe2v2/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/zvcwv5vnzp2xe2v2/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/emcee%27s-hype-67",
+      "sourceName": "Emcee's Hype"
+    },
+    {
+      "externalId": "ja:M6-063",
+      "imageSmallUrl": "https://storage.googleapis.com/images.pricecharting.com/corrzsmkvect5wwbp564/240.jpg",
+      "imageLargeUrl": "https://storage.googleapis.com/images.pricecharting.com/corrzsmkvect5wwbp564/1600.jpg",
+      "sourceUrl": "https://www.pricecharting.com/game/pokemon-japanese-storm-emeralda/delicious-onigiri-63",
+      "sourceName": "Delicious Onigiri"
     }
   ],
   "verified": true,
-  "generatedAt": "2026-09-03T16:25:02.334Z"
+  "generatedAt": "2026-09-03T16:38:22.590Z"
 }

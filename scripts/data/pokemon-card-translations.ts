@@ -122,6 +122,32 @@ export const POKEMON_CARD_TRANSLATIONS: Record<string, string> = {
   // NUMBER_OVERRIDES comment for how that match was confirmed by trainerType).
   "JP:とくちゅうチョッキ": "Custom Vest",
 
+  // --- Storm Emeralda (M6), verified against Delta Reign ------------------
+  // Delta Reign (ME06) is the official upcoming English printing of this
+  // exact JP set (releases 2026-11-06) — its own solicited card names, not a
+  // literal translation guess. Cross-checked across multiple independent
+  // retailer/community set-list sources (pokebox.com.au product listings,
+  // Bulbapedia's own "(Storm Emeralda NN)" pages, limitlesstcg.com's
+  // translate=en view, Serebii's Delta Reign set list), which mostly — but
+  // not always — agree with PriceCharting's own printed names; see
+  // crawl-pokemon-jp-pricecharting-images.ts's KNOWN_SOURCE_NAME_QUIRKS for
+  // the two confirmed exceptions where PriceCharting's guess differs from
+  // the real Delta Reign name.
+  "JP:ヒートロトム": "Heat Rotom", // base form; the "ex" suffix is applied automatically
+  "JP:おいしいおむすび": "Delicious Onigiri",
+  "JP:ぼうけんのランタン": "Adventuring Lantern",
+  "JP:メガレックウザキャップ": "Mega Rayquaza Cap",
+  "JP:MCの盛り上げ": "Emcee's Hype", // a real reprint — see Emcee's Hype (Destined Rivals 163)
+  "JP:ギリー": "Aarune", // Secret Base Master from Omega Ruby/Alpha Sapphire
+  "JP:ヒガナの信頼": "Zinnia's Trust", // ヒガナ = Zinnia (Delta Episode, Omega Ruby/Alpha Sapphire)
+  "JP:フウとランの修行": "Tate & Liza's Training", // フウ・ラン = Tate & Liza (Hoenn Gym Leaders)
+  "JP:伝説の山頂": "Legendary Summit",
+  "JP:伝説の海溝": "Legendary Ocean Trench",
+  "JP:伝説の溶岩洞": "Legendary Lava Lake",
+  "JP:バブル水エネルギー": "Bubbly Water Energy",
+  "JP:ニトロ炎エネルギー": "Nitro Fire Energy",
+  "JP:グロウ草エネルギー": "Growing Grass Energy",
+
   // Character/Supporter names (JP).
   "JP:リーリエ": "Lillie",
   "JP:キバナ": "Kabu",
