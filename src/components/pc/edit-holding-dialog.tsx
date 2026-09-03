@@ -221,6 +221,9 @@ export function EditHoldingDialog({
               <label className="flex items-center gap-2 text-sm">
                 <RadioGroupItem value="graded" /> Graded
               </label>
+              <label className="flex items-center gap-2 text-sm">
+                <RadioGroupItem value="sealed" /> Sealed
+              </label>
             </RadioGroup>
           </div>
 

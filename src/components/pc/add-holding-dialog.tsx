@@ -90,7 +90,10 @@ export function AddHoldingDialog({
   const [gradeValue, setGradeValue] = React.useState("10");
   const [rawCondition, setRawCondition] = React.useState<RawCardCondition | "">("");
   const [language, setLanguage] = React.useState<ItemLanguage>(defaultLanguage);
-  const [costBasis, setCostBasis] = React.useState(suggestedPrice?.toFixed(2) ?? "");
+  // Empty by default — Cost basis is only ever set explicitly by the user,
+  // not silently pre-filled from the card's live market price (which is
+  // what suggestedPrice is), same reasoning as Date Acquired below.
+  const [costBasis, setCostBasis] = React.useState("");
   // Empty by default — Date Acquired is only ever set explicitly by the
   // user, not silently defaulted to today (see prisma/schema.prisma).
   const [acquiredAt, setAcquiredAt] = React.useState("");
@@ -133,8 +136,14 @@ export function AddHoldingDialog({
     (s) => s.preferences.lastUsedCostBasisCurrency
   );
   const setLastUsedCostBasisCurrency = usePCStore((s) => s.setLastUsedCostBasisCurrency);
+  // Settings-configured default (see settings-client.tsx) takes priority
+  // over the last currency picked in any Add-to-PC dialog — null until the
+  // user sets one.
+  const defaultCostBasisCurrency = usePCStore(
+    (s) => s.preferences.defaultCostBasisCurrency
+  );
   const [costBasisCurrency, setCostBasisCurrency] = React.useState<SupportedCurrency>(
-    lastUsedCostBasisCurrency ?? "USD"
+    defaultCostBasisCurrency ?? lastUsedCostBasisCurrency ?? "USD"
   );
 
   // Re-default the target pc (and Language, from the catalog item's
@@ -146,7 +155,8 @@ export function AddHoldingDialog({
     if (open) {
       setPCId(defaultPCId);
       setLanguage(defaultLanguage);
-      setCostBasisCurrency(lastUsedCostBasisCurrency ?? "USD");
+      setCostBasis("");
+      setCostBasisCurrency(defaultCostBasisCurrency ?? lastUsedCostBasisCurrency ?? "USD");
       setRawCondition("");
       setAcquiredAt("");
       setAcquisitionMethod("");
@@ -338,6 +348,9 @@ export function AddHoldingDialog({
               </label>
               <label className="flex items-center gap-2 text-sm">
                 <RadioGroupItem value="graded" /> Graded
+              </label>
+              <label className="flex items-center gap-2 text-sm">
+                <RadioGroupItem value="sealed" /> Sealed
               </label>
             </RadioGroup>
           </div>

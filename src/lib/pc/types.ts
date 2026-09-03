@@ -1,7 +1,8 @@
 import type { SupportedCurrency, RawCardCondition, LetGoMethod, AcquisitionMethod } from "@/lib/constants";
 import type { LetGoDetails } from "@/lib/pc/api-schemas";
 
-export type CardCondition = "raw" | "graded";
+/** "sealed" is factory-sealed product (e.g. a still-sealed promo card) — no grading company/value or raw physical-condition grade applies to it, same as neither applying to the other. */
+export type CardCondition = "raw" | "graded" | "sealed";
 export type ItemLanguage = "EN" | "JP" | "CN" | "TW" | "KR";
 /**
  * "grid" is the image-first gallery, at least 2 cards per row on the
@@ -50,7 +51,7 @@ export interface HoldingFilters {
   /** Free-text, matches a holding's resolved display name (TCG card name or sports playerName) — and, per the app-wide name+number search convention, an optional trailing card number (see lib/utils/name-match.ts's parseNameNumberQuery). */
   cardName: string;
   productType: "all" | "CARD" | "SEALED";
-  condition: "all" | "raw" | "graded";
+  condition: "all" | "raw" | "graded" | "sealed";
   language: "all" | "EN" | "JP" | "CN" | "TW" | "KR";
   /** Show only holdings whose catalog item is a promotional printing (CatalogItem.rarity === "Promo"). No-op for sports cards, which have no catalogItem. */
   promoOnly: boolean;
@@ -214,6 +215,15 @@ export interface Preferences {
   /** Last currency picked in an Add-to-PC dialog — pre-fills the next one. */
   lastUsedCostBasisCurrency: SupportedCurrency;
   /**
+   * Explicit, Settings-configured currency new Add-to-PC dialogs should
+   * default Cost basis to — distinct from lastUsedCostBasisCurrency above,
+   * which silently drifts to whatever was picked most recently. Null until
+   * the user sets one in Settings, in which case dialogs fall back to
+   * lastUsedCostBasisCurrency; either way the dialog's own currency picker
+   * still lets the user override it per-add.
+   */
+  defaultCostBasisCurrency: SupportedCurrency | null;
+  /**
    * Vendor-only Explore-area toggle: when on, new holdings added from
    * Explore default into the "Business Inventory" PC instead of the
    * active one. Local UI state like the rest of Preferences — stays local
@@ -289,6 +299,7 @@ export interface PCActions {
   setSortDirection: (direction: SortDirection) => void;
   setGroupField: (field: GroupField) => void;
   setLastUsedCostBasisCurrency: (currency: SupportedCurrency) => void;
+  setDefaultCostBasisCurrency: (currency: SupportedCurrency | null) => void;
   setBusinessMode: (businessMode: boolean) => void;
   setQuickAdd: (quickAdd: boolean) => void;
   setHoldingFilters: (filters: HoldingFilters) => void;

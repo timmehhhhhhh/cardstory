@@ -37,6 +37,7 @@ function defaultPreferences(): Preferences {
     // no-op default for existing users.
     groupField: "none",
     lastUsedCostBasisCurrency: "USD",
+    defaultCostBasisCurrency: null,
     businessMode: false,
     quickAdd: false,
     holdingFilters: DEFAULT_HOLDING_FILTERS,
@@ -59,6 +60,7 @@ export interface PCPreferencesState {
   setSortDirection: (direction: SortDirection) => void;
   setGroupField: (field: GroupField) => void;
   setLastUsedCostBasisCurrency: (currency: SupportedCurrency) => void;
+  setDefaultCostBasisCurrency: (currency: SupportedCurrency | null) => void;
   setBusinessMode: (businessMode: boolean) => void;
   setQuickAdd: (quickAdd: boolean) => void;
   setHoldingFilters: (holdingFilters: HoldingFilters) => void;
@@ -91,6 +93,8 @@ export const usePCPreferencesStore = create<PCPreferencesState>()(
         set((s) => ({ preferences: { ...s.preferences, groupField } })),
       setLastUsedCostBasisCurrency: (lastUsedCostBasisCurrency) =>
         set((s) => ({ preferences: { ...s.preferences, lastUsedCostBasisCurrency } })),
+      setDefaultCostBasisCurrency: (defaultCostBasisCurrency) =>
+        set((s) => ({ preferences: { ...s.preferences, defaultCostBasisCurrency } })),
       setBusinessMode: (businessMode) =>
         set((s) => ({ preferences: { ...s.preferences, businessMode } })),
       setQuickAdd: (quickAdd) =>

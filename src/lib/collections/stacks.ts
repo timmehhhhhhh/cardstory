@@ -130,7 +130,9 @@ export function holdingToStoryFace(r: EnrichedHolding): CardStoryFace {
     value:
       r.condition === "graded"
         ? [r.gradeCompany, r.gradeValue].filter(Boolean).join(" ") || "Graded"
-        : (r.rawCondition ?? "Raw"),
+        : r.condition === "sealed"
+          ? "Sealed"
+          : (r.rawCondition ?? "Raw"),
   });
   if (r.costBasisTotal > 0) {
     fields.push({ label: "Paid", value: formatMoneyIn(r.costBasisTotal, r.costBasisCurrency) });

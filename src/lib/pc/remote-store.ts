@@ -161,6 +161,9 @@ export function useRemotePCStore<T>(
   const setLastUsedCostBasisCurrency = usePCPreferencesStore(
     (s) => s.setLastUsedCostBasisCurrency
   );
+  const setDefaultCostBasisCurrency = usePCPreferencesStore(
+    (s) => s.setDefaultCostBasisCurrency
+  );
   const setBusinessMode = usePCPreferencesStore((s) => s.setBusinessMode);
   const setQuickAdd = usePCPreferencesStore((s) => s.setQuickAdd);
   const setHoldingFilters = usePCPreferencesStore((s) => s.setHoldingFilters);
@@ -219,6 +222,7 @@ export function useRemotePCStore<T>(
       setSortDirection,
       setGroupField,
       setLastUsedCostBasisCurrency,
+      setDefaultCostBasisCurrency,
       setBusinessMode,
       setQuickAdd,
       setHoldingFilters,
@@ -538,6 +542,7 @@ export function useRemotePCStore<T>(
       setSortDirection,
       setGroupField,
       setLastUsedCostBasisCurrency,
+      setDefaultCostBasisCurrency,
       setBusinessMode,
       setQuickAdd,
       setHoldingFilters,
