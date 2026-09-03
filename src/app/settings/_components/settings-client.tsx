@@ -8,7 +8,16 @@ import { toast } from "sonner";
 import { CurrencySelector } from "@/components/nav/currency-selector";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { AdminAddCard } from "@/app/settings/_components/admin-add-card";
+import { usePreferencesStore } from "@/lib/pc/store";
+import { SUPPORTED_CURRENCIES, type SupportedCurrency } from "@/lib/constants";
 import type { GameMeta } from "@/lib/games/registry";
 
 function SettingRow({
@@ -61,6 +70,46 @@ function ThemeRow() {
           disabled={!mounted}
           onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
         />
+      }
+    />
+  );
+}
+
+function DefaultCostBasisCurrencyRow() {
+  const defaultCostBasisCurrency = usePreferencesStore(
+    (s) => s.preferences.defaultCostBasisCurrency
+  );
+  const setDefaultCostBasisCurrency = usePreferencesStore(
+    (s) => s.setDefaultCostBasisCurrency
+  );
+
+  return (
+    <SettingRow
+      icon={<Coins className="size-4" />}
+      id="default-cost-basis-currency"
+      title="Default cost basis currency"
+      description="Currency Add to Collection starts a card's cost basis in. You can still pick a different currency each time you add a card."
+      control={
+        <Select
+          value={defaultCostBasisCurrency ?? "USD"}
+          onValueChange={(v) => setDefaultCostBasisCurrency(v as SupportedCurrency)}
+        >
+          <SelectTrigger
+            id="default-cost-basis-currency"
+            size="sm"
+            className="w-[84px] bg-background"
+            aria-label="Default cost basis currency"
+          >
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent align="end">
+            {SUPPORTED_CURRENCIES.map((code) => (
+              <SelectItem key={code} value={code}>
+                {code}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       }
     />
   );
@@ -157,6 +206,7 @@ export function SettingsClient({ adminAddCardGames }: { adminAddCardGames: GameM
             description="Currency used to display card values across CardStory."
             control={<CurrencySelector />}
           />
+          <DefaultCostBasisCurrencyRow />
           <ThemeRow />
 
           {session.user.isAdmin && (

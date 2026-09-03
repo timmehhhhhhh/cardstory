@@ -127,8 +127,14 @@ export function AddSportsCardDialog() {
     (s) => s.preferences.lastUsedCostBasisCurrency
   );
   const setLastUsedCostBasisCurrency = usePCStore((s) => s.setLastUsedCostBasisCurrency);
+  // Settings-configured default (see settings-client.tsx) takes priority
+  // over the last currency picked in any Add-to-PC dialog — null until the
+  // user sets one.
+  const defaultCostBasisCurrency = usePCStore(
+    (s) => s.preferences.defaultCostBasisCurrency
+  );
   const [costBasisCurrency, setCostBasisCurrency] = React.useState<SupportedCurrency>(
-    lastUsedCostBasisCurrency ?? "USD"
+    defaultCostBasisCurrency ?? lastUsedCostBasisCurrency ?? "USD"
   );
 
   const [prevOpen, setPrevOpen] = React.useState(open);
@@ -136,7 +142,7 @@ export function AddSportsCardDialog() {
     setPrevOpen(open);
     if (open) {
       setPCId(defaultPCId);
-      setCostBasisCurrency(lastUsedCostBasisCurrency ?? "USD");
+      setCostBasisCurrency(defaultCostBasisCurrency ?? lastUsedCostBasisCurrency ?? "USD");
       setError(null);
     }
   }
@@ -198,7 +204,7 @@ export function AddSportsCardDialog() {
     setCondition("raw");
     setRawCondition("");
     setCostBasis("");
-    setCostBasisCurrency(lastUsedCostBasisCurrency ?? "USD");
+    setCostBasisCurrency(defaultCostBasisCurrency ?? lastUsedCostBasisCurrency ?? "USD");
     setAcquiredAt("");
     setAcquisitionMethod("");
     setAcquiredFrom("");

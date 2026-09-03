@@ -160,6 +160,11 @@ function HoldingGalleryFace({
             {r.rawCondition}
           </Badge>
         )}
+        {r.condition === "sealed" && (
+          <Badge variant="outline" className="font-normal text-muted-foreground">
+            Sealed
+          </Badge>
+        )}
       </div>
     </div>
   );

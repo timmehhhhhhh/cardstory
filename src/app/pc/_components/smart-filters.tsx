@@ -143,9 +143,10 @@ export function SmartFilters({
           <SelectValue placeholder="Condition" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">Graded or raw</SelectItem>
+          <SelectItem value="all">Graded, raw, or sealed</SelectItem>
           <SelectItem value="raw">Raw</SelectItem>
           <SelectItem value="graded">Graded</SelectItem>
+          <SelectItem value="sealed">Sealed</SelectItem>
         </SelectContent>
       </Select>
 

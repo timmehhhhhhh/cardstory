@@ -11,7 +11,7 @@ export const holdingInputSchema = z.object({
   customName: z.string().max(200).optional(),
   /** Positive and capped at 20 — a single holding can't be added/edited past 20x the same card in one go. */
   quantity: z.number().int().positive().max(20),
-  condition: z.enum(["raw", "graded"]),
+  condition: z.enum(["raw", "graded", "sealed"]),
   gradeCompany: z.string().optional(),
   gradeValue: z.string().optional(),
   rawCondition: z.enum(CARD_CONDITIONS).optional(),

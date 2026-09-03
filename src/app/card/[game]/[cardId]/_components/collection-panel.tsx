@@ -15,7 +15,9 @@ function holdingSummary(h: EnrichedHolding): string {
   const conditionBit =
     h.condition === "graded"
       ? `Graded${h.gradeCompany ? ` ${h.gradeCompany}` : ""}${h.gradeValue ? ` ${h.gradeValue}` : ""}`
-      : `Raw${h.rawCondition ? ` · ${CARD_CONDITION_LABELS[h.rawCondition]}` : ""}`;
+      : h.condition === "sealed"
+        ? "Sealed"
+        : `Raw${h.rawCondition ? ` · ${CARD_CONDITION_LABELS[h.rawCondition]}` : ""}`;
   return `${h.quantity}× ${conditionBit} · ${h.language}`;
 }
 
