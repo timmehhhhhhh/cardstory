@@ -14,11 +14,16 @@ import {
   compareNullsLastStr,
 } from "@/lib/catalog/compare";
 import {
+  deriveSetInitials,
   nameSearchVariants,
   normalizeForPunctuationInsensitiveMatch,
+  numbersMatch,
+  parseCodeNumberQuery,
+  parseDexNumberQuery,
   parseNameNumberQuery,
   parseNumberSlashCode,
   parseNumberSlashTotal,
+  splitTrailingWord,
 } from "@/lib/utils/name-match";
 
 const WIRED_TCG_GAME_IDS = GAMES.filter((g) => g.status === "WIRED" && g.kind !== "sports").map(
@@ -536,14 +541,22 @@ function sportsFilterableFor(params: CatalogSearchParams): boolean {
  * denominator against `Set.code` (a `contains`, since a non-English set's
  * code is prefixed, e.g. "ko:SV-P") instead of `Set.cardCount`.
  */
-function tcgNameNumberClause(q: string): Prisma.CatalogItemWhereInput[] {
+async function tcgNameNumberClause(q: string): Promise<Prisma.CatalogItemWhereInput[]> {
   const { namePart, numberPart } = parseNameNumberQuery(q);
   if (!numberPart) return [];
   const nameTerms = nameSearchVariants(namePart);
+  // Same punctuation-agnostic fallback as the top-level qGroup's
+  // punctuationInsensitiveIds branch (e.g. "Pikachu EX 014" still finding a
+  // "Pikachu-EX" row) — nameSearchVariants' space/hyphen swap alone only
+  // covers a name with *one* separator style throughout; a name mixing
+  // hyphens and apostrophes/commas needs the fully punctuation-stripped
+  // comparison too.
+  const namePunctuationIds = await punctuationInsensitiveIds("CatalogItem", namePart);
   const nameGroup: Prisma.CatalogItemWhereInput = {
     OR: [
       ...nameTerms.map((term) => ({ name: { contains: term, mode: "insensitive" as const } })),
       ...nameTerms.map((term) => ({ nameEn: { contains: term, mode: "insensitive" as const } })),
+      ...(namePunctuationIds.length > 0 ? [{ id: { in: namePunctuationIds } }] : []),
     ],
   };
   const slashTotal = parseNumberSlashTotal(numberPart);
@@ -562,7 +575,142 @@ function tcgNameNumberClause(q: string): Prisma.CatalogItemWhereInput[] {
   ];
 }
 
-async function tcgWhereFor(
+/**
+ * Strips insignificant leading zeros from a numeric string (e.g. "014" ->
+ * "14"), so a `contains` check against the stored (possibly zero-padded)
+ * `CatalogItem.number` matches regardless of which side has more padding —
+ * any zero-padded stored value still contains its own unpadded digits as a
+ * substring (e.g. "014".includes("14")), so stripping only the *query* side
+ * is enough; re-padding to guess the stored width isn't needed. Leaves
+ * non-numeric input (e.g. a promo number like "SWSH001") untouched.
+ */
+function stripLeadingZeros(numStr: string): string {
+  return /^\d+$/.test(numStr) ? String(parseInt(numStr, 10)) : numStr;
+}
+
+/**
+ * Resolves a derived short-form set code (see deriveSetInitials) or a
+ * literal `Set.code` substring match to the matching Set ids within the
+ * given game(s) — the DB-backed counterpart to matchesNameNumberQuery's
+ * client-side codeMatchesAlpha helper. Fetches only the sets already scoped
+ * to gameIdFilter (not a full-table scan), same extra-query pattern as
+ * punctuationInsensitiveIds above.
+ */
+async function matchingSetIdsForAlphaCode(
+  gameIdFilter: string | { in: string[] },
+  alpha: string
+): Promise<string[]> {
+  const sets = await db.set.findMany({
+    where: { gameId: gameIdFilter },
+    select: { id: true, code: true, name: true, nameEn: true },
+  });
+  const lowerAlpha = alpha.toLowerCase();
+  return sets
+    .filter(
+      (s) =>
+        s.code.toLowerCase().includes(lowerAlpha) ||
+        deriveSetInitials(s.name) === alpha ||
+        (!!s.nameEn && deriveSetInitials(s.nameEn) === alpha)
+    )
+    .map((s) => s.id);
+}
+
+/**
+ * Short-form "set code + card number" query — see parseCodeNumberQuery.
+ * Handles every spacing/casing/"EN"-marker combination collectors type
+ * (e.g. "MEP 014", "MEP014", "MEP EN 14", "MEPEN14") by resolving the alpha
+ * token against `Set.code` or the set's own derived initials (see
+ * matchingSetIdsForAlphaCode), then matching the digits against
+ * `CatalogItem.number` ignoring padding (see stripLeadingZeros). Returns
+ * `[]` (no extra branch) for a query that isn't shaped like this.
+ */
+async function tcgCodeNumberClause(
+  q: string,
+  gameIdFilter: string | { in: string[] }
+): Promise<Prisma.CatalogItemWhereInput[]> {
+  const parsed = parseCodeNumberQuery(q);
+  if (!parsed) return [];
+  const setIds = await matchingSetIdsForAlphaCode(gameIdFilter, parsed.alpha);
+  if (setIds.length === 0) return [];
+  return [
+    {
+      AND: [
+        { set: { id: { in: setIds } } },
+        { number: { contains: stripLeadingZeros(parsed.cardNumber), mode: "insensitive" as const } },
+      ],
+    },
+  ];
+}
+
+/**
+ * Bare "National Pokédex number + card number" query, e.g. "937 014",
+ * "937 14", "0937 014", "0937 14" — see parseDexNumberQuery. Also handles
+ * the "set code + Pokédex number" variant with no explicit card number
+ * ("MEP 937" — which card in this set has this Pokédex number). Returns
+ * `[]` for a query that isn't two whitespace-separated tokens shaped like
+ * either form.
+ */
+async function tcgDexNumberClause(
+  q: string,
+  gameIdFilter: string | { in: string[] }
+): Promise<Prisma.CatalogItemWhereInput[]> {
+  const parsed = parseDexNumberQuery(q);
+  if (!parsed) return [];
+  if ("cardNumber" in parsed) {
+    return [
+      {
+        AND: [
+          { nationalPokedexNumbers: { has: parsed.dexNumber } },
+          { number: { contains: stripLeadingZeros(parsed.cardNumber), mode: "insensitive" as const } },
+        ],
+      },
+    ];
+  }
+  const setIds = await matchingSetIdsForAlphaCode(gameIdFilter, parsed.alpha);
+  if (setIds.length === 0) return [];
+  return [
+    {
+      AND: [{ set: { id: { in: setIds } } }, { nationalPokedexNumbers: { has: parsed.dexNumber } }],
+    },
+  ];
+}
+
+/**
+ * "Card name + set word" query, e.g. "Ceruledge Promo" matching a Ceruledge
+ * card in a set whose name contains "Promo" (such as "Mega Evolution
+ * Promos") — see splitTrailingWord. The non-numeric sibling of
+ * tcgNameNumberClause: same head/tail split, but the tail is checked against
+ * `Set.name`/`Set.nameEn` instead of `CatalogItem.number`. Returns `[]` for
+ * a single-word query (nothing to split).
+ */
+function tcgNameSetWordClause(q: string): Prisma.CatalogItemWhereInput[] {
+  const split = splitTrailingWord(q);
+  if (!split) return [];
+  const nameTerms = nameSearchVariants(split.head);
+  return [
+    {
+      AND: [
+        {
+          OR: [
+            ...nameTerms.map((term) => ({ name: { contains: term, mode: "insensitive" as const } })),
+            ...nameTerms.map((term) => ({ nameEn: { contains: term, mode: "insensitive" as const } })),
+          ],
+        },
+        {
+          OR: [
+            { set: { name: { contains: split.tail, mode: "insensitive" as const } } },
+            { set: { nameEn: { contains: split.tail, mode: "insensitive" as const } } },
+          ],
+        },
+      ],
+    },
+  ];
+}
+
+// Exported (only) so search.test.ts can assert on the constructed where
+// clause directly, without standing up runTcgQuery's full pagination/count
+// pipeline — every other caller in this file still just calls searchCatalog.
+export async function tcgWhereFor(
   params: CatalogSearchParams,
   gameIdFilter: string | { in: string[] }
 ): Promise<Prisma.CatalogItemWhereInput> {
@@ -589,6 +737,14 @@ async function tcgWhereFor(
   // own code, not a numeric total) — see parseNumberSlashCode and
   // tcgNameNumberClause's doc comment.
   const bareSlashCode = params.q && !bareSlashTotal ? parseNumberSlashCode(params.q) : null;
+  const nameNumberClause = params.q ? await tcgNameNumberClause(params.q) : [];
+  // Short-form "set code + number" / "Pokédex number + number" / "name + set
+  // word" branches, e.g. "MEP 014", "937 14", "Ceruledge Promo" — see each
+  // function's doc comment. Each is a no-op ([]) when the query doesn't fit
+  // its shape, so these only ever add matches on top of everything above.
+  const codeNumberClause = params.q ? await tcgCodeNumberClause(params.q, gameIdFilter) : [];
+  const dexNumberClause = params.q ? await tcgDexNumberClause(params.q, gameIdFilter) : [];
+  const nameSetWordClause = params.q ? tcgNameSetWordClause(params.q) : [];
   const qGroup: Prisma.CatalogItemWhereInput[] | undefined = params.q
     ? [
         ...qTerms.map((term) => ({ name: { contains: term, mode: "insensitive" as const } })),
@@ -605,7 +761,7 @@ async function tcgWhereFor(
         { artist: { contains: params.q, mode: "insensitive" } },
         { number: { contains: params.q, mode: "insensitive" } },
         // Combined "name + number" query — see tcgNameNumberClause.
-        ...tcgNameNumberClause(params.q),
+        ...nameNumberClause,
         ...(bareSlashTotal
           ? [
               {
@@ -626,6 +782,9 @@ async function tcgWhereFor(
               },
             ]
           : []),
+        ...codeNumberClause,
+        ...dexNumberClause,
+        ...nameSetWordClause,
       ]
     : undefined;
 

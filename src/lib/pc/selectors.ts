@@ -24,6 +24,14 @@ export interface DisplayInfo {
   subtitle: string;
   /** The card's number within its set (e.g. "88", "025/198"), when known. */
   number: string | null;
+  /** Set.name, when this is a TCG card — used by matchesNameNumberQuery's short-form "code + number"/"name + set word" matching. Null for sports/custom rows. */
+  setName: string | null;
+  /** Set.nameEn, when known — see CatalogItemDetail.setNameEn. Null for sports/custom rows and untranslated sets. */
+  setNameEn: string | null;
+  /** Set.code, when this is a TCG card — see CatalogItemDetail.setCode. Null for sports/custom rows. */
+  setCode: string | null;
+  /** CatalogItem.nationalPokedexNumbers — empty for sports/custom rows and non-Pokémon-species cards. */
+  nationalPokedexNumbers: number[];
   imageUrl: string | null;
   /**
    * Parallel label watermarked over the image, for sports cards only.
@@ -100,6 +108,10 @@ export function buildDisplay(
       nameEn: null,
       subtitle: `${setBit}${numberBit}${parallelBit}${serialSuffix(ref, sportsCardItem)}`,
       number: sportsCardItem.cardNumber,
+      setName: null,
+      setNameEn: null,
+      setCode: null,
+      nationalPokedexNumbers: [],
       // The owner's own photo of this copy wins over the shared catalog image.
       imageUrl: ref.imageUrl ?? sportsCardItem.imageUrl,
       imageWatermark: sportsCardItem.parallelName
@@ -125,6 +137,10 @@ export function buildDisplay(
       ? `${catalogItem.setName}${catalogItem.number ? ` · ${catalogItem.number}` : ""}`
       : "",
     number: catalogItem?.number ?? null,
+    setName: catalogItem?.setName ?? null,
+    setNameEn: catalogItem?.setNameEn ?? null,
+    setCode: catalogItem?.setCode ?? null,
+    nationalPokedexNumbers: catalogItem?.nationalPokedexNumbers ?? [],
     imageUrl: ref.imageUrl ?? catalogItem?.imageSmallUrl ?? null,
     imageWatermark: null,
     href: catalogItem ? cardDetailHref(catalogItem.gameId, catalogItem.id, false) : null,

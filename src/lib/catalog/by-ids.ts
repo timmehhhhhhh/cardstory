@@ -26,7 +26,13 @@ export interface CatalogItemDetail {
   imageSmallUrl: string | null;
   imageLargeUrl: string | null;
   setName: string;
+  /** English translation of setName, when known — see Set.nameEn. Null for English/untranslated sets. */
+  setNameEn: string | null;
+  /** Set.code — the provider's own set id (e.g. "me2"), not a fan/community abbreviation. See deriveSetInitials in lib/utils/name-match.ts for how a short-form query like "MEP 014" still resolves against a set without a stored short code. */
+  setCode: string;
   setId: string;
+  /** CatalogItem.nationalPokedexNumbers — empty for non-Pokémon-species cards (sealed products, other games). */
+  nationalPokedexNumbers: number[];
   productType: "CARD" | "SEALED";
   priceRaw: number | null;
   priceChangePct: number | null;
@@ -64,9 +70,12 @@ export async function getCatalogItemsByIds(ids: string[]): Promise<CatalogItemDe
       latestPriceRaw: true,
       priceChangePct: true,
       setId: true,
+      nationalPokedexNumbers: true,
       // `code` is what the curated finish-pattern overlay keys off of (see
-      // getFinishDisplayLabel below) — not Set.id.
-      set: { select: { name: true, releaseDate: true, code: true } },
+      // getFinishDisplayLabel below) — not Set.id. `nameEn` and `code` are
+      // also surfaced on CatalogItemDetail for the local (non-DB-backed)
+      // search filters — see matchesNameNumberQuery in lib/utils/name-match.ts.
+      set: { select: { name: true, nameEn: true, releaseDate: true, code: true } },
     },
   });
 
@@ -94,7 +103,10 @@ export async function getCatalogItemsByIds(ids: string[]): Promise<CatalogItemDe
       imageSmallUrl: r.imageSmallUrl,
       imageLargeUrl: r.imageLargeUrl,
       setName: r.set.name,
+      setNameEn: r.set.nameEn,
+      setCode: r.set.code,
       setId: r.setId,
+      nationalPokedexNumbers: r.nationalPokedexNumbers,
       productType: r.productType,
       priceRaw: r.latestPriceRaw != null ? Number(r.latestPriceRaw) : null,
       priceChangePct: r.priceChangePct,

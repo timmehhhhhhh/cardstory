@@ -150,7 +150,15 @@ export function CardPickerSheet({
     if (!q) return rows;
     return rows.filter(
       (r) =>
-        matchesNameNumberQuery(q, { name: r.display.name, nameEn: r.display.nameEn, number: r.display.number }) ||
+        matchesNameNumberQuery(q, {
+          name: r.display.name,
+          nameEn: r.display.nameEn,
+          number: r.display.number,
+          setName: r.display.setName,
+          setNameEn: r.display.setNameEn,
+          setCode: r.display.setCode,
+          nationalPokedexNumbers: r.display.nationalPokedexNumbers,
+        }) ||
         r.display.subtitle.toLowerCase().includes(q.toLowerCase())
     );
   }, [rows, query]);
