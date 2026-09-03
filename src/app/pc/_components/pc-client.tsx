@@ -72,6 +72,10 @@ export function PCClient() {
           name: r.display.name,
           nameEn: r.display.nameEn,
           number: r.display.number,
+          setName: r.display.setName,
+          setNameEn: r.display.setNameEn,
+          setCode: r.display.setCode,
+          nationalPokedexNumbers: r.display.nationalPokedexNumbers,
         })
       )
         return false;
