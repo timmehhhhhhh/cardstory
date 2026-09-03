@@ -317,6 +317,12 @@ export const POKEMON_FORM_PREFIXES: Record<string, string> = {
   "JP:メガ": "Mega",
   "JP:ゲンシ": "Primal",
   "JP:原始": "Primal",
+  // Team Rocket / Neo-era printed adjectives — real Japanese TCG mechanics
+  // ("ダークギャラドス" Dark Gyarados, "ライトアルカニン" Light Arcanine,
+  // "シャイニングチャリザード" Shining Charizard), not a translation choice.
+  "JP:ダーク": "Dark",
+  "JP:ライト": "Light",
+  "JP:シャイニング": "Shining",
   "CN:阿罗拉": "Alolan",
   "CN:伽勒尔": "Galarian",
   "CN:洗翠": "Hisuian",

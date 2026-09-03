@@ -1,0 +1,2696 @@
+{
+  "gameId": "pokemon",
+  "note": "Crawled japanesepokemoncards.uk cards that did NOT pass the mapping guards. Never seeded.",
+  "generatedAt": "2026-09-02T18:24:13.549Z",
+  "entries": [
+    {
+      "sourceId": -1923081797,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/arcanine",
+      "sourceName": "Arcanine",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "019",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-019",
+      "catalogName": "ウィンディ"
+    },
+    {
+      "sourceId": 2108424801,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/energy-removal",
+      "sourceName": "Energy Removal",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "070",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-070",
+      "catalogName": "エネルギー・リムーブ"
+    },
+    {
+      "sourceId": -2001633203,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/potion",
+      "sourceName": "Potion",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "071",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-071",
+      "catalogName": "きずぐすり"
+    },
+    {
+      "sourceId": 1194250618,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/gust-of-wind",
+      "sourceName": "Gust of Wind",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "072",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-072",
+      "catalogName": "突風"
+    },
+    {
+      "sourceId": 1436598593,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/bill",
+      "sourceName": "Bill",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "074",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-074",
+      "catalogName": "マサキ"
+    },
+    {
+      "sourceId": -2018855073,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/super-potion",
+      "sourceName": "Super Potion",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "075",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-075",
+      "catalogName": "いいきずぐすり"
+    },
+    {
+      "sourceId": 1762053249,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/professor-oak",
+      "sourceName": "Professor Oak",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "077",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-077",
+      "catalogName": "オーキドはかせ"
+    },
+    {
+      "sourceId": -1953550321,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/revive",
+      "sourceName": "Revive",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "078",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-078",
+      "catalogName": "げんきのかけら"
+    },
+    {
+      "sourceId": 447312413,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/defender",
+      "sourceName": "Defender",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "079",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-079",
+      "catalogName": "ディフェンダー"
+    },
+    {
+      "sourceId": 652584300,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/full-heal",
+      "sourceName": "Full Heal",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "080",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-080",
+      "catalogName": "なんでもなおし"
+    },
+    {
+      "sourceId": 912589489,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/pluspower",
+      "sourceName": "PlusPower",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "081",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-081",
+      "catalogName": "プラスパワー"
+    },
+    {
+      "sourceId": -1931197028,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/pok-dex",
+      "sourceName": "Pokédex",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "082",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-082",
+      "catalogName": "ポケモン図鑑"
+    },
+    {
+      "sourceId": -929868983,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/pokemon-center",
+      "sourceName": "Pokemon Center",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "083",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-083",
+      "catalogName": "ポケモンセンター"
+    },
+    {
+      "sourceId": -1828125268,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/pokemon-flute",
+      "sourceName": "Pokemon Flute",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "084",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-084",
+      "catalogName": "ポケモンの笛"
+    },
+    {
+      "sourceId": -1161437031,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/maintenance",
+      "sourceName": "Maintenance",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "085",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-085",
+      "catalogName": "メンテナンス"
+    },
+    {
+      "sourceId": 476601649,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/devolution-spray",
+      "sourceName": "Devolution Spray",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "086",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-086",
+      "catalogName": "退化スプレー"
+    },
+    {
+      "sourceId": 625822118,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/item-finder",
+      "sourceName": "Item Finder",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "087",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-087",
+      "catalogName": "ダウジングマシーン"
+    },
+    {
+      "sourceId": -1806825613,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/super-energy-removal",
+      "sourceName": "Super Energy Removal",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "088",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-088",
+      "catalogName": "超エネルギーリムーブ"
+    },
+    {
+      "sourceId": -1390648871,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/imposter-professor-oak",
+      "sourceName": "Imposter Professor Oak",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "089",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-089",
+      "catalogName": "詐欺師オーク教授"
+    },
+    {
+      "sourceId": 268756768,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/computer-search",
+      "sourceName": "Computer Search",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "090",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-090",
+      "catalogName": "パソコン通信"
+    },
+    {
+      "sourceId": -975174043,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/clefairy-doll",
+      "sourceName": "Clefairy Doll",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "091",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-091",
+      "catalogName": "ピッピ人形"
+    },
+    {
+      "sourceId": -688438910,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/scoop-up",
+      "sourceName": "Scoop Up",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "092",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-092",
+      "catalogName": "ポケモン回収"
+    },
+    {
+      "sourceId": -431570302,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/pokemon-trader",
+      "sourceName": "Pokemon Trader",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "093",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-093",
+      "catalogName": "ポケモン交換おじさん"
+    },
+    {
+      "sourceId": 714748077,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/pokemon-breeder",
+      "sourceName": "Pokemon Breeder",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "094",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-094",
+      "catalogName": "ポケモン育て屋さん"
+    },
+    {
+      "sourceId": 1436889039,
+      "sourceUrl": "https://japanesepokemoncards.uk/base-set/lass",
+      "sourceName": "Lass",
+      "sourceSetLabel": "PMCG1",
+      "sourceNumber": "095",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG1-095",
+      "catalogName": "ミニスカート"
+    },
+    {
+      "sourceId": -715593968,
+      "sourceUrl": "https://japanesepokemoncards.uk/jungle/poke-ball",
+      "sourceName": "Poke Ball",
+      "sourceSetLabel": "PMCG2",
+      "sourceNumber": "048",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG2-048",
+      "catalogName": "モンスターボール"
+    },
+    {
+      "sourceId": -2033417224,
+      "sourceUrl": "https://japanesepokemoncards.uk/fossil/horsea",
+      "sourceName": "Horsea",
+      "sourceSetLabel": "PMCG3",
+      "sourceNumber": "014",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG3-014",
+      "catalogName": "タッツ"
+    },
+    {
+      "sourceId": -54248903,
+      "sourceUrl": "https://japanesepokemoncards.uk/fossil/energy-search",
+      "sourceName": "Energy Search",
+      "sourceSetLabel": "PMCG3",
+      "sourceNumber": "044",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG3-044",
+      "catalogName": "エネルギー転送"
+    },
+    {
+      "sourceId": 95146614,
+      "sourceUrl": "https://japanesepokemoncards.uk/fossil/gambler",
+      "sourceName": "Gambler",
+      "sourceSetLabel": "PMCG3",
+      "sourceNumber": "045",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG3-045",
+      "catalogName": "ギャンブラー"
+    },
+    {
+      "sourceId": 1793142887,
+      "sourceUrl": "https://japanesepokemoncards.uk/fossil/mysterious-fossil",
+      "sourceName": "Mysterious Fossil",
+      "sourceSetLabel": "PMCG3",
+      "sourceNumber": "046",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG3-046",
+      "catalogName": "なにかの化石"
+    },
+    {
+      "sourceId": 1373710655,
+      "sourceUrl": "https://japanesepokemoncards.uk/fossil/recycle",
+      "sourceName": "Recycle",
+      "sourceSetLabel": "PMCG3",
+      "sourceNumber": "047",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG3-047",
+      "catalogName": "リサイクル"
+    },
+    {
+      "sourceId": 1552919586,
+      "sourceUrl": "https://japanesepokemoncards.uk/fossil/mr-fuji",
+      "sourceName": "Mr. Fuji",
+      "sourceSetLabel": "PMCG3",
+      "sourceNumber": "048",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG3-048",
+      "catalogName": "フジろうじん"
+    },
+    {
+      "sourceId": -1997196277,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-gloom",
+      "sourceName": "Dark Gloom",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "006",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-006",
+      "catalogName": "わるいクサイハナ"
+    },
+    {
+      "sourceId": 1517479174,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-muk",
+      "sourceName": "Dark Muk",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "007",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-007",
+      "catalogName": "わるいベトベトン"
+    },
+    {
+      "sourceId": -2002571152,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-arbok",
+      "sourceName": "Dark Arbok",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "008",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-008",
+      "catalogName": "わるいアーボック"
+    },
+    {
+      "sourceId": -1780874002,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-golbat",
+      "sourceName": "Dark Golbat",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "009",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-009",
+      "catalogName": "わるいゴルバット"
+    },
+    {
+      "sourceId": -1395708824,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-vileplume",
+      "sourceName": "Dark Vileplume",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "010",
+      "reason": "name-mismatch",
+      "candidateExternalId": "ja:PMCG4-010",
+      "catalogName": "ラフレシア"
+    },
+    {
+      "sourceId": 1650604226,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-weezing",
+      "sourceName": "Dark Weezing",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "011",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-011",
+      "catalogName": "わるいマタドガス"
+    },
+    {
+      "sourceId": 549018775,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-rapidash",
+      "sourceName": "Dark Rapidash",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "014",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-014",
+      "catalogName": "わるいギャロップ"
+    },
+    {
+      "sourceId": 1792884451,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-charmeleon",
+      "sourceName": "Dark Charmeleon",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "015",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-015",
+      "catalogName": "わるいリザード"
+    },
+    {
+      "sourceId": -355588624,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-flareon",
+      "sourceName": "Dark Flareon",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "016",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-016",
+      "catalogName": "わるいブースター"
+    },
+    {
+      "sourceId": 331850991,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-charizard",
+      "sourceName": "Dark Charizard",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "017",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-017",
+      "catalogName": "わるいリザードン"
+    },
+    {
+      "sourceId": 1492969505,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-wartortle",
+      "sourceName": "Dark Wartortle",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "021",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-021",
+      "catalogName": "わるいカメール"
+    },
+    {
+      "sourceId": 627559168,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-golduck",
+      "sourceName": "Dark Golduck",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "022",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-022",
+      "catalogName": "わるいゴルダック"
+    },
+    {
+      "sourceId": -1063712551,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-vaporeon",
+      "sourceName": "Dark Vaporeon",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "023",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-023",
+      "catalogName": "わるいシャワーズ"
+    },
+    {
+      "sourceId": 559080103,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-blastoise",
+      "sourceName": "Dark Blastoise",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "024",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-024",
+      "catalogName": "わるいカメックス"
+    },
+    {
+      "sourceId": -2037986041,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-gyarados",
+      "sourceName": "Dark Gyarados",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "025",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-025",
+      "catalogName": "わるいギャラドス"
+    },
+    {
+      "sourceId": -1771240304,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-electrode",
+      "sourceName": "Dark Electrode",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "028",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-028",
+      "catalogName": "わるいマルマイン"
+    },
+    {
+      "sourceId": -1004435430,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-jolteon",
+      "sourceName": "Dark Jolteon",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "029",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-029",
+      "catalogName": "わるいサンダース"
+    },
+    {
+      "sourceId": 171904870,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-magneton",
+      "sourceName": "Dark Magneton",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "030",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-030",
+      "catalogName": "わるいレアコイル"
+    },
+    {
+      "sourceId": -525696863,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-kadabra",
+      "sourceName": "Dark Kadabra",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "034",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-034",
+      "catalogName": "わるいユンゲラー"
+    },
+    {
+      "sourceId": 1730963927,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-alakazam",
+      "sourceName": "Dark Alakazam",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "035",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-035",
+      "catalogName": "わるいフーディン"
+    },
+    {
+      "sourceId": -1689867199,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-slowbro",
+      "sourceName": "Dark Slowbro",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "036",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-036",
+      "catalogName": "わるいヤドラン"
+    },
+    {
+      "sourceId": -1995884541,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-hypno",
+      "sourceName": "Dark Hypno",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "037",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-037",
+      "catalogName": "わるいスリーパー"
+    },
+    {
+      "sourceId": -930621484,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-primeape",
+      "sourceName": "Dark Primeape",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "041",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-041",
+      "catalogName": "わるいオコリザル"
+    },
+    {
+      "sourceId": 1248607795,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-machoke",
+      "sourceName": "Dark Machoke",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "042",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-042",
+      "catalogName": "わるいゴーリキー"
+    },
+    {
+      "sourceId": -1867320611,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-dugtrio",
+      "sourceName": "Dark Dugtrio",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "043",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-043",
+      "catalogName": "わるいダグトリオ"
+    },
+    {
+      "sourceId": 1248594414,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-machamp",
+      "sourceName": "Dark Machamp",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "044",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-044",
+      "catalogName": "わるいカイリキー"
+    },
+    {
+      "sourceId": 663505616,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-raticate",
+      "sourceName": "Dark Raticate",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "046",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-046",
+      "catalogName": "わるいラッタ"
+    },
+    {
+      "sourceId": -255157405,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-persian",
+      "sourceName": "Dark Persian",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "048",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-048",
+      "catalogName": "わるいペルシアン"
+    },
+    {
+      "sourceId": -1537106598,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-dragonair",
+      "sourceName": "Dark Dragonair",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "052",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-052",
+      "catalogName": "わるいハクリュー"
+    },
+    {
+      "sourceId": -1537098582,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/dark-dragonite",
+      "sourceName": "Dark Dragonite",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "053",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-053",
+      "catalogName": "わるいカイリュー"
+    },
+    {
+      "sourceId": 2131931389,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/sleep",
+      "sourceName": "Sleep!",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "054",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-054",
+      "catalogName": "ねむれ!ねむれ!"
+    },
+    {
+      "sourceId": 1233217068,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/digger",
+      "sourceName": "Digger",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "055",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-055",
+      "catalogName": "バトル場は穴だらけ!"
+    },
+    {
+      "sourceId": -387292698,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/goop-gas-attack",
+      "sourceName": "Goop Gas Attack",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "056",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-056",
+      "catalogName": "まきちらせ!ベトベトガス"
+    },
+    {
+      "sourceId": 482790001,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/nightly-garbage-run",
+      "sourceName": "Nightly Garbage Run",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "057",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-057",
+      "catalogName": "夜の廃品回収"
+    },
+    {
+      "sourceId": -1196655735,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/challenge",
+      "sourceName": "Challenge!",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "058",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-058",
+      "catalogName": "たたきつけろ!挑戦状"
+    },
+    {
+      "sourceId": -1594550951,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/imposter-oaks-revenge",
+      "sourceName": "Imposter Oak's Revenge",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "059",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-059",
+      "catalogName": "にせオーキドの逆襲"
+    },
+    {
+      "sourceId": -1112984302,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/the-bosss-way",
+      "sourceName": "The Boss's Way",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "060",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-060",
+      "catalogName": "ボスのやりかた"
+    },
+    {
+      "sourceId": 403999529,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/rockets-sneak-attack",
+      "sourceName": "Rocket's Sneak Attack",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "061",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-061",
+      "catalogName": "ロケット団のおねーさん"
+    },
+    {
+      "sourceId": 1016271715,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/here-comes-team-rocket",
+      "sourceName": "Here Comes Team Rocket!",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "062",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-062",
+      "catalogName": "ロケット団参上!"
+    },
+    {
+      "sourceId": -995560408,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/potion-energy",
+      "sourceName": "Potion Energy",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "063",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-063",
+      "catalogName": "きずぐすり配合エネルギー"
+    },
+    {
+      "sourceId": -1086031383,
+      "sourceUrl": "https://japanesepokemoncards.uk/team-rocket/full-heal-energy",
+      "sourceName": "Full Heal Energy",
+      "sourceSetLabel": "PMCG4",
+      "sourceNumber": "064",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:PMCG4-064",
+      "catalogName": "なんでもなおし配合エネルギー"
+    },
+    {
+      "sourceId": 1558143610,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/oddish",
+      "sourceName": "Oddish",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "001",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-001",
+      "catalogName": "奇妙な"
+    },
+    {
+      "sourceId": -978920920,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/spinarak",
+      "sourceName": "Spinarak",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "004",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-004",
+      "catalogName": "スパラク"
+    },
+    {
+      "sourceId": 1368262201,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/hoppip",
+      "sourceName": "Hoppip",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "005",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-005",
+      "catalogName": "ホッピップ"
+    },
+    {
+      "sourceId": 808836407,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/sunkern",
+      "sourceName": "Sunkern",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "006",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-006",
+      "catalogName": "サンカーン"
+    },
+    {
+      "sourceId": 442889334,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/shuckle",
+      "sourceName": "Shuckle",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "007",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-007",
+      "catalogName": "シャックル"
+    },
+    {
+      "sourceId": 320218269,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/gloom",
+      "sourceName": "Gloom",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "008",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-008",
+      "catalogName": "暗闇"
+    },
+    {
+      "sourceId": -1119299733,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/skiploom",
+      "sourceName": "Skiploom",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "012",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-012",
+      "catalogName": "スキプルーム"
+    },
+    {
+      "sourceId": -700286889,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/sunflora",
+      "sourceName": "Sunflora",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "013",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-013",
+      "catalogName": "サンフロラ"
+    },
+    {
+      "sourceId": 207628240,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/meganium",
+      "sourceName": "Meganium",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "014",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-014",
+      "catalogName": "ミーガニウム"
+    },
+    {
+      "sourceId": 774900738,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/jumpluff",
+      "sourceName": "Jumpluff",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "016",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-016",
+      "catalogName": "ジャンプラフ"
+    },
+    {
+      "sourceId": 1229363089,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/cyndaquil",
+      "sourceName": "Cyndaquil",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "018",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-018",
+      "catalogName": "シンダキル"
+    },
+    {
+      "sourceId": 1498207414,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/magmar",
+      "sourceName": "Magmar",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "019",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-019",
+      "catalogName": "マグマー"
+    },
+    {
+      "sourceId": -970762502,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/quilava",
+      "sourceName": "Quilava",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "020",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-020",
+      "catalogName": "キラバ"
+    },
+    {
+      "sourceId": -831497152,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/typhlosion",
+      "sourceName": "Typhlosion",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "021",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-021",
+      "catalogName": "染色"
+    },
+    {
+      "sourceId": 325423615,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/magby",
+      "sourceName": "Magby",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "022",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-022",
+      "catalogName": "マグビー"
+    },
+    {
+      "sourceId": 1368324527,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/horsea",
+      "sourceName": "Horsea",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "023",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-023",
+      "catalogName": "馬"
+    },
+    {
+      "sourceId": 1797669553,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/wooper",
+      "sourceName": "Wooper",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "026",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-026",
+      "catalogName": "ウーパー"
+    },
+    {
+      "sourceId": -793529573,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/mantine",
+      "sourceName": "Mantine",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "028",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-028",
+      "catalogName": "マンティン"
+    },
+    {
+      "sourceId": -1157045725,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/croconaw",
+      "sourceName": "Croconaw",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "030",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-030",
+      "catalogName": "クロコノー"
+    },
+    {
+      "sourceId": -56198699,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/piloswine",
+      "sourceName": "Piloswine",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "032",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-032",
+      "catalogName": "ピロスワイン"
+    },
+    {
+      "sourceId": 172386940,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/azumarill",
+      "sourceName": "Azumarill",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "034",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-034",
+      "catalogName": "アズマリル"
+    },
+    {
+      "sourceId": -1604126944,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/chinchou",
+      "sourceName": "Chinchou",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "037",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-037",
+      "catalogName": "チンチョウ"
+    },
+    {
+      "sourceId": -1681021589,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/lanturn",
+      "sourceName": "Lanturn",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "040",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-040",
+      "catalogName": "ラントン"
+    },
+    {
+      "sourceId": 1886225000,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/flaaffy",
+      "sourceName": "Flaaffy",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "041",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-041",
+      "catalogName": "フラフィー"
+    },
+    {
+      "sourceId": 328428844,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/pichu",
+      "sourceName": "Pichu",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "042",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-042",
+      "catalogName": "ピチュ"
+    },
+    {
+      "sourceId": -457416252,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/ampharos",
+      "sourceName": "Ampharos",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "043",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-043",
+      "catalogName": "アンファロス"
+    },
+    {
+      "sourceId": -53592093,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/slowking",
+      "sourceName": "Slowking",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "049",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-049",
+      "catalogName": "スローキング"
+    },
+    {
+      "sourceId": 1336645055,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/gligar",
+      "sourceName": "Gligar",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "052",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-052",
+      "catalogName": "グリガー"
+    },
+    {
+      "sourceId": 1590382201,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/phanpy",
+      "sourceName": "Phanpy",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "053",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-053",
+      "catalogName": "ファンピー"
+    },
+    {
+      "sourceId": -217511890,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/murkrow",
+      "sourceName": "Murkrow",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "055",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-055",
+      "catalogName": "マークロウ"
+    },
+    {
+      "sourceId": 599835800,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/sneasel",
+      "sourceName": "Sneasel",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "056",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-056",
+      "catalogName": "スニーエル"
+    },
+    {
+      "sourceId": -1346456003,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/skarmory",
+      "sourceName": "Skarmory",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "058",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-058",
+      "catalogName": "スカルモリー"
+    },
+    {
+      "sourceId": 351050206,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/sentret",
+      "sourceName": "Sentret",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "059",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-059",
+      "catalogName": "セントレット"
+    },
+    {
+      "sourceId": -1952346306,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/stantler",
+      "sourceName": "Stantler",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "062",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-062",
+      "catalogName": "スタントラー"
+    },
+    {
+      "sourceId": 1823924484,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/clefairy",
+      "sourceName": "Clefairy",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "063",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-063",
+      "catalogName": "クリーフ"
+    },
+    {
+      "sourceId": 484629543,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/noctowl",
+      "sourceName": "Noctowl",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "065",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-065",
+      "catalogName": "ノクトウル"
+    },
+    {
+      "sourceId": 1222008464,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/cleffa",
+      "sourceName": "Cleffa",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "070",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-070",
+      "catalogName": "クレファ"
+    },
+    {
+      "sourceId": 315395115,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/berry",
+      "sourceName": "Berry",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "073",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-073",
+      "catalogName": "ベリー"
+    },
+    {
+      "sourceId": 1515896586,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/super-rod",
+      "sourceName": "Super Rod",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "074",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-074",
+      "catalogName": "スーパーロッド"
+    },
+    {
+      "sourceId": -2020278880,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/double-gust",
+      "sourceName": "Double Gust",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "075",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-075",
+      "catalogName": "二重突風"
+    },
+    {
+      "sourceId": 716185318,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/moo-moo-milk",
+      "sourceName": "Moo-Moo Milk",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "077",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-077",
+      "catalogName": "Moomooミルク"
+    },
+    {
+      "sourceId": -1273952163,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/professor-elm",
+      "sourceName": "Professor Elm",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "078",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-078",
+      "catalogName": "エルム教授"
+    },
+    {
+      "sourceId": -1129518220,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/gold-berry",
+      "sourceName": "Gold Berry",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "079",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-079",
+      "catalogName": "ゴールドベリー"
+    },
+    {
+      "sourceId": 1558442336,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/card-flip-game",
+      "sourceName": "Card-Flip Game",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "080",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-080",
+      "catalogName": "カードフリップゲーム"
+    },
+    {
+      "sourceId": 1188562639,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/miracle-berry",
+      "sourceName": "Miracle Berry",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "081",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-081",
+      "catalogName": "ミラクルベリー"
+    },
+    {
+      "sourceId": 1552455486,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/new-pok-dex",
+      "sourceName": "New Pokédex",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "082",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-082",
+      "catalogName": "新しいpokedex"
+    },
+    {
+      "sourceId": 314613221,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/super-scoop-up",
+      "sourceName": "Super Scoop Up",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "083",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-083",
+      "catalogName": "スーパースクープアップ"
+    },
+    {
+      "sourceId": 297333764,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/bills-teleporter",
+      "sourceName": "Bill's Teleporter",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "084",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-084",
+      "catalogName": "ビルのテレポーター"
+    },
+    {
+      "sourceId": -552469760,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/sprout-tower",
+      "sourceName": "Sprout Tower",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "085",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-085",
+      "catalogName": "スプラウトタワー"
+    },
+    {
+      "sourceId": 1271254549,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/ecogym",
+      "sourceName": "Ecogym",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "086",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-086",
+      "catalogName": "ecogym"
+    },
+    {
+      "sourceId": 68679086,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/energy-charge",
+      "sourceName": "Energy Charge",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "087",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-087",
+      "catalogName": "エネルギー電荷"
+    },
+    {
+      "sourceId": 424252949,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/focus-band",
+      "sourceName": "Focus Band",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "088",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-088",
+      "catalogName": "フォーカスバンド"
+    },
+    {
+      "sourceId": 2088707878,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/mary",
+      "sourceName": "Mary",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "089",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-089",
+      "catalogName": "メアリー"
+    },
+    {
+      "sourceId": 702552036,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/arcade-game",
+      "sourceName": "Arcade Game",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "090",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-090",
+      "catalogName": "アーケードゲーム"
+    },
+    {
+      "sourceId": -498200456,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/time-capsule",
+      "sourceName": "Time Capsule",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "091",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-091",
+      "catalogName": "タイムカプセル"
+    },
+    {
+      "sourceId": -1970392628,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/super-energy-retrieval",
+      "sourceName": "Super Energy Retrieval",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "092",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-092",
+      "catalogName": "スーパーエネルギー検索"
+    },
+    {
+      "sourceId": 1492474683,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/pok-gear",
+      "sourceName": "PokéGear",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "093",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-093",
+      "catalogName": "ポクギア"
+    },
+    {
+      "sourceId": 1299599453,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/darkness-energy",
+      "sourceName": "Darkness Energy",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "094",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-094",
+      "catalogName": "闇のエネルギー"
+    },
+    {
+      "sourceId": 609907033,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/metal-energy",
+      "sourceName": "Metal Energy",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "095",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-095",
+      "catalogName": "金属エネルギー"
+    },
+    {
+      "sourceId": -888066675,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-genesis/recycle-energy",
+      "sourceName": "Recycle Energy",
+      "sourceSetLabel": "neo1",
+      "sourceNumber": "096",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo1-096",
+      "catalogName": "エネルギーをリサイクルします"
+    },
+    {
+      "sourceId": 262262185,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/weedle",
+      "sourceName": "Weedle",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "002",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-002",
+      "catalogName": "雑草"
+    },
+    {
+      "sourceId": 1545628192,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/spinarak",
+      "sourceName": "Spinarak",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "003",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-003",
+      "catalogName": "スパラク"
+    },
+    {
+      "sourceId": -157600719,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/hoppip",
+      "sourceName": "Hoppip",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "004",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-004",
+      "catalogName": "ホッピップ"
+    },
+    {
+      "sourceId": -731141379,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/metapod",
+      "sourceName": "Metapod",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "006",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-006",
+      "catalogName": "メタポッド"
+    },
+    {
+      "sourceId": -84786570,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/kakuna",
+      "sourceName": "Kakuna",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "007",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-007",
+      "catalogName": "カクナ"
+    },
+    {
+      "sourceId": 246830759,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/scyther",
+      "sourceName": "Scyther",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "008",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-008",
+      "catalogName": "スキスター"
+    },
+    {
+      "sourceId": 1024207471,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/butterfree",
+      "sourceName": "Butterfree",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "009",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-009",
+      "catalogName": "蝶"
+    },
+    {
+      "sourceId": 841480855,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/yanma",
+      "sourceName": "Yanma",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "011",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-011",
+      "catalogName": "ヤンマ"
+    },
+    {
+      "sourceId": -989283061,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/houndour",
+      "sourceName": "Houndour",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "039",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-039",
+      "catalogName": "houndour（u）"
+    },
+    {
+      "sourceId": 271806633,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/wooper",
+      "sourceName": "Wooper",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "015",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-015",
+      "catalogName": "ウーパー"
+    },
+    {
+      "sourceId": -731263948,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/corsola",
+      "sourceName": "Corsola",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "017",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-017",
+      "catalogName": "コルサラ"
+    },
+    {
+      "sourceId": -132981718,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/kabutops",
+      "sourceName": "Kabutops",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "018",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-018",
+      "catalogName": "カブトップス"
+    },
+    {
+      "sourceId": -193506087,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/politoed",
+      "sourceName": "Politoed",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "019",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-019",
+      "catalogName": "政治"
+    },
+    {
+      "sourceId": 376092394,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/dark-raichu",
+      "sourceName": "Dark Raichu",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "021",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-021",
+      "catalogName": "ダークライチュ"
+    },
+    {
+      "sourceId": -239804475,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/espeon",
+      "sourceName": "Espeon",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "029",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-029",
+      "catalogName": "エスペオン"
+    },
+    {
+      "sourceId": -1955850519,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/wobbuffet",
+      "sourceName": "Wobbuffet",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "031",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-031",
+      "catalogName": "ウォブバフェット"
+    },
+    {
+      "sourceId": 1255748380,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/omanyte",
+      "sourceName": "Omanyte",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "032",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-032",
+      "catalogName": "オマニテ"
+    },
+    {
+      "sourceId": 1757561682,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/tyrogue",
+      "sourceName": "Tyrogue",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "033",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-033",
+      "catalogName": "タイログ"
+    },
+    {
+      "sourceId": 2068495192,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/larvitar",
+      "sourceName": "Larvitar",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "034",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-034",
+      "catalogName": "幼虫"
+    },
+    {
+      "sourceId": 919031225,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/hitmontop",
+      "sourceName": "Hitmontop",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "038",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-038",
+      "catalogName": "ヒットモントップ"
+    },
+    {
+      "sourceId": -989283252,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/houndoom",
+      "sourceName": "Houndoom",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "041",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-041",
+      "catalogName": "猟犬"
+    },
+    {
+      "sourceId": 699945651,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/tyranitar",
+      "sourceName": "Tyranitar",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "042",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-042",
+      "catalogName": "タイラニター"
+    },
+    {
+      "sourceId": 780820468,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/magnemite",
+      "sourceName": "Magnemite",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "043",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-043",
+      "catalogName": "マグナイト"
+    },
+    {
+      "sourceId": 293939942,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/sentret",
+      "sourceName": "Sentret",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "046",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-046",
+      "catalogName": "セントレット"
+    },
+    {
+      "sourceId": -1859943926,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/dunsparce",
+      "sourceName": "Dunsparce",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "047",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-047",
+      "catalogName": "ダンズパース"
+    },
+    {
+      "sourceId": -1508894434,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/ursaring",
+      "sourceName": "Ursaring",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "051",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-051",
+      "catalogName": "ウルサリング"
+    },
+    {
+      "sourceId": -1883403368,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/energy-ark",
+      "sourceName": "Energy Ark",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "053",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-053",
+      "catalogName": "エネルギーアーク"
+    },
+    {
+      "sourceId": -1741436052,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/ruin-wall",
+      "sourceName": "Ruin Wall",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "057",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-057",
+      "catalogName": "壁を台無しにする[aerodactyl]"
+    },
+    {
+      "sourceId": -30103417,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/fossil-egg",
+      "sourceName": "Fossil Egg",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "055",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-055",
+      "catalogName": "化石卵"
+    },
+    {
+      "sourceId": -1009535557,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/hyper-devolution-spray",
+      "sourceName": "Hyper Devolution Spray",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "056",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo2-056",
+      "catalogName": "ハイパーデボルブスプレー"
+    },
+    {
+      "sourceId": -1967350330,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-discovery/unown-i",
+      "sourceName": "Unown [I]",
+      "sourceSetLabel": "neo2",
+      "sourceNumber": "068",
+      "reason": "no-catalog-row",
+      "candidateExternalId": "ja:neo2-068"
+    },
+    {
+      "sourceId": -931849101,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/paras",
+      "sourceName": "Paras",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "002",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-002",
+      "catalogName": "パラ"
+    },
+    {
+      "sourceId": -1368275776,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/skiploom",
+      "sourceName": "Skiploom",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "003",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-003",
+      "catalogName": "スキプルーム"
+    },
+    {
+      "sourceId": 525924695,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/jumpluff",
+      "sourceName": "Jumpluff",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "007",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-007",
+      "catalogName": "ジャンプラフ"
+    },
+    {
+      "sourceId": -1156040882,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/goldeen",
+      "sourceName": "Goldeen",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "012",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-012",
+      "catalogName": "ゴールデン"
+    },
+    {
+      "sourceId": 607831110,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/seaking",
+      "sourceName": "Seaking",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "017",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-017",
+      "catalogName": "航海"
+    },
+    {
+      "sourceId": 108331897,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/jynx",
+      "sourceName": "Jynx",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "018",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-018",
+      "catalogName": "ジンクス"
+    },
+    {
+      "sourceId": -912470493,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/octillery",
+      "sourceName": "Octillery",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "019",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-019",
+      "catalogName": "オクリリー"
+    },
+    {
+      "sourceId": -140425873,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/shining-magikarp",
+      "sourceName": "Shining Magikarp",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "022",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-022",
+      "catalogName": "輝くマジカルプ"
+    },
+    {
+      "sourceId": 1949107535,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/shining-gyarados",
+      "sourceName": "Shining Gyarados",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "023",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-023",
+      "catalogName": "輝くギャラドス"
+    },
+    {
+      "sourceId": -1853102987,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/chinchou",
+      "sourceName": "Chinchou",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "024",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-024",
+      "catalogName": "チンチョウ"
+    },
+    {
+      "sourceId": 1234440822,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/raichu",
+      "sourceName": "Raichu",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "025",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-025",
+      "catalogName": "ライチュ"
+    },
+    {
+      "sourceId": -1411958410,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/lanturn",
+      "sourceName": "Lanturn",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "026",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-026",
+      "catalogName": "ラントン"
+    },
+    {
+      "sourceId": -2139679117,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/flaaffy",
+      "sourceName": "Flaaffy",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "027",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-027",
+      "catalogName": "フラフィー"
+    },
+    {
+      "sourceId": -706392295,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/ampharos",
+      "sourceName": "Ampharos",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "028",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-028",
+      "catalogName": "アンファロス"
+    },
+    {
+      "sourceId": -1641176885,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/unown-k",
+      "sourceName": "Unown [K]",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "033",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-033",
+      "catalogName": "yなしy"
+    },
+    {
+      "sourceId": 577308311,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/smoochum",
+      "sourceName": "Smoochum",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "031",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-031",
+      "catalogName": "スムーチュム"
+    },
+    {
+      "sourceId": -1641176894,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/unown-b",
+      "sourceName": "Unown [B]",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "032",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-032",
+      "catalogName": "b"
+    },
+    {
+      "sourceId": -1803745901,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/misdreavus",
+      "sourceName": "Misdreavus",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "035",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-035",
+      "catalogName": "ミスレアヴァス"
+    },
+    {
+      "sourceId": 808788738,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/celebi",
+      "sourceName": "Celebi",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "036",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-036",
+      "catalogName": "セレビ"
+    },
+    {
+      "sourceId": -1439546493,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/geodude",
+      "sourceName": "Geodude",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "037",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-037",
+      "catalogName": "ジオドード"
+    },
+    {
+      "sourceId": 886691348,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/graveler",
+      "sourceName": "Graveler",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "039",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-039",
+      "catalogName": "砂利"
+    },
+    {
+      "sourceId": 711952513,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/shuckle",
+      "sourceName": "Shuckle",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "040",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-040",
+      "catalogName": "シャックル"
+    },
+    {
+      "sourceId": 815478560,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/piloswine",
+      "sourceName": "Piloswine",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "041",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-041",
+      "catalogName": "ピロスワイン"
+    },
+    {
+      "sourceId": -1780349438,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/aerodactyl",
+      "sourceName": "Aerodactyl",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "042",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-042",
+      "catalogName": "アエロダクチル"
+    },
+    {
+      "sourceId": 51551289,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/murkrow",
+      "sourceName": "Murkrow",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "043",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-043",
+      "catalogName": "マークロウ"
+    },
+    {
+      "sourceId": 532158889,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/houndoom",
+      "sourceName": "Houndoom",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "044",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-044",
+      "catalogName": "猟犬"
+    },
+    {
+      "sourceId": 715352809,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/magneton",
+      "sourceName": "Magneton",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "045",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-045",
+      "catalogName": "マグネトン"
+    },
+    {
+      "sourceId": 2093644947,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/stantler",
+      "sourceName": "Stantler",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "049",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-049",
+      "catalogName": "スタントラー"
+    },
+    {
+      "sourceId": -1386789677,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/blissey",
+      "sourceName": "Blissey",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "052",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-052",
+      "catalogName": "ブリッシー"
+    },
+    {
+      "sourceId": 1554119937,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/old-rod",
+      "sourceName": "Old Rod",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "053",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-053",
+      "catalogName": "古い棒"
+    },
+    {
+      "sourceId": 1414321735,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/healing-field",
+      "sourceName": "Healing Field",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "054",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-054",
+      "catalogName": "ヒーリングフィールド"
+    },
+    {
+      "sourceId": 1473589208,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/balloon-berry",
+      "sourceName": "Balloon Berry",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "055",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-055",
+      "catalogName": "バルーンベリー"
+    },
+    {
+      "sourceId": 1645692670,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-revelation/rockets-hideout",
+      "sourceName": "Rocket's Hideout",
+      "sourceSetLabel": "neo3",
+      "sourceNumber": "057",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo3-057",
+      "catalogName": "ロケットの隠れ家"
+    },
+    {
+      "sourceId": 807230640,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/venonat",
+      "sourceName": "Venonat",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "001",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-001",
+      "catalogName": "ヴェノナト"
+    },
+    {
+      "sourceId": -1397341279,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/sunkern",
+      "sourceName": "Sunkern",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "003",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-003",
+      "catalogName": "サンカーン"
+    },
+    {
+      "sourceId": -30996156,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/light-sunflora",
+      "sourceName": "Light Sunflora",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "004",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-004",
+      "catalogName": "軽いサンフロラ"
+    },
+    {
+      "sourceId": -1573646079,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-forretress",
+      "sourceName": "Dark Forretress",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "008",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-008",
+      "catalogName": "暗いforretress"
+    },
+    {
+      "sourceId": 2005718563,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/light-ledian",
+      "sourceName": "Light Ledian",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "010",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-010",
+      "catalogName": "軽いレディアン"
+    },
+    {
+      "sourceId": -929834647,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-ariados",
+      "sourceName": "Dark Ariados",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "011",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-011",
+      "catalogName": "ダークアリアドス"
+    },
+    {
+      "sourceId": -249651413,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-crobat",
+      "sourceName": "Dark Crobat",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "012",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-012",
+      "catalogName": "暗いクロバット"
+    },
+    {
+      "sourceId": 495583688,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/shining-celebi",
+      "sourceName": "Shining Celebi",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "013",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-013",
+      "catalogName": "輝くセレビ"
+    },
+    {
+      "sourceId": 1998207008,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/growlithe",
+      "sourceName": "Growlithe",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "015",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-015",
+      "catalogName": "うなり声"
+    },
+    {
+      "sourceId": -1488516229,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/cyndaquil",
+      "sourceName": "Cyndaquil",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "016",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-016",
+      "catalogName": "シンダキル"
+    },
+    {
+      "sourceId": 1215584117,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/light-flareon",
+      "sourceName": "Light Flareon",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "019",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-019",
+      "catalogName": "軽いフレアロン"
+    },
+    {
+      "sourceId": 471534831,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-quilava",
+      "sourceName": "Dark Quilava",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "020",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-020",
+      "catalogName": "ダークキラバ"
+    },
+    {
+      "sourceId": -23839431,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/light-arcanine",
+      "sourceName": "Light Arcanine",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "021",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-021",
+      "catalogName": "軽アルカニン"
+    },
+    {
+      "sourceId": -204478933,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-typhlosion",
+      "sourceName": "Dark Typhlosion",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "022",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-022",
+      "catalogName": "暗い染色"
+    },
+    {
+      "sourceId": -1579374145,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-magcargo",
+      "sourceName": "Dark Magcargo",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "023",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-023",
+      "catalogName": "ダークマグカルゴ"
+    },
+    {
+      "sourceId": -556846950,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/seel",
+      "sourceName": "Seel",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "027",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-027",
+      "catalogName": "シール"
+    },
+    {
+      "sourceId": 1295260037,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/mantine",
+      "sourceName": "Mantine",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "031",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-031",
+      "catalogName": "マンティン"
+    },
+    {
+      "sourceId": -2096235387,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/light-golduck",
+      "sourceName": "Light Golduck",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "032",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-032",
+      "catalogName": "ライトゴルダック"
+    },
+    {
+      "sourceId": -739827969,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/light-dewgong",
+      "sourceName": "Light Dewgong",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "033",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-033",
+      "catalogName": "軽いデューゴン"
+    },
+    {
+      "sourceId": -1539811319,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-omanyte",
+      "sourceName": "Dark Omanyte",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "035",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-035",
+      "catalogName": "暗いオマニテ"
+    },
+    {
+      "sourceId": 604498638,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-croconaw",
+      "sourceName": "Dark Croconaw",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "036",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-036",
+      "catalogName": "暗いワニ"
+    },
+    {
+      "sourceId": 1284119949,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-octillery",
+      "sourceName": "Dark Octillery",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "037",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-037",
+      "catalogName": "ダークオクタリリー"
+    },
+    {
+      "sourceId": -1539667745,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-omastar",
+      "sourceName": "Dark Omastar",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "038",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-038",
+      "catalogName": "ダークオマスター"
+    },
+    {
+      "sourceId": 1603249785,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-feraligatr",
+      "sourceName": "Dark Feraligatr",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "039",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-039",
+      "catalogName": "暗いferaligatr"
+    },
+    {
+      "sourceId": -554436817,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/light-azumarill",
+      "sourceName": "Light Azumarill",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "040",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-040",
+      "catalogName": "軽いアズマリル"
+    },
+    {
+      "sourceId": -783022456,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/light-piloswine",
+      "sourceName": "Light Piloswine",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "041",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-041",
+      "catalogName": "軽いピロスワイン"
+    },
+    {
+      "sourceId": -966444963,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-flaaffy",
+      "sourceName": "Dark Flaaffy",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "044",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-044",
+      "catalogName": "暗いフラフィ"
+    },
+    {
+      "sourceId": 1942799070,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/light-lanturn",
+      "sourceName": "Light Lanturn",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "045",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-045",
+      "catalogName": "ライトラントン"
+    },
+    {
+      "sourceId": 1304128111,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-ampharos",
+      "sourceName": "Dark Ampharos",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "046",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-046",
+      "catalogName": "暗いアンファロ"
+    },
+    {
+      "sourceId": 921235772,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/shining-raichu",
+      "sourceName": "Shining Raichu",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "047",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-047",
+      "catalogName": "輝くライチュ"
+    },
+    {
+      "sourceId": 1394177385,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/gastly",
+      "sourceName": "Gastly",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "048",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-048",
+      "catalogName": "ガストリー"
+    },
+    {
+      "sourceId": 178549557,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/unown-v",
+      "sourceName": "Unown [V]",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "065",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-065",
+      "catalogName": "未作たx"
+    },
+    {
+      "sourceId": 512512857,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-haunter",
+      "sourceName": "Dark Haunter",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "055",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-055",
+      "catalogName": "暗いハンター"
+    },
+    {
+      "sourceId": -366140034,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-exeggutor",
+      "sourceName": "Dark Exeggutor",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "056",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-056",
+      "catalogName": "暗いexeggutor"
+    },
+    {
+      "sourceId": 1707952270,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-slowking",
+      "sourceName": "Dark Slowking",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "061",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-061",
+      "catalogName": "暗いスローキング"
+    },
+    {
+      "sourceId": -147165570,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-gengar",
+      "sourceName": "Dark Gengar",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "066",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-066",
+      "catalogName": "ダークジェンガー"
+    },
+    {
+      "sourceId": -191436488,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-espeon",
+      "sourceName": "Dark Espeon",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "067",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-067",
+      "catalogName": "暗いエスペオン"
+    },
+    {
+      "sourceId": 782217971,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/shining-mewtwo",
+      "sourceName": "Shining Mewtwo",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "068",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-068",
+      "catalogName": "輝くミュウツー"
+    },
+    {
+      "sourceId": 1565464187,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/machop",
+      "sourceName": "Machop",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "069",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-069",
+      "catalogName": "マチョップ"
+    },
+    {
+      "sourceId": 634596044,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/hitmonchan",
+      "sourceName": "Hitmonchan",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "070",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-070",
+      "catalogName": "ヒットモンチャン"
+    },
+    {
+      "sourceId": 1404025365,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/gligar",
+      "sourceName": "Gligar",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "071",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-071",
+      "catalogName": "グリガー"
+    },
+    {
+      "sourceId": 1657762511,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/phanpy",
+      "sourceName": "Phanpy",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "072",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-072",
+      "catalogName": "ファンピー"
+    },
+    {
+      "sourceId": -128085450,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/larvitar",
+      "sourceName": "Larvitar",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "073",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-073",
+      "catalogName": "幼虫"
+    },
+    {
+      "sourceId": -409575951,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-pupitar",
+      "sourceName": "Dark Pupitar",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "076",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-076",
+      "catalogName": "ダークプリター"
+    },
+    {
+      "sourceId": -1475200141,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/light-machamp",
+      "sourceName": "Light Machamp",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "077",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-077",
+      "catalogName": "軽いマチャンプ"
+    },
+    {
+      "sourceId": 1651856818,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-donphan",
+      "sourceName": "Dark Donphan",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "078",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-078",
+      "catalogName": "ダークドンファン"
+    },
+    {
+      "sourceId": -1478365088,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-tyranitar",
+      "sourceName": "Dark Tyranitar",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "079",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-079",
+      "catalogName": "ダークタイラナター"
+    },
+    {
+      "sourceId": 1046118093,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/shining-kabutops",
+      "sourceName": "Shining Kabutops",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "080",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-080",
+      "catalogName": "輝くカブトップ"
+    },
+    {
+      "sourceId": 1109103593,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/houndour",
+      "sourceName": "Houndour",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "081",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-081",
+      "catalogName": "猟犬"
+    },
+    {
+      "sourceId": -1402665872,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/shining-tyranitar",
+      "sourceName": "Shining Tyranitar",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "082",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-082",
+      "catalogName": "輝くタイラニター"
+    },
+    {
+      "sourceId": 194406938,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-scizor",
+      "sourceName": "Dark Scizor",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "083",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-083",
+      "catalogName": "ダークシゾール"
+    },
+    {
+      "sourceId": -78635500,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/shining-steelix",
+      "sourceName": "Shining Steelix",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "084",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-084",
+      "catalogName": "Shining Steelix"
+    },
+    {
+      "sourceId": -1922615998,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dratini",
+      "sourceName": "Dratini",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "087",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-087",
+      "catalogName": "ドラチーニ"
+    },
+    {
+      "sourceId": -1323170378,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-wigglytuff",
+      "sourceName": "Dark Wigglytuff",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "091",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-091",
+      "catalogName": "ダークウィッグラット"
+    },
+    {
+      "sourceId": 1198386708,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/chansey",
+      "sourceName": "Chansey",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "092",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-092",
+      "catalogName": "チャンジー"
+    },
+    {
+      "sourceId": 826376607,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/light-dragonair",
+      "sourceName": "Light Dragonair",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "093",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-093",
+      "catalogName": "ライトドラゴンエア"
+    },
+    {
+      "sourceId": 826384623,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/light-dragonite",
+      "sourceName": "Light Dragonite",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "094",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-094",
+      "catalogName": "軽いドラゴナイト"
+    },
+    {
+      "sourceId": 846789277,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/light-togetic",
+      "sourceName": "Light Togetic",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "095",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-095",
+      "catalogName": "光から光"
+    },
+    {
+      "sourceId": 2023068113,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-ursaring",
+      "sourceName": "Dark Ursaring",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "096",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-096",
+      "catalogName": "暗いウルサリング"
+    },
+    {
+      "sourceId": -770346648,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/dark-porygon2",
+      "sourceName": "Dark Porygon2",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "097",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-097",
+      "catalogName": "Dark Porygon2"
+    },
+    {
+      "sourceId": -365729236,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/shining-noctowl",
+      "sourceName": "Shining Noctowl",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "098",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-098",
+      "catalogName": "輝くノクトウル"
+    },
+    {
+      "sourceId": -1154129667,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/heal-powder",
+      "sourceName": "Heal Powder",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "099",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-099",
+      "catalogName": "粉末を癒します"
+    },
+    {
+      "sourceId": 1738392725,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/mail-from-bill",
+      "sourceName": "Mail from Bill",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "100",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-100",
+      "catalogName": "ビルからのメール"
+    },
+    {
+      "sourceId": 274445977,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/energy-stadium",
+      "sourceName": "Energy Stadium",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "101",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-101",
+      "catalogName": "エネルギースタジアム"
+    },
+    {
+      "sourceId": 1265489421,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/energy-amplifier",
+      "sourceName": "Energy Amplifier",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "102",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-102",
+      "catalogName": "エネルギー増幅器"
+    },
+    {
+      "sourceId": 1537411562,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/counterattack-claws",
+      "sourceName": "Counterattack Claws",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "103",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-103",
+      "catalogName": "反撃の爪"
+    },
+    {
+      "sourceId": 1409782397,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/magnifier",
+      "sourceName": "Magnifier",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "104",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-104",
+      "catalogName": "拡大鏡"
+    },
+    {
+      "sourceId": -793164521,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/lucky-stadium",
+      "sourceName": "Lucky Stadium",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "106",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-106",
+      "catalogName": "ラッキースタジアム"
+    },
+    {
+      "sourceId": -1546071497,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/team-rockets-evil-deeds",
+      "sourceName": "Team Rocket's Evil Deeds",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "107",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-107",
+      "catalogName": "チームロケットの邪悪な行為"
+    },
+    {
+      "sourceId": -167326484,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/broken-ground-gym",
+      "sourceName": "Broken Ground Gym",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "110",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-110",
+      "catalogName": "壊れた地上ジム"
+    },
+    {
+      "sourceId": 382770718,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/impostor-professor-oaks-invention",
+      "sourceName": "Impostor Professor Oak's Invention",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "111",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-111",
+      "catalogName": "詐欺師オーク教授の発明"
+    },
+    {
+      "sourceId": 1903299958,
+      "sourceUrl": "https://japanesepokemoncards.uk/neo-destiny/radio-tower",
+      "sourceName": "Radio Tower",
+      "sourceSetLabel": "neo4",
+      "sourceNumber": "112",
+      "reason": "unresolved-name-guard",
+      "candidateExternalId": "ja:neo4-112",
+      "catalogName": "ラジオタワー"
+    }
+  ]
+}

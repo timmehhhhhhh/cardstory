@@ -1,0 +1,5 @@
+{
+  "note": "Catalog Set.name/CatalogItem.name corrections proposed from pokellector's JPN: field, for rows whose current catalog name did not resolve via resolvePokemonCardNameEn (see derive()'s secondary name guard). Not applied automatically — spot-check against sourceUrl, then apply by hand.",
+  "generatedAt": "2026-09-03T00:29:55.849Z",
+  "entries": []
+}
