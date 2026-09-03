@@ -16,6 +16,7 @@ import { CardImage } from "@/components/cards/card-image";
 import { matchesNameNumberQuery } from "@/lib/utils/name-match";
 import { CustomImageTab } from "@/app/binder/_components/custom-image-upload";
 import type { PlaceCustomImageResult } from "@/lib/binder/store";
+import { WIRED_SPORTS_GAMES } from "@/lib/games/registry";
 
 interface CatalogSearchResponse {
   items: CatalogSearchItem[];
@@ -27,9 +28,12 @@ interface CatalogSearchResponse {
 /** Debounced (~300ms) catalog search scoped to cards the binder's current pc doesn't already own — same excludeIds pattern as Explore's "not owned" status filter (src/app/explore/_components/explore-client.tsx). */
 function NotOwnedTab({
   ownedCatalogItemIds,
+  gameFilter,
   onPick,
 }: {
   ownedCatalogItemIds: Set<string>;
+  /** Restricts results to one game/TCG — see the gameFilter comment on Binder in src/lib/binder/types.ts. Null/undefined searches the full catalog. */
+  gameFilter?: string | null;
   onPick: (ref: BinderPocketRef) => void;
 }) {
   const [qDraft, setQDraft] = React.useState("");
@@ -43,11 +47,12 @@ function NotOwnedTab({
   const excludeIds = [...ownedCatalogItemIds].sort();
 
   const query = useQuery<CatalogSearchResponse>({
-    queryKey: ["binder-not-owned-search", q, excludeIds],
+    queryKey: ["binder-not-owned-search", q, excludeIds, gameFilter],
     queryFn: async () => {
       const sp = new URLSearchParams({ pageSize: "25" });
       if (q.trim()) sp.set("q", q.trim());
       if (excludeIds.length > 0) sp.set("excludeIds", excludeIds.join(","));
+      if (gameFilter) sp.set("game", gameFilter);
       const res = await fetch(`/api/catalog/search?${sp.toString()}`);
       if (!res.ok) throw new Error("Failed to search the catalog");
       return (await res.json()) as CatalogSearchResponse;
@@ -110,10 +115,18 @@ function NotOwnedTab({
   );
 }
 
+/** A holding row's effective GameMeta id — a TCG holding's catalogItem.gameId directly, or the WIRED_SPORTS_GAMES entry whose sport matches a sports holding's sportsCardItem.sport. Undefined for a custom (hand-keyed) holding, which belongs to no game. */
+function holdingGameId(r: EnrichedHolding): string | undefined {
+  if (r.catalogItem) return r.catalogItem.gameId;
+  if (r.sportsCardItem) return WIRED_SPORTS_GAMES.find((g) => g.sport === r.sportsCardItem!.sport)?.id;
+  return undefined;
+}
+
 export function CardPickerSheet({
   open,
   onOpenChange,
   rows,
+  gameFilter,
   usedCounts,
   ownedCatalogItemIds,
   onPick,
@@ -126,6 +139,8 @@ export function CardPickerSheet({
   open: boolean;
   onOpenChange: (open: boolean) => void;
   rows: EnrichedHolding[];
+  /** Restricts both tabs to one game/TCG — see the gameFilter comment on Binder in src/lib/binder/types.ts. Null/undefined shows the full catalog. */
+  gameFilter?: string | null;
   usedCounts: Map<string, number>;
   /** catalogItemIds already owned via this binder's card source — excluded from the "Not Owned" tab's results. */
   ownedCatalogItemIds: Set<string>;
@@ -146,9 +161,10 @@ export function CardPickerSheet({
   const [query, setQuery] = React.useState("");
 
   const filtered = React.useMemo(() => {
+    const gameScoped = gameFilter ? rows.filter((r) => holdingGameId(r) === gameFilter) : rows;
     const q = query.trim();
-    if (!q) return rows;
-    return rows.filter(
+    if (!q) return gameScoped;
+    return gameScoped.filter(
       (r) =>
         matchesNameNumberQuery(q, {
           name: r.display.name,
@@ -161,7 +177,7 @@ export function CardPickerSheet({
         }) ||
         r.display.subtitle.toLowerCase().includes(q.toLowerCase())
     );
-  }, [rows, query]);
+  }, [rows, query, gameFilter]);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -248,7 +264,7 @@ export function CardPickerSheet({
           </TabsContent>
 
           <TabsContent value="not-owned" className="flex min-h-0 flex-1 flex-col gap-0">
-            <NotOwnedTab ownedCatalogItemIds={ownedCatalogItemIds} onPick={onPick} />
+            <NotOwnedTab ownedCatalogItemIds={ownedCatalogItemIds} gameFilter={gameFilter} onPick={onPick} />
           </TabsContent>
 
           {customTarget && (

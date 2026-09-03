@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { CardNumberBadge } from "@/components/cards/card-number-badge";
 import { usePCStore } from "@/lib/pc/store";
 import { formatMoney } from "@/lib/utils/format";
+import { usePricingVisible } from "@/lib/utils/use-pricing-visible";
 import type { CatalogSearchItem } from "@/lib/catalog/search";
 import type { TradeItem } from "@/app/trade-analyzer/_components/types";
 import { CardImage } from "@/components/cards/card-image";
@@ -25,6 +26,7 @@ export function SideSelector({
   onRemove: (catalogItemId: string) => void;
 }) {
   const currency = usePCStore((s) => s.preferences.currency);
+  const pricingVisible = usePricingVisible();
   const [q, setQ] = React.useState("");
   const [debounced, setDebounced] = React.useState("");
 
@@ -82,9 +84,11 @@ export function SideSelector({
                 {item.name}
               </span>
               <CardNumberBadge number={item.number} className="flex-none" />
-              <span className="num-tabular text-xs text-muted-foreground">
-                {formatMoney(item.priceRaw, currency)}
-              </span>
+              {pricingVisible && (
+                <span className="num-tabular text-xs text-muted-foreground">
+                  {formatMoney(item.priceRaw, currency)}
+                </span>
+              )}
             </button>
           ))}
         </div>
@@ -122,9 +126,11 @@ export function SideSelector({
                   <Plus className="size-3.5" />
                 </button>
               </div>
-              <span className="num-tabular w-16 flex-none text-right text-sm font-medium">
-                {formatMoney((item.priceRaw ?? 0) * item.quantity, currency)}
-              </span>
+              {pricingVisible && (
+                <span className="num-tabular w-16 flex-none text-right text-sm font-medium">
+                  {formatMoney((item.priceRaw ?? 0) * item.quantity, currency)}
+                </span>
+              )}
               <button
                 type="button"
                 aria-label="Remove"
@@ -138,10 +144,12 @@ export function SideSelector({
         )}
       </div>
 
-      <div className="mt-3 flex items-center justify-between border-t border-border pt-3">
-        <span className="text-sm text-muted-foreground">Subtotal</span>
-        <span className="num-tabular text-lg font-bold">{formatMoney(subtotal, currency)}</span>
-      </div>
+      {pricingVisible && (
+        <div className="mt-3 flex items-center justify-between border-t border-border pt-3">
+          <span className="text-sm text-muted-foreground">Subtotal</span>
+          <span className="num-tabular text-lg font-bold">{formatMoney(subtotal, currency)}</span>
+        </div>
+      )}
     </div>
   );
 }

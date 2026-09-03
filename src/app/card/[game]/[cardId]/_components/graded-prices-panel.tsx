@@ -5,6 +5,7 @@ import { ExternalLink, Loader2, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePCStore } from "@/lib/pc/store";
 import { formatMoney } from "@/lib/utils/format";
+import { usePricingVisible } from "@/lib/utils/use-pricing-visible";
 import type { GradedPriceValues } from "@/lib/pricing/pricecharting/mapper";
 
 type State =
@@ -36,6 +37,12 @@ const ROWS: { label: string; key: keyof GradedPriceValues }[] = [
 export function GradedPricesPanel({ gameId, cardExternalId }: { gameId: string; cardExternalId: string }) {
   const [state, setState] = React.useState<State>({ step: "idle" });
   const currency = usePCStore((s) => s.preferences.currency);
+  const pricingVisible = usePricingVisible();
+
+  // Same reasoning as EbaySoldCompsPanel — this panel is entirely pricing
+  // data, so hide it outright rather than a "Load graded prices" button
+  // that leads nowhere.
+  if (!pricingVisible) return null;
 
   async function load() {
     setState({ step: "loading" });

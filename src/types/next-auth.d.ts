@@ -9,6 +9,8 @@ declare module "next-auth" {
       isVendor: boolean;
       isAdmin: boolean;
       hidePricing: boolean;
+      visibleLanguages: string[];
+      hiddenGameIds: string[];
     } & DefaultSession["user"];
   }
 }

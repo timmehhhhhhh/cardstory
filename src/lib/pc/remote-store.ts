@@ -158,6 +158,7 @@ export function useRemotePCStore<T>(
   const setSortField = usePCPreferencesStore((s) => s.setSortField);
   const setSortDirection = usePCPreferencesStore((s) => s.setSortDirection);
   const setGroupField = usePCPreferencesStore((s) => s.setGroupField);
+  const setGroupDateGranularity = usePCPreferencesStore((s) => s.setGroupDateGranularity);
   const setLastUsedCostBasisCurrency = usePCPreferencesStore(
     (s) => s.setLastUsedCostBasisCurrency
   );
@@ -221,6 +222,7 @@ export function useRemotePCStore<T>(
       setSortField,
       setSortDirection,
       setGroupField,
+      setGroupDateGranularity,
       setLastUsedCostBasisCurrency,
       setDefaultCostBasisCurrency,
       setBusinessMode,
@@ -541,6 +543,7 @@ export function useRemotePCStore<T>(
       setSortField,
       setSortDirection,
       setGroupField,
+      setGroupDateGranularity,
       setLastUsedCostBasisCurrency,
       setDefaultCostBasisCurrency,
       setBusinessMode,

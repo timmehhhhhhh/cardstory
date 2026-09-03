@@ -5,6 +5,7 @@ import { ExternalLink, Loader2, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { usePCStore } from "@/lib/pc/store";
 import { formatMoney } from "@/lib/utils/format";
+import { usePricingVisible } from "@/lib/utils/use-pricing-visible";
 import type { EbaySoldCompsAggregate } from "@/lib/pricing/ebay/mapper";
 
 type State =
@@ -31,7 +32,14 @@ const ROWS: { label: string; key: keyof Pick<EbaySoldCompsAggregate, "medianPric
 export function EbaySoldCompsPanel({ gameId, cardExternalId, cardName }: { gameId: string; cardExternalId: string; cardName: string }) {
   const [state, setState] = React.useState<State>({ step: "idle" });
   const currency = usePCStore((s) => s.preferences.currency);
+  const pricingVisible = usePricingVisible();
   const liveSearchUrl = `https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(cardName)}&LH_Sold=1&LH_Complete=1`;
+
+  // This whole panel is pricing data — when "Hide pricing & values" is on,
+  // collapse it entirely rather than showing a "Load eBay sold comps"
+  // button that leads nowhere useful, so it looks like it was never on the
+  // page (same intent as Money's null-render — see components/ui/money.tsx).
+  if (!pricingVisible) return null;
 
   async function load() {
     setState({ step: "loading" });

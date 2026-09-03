@@ -5,7 +5,7 @@ import { ChevronDown, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { groupRows } from "@/lib/pc/selectors";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
-import type { GroupField, ViewMode } from "@/lib/pc/types";
+import type { GroupDateGranularity, GroupField, SortDirection, ViewMode } from "@/lib/pc/types";
 import { ItemGrid } from "@/app/pc/_components/item-grid";
 import { ItemGallery } from "@/app/pc/_components/item-gallery";
 import { EmptyHoldings } from "@/app/pc/_components/empty-holdings";
@@ -25,6 +25,8 @@ import { EmptyHoldings } from "@/app/pc/_components/empty-holdings";
 export function HoldingsList({
   rows,
   groupField,
+  groupDateGranularity,
+  sortDirection,
   viewMode,
   bulkMode,
   selected,
@@ -34,6 +36,10 @@ export function HoldingsList({
 }: {
   rows: EnrichedHolding[];
   groupField: GroupField;
+  /** Month vs Year buckets when groupField is "dateAdded"/"dateAcquired" — ignored otherwise. */
+  groupDateGranularity: GroupDateGranularity;
+  /** Also governs group *and* in-group card order for date-based grouping — see groupRows. */
+  sortDirection: SortDirection;
   viewMode: ViewMode;
   bulkMode: boolean;
   selected: Set<string>;
@@ -49,7 +55,7 @@ export function HoldingsList({
   // (not a useEffect) per https://react.dev/learn/you-might-not-need-an-effect,
   // same idiom pc-client.tsx uses to reset its own selection.
   const [collapsed, setCollapsed] = React.useState<Set<string>>(new Set());
-  const resetKey = `${groupField}:${activePCId}`;
+  const resetKey = `${groupField}:${groupDateGranularity}:${activePCId}`;
   const [prevResetKey, setPrevResetKey] = React.useState(resetKey);
   if (resetKey !== prevResetKey) {
     setPrevResetKey(resetKey);
@@ -75,7 +81,7 @@ export function HoldingsList({
 
   if (rows.length === 0) return <EmptyHoldings />;
 
-  const groups = groupRows(rows, groupField);
+  const groups = groupRows(rows, groupField, sortDirection, groupDateGranularity);
   const collapsibleGroups = groups.filter((g) => !!g.label);
   const allCollapsed = collapsibleGroups.length > 0 && collapsibleGroups.every((g) => collapsed.has(g.key));
 

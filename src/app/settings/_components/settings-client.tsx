@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/select";
 import { AdminAddCard } from "@/app/settings/_components/admin-add-card";
 import { ConditionPricingSection } from "@/app/settings/_components/condition-pricing-section";
+import { LanguageVisibilitySection } from "@/app/settings/_components/language-visibility-section";
+import { GameVisibilitySection } from "@/app/settings/_components/game-visibility-section";
 import { usePreferencesStore } from "@/lib/pc/store";
 import { SUPPORTED_CURRENCIES, type SupportedCurrency } from "@/lib/constants";
 import type { GameMeta } from "@/lib/games/registry";
@@ -209,6 +211,8 @@ export function SettingsClient({ adminAddCardGames }: { adminAddCardGames: GameM
           />
           <DefaultCostBasisCurrencyRow />
           <ConditionPricingSection />
+          <LanguageVisibilitySection />
+          <GameVisibilitySection />
           <ThemeRow />
 
           {session.user.isAdmin && (

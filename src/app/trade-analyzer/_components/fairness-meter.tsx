@@ -3,9 +3,11 @@
 import { Scale } from "lucide-react";
 import { usePCStore } from "@/lib/pc/store";
 import { formatMoney } from "@/lib/utils/format";
+import { usePricingVisible } from "@/lib/utils/use-pricing-visible";
 
 export function FairnessMeter({ totalA, totalB }: { totalA: number; totalB: number }) {
   const currency = usePCStore((s) => s.preferences.currency);
+  const pricingVisible = usePricingVisible();
 
   if (totalA === 0 && totalB === 0) {
     return (
@@ -24,14 +26,15 @@ export function FairnessMeter({ totalA, totalB }: { totalA: number; totalB: numb
 
   let verdict: string;
   let verdictTone: "positive" | "warning" | "negative";
+  const diffSuffix = pricingVisible ? ` — ${formatMoney(diff, currency)} more.` : ".";
   if (diffPct <= 5) {
     verdict = "This trade looks fair.";
     verdictTone = "positive";
   } else if (diffPct <= 20) {
-    verdict = `Side ${largerSide} is slightly ahead — ${formatMoney(diff, currency)} more.`;
+    verdict = `Side ${largerSide} is slightly ahead${diffSuffix}`;
     verdictTone = "warning";
   } else {
-    verdict = `Side ${largerSide} is significantly ahead — ${formatMoney(diff, currency)} more.`;
+    verdict = `Side ${largerSide} is significantly ahead${diffSuffix}`;
     verdictTone = "negative";
   }
 
@@ -43,10 +46,12 @@ export function FairnessMeter({ totalA, totalB }: { totalA: number; totalB: numb
           style={{ width: `${pctA}%` }}
         />
       </div>
-      <div className="mb-4 flex justify-between text-xs text-muted-foreground">
-        <span>{formatMoney(totalA, currency)}</span>
-        <span>{formatMoney(totalB, currency)}</span>
-      </div>
+      {pricingVisible && (
+        <div className="mb-4 flex justify-between text-xs text-muted-foreground">
+          <span>{formatMoney(totalA, currency)}</span>
+          <span>{formatMoney(totalB, currency)}</span>
+        </div>
+      )}
       <p
         className={
           "text-center text-sm font-medium " +

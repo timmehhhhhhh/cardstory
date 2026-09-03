@@ -58,6 +58,10 @@ export const patchBinderSchema = z.object({
   coverColor: binderCoverColorIdSchema.optional(),
   pageBackground: pageBackgroundSchema.optional(),
   status: binderStatusSchema.optional(),
+  // null clears the filter (back to "all games"); omitted leaves it as-is —
+  // same optional-vs-null convention every other nullable patch field here
+  // would use.
+  gameFilter: z.string().nullable().optional(),
   // layoutId + pages travel together: the client already ran reflowPages
   // client-side (see remote-store.ts) and sends the reflowed result to
   // persist — the server never re-derives it.

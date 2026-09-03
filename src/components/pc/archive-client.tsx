@@ -11,6 +11,7 @@ import { ArchiveDetailsDialog } from "@/components/pc/archive-details-dialog";
 import { useArchiveData, type ArchivedRow } from "@/hooks/use-archive-data";
 import { usePCStore } from "@/lib/pc/store";
 import { formatMoneyIn } from "@/lib/utils/format";
+import { usePricingVisible } from "@/lib/utils/use-pricing-visible";
 import { LET_GO_METHOD_LABELS } from "@/lib/constants";
 import type { PCKind } from "@/lib/pc/types";
 import type { LetGoDetails } from "@/lib/pc/api-schemas";
@@ -23,11 +24,12 @@ function dayLabel(iso: string): string {
   return new Date(iso).toLocaleDateString(undefined, { dateStyle: "medium" });
 }
 
-function letGoSummary(row: ArchivedRow): string | null {
+function letGoSummary(row: ArchivedRow, pricingVisible: boolean): string | null {
   const parts: string[] = [];
   if (row.letGoMethod) parts.push(LET_GO_METHOD_LABELS[row.letGoMethod]);
   if (row.letGoTo) parts.push(`to ${row.letGoTo}`);
-  if (row.letGoAmount != null) parts.push(`for ${formatMoneyIn(row.letGoAmount, row.letGoCurrency ?? "USD")}`);
+  if (pricingVisible && row.letGoAmount != null)
+    parts.push(`for ${formatMoneyIn(row.letGoAmount, row.letGoCurrency ?? "USD")}`);
   return parts.length > 0 ? parts.join(" ") : null;
 }
 
@@ -42,7 +44,8 @@ function ArchivedCardRow({
   onRestore: (row: ArchivedRow) => void;
   onDeleteForever: (row: ArchivedRow) => void;
 }) {
-  const summary = letGoSummary(row);
+  const pricingVisible = usePricingVisible();
+  const summary = letGoSummary(row, pricingVisible);
 
   return (
     <div className="flex items-start gap-3 rounded-xl border border-border bg-surface p-3 sm:gap-4 sm:p-4">

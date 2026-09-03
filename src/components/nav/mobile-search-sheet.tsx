@@ -9,7 +9,8 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useSpeechDictation } from "@/hooks/use-speech-dictation";
-import type { CatalogSearchItem } from "@/lib/catalog/search";
+import type { CatalogSearchItem, SetNameMatch } from "@/lib/catalog/search";
+import { buildSetSearchHref } from "@/lib/explore/set-search-href";
 
 const RECENT_SEARCHES_KEY = "cardstory:mobile-search:recent";
 const MAX_RECENT = 8;
@@ -64,6 +65,7 @@ export function MobileSearchSheet({
   const [recent, setRecent] = React.useState<string[]>([]);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const dictation = useSpeechDictation();
+  const [setMatches, setSetMatches] = React.useState<SetNameMatch[] | null>(null);
 
   // The sheet is `fixed`, which anchors to the *layout* viewport — on iOS
   // that stays full-height even once the keyboard opens, while the mobile
@@ -105,6 +107,7 @@ export function MobileSearchSheet({
     const t = setTimeout(() => {
       setValue("");
       setDebounced("");
+      setSetMatches(null);
     }, 0);
     return () => clearTimeout(t);
   }, [open]);
@@ -157,11 +160,42 @@ export function MobileSearchSheet({
   const isSearching = debounced.trim().length > 1;
   const loading = isSearching && (catalogQuery.isLoading || sportsQuery.isLoading);
 
-  function submit(query: string) {
+  function goToSet(match: SetNameMatch) {
+    setSetMatches(null);
+    dictation.stop();
+    router.push(buildSetSearchHref(match.gameId, match.setId));
+    onOpenChange(false);
+  }
+
+  async function submit(query: string) {
     const q = query.trim();
     dictation.stop();
-    if (q) pushRecentSearch(q);
-    router.push(q ? `/explore?q=${encodeURIComponent(q)}` : "/explore");
+    if (!q) {
+      router.push("/explore");
+      onOpenChange(false);
+      return;
+    }
+    pushRecentSearch(q);
+    // Same set-name shortcut as the desktop search bar — see
+    // findSetsByName in lib/catalog/search.ts for why this is needed on
+    // top of the plain free-text search below.
+    try {
+      const res = await fetch(`/api/catalog/sets/by-name?q=${encodeURIComponent(q)}`);
+      if (res.ok) {
+        const { matches } = (await res.json()) as { matches: SetNameMatch[] };
+        if (matches.length === 1) {
+          goToSet(matches[0]);
+          return;
+        }
+        if (matches.length > 1) {
+          setSetMatches(matches);
+          return;
+        }
+      }
+    } catch {
+      // Lookup failing shouldn't block a normal search — fall through.
+    }
+    router.push(`/explore?q=${encodeURIComponent(q)}`);
     onOpenChange(false);
   }
 
@@ -185,7 +219,22 @@ export function MobileSearchSheet({
           </div>
 
           <div className="flex-1 overflow-y-auto px-4 py-3">
-            {isSearching ? (
+            {setMatches && setMatches.length > 0 ? (
+              <div className="flex flex-col gap-1">
+                <p className="px-1 pb-1 text-xs font-medium text-muted-foreground">Which set did you mean?</p>
+                {setMatches.map((m) => (
+                  <button
+                    key={`${m.gameId}:${m.setId}`}
+                    type="button"
+                    onClick={() => goToSet(m)}
+                    className="flex items-center justify-between gap-2 rounded-md px-2 py-2.5 text-left text-sm hover:bg-surface-elevated"
+                  >
+                    <span className="truncate">{m.setName}</span>
+                    <span className="shrink-0 text-xs text-muted-foreground">{m.gameName}</span>
+                  </button>
+                ))}
+              </div>
+            ) : isSearching ? (
               <div className="flex flex-col gap-1">
                 {loading && <p className="px-1 py-1.5 text-sm text-muted-foreground">Searching…</p>}
                 {!loading && catalogQuery.isError && sportsQuery.isError && (
@@ -239,7 +288,10 @@ export function MobileSearchSheet({
               <Input
                 ref={inputRef}
                 value={value}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e) => {
+                  setValue(e.target.value);
+                  setSetMatches(null);
+                }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") submit(value);
                 }}

@@ -4,6 +4,8 @@ import type { LetGoDetails } from "@/lib/pc/api-schemas";
 /** "sealed" is factory-sealed product (e.g. a still-sealed promo card) — no grading company/value or raw physical-condition grade applies to it, same as neither applying to the other. */
 export type CardCondition = "raw" | "graded" | "sealed";
 export type ItemLanguage = "EN" | "JP" | "CN" | "TW" | "KR";
+/** Every ItemLanguage value, for rendering a fixed checklist (e.g. Settings' language-visibility filter). */
+export const ITEM_LANGUAGES: ItemLanguage[] = ["EN", "JP", "CN", "TW", "KR"];
 /**
  * "grid" is the image-first gallery, at least 2 cards per row on the
  * smallest breakpoint; "grid3" is the same tile/stack rendering (see
@@ -33,10 +35,17 @@ export type SortDirection = "asc" | "desc";
 /**
  * How the PC List/Gallery is sectioned, independent of SortField/
  * SortDirection above — grouping only chunks already-sorted rows into
- * labeled sections, it doesn't change their order. "none" is the flat,
- * ungrouped list. See groupRows in selectors.ts.
+ * labeled sections, it doesn't change their order (except for "dateAdded"/
+ * "dateAcquired", where the *group order* also follows sortDirection — see
+ * groupRows in selectors.ts). "dateAdded"/"dateAcquired" bucket on the same
+ * fields SortField's "dateAdded"/"dateAcquired" sort on (see SortField
+ * above); GroupDateGranularity below picks Month vs Year buckets for
+ * either. "none" is the flat, ungrouped list.
  */
-export type GroupField = "none" | "set" | "cardName" | "releaseYear";
+export type GroupField = "none" | "set" | "cardName" | "releaseYear" | "dateAdded" | "dateAcquired";
+
+/** Bucket size for GroupField "dateAdded"/"dateAcquired" — ignored for every other GroupField. */
+export type GroupDateGranularity = "month" | "year";
 
 /**
  * Filters applied to the PC List/Gallery — see SmartFilters
@@ -212,6 +221,8 @@ export interface Preferences {
   sortDirection: SortDirection;
   /** How the PC List/Gallery is sectioned — see GroupField above. */
   groupField: GroupField;
+  /** Month vs Year buckets when groupField is "dateAdded"/"dateAcquired" — see GroupDateGranularity above. */
+  groupDateGranularity: GroupDateGranularity;
   /** Last currency picked in an Add-to-PC dialog — pre-fills the next one. */
   lastUsedCostBasisCurrency: SupportedCurrency;
   /**
@@ -298,6 +309,7 @@ export interface PCActions {
   setSortField: (field: SortField) => void;
   setSortDirection: (direction: SortDirection) => void;
   setGroupField: (field: GroupField) => void;
+  setGroupDateGranularity: (granularity: GroupDateGranularity) => void;
   setLastUsedCostBasisCurrency: (currency: SupportedCurrency) => void;
   setDefaultCostBasisCurrency: (currency: SupportedCurrency | null) => void;
   setBusinessMode: (businessMode: boolean) => void;

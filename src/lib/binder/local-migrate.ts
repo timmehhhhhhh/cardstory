@@ -32,6 +32,9 @@ export function normalizeLocalBinderData(raw: unknown): BinderStoreDataV3 | null
     pageBackground:
       (b.pageBackground as PageBackground | undefined) ?? (b.pocketBackground as PageBackground | undefined) ?? "match-cover",
     status: (b.status as BinderStatus | undefined) ?? "wip",
+    // Never existed in any localStorage schema version — this is a new
+    // field, so every migrated binder starts unrestricted.
+    gameFilter: null,
     pages: Array.isArray(b.pages)
       ? (b.pages as Record<string, unknown>[]).map((page) => ({
           id: String(page.id ?? ""),

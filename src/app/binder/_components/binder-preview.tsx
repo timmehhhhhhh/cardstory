@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Dialog as DialogPrimitive } from "radix-ui";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, RotateCw, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { containedBoxStyle, containerStyle } from "@/lib/binder/fit-style";
@@ -39,7 +39,57 @@ export function BinderPreview({
   showNotOwnedTags: boolean;
 }) {
   const isLandscape = useMediaQuery("(orientation: landscape)");
+  const isSmallScreen = useMediaQuery("(max-width: 767px)");
   const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const contentRef = React.useRef<HTMLDivElement>(null);
+
+  // Real Fullscreen API where the browser actually supports arbitrary
+  // elements going fullscreen (desktop browsers, Android Chrome) — this is
+  // what actually hides the tab strip/address bar. iOS Safari has no
+  // Fullscreen API for anything but <video>, so document.fullscreenEnabled
+  // is false there and this is skipped entirely rather than throwing;
+  // dropping into the best-effort maximized-overlay CSS below instead (see
+  // the isSmallScreen rotate hint and the dvh-based sizing above).
+  React.useEffect(() => {
+    const el = contentRef.current;
+    if (!el || typeof document === "undefined" || !document.fullscreenEnabled) return;
+    if (open) {
+      el.requestFullscreen?.().catch(() => {
+        // Some browsers report fullscreenEnabled but still reject the
+        // call (e.g. blocked by a permissions policy) — the maximized
+        // overlay CSS is still in effect either way, so this is a
+        // silent no-op rather than a broken experience.
+      });
+    } else if (document.fullscreenElement === el) {
+      document.exitFullscreen?.().catch(() => {});
+    }
+  }, [open]);
+
+  // The browser's own exit-fullscreen affordances (Esc, swipe-down on
+  // Android, a hardware back gesture) bypass onOpenChange entirely — sync
+  // the dialog's open state back down when that happens so it doesn't sit
+  // open-but-not-fullscreen.
+  React.useEffect(() => {
+    if (!open) return;
+    function onFullscreenChange() {
+      if (contentRef.current && document.fullscreenElement !== contentRef.current) {
+        onOpenChange(false);
+      }
+    }
+    document.addEventListener("fullscreenchange", onFullscreenChange);
+    return () => document.removeEventListener("fullscreenchange", onFullscreenChange);
+  }, [open, onOpenChange]);
+
+  // iOS Safari fallback ("scroll trick"): where the real Fullscreen API
+  // isn't available, a tiny forced scroll nudges Safari into treating this
+  // as scrollable content and collapsing its address bar the way a normal
+  // page scroll would — 100dvh above then reclaims that freed space. No-op
+  // (and harmless) everywhere the Fullscreen API already handled it.
+  React.useEffect(() => {
+    if (!open || typeof document === "undefined" || document.fullscreenEnabled) return;
+    const t = setTimeout(() => window.scrollTo(0, 1), 50);
+    return () => clearTimeout(t);
+  }, [open]);
 
   const spreads = React.useMemo(() => bookSpreads(binder.pages), [binder.pages]);
   const pageCount = binder.pages.length;
@@ -120,15 +170,30 @@ export function BinderPreview({
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black" />
         <DialogPrimitive.Content
+          ref={contentRef}
           onPointerDownOutside={(e) => e.preventDefault()}
           onEscapeKeyDown={() => onOpenChange(false)}
-          className="fixed inset-0 z-50 flex flex-col outline-none"
+          // 100dvh/100dvw (not 100vh/100vw) so this tracks the *visible*
+          // viewport as Safari's address bar shows/hides, rather than
+          // under- or over-sizing against the layout viewport — the
+          // closest CSS gets to "fullscreen" on iOS Safari, which has no
+          // Fullscreen API for non-<video> elements (see the effect above).
+          className="fixed inset-x-0 top-0 z-50 flex flex-col outline-none [height:100dvh] [width:100dvw]"
           style={{ background: pageBackground }}
         >
           <DialogPrimitive.Title className="sr-only">{binder.name} — fullscreen preview</DialogPrimitive.Title>
           <DialogPrimitive.Description className="sr-only">
             Flip through the binder page by page. Use the arrow keys, swipe, or tap the edges to navigate.
           </DialogPrimitive.Description>
+
+          {isSmallScreen && !isLandscape && (
+            <div className="pointer-events-none absolute inset-x-0 top-3 z-30 flex justify-center">
+              <div className="flex items-center gap-1.5 rounded-full bg-black/60 px-3 py-1.5 text-xs text-white backdrop-blur-sm">
+                <RotateCw className="size-3.5" />
+                Rotate your phone for the best view
+              </div>
+            </div>
+          )}
 
           <DialogPrimitive.Close asChild>
             <button

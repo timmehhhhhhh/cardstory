@@ -5,6 +5,7 @@ import { Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
 import { useShortlistStore } from "@/lib/shortlist/store";
 import { useAddToShortlist } from "@/lib/shortlist/use-add-to-shortlist";
 import { formatMoneyIn } from "@/lib/utils/format";
+import { usePricingVisible } from "@/lib/utils/use-pricing-visible";
 
 /**
  * This card's In-Store Shortlist entries, right on its own detail page —
@@ -26,6 +27,7 @@ export function ShortlistPanel({
   const updateShortlistItem = useShortlistStore((s) => s.updateShortlistItem);
   const removeShortlistItems = useShortlistStore((s) => s.removeShortlistItems);
   const addToShortlist = useAddToShortlist();
+  const pricingVisible = usePricingVisible();
 
   const matching = React.useMemo(
     () =>
@@ -54,7 +56,7 @@ export function ShortlistPanel({
               className="flex items-center justify-between gap-2 rounded-lg border border-border bg-background px-2.5 py-1.5 text-sm"
             >
               <span className="min-w-0 truncate text-muted-foreground">
-                {item.askingPrice > 0
+                {item.askingPrice > 0 && pricingVisible
                   ? `Asking ${formatMoneyIn(item.askingPrice, item.askingCurrency)} ea`
                   : (item.source ?? "Added manually")}
               </span>

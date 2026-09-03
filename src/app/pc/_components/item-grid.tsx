@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { CardNumberBadge } from "@/components/cards/card-number-badge";
 import { usePCStore } from "@/lib/pc/store";
 import { formatMoney, formatMoneyIn, formatPct } from "@/lib/utils/format";
+import { usePricingVisible } from "@/lib/utils/use-pricing-visible";
 import { SportsCardImageDialog } from "@/components/sportscards/sports-card-image-dialog";
 import { EditHoldingDialog } from "@/components/pc/edit-holding-dialog";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
@@ -51,6 +52,7 @@ function HoldingRowFace({
   suppressLink?: boolean;
 }) {
   const currency = usePCStore((s) => s.preferences.currency);
+  const pricingVisible = usePricingVisible();
   const addToShortlist = useAddToShortlist();
   const shortlistQuantity = useShortlistQuantity(r.catalogItemId, r.sportsCardItemId);
   const [justShortlisted, setJustShortlisted] = React.useState(false);
@@ -99,7 +101,7 @@ function HoldingRowFace({
         </p>
       )}
       <p className="mt-0.5 text-xs leading-snug text-muted-foreground sm:text-sm">{r.display.subtitle}</p>
-      {(r.costBasisTotal > 0 || r.priceAtAcquisitionTotal != null) && (
+      {pricingVisible && (r.costBasisTotal > 0 || r.priceAtAcquisitionTotal != null) && (
         <p className="mt-0.5 text-[11px] leading-snug text-muted-foreground/80">
           Paid {formatMoneyIn(r.costBasisTotal, r.costBasisCurrency)}
           {r.priceAtAcquisitionTotal != null &&
@@ -152,17 +154,21 @@ function HoldingRowFace({
       )}
       <div className="flex flex-none flex-col items-end justify-between gap-3 self-stretch">
         <div className="text-right">
-          <p className="num-tabular text-sm font-semibold sm:text-base">{formatMoney(r.marketValue, currency)}</p>
-          {r.gainLossPct != null && (
-            <p
-              className={cn(
-                "num-tabular mt-0.5 flex items-center justify-end gap-0.5 text-xs",
-                positive ? "text-positive" : "text-negative"
+          {pricingVisible && (
+            <>
+              <p className="num-tabular text-sm font-semibold sm:text-base">{formatMoney(r.marketValue, currency)}</p>
+              {r.gainLossPct != null && (
+                <p
+                  className={cn(
+                    "num-tabular mt-0.5 flex items-center justify-end gap-0.5 text-xs",
+                    positive ? "text-positive" : "text-negative"
+                  )}
+                >
+                  {positive ? <TrendingUp className="size-3" /> : <TrendingDown className="size-3" />}
+                  {formatPct(r.gainLossPct)}
+                </p>
               )}
-            >
-              {positive ? <TrendingUp className="size-3" /> : <TrendingDown className="size-3" />}
-              {formatPct(r.gainLossPct)}
-            </p>
+            </>
           )}
         </div>
         {!bulkMode && (

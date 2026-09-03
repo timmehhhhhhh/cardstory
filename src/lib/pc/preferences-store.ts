@@ -4,6 +4,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import {
   DEFAULT_HOLDING_FILTERS,
+  type GroupDateGranularity,
   type GroupField,
   type HoldingFilters,
   type Preferences,
@@ -36,6 +37,7 @@ function defaultPreferences(): Preferences {
     // the order holdings have always effectively appeared in, so this is a
     // no-op default for existing users.
     groupField: "none",
+    groupDateGranularity: "month",
     lastUsedCostBasisCurrency: "USD",
     defaultCostBasisCurrency: null,
     businessMode: false,
@@ -59,6 +61,7 @@ export interface PCPreferencesState {
   setSortField: (field: SortField) => void;
   setSortDirection: (direction: SortDirection) => void;
   setGroupField: (field: GroupField) => void;
+  setGroupDateGranularity: (granularity: GroupDateGranularity) => void;
   setLastUsedCostBasisCurrency: (currency: SupportedCurrency) => void;
   setDefaultCostBasisCurrency: (currency: SupportedCurrency | null) => void;
   setBusinessMode: (businessMode: boolean) => void;
@@ -91,6 +94,8 @@ export const usePCPreferencesStore = create<PCPreferencesState>()(
         set((s) => ({ preferences: { ...s.preferences, sortDirection } })),
       setGroupField: (groupField) =>
         set((s) => ({ preferences: { ...s.preferences, groupField } })),
+      setGroupDateGranularity: (groupDateGranularity) =>
+        set((s) => ({ preferences: { ...s.preferences, groupDateGranularity } })),
       setLastUsedCostBasisCurrency: (lastUsedCostBasisCurrency) =>
         set((s) => ({ preferences: { ...s.preferences, lastUsedCostBasisCurrency } })),
       setDefaultCostBasisCurrency: (defaultCostBasisCurrency) =>
