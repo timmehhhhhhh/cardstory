@@ -1,5 +1,6 @@
 import type { EnrichedHolding } from "@/lib/pc/selectors";
 import type { EnrichedShortlistItem } from "@/lib/shortlist/selectors";
+import { CARD_CONDITION_LABELS } from "@/lib/constants";
 import { formatMoneyIn } from "@/lib/utils/format";
 
 /**
@@ -153,6 +154,15 @@ export function shortlistToStoryFace(r: EnrichedShortlistItem): CardStoryFace {
     { label: "Added", value: new Date(r.addedAt).toLocaleDateString() },
     { label: "Source", value: r.source ?? "Added manually" },
   ];
+  if (r.rawCondition) {
+    // The one field that differs meaningfully between two faces of the same
+    // stack — the same card at two shops is usually two different copies in
+    // two different shapes, which is half of why one is cheaper.
+    fields.push({
+      label: "Condition",
+      value: `${CARD_CONDITION_LABELS[r.rawCondition]} (${r.rawCondition})`,
+    });
+  }
   if (r.askingPrice > 0) {
     fields.push({ label: "Asking price", value: formatMoneyIn(r.askingPrice, r.askingCurrency) });
   }

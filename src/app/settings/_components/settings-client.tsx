@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { AdminAddCard } from "@/app/settings/_components/admin-add-card";
+import { ConditionPricingSection } from "@/app/settings/_components/condition-pricing-section";
 import { usePreferencesStore } from "@/lib/pc/store";
 import { SUPPORTED_CURRENCIES, type SupportedCurrency } from "@/lib/constants";
 import type { GameMeta } from "@/lib/games/registry";
@@ -207,6 +208,7 @@ export function SettingsClient({ adminAddCardGames }: { adminAddCardGames: GameM
             control={<CurrencySelector />}
           />
           <DefaultCostBasisCurrencyRow />
+          <ConditionPricingSection />
           <ThemeRow />
 
           {session.user.isAdmin && (

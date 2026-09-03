@@ -4,6 +4,7 @@ import * as React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useShortlistStore } from "@/lib/shortlist/store";
 import { computeShortlistTotals, enrichShortlist } from "@/lib/shortlist/selectors";
+import { useConditionPricing } from "@/lib/condition-pricing/use-condition-pricing";
 import type { CatalogItemDetail } from "@/lib/catalog/by-ids";
 import type { SportsCardItemDetail } from "@/lib/sportscards/manage";
 
@@ -16,6 +17,7 @@ import type { SportsCardItemDetail } from "@/lib/sportscards/manage";
  */
 export function useShortlistData() {
   const items = useShortlistStore((s) => s.items);
+  const conditionPricing = useConditionPricing();
 
   const catalogIds = React.useMemo(
     () =>
@@ -55,8 +57,14 @@ export function useShortlistData() {
   });
 
   const rows = React.useMemo(
-    () => enrichShortlist(items, catalogQuery.data?.items ?? [], sportsQuery.data?.items ?? []),
-    [items, catalogQuery.data, sportsQuery.data]
+    () =>
+      enrichShortlist(
+        items,
+        catalogQuery.data?.items ?? [],
+        sportsQuery.data?.items ?? [],
+        conditionPricing
+      ),
+    [items, catalogQuery.data, sportsQuery.data, conditionPricing]
   );
   const totals = React.useMemo(() => computeShortlistTotals(rows), [rows]);
 

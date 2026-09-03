@@ -22,22 +22,29 @@
  * every row written here is identifiable by hostname so the whole set can be
  * dropped with one statement if that call is ever revisited.
  *
+ * The crawl/derive machinery and the guard chain live in
+ * scripts/lib/source-pipeline.ts; this file is just what makes this source
+ * different from the others.
+ *
  *   npx tsx scripts/crawl-pokemon-ja-images.ts probe
  *   npx tsx scripts/crawl-pokemon-ja-images.ts sweep [--from=1] [--to=52000]
  *   npx tsx scripts/crawl-pokemon-ja-images.ts derive
  */
-import * as fs from "node:fs";
 import * as path from "node:path";
 import * as cheerio from "cheerio";
-import { db } from "../src/lib/db";
-import { createPoliteFetcher, CrawlAbortedError } from "./lib/polite-fetch";
-import { openCrawlCache, type CrawlRecord } from "./lib/crawl-cache";
-import type {
-  CardImageEntry,
-  CardImageFile,
-  CardImageReviewEntry,
-  CardImageReviewFile,
-} from "./data/card-images/types";
+import { db } from "@/lib/db";
+import { bareSetCode } from "@/lib/content-gaps";
+import { createPoliteFetcher } from "./lib/polite-fetch";
+import { type CrawlRecord } from "./lib/crawl-cache";
+import { normalizeNameCjk } from "./lib/normalize";
+import { argNumber, runScript, usage, verb } from "./lib/cli";
+import {
+  deriveFromCache,
+  runIdCrawl,
+  writeDeriveOutput,
+  type CardImageSource,
+  type CatalogRow,
+} from "./lib/source-pipeline";
 
 const ORIGIN = "https://www.pokemon-card.com";
 const LANG = "ja";
@@ -75,11 +82,45 @@ function parseDetail(htmlBody: string): JaCardFields {
   const setCode = subtext.find("img.img-regulation").first().attr("alt")?.trim() || null;
 
   // Strip the nbsp padding around "038 / 100" and take the left half.
-  const numberText = subtext.text().replace(/ /g, " ").trim();
+  const numberText = subtext.text().replace(/ /g, " ").trim();
   const number = /(\d+)\s*\/\s*\d+/.exec(numberText)?.[1] ?? null;
 
   return { setCode, number, name, imgPath };
 }
+
+const source: CardImageSource<JaRecord> = {
+  name: "pokemon-ja",
+  cacheName: CACHE_NAME,
+  lang: LANG,
+  outDir: OUT_DIR,
+  sourceNote:
+    "Japanese card images from the official pokemon-card.com card database, crawled " +
+    "offline by scripts/crawl-pokemon-ja-images.ts. Image URLs are hotlinked from the " +
+    "publisher's CDN, never re-hosted. Every entry passed a set-code, catalog-row and " +
+    "card-name match against our catalog.",
+  reviewNote: "Crawled ja cards that did NOT pass the mapping guards. Never seeded.",
+  isParseable: (r) => Boolean(r.setCode && r.number && r.imgPath),
+  sourceUrl: (r) => detailUrlForId(r.id),
+  provenance: (r) => ({
+    sourceName: r.name ?? "",
+    sourceSetLabel: r.setCode ?? "",
+    sourceNumber: r.number ?? "",
+  }),
+  sourceSetCode: (r) => r.setCode,
+  // Number padding varies between the site and our catalog, so try the padded
+  // form first and fall back to the raw one.
+  candidates: (r) => [
+    `${LANG}:${r.setCode}-${r.number!.padStart(3, "0")}`,
+    `${LANG}:${r.setCode}-${r.number}`,
+  ],
+  nameGuard: (r, row) =>
+    r.name && normalizeNameCjk(r.name) === normalizeNameCjk(row.name)
+      ? { ok: true }
+      : { ok: false, reason: "name-mismatch", catalogName: row.name },
+  // Only the `large` size exists — `small`/`middle` 404 — so both columns get
+  // the same URL.
+  imageUrls: (r) => ({ small: `${ORIGIN}${r.imgPath}`, large: `${ORIGIN}${r.imgPath}` }),
+};
 
 async function probe() {
   console.log("Probing the id space...");
@@ -108,180 +149,42 @@ async function probe() {
 }
 
 async function sweep(from: number, to: number) {
-  const cache = openCrawlCache<JaRecord>(CACHE_NAME);
-  const todo: number[] = [];
-  for (let id = from; id <= to; id++) if (!cache.seen.has(id)) todo.push(id);
-
-  const etaHours = ((todo.length * 1.8) / 3600).toFixed(1);
-  console.log(`Sweeping ${from}..${to}: ${todo.length} ids to fetch (~${etaHours}h).`);
-
-  let hits = 0;
-  try {
-    for (const [i, id] of todo.entries()) {
-      const res = await politeGet(detailUrlForId(id));
-      if (res.status !== 200) {
-        // 302 is this site's "no such card" — expected for most of the space.
-        cache.append({ id, status: res.status, setCode: null, number: null, name: null, imgPath: null });
-      } else {
-        cache.append({ id, status: 200, ...parseDetail(res.body) });
-        hits++;
-      }
-      if ((i + 1) % 250 === 0) {
-        console.log(`  ${i + 1}/${todo.length} fetched, ${hits} cards found (at id ${id})`);
-      }
-    }
-  } catch (err) {
-    if (err instanceof CrawlAbortedError) {
-      console.error(`\n${err.message}\nProgress is cached — rerun to resume.`);
-    } else throw err;
-  } finally {
-    cache.close();
-  }
-  console.log(`Done. ${hits} cards found this run; ${cache.seen.size} ids cached total.`);
-}
-
-/** NFKC + strip whitespace/punctuation, so formatting variants don't fail the name guard. */
-function normalizeName(s: string): string {
-  return s
-    .normalize("NFKC")
-    .replace(/[\s　]/g, "")
-    .replace(/[·・.,'’"“”\-—–~〜!?！？:：;；()（）「」『』【】[\]]/g, "")
-    .toLowerCase();
+  const ids: number[] = [];
+  for (let id = from; id <= to; id++) ids.push(id);
+  console.log(`Sweeping ${from}..${to} (~${((ids.length * 1.8) / 3600).toFixed(1)}h if none are cached).`);
+  await runIdCrawl<JaRecord>({
+    cacheName: CACHE_NAME,
+    ids,
+    politeGet,
+    url: detailUrlForId,
+    record: (id, res) => ({ id, status: 200, ...parseDetail(res.body) }),
+    // 302 is this site's "no such card" — expected for most of the space.
+    emptyRecord: (id, status) => ({ id, status, setCode: null, number: null, name: null, imgPath: null }),
+  });
 }
 
 async function derive() {
-  const cache = openCrawlCache<JaRecord>(CACHE_NAME);
-  const found = cache.all().filter((r) => r.status === 200);
-  // Split rather than filter: a page we fetched but couldn't parse belongs in
-  // the review file, not the bin. Dropping these silently is what made an
-  // earlier run report "Review: 0" while discarding 132 cards.
-  const records = found.filter((r) => r.setCode && r.number && r.imgPath);
-  const unparseable = found.filter((r) => !(r.setCode && r.number && r.imgPath));
-  cache.close();
-  console.log(`Cards found: ${found.length} (${records.length} parseable, ${unparseable.length} not)`);
-
   const catalog = await db.catalogItem.findMany({
     where: { gameId: "pokemon", externalId: { startsWith: `${LANG}:` } },
     select: { externalId: true, name: true, imageSmallUrl: true },
   });
-  const byExternalId = new Map(catalog.map((c) => [c.externalId, c]));
+  const byExternalId = new Map<string, CatalogRow>(catalog.map((c) => [c.externalId, c]));
 
-  let alreadyHadImage = 0;
-  const entries: CardImageEntry[] = [];
-  const review: CardImageReviewEntry[] = unparseable.map((r) => ({
-    reason: "missing-page-fields" as const,
-    sourceId: r.id,
-    sourceUrl: detailUrlForId(r.id),
-    sourceName: r.name ?? "",
-    sourceSetLabel: r.setCode ?? "",
-    sourceNumber: r.number ?? "",
-  }));
+  const sets = await db.set.findMany({
+    where: { id: { startsWith: `pokemon:${LANG}:` } },
+    select: { code: true },
+  });
+  const knownSetCodes = new Set(sets.map((s) => bareSetCode(s.code)));
 
-  for (const rec of records) {
-    const sourceUrl = detailUrlForId(rec.id);
-    const base = {
-      sourceId: rec.id,
-      sourceUrl,
-      sourceName: rec.name ?? "",
-      sourceSetLabel: rec.setCode ?? "",
-      sourceNumber: rec.number ?? "",
-    };
-
-    const candidates = [
-      `${LANG}:${rec.setCode}-${rec.number!.padStart(3, "0")}`,
-      `${LANG}:${rec.setCode}-${rec.number}`,
-    ];
-    const externalId = candidates.find((c) => byExternalId.has(c));
-
-    if (!externalId) {
-      review.push({ ...base, reason: "no-catalog-row", candidateExternalId: candidates[0] });
-      continue;
-    }
-
-    const row = byExternalId.get(externalId)!;
-
-    // The name guard — see crawl-pokemon-tw-images.ts. This is what
-    // independently catches a wrong set code, bad number padding, or the page
-    // structure drifting. Never loosen it to raise the fill rate.
-    if (!rec.name || normalizeName(rec.name) !== normalizeName(row.name)) {
-      review.push({
-        ...base,
-        reason: "name-mismatch",
-        candidateExternalId: externalId,
-        catalogName: row.name,
-      });
-      continue;
-    }
-
-    if (row.imageSmallUrl) {
-      alreadyHadImage += 1; // provider already supplied art; leave it alone
-      continue;
-    }
-
-    // Only the `large` size exists — `small`/`middle` 404 — so both columns
-    // get the same URL.
-    const url = `${ORIGIN}${rec.imgPath}`;
-    entries.push({
-      externalId,
-      imageSmallUrl: url,
-      imageLargeUrl: url,
-      sourceUrl,
-      sourceName: rec.name,
-    });
-  }
-
-  fs.mkdirSync(OUT_DIR, { recursive: true });
-  const out: CardImageFile = {
-    gameId: "pokemon",
-    sourceNote:
-      "Japanese card images from the official pokemon-card.com card database, crawled " +
-      "offline by scripts/crawl-pokemon-ja-images.ts. Image URLs are hotlinked from the " +
-      "publisher's CDN, never re-hosted. Every entry passed a set-code, catalog-row and " +
-      "card-name match against our catalog.",
-    verified: false,
-    generatedAt: new Date().toISOString(),
-    entries,
-  };
-  fs.writeFileSync(path.join(OUT_DIR, "pokemon-ja.json"), JSON.stringify(out, null, 2));
-
-  const reviewOut: CardImageReviewFile = {
-    gameId: "pokemon",
-    note: "Crawled ja cards that did NOT pass the mapping guards. Never seeded.",
-    generatedAt: new Date().toISOString(),
-    entries: review,
-  };
-  fs.writeFileSync(path.join(OUT_DIR, "pokemon-ja.review.json"), JSON.stringify(reviewOut, null, 2));
-
-  const byReason = review.reduce<Record<string, number>>((acc, r) => {
-    acc[r.reason] = (acc[r.reason] ?? 0) + 1;
-    return acc;
-  }, {});
-  console.log(`\nMapped:   ${entries.length}`);
-  console.log(`Had art:  ${alreadyHadImage} (already sourced from the provider — untouched)`);
-  console.log(`Review:   ${review.length}`, byReason);
-  console.log(`\nWrote pokemon-ja.json (verified: false — review, then flip it).`);
-}
-
-function numArg(name: string, fallback: number): number {
-  const raw = process.argv.find((a) => a.startsWith(`--${name}=`));
-  const n = raw ? Number(raw.slice(name.length + 3)) : NaN;
-  return Number.isFinite(n) ? n : fallback;
+  writeDeriveOutput(source, deriveFromCache({ source, byExternalId, knownSetCodes }));
 }
 
 async function main() {
-  const cmd = process.argv[2];
+  const cmd = verb();
   if (cmd === "probe") await probe();
-  else if (cmd === "sweep") await sweep(numArg("from", 1), numArg("to", DEFAULT_MAX_ID));
+  else if (cmd === "sweep") await sweep(argNumber("from", 1), argNumber("to", DEFAULT_MAX_ID));
   else if (cmd === "derive") await derive();
-  else {
-    console.error("Usage: crawl-pokemon-ja-images.ts <probe|sweep|derive> [--from=N] [--to=N]");
-    process.exit(1);
-  }
-  await db.$disconnect();
+  else usage("Usage: crawl-pokemon-ja-images.ts <probe|sweep|derive> [--from=N] [--to=N]");
 }
 
-main().catch(async (e) => {
-  console.error(e);
-  await db.$disconnect();
-  process.exit(1);
-});
+void runScript(main, () => db.$disconnect());

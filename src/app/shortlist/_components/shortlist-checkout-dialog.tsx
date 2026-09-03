@@ -62,7 +62,10 @@ export function ShortlistCheckoutDialog({
   const [condition, setCondition] = React.useState<CardCondition>("raw");
   const [gradeCompany, setGradeCompany] = React.useState("PSA");
   const [gradeValue, setGradeValue] = React.useState("10");
-  const [rawCondition, setRawCondition] = React.useState<RawCardCondition | "">("");
+  // Only a fallback now: rows carry their own rawCondition from the
+  // shortlist (see ShortlistItem.rawCondition), and this fills in the ones
+  // the user never got round to inspecting.
+  const [fallbackRawCondition, setFallbackRawCondition] = React.useState<RawCardCondition | "">("");
   const [language, setLanguage] = React.useState<ItemLanguage>("EN");
   // Empty by default — Date Acquired is only ever set explicitly by the user.
   const [acquiredAt, setAcquiredAt] = React.useState("");
@@ -83,7 +86,7 @@ export function ShortlistCheckoutDialog({
       setPCId(defaultPCId);
       setLanguage("EN");
       setCondition("raw");
-      setRawCondition("");
+      setFallbackRawCondition("");
       setAcquiredAt("");
       setResult(null);
       setPending(rows);
@@ -91,6 +94,7 @@ export function ShortlistCheckoutDialog({
   }
 
   const totals = computeShortlistTotals(pending);
+  const withoutCondition = pending.filter((r) => !r.rawCondition);
 
   async function handleCheckout() {
     setSubmitting(true);
@@ -120,7 +124,11 @@ export function ShortlistCheckoutDialog({
           condition,
           gradeCompany: condition === "graded" ? gradeCompany : undefined,
           gradeValue: condition === "graded" ? gradeValue : undefined,
-          rawCondition: condition === "raw" && rawCondition ? rawCondition : undefined,
+          // Each row's own condition wins; the dialog-level pick only
+          // fills the gaps, so checking out never silently overwrites a
+          // grade the user set per card on the shortlist.
+          rawCondition:
+            condition === "raw" ? (row.rawCondition || fallbackRawCondition || undefined) : undefined,
           language,
           // Per-unit asking price -> a total cost basis, in the currency it
           // was entered in — never converted (see ShortlistItem.askingPrice).
@@ -163,8 +171,8 @@ export function ShortlistCheckoutDialog({
         <DialogHeader>
           <DialogTitle>I bought these</DialogTitle>
           <DialogDescription>
-            These settings apply to all {pending.length} card{pending.length === 1 ? "" : "s"}. Anything left in
-            your shortlist stays there.
+            These settings apply to all {pending.length} card{pending.length === 1 ? "" : "s"}, except condition —
+            each card keeps the one you set on your shortlist. Anything left in your shortlist stays there.
           </DialogDescription>
         </DialogHeader>
 
@@ -269,10 +277,13 @@ export function ShortlistCheckoutDialog({
             </div>
           )}
 
-          {condition === "raw" && (
+          {condition === "raw" && withoutCondition.length > 0 && (
             <div className="grid gap-1.5">
-              <Label htmlFor="checkout-raw-condition">Condition</Label>
-              <Select value={rawCondition} onValueChange={(v) => setRawCondition(v as RawCardCondition)}>
+              <Label htmlFor="checkout-raw-condition">Condition for cards without one</Label>
+              <Select
+                value={fallbackRawCondition}
+                onValueChange={(v) => setFallbackRawCondition(v as RawCardCondition)}
+              >
                 <SelectTrigger id="checkout-raw-condition" className="bg-background">
                   <SelectValue placeholder="Not set" />
                 </SelectTrigger>
@@ -284,6 +295,11 @@ export function ShortlistCheckoutDialog({
                   ))}
                 </SelectContent>
               </Select>
+              <p className="text-xs text-muted-foreground">
+                {withoutCondition.length} of {pending.length} card
+                {pending.length === 1 ? "" : "s"} {withoutCondition.length === 1 ? "has" : "have"} no
+                condition set. The rest keep their own.
+              </p>
             </div>
           )}
         </div>

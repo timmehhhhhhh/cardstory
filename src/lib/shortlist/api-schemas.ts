@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { SUPPORTED_CURRENCIES } from "@/lib/constants";
+import { CARD_CONDITIONS, SUPPORTED_CURRENCIES } from "@/lib/constants";
 
 const shortlistBaseFields = {
   kind: z.enum(["tcg", "sports", "custom"]),
@@ -10,6 +10,10 @@ const shortlistBaseFields = {
   quantity: z.number().int().positive().max(999),
   askingPrice: z.number().nonnegative(),
   askingCurrency: z.enum(SUPPORTED_CURRENCIES),
+  // .nullable() as well as .optional(): the patch route has to be able to
+  // clear a condition back to "Not set", which only an explicit null can
+  // express once shortlistPatchSchema below makes every field optional.
+  rawCondition: z.enum(CARD_CONDITIONS).nullable().optional(),
   notes: z.string().max(500).optional(),
   source: z.string().max(200).optional(),
 };

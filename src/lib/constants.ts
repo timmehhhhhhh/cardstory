@@ -60,6 +60,23 @@ export const CARD_CONDITION_LABELS: Record<RawCardCondition, string> = {
   DMG: "Damaged",
 };
 
+/**
+ * What a card in each condition is worth, as a percentage of its market
+ * price — market prices are quoted for a Near Mint copy, so anything below
+ * NM is worth less than the number on the card's page.
+ *
+ * Only the defaults. Each account can override them from /settings; every
+ * reader goes through resolveConditionPricing (src/lib/condition-pricing)
+ * rather than reaching for this map directly.
+ */
+export const DEFAULT_CONDITION_PRICING: Record<RawCardCondition, number> = {
+  NM: 100,
+  LP: 85,
+  MP: 75,
+  HP: 60,
+  DMG: 40,
+};
+
 /** How an archived card left the collection — see Holding.letGoMethod / PC Archives. */
 export const LET_GO_METHODS = ["sold", "traded", "gifted", "lost", "other"] as const;
 export type LetGoMethod = (typeof LET_GO_METHODS)[number];

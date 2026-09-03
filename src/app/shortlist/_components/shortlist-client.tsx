@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
 import { useShortlistData } from "@/hooks/use-shortlist-data";
 import { ShortlistAddBar } from "@/app/shortlist/_components/shortlist-add-bar";
@@ -61,6 +62,14 @@ export function ShortlistClient() {
         <h1 className="text-2xl font-bold">In-Store Shortlist</h1>
         <p className="text-sm text-muted-foreground">
           Park cards you&apos;re weighing up while you shop. Nothing here counts as owned until you check it out.
+          Set each card&apos;s condition to see what that copy is worth —{" "}
+          <Link
+            href="/glossary#card-condition"
+            className="underline underline-offset-2 hover:text-foreground"
+          >
+            learn more about card condition
+          </Link>
+          .
         </p>
       </div>
 
