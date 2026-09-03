@@ -104,6 +104,10 @@ import * as path from "node:path";
 import { db } from "@/lib/db";
 import { createPoliteFetcher, CrawlAbortedError } from "./lib/polite-fetch";
 import { openCrawlCache, type CrawlRecord } from "./lib/crawl-cache";
+import { openJsonCache } from "./lib/json-cache";
+import { normalizeNameLoose } from "./lib/normalize";
+import { argValue, runScript, usage, verb } from "./lib/cli";
+import { dataDir, writeMappingFile, writeReviewFile } from "./lib/source-output";
 import {
   mwApiUrl,
   extractTemplateBlock,
@@ -120,8 +124,9 @@ const CATEGORY = "Category:Pokémon Trading Card Game expansions";
 const CACHE_NAME = "pokemon-set-logos-bulbapedia-pages";
 const CACHE_DIR = path.join(process.cwd(), "scripts", ".cache");
 const SETS_INDEX_FILE = path.join(CACHE_DIR, "pokemon-set-logos-bulbapedia-index.json");
-const IMAGE_URL_CACHE_FILE = path.join(CACHE_DIR, "pokemon-set-logos-bulbapedia-images.json");
-const OUT_DIR = path.join(process.cwd(), "scripts", "data", "set-logos");
+/** Filename -> CDN URL, resolved in bulk by resolveImageUrls and reused by derive. */
+const IMAGE_URL_CACHE = "pokemon-set-logos-bulbapedia-images";
+const OUT_DIR = dataDir("set-logos");
 
 const TARGET_LANGS = ["ja", "zh-tw", "ko"] as const;
 type TargetLang = (typeof TARGET_LANGS)[number];
@@ -224,9 +229,8 @@ async function resolveImageUrls(cache: ReturnType<typeof openCrawlCache<PageReco
     }
   }
 
-  const existing: Record<string, string> = fs.existsSync(IMAGE_URL_CACHE_FILE)
-    ? JSON.parse(fs.readFileSync(IMAGE_URL_CACHE_FILE, "utf-8"))
-    : {};
+  const urlCache = openJsonCache<string>(IMAGE_URL_CACHE);
+  const existing = urlCache.data;
   const toResolve = [...filenames].filter((f) => !(f in existing));
   if (toResolve.length === 0) {
     console.log("Image URLs: nothing new to resolve.");
@@ -252,10 +256,9 @@ async function resolveImageUrls(cache: ReturnType<typeof openCrawlCache<PageReco
     }
   }
 
-  fs.mkdirSync(CACHE_DIR, { recursive: true });
-  fs.writeFileSync(IMAGE_URL_CACHE_FILE, JSON.stringify(existing, null, 2));
+  urlCache.save();
   const resolvedCount = toResolve.filter((f) => f in existing).length;
-  console.log(`Resolved ${resolvedCount}/${toResolve.length} new URLs -> ${path.relative(process.cwd(), IMAGE_URL_CACHE_FILE)}`);
+  console.log(`Resolved ${resolvedCount}/${toResolve.length} new URLs -> scripts/.cache/${IMAGE_URL_CACHE}.json`);
 }
 
 // ---------------------------------------------------------------------------
@@ -277,10 +280,6 @@ function parseIntOrNull(text: string | undefined): number | null {
   if (!text) return null;
   const digits = text.match(/\d+/);
   return digits ? Number(digits[0]) : null;
-}
-
-function normalizeName(text: string): string {
-  return text.toLowerCase().replace(/&amp;/g, "&").replace(/[^a-z0-9]+/g, " ").trim();
 }
 
 /** Parses one page's wikitext into candidate per-language entries. Pure
@@ -367,9 +366,7 @@ async function derive() {
   cache.close();
   if (pages.length === 0) throw new Error(`No cached pages — run "crawl" first.`);
 
-  const imageUrls: Record<string, string> = fs.existsSync(IMAGE_URL_CACHE_FILE)
-    ? JSON.parse(fs.readFileSync(IMAGE_URL_CACHE_FILE, "utf-8"))
-    : {};
+  const imageUrls = openJsonCache<string>(IMAGE_URL_CACHE).data;
 
   const dbSets = await db.set.findMany({
     where: { gameId: "pokemon", id: { startsWith: "pokemon:" } },
@@ -387,7 +384,7 @@ async function derive() {
     const lang = TARGET_LANGS.find((l) => set.code.startsWith(`${l}:`));
     if (!lang) continue;
     if (set.nameEn) {
-      const key = normalizeName(set.nameEn);
+      const key = normalizeNameLoose(set.nameEn);
       const bucket = byLangByNormalizedName.get(lang)!;
       bucket.set(key, [...(bucket.get(key) ?? []), set]);
     }
@@ -422,8 +419,8 @@ async function derive() {
    *  own; only fires when BOTH halves resolve to exactly one row each. */
   function findSetABSplit(lang: TargetLang, nameEn: string): [DbSet, DbSet] | null {
     const bucket = byLangByNormalizedName.get(lang)!;
-    const a = bucket.get(normalizeName(`${nameEn} SET A`));
-    const b = bucket.get(normalizeName(`${nameEn} SET B`));
+    const a = bucket.get(normalizeNameLoose(`${nameEn} SET A`));
+    const b = bucket.get(normalizeNameLoose(`${nameEn} SET B`));
     if (a?.length === 1 && b?.length === 1) return [a[0], b[0]];
     return null;
   }
@@ -455,6 +452,7 @@ async function derive() {
           sourceUrl: url,
           sourceName: `${parsed.nameEn} (no logo image on this Bulbapedia page)`,
           logoUrl: "",
+          reason: "no-logo",
         });
         continue;
       }
@@ -466,6 +464,7 @@ async function derive() {
           sourceUrl: url,
           sourceName: `${parsed.nameEn} (logo file "${parsed.logoFile}" did not resolve to a URL)`,
           logoUrl: "",
+          reason: "no-logo",
         });
         continue;
       }
@@ -492,7 +491,7 @@ async function derive() {
       // for why nameEn alone is a weaker signal: two independent English
       // translations of the same native title often word it differently).
       const bucket = byLangByNormalizedName.get(parsed.lang)!;
-      const matches = bucket.get(normalizeName(parsed.nameEn)) ?? [];
+      const matches = bucket.get(normalizeNameLoose(parsed.nameEn)) ?? [];
 
       if (matches.length === 0 && nativeMatches.length === 0) {
         counts.noMatch += 1;
@@ -501,6 +500,7 @@ async function derive() {
           sourceUrl: url,
           sourceName: `${parsed.nameEn} (no Set.nameEn/native-name match — possibly not seeded yet, e.g. an announced/unreleased set)`,
           logoUrl,
+          reason: "no-set-row",
         });
         continue;
       }
@@ -511,6 +511,7 @@ async function derive() {
           sourceUrl: url,
           sourceName: `${parsed.nameEn} (ambiguous: ${Math.max(matches.length, nativeMatches.length)} Set rows share this name)`,
           logoUrl,
+          reason: "ambiguous-set-match",
         });
         continue;
       }
@@ -527,6 +528,7 @@ async function derive() {
           sourceUrl: url,
           sourceName: `${parsed.nameEn} (card-count mismatch: Bulbapedia ${parsed.cardCount} vs DB ${dbSet.cardCount} for matched set ${dbSet.id})`,
           logoUrl,
+          reason: "card-count-mismatch",
         });
         continue;
       }
@@ -535,24 +537,17 @@ async function derive() {
     }
   }
 
-  fs.mkdirSync(OUT_DIR, { recursive: true });
   for (const lang of TARGET_LANGS) {
-    const outFile: SetLogoFile = {
+    writeMappingFile<SetLogoFile>(OUT_DIR, `bulbapedia-${lang}.json`, {
       gameId: "pokemon",
       sourceNote: `Crawled from Bulbapedia (${CATEGORY}) on ${new Date().toISOString()} by crawl-pokemon-set-logos-bulbapedia.ts. Matched to Set rows by, in order: exact native-script name equality; a combined-article "SET A"/"SET B" name split; normalized Set.nameEn equality corroborated by card count.`,
-      verified: false,
-      generatedAt: new Date().toISOString(),
       entries: entriesByLang.get(lang)!,
-    };
-    fs.writeFileSync(path.join(OUT_DIR, `bulbapedia-${lang}.json`), JSON.stringify(outFile, null, 2));
-
-    const reviewFile: SetLogoReviewFile = {
+    });
+    writeReviewFile<SetLogoReviewFile>(OUT_DIR, `bulbapedia-${lang}.review.json`, {
       gameId: "pokemon",
       note: `Bulbapedia (${lang}) set pages that did NOT produce a confident match. Never seeded.`,
-      generatedAt: new Date().toISOString(),
       entries: reviewByLang.get(lang)!,
-    };
-    fs.writeFileSync(path.join(OUT_DIR, `bulbapedia-${lang}.review.json`), JSON.stringify(reviewFile, null, 2));
+    });
   }
 
   console.log(`\nMatched (logoUrl currently null): ${counts.matched}`);
@@ -574,22 +569,11 @@ async function derive() {
 // ---------------------------------------------------------------------------
 
 async function main() {
-  const cmd = process.argv[2];
-  const onlyArg = process.argv.find((a) => a.startsWith("--only="));
-  const only = onlyArg?.slice("--only=".length);
-
+  const cmd = verb();
   if (cmd === "index") await index();
-  else if (cmd === "crawl") await crawl(only);
+  else if (cmd === "crawl") await crawl(argValue("only"));
   else if (cmd === "derive") await derive();
-  else {
-    console.error("Usage: crawl-pokemon-set-logos-bulbapedia.ts <index|crawl|derive> [--only=<title substring>]");
-    process.exit(1);
-  }
-  await db.$disconnect();
+  else usage("Usage: crawl-pokemon-set-logos-bulbapedia.ts <index|crawl|derive> [--only=<title substring>]");
 }
 
-main().catch(async (e) => {
-  console.error(e);
-  await db.$disconnect();
-  process.exit(1);
-});
+void runScript(main, () => db.$disconnect());

@@ -37,15 +37,17 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { db } from "../src/lib/db";
+import { db } from "@/lib/db";
 import { openCrawlCache, type CrawlRecord } from "./lib/crawl-cache";
+import { runScript, usage, verb } from "./lib/cli";
+import { dataDir, tallyByReason, writeMappingFile, writeReviewFile } from "./lib/source-output";
 
 const SOURCE_URL = "https://www.tcgcollector.com/cards/intl?releaseDateOrder=newToOld&cardVariantTypes=48";
 const CACHE_NAME = "pokemon-tcgcollector-cosmos-holo";
 const CACHE_DIR = path.join(process.cwd(), "scripts", ".cache");
-const OUT_DIR = path.join(process.cwd(), "scripts", "data");
-const MATCHES_FILE = path.join(OUT_DIR, "pokemon-cosmos-holo-matches.json");
-const REVIEW_FILE = path.join(OUT_DIR, "pokemon-cosmos-holo-matches.review.json");
+const OUT_DIR = dataDir();
+const MATCHES_NAME = "pokemon-cosmos-holo-matches.json";
+const REVIEW_NAME = "pokemon-cosmos-holo-matches.review.json";
 
 interface CosmosHoloFields {
   name: string | null;
@@ -121,7 +123,16 @@ async function parse() {
   console.log(`\nParsed ${total} rows into the cache.`);
 }
 
-/** NFKC + strip whitespace/punctuation — same convention as the pokellector crawler. */
+/**
+ * NFKC + strip whitespace/punctuation.
+ *
+ * Deliberately local rather than one of lib/normalize.ts's exports: this one
+ * also strips "&" and collapses runs of whitespace, which the CJK normalizer
+ * does not. TCGCollector prints English card names where "&" spacing varies
+ * ("Team Magma & Team Aqua"), so the difference is load-bearing here and
+ * folding it into the shared normalizer would change what the CJK crawlers
+ * consider equal.
+ */
 function normalizeName(s: string): string {
   return s
     .normalize("NFKC")
@@ -262,62 +273,32 @@ async function derive() {
     matches.push({ catalogItemId: row.id, sourceName: r.name!, sourceSet: r.setName!, sourceNumber: r.number! });
   }
 
-  fs.mkdirSync(OUT_DIR, { recursive: true });
-  fs.writeFileSync(
-    MATCHES_FILE,
-    JSON.stringify(
-      {
-        gameId: "pokemon",
-        sourceNote:
-          `Cards TCGCollector tags with the 'Cosmos Holo' card variant (${SOURCE_URL}), captured by ` +
-          "scripts/crawl-tcgcollector-cosmos-holo.ts and matched to existing reverseHolofoil " +
-          "CatalogItem rows by set name + card number + name guard. Applying this file " +
-          "(scripts/apply-cosmos-holo-variant.ts) only changes each matched row's variantKey to " +
-          "'cosmosHolo' — never its id — so it's a permanent, reseed-safe change.",
-        verified: false,
-        generatedAt: new Date().toISOString(),
-        entries: matches,
-      },
-      null,
-      2
-    )
-  );
-  fs.writeFileSync(
-    REVIEW_FILE,
-    JSON.stringify(
-      {
-        note: "Crawled TCGCollector 'Cosmos Holo' cards that did NOT map to an existing reverseHolofoil CatalogItem row. Never applied.",
-        generatedAt: new Date().toISOString(),
-        entries: review,
-      },
-      null,
-      2
-    )
-  );
+  writeMappingFile(OUT_DIR, MATCHES_NAME, {
+    gameId: "pokemon",
+    sourceNote:
+      `Cards TCGCollector tags with the 'Cosmos Holo' card variant (${SOURCE_URL}), captured by ` +
+      "scripts/crawl-tcgcollector-cosmos-holo.ts and matched to existing reverseHolofoil " +
+      "CatalogItem rows by set name + card number + name guard. Applying this file " +
+      "(scripts/apply-cosmos-holo-variant.ts) only changes each matched row's variantKey to " +
+      "'cosmosHolo' — never its id — so it's a permanent, reseed-safe change.",
+    entries: matches,
+  });
+  writeReviewFile(OUT_DIR, REVIEW_NAME, {
+    note: "Crawled TCGCollector 'Cosmos Holo' cards that did NOT map to an existing reverseHolofoil CatalogItem row. Never applied.",
+    entries: review,
+  });
 
-  const byReason = review.reduce<Record<string, number>>((acc, r) => {
-    acc[r.reason] = (acc[r.reason] ?? 0) + 1;
-    return acc;
-  }, {});
   console.log(`\nMatched: ${matches.length}`);
-  console.log(`Review:  ${review.length}`, byReason);
-  console.log(`\nWrote ${MATCHES_FILE} (verified: false — review, then flip it).`);
-  console.log(`Wrote ${REVIEW_FILE}.`);
+  console.log(`Review:  ${review.length}`, tallyByReason(review));
+  console.log(`\nWrote ${MATCHES_NAME} (verified: false — review, then flip it).`);
+  console.log(`Wrote ${REVIEW_NAME}.`);
 }
 
 async function main() {
-  const cmd = process.argv[2];
+  const cmd = verb();
   if (cmd === "parse") await parse();
   else if (cmd === "derive") await derive();
-  else {
-    console.error("Usage: crawl-tcgcollector-cosmos-holo.ts <parse|derive>");
-    process.exit(1);
-  }
-  await db.$disconnect();
+  else usage("Usage: crawl-tcgcollector-cosmos-holo.ts <parse|derive>");
 }
 
-main().catch(async (e) => {
-  console.error(e);
-  await db.$disconnect();
-  process.exit(1);
-});
+void runScript(main, () => db.$disconnect());

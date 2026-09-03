@@ -35,12 +35,34 @@ export interface SetLogoFile {
   entries: SetLogoEntry[];
 }
 
-/** A pokellector set-listing entry that didn't match any Set row in the DB. */
+/**
+ * Why a crawled set-logo candidate did NOT make it into the mapping file.
+ *
+ * The card-image review files have carried a machine-readable `reason` from
+ * the start (see ../card-images/types.ts); these ones originally encoded it
+ * as English prose appended to `sourceName`, which meant the review file
+ * could be read by a human but not counted, filtered or diffed. Optional so
+ * that already-generated files stay valid against this type.
+ */
+export type SetLogoReviewReason =
+  /** The source's own listing has this code on more than one entry, so which set it means is ambiguous. */
+  | "ambiguous-source-code"
+  /** No Set row in our catalog has this code or name. */
+  | "no-set-row"
+  /** More than one Set row matched, so which one this logo belongs to is ambiguous. */
+  | "ambiguous-set-match"
+  /** A set matched by name, but its card count disagreed by more than the tolerance. */
+  | "card-count-mismatch"
+  /** The source page had no usable logo image for this set. */
+  | "no-logo";
+
+/** A set-listing entry that didn't match any Set row in the DB. */
 export interface SetLogoReviewEntry {
   sourceCode: string;
   sourceUrl: string;
   sourceName: string;
   logoUrl: string;
+  reason?: SetLogoReviewReason;
 }
 
 export interface SetLogoReviewFile {
