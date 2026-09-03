@@ -1,4 +1,4 @@
-import type { SupportedCurrency } from "@/lib/constants";
+import type { RawCardCondition, SupportedCurrency } from "@/lib/constants";
 
 /**
  * Deliberately NOT a widening of HoldingKind (src/lib/pc/types.ts). That
@@ -50,6 +50,20 @@ export interface ShortlistItem {
    */
   askingPrice: number;
   askingCurrency: SupportedCurrency;
+  /**
+   * What shape this copy is in — one of CARD_CONDITIONS. Undefined/null
+   * until the user actually looks at the card, which is usually a while
+   * after the row was created by tapping a shortlist button.
+   *
+   * Explicitly `| null` rather than just optional: clearing a condition
+   * back to "Not set" has to send `rawCondition: null` through
+   * updateShortlistItem, because `undefined` in a patch is indistinguishable
+   * from "this patch doesn't touch the field".
+   *
+   * Becomes Holding.rawCondition verbatim at checkout, and drives
+   * EnrichedShortlistItem.conditionUnitValue in the meantime.
+   */
+  rawCondition?: RawCardCondition | null;
   notes?: string;
   /**
    * Where this row was added from — "Explore", "PC · {pcName}", "Business

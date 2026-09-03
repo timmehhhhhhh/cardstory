@@ -1,5 +1,7 @@
-import type { SupportedCurrency } from "@/lib/constants";
+import { DEFAULT_CONDITION_PRICING, type SupportedCurrency } from "@/lib/constants";
 import { convertFromUsd } from "@/lib/utils/format";
+import { conditionAdjustedPrice } from "@/lib/condition-pricing/resolve";
+import type { ConditionPricing } from "@/lib/condition-pricing/types";
 import { buildDisplay, type DisplayInfo } from "@/lib/pc/selectors";
 import type { CatalogItemDetail } from "@/lib/catalog/by-ids";
 import type { SportsCardItemDetail } from "@/lib/sportscards/manage";
@@ -30,6 +32,19 @@ export interface EnrichedShortlistItem extends ShortlistItem {
    * it's rendered.
    */
   marketUnitPriceInAskingCurrency: number | null;
+  /**
+   * What this copy is worth given the condition the user set, in
+   * askingCurrency — marketUnitPriceInAskingCurrency scaled by the owner's
+   * percentage for that condition (src/lib/condition-pricing). Null when
+   * there is no market price (a custom row) or no condition set yet, since
+   * in both cases there is no honest number to show.
+   *
+   * Inherits marketUnitPriceInAskingCurrency's FX caveat above and adds
+   * one of its own: the percentages are the user's own rule of thumb, not
+   * a quote from anywhere. Advisory only — label it approximate wherever
+   * it's rendered, and never sum it into a checkout total.
+   */
+  conditionUnitValue: number | null;
 }
 
 /** Custom items have no catalog row to build a display from, so they carry their own. */
@@ -51,7 +66,11 @@ function customDisplay(item: ShortlistItem): DisplayInfo {
 export function enrichShortlist(
   items: ShortlistItem[],
   catalogItems: CatalogItemDetail[],
-  sportsCardItems: SportsCardItemDetail[] = []
+  sportsCardItems: SportsCardItemDetail[] = [],
+  // Defaulted so callers that don't care about condition pricing (and
+  // tests) stay one-liners — useShortlistData passes the signed-in user's
+  // own map.
+  pricing: ConditionPricing = DEFAULT_CONDITION_PRICING
 ): EnrichedShortlistItem[] {
   const catalogById = new Map(catalogItems.map((c) => [c.id, c]));
   const sportsById = new Map(sportsCardItems.map((c) => [c.id, c]));
@@ -65,6 +84,9 @@ export function enrichShortlist(
       item.kind === "custom"
         ? null
         : ((item.kind === "sports" ? sportsCardItem?.priceRaw : catalogItem?.priceRaw) ?? null);
+
+    const marketUnitPriceInAskingCurrency =
+      marketUnitPrice != null ? convertFromUsd(marketUnitPrice, item.askingCurrency) : null;
 
     return {
       ...item,
@@ -80,8 +102,12 @@ export function enrichShortlist(
             ),
       marketUnitPrice,
       askingTotal: item.askingPrice * item.quantity,
-      marketUnitPriceInAskingCurrency:
-        marketUnitPrice != null ? convertFromUsd(marketUnitPrice, item.askingCurrency) : null,
+      marketUnitPriceInAskingCurrency,
+      conditionUnitValue: conditionAdjustedPrice(
+        marketUnitPriceInAskingCurrency,
+        item.rawCondition,
+        pricing
+      ),
     };
   });
 }

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Camera, History, Menu, Mic, Settings } from "lucide-react";
+import { BookA, Camera, History, Menu, Mic, Settings } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
@@ -18,6 +18,12 @@ function MobileAccountSection({ onNavigate }: { onNavigate: () => void }) {
         <Link href="/settings" onClick={onNavigate}>
           <Settings className="size-4" />
           Settings
+        </Link>
+      </Button>
+      <Button asChild variant="ghost" size="sm" className="justify-start">
+        <Link href="/glossary" onClick={onNavigate}>
+          <BookA className="size-4" />
+          Glossary
         </Link>
       </Button>
       <div className="flex items-center justify-between">

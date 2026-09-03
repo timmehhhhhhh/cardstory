@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { History, LogOut, Settings, User } from "lucide-react";
+import { BookA, History, LogOut, Settings, User } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,6 +34,12 @@ export function AccountMenu() {
           <Link href="/settings">
             <Settings className="size-4" />
             Settings
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/glossary">
+            <BookA className="size-4" />
+            Glossary
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>

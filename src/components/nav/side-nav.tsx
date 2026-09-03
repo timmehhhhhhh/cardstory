@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Camera, History, LogOut, Mic, Settings } from "lucide-react";
+import { BookA, Camera, History, LogOut, Mic, Settings } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -96,6 +96,12 @@ export function SideNav() {
                 <Link href="/settings">
                   <Settings className="size-4" />
                   Settings
+                </Link>
+              </Button>
+              <Button asChild variant="ghost" size="sm" className="justify-start">
+                <Link href="/glossary">
+                  <BookA className="size-4" />
+                  Glossary
                 </Link>
               </Button>
               <Button asChild variant="ghost" size="sm" className="justify-start">

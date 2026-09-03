@@ -499,6 +499,18 @@ model User {
   /// src/lib/utils/use-pricing-visible.ts). Toggled from
   /// src/app/settings/_components/settings-client.tsx.
   hidePricing      Boolean  @default(false)
+  /// Per-account condition -> percentage-of-market map, used to value a
+  /// shortlisted card at the shape it is actually in (see
+  /// src/lib/condition-pricing). Opaque Json validated by zod at the API
+  /// boundary, same convention as SavedView.filters — five numbers with
+  /// nothing ever querying across them doesn't justify its own table, same
+  /// reasoning as the binder preference columns below.
+  ///
+  /// Null means "never customised", not "broken": every reader runs it
+  /// through resolveConditionPricing(), which fills any missing or
+  /// out-of-range condition from DEFAULT_CONDITION_PRICING
+  /// (src/lib/constants.ts).
+  conditionPricing Json?
   /// Grants access to admin-only tooling — currently just the card-family
   /// linking UI/API (src/app/api/admin/card-family/route.ts), which lets an
   /// admin link/unlink two CatalogItem rows as reprints/language variants
@@ -792,6 +804,17 @@ model ShortlistItem {
   askingPrice    Decimal @db.Decimal(10, 2)
   /// ISO 4217 code from SUPPORTED_CURRENCIES, validated by zod at the API boundary.
   askingCurrency String  @default("USD")
+
+  /// The physical condition of this specific copy — one of CARD_CONDITIONS
+  /// (src/lib/constants.ts), validated by zod at the API boundary. Named to
+  /// match Holding.rawCondition, which it becomes verbatim at checkout, and
+  /// deliberately NOT `condition`, which on Holding means raw-vs-graded.
+  ///
+  /// Nullable and null by default: a shortlist row is created by tapping a
+  /// button across a shop counter, often long before anyone has looked at
+  /// the card's edges. Combined with the owner's conditionPricing above,
+  /// this is what turns a market price into "what this copy is worth".
+  rawCondition String?
 
   notes     String?
   /// Where this row was added from — "Explore", "PC · {pcName}", "Business
