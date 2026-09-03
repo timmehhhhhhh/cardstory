@@ -118,9 +118,21 @@ export function CardImage({
   // card, re-sorted grid) is inherently "not stalled" with no reset effect
   // needed, exactly like failedSrc never resets itself either.
   const [stalledSrc, setStalledSrc] = React.useState<string | null>(null);
+  // Mirrors `src` once onLoad fires for it. A ref (not state) so the
+  // setTimeout callback below can check "did this src already load?" via
+  // closure without needing to be in the effect's dependency array — adding
+  // it there would re-schedule the timer on every load, defeating the point.
+  const loadedSrcRef = React.useRef<string | null>(null);
   React.useEffect(() => {
     if (!src) return;
-    const timer = setTimeout(() => setStalledSrc(src), LOAD_STALL_MS);
+    const timer = setTimeout(() => {
+      // The image may have already finished loading by the time this
+      // fires — onLoad's stalledSrc reset above is a no-op in that case
+      // (stalledSrc was never set to src yet), so without this check the
+      // timer would still flip `stalled` true and hide a perfectly loaded
+      // image a few seconds after it appeared.
+      if (loadedSrcRef.current !== src) setStalledSrc(src);
+    }, LOAD_STALL_MS);
     return () => clearTimeout(timer);
   }, [src]);
   const stalled = !!src && stalledSrc === src;
@@ -141,7 +153,10 @@ export function CardImage({
         // keeping it means next.config.ts remotePatterns is never consulted.
         unoptimized
         referrerPolicy="no-referrer"
-        onLoad={() => setStalledSrc((s) => (s === src ? null : s))}
+        onLoad={() => {
+          loadedSrcRef.current = src;
+          setStalledSrc((s) => (s === src ? null : s));
+        }}
         onError={() => {
           if (process.env.NODE_ENV === "development") {
             console.warn("[CardImage] failed to load:", src);
