@@ -53,7 +53,14 @@ export type ReviewReason =
    * listed rather than silently dropped, so the review file accounts for
    * every card the crawl actually found.
    */
-  | "missing-page-fields";
+  | "missing-page-fields"
+  /**
+   * crawl-pokemon-jp-uk-images.ts only: the catalog's Japanese name didn't
+   * resolve to an English name via resolvePokemonCardNameEn (mostly Trainer/
+   * Item/Energy cards outside the curated translation table) — nothing to
+   * check the site's card against, so it's routed here instead of trusted.
+   */
+  | "unresolved-name-guard";
 
 export interface CardImageReviewEntry {
   reason: ReviewReason;

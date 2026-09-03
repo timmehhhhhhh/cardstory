@@ -25,6 +25,7 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import * as cheerio from "cheerio";
 import { db } from "../src/lib/db";
+import { resolvePokemonCardNameEn } from "../src/lib/games/pokemon/card-name-en";
 import { createPoliteFetcher, CrawlAbortedError } from "./lib/polite-fetch";
 import { openCrawlCache, type CrawlRecord } from "./lib/crawl-cache";
 import type {
@@ -103,11 +104,12 @@ async function index() {
   console.log(`\nIndexed ${indexed} sets (${Object.keys(out).length} total in index). Wrote ${SETS_INDEX_FILE}.`);
 }
 
-/** Set codes that still have cards without an image. */
+/** Set codes that still have cards without an image, oldest release first. */
 async function targetSetCodes(): Promise<string[]> {
   const rows = await db.set.findMany({
     where: { id: { startsWith: `pokemon:${LANG}:` }, items: { some: { imageSmallUrl: null } } },
     select: { code: true },
+    orderBy: { releaseDate: "asc" },
   });
   return rows.map((r) => r.code.replace(new RegExp(`^${LANG}:`), "")).filter(Boolean);
 }
@@ -162,6 +164,20 @@ function parseDetail(htmlBody: string): { number: string | null; nameJa: string 
   return { number, nameJa, imageUrl };
 }
 
+/**
+ * Our earliest 4 sets (PMCG1-4) predate pokellector's own JA code scheme —
+ * it catalogs them under its own original-release codes instead, confirmed
+ * by matching card counts (EXP=102, B02=48, B03=48, B04=65, exactly our
+ * PMCG1/2/3/4). Every other DB code (including neo1-4) already matches
+ * pokellector's own code directly, so this only needs the 4 exceptions.
+ */
+const DB_CODE_TO_POKELLECTOR_CODE: Record<string, string> = {
+  PMCG1: "EXP",
+  PMCG2: "B02",
+  PMCG3: "B03",
+  PMCG4: "B04",
+};
+
 async function crawl(only?: string[]) {
   const setsIndex = loadSetsIndex();
   if (Object.keys(setsIndex).length === 0) {
@@ -177,7 +193,8 @@ async function crawl(only?: string[]) {
 
   try {
     for (const [i, dbSetCode] of codes.entries()) {
-      const slug = setsIndex[dbSetCode.toUpperCase()];
+      const pokellectorCode = DB_CODE_TO_POKELLECTOR_CODE[dbSetCode.toUpperCase()] ?? dbSetCode;
+      const slug = setsIndex[pokellectorCode.toUpperCase()];
       if (!slug) {
         unmatched.push(dbSetCode);
         continue;
@@ -229,9 +246,72 @@ function toThumbUrl(imageUrl: string): string {
   return imageUrl.replace(/\.png$/, ".thumb.png");
 }
 
+/**
+ * Fallback for sets old enough that the detail page prints no "Card:" field
+ * at all (confirmed: pre-2003 sets like Base Set never printed a collector
+ * number on the card, so pokellector has nothing to show there either).
+ * Every enumerated card's href still ends in "-<N>" regardless
+ * ("/Expansion-Pack-Expansion/Bulbasaur-Expansion-Pack-EXP-1",
+ * "/Pokemon-Jungle-Expansion/Nidoran-Card-1") — verified against our own
+ * catalog for several of these (id 37257 "-7" is our PMCG1-007, Tangela).
+ * Only used when the primary "Card:" parse came back empty.
+ */
+function numberFromHref(href: string): string | null {
+  const m = /-(\d+)$/.exec(href);
+  return m ? m[1] : null;
+}
+
+/**
+ * Pokéllector's own JPN: field has its own scrape artifacts on some of these
+ * older cards — stray hyphens mid-name ("ライト-デュー-ゴング") and, rarer,
+ * a whole-name repeat ("ライトアズマリルアズマリルアズマリル"). Yields
+ * candidates from least to most aggressive cleanup: the raw name first, then
+ * hyphens stripped, then (only as a last resort) an exact repeated-string
+ * pattern collapsed to one copy. That ordering matters — several *real*
+ * Japanese Pokémon names legitimately double a syllable (ホーホー Hoothoot,
+ * タマタマ Exeggcute, ツボツボ Shuckle), so collapsing repeats unconditionally
+ * would mangle those; the caller only advances to a later candidate when the
+ * earlier one fails to resolve to anything.
+ */
+function* pokellectorNameCandidates(name: string): Generator<string> {
+  yield name;
+  const dehyphenated = name.replace(/-/g, "");
+  if (dehyphenated !== name) yield dehyphenated;
+  for (let reps = 4; reps >= 2; reps--) {
+    if (dehyphenated.length % reps !== 0) continue;
+    const chunk = dehyphenated.slice(0, dehyphenated.length / reps);
+    if (chunk && dehyphenated === chunk.repeat(reps)) {
+      yield chunk;
+      return;
+    }
+  }
+}
+
+/** First candidate (see pokellectorNameCandidates) that resolves to an English name, plus that resolved name. */
+function resolveWithCleanup(name: string): { cleaned: string; en: string } | undefined {
+  for (const candidate of pokellectorNameCandidates(name)) {
+    const en = resolvePokemonCardNameEn(candidate, "JP");
+    if (en) return { cleaned: candidate, en };
+  }
+  return undefined;
+}
+
+/** A candidate catalog-name fix, surfaced alongside the image fill for a human to check before applying. */
+interface NameCorrection {
+  externalId: string;
+  oldName: string;
+  newName: string;
+  sourceUrl: string;
+}
+
 async function derive() {
   const cache = openCrawlCache<PokellectorRecord>(CACHE_NAME);
-  const found = cache.all().filter((r) => r.status === 200);
+  // Backfill `number` from the href for pages whose detail page prints no
+  // "Card:" field at all — see numberFromHref's doc comment.
+  const found = cache.all().filter((r) => r.status === 200).map((r) => ({
+    ...r,
+    number: r.number ?? (r.href ? numberFromHref(r.href) : null),
+  }));
   // See crawl-pokemon-ja-images.ts — unparseable pages go to review, not the bin.
   const records = found.filter((r) => r.dbSetCode && r.number && r.nameJa && r.imageUrl && r.href);
   const unparseable = found.filter((r) => !(r.dbSetCode && r.number && r.nameJa && r.imageUrl && r.href));
@@ -240,12 +320,14 @@ async function derive() {
 
   const catalog = await db.catalogItem.findMany({
     where: { gameId: "pokemon", externalId: { startsWith: `${LANG}:` } },
-    select: { externalId: true, name: true, imageSmallUrl: true },
+    select: { externalId: true, name: true, imageSmallUrl: true, cardType: true },
   });
   const byExternalId = new Map(catalog.map((c) => [c.externalId, c]));
 
   let alreadyHadImage = 0;
+  let matchedViaEnGuard = 0;
   const entries: CardImageEntry[] = [];
+  const corrections: NameCorrection[] = [];
   const review: CardImageReviewEntry[] = unparseable.map((r) => ({
     reason: "missing-page-fields" as const,
     sourceId: r.id,
@@ -282,7 +364,51 @@ async function derive() {
     // The name guard — see crawl-pokemon-ja-images.ts. This independently
     // catches a wrong set code, bad number padding, or the page structure
     // drifting. Never loosen it to raise the fill rate.
-    if (!rec.nameJa || normalizeName(rec.nameJa) !== normalizeName(row.name)) {
+    let matchedName = rec.nameJa != null && normalizeName(rec.nameJa) === normalizeName(row.name);
+    let correctedName: string | undefined;
+
+    if (!matchedName && rec.nameJa) {
+      // Secondary guard: some catalog rows carry a same-species name that's
+      // spelled slightly differently from pokellector's (e.g. a missing
+      // long-vowel mark), which fails the raw-text compare above but is
+      // still clearly the same card — resolve both sides to English and
+      // accept an exact match there. This never masks a real identity
+      // mismatch: it only fires when both names independently resolve to a
+      // Pokémon/card species, so an actual wrong-card page still lands in
+      // review below (case A). It also positively identifies catalog rows
+      // whose *own* name is corrupted (case B — see backfill history: a
+      // slice of the Neo-series rows carry a literal machine-translation
+      // of the English name, e.g. name "奇妙な" ["strange"] for what should
+      // be Oddish's ナゾノクサ) — those get their catalog name corrected
+      // here rather than just having their image silently skipped forever.
+      const pok = resolveWithCleanup(rec.nameJa);
+      const catEn = resolvePokemonCardNameEn(row.name, "JP");
+
+      if (pok && catEn && pok.en === catEn) {
+        matchedName = true; // case A: same species, just a spelling variant — leave catalog name as-is
+        matchedViaEnGuard++;
+      } else if (pok && !catEn && row.cardType === "Pokémon") {
+        // case B: our own name doesn't resolve to anything (strong signal
+        // it's corrupted) and pokellector's does — trust pokellector's,
+        // corrected name gets a human look before backfill-catalog-name
+        // applies it, same verified:false gate as the image file below.
+        // Restricted to cardType "Pokémon": the species table is
+        // comprehensive, so an unresolved species name really does mean
+        // corruption. Trainer/character names are only ever resolved via a
+        // deliberately closed curated list (see resolvePossessive's doc
+        // comment), so "unresolved" there just means "not curated" — proven
+        // unsafe to trust blind: pokellector's own JPN: field for
+        // Double-Blaze-Expansion/Kiawe-Card-94 reads "シロナ" (Cynthia) even
+        // though the card, by its own URL and English name, is Kiawe — a
+        // data error on pokellector's side that this guard would otherwise
+        // have "corrected" our (correct) カキ into.
+        matchedName = true;
+        correctedName = pok.cleaned;
+        corrections.push({ externalId, oldName: row.name, newName: pok.cleaned, sourceUrl: base.sourceUrl });
+      }
+    }
+
+    if (!matchedName) {
       review.push({
         ...base,
         reason: "name-mismatch",
@@ -302,7 +428,7 @@ async function derive() {
       imageSmallUrl: toThumbUrl(rec.imageUrl!),
       imageLargeUrl: rec.imageUrl!,
       sourceUrl: base.sourceUrl,
-      sourceName: rec.nameJa,
+      sourceName: correctedName ?? rec.nameJa!,
     });
   }
 
@@ -330,12 +456,29 @@ async function derive() {
   };
   fs.writeFileSync(path.join(OUT_DIR, "pokemon-jp-pokellector.review.json"), JSON.stringify(reviewOut, null, 2));
 
+  fs.writeFileSync(
+    path.join(OUT_DIR, "pokemon-jp-pokellector.name-corrections.json"),
+    JSON.stringify(
+      {
+        note:
+          "Catalog Set.name/CatalogItem.name corrections proposed from pokellector's JPN: field, for rows " +
+          "whose current catalog name did not resolve via resolvePokemonCardNameEn (see derive()'s secondary " +
+          "name guard). Not applied automatically — spot-check against sourceUrl, then apply by hand.",
+        generatedAt: new Date().toISOString(),
+        entries: corrections,
+      },
+      null,
+      2
+    )
+  );
+
   const byReason = review.reduce<Record<string, number>>((acc, r) => {
     acc[r.reason] = (acc[r.reason] ?? 0) + 1;
     return acc;
   }, {});
-  console.log(`\nMapped:   ${entries.length}`);
+  console.log(`\nMapped:   ${entries.length} (${matchedViaEnGuard} via the secondary EN-name guard)`);
   console.log(`Had art:  ${alreadyHadImage} (already sourced from the provider — untouched)`);
+  console.log(`Corrections proposed: ${corrections.length} (pokemon-jp-pokellector.name-corrections.json)`);
   console.log(`Review:   ${review.length}`, byReason);
   console.log(`\nWrote pokemon-jp-pokellector.json (verified: false — review, then flip it).`);
 }
