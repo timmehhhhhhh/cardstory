@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Check, Pencil, ShoppingBag, Trash2, TrendingDown, TrendingUp } from "lucide-react";
+import { BookOpen, Check, Pencil, ShoppingBag, Trash2, TrendingDown, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -13,6 +13,7 @@ import { usePricingVisible } from "@/lib/utils/use-pricing-visible";
 import { SportsCardImageDialog } from "@/components/sportscards/sports-card-image-dialog";
 import { EditHoldingDialog } from "@/components/pc/edit-holding-dialog";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
+import { binderJumpHref, type LiveBinderPlacement } from "@/lib/binder/placement";
 import { CardImage } from "@/components/cards/card-image";
 import { ParallelBadge } from "@/components/sportscards/parallel-badge";
 import { EmptyHoldings } from "@/app/pc/_components/empty-holdings";
@@ -36,6 +37,8 @@ function HoldingRowFace({
   sourceLabel,
   onEdit,
   onArchive,
+  placements,
+  binderBasePath,
   stackBadge,
   suppressLink,
 }: {
@@ -46,6 +49,10 @@ function HoldingRowFace({
   sourceLabel: string;
   onEdit: (holding: EnrichedHolding) => void;
   onArchive: (holding: EnrichedHolding) => void;
+  /** Where this holding has been filed in a LIVE binder, if anywhere — see findLiveBinderPlacements. Undefined/empty renders no indicator. */
+  placements?: LiveBinderPlacement[];
+  /** "/binder" from the main PC, "/business/binder" from Business Inventory — see BinderPlacementBadge link target. */
+  binderBasePath: "/binder" | "/business/binder";
   /** "1 of 4" when this face belongs to a stack — replaces the plain Qty badge. */
   stackBadge?: string;
   /** See item-gallery.tsx's HoldingGalleryFace — same reasoning. */
@@ -175,6 +182,18 @@ function HoldingRowFace({
           // See item-gallery.tsx's matching comment — stops these buttons
           // from also registering as a tap-to-open-story on the stack.
           <div className="flex items-center gap-1" onPointerDown={(e) => e.stopPropagation()}>
+            {placements && placements.length > 0 && (
+              <Link
+                href={binderJumpHref(binderBasePath, placements[0])}
+                aria-label={`Filed in your binder — Page ${placements[0].pageNumber}, Row ${placements[0].row}, Col ${placements[0].col}. Click to view.`}
+                title={`Filed in "${placements[0].binderName}" — Page ${placements[0].pageNumber}, Row ${placements[0].row}, Col ${placements[0].col}${
+                  placements.length > 1 ? ` (+${placements.length - 1} more spot${placements.length > 2 ? "s" : ""})` : ""
+                }`}
+                className="rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-primary"
+              >
+                <BookOpen className="size-4" />
+              </Link>
+            )}
             {(r.catalogItemId || r.sportsCardItemId) && (
               <span className="relative z-10 inline-flex flex-none">
                 <button
@@ -250,6 +269,8 @@ export function ItemGrid({
   onToggleSelect,
   activePCId,
   sourceLabel,
+  placementsByHoldingId,
+  binderBasePath,
 }: {
   rows: EnrichedHolding[];
   bulkMode: boolean;
@@ -258,6 +279,10 @@ export function ItemGrid({
   activePCId: string;
   /** Where a shortlist add from this list should be recorded as coming from — e.g. "PC · My Collection" or "Business Inventory". */
   sourceLabel: string;
+  /** holdingId -> where it's filed in a LIVE binder — see findLiveBinderPlacements. */
+  placementsByHoldingId: Map<string, LiveBinderPlacement[]>;
+  /** "/binder" from the main PC, "/business/binder" from Business Inventory. */
+  binderBasePath: "/binder" | "/business/binder";
 }) {
   const [editingHolding, setEditingHolding] = React.useState<EnrichedHolding | null>(null);
   const [storyStack, setStoryStack] = React.useState<{ faces: EnrichedHolding[]; index: number } | null>(null);
@@ -285,6 +310,8 @@ export function ItemGrid({
               sourceLabel={sourceLabel}
               onEdit={setEditingHolding}
               onArchive={(holding) => archiveHoldings(activePCId, [holding.id])}
+              placements={placementsByHoldingId.get(r.id)}
+              binderBasePath={binderBasePath}
               stackBadge={total > 1 ? `${index + 1} of ${total}` : undefined}
               suppressLink={total > 1}
             />

@@ -6,6 +6,8 @@ import { Archive, BookOpen } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { usePCData } from "@/hooks/use-pc-data";
 import { usePCStore } from "@/lib/pc/store";
+import { useBinderStore } from "@/lib/binder/store";
+import { findLiveBinderPlacements } from "@/lib/binder/placement";
 import { DEFAULT_HOLDING_FILTERS, pcKind, type HoldingFilters } from "@/lib/pc/types";
 import { ValueHeader } from "@/app/pc/_components/value-header";
 import { QuickActions } from "@/app/pc/_components/quick-actions";
@@ -56,6 +58,11 @@ export function BusinessClient() {
   const setGroupField = usePCStore((s) => s.setGroupField);
   const groupDateGranularity = usePCStore((s) => s.preferences.groupDateGranularity);
   const setGroupDateGranularity = usePCStore((s) => s.setGroupDateGranularity);
+
+  // See PCClient's matching comment — same global binders list, so a
+  // business holding's "Filed" trace works exactly the same way.
+  const binders = useBinderStore((s) => s.binders);
+  const placementsByHoldingId = React.useMemo(() => findLiveBinderPlacements(binders), [binders]);
 
   const [filters, setFilters] = React.useState<HoldingFilters>(DEFAULT_HOLDING_FILTERS);
   const [bulkMode, setBulkMode] = React.useState(false);
@@ -208,6 +215,8 @@ export function BusinessClient() {
             onToggleSelect={toggleSelect}
             activePCId={businessPCId}
             sourceLabel="Business Inventory"
+            placementsByHoldingId={placementsByHoldingId}
+            binderBasePath="/business/binder"
           />
         )}
       </div>

@@ -5,6 +5,7 @@ import { ChevronDown, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { groupRows } from "@/lib/pc/selectors";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
+import type { LiveBinderPlacement } from "@/lib/binder/placement";
 import type { GroupDateGranularity, GroupField, SortDirection, ViewMode } from "@/lib/pc/types";
 import { ItemGrid } from "@/app/pc/_components/item-grid";
 import { ItemGallery } from "@/app/pc/_components/item-gallery";
@@ -33,6 +34,8 @@ export function HoldingsList({
   onToggleSelect,
   activePCId,
   sourceLabel,
+  placementsByHoldingId,
+  binderBasePath,
 }: {
   rows: EnrichedHolding[];
   groupField: GroupField;
@@ -47,6 +50,10 @@ export function HoldingsList({
   activePCId: string;
   /** Where a shortlist add from this list should be recorded as coming from — e.g. "PC · My Collection" or "Business Inventory". */
   sourceLabel: string;
+  /** holdingId -> where it's filed in a LIVE binder — see findLiveBinderPlacements. */
+  placementsByHoldingId: Map<string, LiveBinderPlacement[]>;
+  /** "/binder" from the main PC, "/business/binder" from Business Inventory. */
+  binderBasePath: "/binder" | "/business/binder";
 }) {
   // Which group keys are collapsed — group.key is only unique within one
   // groupField's output (see groupRows), so this is reset whenever
@@ -152,6 +159,8 @@ export function HoldingsList({
                   onToggleSelect={onToggleSelect}
                   activePCId={activePCId}
                   sourceLabel={sourceLabel}
+                  placementsByHoldingId={placementsByHoldingId}
+                  binderBasePath={binderBasePath}
                 />
               ) : (
                 <ItemGallery
@@ -161,6 +170,8 @@ export function HoldingsList({
                   onToggleSelect={onToggleSelect}
                   activePCId={activePCId}
                   sourceLabel={sourceLabel}
+                  placementsByHoldingId={placementsByHoldingId}
+                  binderBasePath={binderBasePath}
                   dense={viewMode === "grid3"}
                 />
               ))}

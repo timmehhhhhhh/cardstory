@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Archive, BookOpen } from "lucide-react";
 import { usePCData } from "@/hooks/use-pc-data";
 import { usePCStore } from "@/lib/pc/store";
+import { useBinderStore } from "@/lib/binder/store";
+import { findLiveBinderPlacements } from "@/lib/binder/placement";
 import { pcKind } from "@/lib/pc/types";
 import { ValueHeader } from "@/app/pc/_components/value-header";
 import { PCToolbar } from "@/app/pc/_components/pc-toolbar";
@@ -35,6 +37,14 @@ export function PCClient() {
   const setActivePC = usePCStore((s) => s.setActivePC);
   const filters = usePCStore((s) => s.preferences.holdingFilters);
   const setHoldingFilters = usePCStore((s) => s.setHoldingFilters);
+
+  // Where each holding has been filed in a LIVE binder (see
+  // findLiveBinderPlacements) — powers the "Filed" trace link on each row,
+  // regardless of which pc actually owns the holding (binders reference
+  // holdingId directly, not scoped to one pc — see BinderPlacementSearch's
+  // own doc comment on the same store).
+  const binders = useBinderStore((s) => s.binders);
+  const placementsByHoldingId = React.useMemo(() => findLiveBinderPlacements(binders), [binders]);
 
   // Business Inventory now lives on its own /business tab and is filtered
   // out of PCSelector — if a vendor's activePCId is still pointed at it
@@ -192,6 +202,8 @@ export function PCClient() {
             onToggleSelect={toggleSelect}
             activePCId={activePCId}
             sourceLabel={`PC · ${activePC?.name ?? "My PC"}`}
+            placementsByHoldingId={placementsByHoldingId}
+            binderBasePath="/binder"
           />
         )}
       </div>

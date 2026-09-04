@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Check, Pencil, ShoppingBag, Trash2, TrendingDown, TrendingUp } from "lucide-react";
+import { BookOpen, Check, Pencil, ShoppingBag, Trash2, TrendingDown, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -13,6 +13,7 @@ import { usePricingVisible } from "@/lib/utils/use-pricing-visible";
 import { SportsCardImageDialog } from "@/components/sportscards/sports-card-image-dialog";
 import { EditHoldingDialog } from "@/components/pc/edit-holding-dialog";
 import type { EnrichedHolding } from "@/lib/pc/selectors";
+import { binderJumpHref, type LiveBinderPlacement } from "@/lib/binder/placement";
 import { CardImage } from "@/components/cards/card-image";
 import { ParallelBadge } from "@/components/sportscards/parallel-badge";
 import { EmptyHoldings } from "@/app/pc/_components/empty-holdings";
@@ -36,6 +37,8 @@ function HoldingGalleryFace({
   sourceLabel,
   onEdit,
   onArchive,
+  placements,
+  binderBasePath,
   stackBadge,
   suppressLink,
 }: {
@@ -46,6 +49,10 @@ function HoldingGalleryFace({
   sourceLabel: string;
   onEdit: (holding: EnrichedHolding) => void;
   onArchive: (holding: EnrichedHolding) => void;
+  /** Where this holding has been filed in a LIVE binder, if anywhere — see findLiveBinderPlacements. Undefined/empty renders no indicator. */
+  placements?: LiveBinderPlacement[];
+  /** "/binder" from the main PC, "/business/binder" from Business Inventory. */
+  binderBasePath: "/binder" | "/business/binder";
   /** "1 of 4" when this face belongs to a stack — replaces the plain Qty badge. */
   stackBadge?: string;
   /**
@@ -229,6 +236,18 @@ function HoldingGalleryFace({
         className="absolute right-1.5 top-1.5 z-10 flex gap-1"
         onPointerDown={(e) => e.stopPropagation()}
       >
+        {placements && placements.length > 0 && (
+          <Link
+            href={binderJumpHref(binderBasePath, placements[0])}
+            aria-label={`Filed in your binder — Page ${placements[0].pageNumber}, Row ${placements[0].row}, Col ${placements[0].col}. Click to view.`}
+            title={`Filed in "${placements[0].binderName}" — Page ${placements[0].pageNumber}, Row ${placements[0].row}, Col ${placements[0].col}${
+              placements.length > 1 ? ` (+${placements.length - 1} more spot${placements.length > 2 ? "s" : ""})` : ""
+            }`}
+            className="rounded-full bg-background/70 p-1.5 text-muted-foreground opacity-0 backdrop-blur transition-opacity hover:text-primary focus-visible:opacity-100 group-hover:opacity-100 [@media(hover:none)]:opacity-100"
+          >
+            <BookOpen className="size-3.5" />
+          </Link>
+        )}
         {(r.catalogItemId || r.sportsCardItemId) && (
           <span className="relative z-10 inline-flex flex-none">
             <button
@@ -317,6 +336,8 @@ export function ItemGallery({
   onToggleSelect,
   activePCId,
   sourceLabel,
+  placementsByHoldingId,
+  binderBasePath,
   dense = false,
 }: {
   rows: EnrichedHolding[];
@@ -326,6 +347,10 @@ export function ItemGallery({
   activePCId: string;
   /** Where a shortlist add from this grid should be recorded as coming from — e.g. "PC · My Collection" or "Business Inventory". */
   sourceLabel: string;
+  /** holdingId -> where it's filed in a LIVE binder — see findLiveBinderPlacements. */
+  placementsByHoldingId: Map<string, LiveBinderPlacement[]>;
+  /** "/binder" from the main PC, "/business/binder" from Business Inventory. */
+  binderBasePath: "/binder" | "/business/binder";
   /** ViewMode "grid3" — same tiles, a 3-per-row-minimum grid instead of the default 2-per-row-minimum. */
   dense?: boolean;
 }) {
@@ -364,6 +389,8 @@ export function ItemGallery({
               sourceLabel={sourceLabel}
               onEdit={setEditingHolding}
               onArchive={(holding) => archiveHoldings(activePCId, [holding.id])}
+              placements={placementsByHoldingId.get(r.id)}
+              binderBasePath={binderBasePath}
               stackBadge={total > 1 ? `${index + 1} of ${total}` : undefined}
               suppressLink={total > 1}
             />

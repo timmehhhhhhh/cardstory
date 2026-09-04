@@ -5,13 +5,14 @@ import { useSession } from "next-auth/react";
 import { usePCStore } from "@/lib/pc/store";
 import { pcKind } from "@/lib/pc/types";
 import { BinderClient } from "@/app/binder/_components/binder-client";
+import type { BinderJumpTarget } from "@/lib/binder/placement";
 
 /**
  * Thin wrapper that resolves the singleton Business Inventory pc and hands
  * its id to the shared BinderClient, fixed as the only card source (see
  * BusinessClient for the equivalent on the main /business dashboard).
  */
-export function BusinessBinderClient() {
+export function BusinessBinderClient({ initialJump = null }: { initialJump?: BinderJumpTarget | null }) {
   const { data: session, status } = useSession();
   const pcs = usePCStore((s) => s.pcs);
   const ensureBusinessPC = usePCStore((s) => s.ensureBusinessPC);
@@ -48,6 +49,7 @@ export function BusinessBinderClient() {
       backHref="/business"
       backLabel="Back to Business"
       heading="Business Binder Planner"
+      initialJump={initialJump}
     />
   );
 }
