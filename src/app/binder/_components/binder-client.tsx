@@ -85,6 +85,7 @@ export function BinderClient({
   backHref = "/pc",
   backLabel = "Back to PC",
   heading = "Binder Planner",
+  initialJump = null,
 }: {
   /** Scope this binder's card source to a specific pc (e.g. the Business Inventory pc) instead of the globally active one. */
   pcIdOverride?: string;
@@ -94,6 +95,14 @@ export function BinderClient({
   backLabel?: string;
   /** Page heading — overridden by callers (e.g. Business Inventory) that need distinct copy. */
   heading?: string;
+  /**
+   * Deep-link target from a "Filed" trace click on the PC page (see
+   * findLiveBinderPlacements / item-grid.tsx's Filed link) — read from this
+   * route's ?binderId=&pageId=&slotIndex= query string by page.tsx. Consumed
+   * once on load via the same handleJumpToResult a within-page
+   * BinderPlacementSearch result click uses — see the mount effect below.
+   */
+  initialJump?: PlacementJumpTarget | null;
 }) {
   const { rows } = usePCData(pcIdOverride);
 
@@ -351,6 +360,25 @@ export function BinderClient({
       setPendingJump(target);
       setActiveBinder(target.binderId);
     }
+  }
+
+  // A "Filed" trace click on /pc arrives here as `initialJump` rather than a
+  // same-page click, so there's no click handler to hang the jump off of —
+  // this consumes it the first render where `binders` has loaded far enough
+  // to contain the target binder (on first mount it's still `[]`/EMPTY_BINDER
+  // while the fetch is in flight), going through the exact same
+  // handleJumpToResult a within-page search-result click uses, so a
+  // cross-binder jump gets the same setActiveBinder + pendingJump hand-off.
+  // Adjusted during render rather than in an effect — same idiom as the
+  // pendingJump consumption above, and required here since
+  // handleJumpToResult itself calls setState (see
+  // https://react.dev/learn/you-might-not-need-an-effect). initialJumpDone
+  // starts out already `true` when there's no initialJump at all, so this
+  // never fires in the common case of a plain /binder visit.
+  const [initialJumpDone, setInitialJumpDone] = React.useState(!initialJump);
+  if (!initialJumpDone && initialJump && binders.some((b) => b.id === initialJump.binderId)) {
+    setInitialJumpDone(true);
+    handleJumpToResult(initialJump);
   }
 
   function handlePlaceCustomImage(dataUrl: string, spanCols: number, spanRows: number) {
